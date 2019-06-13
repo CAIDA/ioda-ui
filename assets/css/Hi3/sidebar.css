@@ -1,0 +1,137 @@
+#hi3-container {
+    margin-left: 60px;
+}
+
+#hi3-container.sidebar-expanded {
+    margin-left: 260px;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+    padding-top: 15px;
+    background-color: #231f20;
+    overflow-x: hidden;
+    transition: width 0.2s ease;
+}
+
+.sidebar {
+    width: 260px;
+}
+.sidebar-collapsed {
+    width: 60px;
+}
+
+/* li's are always at expanded width */
+.sidebar > ul li {
+    width: 260px !important;
+}
+
+.sidebar > ul {
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.sidebar-separator {
+    height: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #999;
+    transition: 0.2s ease;
+}
+
+.sidebar .sidebar-separator,
+.sidebar .sidebar-separator {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.sidebar.sidebar-collapsed .sidebar-separator {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+/* all links */
+.sidebar > ul li,
+.sidebar > ul li > a {
+    padding: 0;
+    height: 55px;
+    display: table;
+    table-layout: fixed;
+    border-radius: 0;
+}
+
+.sidebar > ul li > a:hover,
+.sidebar > ul li > a:focus {
+    text-decoration: none;
+}
+
+/* brand */
+/* TODO: fix/remove when brand is svg */
+.sidebar > ul li.brand > a > .icon {
+    font-size: unset;
+}
+.sidebar > ul li.brand > a > .icon > img {
+    width: 26px;
+    height: 28px;
+}
+.sidebar > ul li.brand > a > .text > img {
+    height: 31px;
+}
+.sidebar > ul li.brand > a > .text {
+    font-size: unset;
+}
+/* end TODO */
+
+/* non-active link */
+.sidebar > ul li > a > div {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    color: #636363;
+}
+
+.sidebar > ul .icon {
+    width: 60px;
+    font-size: 22px;
+}
+
+.sidebar > ul .text,
+.sidebar > ul .pull-bottom .text {
+    font-size: 18px;
+    text-align: left;
+    padding-right: 10px;
+}
+
+/* non-active link, on hover */
+.sidebar > ul a,
+.sidebar > ul a:hover div,
+.sidebar > ul a:focus div {
+    background-color: transparent !important;
+    color: #fff !important;
+    transition: color .2s !important;
+}
+
+.sidebar > ul a:focus,
+.sidebar > ul a:focus {
+    outline: none;
+}
+
+/* active link (hover is no change) */
+.sidebar > ul li > a.active,
+.sidebar > ul li > a.active > div,
+.sidebar > ul li > a.active:hover > div,
+.sidebar > ul li > a.active:focus > div {
+    color: #fff;
+    background-color: transparent;
+}
+
+/* bottom of nav (user info) */
+.sidebar .pull-bottom {
+    position: absolute;
+    bottom: 0;
+    transition: all .3s ease;
+    padding-bottom: 10px;
+}

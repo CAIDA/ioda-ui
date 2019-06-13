@@ -1,0 +1,139 @@
+/* General */
+.charthouse-viz-plugin .slider .tooltip-inner {
+    font-size: 11px;
+    padding: 2px 5px;
+}
+
+.charthouse-viz-plugin .slider .slider-handle {
+    cursor: grab;
+    cursor: -webkit-grab;
+}
+
+/* Highcharts graphs */
+
+.charthouse-highcharts-graph .highcharts-container {
+    cursor: crosshair;
+}
+
+.charthouse-highcharts-graph .highcharts-button {
+    cursor: pointer !important;
+}
+
+.charthouse-highcharts-graph .highcharts-plot-line {
+    cursor: pointer !important;
+    pointer-events: none;
+}
+
+/* Cubism stacked series */
+
+.charthouse-stacked-series .log-scale-slider {
+    margin: 5px 30px 0 12px;
+}
+
+.charthouse-stacked-series .axis {
+    font: 10px sans-serif;
+    pointer-events: none;
+}
+
+.charthouse-stacked-series .axis path {
+    display: none;
+}
+
+.charthouse-stacked-series .axis line {
+    stroke: #777;
+    shape-rendering: crispEdges;
+}
+
+.charthouse-stacked-series .stacked-series-graph .top {
+    position: relative;
+    top: 4px;
+}
+
+.charthouse-stacked-series .stacked-series-graph .bottom {
+    position: relative;
+    bottom: 4px;
+}
+
+.charthouse-stacked-series .horizon {
+    position: relative;
+    border-top: solid 1px rgba(50, 50, 50, .5);
+    border-bottom: solid 1px rgba(50, 50, 50, .5);
+}
+
+.charthouse-stacked-series .horizon + .horizon {
+    border-top: none;
+}
+
+.charthouse-stacked-series .horizon canvas {
+    display: block;
+}
+
+.charthouse-stacked-series .horizon .title,
+.charthouse-stacked-series .horizon .value {
+    bottom: .21em;
+    /*line-height: 30px;*/
+    margin: 0 6px;
+    position: absolute;
+    pointer-events: none;
+}
+
+.charthouse-stacked-series .floating-legend {
+    position: fixed;
+}
+
+.charthouse-stacked-series .horizon .title,
+.charthouse-stacked-series .horizon .value,
+.charthouse-stacked-series .floating-legend {
+    color: #444;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
+    white-space: nowrap;
+    background-color: rgba(230, 230, 230, 0.65);
+    padding: 0 3px;
+    border-radius: 2px;
+}
+
+.charthouse-stacked-series .horizon .title {
+    left: 0;
+}
+
+.charthouse-stacked-series .horizon .value {
+    right: 0;
+}
+
+.charthouse-stacked-series .line {
+    background: rgba(50, 50, 50, .5);
+}
+
+/* Crosslet Geo Distribution */
+
+.charthouse-crosslet-map .dc-chart g.axis.y {
+    opacity: 0.0;
+}
+
+/* Heatmap */
+
+.charthouse-heatmap .axis {
+    font: 10px sans-serif;
+}
+
+.charthouse-heatmap .axis path,
+.charthouse-heatmap .axis line {
+    fill: none;
+    stroke: darkgrey;
+    shape-rendering: crispEdges;
+}
+
+.charthouse-heatmap .grid .tick {
+    stroke: lightgrey;
+    stroke-opacity: 0.8;
+    stroke-dasharray: 1, 2;
+    stroke-width: 1;
+}
+
+.charthouse-heatmap .grid path {
+    stroke-width: 0;
+}
+
+.charthouse-heatmap .saturation-slider {
+    margin: 5px 30px 0 15px;
+}

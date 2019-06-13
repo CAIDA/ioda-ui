@@ -1,0 +1,11 @@
+.hijacks-statstable .row + .row {
+    margin-bottom: 20px;
+}
+
+.hijacks-statstable .data-stat-number {
+    font-size: 36px;
+}
+
+.hijacks-statstable .data-stat-caption {
+    font-size: 18px;
+}
