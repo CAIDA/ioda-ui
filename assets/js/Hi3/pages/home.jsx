@@ -6,13 +6,13 @@ import {Tile, TileGrid} from '../components/tile-grid';
 import {HI3} from '../utils';
 
 import caidaLogo from 'images/logos/caida-logo-cropped.svg';
-import hi3Logo from 'images/logos/hicube-full.png';
+import pandaLogo from 'images/logos/panda-full.png';
 import explorerThumb from 'images/thumbs/explorer.png';
 import dashboardThumb from 'images/thumbs/dashboards.png';
-import examplesThumb from 'images/logos/hicube-icon.png'; // TODO add thumb
+import examplesThumb from 'images/logos/panda-icon.png'; // TODO add thumb
 import feedsThumb from 'images/thumbs/feeds.png';
 
-import 'Hi3/css/pages/home.css';
+import 'panda/css/pages/home.css';
 
 class InterfaceTiles extends React.Component {
     render() {
@@ -51,7 +51,7 @@ class Home extends React.Component {
         return <div className='container'>
             <div className="jumbotron">
                 <h1>
-                    <img id="hi3-logo" src={ hi3Logo }/>
+                    <img id="panda-logo" src={ pandaLogo }/>
                     <img id="caida-logo" src={caidaLogo}/>
                 </h1>
                 <p className="lead">

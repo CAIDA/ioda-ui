@@ -40,51 +40,51 @@
     color: darkred;
 }
 
-.charthouse-expression-builder {
+.panda-expression-builder {
     margin: 0;
     padding: 5px 2px;
 }
 
-.charthouse-expression-builder .expression-tree {
+.panda-expression-builder .expression-tree {
     font-size: 12px;
     overflow-x: auto;
     overflow-y: hidden;
     padding-bottom: 6px;
 }
 
-.charthouse-expression-builder .expression-tree .badge {
+.panda-expression-builder .expression-tree .badge {
     font-size: 70%;
     vertical-align: middle;
     padding: 2px 3px 3px;
     margin: 0px 1px 3px;
 }
 
-.charthouse-expression-builder .folder-color {
+.panda-expression-builder .folder-color {
     color: darkslategrey;
 }
 
-.charthouse-expression-builder .leaf-color {
+.panda-expression-builder .leaf-color {
     color: #226d8d;
 }
 
-.charthouse-expression-builder .expression-toolbar .btn {
+.panda-expression-builder .expression-toolbar .btn {
     padding-bottom: 0px;
     font-size: 11px;
 }
 
-.charthouse-expression-builder .expression-toolbar .btn .glyphicon-plus {
+.panda-expression-builder .expression-toolbar .btn .glyphicon-plus {
     top: -1px;
     margin-right: 3px;
     font-size: 70%;
 }
 
-.charthouse-expression-builder .expression-errors .alert {
+.panda-expression-builder .expression-errors .alert {
     padding: 2px;
     margin: 1px 0;
     font-size: 67%;
 }
 
-.charthouse-expression-txt-editor textarea {
+.panda-expression-txt-editor textarea {
     resize: vertical;
     font-size: 7.5pt;
     padding: 5px;
@@ -111,17 +111,17 @@
     overflow-y: auto;
 }
 
-.charthouse-dialog {
+.panda-dialog {
     width: 65%;
 }
 
-.charthouse-dialog .modal-header {
+.panda-dialog .modal-header {
     border-top-right-radius: 6px;
     border-top-left-radius: 6px;
     background-color: #ECF0F1;
 }
 
-.charthouse-dialog .modal-title {
+.panda-dialog .modal-title {
     color: #2C3E50;
     font-weight: bold;
     font-size: medium;

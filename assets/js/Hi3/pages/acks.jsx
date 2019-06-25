@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {HI3} from 'Hi3/utils';
+import {HI3} from 'panda/utils';
 
 import dhsLogo from 'images/logos/dhs.svg';
 import nsfLogo from 'images/logos/nsf.svg';
@@ -10,7 +10,7 @@ import sdscLogo from 'images/logos/sdsc.svg';
 import ucsdLogo from 'images/logos/UCSanDiegoLogo-BlueGold.png';
 
 
-import 'Hi3/css/pages/acks.css';
+import 'panda/css/pages/acks.css';
 
 class Acks extends React.Component {
     render() {

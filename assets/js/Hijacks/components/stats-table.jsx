@@ -3,7 +3,7 @@ import React from 'react';
 
 import DataApi from '../connectors/data-api';
 import {eventTypeName} from '../utils';
-import {humanizeBytes, humanizeNumber} from 'Hi3/utils';
+import {humanizeBytes, humanizeNumber} from 'panda/utils';
 
 import 'Hijacks/css/components/stats-table.css';
 

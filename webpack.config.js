@@ -21,7 +21,7 @@ Encore
      * (including one that's included on every page - e.g. "app")
      */
     /* TODO: figure out which entries we want here */
-    .addEntry('hi3', ['babel-polyfill', './assets/js/Hi3/index.jsx'])
+    .addEntry('panda', ['babel-polyfill', './assets/js/panda/index.jsx'])
 
     // shim to webpackify the horribly old jquery BBQ plugin
     .addLoader({
@@ -98,8 +98,8 @@ webpackConfig.resolve.alias = {
     'Explorer': path.resolve(__dirname, './assets/js/Explorer/'),
     'Hijacks/css': path.resolve(__dirname, './assets/css/Hijacks/'),
     'Hijacks': path.resolve(__dirname, './assets/js/Hijacks/'),
-    'Hi3/css': path.resolve(__dirname, './assets/css/Hi3/'),
-    'Hi3': path.resolve(__dirname, './assets/js/Hi3/'),
+    'panda/css': path.resolve(__dirname, './assets/css/panda/'),
+    'panda': path.resolve(__dirname, './assets/js/panda/'),
 };
 
 webpackConfig.plugins.push(

@@ -41,7 +41,7 @@ class CharthouseApiConnector {
             .done(function (json, textStatus, xOptions) {
                 if (json.hasOwnProperty('error') && json.error) {
                     // shouldn't happen. errors should return HTTP error codes
-                    error(json.error + ' (Please contact hicube-info@caida.org to report this error)');
+                    error(json.error + ' (Please contact panda-info@caida.org to report this error)');
                     return;
                 }
                 json.jsonRequestSize = xOptions.responseText.length; // Tag json size (bytes) in data

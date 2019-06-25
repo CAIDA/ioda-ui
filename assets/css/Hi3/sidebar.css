@@ -1,8 +1,8 @@
-#hi3-container {
+#panda-container {
     margin-left: 60px;
 }
 
-#hi3-container.sidebar-expanded {
+#panda-container.sidebar-expanded {
     margin-left: 260px;
 }
 

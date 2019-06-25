@@ -6,9 +6,9 @@ import {Link} from 'react-router-dom';
 
 import StatsTable from 'Hijacks/components/stats-table';
 import EventTypeSelector from 'Hijacks/components/event-type-selector';
-import {HI3} from 'Hi3/utils';
+import {HI3} from 'panda/utils';
 
-import 'Hi3/css/pages/feeds/hijacks.css';
+import 'panda/css/pages/feeds/hijacks.css';
 
 import caidaLogo from 'images/logos/caida-logo-cropped.svg';
 import ucsdLogo from 'images/logos/UCSanDiegoLogo-BlueGold.png';
@@ -37,7 +37,7 @@ class Hijacks extends React.Component {
 
     render() {
         const embedUrl = this.state.vizType === 'feed' ?
-            `//bgp.caida.org/hi3/${this.state.eventType}`:
+            `//bgp.caida.org/panda/${this.state.eventType}`:
             `//ioda.caida.org/public/hijacks-trworthy-${this.state.eventType === 'all' ? 'overall' : this.state.eventType}`;
 
         const embedHeight = this.state.vizType === 'timeseries' ? '500px' : null;

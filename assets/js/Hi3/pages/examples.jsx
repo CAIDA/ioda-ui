@@ -2,10 +2,10 @@ import React from 'react';
 
 import {Tile, TileGrid} from '../components/tile-grid';
 
-import hijacksThumb from 'images/logos/hicube-icon.png';
-import iodaThumb from 'images/logos/hicube-icon.png';
-import mapkitThumb from 'images/logos/hicube-icon.png';
-import barfordThumb from 'images/logos/hicube-icon.png';
+import hijacksThumb from 'images/logos/panda-icon.png';
+import iodaThumb from 'images/logos/panda-icon.png';
+import mapkitThumb from 'images/logos/panda-icon.png';
+import barfordThumb from 'images/logos/panda-icon.png';
 
 class Examples extends React.Component {
     render() {

@@ -12,7 +12,7 @@ class Auth {
 
     constructor() {
         this.auth0 = new auth0.WebAuth({
-            domain: 'hicube.auth0.com',
+            domain: 'panda.auth0.com',
             clientID: config.getParam('authClientId'),
             redirectUri: `${config.getParam('baseUri')}/auth/callback`,
             responseType: 'token id_token',
@@ -123,7 +123,7 @@ class Auth {
     }
 
     getNSClaim(claim) {
-        const ns = 'https://hicube.caida.org/';
+        const ns = 'https://panda.caida.org/';
         return this.getIdToken()[ns + claim];
     }
 

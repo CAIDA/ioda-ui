@@ -370,7 +370,7 @@ class ExpressionBuilder extends React.Component {
 
     render() {
         return <div
-            className="charthouse-expression-builder well well-sm"
+            className="panda-expression-builder well well-sm"
             style={{borderColor: (!this.state.isValid ? 'red' : 'white')}}
         >
             <div className="text-center" style={{marginBottom: 10}}>

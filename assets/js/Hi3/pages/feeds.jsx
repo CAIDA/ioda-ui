@@ -1,14 +1,14 @@
 import React from 'react';
 
-import {Tile, TileGrid} from 'Hi3/components/tile-grid';
-import {HI3} from 'Hi3/utils';
+import {Tile, TileGrid} from 'panda/components/tile-grid';
+import {HI3} from 'panda/utils';
 
 import hijacksThumb from 'images/thumbs/hijacks.png';
 import iodaThumb from 'images/logos/ioda-logo-brand.svg';
-import mapkitThumb from 'images/logos/hicube-icon.png';
-import ucsdntThumb from 'images/logos/hicube-icon.png';
-import meritntThumb from 'images/logos/hicube-icon.png';
-import thunderpingThumb from 'images/logos/hicube-icon.png';
+import mapkitThumb from 'images/logos/panda-icon.png';
+import ucsdntThumb from 'images/logos/panda-icon.png';
+import meritntThumb from 'images/logos/panda-icon.png';
+import thunderpingThumb from 'images/logos/panda-icon.png';
 
 class Feeds extends React.Component {
     render() {
