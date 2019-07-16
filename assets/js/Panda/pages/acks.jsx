@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {HI3} from 'panda/utils';
+import Panda from 'Panda/utils';
 
 import dhsLogo from 'images/logos/dhs.svg';
 import nsfLogo from 'images/logos/nsf.svg';
@@ -10,7 +10,7 @@ import sdscLogo from 'images/logos/sdsc.svg';
 import ucsdLogo from 'images/logos/UCSanDiegoLogo-BlueGold.png';
 
 
-import 'panda/css/pages/acks.css';
+import 'Panda/css/pages/acks.css';
 
 class Acks extends React.Component {
     render() {
@@ -24,7 +24,7 @@ class Acks extends React.Component {
                     <div className='col-md-4 ackbox'>
                         <img src={dhsLogo}/>
                         <p>
-                            {HI3} is funded by the US Department of Homeland
+                            Panda is funded by the US Department of Homeland
                             Security (DHS) Information Marketplace for Policy and
                             Analysis of Cyber-risk & Trust
                             (<a href="https://www.impactcybertrust.org/">IMPACT</a>)
@@ -39,7 +39,7 @@ class Acks extends React.Component {
                     <div className='col-md-4 ackbox'>
                         <img src={nsfLogo}/>
                         <p>
-                            The {HI3} platform is based on infrastructure developed
+                            The Panda platform is based on infrastructure developed
                             under support from NSF grant CNS-1228994
                             [Detection and Analysis of Large-scale Internet
                             Infrastructure Outages (IODA)].

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {Tile, TileGrid} from 'panda/components/tile-grid';
-import {HI3} from 'panda/utils';
+import {Tile, TileGrid} from 'Panda/components/tile-grid';
+import Panda from 'Panda/utils';
 
 import hijacksThumb from 'images/thumbs/hijacks.png';
 import iodaThumb from 'images/logos/ioda-logo-brand.svg';
@@ -19,10 +19,10 @@ class Feeds extends React.Component {
             <div className='row'>
                 <div className='col-md-12'>
                     <p className='lead' style={{marginBottom: '30px'}}>
-                        {HI3} provides access to several data feeds and
+                        Panda provides access to several data feeds and
                         analytics projects allowing (secure) correlation between
                         various types of Internet incident data. Data providers
-                        can also leverage the {HI3} PaaS backend infrastructure
+                        can also leverage the Panda PaaS backend infrastructure
                         (data collection, ingestion, storage and analysis)
                         as well as its SaaS frontend interfaces and UI components to
                         rapidly build, scale and expose their Internet data

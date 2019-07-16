@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class pandaController extends AbstractController
+class PandaController extends AbstractController
 {
     /**
      * @Route("/{reactRouting}", defaults={"reactRouting": null},

@@ -1,11 +1,11 @@
 import React from 'react';
-import {HI3} from '../utils';
+import Panda from '../utils';
 
-class About extends React.Component {
+class Quickstart extends React.Component {
     render() {
         return <div className='container'>
             <div className="page-header">
-                <h1>About {HI3}</h1>
+                <h1>Getting Started With Panda</h1>
             </div>
             <div className='row'>
                 <div className='col-md-12'>
@@ -24,4 +24,4 @@ class About extends React.Component {
     }
 }
 
-export default About;
+export default Quickstart;

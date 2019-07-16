@@ -32,6 +32,7 @@ import About from './pages/about';
 import Acks from './pages/acks';
 import Explorer from 'Explorer';
 import Platforms from './pages/feeds';
+import Hijacks from './pages/feeds/hijacks';
 import Dashboards from './pages/dashboards';
 import Examples from './pages/examples';
 
@@ -67,6 +68,7 @@ class ContentRouter extends React.Component {
 
             <AuthorizedRoute path='/explorer' permission='ui:explorer'
                              component={Explorer}/>
+            <Route path='/feeds/hijacks' component={Hijacks}/>
             <Route path='/feeds' component={Platforms}/>
             <Route path='/dashboards' component={Dashboards}/>
             <Route path='/examples' component={Examples}/>
@@ -129,6 +131,7 @@ const SIDEBAR_LINKS = [
 
 // which pages should/should not have a pinned sidebar
 const PINNED_SIDEBAR_PAGES = {
+    '/feeds/hijacks': false // observatory wants lots of space
 };
 SIDEBAR_LINKS.forEach(link => {
     if (link) {
@@ -136,7 +139,7 @@ SIDEBAR_LINKS.forEach(link => {
     }
 });
 
-class pandaContent extends React.Component {
+class PandaContent extends React.Component {
 
     render() {
         let sidebarPinned = PINNED_SIDEBAR_PAGES[this.props.location.pathname];
@@ -152,15 +155,15 @@ class pandaContent extends React.Component {
         </div>
     }
 }
-const pandaContentWithRouter = withRouter(pandaContent);
+const PandaContentWithRouter = withRouter(PandaContent);
 
-class pandaApp extends React.Component {
+class PandaApp extends React.Component {
 
     render() {
         return <BrowserRouter>
-            <pandaContentWithRouter/>
+            <PandaContentWithRouter/>
         </BrowserRouter>;
     }
 
 }
-ReactDOM.render(<pandaApp/>, document.getElementById('root'));
+ReactDOM.render(<PandaApp/>, document.getElementById('root'));

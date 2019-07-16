@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import moment from 'moment';
 import crossfilter from 'crossfilter';
-import {humanizeBytes} from 'panda/utils';
+import {humanizeBytes} from 'Panda/utils';
 
 export class CharthouseDataSet {
 

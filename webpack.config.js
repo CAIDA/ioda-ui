@@ -21,7 +21,7 @@ Encore
      * (including one that's included on every page - e.g. "app")
      */
     /* TODO: figure out which entries we want here */
-    .addEntry('panda', ['babel-polyfill', './assets/js/panda/index.jsx'])
+    .addEntry('panda', ['babel-polyfill', './assets/js/Panda/index.jsx'])
 
     // shim to webpackify the horribly old jquery BBQ plugin
     .addLoader({
@@ -96,8 +96,10 @@ webpackConfig.resolve.alias = {
     'Config': path.resolve(__dirname, './assets/js/config/'),
     'Explorer/css': path.resolve(__dirname, './assets/css/Explorer/'),
     'Explorer': path.resolve(__dirname, './assets/js/Explorer/'),
-    'panda/css': path.resolve(__dirname, './assets/css/panda/'),
-    'panda': path.resolve(__dirname, './assets/js/panda/'),
+    'Hijacks/css': path.resolve(__dirname, './assets/css/Hijacks/'),
+    'Hijacks': path.resolve(__dirname, './assets/js/Hijacks/'),
+    'Panda/css': path.resolve(__dirname, './assets/css/Panda/'),
+    'Panda': path.resolve(__dirname, './assets/js/Panda/'),
 };
 
 webpackConfig.plugins.push(
