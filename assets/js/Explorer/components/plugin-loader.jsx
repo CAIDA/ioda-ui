@@ -553,7 +553,7 @@ class VizPlugin extends React.Component {
         return this.props.hidePanel
             ? panelBody
             : <div
-                className="panel panel-default controller-panel charthouse-viz-plugin">
+                className="panel panel-default controller-panel panda-viz-plugin">
                 <div className="panel-heading"
                      style={{display: this.state.dataLoaded ? false : 'none'}}
                 >

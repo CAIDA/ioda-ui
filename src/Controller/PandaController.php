@@ -8,18 +8,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class Hi3Controller extends AbstractController
+class PandaController extends AbstractController
 {
     /**
      * @Route("/{reactRouting}", defaults={"reactRouting": null},
-     *     requirements={"reactRouting"=".+"}, methods={"GET"}, name="hi3")
+     *     requirements={"reactRouting"=".+"}, methods={"GET"}, name="panda")
      *
      * @return Response
      */
-    public function hi3(): Response
+    public function panda(): Response
     {
         return $this->render(
-            'hi3.html.twig'
+            'panda.html.twig'
         );
     }
 }

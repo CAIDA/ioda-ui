@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import LinkA from 'Hi3/components/linka';
+import LinkA from 'Panda/components/linka';
 
-import 'Hi3/css/tile-grid.css';
+import 'Panda/css/tile-grid.css';
 
 const TILES_PER_ROW = 3;
 

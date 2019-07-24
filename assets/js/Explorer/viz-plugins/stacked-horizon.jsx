@@ -722,7 +722,7 @@ class StackedHorizonViz extends React.Component {
 
     render() {
 
-        return <div className="charthouse-stacked-series">
+        return <div className="panda-stacked-series">
             {this.state.showControls &&
             <div style={{marginBottom: 5, marginRight: 12}}>
                 <Controller

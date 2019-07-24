@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 
 import { auth } from 'Auth';
-import hi3Logo from 'images/logos/hicube-full.png';
+import pandaLogo from 'images/logos/panda-full.png';
 
 class PendingPage extends React.Component {
 
@@ -21,7 +21,7 @@ class PendingPage extends React.Component {
         return <div className='container'>
             <div className="jumbotron">
                 <h1>
-                    <img id="hi3-logo" src={hi3Logo}/>
+                    <img id="panda-logo" src={pandaLogo}/>
                     <p><span style={{fontSize: '100px'}}
                              className='glyphicon glyphicon-bullhorn'/></p>
                 </h1>
@@ -34,8 +34,8 @@ class PendingPage extends React.Component {
                     account has not yet been approved by an administrator.
                     <br/>
                     If you think you are seeing this page in error, please
-                    contact <a href='mailto:hicube-info@caida.org'>
-                    hicube-info.caida.org</a>.
+                    contact <a href='mailto:panda-info@caida.org'>
+                    panda-info.caida.org</a>.
                 </p>
                 <p className='lead'>
                     If you think your account has been approved recently,

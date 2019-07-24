@@ -1,11 +1,17 @@
 import React from 'react';
-import {HI3} from '../utils';
 
-class Docs extends React.Component {
+import {Tile, TileGrid} from '../components/tile-grid';
+
+import hijacksThumb from 'images/logos/panda-icon.png';
+import iodaThumb from 'images/logos/panda-icon.png';
+import mapkitThumb from 'images/logos/panda-icon.png';
+import barfordThumb from 'images/logos/panda-icon.png';
+
+class Dashboards extends React.Component {
     render() {
         return <div className='container'>
             <div className="page-header">
-                <h1>Documentation</h1>
+                <h1>Live Dashboards</h1>
             </div>
             <div className='row'>
                 <div className='col-md-12'>
@@ -24,4 +30,4 @@ class Docs extends React.Component {
     }
 }
 
-export default Docs;
+export default Dashboards;

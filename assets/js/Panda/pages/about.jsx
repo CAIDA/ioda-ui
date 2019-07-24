@@ -1,17 +1,11 @@
 import React from 'react';
+import Panda from '../utils';
 
-import {Tile, TileGrid} from '../components/tile-grid';
-
-import hijacksThumb from 'images/logos/hicube-icon.png';
-import iodaThumb from 'images/logos/hicube-icon.png';
-import mapkitThumb from 'images/logos/hicube-icon.png';
-import barfordThumb from 'images/logos/hicube-icon.png';
-
-class Dashboards extends React.Component {
+class About extends React.Component {
     render() {
         return <div className='container'>
             <div className="page-header">
-                <h1>Live Dashboards</h1>
+                <h1>About Panda</h1>
             </div>
             <div className='row'>
                 <div className='col-md-12'>
@@ -30,4 +24,4 @@ class Dashboards extends React.Component {
     }
 }
 
-export default Dashboards;
+export default About;

@@ -28,7 +28,7 @@ class Dialog extends React.Component {
     render() {
         return (
             <Modal
-                dialogClassName={"charthouse-dialog " + (this.props.dialogClassName || "")}
+                dialogClassName={"panda-dialog " + (this.props.dialogClassName || "")}
 
                 show={this.state.isOpen}
                 onHide={this.close}

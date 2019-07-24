@@ -406,7 +406,7 @@ class CharthouseGeoChart extends React.Component {
 
     render() {
 
-        return <div className="charthouse-crosslet-map"
+        return <div className="panda-crosslet-map"
                     style={{height: this.props.height}}>
             <CrossletMap
                 data={this.state.mapData}

@@ -29,7 +29,7 @@ class RawData extends React.Component {
             <MenuItem
                 eventKey="download"
                 href={this._downloadData()}
-                download='hi3-data.json'
+                download='panda-data.json'
             >Download JSON ({this.props.data.jsonSizeHuman()})</MenuItem>
             <MenuItem
                 eventKey="curl"

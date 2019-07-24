@@ -578,7 +578,7 @@ class CharthouseXYChart extends React.PureComponent {
     }
 
     render() {
-        return <div className="charthouse-highcharts-graph"
+        return <div className="panda-highcharts-graph"
                     style={{height: this.props.height}} />
     }
 
@@ -1263,7 +1263,7 @@ class HighchartsGraph extends React.Component {
                 onToggleSortAscending={this._toggleSortAscending}
             />
             <CharthouseXYChart
-                ref="charthouseXY"
+                ref="pandaXY"
                 data={this.props.data}
                 markers={this.props.markers}
                 height={Math.max(this.props.maxHeight - (this.state.showControls ? VERTICAL_HEADROOM : VERTICAL_HEADROOM_NO_CONTROLS), 100)}
@@ -1366,7 +1366,7 @@ class HighchartsGraph extends React.Component {
     };
 
     _onToggleAllSeries = () => {
-        this.refs.charthouseXY.toggleAllSeries();
+        this.refs.pandaXY.toggleAllSeries();
     };
 
     _onDownsampledStepChanged = (dss) => {

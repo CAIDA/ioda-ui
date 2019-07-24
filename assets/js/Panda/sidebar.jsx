@@ -5,7 +5,7 @@ import titleCase from 'title-case';
 
 import {auth} from 'Auth';
 
-import 'Hi3/css/sidebar.css';
+import 'Panda/css/sidebar.css';
 
 // TODO: properly support mobile
 

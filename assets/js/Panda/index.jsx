@@ -39,8 +39,8 @@ import Examples from './pages/examples';
 import Home from './pages/home';
 
 // TODO: switch to SVG/font so that nav coloring works correctly
-import hicubeLogo from 'images/logos/hicube-icon-white.png';
-import hicubeLogoText from 'images/logos/hicube-text-white.png';
+import pandaLogo from 'images/logos/panda-icon-white.png';
+import pandaLogoText from 'images/logos/panda-text-white.png';
 
 // TODO: nested routes (see https://devhints.io/react-router)
 // TODO: default route and not-found route
@@ -83,8 +83,8 @@ const PINNED_SIDEBAR_DEFAULT = true;
 const SIDEBAR_LINKS = [
     {
         isBrand: true,
-        icon: <img src={hicubeLogo}/>,
-        text: <img src={hicubeLogoText}/>,
+        icon: <img src={pandaLogo}/>,
+        text: <img src={pandaLogoText}/>,
     },
     null, // separator
     {
@@ -139,7 +139,7 @@ SIDEBAR_LINKS.forEach(link => {
     }
 });
 
-class Hi3Content extends React.Component {
+class PandaContent extends React.Component {
 
     render() {
         let sidebarPinned = PINNED_SIDEBAR_PAGES[this.props.location.pathname];
@@ -148,22 +148,22 @@ class Hi3Content extends React.Component {
         }
         return <div>
             <Sidebar isPinned={sidebarPinned} links={SIDEBAR_LINKS}/>
-            <div id='hi3-container'
+            <div id='panda-container'
                  className={sidebarPinned ? 'sidebar-expanded' : ''}>
                 <ContentRouter/>
             </div>
         </div>
     }
 }
-const Hi3ContentWithRouter = withRouter(Hi3Content);
+const PandaContentWithRouter = withRouter(PandaContent);
 
-class Hi3App extends React.Component {
+class PandaApp extends React.Component {
 
     render() {
         return <BrowserRouter>
-            <Hi3ContentWithRouter/>
+            <PandaContentWithRouter/>
         </BrowserRouter>;
     }
 
 }
-ReactDOM.render(<Hi3App/>, document.getElementById('root'));
+ReactDOM.render(<PandaApp/>, document.getElementById('root'));

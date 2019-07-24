@@ -6,9 +6,9 @@ import {Link} from 'react-router-dom';
 
 import StatsTable from 'Hijacks/components/stats-table';
 import EventTypeSelector from 'Hijacks/components/event-type-selector';
-import {HI3} from 'Hi3/utils';
+import Panda from 'Panda/utils';
 
-import 'Hi3/css/pages/feeds/hijacks.css';
+import 'Panda/css/pages/feeds/hijacks.css';
 
 import caidaLogo from 'images/logos/caida-logo-cropped.svg';
 import ucsdLogo from 'images/logos/UCSanDiegoLogo-BlueGold.png';
@@ -37,7 +37,7 @@ class Hijacks extends React.Component {
 
     render() {
         const embedUrl = this.state.vizType === 'feed' ?
-            `//bgp.caida.org/hi3/${this.state.eventType}`:
+            `//bgp.caida.org/panda/${this.state.eventType}`:
             `//ioda.caida.org/public/hijacks-trworthy-${this.state.eventType === 'all' ? 'overall' : this.state.eventType}`;
 
         const embedHeight = this.state.vizType === 'timeseries' ? '500px' : null;
@@ -53,9 +53,9 @@ class Hijacks extends React.Component {
                         to detect and characterize BGP hijacking attacks,
                         including stealthy man-in-the-middle (MiTM) Internet
                         traffic interception attacks. The Observatory uses
-                        the <Link to='/feeds'>{HI3} PaaS</Link> offering
+                        the <Link to='/feeds'>Panda PaaS</Link> offering
                         to power its data collection and
-                        analytics platform, and provides event data to {HI3} to
+                        analytics platform, and provides event data to Panda to
                         allow correlation with other types of Internet
                         security data.
                     </p>

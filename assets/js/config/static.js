@@ -1,19 +1,19 @@
-const IS_PRODUCTION = process.env.CH_VERSION === 'prod';
+const IS_PRODUCTION = process.env.PD_VERSION === 'prod';
 
 export default {
 
     // the various process.env variables are defined in .env.local
 
-    charthouseVersion: process.env.CH_VERSION,
+    pandaVersion: process.env.PD_VERSION,
 
     authClientId: process.env.AUTH0_CLIENTID,
 
     baseUri: IS_PRODUCTION ?
-        'https://hicube.caida.org' :
-        'https://' + process.env.CH_VERSION + '.hicube.caida.org',
+        'https://panda.caida.org' :
+        'https://' + process.env.PD_VERSION + '.panda.caida.org',
 
     api: {
-        url: 'https://api.hicube.caida.org/' + process.env.CH_API_VERSION,
+        url: 'https://api.panda.caida.org/' + process.env.PD_API_VERSION,
         timeout: 1000
     },
 

@@ -46,7 +46,7 @@ class ExpressionTxtEditor extends React.Component {
     }
 
     render() {
-        return <div className="charthouse-expression-txt-editor">
+        return <div className="panda-expression-txt-editor">
             <samp
                 className={classNames('form-group', {'has-error': !this.state.isValid})}>
                     <textarea
