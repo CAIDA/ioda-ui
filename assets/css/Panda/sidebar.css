@@ -110,7 +110,7 @@
 .sidebar > ul a:hover div,
 .sidebar > ul a:focus div {
     background-color: transparent !important;
-    color: #fff !important;
+    color: #A0A1B3 !important;
     transition: color .2s !important;
 }
 
@@ -124,7 +124,7 @@
 .sidebar > ul li > a.active > div,
 .sidebar > ul li > a.active:hover > div,
 .sidebar > ul li > a.active:focus > div {
-    color: #fff;
+    color: #A0A1B3 !important;
     background-color: transparent;
 }
 
