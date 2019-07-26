@@ -3,7 +3,6 @@
 import 'css/theme/css/bootstrap-flatly.css';
 
 // global CSS styles
-// TODO: there are probably some explorer-specific styles in here
 import 'css/base.css';
 
 // library imports
@@ -30,9 +29,7 @@ import Quickstart from './pages/quickstart';
 import Docs from './pages/docs';
 import About from './pages/about';
 import Acks from './pages/acks';
-import Explorer from 'Explorer';
 import Platforms from './pages/feeds';
-import Hijacks from './pages/feeds/hijacks';
 import Dashboards from './pages/dashboards';
 import Examples from './pages/examples';
 
@@ -66,9 +63,6 @@ class ContentRouter extends React.Component {
             <Route path='/about' component={About}/>
             <Route path='/acks' component={Acks}/>
 
-            <AuthorizedRoute path='/explorer' permission='ui:explorer'
-                             component={Explorer}/>
-            <Route path='/feeds/hijacks' component={Hijacks}/>
             <Route path='/feeds' component={Platforms}/>
             <Route path='/dashboards' component={Dashboards}/>
             <Route path='/examples' component={Examples}/>
@@ -107,12 +101,6 @@ const SIDEBAR_LINKS = [
     },
     null, // separator
     {
-        page: 'explorer',
-        icon: <span className="glyphicon glyphicon-equalizer"/>,
-        text: 'Time Series Explorer',
-        pinned: false
-    },
-    {
         page: 'feeds',
         icon: <span className="glyphicon glyphicon-globe"/>,
         text: 'Data Feeds'
@@ -131,7 +119,6 @@ const SIDEBAR_LINKS = [
 
 // which pages should/should not have a pinned sidebar
 const PINNED_SIDEBAR_PAGES = {
-    '/feeds/hijacks': false // observatory wants lots of space
 };
 SIDEBAR_LINKS.forEach(link => {
     if (link) {
