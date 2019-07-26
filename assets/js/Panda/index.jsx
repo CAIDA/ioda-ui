@@ -3,7 +3,6 @@
 import 'css/theme/css/bootstrap-flatly.css';
 
 // global CSS styles
-// TODO: there are probably some explorer-specific styles in here
 import 'css/base.css';
 
 // library imports
@@ -13,26 +12,13 @@ import {withRouter} from 'react-router';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // auth
-import AuthorizedRoute from 'Auth/authorized-route';
 import Sidebar from './sidebar';
-
-// "pages"
-import SymRedirect from './sym-redirect';
-
-import Login from './login';
-import Logout from './logout';
-import LoginCallback from './login-callback';
-
-import Profile from './user/profile';
-import Pending from './user/pending';
 
 import Quickstart from './pages/quickstart';
 import Docs from './pages/docs';
 import About from './pages/about';
 import Acks from './pages/acks';
-import Explorer from 'Explorer';
 import Platforms from './pages/feeds';
-import Hijacks from './pages/feeds/hijacks';
 import Dashboards from './pages/dashboards';
 import Examples from './pages/examples';
 
@@ -48,27 +34,12 @@ import pandaLogoText from 'images/logos/panda-text-white.png';
 class ContentRouter extends React.Component {
     render() {
         return <Switch>
-            {/* internal routes (not explicitly linked) */}
-            <AuthorizedRoute path='/@:tag' component={SymRedirect}/>
-
-            {/* auth routes */}
-            <Route path='/login' component={Login}/>
-            <Route path='/logout' component={Logout}/>
-            <Route path='/auth/callback' component={LoginCallback}/>
-
-            {/* user management routes */}
-            <AuthorizedRoute path='/user/profile' component={Profile}/>
-            <Route path='/user/pending' component={Pending}/>
-
             {/* page routes */}
             <Route path='/quickstart' component={Quickstart}/>
             <Route path='/docs' component={Docs}/>
             <Route path='/about' component={About}/>
             <Route path='/acks' component={Acks}/>
 
-            <AuthorizedRoute path='/explorer' permission='ui:explorer'
-                             component={Explorer}/>
-            <Route path='/feeds/hijacks' component={Hijacks}/>
             <Route path='/feeds' component={Platforms}/>
             <Route path='/dashboards' component={Dashboards}/>
             <Route path='/examples' component={Examples}/>
@@ -107,12 +78,6 @@ const SIDEBAR_LINKS = [
     },
     null, // separator
     {
-        page: 'explorer',
-        icon: <span className="glyphicon glyphicon-equalizer"/>,
-        text: 'Time Series Explorer',
-        pinned: false
-    },
-    {
         page: 'feeds',
         icon: <span className="glyphicon glyphicon-globe"/>,
         text: 'Data Feeds'
@@ -131,7 +96,6 @@ const SIDEBAR_LINKS = [
 
 // which pages should/should not have a pinned sidebar
 const PINNED_SIDEBAR_PAGES = {
-    '/feeds/hijacks': false // observatory wants lots of space
 };
 SIDEBAR_LINKS.forEach(link => {
     if (link) {

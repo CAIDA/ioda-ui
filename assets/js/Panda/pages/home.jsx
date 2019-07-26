@@ -7,7 +7,6 @@ import Panda from '../utils';
 
 import caidaLogo from 'images/logos/caida-logo-cropped.svg';
 import pandaLogo from 'images/logos/panda-full.png';
-import explorerThumb from 'images/thumbs/explorer.png';
 import dashboardThumb from 'images/thumbs/dashboards.png';
 import examplesThumb from 'images/logos/panda-icon.png'; // TODO add thumb
 import feedsThumb from 'images/thumbs/feeds.png';
@@ -17,20 +16,12 @@ import 'Panda/css/pages/home.css';
 class InterfaceTiles extends React.Component {
     render() {
         return <TileGrid title='Data Investigation Interfaces'>
-            <Tile to='/explorer' thumb={explorerThumb}
-                  title='Time Series Explorer'>
-                Interface for exploratory analysis of Internet security time
-                series. Allows researchers to
-                build custom visualizations by composing time
-                series
-                together using specialized post-processing
-                functions.
-            </Tile>
             <Tile to='/feeds' thumb={feedsThumb}
                   title='Data Feeds &amp; Analytics'>
                 External projects that leverage the Panda platform to
-                detect and analyze specific types of Internet security
-                events, including BGP Hijacking, and large-scale outages.
+                detect and analyze specific types of Internet AS level
+                events, including BGP Hijacking, and large-scale outages and
+	        much more.
             </Tile>
             <Tile to='/dashboards' thumb={dashboardThumb}
                   title='Live Dashboards'>
