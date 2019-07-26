@@ -12,18 +12,7 @@ import {withRouter} from 'react-router';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // auth
-import AuthorizedRoute from 'Auth/authorized-route';
 import Sidebar from './sidebar';
-
-// "pages"
-import SymRedirect from './sym-redirect';
-
-import Login from './login';
-import Logout from './logout';
-import LoginCallback from './login-callback';
-
-import Profile from './user/profile';
-import Pending from './user/pending';
 
 import Quickstart from './pages/quickstart';
 import Docs from './pages/docs';
@@ -45,18 +34,6 @@ import pandaLogoText from 'images/logos/panda-text-white.png';
 class ContentRouter extends React.Component {
     render() {
         return <Switch>
-            {/* internal routes (not explicitly linked) */}
-            <AuthorizedRoute path='/@:tag' component={SymRedirect}/>
-
-            {/* auth routes */}
-            <Route path='/login' component={Login}/>
-            <Route path='/logout' component={Logout}/>
-            <Route path='/auth/callback' component={LoginCallback}/>
-
-            {/* user management routes */}
-            <AuthorizedRoute path='/user/profile' component={Profile}/>
-            <Route path='/user/pending' component={Pending}/>
-
             {/* page routes */}
             <Route path='/quickstart' component={Quickstart}/>
             <Route path='/docs' component={Docs}/>

@@ -92,12 +92,7 @@ webpackConfig.resolve.alias = {
 
     // convenience for accessing our top-level modules
     'utils': path.resolve(__dirname, './assets/js/utils/'),
-    'Auth': path.resolve(__dirname, './assets/js/auth/'),
     'Config': path.resolve(__dirname, './assets/js/config/'),
-    'Explorer/css': path.resolve(__dirname, './assets/css/Explorer/'),
-    'Explorer': path.resolve(__dirname, './assets/js/Explorer/'),
-    'Hijacks/css': path.resolve(__dirname, './assets/css/Hijacks/'),
-    'Hijacks': path.resolve(__dirname, './assets/js/Hijacks/'),
     'Panda/css': path.resolve(__dirname, './assets/css/Panda/'),
     'Panda': path.resolve(__dirname, './assets/js/Panda/'),
 };

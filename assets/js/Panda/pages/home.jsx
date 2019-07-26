@@ -19,8 +19,9 @@ class InterfaceTiles extends React.Component {
             <Tile to='/feeds' thumb={feedsThumb}
                   title='Data Feeds &amp; Analytics'>
                 External projects that leverage the Panda platform to
-                detect and analyze specific types of Internet security
-                events, including BGP Hijacking, and large-scale outages.
+                detect and analyze specific types of Internet AS level
+                events, including BGP Hijacking, and large-scale outages and
+	        much more.
             </Tile>
             <Tile to='/dashboards' thumb={dashboardThumb}
                   title='Live Dashboards'>

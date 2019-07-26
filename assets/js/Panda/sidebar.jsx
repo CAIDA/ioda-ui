@@ -3,8 +3,6 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 import titleCase from 'title-case';
 
-import {auth} from 'Auth';
-
 import 'Panda/css/sidebar.css';
 
 // TODO: properly support mobile
@@ -60,22 +58,6 @@ class Sidebar extends React.Component {
                             <SidebarLink key={idx} onClick={this.onLeave} {...link}/> :
                             <div className='sidebar-separator' key={idx}/>;
                     })}
-                    {auth.isAuthenticated() ?
-                        (<div className='pull-bottom'>
-                            <SidebarLink onClick={this.onLeave}
-                                         page='user/profile'
-                                         icon={<span
-                                             className="glyphicon glyphicon-user"/>}
-                                         text={<div>Logged in
-                                             as <i>{auth.getNickname()}</i></div>}
-                            />
-                            <SidebarLink onClick={this.onLeave}
-                                         page='logout'
-                                         icon={<span
-                                             className="glyphicon glyphicon-log-out"/>}
-                            />
-                        </div>)
-                        : null};
                 </ul>
             </div>
         </div>;
