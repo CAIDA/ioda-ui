@@ -21,6 +21,7 @@
         "karma-webpack": "3.0.0",
         "mocha": "^5.2.0",
         "node-gyp": "^3.8.0",
+        "node-sass": "^4.13.0",
         "webpack-notifier": "^1.6.0"
     },
     "license": "UNLICENSED",
@@ -30,6 +31,7 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production",
+        "compile:sass": "node-sass assets/css/Panda/sass/main.scss assets/css/base.css",
         "test": "karma start --browsers FirefoxHeadless",
         "test:full": "karma start",
         "test:watch": "karma start --auto-watch --no-single-run --browsers FirefoxHeadless"
