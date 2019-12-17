@@ -6,14 +6,13 @@ import 'css/theme/css/bootstrap-flatly.css';
 import 'css/base.css';
 
 // library imports
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import {withRouter} from 'react-router';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // auth
 import Sidebar from './sidebar';
-
 import Quickstart from './pages/quickstart';
 import Docs from './pages/docs';
 import About from './pages/about';
@@ -21,6 +20,8 @@ import Acks from './pages/acks';
 import Platforms from './pages/feeds';
 import Dashboards from './pages/dashboards';
 import Examples from './pages/examples';
+import Nav from "./templates/Nav";
+import Footer from "./templates/Footer";
 
 import Home from './pages/home';
 
@@ -31,7 +32,7 @@ import pandaLogoText from 'images/logos/panda-text-white.png';
 // TODO: nested routes (see https://devhints.io/react-router)
 // TODO: default route and not-found route
 
-class ContentRouter extends React.Component {
+class ContentRouter extends Component {
     render() {
         return <Switch>
             {/* page routes */}
@@ -111,11 +112,13 @@ class PandaContent extends React.Component {
             sidebarPinned = PINNED_SIDEBAR_DEFAULT;
         }
         return <div>
-            <Sidebar isPinned={sidebarPinned} links={SIDEBAR_LINKS}/>
-            <div id='panda-container'
+            {/*<Sidebar isPinned={sidebarPinned} links={SIDEBAR_LINKS}/>*/}
+            <Nav />
+            <div className='panda-container'
                  className={sidebarPinned ? 'sidebar-expanded' : ''}>
                 <ContentRouter/>
             </div>
+            <Footer />
         </div>
     }
 }

@@ -1,79 +1,156 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import {Alert} from 'react-bootstrap';
+import heroImg from "images/home__laptop-with-data.jpg";
+import sprite from "images/sprite.svg"
+import chevron from "images/SVG/chevron-right.svg";
 
-import {Tile, TileGrid} from '../components/tile-grid';
-import Panda from '../utils';
-
-import caidaLogo from 'images/logos/caida-logo-cropped.svg';
-import pandaLogo from 'images/logos/panda-full.png';
-import dashboardThumb from 'images/thumbs/dashboards.png';
-import examplesThumb from 'images/logos/panda-icon.png'; // TODO add thumb
-import feedsThumb from 'images/thumbs/feeds.png';
-
-import 'Panda/css/pages/home.css';
-
-class InterfaceTiles extends React.Component {
-    render() {
-        return <TileGrid title='Data Investigation Interfaces'>
-            <Tile to='/feeds' thumb={feedsThumb}
-                  title='Data Feeds &amp; Analytics'>
-                External projects that leverage the Panda platform to
-                detect and analyze specific types of Internet AS level
-                events, including BGP Hijacking, and large-scale outages and
-	        much more.
-            </Tile>
-            <Tile to='/dashboards' thumb={dashboardThumb}
-                  title='Live Dashboards'>
-                Pre-configured dashboards tailored for real-time monitoring of
-                Internet dynamics and events.
-            </Tile>
-            <Tile to='/examples' thumb={examplesThumb} isScreenshot={false}
-                  title='Event Analyses'>
-                Detailed blog-style post-event analyses created using data
-                and visualizations provided by the Panda platform.
-            </Tile>
-        </TileGrid>;
-    }
-}
-
-class Home extends React.Component {
-    render() {
-        return <div className='container'>
-            <div className="jumbotron">
-                <h1>
-                    <img id="panda-logo" src={ pandaLogo }/>
-                    <img id="caida-logo" src={caidaLogo}/>
-                </h1>
-                <p className="lead">
-                    <i>
-                        A prototype platform for processing, storing,
-                        investigating, and correlating diverse streams of
-                        large-scale Internet security-related data.
-                    </i>
-                </p>
+const Card = ({title, icon}) => {
+    return (
+        <div className="card">
+            <div className="card__headline">
+                {/*<img src={chevron} alt={title} className="card__headline-icon" />*/}
+                <svg className="card__headline-icon">
+                    <use xlinkHref={`${sprite}#icon-${icon}`} />
+                </svg>
+                <h2 className="card__headline-text">
+                    {title}
+                </h2>
             </div>
-            <Alert bsStyle="danger">
-                <p className='lead'>
-                    <strong>Panda is still under heavy development.</strong>
-                    <br/>
-                    This is a preview version of Panda. Much of the content,
-                    and many features are either missing or work-in-progress.
-                </p>
-            </Alert>
-            <p className='lead'>
-                Welcome to Panda, a <a href="https://www.caida.org">
-                CAIDA</a> project
-                to lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore
-                magna aliqua.
-                If this is your first time using Panda, then you might want to
-                take a look at the
-                <Link to='/quickstart'> Quickstart Guide </Link> and
-                <Link to='/docs'> Documentation </Link>.
-            </p>
-            <InterfaceTiles/>
-        </div>;
+            <div className="card__content">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam esse natus quasi. Beatae deserunt eos et hic illo itaque nihil placeat repellat.
+            </div>
+            <div className="card__action">
+                <button className="card__action-button">query {title} Data »</button>
+            </div>
+        </div>
+    );
+};
+
+class Home extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        let heroStyle = {backgroundImage: `linear-gradient(#6fa2b3, #2d6a7e), linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${heroImg})`};
+        return (
+            <div className='home'>
+                <div className="home__hero u-full-max-width" style={heroStyle}>
+                    <div className="row">
+                        <div className="col-2-of-5">
+                            <div className="home__hero-headline">
+                                <h1 className="home__hero-text"><span>PANDA</span>A Platform for Applied Network Data Analysis</h1>
+                            </div>
+                        </div>
+                        <div className="col-3-of-5">
+                            <div className="home__search">
+                                <div className="home__search-bar">
+                                    <select className="home__search-filter">
+                                        <option>Filter For:</option>
+                                        <option>All</option>
+                                        <option>Papers</option>
+                                        <option>Topics</option>
+                                        <option>Data Sets</option>
+                                        <option>Entities</option>
+                                        <option>Joins</option>
+                                    </select>
+                                    <input className="home__search-input" type="text" placeholder="Search Feature Coming Soon"/>
+                                    <button className="home__search-button"><span className="glyphicon glyphicon-search"/></button>
+                                </div>
+                                <div className="home__search-label">
+                                    <label>Find your data</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-1-of-1">
+                        <div className="home__story">
+                            <h2 className="header__secondary">
+                                <div className="home__featured-word">
+                                    <span>Process</span>
+                                    <span>Store</span>
+                                    <span>Investigate</span>
+                                    <span>Correlate</span>
+                                </div>
+                                <span>diverse streams of large-scale data on the internet.</span>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <div className="row home__query">
+                    <div className="col-1-of-1">
+                        <h3 className="section-header">Search query Builder</h3>
+                        <p className="home__query-description">Not sure what to search for? Craft a search query to help you find data about the internet.</p>
+                        <div className="row">
+                            <div className="col-1-of-2">
+                                <div className="home__progress-bar">
+                                    <div className="home__progress-bar-step">
+                                        <div className="home__progress-bar-step-number">1</div>
+                                        <div className="home__progress-bar-step-text">Data Type</div>
+                                    </div>
+                                    <div className="home__progress-bar-connector">&nbsp;</div>
+                                    <div className="home__progress-bar-step">
+                                        <div className="home__progress-bar-step-number">2</div>
+                                        <div className="home__progress-bar-step-text">Data Source</div>
+                                    </div>
+                                    <div className="home__progress-bar-connector">&nbsp;</div>
+                                    <div className="home__progress-bar-step">
+                                        <div className="home__progress-bar-step-number">3</div>
+                                        <div className="home__progress-bar-step-text">Data View</div>
+                                    </div>
+                                </div>
+                                <div className="home__progress-bar-action">
+                                    <p>Select a data type:</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="row row__card">
+                    <div className="col-1-of-3">
+                        <Card
+                            title="Structure"
+                            icon="cross"
+                            content="Covers internet topology, AS level, and AS2Org"
+                        />
+                    </div>
+                    <div className="col-1-of-3">
+                        <Card
+                            title="Performance"
+                            icon="meter"
+                        />
+                    </div>
+                    <div className="col-1-of-3">
+                        <Card
+                            title="Security"
+                            icon="shield"
+                        />
+                    </div>
+                </div>
+                <div className="row row__card">
+                    <div className="col-1-of-3">
+                        <Card
+                            title="Naming"
+                            icon="drive_file_rename_outline"
+                        />
+                    </div>
+                    <div className="col-1-of-3">
+                        <Card
+                            title="Routing"
+                            icon="flow-branch"
+                        />
+                    </div>
+                    <div className="col-1-of-3">
+                        <Card
+                            title="Traffic"
+                            icon="cross"
+                        />
+                    </div>
+                </div>
+            </div>
+        );
     }
 }
 
