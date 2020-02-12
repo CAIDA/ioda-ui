@@ -1,0 +1,105 @@
+.searchbar {
+  width: 100%;
+
+  &__search {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    &-label {
+      color: $color-white;
+      text-transform: uppercase;
+      transition: 0.3s ease-in-out;
+      margin-left: 5%;
+      position: absolute;
+      margin-top: -2rem;
+      background-color: $color-secondary;
+      transform: skewX(12deg);
+      padding: 0 0.5rem;
+      z-index: 1;
+
+      & label {
+        transform: skewX(-12deg);
+        padding-bottom: 1rem;
+      }
+    }
+
+    &-bar {
+      display: flex;
+      flex-direction: row;
+      background-color: $color-white;
+      border-radius: 10rem;
+      overflow: hidden;
+      height: 6rem;
+      width: 90%;
+      transition: 0.3s ease-in-out;
+      align-self: center;
+      font-family: inherit;
+      font-size: 1.9rem;
+      color: $color-black;
+      z-index: 3;
+      position: relative;
+
+      &:focus-within {
+        width: 100%;
+
+        & ~ .home__search-label {
+          margin-left: 0;
+        }
+      }
+    }
+
+    &-filter {
+      background-color: $color-white;
+      border: 0;
+      outline: 0;
+      padding-left: 0.5rem;
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+
+      &:focus {
+        background-color: $color-background-white;
+      }
+    }
+
+    &-input {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+      background-color: $color-white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      height: 100%;
+      width: 100%;
+      margin-right: -3.5rem;
+      transition: 0.3s ease-all;
+      border-left: 1px solid black;
+
+      &::-webkit-input-placeholder {
+        color: $color-black;
+        font-size: inherit;
+      }
+      @include placeholder {
+        color: $color-black;
+      }
+
+      &:focus {
+        outline: none;
+        background-color: $color-background-white;
+      }
+    }
+
+    &-button {
+      border: none;
+      background-color: $color-white;
+      margin-right: 1rem;
+      padding: 0 1rem;
+
+      &:focus {
+        outline: none;
+        transform: translateY(2px);
+      }
+    }
+  }
+}

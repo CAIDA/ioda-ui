@@ -8,11 +8,15 @@ import 'css/base.css';
 // library imports
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import {withRouter} from 'react-router';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from "redux";
+import thunk from 'redux-thunk';
+import rootReducer from './reducers';
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
 
 // auth
-import Sidebar from './sidebar';
 import Quickstart from './pages/quickstart';
 import Docs from './pages/docs';
 import About from './pages/about';
@@ -23,114 +27,45 @@ import Examples from './pages/examples';
 import Nav from "./templates/Nav";
 import Footer from "./templates/Footer";
 
-import Home from './pages/home';
+import Home from './pages/home/Home';
+import SearchFeed from "./pages/search/Search";
 
-// TODO: switch to SVG/font so that nav coloring works correctly
-import pandaLogo from 'images/logos/panda-icon-white.png';
-import pandaLogoText from 'images/logos/panda-text-white.png';
 
-// TODO: nested routes (see https://devhints.io/react-router)
-// TODO: default route and not-found route
 
-class ContentRouter extends Component {
+class PandaApp extends Component {
     render() {
-        return <Switch>
-            {/* page routes */}
-            <Route path='/quickstart' component={Quickstart}/>
-            <Route path='/docs' component={Docs}/>
-            <Route path='/about' component={About}/>
-            <Route path='/acks' component={Acks}/>
+        const client = new ApolloClient({
+            uri: "https://localhost:4000/graphql"
+        });
+        return <div className="panda-app">
+            <ApolloProvider client={client}>
+                <Nav/>
+                <Switch>
+                    <Route path='/quickstart' component={Quickstart}/>
+                    <Route path='/docs' component={Docs}/>
+                    <Route path='/about' component={About}/>
+                    <Route path='/acks' component={Acks}/>
 
-            <Route path='/feeds' component={Platforms}/>
-            <Route path='/dashboards' component={Dashboards}/>
-            <Route path='/examples' component={Examples}/>
+                    <Route path='/feeds' component={Platforms}/>
+                    <Route path='/dashboards' component={Dashboards}/>
+                    <Route path='/examples' component={Examples}/>
 
-            <Route path='/' component={Home}/>
-        </Switch>;
+                    <Route path="/search" component={SearchFeed}/>
+                    <Route path='/' component={Home}/>
+                </Switch>
+                <Footer/>
+            </ApolloProvider>
+        </div>;
     }
 }
 
-const PINNED_SIDEBAR_DEFAULT = true;
-// which pages should be linked to (in addition to home)
-const SIDEBAR_LINKS = [
-    {
-        isBrand: true,
-        icon: <img src={pandaLogo}/>,
-        text: <img src={pandaLogoText}/>,
-    },
-    null, // separator
-    {
-        page: 'quickstart',
-        icon: <span className="glyphicon glyphicon-flash"/>
-    },
-    {
-        page: 'docs',
-        icon: <span className="glyphicon glyphicon-education"/>,
-        text: 'Documentation'
-    },
-    {
-        page: 'about',
-        icon: <span className="glyphicon glyphicon-info-sign"/>
-    },
-    {
-        page: 'acks',
-        icon: <span className="glyphicon glyphicon-thumbs-up"/>,
-        text: 'Acknowledgements'
-    },
-    null, // separator
-    {
-        page: 'feeds',
-        icon: <span className="glyphicon glyphicon-globe"/>,
-        text: 'Data Feeds'
-    },
-    {
-        page: 'dashboards',
-        icon: <span className="glyphicon glyphicon-dashboard"/>,
-        text: 'Live Dashboards'
-    },
-    {
-        page: 'examples',
-        icon: <span className="glyphicon glyphicon-heart"/>,
-        text: 'Event Analyses'
-    }
-];
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
-// which pages should/should not have a pinned sidebar
-const PINNED_SIDEBAR_PAGES = {
-};
-SIDEBAR_LINKS.forEach(link => {
-    if (link) {
-        PINNED_SIDEBAR_PAGES[`/${link.page || ''}`] = link.pinned;
-    }
-});
-
-class PandaContent extends React.Component {
-
-    render() {
-        let sidebarPinned = PINNED_SIDEBAR_PAGES[this.props.location.pathname];
-        if (sidebarPinned !== true && sidebarPinned !== false) {
-            sidebarPinned = PINNED_SIDEBAR_DEFAULT;
-        }
-        return <div>
-            {/*<Sidebar isPinned={sidebarPinned} links={SIDEBAR_LINKS}/>*/}
-            <Nav />
-            <div className='panda-container'
-                 className={sidebarPinned ? 'sidebar-expanded' : ''}>
-                <ContentRouter/>
-            </div>
-            <Footer />
-        </div>
-    }
-}
-const PandaContentWithRouter = withRouter(PandaContent);
-
-class PandaApp extends React.Component {
-
-    render() {
-        return <BrowserRouter>
-            <PandaContentWithRouter/>
-        </BrowserRouter>;
-    }
-
-}
-ReactDOM.render(<PandaApp/>, document.getElementById('root'));
+ReactDOM.render(
+    <Provider store={store}>
+        <BrowserRouter>
+            <PandaApp/>
+        </BrowserRouter>
+    </Provider>,
+    document.getElementById('root')
+);

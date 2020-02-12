@@ -1,0 +1,275 @@
+.search {
+ padding-top: 12rem;
+
+  &__menu {
+    background-color: $color-primary;
+    border-radius: 0.5rem;
+    padding: 6rem 50% 3rem;
+    width: 200%;
+    margin-left: -50%;
+    margin-top: -4rem;
+  }
+
+  &__legend {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 2rem;
+
+    &-item {
+      border-radius: 0.5rem;
+      color: $color-black;
+      text-transform: uppercase;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: $color-white;
+      position: relative;
+      overflow: hidden;
+      flex-direction: column;
+      width: 10rem;
+      border: 1px solid $color-background-white;
+
+      &:before {
+        content: "";
+        height: 7rem;
+        width: 3rem;
+        transform: rotate(45deg);
+        top: -3.6rem;
+        left: -0.6rem;
+        background-color: $color-filter-datasets;
+        position: absolute;
+        box-shadow: 0 2px 3px #333;
+      }
+
+      &--datasets:before {
+        background-color: $color-filter-datasets;
+      }
+      &--papers:before {
+        background-color: $color-filter-papers;
+      }
+      &--topics:before {
+        background-color: $color-filter-topics;
+      }
+      &--entities:before {
+        background-color: $color-filter-entities;
+      }
+      &--joins:before {
+        background-color: $color-filter-joins;
+      }
+    }
+
+    &-count {
+      margin-right: 0.4rem;
+      font-weight: 700;
+      font-size: 1.8rem;
+    }
+
+    &-text {
+      font-weight: 300;
+    }
+  }
+
+  &__result {
+    background-color: $color-white;
+    margin-bottom: 0.5rem;
+    color: $color-black;
+    padding: 2rem 3rem 0 5rem;
+    font-family: $font-lato;
+    border-radius: 0.5rem;
+    border: 1px solid $color-white;
+    position: relative;
+
+    &--dataset {
+      overflow: hidden;
+      position: relative;
+
+      &:before {
+        content: "";
+        height: 7rem;
+        width: 3rem;
+        transform: rotate(45deg);
+        top: -2.5rem;
+        left: 0;
+        background-color: $color-filter-datasets;
+        position: absolute;
+        box-shadow: 0 2px 3px #333;
+      }
+    }
+
+    &-logo {
+      width: 6rem;
+      height: auto;
+    }
+
+    &-headline {
+      font-weight: 700;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &-name {
+      font-size: 1.9rem;
+    }
+
+    &-tags {
+      text-transform: uppercase;
+      font-size: 1.1rem;
+
+      & span:not(:last-child):after {
+        content: " | ";
+        position: relative;
+      }
+    }
+
+    &-detail {
+
+    }
+
+    &-description {
+      font-weight: 100;
+    }
+
+    &-entities {
+      display:flex;
+      flex-direction: row;
+      justify-content: left;
+      margin-left: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    &-entity {
+      display: flex;
+      flex-direction: column;
+      //position: relative;
+
+      &-display {
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        padding: 0.3rem 0.5rem 0.3rem 2.5rem;
+        border-radius: 0.5rem;
+        border: 0.1rem solid $color-background-white;
+        background-color: $color-background-white;
+        position: relative;
+        align-items: center;
+        overflow: hidden;
+
+        &:before {
+          //height: 1.6rem;
+          //width: 1.6rem;
+          //content: "";
+          //border-radius: 1rem;
+          //background-color: $color-filter-entities;
+          //position: relative;
+          //margin-right: 0.5rem;
+          content: "";
+          height: 5rem;
+          width: 3rem;
+          transform: rotate(45deg);
+          top: -2.3rem;
+          left: -2.0rem;
+          background-color: $color-filter-entities;
+          position: absolute;
+          box-shadow: 0 2px 3px #333;
+        }
+
+        &:not(:last-child) {
+          margin-right: 0.5rem;
+        }
+      }
+
+      &-display:hover + .search__result-entity-feature-modal {
+        display: block;
+        opacity: 1;
+        transition: 0.6s ease-in-out;
+      }
+
+      &-name {
+        font-weight: 700;
+        margin-right: 0.3rem;
+      }
+
+      &-feature {
+        position: relative;
+        z-index: 5;
+
+        &-additional {
+          margin-right: 0.5rem;
+          display: flex;
+          flex-direction: row;
+        }
+
+        &-control {
+          background-color: $color-filter-entities;
+          border-radius: 10rem;
+          color: $color-white;
+          font-size: 1.8rem;
+          line-height: 1;
+          width: 1.9rem;
+          font-weight: 700;
+          margin-bottom: 0.2rem;
+          margin-left: 0.5rem;
+          display: flex;
+          justify-content: center;
+        }
+
+        &-modal {
+          background-color: $color-background-white;
+          top: 2.1rem;
+          left: 0;
+          z-index: 10;
+          display: none;
+          opacity: 0;
+          margin-right: 0.5rem;
+          border-radius: 0.5rem;
+
+        }
+      }
+    }
+
+    &-joins {
+      display:flex;
+      flex-direction: row;
+      justify-content: left;
+      margin-left: 2rem;
+    }
+
+    &-join {
+      display: flex;
+      flex-direction: row;
+      justify-content: left;
+      padding: 0.3rem 0.5rem 0.3rem 2.5rem;
+      border-radius: 0.5rem;
+      border: 0.1rem solid $color-background-white;
+      background-color: $color-background-white;;
+      position: relative;
+      align-items: center;
+      overflow: hidden;
+
+      &:before {
+        content: "";
+        height: 5rem;
+        width: 3rem;
+        transform: rotate(45deg);
+        top: -2.3rem;
+        left: -2.0rem;
+        background-color: $color-filter-joins;
+        position: absolute;
+        box-shadow: 0 2px 3px #333;
+      }
+
+      &:not(:last-child) {
+        margin-right: 0.5rem;
+      }
+
+      &-plus {
+        font-weight: 100;
+      }
+    }
+  }
+}

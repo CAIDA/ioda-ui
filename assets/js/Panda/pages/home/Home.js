@@ -3,6 +3,13 @@ import {Link} from 'react-router-dom';
 import heroImg from "images/home__laptop-with-data.jpg";
 import sprite from "images/sprite.svg"
 import chevron from "images/SVG/chevron-right.svg";
+import { bindActionCreators } from "redux";
+import { createBrowserHistory } from 'history';
+import { connect } from 'react-redux';
+import SearchbarComponent from '../../components/searchbar/SearchbarComponent';
+import Searchbar from "../../components/searchbar/Searchbar";
+
+const history = createBrowserHistory({ forceRefresh:true });
 
 const Card = ({title, icon}) => {
     return (
@@ -29,7 +36,37 @@ const Card = ({title, icon}) => {
 class Home extends Component {
     constructor(props) {
         super(props);
+        // this.state = {
+        //     searchQuery: {
+        //         text: "",
+        //         filter: ""
+        //     }
+        // }
     }
+
+    // handleInputChange = (event) => {
+    //     event.persist();
+    //     this.setState(prevState => ({
+    //         searchQuery: {
+    //             ...prevState.searchQuery,
+    //             text: event.target.value
+    //         }
+    //     }));
+    // };
+    //
+    // handleSelectChange = (event) => {
+    //     event.persist();
+    //     this.setState(prevState => ({
+    //         searchQuery: {
+    //             ...prevState.searchQuery,
+    //             filter: event.target.value
+    //         }
+    //     }));
+    // };
+    //
+    // handleSearch = () => {
+    //     history.push(`/search?__query=${this.state.searchQuery.text}&__filter=${this.state.searchQuery.filter}`);
+    // };
 
     render() {
         let heroStyle = {backgroundImage: `linear-gradient(#6fa2b3, #2d6a7e), linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${heroImg})`};
@@ -43,24 +80,31 @@ class Home extends Component {
                             </div>
                         </div>
                         <div className="col-3-of-5">
-                            <div className="home__search">
-                                <div className="home__search-bar">
-                                    <select className="home__search-filter">
-                                        <option>Filter For:</option>
-                                        <option>All</option>
-                                        <option>Papers</option>
-                                        <option>Topics</option>
-                                        <option>Data Sets</option>
-                                        <option>Entities</option>
-                                        <option>Joins</option>
-                                    </select>
-                                    <input className="home__search-input" type="text" placeholder="Search Feature Coming Soon"/>
-                                    <button className="home__search-button"><span className="glyphicon glyphicon-search"/></button>
-                                </div>
-                                <div className="home__search-label">
-                                    <label>Find your data</label>
-                                </div>
-                            </div>
+                            <Searchbar />
+                            {/*<SearchbarComponent onSelectChange={this.handleSelectChange}*/}
+                            {/*                    onInputChange={this.handleInputChange}*/}
+                            {/*                    onButtonClick={this.handleSearch}/>*/}
+                            {/*<div className="home__search">*/}
+                            {/*    <div className="home__search-bar">*/}
+                            {/*        <select onChange={this.handleSelectChange} className="home__search-filter">*/}
+                            {/*            <option>Filter For:</option>*/}
+                            {/*            <option disabled={true}>All</option>*/}
+                            {/*            <option disabled={true}>Papers</option>*/}
+                            {/*            <option disabled={true}>Topics</option>*/}
+                            {/*            <option>Data Sets</option>*/}
+                            {/*            <option disabled={true}>Entities</option>*/}
+                            {/*            <option disabled={true}>Joins</option>*/}
+                            {/*        </select>*/}
+                            {/*        <input className="home__search-input"*/}
+                            {/*               type="text" placeholder="Search Feature Coming Soon"*/}
+                            {/*               onChange={this.handleInputChange}*/}
+                            {/*        />*/}
+                            {/*        <button onClick={this.handleSearch} className="home__search-button"><span className="glyphicon glyphicon-search"/></button>*/}
+                            {/*    </div>*/}
+                            {/*    <div className="home__search-label">*/}
+                            {/*        <label>Find your data</label>*/}
+                            {/*    </div>*/}
+                            {/*</div>*/}
                         </div>
                     </div>
                 </div>
