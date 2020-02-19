@@ -1,9 +1,10 @@
 .search {
  padding-top: 12rem;
+  max-width: 100%;
+  overflow-x: hidden;
 
   &__menu {
     background-color: $color-primary;
-    border-radius: 0.5rem;
     padding: 6rem 50% 3rem;
     width: 200%;
     margin-left: -50%;
@@ -50,8 +51,8 @@
       &--papers:before {
         background-color: $color-filter-papers;
       }
-      &--topics:before {
-        background-color: $color-filter-topics;
+      &--tags:before {
+        background-color: $color-filter-tags;
       }
       &--entities:before {
         background-color: $color-filter-entities;
@@ -82,22 +83,11 @@
     border: 1px solid $color-white;
     position: relative;
 
-    &--dataset {
-      overflow: hidden;
-      position: relative;
-
-      &:before {
-        content: "";
-        height: 7rem;
-        width: 3rem;
-        transform: rotate(45deg);
-        top: -2.5rem;
-        left: 0;
-        background-color: $color-filter-datasets;
-        position: absolute;
-        box-shadow: 0 2px 3px #333;
-      }
-    }
+    &--dataset { @include searchResultCard($color-filter-datasets); }
+    &--entity { @include searchResultCard($color-filter-entities); }
+    &--join { @include searchResultCard($color-filter-joins); }
+    &--paper { @include searchResultCard($color-filter-papers); }
+    &--tag { @include searchResultCard($color-filter-tags); }
 
     &-logo {
       width: 6rem;
@@ -119,10 +109,15 @@
     &-tags {
       text-transform: uppercase;
       font-size: 1.1rem;
+      text-align: right;
+      max-width: 30rem;
+      letter-spacing: 1px;
+      margin-top: -0.5rem;
 
       & span:not(:last-child):after {
         content: " | ";
         position: relative;
+        font-weight: 700;
       }
     }
 
@@ -131,7 +126,7 @@
     }
 
     &-description {
-      font-weight: 100;
+      font-weight: 300;
     }
 
     &-entities {
@@ -147,6 +142,10 @@
       flex-direction: column;
       //position: relative;
 
+      &:not(:last-child) {
+        margin-right: 0.5rem;
+      }
+
       &-display {
         display: flex;
         flex-direction: row;
@@ -160,13 +159,6 @@
         overflow: hidden;
 
         &:before {
-          //height: 1.6rem;
-          //width: 1.6rem;
-          //content: "";
-          //border-radius: 1rem;
-          //background-color: $color-filter-entities;
-          //position: relative;
-          //margin-right: 0.5rem;
           content: "";
           height: 5rem;
           width: 3rem;
@@ -194,9 +186,15 @@
         margin-right: 0.3rem;
       }
 
+      &-additional {
+        display: flex;
+        flex-direction: row;
+      }
+
       &-feature {
         position: relative;
         z-index: 5;
+        margin-left: 0.5rem;
 
         &-additional {
           margin-right: 0.5rem;
@@ -227,7 +225,18 @@
           opacity: 0;
           margin-right: 0.5rem;
           border-radius: 0.5rem;
+          max-width: 20rem;
 
+          &-item:not(:last-child) {
+            margin-right: 0.5rem;
+
+            &:after {
+              content: ", ";
+              position: relative;
+              height: 100%;
+              width: 0.5rem;
+            }
+          }
         }
       }
     }
@@ -268,8 +277,83 @@
       }
 
       &-plus {
-        font-weight: 100;
+        font-weight: 700;
+        color: $color-filter-joins;
       }
     }
   }
 }
+
+.entity {
+  &__detail {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__feature {
+    display: flex;
+    flex-direction: row;
+
+    &-item {
+      & span {
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        padding: 0.3rem 0.5rem;
+        border-radius: 0.5rem;
+        border: 0.1rem solid $color-background-white;
+        background-color: $color-background-white;
+        position: relative;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      &:not(:last-child) {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  &__related {
+    margin-top: 1rem;
+
+    &-item {
+      display: flex;
+      flex-direction: row;
+      justify-content: left;
+      padding: 0.3rem 0.5rem 0.3rem 2.5rem;
+      border-radius: 0.5rem;
+      border: 0.1rem solid $color-background-white;
+      background-color: $color-background-white;
+      position: relative;
+      align-items: center;
+      overflow: hidden;
+      width: fit-content;
+
+      &--dataset span {
+        font-weight: 700;
+        font-size: 1.6rem;
+
+        &:before {
+          content: "";
+          height: 5rem;
+          width: 3rem;
+          transform: rotate(45deg);
+          top: -2.3rem;
+          left: -2.0rem;
+          background-color: $color-filter-datasets;
+          position: absolute;
+          box-shadow: 0 2px 3px #333;
+        }
+      }
+    }
+
+
+
+
+    &:not(:last-child) {
+      margin-right: 0.5rem;
+    }
+  }
+}
+

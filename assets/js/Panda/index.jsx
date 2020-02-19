@@ -38,23 +38,24 @@ class PandaApp extends Component {
             uri: "https://localhost:4000/graphql"
         });
         return <div className="panda-app">
-            <ApolloProvider client={client}>
-                <Nav/>
-                <Switch>
-                    <Route path='/quickstart' component={Quickstart}/>
-                    <Route path='/docs' component={Docs}/>
-                    <Route path='/about' component={About}/>
-                    <Route path='/acks' component={Acks}/>
+                <ApolloProvider client={client}>
+                    <Nav/>
+                    <Switch>
+                        <Route path='/quickstart' component={Quickstart}/>
+                        <Route path='/docs' component={Docs}/>
+                        <Route path='/about' component={About}/>
+                        <Route path='/acks' component={Acks}/>
 
-                    <Route path='/feeds' component={Platforms}/>
-                    <Route path='/dashboards' component={Dashboards}/>
-                    <Route path='/examples' component={Examples}/>
+                        <Route path='/feeds' component={Platforms}/>
+                        <Route path='/dashboards' component={Dashboards}/>
+                        <Route path='/examples' component={Examples}/>
 
-                    <Route path="/search" component={SearchFeed}/>
-                    <Route path='/' component={Home}/>
-                </Switch>
-                <Footer/>
-            </ApolloProvider>
+                        <Route path="/search" component={SearchFeed}/>
+                        {/*<Route exact path="/:type/:name" component={}/>*/}
+                        <Route path='/' component={Home}/>
+                    </Switch>
+                    <Footer/>
+                </ApolloProvider>
         </div>;
     }
 }

@@ -60,6 +60,7 @@
         "jstree": "3.0.9",
         "leaflet": "0.7.3",
         "leaflet-sleep": "^0.5.1",
+        "lodash": "^4.17.15",
         "moment": "^2.22.2",
         "prop-types": "^15.6.2",
         "react": "^16.8.6",

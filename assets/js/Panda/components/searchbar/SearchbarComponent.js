@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
+import { filterOptions } from "./SearchbarConstants";
 
 
 class SearchbarComponent extends Component {
@@ -10,14 +10,16 @@ class SearchbarComponent extends Component {
         onSearch: PropTypes.func.isRequired
     };
 
-    componentDidMount() {
-        console.log("here");
-        axios.get('http://localhost:4000/graphql?query={search(query:%22AS%22,selected:[DATASET]){name%20id}}')
-        .then(response => {
-            console.log(response.data);
-        })
-        .catch(error => {
-            console.log(error);
+    constructor(props) {
+        super(props);
+        this.state = {
+            initialFilterValue: false
+        };
+    }
+
+    handleInitialFilterDisable() {
+        this.setState({
+           initialFilterValue: true
         });
     }
 
@@ -25,14 +27,18 @@ class SearchbarComponent extends Component {
         return (
             <div className="searchbar__search">
                 <div className="searchbar__search-bar">
-                    <select defaultValue={this.props.currentSearchFilter || ''} onChange={this.props.onSelectChange} className="searchbar__search-filter">
-                        <option>Filter For:</option>
-                        <option disabled={true}>All</option>
-                        <option disabled={true}>Papers</option>
-                        <option disabled={true}>Topics</option>
-                        <option>Data Sets</option>
-                        <option disabled={true}>Entities</option>
-                        <option disabled={true}>Joins</option>
+                    <select
+                        onChange={this.props.onSelectChange}
+                        className="searchbar__search-filter"
+                        onMouseDown={() => this.handleInitialFilterDisable()}
+                    >
+                        <option disabled={this.state.initialFilterValue} value={filterOptions.all}>Filter For:</option>
+                        <option value={filterOptions.all}>All</option>
+                        <option value={filterOptions.paper}>Papers</option>
+                        <option value={filterOptions.tag}>Tags</option>
+                        <option value={filterOptions.dataset}>Data Sets</option>
+                        <option value={filterOptions.entity}>Entities</option>
+                        <option value={filterOptions.join}>Joins</option>
                     </select>
                     <input className="searchbar__search-input"
                            type="text" placeholder="Search For..."

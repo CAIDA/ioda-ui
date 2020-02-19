@@ -20,6 +20,9 @@
   &__logo {
     display: flex;
     align-items: center;
+    position: relative;
+    z-index: 10;
+    overflow: hidden;
 
     & a {
       display: block;
@@ -27,6 +30,25 @@
       & img {
         height: 7rem;
       }
+    }
+
+    &:before {
+      content: "beta";
+      position: absolute;
+      background-color: #F1A85B;
+      color: #fff;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 2px;
+      font-size: 1rem;
+      padding: 0.3rem;
+      width: 5rem;
+      top: 1rem;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      z-index: -1;
+      border-radius: 5rem;
     }
   }
 

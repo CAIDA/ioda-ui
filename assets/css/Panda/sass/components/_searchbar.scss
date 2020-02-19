@@ -57,6 +57,9 @@
       font-family: inherit;
       font-size: inherit;
       color: inherit;
+      cursor: pointer;
+      text-align-last: center;
+      text-align: center;
 
       &:focus {
         background-color: $color-background-white;
