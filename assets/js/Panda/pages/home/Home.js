@@ -34,40 +34,6 @@ const Card = ({title, icon}) => {
 };
 
 class Home extends Component {
-    constructor(props) {
-        super(props);
-        // this.state = {
-        //     searchQuery: {
-        //         text: "",
-        //         filter: ""
-        //     }
-        // }
-    }
-
-    // handleInputChange = (event) => {
-    //     event.persist();
-    //     this.setState(prevState => ({
-    //         searchQuery: {
-    //             ...prevState.searchQuery,
-    //             text: event.target.value
-    //         }
-    //     }));
-    // };
-    //
-    // handleSelectChange = (event) => {
-    //     event.persist();
-    //     this.setState(prevState => ({
-    //         searchQuery: {
-    //             ...prevState.searchQuery,
-    //             filter: event.target.value
-    //         }
-    //     }));
-    // };
-    //
-    // handleSearch = () => {
-    //     history.push(`/search?__query=${this.state.searchQuery.text}&__filter=${this.state.searchQuery.filter}`);
-    // };
-
     render() {
         let heroStyle = {backgroundImage: `linear-gradient(#6fa2b3, #2d6a7e), linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${heroImg})`};
         return (
@@ -81,30 +47,6 @@ class Home extends Component {
                         </div>
                         <div className="col-3-of-5">
                             <Searchbar />
-                            {/*<SearchbarComponent onSelectChange={this.handleSelectChange}*/}
-                            {/*                    onInputChange={this.handleInputChange}*/}
-                            {/*                    onButtonClick={this.handleSearch}/>*/}
-                            {/*<div className="home__search">*/}
-                            {/*    <div className="home__search-bar">*/}
-                            {/*        <select onChange={this.handleSelectChange} className="home__search-filter">*/}
-                            {/*            <option>Filter For:</option>*/}
-                            {/*            <option disabled={true}>All</option>*/}
-                            {/*            <option disabled={true}>Papers</option>*/}
-                            {/*            <option disabled={true}>Topics</option>*/}
-                            {/*            <option>Data Sets</option>*/}
-                            {/*            <option disabled={true}>Entities</option>*/}
-                            {/*            <option disabled={true}>Joins</option>*/}
-                            {/*        </select>*/}
-                            {/*        <input className="home__search-input"*/}
-                            {/*               type="text" placeholder="Search Feature Coming Soon"*/}
-                            {/*               onChange={this.handleInputChange}*/}
-                            {/*        />*/}
-                            {/*        <button onClick={this.handleSearch} className="home__search-button"><span className="glyphicon glyphicon-search"/></button>*/}
-                            {/*    </div>*/}
-                            {/*    <div className="home__search-label">*/}
-                            {/*        <label>Find your data</label>*/}
-                            {/*    </div>*/}
-                            {/*</div>*/}
                         </div>
                     </div>
                 </div>

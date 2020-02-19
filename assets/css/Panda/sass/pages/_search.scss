@@ -121,10 +121,6 @@
       }
     }
 
-    &-detail {
-
-    }
-
     &-description {
       font-weight: 300;
     }
@@ -140,7 +136,6 @@
     &-entity {
       display: flex;
       flex-direction: column;
-      //position: relative;
 
       &:not(:last-child) {
         margin-right: 0.5rem;
@@ -347,9 +342,6 @@
         }
       }
     }
-
-
-
 
     &:not(:last-child) {
       margin-right: 0.5rem;

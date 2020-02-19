@@ -31,7 +31,7 @@ import Home from './pages/home/Home';
 import SearchFeed from "./pages/search/Search";
 
 
-
+// ToDo: Check if ApolloProvider is necessary and uninstall associated packages if not.
 class PandaApp extends Component {
     render() {
         const client = new ApolloClient({

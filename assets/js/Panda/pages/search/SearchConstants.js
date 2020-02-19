@@ -22,7 +22,7 @@ export const SearchRankWeights = {
     "dataset.join.description": 3
 };
 
-export const SearchApiFilter__All = `... on%20 Entity {
+export const searchApiFilter__All = `... on%20 Entity {
                             name%20
                             id%20
                             nameLong%20

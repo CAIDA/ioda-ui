@@ -17,12 +17,4 @@ export const fetchData = (dispatch, config) => {
         .catch(error => {
            return Promise.reject(error);
         });
-
-    // axios.get('http://localhost:4000/graphql?query={search(query:%22AS%22,selected:[DATASET]){name%20id}}')
-    //     .then(response => {
-    //         console.log(response.data);
-    //     })
-    //     .catch(error => {
-    //         console.log(error);
-    //     });
-}
+};

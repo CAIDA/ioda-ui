@@ -78,13 +78,13 @@
       margin-right: -3.5rem;
       transition: 0.3s ease-all;
       border-left: 1px solid black;
+      @include placeholder {
+        color: $color-black;
+      }
 
       &::-webkit-input-placeholder {
         color: $color-black;
         font-size: inherit;
-      }
-      @include placeholder {
-        color: $color-black;
       }
 
       &:focus {

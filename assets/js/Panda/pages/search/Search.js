@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import { getSearchResults } from './SearchActions';
 import {
     searchResultsConfig,
-    SearchApiFilter__All,
+    searchApiFilter__All,
     searchApiFilter__Dataset,
     searchApiFilter__Entity,
     searchApiFilter__Join,
@@ -49,14 +49,14 @@ class SearchFeed extends Component {
                     tags {
                         name
                     }
-                    ${ searchQueryFilter === '' ? SearchApiFilter__All
-                    : searchQueryFilter === 'DATASET' ? searchApiFilter__Dataset
-                    : searchQueryFilter === 'ENTITY' ? searchApiFilter__Entity
-                    : searchQueryFilter === 'JOIN' ? searchApiFilter__Join
-                    : searchQueryFilter === 'PAPER' ? searchApiFilter__Paper
-                    : searchQueryFilter === 'TAG' ? searchApiFilter__Tag
-                    : searchQueryFilter === 'SOLUTION' ? ``
-                    : null
+                    ${ searchQueryFilter === '' ? searchApiFilter__All
+                        : searchQueryFilter === 'DATASET' ? searchApiFilter__Dataset
+                        : searchQueryFilter === 'ENTITY' ? searchApiFilter__Entity
+                        : searchQueryFilter === 'JOIN' ? searchApiFilter__Join
+                        : searchQueryFilter === 'PAPER' ? searchApiFilter__Paper
+                        : searchQueryFilter === 'TAG' ? searchApiFilter__Tag
+                        : searchQueryFilter === 'SOLUTION' ? ``
+                        : null
                     }
                 }
             }`;
@@ -88,6 +88,7 @@ class SearchFeed extends Component {
             entity: 0,
             join: 0
         };
+
         this.props.searchResults && this.props.searchResults.data.search.map((result) => {
             switch (result.id.split(":")[0]) {
                 case "dataset":
@@ -109,6 +110,7 @@ class SearchFeed extends Component {
                     break;
             }
         });
+
         return (
             <div className="search">
                 <div className="row">
@@ -205,8 +207,6 @@ class SearchFeed extends Component {
                                                            } </div>
                                                            : null
                                                    }
-
-
                                                </div>
                                                    {
                                                        entity.features
@@ -259,6 +259,6 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(getSearchResults(searchResultsConfig))
         }
     }
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchFeed);
