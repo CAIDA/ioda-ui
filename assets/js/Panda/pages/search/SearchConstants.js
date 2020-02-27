@@ -25,7 +25,6 @@ export const SearchRankWeights = {
 export const searchApiFilter__All = `... on%20 Entity {
                             name%20
                             id%20
-                            nameLong%20
                             description%20
                             features {
                                 name%20
@@ -122,6 +121,7 @@ export const searchApiFilter__Join = `... on%20 Join {
 export const searchApiFilter__Paper = `...on%20 Paper {
                             name%20
                             id%20
+                            description%20
                             tags {
                                 name
                             }

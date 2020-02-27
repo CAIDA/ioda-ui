@@ -25,8 +25,8 @@ class Nav extends Component {
                         </div>
                         <ul className="navigation__list">
                             <li className="navigation__item">
-                                <Link to="/quickstart" className="navigation__link">
-                                    Quickstart
+                                <Link to="/faq" className="navigation__link">
+                                    FAQ
                                 </Link>
                             </li>
                             <li className="navigation__item">

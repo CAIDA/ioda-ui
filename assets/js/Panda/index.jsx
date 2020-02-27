@@ -29,6 +29,8 @@ import Footer from "./templates/Footer";
 
 import Home from './pages/home/Home';
 import SearchFeed from "./pages/search/Search";
+import Result from './pages/result/Result';
+import FourZeroFour from "./pages/404/404";
 
 
 // ToDo: Check if ApolloProvider is necessary and uninstall associated packages if not.
@@ -51,7 +53,8 @@ class PandaApp extends Component {
                         <Route path='/examples' component={Examples}/>
 
                         <Route path="/search" component={SearchFeed}/>
-                        {/*<Route exact path="/:type/:name" component={}/>*/}
+                        <Route exact path="/result/:type/:name" component={Result}/>
+                        <Route exact path="/404" component={FourZeroFour} />
                         <Route path='/' component={Home}/>
                     </Switch>
                     <Footer/>

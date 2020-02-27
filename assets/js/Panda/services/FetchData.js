@@ -6,7 +6,11 @@ export const fetchData = (dispatch, config) => {
     let concatURL = `${baseURL}${config.url}`;
 
     const configHeader = merge({}, config, {
-        headers: { "X-Requested-With": "XMLHttpRequest" },
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
         url: concatURL.replace(/\s/g, "")
     });
 

@@ -1,17 +1,63 @@
+@mixin resultPageSearchResultSidebar($bgcolor: $color-white) {
+  content: "";
+  height: 100%;
+  width: 1rem;
+  position: absolute;
+  top: 0;
+  left: -1rem;
+  background-color: $bgcolor;
+}
+
+@mixin multiLineEllipsis($lineHeight: 1.2rem, $lineCount: 1, $bgColor: white) {
+  overflow: hidden;
+  position: relative;
+  max-height: $lineHeight * $lineCount;
+  text-align: justify;
+  margin-right: -1rem;
+  padding-right: 1rem;
+  &:before {
+    content: '...';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.2rem;
+    background: $bgColor;
+  }
+}
+
 @mixin searchResultCard($color) {
   overflow: hidden;
   position: relative;
 
+  //&:before {
+  //  content: "";
+  //  height: 7rem;
+  //  width: 3rem;
+  //  transform: rotate(45deg);
+  //  top: -2.5rem;
+  //  left: 0;
+  //  background-color: $color;
+  //  position: absolute;
+  //  box-shadow: 0 2px 3px #333;
+  //}
   &:before {
     content: "";
-    height: 7rem;
+    height: 100%;
     width: 3rem;
-    transform: rotate(45deg);
-    top: -2.5rem;
+    top: 0;
     left: 0;
     background-color: $color;
     position: absolute;
     box-shadow: 0 2px 3px #333;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
   }
 }
 

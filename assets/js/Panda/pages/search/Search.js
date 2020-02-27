@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {Link} from 'react-router-dom';
 import { getSearchResults } from './SearchActions';
 import {
     searchResultsConfig,
@@ -12,6 +11,8 @@ import {
     searchApiFilter__Tag
 } from './SearchConstants';
 import Searchbar from "../../components/searchbar/Searchbar";
+import SearchResults from "../../components/searchresults/SearchResults";
+import SearchLegend from "../../components/searchlegend/SearchLegend";
 
 class SearchFeed extends Component {
     constructor(props) {
@@ -37,15 +38,14 @@ class SearchFeed extends Component {
         this.fetchSearchResults(searchQueryText, searchQueryFilter);
     }
 
-    fetchSearchResults = (searchQueryText, searchQueryFilter) => {
-        let { getSearchResultsData } = this.props;
-        const apiCall = Object.assign(searchResultsConfig);
-        apiCall.url = `{
+    buildQuery = (searchQueryText, searchQueryFilter) => {
+        return `{
             search(
                 query:%22${searchQueryText}%22,selected:[${searchQueryFilter}]){
                     name%20
                     id%20
                     score%20
+                    __typename%20
                     tags {
                         name
                     }
@@ -60,6 +60,12 @@ class SearchFeed extends Component {
                     }
                 }
             }`;
+    };
+
+    fetchSearchResults = (searchQueryText, searchQueryFilter) => {
+        let { getSearchResultsData } = this.props;
+        const apiCall = Object.assign(searchResultsConfig);
+        apiCall.url = this.buildQuery(searchQueryText, searchQueryFilter);
         getSearchResultsData(apiCall);
     };
 
@@ -90,6 +96,7 @@ class SearchFeed extends Component {
         };
 
         this.props.searchResults && this.props.searchResults.data.search.map((result) => {
+            console.log(result);
             switch (result.id.split(":")[0]) {
                 case "dataset":
                     searchResultCount.dataset++;
@@ -122,117 +129,13 @@ class SearchFeed extends Component {
                                 searchQueryFilter={this.searchQueryFilter}
                             />
                         }
-                        <div className="search__legend">
-                            <div className="search__legend-item search__legend-item--datasets">
-                                <span className="search__legend-count">
-                                    {searchResultCount.dataset}
-                                </span>
-                                <span className="search__legend-text">Datasets</span>
-                            </div>
-                            <div className="search__legend-item search__legend-item--papers">
-                                <span className="search__legend-count">
-                                    {searchResultCount.paper}
-                                </span>
-                                <span className="search__legend-text">Papers</span>
-                            </div>
-                            <div className="search__legend-item search__legend-item--tags">
-                                <span className="search__legend-count">
-                                    {searchResultCount.tag}
-                                </span>
-                                <span className="search__legend-text">Tags</span>
-                            </div>
-                            <div className="search__legend-item search__legend-item--entities">
-                                <span className="search__legend-count">
-                                    {searchResultCount.entity}
-                                </span>
-                                <span className="search__legend-text">Entities</span>
-                            </div>
-                            <div className="search__legend-item search__legend-item--joins">
-                                <span className="search__legend-count">
-                                    {searchResultCount.join}
-                                </span>
-                                <span className="search__legend-text">Joins</span>
-                            </div>
-                        </div>
+                        <SearchLegend searchResultCount={searchResultCount} />
                     </div>
               </div>
               <div className="row">
                   <div className="col-1-of-1">
-                      {this.state.searchResults !== null && this.state.searchResults.map((result, index) => {
-                           return  <div className={`search__result search__result--${result.id.split(":")[0]}`} key={index}>
-                               <div className="search__result-headline">
-                                   <p className="search__result-name">{result.name}</p>
-                                   <p className="search__result-tags">{result.tags && result.tags.map((tag, index) => {
-                                       return <span key={index}>{tag.name}</span>
-                                        })}
-                                   </p>
-                               </div>
-                               <div className="search__result-detail">
-                                   <p className="search__result-description">{result.description}</p>
-                                   <div className="search__result-entities">
-                                       <div className="entity__detail">
-                                           <div className="entity__feature">
-                                               {
-                                                   result.features && result.features.map((feature, index) => {
-                                                       return <div className="entity__feature-item" key={index}>
-                                                           <span>{feature.name}</span>
-                                                       </div>
-                                                   })
-                                               }
-                                           </div>
-                                           <div className="entity__related">
-                                               {
-                                                   result.datasets && result.datasets.length > 1
-                                                       ? <p className="entity__related-item">
-                                                           <span className="entity__related-item--dataset"><span>{result.datasets.length}</span> Datasets</span>
-                                                       </p>
-                                                       : result.datasets && result.datasets.length === 1
-                                                       ? <p className="entity__related-item">
-                                                           <span className="entity__related-item--dataset"><span>{result.datasets.length}</span> Dataset</span>
-                                                       </p>
-                                                       : null
-                                               }
-                                           </div>
-                                       </div>
-                                       {
-                                           result.entities && result.entities.map((entity, index) => {
-                                               return <div className="search__result-entity" key={index}>
-                                               <div className="search__result-entity-display">
-                                                   <span className="search__result-entity-name">{entity.name}</span>
-                                                   {
-                                                       entity.features
-                                                           ? <div className="search__result-entity-additional"><span>&mdash;</span><span className={entity.features.length - 1 > 0 ? "search__result-entity-feature" : "search__result-entity-feature u-margin-right"} >{entity.features[0].name}</span>
-                                                           {
-                                                               entity.features.length - 1 > 0 ? <span className="search__result-entity-feature-additional">, {entity.features.length - 1} more <span className="search__result-entity-feature-control">+</span></span> : null
-                                                           } </div>
-                                                           : null
-                                                   }
-                                               </div>
-                                                   {
-                                                       entity.features
-                                                       ? <div className="search__result-entity-feature-modal">
-                                                           {
-                                                               entity.features.length > 1 && entity.features.map((feature, index) => {
-                                                                   return <span className="search__result-entity-feature-modal-item" key={index}>{feature.name}</span>;
-                                                               })
-                                                           }
-                                                           </div>
-                                                       : null
-                                                   }
-                                            </div>
-                                           })
-                                       }
-                                   </div>
-                                   <p className="search__result-joins">
-                                       {
-                                           result.joins && result.joins.map((join, index) => {
-                                               return <span className="search__result-join" key={index}>{join.entities[0].name} <span className="search__result-join-plus">&nbsp;+&nbsp;</span> {join.entities[1].name}</span>
-                                           })
-                                       }
-                                   </p>
-                               </div>
-                           </div>;
-                        })
+                      {
+                          this.state.searchResults !== null && <SearchResults results={this.state.searchResults} />
                       }
                       {
                           this.state.searchResults && this.state.searchResults.length === 0 &&
