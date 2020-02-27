@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Link} from "react-router-dom";
+import ReactHtmlParser from "react-html-parser";
 
 
 class SearchResults extends Component {
@@ -7,15 +8,23 @@ class SearchResults extends Component {
         console.log(this.props);
         return (
             this.props.results.map((result, index) => {
+                console.log(result);
                 return <div className={`search__result search__result--${result.id.split(/:(.+)/)[0]}`} key={index}>
                     <div className="search__result-left">
                         <span className="search__result-letter">{result.__typename}</span>
                         <div className="search__result-headline">
-                            <Link to={`/result/${result.id.split(':')[0]}/${result.id.split(/:(.+)/)[1]}`}><p
+                            <Link to={`/result/${result.id.split(/:(.+)/)[0]}/${result.id.split(/:(.+)/)[1]}`}><p
                                 className="search__result-name">{result.name}</p></Link>
                         </div>
                         <div className="search__result-detail">
-                            <p className="search__result-description">{result.description}</p>
+                            <div className="search__result-description">
+                                {
+                                    result.__typename === 'Selection'
+                                        ? ReactHtmlParser(result.description)
+                                        : result.description
+
+                                }
+                            </div>
                             <div className="search__result-entities">
                                 <div className="entity__detail">
                                     <div className="entity__feature">

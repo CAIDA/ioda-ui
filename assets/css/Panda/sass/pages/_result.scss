@@ -18,6 +18,7 @@
     &--join { @include searchResultCard($color-filter-joins); }
     &--paper { @include searchResultCard($color-filter-papers); }
     &--tag { @include searchResultCard($color-filter-tags); }
+    &--selection { @include searchResultCard($color-filter-selections); }
 
     &-name {
       font-size: 2.6rem;
@@ -71,6 +72,12 @@
         background-color: $color-filter-tags;
         &:before {
           @include resultPageSearchResultSidebar($color-filter-tags);
+        }
+      }
+      &--selection {
+        background-color: $color-filter-selections;
+        &:before {
+          @include resultPageSearchResultSidebar($color-filter-selections);
         }
       }
     }

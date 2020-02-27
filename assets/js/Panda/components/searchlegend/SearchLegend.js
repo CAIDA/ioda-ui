@@ -39,6 +39,13 @@ class SearchLegend extends Component {
                     </span>
                     <span className="search__legend-text">Joins</span>
                 </div>
+                <div className="search__legend-item search__legend-item--selections">
+                    <span className="search__legend-letter">{Object.keys(this.props.searchResultCount)[5].charAt(0)}</span>
+                    <span className="search__legend-count">
+                        {this.props.searchResultCount.selection}
+                    </span>
+                    <span className="search__legend-text">Selections</span>
+                </div>
             </div>
         );
     }

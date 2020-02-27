@@ -50,6 +50,9 @@
       &--joins:before {
         background-color: $color-filter-joins;
       }
+      &--selections:before {
+        background-color: $color-filter-selections;
+      }
     }
 
     &-letter {

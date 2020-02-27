@@ -11,7 +11,7 @@
     position: relative;
     display: flex;
     flex-direction: row;
-    min-height: 10rem;
+    min-height: 12rem;
     box-shadow: 1px 1px 1px 0 #ccc;
 
     &--dataset { @include searchResultCard($color-filter-datasets); }
@@ -19,6 +19,7 @@
     &--join { @include searchResultCard($color-filter-joins); }
     &--paper { @include searchResultCard($color-filter-papers); }
     &--tag { @include searchResultCard($color-filter-tags); }
+    &--selection { @include searchResultCard($color-filter-selections); }
 
     &-letter {
       position: absolute;

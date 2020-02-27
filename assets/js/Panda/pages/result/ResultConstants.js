@@ -1,42 +1,42 @@
 export const nodeDetailConfig = {
-    method: "get",
+    method: "post",
     url: ""
 };
 
-export const getNodeDetail__Dataset = `... on%20 Dataset {
-                            description%20
-                            logo%20
-                            organization%20
+export const getNodeDetail__Dataset = `... on Dataset {
+                            description
+                            logo
+                            organization
                             interfaces {
-                                type%20
-                                url%20
+                                type
+                                url
                                 status
                             }
                             licenses {
-                                name%20
+                                name
                                 url
                             }
                             joins {
-                                name%20
-                                label%20
+                                name
+                                label
                                 entities {
                                     name
                                 }
                                 
                             }
                             entities {
-                                name%20
+                                name
                                 features {
-                                    name%20
+                                    name
                                     description
                                 }
                             }
                         }`;
 
-export const getNodeDetail__Entity = `... on%20 Entity {
-                            description%20
+export const getNodeDetail__Entity = `... on Entity {
+                            description
                             features {
-                                name%20
+                                name
                                 description
                             }
                             tags {
@@ -50,16 +50,16 @@ export const getNodeDetail__Entity = `... on%20 Entity {
                             }
                         }`;
 
-export const getNodeDetail__Join = `... on%20 Join {
-                            label%20
+export const getNodeDetail__Join = `... on Join {
+                            label
                             datasets {
                                 id
                             }
                             entities {
-                                name%20
-                                id%20
+                                name
+                                id
                                 features {
-                                    name%20
+                                    name
                                     description
                                 }
                             }

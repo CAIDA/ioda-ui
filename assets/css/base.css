@@ -309,6 +309,8 @@ body {
       background-color: #9AB5D8; }
     .search__legend-item--joins:before {
       background-color: #7E42A2; }
+    .search__legend-item--selections:before {
+      background-color: #91D3CE; }
   .search__legend-letter {
     position: absolute;
     top: 0.2rem;
@@ -334,7 +336,7 @@ body {
   position: relative;
   display: flex;
   flex-direction: row;
-  min-height: 10rem;
+  min-height: 12rem;
   box-shadow: 1px 1px 1px 0 #ccc; }
   .search__result--dataset {
     overflow: hidden;
@@ -402,6 +404,20 @@ body {
       top: 0;
       left: 0;
       background-color: #F2A85A;
+      position: absolute;
+      box-shadow: 0 2px 3px #333;
+      writing-mode: vertical-rl;
+      text-orientation: upright; }
+  .search__result--selection {
+    overflow: hidden;
+    position: relative; }
+    .search__result--selection:before {
+      content: "";
+      height: 100%;
+      width: 3rem;
+      top: 0;
+      left: 0;
+      background-color: #91D3CE;
       position: absolute;
       box-shadow: 0 2px 3px #333;
       writing-mode: vertical-rl;
@@ -1111,6 +1127,20 @@ body {
         box-shadow: 0 2px 3px #333;
         writing-mode: vertical-rl;
         text-orientation: upright; }
+    .result__node--selection {
+      overflow: hidden;
+      position: relative; }
+      .result__node--selection:before {
+        content: "";
+        height: 100%;
+        width: 3rem;
+        top: 0;
+        left: 0;
+        background-color: #91D3CE;
+        position: absolute;
+        box-shadow: 0 2px 3px #333;
+        writing-mode: vertical-rl;
+        text-orientation: upright; }
     .result__node-name {
       font-size: 2.6rem;
       font-weight: 700;
@@ -1180,6 +1210,16 @@ body {
           top: 0;
           left: -1rem;
           background-color: #F2A85A; }
+      .result__node-id--selection {
+        background-color: #91D3CE; }
+        .result__node-id--selection:before {
+          content: "";
+          height: 100%;
+          width: 1rem;
+          position: absolute;
+          top: 0;
+          left: -1rem;
+          background-color: #91D3CE; }
 
 .search {
   padding-top: 12rem;

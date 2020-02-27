@@ -2,7 +2,7 @@ import SearchJson from "../../constants/SearchJson";
 export const SearchResultsData = SearchJson;
 
 export const searchResultsConfig = {
-    method: "get",
+    method: "post",
     url: ""
 };
 
@@ -22,12 +22,12 @@ export const SearchRankWeights = {
     "dataset.join.description": 3
 };
 
-export const searchApiFilter__All = `... on%20 Entity {
-                            name%20
-                            id%20
-                            description%20
+export const searchApiFilter__All = `... on Entity {
+                            name
+                            id
+                            description
                             features {
-                                name%20
+                                name
                                 description
                             }
                             tags {
@@ -37,24 +37,24 @@ export const searchApiFilter__All = `... on%20 Entity {
                                 id
                             }
                         }
-                        ... on%20 Dataset {
-                            description%20
+                        ... on Dataset {
+                            description
                             joins {
                                 entities {
                                     name
                                 }
                             }
                             entities {
-                                name%20
+                                name
                                 features {
-                                    name%20
+                                    name
                                     description
                                 }
                             }
                         }
-                        ... on%20 Paper {
-                            name%20
-                            id%20
+                        ... on Paper {
+                            name
+                            id
                             tags {
                                 name
                             }
@@ -62,42 +62,42 @@ export const searchApiFilter__All = `... on%20 Entity {
                                 id
                             }
                         }
-                        ... on%20 Join {
-                            name%20
-                            id%20
-                            label%20
+                        ... on Join {
+                            name
+                            id
+                            label
                             entities {
-                                name%20
+                                name
                                 id
                             }
                         }
-                        ... on%20 Tag {
-                            name%20
+                        ... on Tag {
+                            name
                             id
                         }`;
 
-export const searchApiFilter__Dataset = `... on%20 Dataset {
-                            description%20
+export const searchApiFilter__Dataset = `... on Dataset {
+                            description
                             joins {
                                 entities {
                                     name
                                 }
                             }
                             entities {
-                                name%20
+                                name
                                 features {
-                                    name%20
+                                    name
                                     description
                                 }
                             }
                         }`;
 
-export const searchApiFilter__Entity = `... on%20 Entity {
-                            name%20
-                            id%20
-                            description%20
+export const searchApiFilter__Entity = `... on Entity {
+                            name
+                            id
+                            description
                             features {
-                                name%20
+                                name
                                 description
                             }
                             tags {
@@ -108,20 +108,20 @@ export const searchApiFilter__Entity = `... on%20 Entity {
                             }
                         }`;
 
-export const searchApiFilter__Join = `... on%20 Join {
-                            name%20
-                            id%20
-                            label%20
+export const searchApiFilter__Join = `... on Join {
+                            name
+                            id
+                            label
                             entities {
-                                name%20
+                                name
                                 id
                             }
                         }`;
 
-export const searchApiFilter__Paper = `...on%20 Paper {
-                            name%20
-                            id%20
-                            description%20
+export const searchApiFilter__Paper = `...on Paper {
+                            name
+                            id
+                            description
                             tags {
                                 name
                             }
@@ -130,9 +130,14 @@ export const searchApiFilter__Paper = `...on%20 Paper {
                             }
                         }`;
 
-export const searchApiFilter__Tag = `...on%20 Tag {
-                            name%20
+export const searchApiFilter__Tag = `...on Tag {
+                            name
                             id
+                        }`;
+
+export const searchApiFilter__Selection = `...on Selection {
+                          query
+                          ids
                         }`;
 
 // Deprecated

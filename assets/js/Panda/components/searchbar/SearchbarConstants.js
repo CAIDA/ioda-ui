@@ -4,5 +4,6 @@ export const filterOptions = {
   paper: "PAPER",
   entity: "ENTITY",
   join: "JOIN",
-  tag: "TAG"
+  tag: "TAG",
+  selection: "SELECTION"
 };

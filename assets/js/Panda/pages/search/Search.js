@@ -8,7 +8,8 @@ import {
     searchApiFilter__Entity,
     searchApiFilter__Join,
     searchApiFilter__Paper,
-    searchApiFilter__Tag
+    searchApiFilter__Tag,
+    searchApiFilter__Selection
 } from './SearchConstants';
 import Searchbar from "../../components/searchbar/Searchbar";
 import SearchResults from "../../components/searchresults/SearchResults";
@@ -41,11 +42,11 @@ class SearchFeed extends Component {
     buildQuery = (searchQueryText, searchQueryFilter) => {
         return `{
             search(
-                query:%22${searchQueryText}%22,selected:[${searchQueryFilter}]){
-                    name%20
-                    id%20
-                    score%20
-                    __typename%20
+                query:"${searchQueryText}",selected:[${searchQueryFilter}]){
+                    name
+                    id
+                    score
+                    __typename
                     tags {
                         name
                     }
@@ -55,7 +56,7 @@ class SearchFeed extends Component {
                         : searchQueryFilter === 'JOIN' ? searchApiFilter__Join
                         : searchQueryFilter === 'PAPER' ? searchApiFilter__Paper
                         : searchQueryFilter === 'TAG' ? searchApiFilter__Tag
-                        : searchQueryFilter === 'SOLUTION' ? ``
+                        : searchQueryFilter === 'SELECTION' ? searchApiFilter__Selection
                         : null
                     }
                 }
@@ -92,7 +93,8 @@ class SearchFeed extends Component {
             paper: 0,
             tag: 0,
             entity: 0,
-            join: 0
+            join: 0,
+            selection: 0
         };
 
         this.props.searchResults && this.props.searchResults.data.search.map((result) => {
@@ -112,6 +114,9 @@ class SearchFeed extends Component {
                     break;
                 case "join":
                     searchResultCount.join++;
+                    break;
+                case "selection":
+                    searchResultCount.selection++;
                     break;
                 default:
                     break;

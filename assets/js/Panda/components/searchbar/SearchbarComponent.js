@@ -39,6 +39,7 @@ class SearchbarComponent extends Component {
                         <option value={filterOptions.dataset}>Data Sets</option>
                         <option value={filterOptions.entity}>Entities</option>
                         <option value={filterOptions.join}>Joins</option>
+                        <option value={filterOptions.selection}>Selections</option>
                     </select>
                     <input className="searchbar__search-input"
                            type="text" placeholder="Search For..."
