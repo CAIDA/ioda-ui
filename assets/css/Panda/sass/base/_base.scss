@@ -47,6 +47,18 @@ body {
   background-color: $color-background-white;
 }
 
+.panda-app {
+  display: flex;
+  flex-direction:column;
+  min-height: 100vh;
+
+  & > div:nth-child(2) {
+    flex-grow: 1;
+  }
+}
+
+
+// TODO: Remove panel code
 /* Bootstrap overrides */
 
 .panel-group .panel,

@@ -7,9 +7,15 @@
 @import "base/typography";
 @import "base/utilities";
 
+@import "components/searchbar";
+@import "components/searchLegend";
+@import "components/searchResults";
+
 @import "layout/footer";
 @import "layout/grid";
 @import "layout/header";
 @import "layout/navigation";
 
 @import "pages/home";
+@import "pages/result";
+@import "pages/search";

@@ -1,0 +1,76 @@
+.search {
+  &__legend {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 2rem;
+
+    &-item {
+      border-radius: 0.5rem;
+      color: $color-black;
+      text-transform: uppercase;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: $color-white;
+      position: relative;
+      overflow: hidden;
+      flex-direction: row;
+      width: 12.5rem;
+      z-index: 10;
+      border: 1px solid $color-background-white;
+
+      &:before {
+        content: "";
+        height: 7rem;
+        width: 3rem;
+        transform: rotate(45deg);
+        top: -3.6rem;
+        left: -0.6rem;
+        background-color: $color-filter-datasets;
+        position: absolute;
+        box-shadow: 0 2px 3px #333;
+        z-index: -1;
+      }
+
+      &--datasets:before {
+        background-color: $color-filter-datasets;
+      }
+      &--papers:before {
+        background-color: $color-filter-papers;
+      }
+      &--tags:before {
+        background-color: $color-filter-tags;
+      }
+      &--entities:before {
+        background-color: $color-filter-entities;
+      }
+      &--joins:before {
+        background-color: $color-filter-joins;
+      }
+      &--selections:before {
+        background-color: $color-filter-selections;
+      }
+    }
+
+    &-letter {
+      position: absolute;
+      top: 0.2rem;
+      left: 0.5rem;
+      color: $color-white;
+      font-weight: 700;
+    }
+
+    &-count {
+      margin-right: 0.4rem;
+      font-weight: 700;
+      font-size: 1.8rem;
+    }
+
+    &-text {
+      font-weight: 300;
+    }
+  }
+}

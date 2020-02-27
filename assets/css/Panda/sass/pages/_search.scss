@@ -1,0 +1,14 @@
+.search {
+ padding-top: 12rem;
+  max-width: 100%;
+  overflow-x: hidden;
+
+  &__menu {
+    background-color: $color-primary;
+    padding: 6rem 50% 3rem;
+    width: 200%;
+    margin-left: -50%;
+    margin-top: -4rem;
+  }
+}
+
