@@ -97,7 +97,7 @@ class SearchFeed extends Component {
 
         this.props.searchResults && this.props.searchResults.data.search.map((result) => {
             console.log(result);
-            switch (result.id.split(":")[0]) {
+            switch (result.id.split(/:(.+)/)[0]) {
                 case "dataset":
                     searchResultCount.dataset++;
                     break;

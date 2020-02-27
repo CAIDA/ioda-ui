@@ -7,12 +7,11 @@ class SearchResults extends Component {
         console.log(this.props);
         return (
             this.props.results.map((result, index) => {
-                console.log(result);
-                return <div className={`search__result search__result--${result.id.split(":")[0]}`} key={index}>
+                return <div className={`search__result search__result--${result.id.split(/:(.+)/)[0]}`} key={index}>
                     <div className="search__result-left">
                         <span className="search__result-letter">{result.__typename}</span>
                         <div className="search__result-headline">
-                            <Link to={`/result/${result.id.split(':')[0]}/${result.id.split(':')[1]}`}><p
+                            <Link to={`/result/${result.id.split(':')[0]}/${result.id.split(/:(.+)/)[1]}`}><p
                                 className="search__result-name">{result.name}</p></Link>
                         </div>
                         <div className="search__result-detail">

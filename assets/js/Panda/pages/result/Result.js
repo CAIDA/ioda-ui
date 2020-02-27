@@ -57,7 +57,7 @@ class Result extends Component {
                 }
             }
         }`);
-        console.log(apiCall.url);
+        console.log(decodeURIComponent(apiCall.url));
         // apiCall.url = encodeURIComponent(`{
         //     nodes (ids:["${id}"]) {
         //         id

@@ -1,5 +1,5 @@
 export const nodeDetailConfig = {
-    method: "post",
+    method: "get",
     url: ""
 };
 
