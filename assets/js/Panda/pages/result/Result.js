@@ -5,6 +5,7 @@ import {
     getNodeDetail__Entity,
     getNodeDetail__Join
 } from "./ResultConstants";
+import { searchApiFilter__All } from '../search/SearchConstants';
 import { getNodeDetail } from "./ResultActions";
 import {connect} from "react-redux";
 import {Link} from 'react-router-dom';
@@ -50,7 +51,14 @@ class Result extends Component {
                 name
                 description
                 __typename
-                
+                ${this.props.match.params.type === "dataset" ? getNodeDetail__Dataset
+                    : this.props.match.params.type === "entity" ? getNodeDetail__Entity
+                    : this.props.match.params.type === "join" ? getNodeDetail__Join
+                    : this.props.match.params.type === "paper" ? ``
+                    : this.props.match.params.type === "tag" ? ``
+                    : this.props.match.params.type === "selection" ? ``
+                    : null
+                }
             }
             search(query:"${id}") {
                 name
@@ -60,6 +68,7 @@ class Result extends Component {
                 tags {
                     name
                 }
+                ${searchApiFilter__All}
             }
         }`;
         console.log(decodeURIComponent(apiCall.url));
@@ -78,6 +87,8 @@ class Result extends Component {
             this.setState({
                 nodeDetail: this.props.nodeDetail.data.nodes[0],
                 searchResults: this.props.nodeDetail.data.search
+            }, () => {
+                console.log(this.state.nodeDetail);
             });
         }
     }

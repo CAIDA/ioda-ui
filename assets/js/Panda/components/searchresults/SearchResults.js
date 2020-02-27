@@ -5,10 +5,8 @@ import ReactHtmlParser from "react-html-parser";
 
 class SearchResults extends Component {
     render() {
-        console.log(this.props);
         return (
             this.props.results.map((result, index) => {
-                console.log(result);
                 return <div className={`search__result search__result--${result.id.split(/:(.+)/)[0]}`} key={index}>
                     <div className="search__result-left">
                         <span className="search__result-letter">{result.__typename}</span>
