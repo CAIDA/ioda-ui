@@ -77,9 +77,6 @@ class Result extends Component {
 
     componentDidUpdate(prevProps) {
         if (`${this.props.match.params.type}:${this.props.match.params.name}` !== this.state.searchId) {
-            console.log(`${this.props.match.params.type}:${this.props.match.params.name}`);
-            console.log(this.state.searchId);
-            console.log("1");
             this.handleNewIdGeneration();
         }
 
@@ -97,6 +94,7 @@ class Result extends Component {
         if ( !this.state.nodeDetail ) {
             return <div />
         }
+        console.log(this.state.nodeDetail);
         return (
             <div className="result">
                 <div className="row">
@@ -113,6 +111,19 @@ class Result extends Component {
                                     : this.state.nodeDetail.description
                                 }
                             </div>
+                            {
+                                this.state.nodeDetail.interfaces && this.state.nodeDetail.interfaces.map((interfaces, index) => {
+                                    return <div key={index}>
+                                        <p>
+                                            <a href={interfaces.url}>
+                                                {interfaces.type}
+                                            </a>
+                                            <span style={{marginLeft: '10px'}}>status: {interfaces.status}</span>
+                                        </p>
+                                    </div>;
+                                })
+
+                            }
                         </div>
                     }
                 </div>
