@@ -5,18 +5,36 @@ export const fetchData = (dispatch, config) => {
     const baseURL = 'http://localhost:4000/graphql';
     // let concatURL = `${baseURL}${config.url}`;
     let query = config.url;
-    const configHeader = merge({}, config, {
-        headers: {
-            "X-Requested-With": "XMLHttpRequest",
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        // url: concatURL.replace(/\s/g, "")
-        url: baseURL,
-        data: {
-            query
-        }
-    });
+    // let configHeader;
+
+    // switch (config.url) {
+        // case 'get':
+        //     configHeader = merge({}, config, {
+        //         headers: {
+        //             "X-Requested-With": "XMLHttpRequest",
+        //             'Content-Type': 'application/json',
+        //             'Accept': 'application/json'
+        //         },
+        //         url: concatURL.replace(/\s/g, "")
+        //     });
+        //     break;
+        // case 'post':
+            const configHeader = merge({}, config, {
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                // url: concatURL.replace(/\s/g, "")
+                url: baseURL,
+                data: {
+                    query
+                }
+            });
+            // break;
+    // }
+
+
 
     return axios(configHeader)
         .then(response => {

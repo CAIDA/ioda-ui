@@ -7,3 +7,8 @@ export const filterOptions = {
   tag: "TAG",
   selection: "SELECTION"
 };
+
+export const searchbarFiltersConfig = {
+  method: "post",
+  url: '{__type(name:"NodeType") {enumValues {name description}}}'
+};

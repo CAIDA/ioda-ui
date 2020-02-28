@@ -1,5 +1,4 @@
 import { GET_SEARCH_RESULTS } from '../../constants/ActionTypes';
-import { SearchResultsData } from './SearchConstants';
 
 export default function getSearchResults(state = {}, action) {
     switch (action.type) {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { filterOptions } from "./SearchbarConstants";
+import Select from 'react-select'
 
 
 class SearchbarComponent extends Component {
@@ -13,8 +14,23 @@ class SearchbarComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            initialFilterValue: false
+            initialFilterValue: false,
+            options: false
         };
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.searchbarFilters !== prevProps.searchbarFilters) {
+            let newOptions = [];
+            const options = [...this.props.searchbarFilters];
+            options.map((option, index) => {
+                option = {id: option.name, name: option.description.split(":")[0]};
+                newOptions.push(option);
+            });
+            this.setState({
+               options: newOptions
+            });
+        }
     }
 
     handleInitialFilterDisable() {
@@ -27,20 +43,23 @@ class SearchbarComponent extends Component {
         return (
             <div className="searchbar__search">
                 <div className="searchbar__search-bar">
-                    <select
-                        onChange={this.props.onSelectChange}
-                        className="searchbar__search-filter"
-                        onMouseDown={() => this.handleInitialFilterDisable()}
-                    >
-                        <option disabled={this.state.initialFilterValue} value={filterOptions.all}>Filter For:</option>
-                        <option value={filterOptions.all}>All</option>
-                        <option value={filterOptions.paper}>Papers</option>
-                        <option value={filterOptions.tag}>Tags</option>
-                        <option value={filterOptions.dataset}>Data Sets</option>
-                        <option value={filterOptions.entity}>Entities</option>
-                        <option value={filterOptions.join}>Joins</option>
-                        <option value={filterOptions.selection}>Selections</option>
-                    </select>
+                    {
+                        this.state.options &&
+                        <select
+                            onChange={this.props.onSelectChange}
+                            className="searchbar__search-filter"
+                            onMouseDown={() => this.handleInitialFilterDisable()}
+                        >
+                            {
+                                this.state.options && this.state.options.map((option, index) => {
+                                    console.log(this.state.options);
+                                    return <option key={index} value={option.id}>{option.name}</option>
+                                })
+                            }
+                            <option value={filterOptions.all}>All</option>
+                        </select>
+                    }
+
                     <input className="searchbar__search-input"
                            type="text" placeholder="Search For..."
                            onChange={this.props.onInputChange}

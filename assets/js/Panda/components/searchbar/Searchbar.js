@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import {connect} from "react-redux";
 import { createBrowserHistory } from 'history';
 import SearchbarComponent from '../../components/searchbar/SearchbarComponent';
+import { getSearchbarFilters } from './SearchbarActions';
+import { searchbarFiltersConfig } from './SearchbarConstants';
+
 
 const history = createBrowserHistory({ forceRefresh:true });
 
@@ -13,6 +17,24 @@ class Searchbar extends Component {
                 text: "",
                 filter: ""
             }
+        }
+    }
+
+    componentDidMount() {
+        this.fetchSearchFilters();
+    }
+
+    fetchSearchFilters = () => {
+        let { getSearchbarFiltersData } = this.props;
+        const apiCall = Object.assign(searchbarFiltersConfig);
+        getSearchbarFiltersData(apiCall);
+    };
+
+    componentDidUpdate(prevProps) {
+        if (this.props.searchbarFilters !== prevProps.searchbarFilters) {
+            this.setState({
+                searchbarFilters: this.props.searchbarFilters.data.__type.enumValues
+            });
         }
     }
 
@@ -54,10 +76,25 @@ class Searchbar extends Component {
                                     onSearch={this.handleSearch}
                                     currentSearchQuery={this.props.searchQueryText}
                                     currentSearchFilter={this.props.searchQueryFilter}
+                                    searchbarFilters={this.state.searchbarFilters}
                 />
             </div>
         );
     }
 }
 
-export default Searchbar;
+const mapStateToProps = (state) => {
+    return {
+        searchbarFilters: state.getSearchbarFilters.searchbarFilters
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getSearchbarFiltersData: (searchbarFiltersConfig) => {
+            dispatch(getSearchbarFilters(searchbarFiltersConfig))
+        }
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Searchbar);
