@@ -3,16 +3,31 @@ Web application UI for the PANDA project (https://panda.caida.org)
 - [PANDA server deployment](http://github.com/CAIDA/panda-deploy)
 
 
-# Install
+## Install
 1. Ensure PHP 7.2 is running on your machine.
 2. Clone repo locally 
 3. run `brew install composer yarn`
 4. run `curl -sS https://get.symfony.com/cli/installer | bash`
 5. run `composer install`
 6. run `yarn install`
-7. run `yarn encore dev --watch`
-8. run `symfony server:start --no-tls`
-9. Check localhost in browser
+
+## Run 
+the code is actually two processes
+- yarn compiles the javascript, (watch keeps it checking for updates)
+    ~~~
+    yarn encore dev --watch
+    ~~~
+- symfony runs the server, there are two ways
+    - if you have symfony: 
+    ~~~
+    symfony server:start --no-tls
+    ~~~
+    - if you only have php:
+    ~~~
+    php -S 127.0.0.1:8000 -t public
+    ~~~
+
+Check localhost in browser
 
 # possible problems
 If you have the following problem:
