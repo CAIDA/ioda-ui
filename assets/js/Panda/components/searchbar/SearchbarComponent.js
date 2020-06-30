@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { filterOptions } from "./SearchbarConstants";
-import Select from 'react-select'
+import { Multiselect } from 'multiselect-react-dropdown';
 
 
 class SearchbarComponent extends Component {
@@ -15,7 +15,8 @@ class SearchbarComponent extends Component {
         super(props);
         this.state = {
             initialFilterValue: false,
-            options: false
+            options: null,
+            selectedValues: {cat: "", key: "All Data Types"}
         };
     }
 
@@ -24,11 +25,13 @@ class SearchbarComponent extends Component {
             let newOptions = [];
             const options = [...this.props.searchbarFilters];
             options.map((option, index) => {
-                option = {id: option.name, name: option.description.split(":")[0]};
+                option = {cat: option.name, key: option.description.split(":")[0]};
                 newOptions.push(option);
             });
+            newOptions.push({cat: "", key: "All Data Types"});
             this.setState({
-               options: newOptions
+               options: newOptions,
+                defaultOption: [newOptions[0]]
             });
         }
     }
@@ -42,26 +45,10 @@ class SearchbarComponent extends Component {
     render() {
         return (
             <div className="searchbar__search">
-                <div className="searchbar__search-bar">
-                    {
-                        this.state.options &&
-                        <select
-                            onChange={this.props.onSelectChange}
-                            className="searchbar__search-filter"
-                            onMouseDown={() => this.handleInitialFilterDisable()}
-                        >
-                            {
-                                this.state.options && this.state.options.map((option, index) => {
-                                    console.log(this.state.options);
-                                    return <option key={index} value={option.id}>{option.name}</option>
-                                })
-                            }
-                            <option value={filterOptions.all}>All</option>
-                        </select>
-                    }
 
+                <div className="searchbar__search-bar">
                     <input className="searchbar__search-input"
-                           type="text" placeholder="Search For..."
+                           type="text" placeholder="Papers, Presentations, Datasets, Tools, Questions..."
                            onChange={this.props.onInputChange}
                            defaultValue={this.props.currentSearchQuery || ''}
                            onKeyDown={(event) => this.props.onSearch(event)}

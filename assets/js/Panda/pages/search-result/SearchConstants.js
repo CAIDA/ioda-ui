@@ -156,7 +156,7 @@ export const handleSearch = (searchResults, searchQueryText) => {
     const searchBank = searchResults;
     const searchTerm = searchQueryText;
 
-    // Scan through each dataset and attribute points based on search value matching a particular value for a key
+    // Scan through each dataset and attribute points based on search-result value matching a particular value for a key
     // as defined in the SearchConstants.js file.
     searchBank.filter(dataset => {
         let keysWhereMatchOccurs = [];

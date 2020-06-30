@@ -51,12 +51,12 @@ class SearchFeed extends Component {
                         name
                     }
                     ${ searchQueryFilter === '' ? searchApiFilter__All
-                        : searchQueryFilter === 'DATASET' ? searchApiFilter__Dataset
-                        : searchQueryFilter === 'ENTITY' ? searchApiFilter__Entity
-                        : searchQueryFilter === 'JOIN' ? searchApiFilter__Join
-                        : searchQueryFilter === 'PAPER' ? searchApiFilter__Paper
-                        : searchQueryFilter === 'TAG' ? searchApiFilter__Tag
-                        : searchQueryFilter === 'SELECTION' ? searchApiFilter__Selection
+                        : searchQueryFilter.includes('DATASET') ? searchApiFilter__Dataset
+                        : searchQueryFilter.includes('ENTITY') ? searchApiFilter__Entity
+                        : searchQueryFilter.includes('JOIN') ? searchApiFilter__Join
+                        : searchQueryFilter.includes('PAPER') ? searchApiFilter__Paper
+                        : searchQueryFilter.includes('TAG') ? searchApiFilter__Tag
+                        : searchQueryFilter.includes('SELECTION') ? searchApiFilter__Selection
                         : null
                     }
                 }
@@ -67,6 +67,7 @@ class SearchFeed extends Component {
         let { getSearchResultsData } = this.props;
         const apiCall = Object.assign(searchResultsConfig);
         apiCall.url = this.buildQuery(searchQueryText, searchQueryFilter);
+        console.log(apiCall.url);
         getSearchResultsData(apiCall);
     };
 

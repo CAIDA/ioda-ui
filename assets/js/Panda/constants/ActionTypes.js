@@ -1,4 +1,4 @@
-// Action for getting search results based on query
+// Action for getting search-result results based on query
 export const GET_SEARCH_RESULTS = "GET_SEARCH_RESULTS";
 
 // Action for getting details on specific node

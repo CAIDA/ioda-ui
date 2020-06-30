@@ -1,35 +1,26 @@
-// external CSS deps
-// TODO: fix green color on success button hover
-import 'css/theme/css/bootstrap-flatly.css';
-
-// global CSS styles
-import 'css/base.css';
-
+// global CSS styles exported from sass scripts
+import 'css/style.css';
+// internationalization
+import './constants/strings';
 // library imports
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+// Redux
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from "redux";
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
+// graphQL resources (unused currently)
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
-
-// auth
-import Quickstart from './pages/quickstart';
-import Docs from './pages/docs';
-import About from './pages/about';
-import Acks from './pages/acks';
-import Platforms from './pages/feeds';
-import Dashboards from './pages/dashboards';
-import Examples from './pages/examples';
+// Template Components
 import Nav from "./templates/Nav";
 import Footer from "./templates/Footer";
-
+// Routes
 import Home from './pages/home/Home';
-import SearchFeed from "./pages/search/Search";
-import Result from './pages/result/Result';
+import SearchFeed from "./pages/search-result/Search";
+import Result from './pages/result-detail/Result';
 import FourZeroFour from "./pages/404/404";
 
 
@@ -43,15 +34,6 @@ class PandaApp extends Component {
                 <ApolloProvider client={client}>
                     <Nav/>
                     <Switch>
-                        <Route path='/quickstart' component={Quickstart}/>
-                        <Route path='/docs' component={Docs}/>
-                        <Route path='/about' component={About}/>
-                        <Route path='/acks' component={Acks}/>
-
-                        <Route path='/feeds' component={Platforms}/>
-                        <Route path='/dashboards' component={Dashboards}/>
-                        <Route path='/examples' component={Examples}/>
-
                         <Route path="/search" component={SearchFeed}/>
                         <Route exact path="/result/:type/:name" component={Result}/>
                         <Route exact path="/404" component={FourZeroFour} />

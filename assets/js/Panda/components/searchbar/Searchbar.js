@@ -49,11 +49,15 @@ class Searchbar extends Component {
     };
 
     handleSelectChange = (event) => {
-        event.persist();
+        // event.persist();
+        console.log(event);
+        let filters = [];
+        event.map(filter => {filters.push(filter.cat)});
+        console.log(filters);
         this.setState(prevState => ({
             searchQuery: {
                 ...prevState.searchQuery,
-                filter: event.target.value
+                filter: filters.toString()
             }
         }));
     };

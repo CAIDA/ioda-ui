@@ -8,6 +8,7 @@ import { createBrowserHistory } from 'history';
 import { connect } from 'react-redux';
 import SearchbarComponent from '../../components/searchbar/SearchbarComponent';
 import Searchbar from "../../components/searchbar/Searchbar";
+import T from 'i18n-react';
 
 const history = createBrowserHistory({ forceRefresh:true });
 
@@ -42,27 +43,21 @@ class Home extends Component {
                     <div className="row">
                         <div className="col-2-of-5">
                             <div className="home__hero-headline">
-                                <h1 className="home__hero-text"><span>PANDA</span>A Platform for Applied Network Data Analysis</h1>
+                                <h1 className="home__hero-text">
+                                    <T.span text='home.title'/>
+                                    A Platform for Applied Network Data Analysis
+                                </h1>
                             </div>
                         </div>
                         <div className="col-3-of-5">
-                            <Searchbar />
+                            <T.p texts="subheader"/>
                         </div>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-1-of-1">
-                        <div className="home__story">
-                            <h2 className="header__secondary">
-                                <div className="home__featured-word">
-                                    <span>Process</span>
-                                    <span>Store</span>
-                                    <span>Investigate</span>
-                                    <span>Correlate</span>
-                                </div>
-                                <span>diverse streams of large-scale data on the internet.</span>
-                            </h2>
-                        </div>
+                        <Searchbar />
+                        <T.p texts="home.subheader"/>
                     </div>
                 </div>
                 <div className="row home__query">
@@ -71,25 +66,7 @@ class Home extends Component {
                         <p className="home__query-description">Not sure what to search for? Craft a search query to help you find data about the internet.</p>
                         <div className="row">
                             <div className="col-1-of-2">
-                                <div className="home__progress-bar">
-                                    <div className="home__progress-bar-step">
-                                        <div className="home__progress-bar-step-number">1</div>
-                                        <div className="home__progress-bar-step-text">Data Type</div>
-                                    </div>
-                                    <div className="home__progress-bar-connector">&nbsp;</div>
-                                    <div className="home__progress-bar-step">
-                                        <div className="home__progress-bar-step-number">2</div>
-                                        <div className="home__progress-bar-step-text">Data Source</div>
-                                    </div>
-                                    <div className="home__progress-bar-connector">&nbsp;</div>
-                                    <div className="home__progress-bar-step">
-                                        <div className="home__progress-bar-step-number">3</div>
-                                        <div className="home__progress-bar-step-text">Data View</div>
-                                    </div>
-                                </div>
-                                <div className="home__progress-bar-action">
-                                    <p>Select a data type:</p>
-                                </div>
+
                             </div>
                         </div>
                     </div>

@@ -21,7 +21,7 @@ Encore
      * (including one that's included on every page - e.g. "app")
      */
     /* TODO: figure out which entries we want here */
-    .addEntry('panda', ['babel-polyfill', './assets/js/Panda/index.jsx'])
+    .addEntry('panda', ['babel-polyfill', './assets/js/Panda/index.js'])
 
     // shim to webpackify the horribly old jquery BBQ plugin
     .addLoader({
@@ -45,6 +45,16 @@ Encore
     .addLoader({
         test: require.resolve('bootstrap/dist/js/bootstrap'),
         loader: 'imports-loader?jQuery=jquery'
+    })
+
+    // yaml-loader
+    .addLoader({
+        test: require.resolve('yaml-loader'),
+        loader: 'yaml-loader',
+    })
+    .addRule({
+        test: /\.ya?ml$/,
+        use: 'yaml-loader'
     })
 
     /*

@@ -5,14 +5,12 @@ import {
     getNodeDetail__Entity,
     getNodeDetail__Join
 } from "./ResultConstants";
-import { searchApiFilter__All } from '../search/SearchConstants';
+import { searchApiFilter__All } from '../search-result/SearchConstants';
 import { getNodeDetail } from "./ResultActions";
 import {connect} from "react-redux";
 import {Link} from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
 import SearchResults from "../../components/searchresults/SearchResults";
-
-
 
 
 class Result extends Component {
