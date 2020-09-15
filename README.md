@@ -29,8 +29,7 @@ the code is actually two processes
 
 Check localhost in browser
 
-# possible problems
-If you have the following problem:
+# possible problems and error messages
 ~~~
     [ErrorException]   curl_multi_setopt(): CURLPIPE_HTTP1 is no longer supported
 ~~~
@@ -40,3 +39,8 @@ I fixed it by:
 2. Removing the `vendor/symfony/flex` directory in my project.
 3. Running `composer update`.
 
+~~~
+    PHP Fatal error:  require(): Failed opening required '/.../ioda-ui/vendor/autoload.php' (include_path='.:/usr/local/Cellar/php@7.2/7.2.25/share/php@7.2/pear') in .../ioda-ui/config/bootstrap.php on line 5
+~~~
+
+Fix it by running `composer install` in the /ioda-ui/ folder.
