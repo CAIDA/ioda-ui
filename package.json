@@ -61,7 +61,7 @@
         "graphql": "^14.6.0",
         "graphql-tag": "^2.10.3",
         "has": "^1.0.3",
-        "highcharts": "5.0.14",
+        "highcharts": "7.2.2",
         "history": "^4.10.1",
         "i18n-react": "^0.7.0",
         "i18next": "^19.5.1",
