@@ -1,4 +1,102 @@
-@charset "UTF-8";
+/*!
+ * This software is Copyright (c) 2013 The Regents of the University of
+ * California. All Rights Reserved. Permission to copy, modify, and distribute this
+ * software and its documentation for academic research and education purposes,
+ * without fee, and without a written agreement is hereby granted, provided that
+ * the above copyright notice, this paragraph and the following three paragraphs
+ * appear in all copies. Permission to make use of this software for other than
+ * academic research and education purposes may be obtained by contacting:
+ *
+ * Office of Innovation and Commercialization
+ * 9500 Gilman Drive, Mail Code 0910
+ * University of California
+ * La Jolla, CA 92093-0910
+ * (858) 534-5815
+ * invent@ucsd.edu
+ *
+ * This software program and documentation are copyrighted by The Regents of the
+ * University of California. The software program and documentation are supplied
+ * "as is", without any accompanying services from The Regents. The Regents does
+ * not warrant that the operation of the program will be uninterrupted or
+ * error-free. The end-user understands that the program was developed for research
+ * purposes and is advised not to rely exclusively on the program for any reason.
+ *
+ * IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY FOR
+ * DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING LOST
+ * PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF
+ * THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+ * DAMAGE. THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE PROVIDED HEREUNDER IS ON AN "AS
+ * IS" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE
+ * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+ */
+/*!
+ * This software is Copyright (c) 2013 The Regents of the University of
+ * California. All Rights Reserved. Permission to copy, modify, and distribute this
+ * software and its documentation for academic research and education purposes,
+ * without fee, and without a written agreement is hereby granted, provided that
+ * the above copyright notice, this paragraph and the following three paragraphs
+ * appear in all copies. Permission to make use of this software for other than
+ * academic research and education purposes may be obtained by contacting:
+ *
+ * Office of Innovation and Commercialization
+ * 9500 Gilman Drive, Mail Code 0910
+ * University of California
+ * La Jolla, CA 92093-0910
+ * (858) 534-5815
+ * invent@ucsd.edu
+ *
+ * This software program and documentation are copyrighted by The Regents of the
+ * University of California. The software program and documentation are supplied
+ * "as is", without any accompanying services from The Regents. The Regents does
+ * not warrant that the operation of the program will be uninterrupted or
+ * error-free. The end-user understands that the program was developed for research
+ * purposes and is advised not to rely exclusively on the program for any reason.
+ *
+ * IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY FOR
+ * DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING LOST
+ * PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF
+ * THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+ * DAMAGE. THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE PROVIDED HEREUNDER IS ON AN "AS
+ * IS" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE
+ * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+ */
+/*!
+ * This software is Copyright (c) 2013 The Regents of the University of
+ * California. All Rights Reserved. Permission to copy, modify, and distribute this
+ * software and its documentation for academic research and education purposes,
+ * without fee, and without a written agreement is hereby granted, provided that
+ * the above copyright notice, this paragraph and the following three paragraphs
+ * appear in all copies. Permission to make use of this software for other than
+ * academic research and education purposes may be obtained by contacting:
+ *
+ * Office of Innovation and Commercialization
+ * 9500 Gilman Drive, Mail Code 0910
+ * University of California
+ * La Jolla, CA 92093-0910
+ * (858) 534-5815
+ * invent@ucsd.edu
+ *
+ * This software program and documentation are copyrighted by The Regents of the
+ * University of California. The software program and documentation are supplied
+ * "as is", without any accompanying services from The Regents. The Regents does
+ * not warrant that the operation of the program will be uninterrupted or
+ * error-free. The end-user understands that the program was developed for research
+ * purposes and is advised not to rely exclusively on the program for any reason.
+ *
+ * IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY FOR
+ * DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING LOST
+ * PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF
+ * THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+ * DAMAGE. THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE PROVIDED HEREUNDER IS ON AN "AS
+ * IS" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE
+ * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+ */
 /*
 0 - 480px:			Phone
 481px - 1024px:		Tablet Portrait
@@ -15,6 +113,72 @@ $breakpoint Argument Choices:
 - tab-land
 - big-desktop
 */
+/*!
+ * This software is Copyright (c) 2013 The Regents of the University of
+ * California. All Rights Reserved. Permission to copy, modify, and distribute this
+ * software and its documentation for academic research and education purposes,
+ * without fee, and without a written agreement is hereby granted, provided that
+ * the above copyright notice, this paragraph and the following three paragraphs
+ * appear in all copies. Permission to make use of this software for other than
+ * academic research and education purposes may be obtained by contacting:
+ *
+ * Office of Innovation and Commercialization
+ * 9500 Gilman Drive, Mail Code 0910
+ * University of California
+ * La Jolla, CA 92093-0910
+ * (858) 534-5815
+ * invent@ucsd.edu
+ *
+ * This software program and documentation are copyrighted by The Regents of the
+ * University of California. The software program and documentation are supplied
+ * "as is", without any accompanying services from The Regents. The Regents does
+ * not warrant that the operation of the program will be uninterrupted or
+ * error-free. The end-user understands that the program was developed for research
+ * purposes and is advised not to rely exclusively on the program for any reason.
+ *
+ * IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY FOR
+ * DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING LOST
+ * PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF
+ * THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+ * DAMAGE. THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE PROVIDED HEREUNDER IS ON AN "AS
+ * IS" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE
+ * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+ */
+/*!
+ * This software is Copyright (c) 2013 The Regents of the University of
+ * California. All Rights Reserved. Permission to copy, modify, and distribute this
+ * software and its documentation for academic research and education purposes,
+ * without fee, and without a written agreement is hereby granted, provided that
+ * the above copyright notice, this paragraph and the following three paragraphs
+ * appear in all copies. Permission to make use of this software for other than
+ * academic research and education purposes may be obtained by contacting:
+ *
+ * Office of Innovation and Commercialization
+ * 9500 Gilman Drive, Mail Code 0910
+ * University of California
+ * La Jolla, CA 92093-0910
+ * (858) 534-5815
+ * invent@ucsd.edu
+ *
+ * This software program and documentation are copyrighted by The Regents of the
+ * University of California. The software program and documentation are supplied
+ * "as is", without any accompanying services from The Regents. The Regents does
+ * not warrant that the operation of the program will be uninterrupted or
+ * error-free. The end-user understands that the program was developed for research
+ * purposes and is advised not to rely exclusively on the program for any reason.
+ *
+ * IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY FOR
+ * DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING LOST
+ * PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF
+ * THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+ * DAMAGE. THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE PROVIDED HEREUNDER IS ON AN "AS
+ * IS" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE
+ * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+ */
 /*topToBottom Animation*/
 @-moz-keyframes topToBottom {
   0% {
@@ -76,6 +240,39 @@ $breakpoint Argument Choices:
   100% {
     opacity: 0; } }
 
+/*!
+ * This software is Copyright (c) 2013 The Regents of the University of
+ * California. All Rights Reserved. Permission to copy, modify, and distribute this
+ * software and its documentation for academic research and education purposes,
+ * without fee, and without a written agreement is hereby granted, provided that
+ * the above copyright notice, this paragraph and the following three paragraphs
+ * appear in all copies. Permission to make use of this software for other than
+ * academic research and education purposes may be obtained by contacting:
+ *
+ * Office of Innovation and Commercialization
+ * 9500 Gilman Drive, Mail Code 0910
+ * University of California
+ * La Jolla, CA 92093-0910
+ * (858) 534-5815
+ * invent@ucsd.edu
+ *
+ * This software program and documentation are copyrighted by The Regents of the
+ * University of California. The software program and documentation are supplied
+ * "as is", without any accompanying services from The Regents. The Regents does
+ * not warrant that the operation of the program will be uninterrupted or
+ * error-free. The end-user understands that the program was developed for research
+ * purposes and is advised not to rely exclusively on the program for any reason.
+ *
+ * IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY FOR
+ * DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING LOST
+ * PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF
+ * THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+ * DAMAGE. THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE PROVIDED HEREUNDER IS ON AN "AS
+ * IS" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE
+ * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+ */
 *,
 *:before,
 *:after {
@@ -102,539 +299,190 @@ body {
   box-sizing: border-box; }
 
 ::selection {
-  background-color: #3C8097;
+  background-color: #2c3e50;
   color: #fff; }
 
 html, body {
   height: 100%;
-  background: darkorange; }
+  background: #f0f0f0; }
 
 body {
   background-color: #f0f0f0; }
 
-.panda-app {
+.app {
   display: flex;
   flex-direction: column;
   min-height: 100vh; }
-  .panda-app > div:nth-child(2) {
+  .app > div:nth-child(2) {
     flex-grow: 1; }
 
+/*!
+ * This software is Copyright (c) 2013 The Regents of the University of
+ * California. All Rights Reserved. Permission to copy, modify, and distribute this
+ * software and its documentation for academic research and education purposes,
+ * without fee, and without a written agreement is hereby granted, provided that
+ * the above copyright notice, this paragraph and the following three paragraphs
+ * appear in all copies. Permission to make use of this software for other than
+ * academic research and education purposes may be obtained by contacting:
+ *
+ * Office of Innovation and Commercialization
+ * 9500 Gilman Drive, Mail Code 0910
+ * University of California
+ * La Jolla, CA 92093-0910
+ * (858) 534-5815
+ * invent@ucsd.edu
+ *
+ * This software program and documentation are copyrighted by The Regents of the
+ * University of California. The software program and documentation are supplied
+ * "as is", without any accompanying services from The Regents. The Regents does
+ * not warrant that the operation of the program will be uninterrupted or
+ * error-free. The end-user understands that the program was developed for research
+ * purposes and is advised not to rely exclusively on the program for any reason.
+ *
+ * IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY FOR
+ * DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING LOST
+ * PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF
+ * THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+ * DAMAGE. THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE PROVIDED HEREUNDER IS ON AN "AS
+ * IS" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE
+ * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+ */
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-weight: 400;
   line-height: 1.7; }
 
+.section-header {
+  font-family: 'Ubuntu', sans-serif; }
+
+/*!
+ * This software is Copyright (c) 2013 The Regents of the University of
+ * California. All Rights Reserved. Permission to copy, modify, and distribute this
+ * software and its documentation for academic research and education purposes,
+ * without fee, and without a written agreement is hereby granted, provided that
+ * the above copyright notice, this paragraph and the following three paragraphs
+ * appear in all copies. Permission to make use of this software for other than
+ * academic research and education purposes may be obtained by contacting:
+ *
+ * Office of Innovation and Commercialization
+ * 9500 Gilman Drive, Mail Code 0910
+ * University of California
+ * La Jolla, CA 92093-0910
+ * (858) 534-5815
+ * invent@ucsd.edu
+ *
+ * This software program and documentation are copyrighted by The Regents of the
+ * University of California. The software program and documentation are supplied
+ * "as is", without any accompanying services from The Regents. The Regents does
+ * not warrant that the operation of the program will be uninterrupted or
+ * error-free. The end-user understands that the program was developed for research
+ * purposes and is advised not to rely exclusively on the program for any reason.
+ *
+ * IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY FOR
+ * DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING LOST
+ * PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF
+ * THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+ * DAMAGE. THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE PROVIDED HEREUNDER IS ON AN "AS
+ * IS" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE
+ * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+ */
 .u-full-max-width {
   max-width: 100% !important; }
 
 .u-margin-right {
   margin-right: 0.5rem !important; }
 
-.searchbar {
-  width: 100%; }
-  .searchbar__filters {
-    width: 30rem;
-    display: flex;
-    margin-left: auto;
-    background-color: #fff;
-    border-radius: 3rem; }
-  .searchbar__search {
-    width: 100%;
-    display: flex;
-    flex-direction: row; }
-    .searchbar__search-label {
-      color: #fff;
-      text-transform: uppercase;
-      transition: 0.3s ease-in-out;
-      margin-left: 5%;
-      position: absolute;
-      margin-top: -2rem;
-      background-color: #F1A85B;
-      transform: skewX(12deg);
-      padding: 0 0.5rem;
-      z-index: 1; }
-      .searchbar__search-label label {
-        transform: skewX(-12deg);
-        padding-bottom: 1rem; }
-    .searchbar__search-bar {
-      display: flex;
-      flex-direction: row;
-      background-color: #fff;
-      border-radius: 10rem;
-      overflow: hidden;
-      height: 6rem;
-      width: 90%;
-      transition: 0.3s ease-in-out;
-      align-self: center;
-      font-family: inherit;
-      font-size: 1.9rem;
-      color: #000;
-      z-index: 3;
-      position: relative; }
-      .searchbar__search-bar:focus-within {
-        width: 100%; }
-        .searchbar__search-bar:focus-within ~ .home__search-label {
-          margin-left: 0; }
-    .searchbar__search-filter {
-      background-color: #fff;
-      border: 0;
-      outline: 0;
-      padding-left: 0.5rem;
-      font-family: inherit;
-      font-size: inherit;
-      color: inherit;
-      cursor: pointer;
-      text-align-last: center;
-      text-align: center; }
-      .searchbar__search-filter:focus {
-        background-color: #f0f0f0; }
-    .searchbar__search-input {
-      font-family: inherit;
-      font-size: inherit;
-      color: inherit;
-      background-color: #fff;
-      border: none;
-      padding: 0.7rem 1.5rem;
-      height: 100%;
-      width: 100%;
-      margin-right: -3.5rem;
-      transition: 0.3s ease-all;
-      border-left: 1px solid black; }
-      .searchbar__search-input ::-webkit-input-placeholder {
-        color: #000; }
-      .searchbar__search-input :-moz-placeholder {
-        color: #000; }
-      .searchbar__search-input ::-moz-placeholder {
-        color: #000; }
-      .searchbar__search-input :-ms-input-placeholder {
-        color: #000; }
-      .searchbar__search-input::-webkit-input-placeholder {
-        color: #000;
-        font-size: inherit; }
-      .searchbar__search-input:focus {
-        outline: none;
-        background-color: #f0f0f0; }
-    .searchbar__search-button {
-      border: none;
-      background-color: #fff;
-      margin-right: 1rem;
-      padding: 0 1rem; }
-      .searchbar__search-button:focus {
-        outline: none;
-        transform: translateY(2px); }
-
-.search__legend {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  margin-top: 2rem; }
-  .search__legend-item {
-    border-radius: 0.5rem;
-    color: #000;
-    text-transform: uppercase;
-    padding: 1rem 2rem;
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
-    position: relative;
-    overflow: hidden;
-    flex-direction: row;
-    width: 12.5rem;
-    z-index: 10;
-    border: 1px solid #f0f0f0; }
-    .search__legend-item:before {
-      content: "";
-      height: 7rem;
-      width: 3rem;
-      transform: rotate(45deg);
-      top: -3.6rem;
-      left: -0.6rem;
-      background-color: #74D04E;
-      position: absolute;
-      box-shadow: 0 2px 3px #333;
-      z-index: -1; }
-    .search__legend-item--datasets:before {
-      background-color: #74D04E; }
-    .search__legend-item--papers:before {
-      background-color: #F15A5A; }
-    .search__legend-item--tags:before {
-      background-color: #F2A85A; }
-    .search__legend-item--entities:before {
-      background-color: #9AB5D8; }
-    .search__legend-item--joins:before {
-      background-color: #7E42A2; }
-    .search__legend-item--selections:before {
-      background-color: #91D3CE; }
-  .search__legend-letter {
-    position: absolute;
-    top: 0.2rem;
-    left: 0.5rem;
-    color: #fff;
-    font-weight: 700; }
-  .search__legend-count {
-    margin-right: 0.4rem;
-    font-weight: 700;
-    font-size: 1.8rem; }
-  .search__legend-text {
-    font-weight: 300; }
-
-.search__result {
-  background-color: #fff;
-  margin-bottom: 0.5rem;
-  color: #000;
-  padding: 2rem 3rem 0 5rem;
-  font-family: "Lato", sans-serif;
-  border-radius: 0.5rem;
-  border: 1px solid #fff;
-  border-bottom: none;
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  min-height: 12rem;
-  box-shadow: 1px 1px 1px 0 #ccc; }
-  .search__result--dataset {
-    overflow: hidden;
-    position: relative; }
-    .search__result--dataset:before {
-      content: "";
-      height: 100%;
-      width: 3rem;
-      top: 0;
-      left: 0;
-      background-color: #74D04E;
-      position: absolute;
-      box-shadow: 0 2px 3px #333;
-      writing-mode: vertical-rl;
-      text-orientation: upright; }
-  .search__result--entity {
-    overflow: hidden;
-    position: relative; }
-    .search__result--entity:before {
-      content: "";
-      height: 100%;
-      width: 3rem;
-      top: 0;
-      left: 0;
-      background-color: #9AB5D8;
-      position: absolute;
-      box-shadow: 0 2px 3px #333;
-      writing-mode: vertical-rl;
-      text-orientation: upright; }
-  .search__result--join {
-    overflow: hidden;
-    position: relative; }
-    .search__result--join:before {
-      content: "";
-      height: 100%;
-      width: 3rem;
-      top: 0;
-      left: 0;
-      background-color: #7E42A2;
-      position: absolute;
-      box-shadow: 0 2px 3px #333;
-      writing-mode: vertical-rl;
-      text-orientation: upright; }
-  .search__result--paper {
-    overflow: hidden;
-    position: relative; }
-    .search__result--paper:before {
-      content: "";
-      height: 100%;
-      width: 3rem;
-      top: 0;
-      left: 0;
-      background-color: #F15A5A;
-      position: absolute;
-      box-shadow: 0 2px 3px #333;
-      writing-mode: vertical-rl;
-      text-orientation: upright; }
-  .search__result--tag {
-    overflow: hidden;
-    position: relative; }
-    .search__result--tag:before {
-      content: "";
-      height: 100%;
-      width: 3rem;
-      top: 0;
-      left: 0;
-      background-color: #F2A85A;
-      position: absolute;
-      box-shadow: 0 2px 3px #333;
-      writing-mode: vertical-rl;
-      text-orientation: upright; }
-  .search__result--selection {
-    overflow: hidden;
-    position: relative; }
-    .search__result--selection:before {
-      content: "";
-      height: 100%;
-      width: 3rem;
-      top: 0;
-      left: 0;
-      background-color: #91D3CE;
-      position: absolute;
-      box-shadow: 0 2px 3px #333;
-      writing-mode: vertical-rl;
-      text-orientation: upright; }
-  .search__result-letter {
-    position: absolute;
-    top: 0.5rem;
-    left: 0.8rem;
-    font-weight: 700;
-    color: #fff;
-    writing-mode: vertical-rl;
-    text-orientation: upright;
-    text-transform: uppercase;
-    font-size: 1rem;
-    letter-spacing: -0.2px; }
-  .search__result-logo {
-    width: 6rem;
-    height: auto; }
-  .search__result-headline {
-    font-weight: 700;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center; }
-  .search__result-name {
-    font-size: 1.9rem; }
-  .search__result-tags {
-    text-transform: uppercase;
-    font-size: 1.2rem;
-    text-align: right;
-    max-width: 20rem;
-    letter-spacing: 1px;
-    margin-top: -0.5rem;
-    font-weight: 700;
-    margin-left: auto;
-    width: calc(100% + 3rem); }
-    .search__result-tags p {
-      margin-bottom: 0.5rem; }
-  .search__result-description {
-    font-weight: 300;
-    margin-bottom: 0;
-    overflow: hidden;
-    position: relative;
-    max-height: 4.28571rem;
-    text-align: justify;
-    margin-right: -1rem;
-    padding-right: 1rem;
-    margin-right: 3rem; }
-    .search__result-description:before {
-      content: '...';
-      position: absolute;
-      right: 0;
-      bottom: 0; }
-    .search__result-description:after {
-      content: '';
-      position: absolute;
-      right: 0;
-      width: 1rem;
-      height: 1rem;
-      margin-top: 0.2rem;
-      background: #fff; }
-  .search__result-entities {
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-    margin-left: 2rem;
-    margin-bottom: 1rem; }
-  .search__result-entity {
-    display: flex;
-    flex-direction: column;
-    width: max-content;
-    margin-top: 1rem; }
-    .search__result-entity:not(:last-child) {
-      margin-right: 0.5rem; }
-    .search__result-entity-display {
-      display: flex;
-      flex-direction: row;
-      justify-content: left;
-      padding: 0.3rem 0.5rem 0.3rem 2.5rem;
-      border-radius: 0.5rem;
-      border: 0.1rem solid #f0f0f0;
-      background-color: #f0f0f0;
-      position: relative;
-      align-items: center;
-      overflow: hidden; }
-      .search__result-entity-display:before {
-        content: "";
-        height: 5rem;
-        width: 3rem;
-        transform: rotate(45deg);
-        top: -2.3rem;
-        left: -2.0rem;
-        background-color: #9AB5D8;
-        position: absolute;
-        box-shadow: 0 2px 3px #333; }
-      .search__result-entity-display:not(:last-child) {
-        margin-right: 0.5rem; }
-    .search__result-entity-display:hover + .search__result-entity-feature-modal {
-      display: block;
-      opacity: 1;
-      transition: 0.6s ease-in-out; }
-    .search__result-entity-name {
-      font-weight: 700;
-      margin-right: 0.3rem; }
-    .search__result-entity-additional {
-      display: flex;
-      flex-direction: row; }
-    .search__result-entity-feature {
-      position: relative;
-      z-index: 5;
-      margin-left: 0.5rem; }
-      .search__result-entity-feature-additional {
-        margin-right: 0.5rem;
-        display: flex;
-        flex-direction: row; }
-      .search__result-entity-feature-control {
-        background-color: #9AB5D8;
-        border-radius: 10rem;
-        color: #fff;
-        font-size: 1.8rem;
-        line-height: 1;
-        width: 1.9rem;
-        font-weight: 700;
-        margin-bottom: 0.2rem;
-        margin-left: 0.5rem;
-        display: flex;
-        justify-content: center; }
-      .search__result-entity-feature-modal {
-        background-color: #f0f0f0;
-        top: 2.1rem;
-        left: 0;
-        z-index: 10;
-        display: none;
-        opacity: 0;
-        margin-right: 0.5rem;
-        border-radius: 0.5rem;
-        max-width: 20rem; }
-        .search__result-entity-feature-modal-item:not(:last-child) {
-          margin-right: 0.5rem; }
-          .search__result-entity-feature-modal-item:not(:last-child):after {
-            content: ", ";
-            position: relative;
-            height: 100%;
-            width: 0.5rem; }
-  .search__result-joins {
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-    margin-left: 2rem;
-    flex-flow: wrap; }
-  .search__result-join {
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-    padding: 0.3rem 0.5rem 0.3rem 2.5rem;
-    border-radius: 0.5rem;
-    border: 0.1rem solid #f0f0f0;
-    background-color: #f0f0f0;
-    position: relative;
-    align-items: center;
-    overflow: hidden;
-    margin-top: 0.5rem; }
-    .search__result-join:before {
-      content: "";
-      height: 5rem;
-      width: 3rem;
-      transform: rotate(45deg);
-      top: -2.3rem;
-      left: -2.0rem;
-      background-color: #7E42A2;
-      position: absolute;
-      box-shadow: 0 2px 3px #333; }
-    .search__result-join:not(:last-child) {
-      margin-right: 0.5rem; }
-    .search__result-join-plus {
-      font-weight: 700;
-      color: #7E42A2; }
-
-.entity__detail {
-  display: flex;
-  flex-direction: column; }
-
-.entity__feature {
-  display: flex;
-  flex-direction: row; }
-  .entity__feature-item span {
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-    padding: 0.3rem 0.5rem;
-    border-radius: 0.5rem;
-    border: 0.1rem solid #f0f0f0;
-    background-color: #f0f0f0;
-    position: relative;
-    align-items: center;
-    overflow: hidden; }
-  .entity__feature-item:not(:last-child) {
-    margin-right: 0.5rem; }
-
-.entity__related {
-  margin-top: 1rem; }
-  .entity__related-item {
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-    padding: 0.3rem 0.5rem 0.3rem 2.5rem;
-    border-radius: 0.5rem;
-    border: 0.1rem solid #f0f0f0;
-    background-color: #f0f0f0;
-    position: relative;
-    align-items: center;
-    overflow: hidden;
-    width: fit-content; }
-    .entity__related-item--dataset span {
-      font-weight: 700;
-      font-size: 1.6rem; }
-      .entity__related-item--dataset span:before {
-        content: "";
-        height: 5rem;
-        width: 3rem;
-        transform: rotate(45deg);
-        top: -2.3rem;
-        left: -2.0rem;
-        background-color: #74D04E;
-        position: absolute;
-        box-shadow: 0 2px 3px #333; }
-  .entity__related:not(:last-child) {
-    margin-right: 0.5rem; }
-
+/*!
+ * This software is Copyright (c) 2013 The Regents of the University of
+ * California. All Rights Reserved. Permission to copy, modify, and distribute this
+ * software and its documentation for academic research and education purposes,
+ * without fee, and without a written agreement is hereby granted, provided that
+ * the above copyright notice, this paragraph and the following three paragraphs
+ * appear in all copies. Permission to make use of this software for other than
+ * academic research and education purposes may be obtained by contacting:
+ *
+ * Office of Innovation and Commercialization
+ * 9500 Gilman Drive, Mail Code 0910
+ * University of California
+ * La Jolla, CA 92093-0910
+ * (858) 534-5815
+ * invent@ucsd.edu
+ *
+ * This software program and documentation are copyrighted by The Regents of the
+ * University of California. The software program and documentation are supplied
+ * "as is", without any accompanying services from The Regents. The Regents does
+ * not warrant that the operation of the program will be uninterrupted or
+ * error-free. The end-user understands that the program was developed for research
+ * purposes and is advised not to rely exclusively on the program for any reason.
+ *
+ * IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY FOR
+ * DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING LOST
+ * PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF
+ * THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+ * DAMAGE. THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE PROVIDED HEREUNDER IS ON AN "AS
+ * IS" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE
+ * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+ */
 .footer {
-  clip-path: polygon(0 42.5%, 100% 0, 100% 100%, 0 100%);
   filter: drop-shadow(0.5rem 0.5rem 0.5rem #222);
-  background-color: #3C8097;
+  background-color: #2c3e50;
   color: #fff;
   height: 10rem;
   display: flex;
   align-items: flex-end;
   justify-content: center; }
-  .footer__content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 114rem;
-    width: 100%; }
   .footer__copyright {
     font-size: 1.1rem;
     text-transform: uppercase;
     letter-spacing: 0.6px; }
-  .footer__links-item {
-    color: #F1A85B; }
-    .footer__links-item:not(:last-child) {
-      margin-right: 2rem; }
 
+/*!
+ * This software is Copyright (c) 2013 The Regents of the University of
+ * California. All Rights Reserved. Permission to copy, modify, and distribute this
+ * software and its documentation for academic research and education purposes,
+ * without fee, and without a written agreement is hereby granted, provided that
+ * the above copyright notice, this paragraph and the following three paragraphs
+ * appear in all copies. Permission to make use of this software for other than
+ * academic research and education purposes may be obtained by contacting:
+ *
+ * Office of Innovation and Commercialization
+ * 9500 Gilman Drive, Mail Code 0910
+ * University of California
+ * La Jolla, CA 92093-0910
+ * (858) 534-5815
+ * invent@ucsd.edu
+ *
+ * This software program and documentation are copyrighted by The Regents of the
+ * University of California. The software program and documentation are supplied
+ * "as is", without any accompanying services from The Regents. The Regents does
+ * not warrant that the operation of the program will be uninterrupted or
+ * error-free. The end-user understands that the program was developed for research
+ * purposes and is advised not to rely exclusively on the program for any reason.
+ *
+ * IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY FOR
+ * DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING LOST
+ * PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF
+ * THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+ * DAMAGE. THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE PROVIDED HEREUNDER IS ON AN "AS
+ * IS" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE
+ * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+ */
 .row {
   max-width: 114rem;
   margin: 0 auto; }
   .row:not(:last-child) {
-    margin-bottom: 8rem; }
+    margin-bottom: 4.5rem; }
     @media only screen and (max-width: 64em) {
       .row:not(:last-child) {
-        margin-bottom: 6rem; } }
+        margin-bottom: 2.5rem; } }
   @media only screen and (max-width: 64em) {
     .row {
       max-width: 80rem;
@@ -646,39 +494,105 @@ body {
   .row [class^="col-"] {
     float: left; }
     .row [class^="col-"]:not(:last-child) {
-      margin-right: 6rem; }
+      margin-right: 2.5rem; }
     @media only screen and (max-width: 64em) {
       .row [class^="col-"] {
         width: 100% !important;
         margin-right: 0;
-        margin-bottom: 6rem; } }
+        margin-bottom: 2.5rem; } }
   .row .col-1-of-1 {
     width: 100%; }
   .row .col-1-of-2 {
-    width: calc((100% - 6rem) / 2); }
+    width: calc((100% - 2.5rem) / 2); }
   .row .col-1-of-3 {
-    width: calc((100% - (2 * 6rem)) / 3); }
+    width: calc((100% - (2 * 2.5rem)) / 3); }
   .row .col-2-of-3 {
-    width: calc( 2 * ((100% - (2 * 6rem)) / 3) + 6rem); }
+    width: calc( 2 * ((100% - (2 * 2.5rem)) / 3) + 2.5rem); }
   .row .col-1-of-4 {
-    width: calc((100% - (3 * 6rem)) / 4); }
+    width: calc((100% - (3 * 2.5rem)) / 4); }
   .row .col-2-of-4 {
-    width: calc( 2 * ((100% - (3 * 6rem)) / 4) + 6rem); }
+    width: calc( 2 * ((100% - (3 * 2.5rem)) / 4) + 2.5rem); }
   .row .col-3-of-4 {
-    width: calc( 3 * ((100% - (3 * 6rem)) / 4) + (2 * 6rem)); }
+    width: calc( 3 * ((100% - (3 * 2.5rem)) / 4) + (2 * 2.5rem)); }
   .row .col-1-of-5 {
-    width: calc((100% - (4 * 6rem)) / 5); }
+    width: calc((100% - (4 * 2.5rem)) / 5); }
   .row .col-2-of-5 {
-    width: calc( 2 * ((100% - (4 * 6rem)) / 5) + 6rem); }
+    width: calc( 2 * ((100% - (4 * 2.5rem)) / 5) + 2.5rem); }
   .row .col-3-of-5 {
-    width: calc( 3 * ((100% - (4 * 6rem)) / 5) + (2 * 6rem)); }
+    width: calc( 3 * ((100% - (4 * 2.5rem)) / 5) + (2 * 2.5rem)); }
   .row .col-4-of-5 {
-    width: calc( 4 * ((100% - (4 * 6rem)) / 5) + (3 * 6rem)); }
+    width: calc( 4 * ((100% - (4 * 2.5rem)) / 5) + (3 * 2.5rem)); }
   .row .col-1-of-6 {
-    width: calc((100% - (5 * 6rem)) / 6); }
+    width: calc((100% - (5 * 2.5rem)) / 6); }
   .row .col-5-of-6 {
-    width: calc( 5 * ((100% - (5 * 6rem)) / 6) + (4 * 6rem)); }
+    width: calc( 5 * ((100% - (5 * 2.5rem)) / 6) + (4 * 2.5rem)); }
 
+/*!
+ * This software is Copyright (c) 2013 The Regents of the University of
+ * California. All Rights Reserved. Permission to copy, modify, and distribute this
+ * software and its documentation for academic research and education purposes,
+ * without fee, and without a written agreement is hereby granted, provided that
+ * the above copyright notice, this paragraph and the following three paragraphs
+ * appear in all copies. Permission to make use of this software for other than
+ * academic research and education purposes may be obtained by contacting:
+ *
+ * Office of Innovation and Commercialization
+ * 9500 Gilman Drive, Mail Code 0910
+ * University of California
+ * La Jolla, CA 92093-0910
+ * (858) 534-5815
+ * invent@ucsd.edu
+ *
+ * This software program and documentation are copyrighted by The Regents of the
+ * University of California. The software program and documentation are supplied
+ * "as is", without any accompanying services from The Regents. The Regents does
+ * not warrant that the operation of the program will be uninterrupted or
+ * error-free. The end-user understands that the program was developed for research
+ * purposes and is advised not to rely exclusively on the program for any reason.
+ *
+ * IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY FOR
+ * DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING LOST
+ * PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF
+ * THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+ * DAMAGE. THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE PROVIDED HEREUNDER IS ON AN "AS
+ * IS" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE
+ * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+ */
+/*!
+ * This software is Copyright (c) 2013 The Regents of the University of
+ * California. All Rights Reserved. Permission to copy, modify, and distribute this
+ * software and its documentation for academic research and education purposes,
+ * without fee, and without a written agreement is hereby granted, provided that
+ * the above copyright notice, this paragraph and the following three paragraphs
+ * appear in all copies. Permission to make use of this software for other than
+ * academic research and education purposes may be obtained by contacting:
+ *
+ * Office of Innovation and Commercialization
+ * 9500 Gilman Drive, Mail Code 0910
+ * University of California
+ * La Jolla, CA 92093-0910
+ * (858) 534-5815
+ * invent@ucsd.edu
+ *
+ * This software program and documentation are copyrighted by The Regents of the
+ * University of California. The software program and documentation are supplied
+ * "as is", without any accompanying services from The Regents. The Regents does
+ * not warrant that the operation of the program will be uninterrupted or
+ * error-free. The end-user understands that the program was developed for research
+ * purposes and is advised not to rely exclusively on the program for any reason.
+ *
+ * IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY FOR
+ * DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING LOST
+ * PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF
+ * THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+ * DAMAGE. THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE PROVIDED HEREUNDER IS ON AN "AS
+ * IS" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE
+ * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+ */
 .navigation {
   width: 100%;
   background-color: #fff;
@@ -705,23 +619,6 @@ body {
       display: block; }
       .navigation__logo a img {
         height: 7rem; }
-    .navigation__logo:before {
-      content: "beta";
-      position: absolute;
-      background-color: #F1A85B;
-      color: #fff;
-      text-transform: uppercase;
-      font-weight: 700;
-      letter-spacing: 2px;
-      font-size: 1rem;
-      padding: 0.3rem;
-      width: 5rem;
-      top: 1rem;
-      right: 0;
-      display: flex;
-      justify-content: center;
-      z-index: -1;
-      border-radius: 5rem; }
   .navigation__mobile-nav {
     display: none; }
   .navigation__list {
@@ -747,411 +644,53 @@ body {
     align-items: center;
     width: 100%;
     height: auto;
-    color: #3C8097; }
+    color: #2c3e50; }
     .navigation__link:link:hover, .navigation__link:visited:hover {
       text-decoration: none;
       color: #fff;
-      background-color: #3C8097; }
+      background-color: #2c3e50; }
 
+/*!
+ * This software is Copyright (c) 2013 The Regents of the University of
+ * California. All Rights Reserved. Permission to copy, modify, and distribute this
+ * software and its documentation for academic research and education purposes,
+ * without fee, and without a written agreement is hereby granted, provided that
+ * the above copyright notice, this paragraph and the following three paragraphs
+ * appear in all copies. Permission to make use of this software for other than
+ * academic research and education purposes may be obtained by contacting:
+ *
+ * Office of Innovation and Commercialization
+ * 9500 Gilman Drive, Mail Code 0910
+ * University of California
+ * La Jolla, CA 92093-0910
+ * (858) 534-5815
+ * invent@ucsd.edu
+ *
+ * This software program and documentation are copyrighted by The Regents of the
+ * University of California. The software program and documentation are supplied
+ * "as is", without any accompanying services from The Regents. The Regents does
+ * not warrant that the operation of the program will be uninterrupted or
+ * error-free. The end-user understands that the program was developed for research
+ * purposes and is advised not to rely exclusively on the program for any reason.
+ *
+ * IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY FOR
+ * DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING LOST
+ * PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF
+ * THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+ * DAMAGE. THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE. THE SOFTWARE PROVIDED HEREUNDER IS ON AN "AS
+ * IS" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE
+ * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+ */
 .home {
   padding-top: 8rem; }
-  .home__hero {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: bottom;
-    background-blend-mode: hard-light;
-    height: 60vh;
-    max-height: 45rem;
-    display: flex;
-    justify-items: center; }
-    .home__hero .row {
-      width: 114rem; }
-    .home__hero .col-2-of-5,
-    .home__hero .col-3-of-5 {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      filter: drop-shadow(0.5rem 0.5rem 0.5rem #222); }
-    .home__hero-headline {
-      background-color: #3C8097;
-      clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
-      min-height: 26.4rem;
-      height: 25vh;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      filter: drop-shadow(0.5rem 0.5rem 0.5rem #222); }
-    .home__hero-text {
-      font-family: "Lato", sans-serif;
-      color: #fff;
-      font-weight: 700;
-      font-size: 1.6rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      margin-top: -4rem;
-      filter: drop-shadow(0.5rem 0.5rem 0.5rem #222); }
-      .home__hero-text span {
-        font-weight: 100;
-        text-transform: uppercase;
-        letter-spacing: 9px;
-        display: block;
-        font-size: 9rem; }
-  .home__story {
-    background-color: #fff;
-    box-shadow: 0 2px 7px #333;
-    margin-top: -10rem;
-    transform: skewX(12deg); }
-  .home .header__secondary {
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 2.2rem;
-    margin: 5rem 0;
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    transform: skewX(-12deg);
-    height: 11rem; }
-    .home .header__secondary > span {
-      display: block;
-      margin-top: 4.5rem;
-      margin-left: 13rem; }
   .home .col-1-of-1 .row {
     display: flex;
     justify-content: center; }
-  .home__query {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: -5rem; }
-    .home__query .section-header {
-      text-align: center;
-      font-family: "Ubuntu", sans-serif;
-      text-transform: uppercase;
-      font-weight: 700;
-      letter-spacing: 0.6px;
-      font-size: 3rem; }
-    .home__query-description {
-      text-align: center;
-      margin-bottom: 3rem;
-      font-family: "Lato", sans-serif;
-      font-weight: 300; }
-  .home__progress-bar {
-    display: flex;
-    justify-content: center; }
-    .home__progress-bar-step {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 3;
-      position: relative; }
-      .home__progress-bar-step:first-child:after {
-        content: "";
-        height: 7rem;
-        width: 7rem;
-        border: 2px solid #3C8097;
-        padding: 1rem;
-        border-radius: 100%;
-        position: absolute;
-        margin-top: -2rem; }
-      .home__progress-bar-step-number {
-        background-color: #3C8097;
-        color: #fff;
-        border-radius: 0.3rem;
-        font-weight: 700;
-        font-size: 1.8rem;
-        width: 3.5rem;
-        padding: 0.5rem;
-        display: flex;
-        justify-content: center;
-        align-items: center; }
-      .home__progress-bar-step:not(:first-child) .home__progress-bar-step-number {
-        background-color: #fff;
-        color: #777; }
-      .home__progress-bar-step-text {
-        font-family: "Ubuntu", sans-serif;
-        text-transform: uppercase;
-        font-size: 1.3rem;
-        letter-spacing: 1px;
-        color: #000;
-        margin-top: 2.5rem;
-        text-align: center; }
-    .home__progress-bar-connector {
-      width: 20rem;
-      height: 3px;
-      background-color: #fff;
-      margin: 1.75rem -3rem 0;
-      z-index: 2;
-      position: relative;
-      display: flex;
-      justify-content: center; }
-      .home__progress-bar-connector:after {
-        content: " ►";
-        color: #fff;
-        font-size: 2rem;
-        position: absolute;
-        top: -1.2rem; }
-    .home__progress-bar-action {
-      margin-top: 2rem; }
-      .home__progress-bar-action p {
-        text-align: center;
-        font-weight: 700;
-        text-transform: uppercase;
-        display: flex;
-        justify-items: center;
-        flex-direction: column;
-        font-size: 2rem; }
-        .home__progress-bar-action p:before {
-          content: "";
-          height: 1px;
-          width: 75%;
-          background-color: #ccc;
-          position: relative;
-          margin: 2rem auto 1rem; }
-
-.row__card {
-  margin-top: -6rem; }
 
 .card {
   background-color: #fff;
   box-shadow: 0 2px 7px #333;
-  border: 1px solid #236D86;
-  border-radius: 0.5rem;
-  margin-bottom: 8rem; }
-  .card__headline {
-    background-color: #3C8097;
-    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    text-transform: uppercase; }
-    .card__headline-icon {
-      fill: #fff;
-      height: 2.8rem;
-      width: 2.8rem;
-      margin-right: 2rem;
-      margin-top: -0.5rem; }
-    .card__headline-text {
-      font-family: "Ubuntu", sans-serif;
-      margin: 2.5rem 0 3rem;
-      font-size: 2.1rem;
-      font-weight: 300;
-      letter-spacing: 0.8px; }
-  .card__content {
-    box-sizing: border-box;
-    padding: 1.5rem; }
-  .card__action {
-    display: flex;
-    justify-content: center; }
-    .card__action-button {
-      background-color: #F1A85B;
-      color: #fff;
-      height: 4rem;
-      width: 100%;
-      max-width: 26rem;
-      text-transform: uppercase;
-      font-weight: 700;
-      font-size: 1.6rem;
-      margin-bottom: 2rem;
-      outline: none;
-      border: none;
-      transition: 0.3s ease-in-out; }
-      .card__action-button:hover {
-        box-shadow: 0 10px #D68632;
-        transform: translateY(-10px); }
-      .card__action-button:active {
-        box-shadow: 0 5px #D68632;
-        transform: translateY(-5px); }
-
-.result {
-  padding-top: 12rem; }
-  .result__node {
-    background-color: #fff;
-    margin-bottom: 0.5rem;
-    color: #000;
-    padding: 2rem 3rem 0 5rem;
-    font-family: "Lato", sans-serif;
-    border-radius: 0.5rem;
-    border: 1px solid #fff;
-    border-bottom: none;
-    min-height: 10rem;
-    box-shadow: 1px 1px 1px 0 #ccc; }
-    .result__node--dataset {
-      overflow: hidden;
-      position: relative; }
-      .result__node--dataset:before {
-        content: "";
-        height: 100%;
-        width: 3rem;
-        top: 0;
-        left: 0;
-        background-color: #74D04E;
-        position: absolute;
-        box-shadow: 0 2px 3px #333;
-        writing-mode: vertical-rl;
-        text-orientation: upright; }
-    .result__node--entity {
-      overflow: hidden;
-      position: relative; }
-      .result__node--entity:before {
-        content: "";
-        height: 100%;
-        width: 3rem;
-        top: 0;
-        left: 0;
-        background-color: #9AB5D8;
-        position: absolute;
-        box-shadow: 0 2px 3px #333;
-        writing-mode: vertical-rl;
-        text-orientation: upright; }
-    .result__node--join {
-      overflow: hidden;
-      position: relative; }
-      .result__node--join:before {
-        content: "";
-        height: 100%;
-        width: 3rem;
-        top: 0;
-        left: 0;
-        background-color: #7E42A2;
-        position: absolute;
-        box-shadow: 0 2px 3px #333;
-        writing-mode: vertical-rl;
-        text-orientation: upright; }
-    .result__node--paper {
-      overflow: hidden;
-      position: relative; }
-      .result__node--paper:before {
-        content: "";
-        height: 100%;
-        width: 3rem;
-        top: 0;
-        left: 0;
-        background-color: #F15A5A;
-        position: absolute;
-        box-shadow: 0 2px 3px #333;
-        writing-mode: vertical-rl;
-        text-orientation: upright; }
-    .result__node--tag {
-      overflow: hidden;
-      position: relative; }
-      .result__node--tag:before {
-        content: "";
-        height: 100%;
-        width: 3rem;
-        top: 0;
-        left: 0;
-        background-color: #F2A85A;
-        position: absolute;
-        box-shadow: 0 2px 3px #333;
-        writing-mode: vertical-rl;
-        text-orientation: upright; }
-    .result__node--selection {
-      overflow: hidden;
-      position: relative; }
-      .result__node--selection:before {
-        content: "";
-        height: 100%;
-        width: 3rem;
-        top: 0;
-        left: 0;
-        background-color: #91D3CE;
-        position: absolute;
-        box-shadow: 0 2px 3px #333;
-        writing-mode: vertical-rl;
-        text-orientation: upright; }
-    .result__node-name {
-      font-size: 2.6rem;
-      font-weight: 700;
-      margin-top: 2rem; }
-    .result__node-desc {
-      font-weight: 300; }
-    .result__node-id {
-      position: absolute;
-      top: 0;
-      left: 3rem;
-      border-bottom-right-radius: 3rem;
-      width: max-content;
-      box-shadow: 1px 1px 1px 0 #ccc;
-      padding: 0.3rem 2.5rem 0.3rem 1.5rem;
-      text-transform: uppercase;
-      font-size: 1rem;
-      letter-spacing: 0.6px;
-      font-weight: 700;
-      color: #fff; }
-      .result__node-id--dataset {
-        background-color: #74D04E; }
-        .result__node-id--dataset:before {
-          content: "";
-          height: 100%;
-          width: 1rem;
-          position: absolute;
-          top: 0;
-          left: -1rem;
-          background-color: #74D04E; }
-      .result__node-id--entity {
-        background-color: #9AB5D8; }
-        .result__node-id--entity:before {
-          content: "";
-          height: 100%;
-          width: 1rem;
-          position: absolute;
-          top: 0;
-          left: -1rem;
-          background-color: #9AB5D8; }
-      .result__node-id--join {
-        background-color: #7E42A2; }
-        .result__node-id--join:before {
-          content: "";
-          height: 100%;
-          width: 1rem;
-          position: absolute;
-          top: 0;
-          left: -1rem;
-          background-color: #7E42A2; }
-      .result__node-id--paper {
-        background-color: #F15A5A; }
-        .result__node-id--paper:before {
-          content: "";
-          height: 100%;
-          width: 1rem;
-          position: absolute;
-          top: 0;
-          left: -1rem;
-          background-color: #F15A5A; }
-      .result__node-id--tag {
-        background-color: #F2A85A; }
-        .result__node-id--tag:before {
-          content: "";
-          height: 100%;
-          width: 1rem;
-          position: absolute;
-          top: 0;
-          left: -1rem;
-          background-color: #F2A85A; }
-      .result__node-id--selection {
-        background-color: #91D3CE; }
-        .result__node-id--selection:before {
-          content: "";
-          height: 100%;
-          width: 1rem;
-          position: absolute;
-          top: 0;
-          left: -1rem;
-          background-color: #91D3CE; }
-
-.search {
-  padding-top: 12rem;
-  max-width: 100%;
-  overflow-x: hidden; }
-  .search__menu {
-    background-color: #3C8097;
-    padding: 6rem 50% 3rem;
-    width: 200%;
-    margin-left: -50%;
-    margin-top: -4rem; }
+  border: 1px solid #0D2032;
+  border-radius: 0.5rem; }

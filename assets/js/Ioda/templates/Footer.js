@@ -32,13 +32,46 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-import { GET_SEARCHBAR_FILTERS } from '../../constants/ActionTypes';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
-export default function getSearchbarFilters(state = {}, action) {
-    switch (action.type) {
-        case GET_SEARCHBAR_FILTERS:
-            return action;
-        default:
-            return state;
+
+class Footer extends Component {
+    constructor(props) {
+        super(props);
     }
-};
+
+    render() {
+        const year = new Date().getFullYear();
+        return (
+            <div className="footer">
+                <div className="footer__content">
+                    <div className="row">
+                        <div className="col-1-of-4">
+
+                        </div>
+                        <div className="col-1-of-4">
+
+                        </div>
+                        <div className="col-1-of-4">
+
+                        </div>
+                        <div className="col-1-of-4">
+
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-1-of-1">
+                            <div className="footer__copyright">
+                                Ⓒ Copyright {year} &#8212; Center for Applied Internet Data Analysis
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        );
+    }
+}
+
+export default Footer;

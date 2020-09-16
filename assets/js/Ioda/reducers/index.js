@@ -32,52 +32,14 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-import axios from "axios";
-import { merge } from 'lodash';
-
-export const fetchData = (dispatch, config) => {
-    const baseURL = 'http://localhost:4000/graphql';
-    // let concatURL = `${baseURL}${config.url}`;
-    let query = config.url;
-    // let configHeader;
-
-    // switch (config.url) {
-        // case 'get':
-        //     configHeader = merge({}, config, {
-        //         headers: {
-        //             "X-Requested-With": "XMLHttpRequest",
-        //             'Content-Type': 'application/json',
-        //             'Accept': 'application/json'
-        //         },
-        //         url: concatURL.replace(/\s/g, "")
-        //     });
-        //     break;
-        // case 'post':
-            const configHeader = merge({}, config, {
-                headers: {
-                    "X-Requested-With": "XMLHttpRequest",
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                // url: concatURL.replace(/\s/g, "")
-                url: baseURL,
-                data: {
-                    query
-                }
-            });
-            // break;
-    // }
+import { combineReducers } from "redux";
+// import getSearchResults from "../pages/search-result/SearchReducers";
 
 
-
-    return axios(configHeader)
-        .then(response => {
-            return Promise.resolve(response);
-        })
-        .then(response => {
-            return response;
-        })
-        .catch(error => {
-           return Promise.reject(error);
-        });
+const reducers = {
+    // getSearchbarFilters,
 };
+
+const rootReducer = combineReducers(reducers);
+
+export default rootReducer;

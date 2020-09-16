@@ -71,14 +71,14 @@ body {
 
 html, body {
   height: 100%;
-  background: darkorange;
+  background: $color-background-white;
 }
 
 body {
   background-color: $color-background-white;
 }
 
-.panda-app {
+.app {
   display: flex;
   flex-direction:column;
   min-height: 100vh;

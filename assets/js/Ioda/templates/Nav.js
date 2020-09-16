@@ -34,37 +34,56 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import iodaLogo from 'images/logos/ioda-logo.svg';
 
-
-class Footer extends Component {
+class Nav extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
-        const year = new Date().getFullYear();
-        return (
-            <div className="footer">
-                <div className="footer__content">
-                    <div className="col-1-of-2">
-                        <div className="footer__copyright">
-                            Ⓒ Copyright {year} &#8212; Center for Applied Internet Data Analysis
-                        </div>
+        return(
+            <div className="navigation">
+                <div className="navigation__container">
+                    <div className="navigation__logo">
+                        <Link to="/">
+                            <img src={iodaLogo} alt="IODA Logo" />
+                        </Link>
                     </div>
-                    <div className="col-1-of-2">
-                        <div className="footer__links">
-                            <Link to="/acks" className="footer__links-item">
-                                Acknowledgements
-                            </Link>
-                            <Link to="/contact" className="footer__links-item">
-                                Contact
-                            </Link>
+                    <nav className="navigation__nav">
+                        <div className="navigation__mobile-nav">
+                            <input type="checkbox" className="navigation__checkbox" ref={this.checkbox} id="nav-toggle" />
+                            <label htmlFor="nav-toggle" className="navigation__button">
+                                <span className="navigation__icon">&nbsp;</span>
+                            </label>
                         </div>
-                    </div>
+                        {/*<ul className="navigation__list">*/}
+                        {/*    <li className="navigation__item">*/}
+                        {/*        <Link to="/faq" className="navigation__link">*/}
+                        {/*            FAQ*/}
+                        {/*        </Link>*/}
+                        {/*    </li>*/}
+                        {/*    <li className="navigation__item">*/}
+                        {/*        <Link to="/docs" className="navigation__link">*/}
+                        {/*            Documentation*/}
+                        {/*        </Link>*/}
+                        {/*    </li>*/}
+                        {/*    <li className="navigation__item">*/}
+                        {/*        <Link to="/about" className="navigation__link">*/}
+                        {/*            About*/}
+                        {/*        </Link>*/}
+                        {/*    </li>*/}
+                        {/*    <li className="navigation__item">*/}
+                        {/*        <Link to="/help" className="navigation__link">*/}
+                        {/*            Help*/}
+                        {/*        </Link>*/}
+                        {/*    </li>*/}
+                        {/*</ul>*/}
+                    </nav>
                 </div>
             </div>
         );
     }
 }
 
-export default Footer;
+export default Nav;
