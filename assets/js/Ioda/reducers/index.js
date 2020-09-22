@@ -33,11 +33,11 @@
  */
 
 import { combineReducers } from "redux";
-// import getSearchResults from "../pages/search-result/SearchReducers";
+import { getSuggestedSearchResults } from "../pages/home/HomeReducers";
 
 
 const reducers = {
-    // getSearchbarFilters,
+    getSuggestedSearchResults
 };
 
 const rootReducer = combineReducers(reducers);

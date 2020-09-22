@@ -20,13 +20,18 @@
         <meta name="msapplication-TileColor" content="#2d89ef">
         <meta name="theme-color" content="#ffffff">
         <!-- end favicon settings -->
-
+{#        Stylesheet #}
+        <link rel="stylesheet" href="{{ asset('build/panda.css') }}">
+{#        Fonts #}
         <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,400i,700,900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,700&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700&display=swap" rel="stylesheet">
 
-        <link rel="stylesheet" href="{{ asset('build/panda.css') }}">
 
+{#      Map styling and Topographic data libraries #}
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+        <script src="https://unpkg.com/topojson@3.0.2/dist/topojson.min.js"></script>
+{#      Check if browser is IE 8 or below and serve the not supported page if so #}
         <script>
             /*
              * documentMode is an IE-only property

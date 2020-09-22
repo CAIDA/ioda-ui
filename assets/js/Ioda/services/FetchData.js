@@ -36,40 +36,16 @@ import axios from "axios";
 import { merge } from 'lodash';
 
 export const fetchData = (dispatch, config) => {
-    const baseURL = 'https://ioda.caida.org';
-    // let concatURL = `${baseURL}${config.url}`;
-    let query = config.url;
-    // let configHeader;
-
-    // switch (config.url) {
-        // case 'get':
-        //     configHeader = merge({}, config, {
-        //         headers: {
-        //             "X-Requested-With": "XMLHttpRequest",
-        //             'Content-Type': 'application/json',
-        //             'Accept': 'application/json'
-        //         },
-        //         url: concatURL.replace(/\s/g, "")
-        //     });
-        //     break;
-        // case 'post':
-            const configHeader = merge({}, config, {
-                headers: {
-                    "X-Requested-With": "XMLHttpRequest",
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                // url: concatURL.replace(/\s/g, "")
-                url: baseURL,
-                data: {
-                    query
-                }
-            });
-            // break;
-    // }
-
-
-
+    const baseURL = 'https://cors-anywhere.herokuapp.com/https://api.ioda.caida.org/dev';
+    let concatURL = `${baseURL}${config.url}`;
+    const configHeader = merge({}, config, {
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        url: concatURL.replace(/\s/g, "")
+    });
     return axios(configHeader)
         .then(response => {
             return Promise.resolve(response);

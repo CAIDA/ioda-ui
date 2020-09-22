@@ -32,11 +32,26 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
+// React Components
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-import { searchbar } from 'caida-components-library';
+import {Searchbar} from 'caida-components-library'
 import { connect } from 'react-redux';
+
 import T from 'i18n-react';
+
+// Map Dependencies
+import { Map, Marker, Popup, TileLayer, GeoJSON } from 'react-leaflet';
+import worldGeoJSON from 'geojson-world-map';
+
+import {
+    searchResultsConfig,
+    mapAccessToken,
+    thunderForestapiKey
+} from './HomeConstants';
+import { getSuggestedSearchResults } from './HomeActions';
+
+
 
 const Card = partner => {
     // ToDo: Swap out images for sprite sheet
@@ -58,27 +73,98 @@ const Card = partner => {
 const Example = country => {
   return (
     <div className="example">
-        country
+        {`${country}`}
     </div>
   );
 };
 
 class Home extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            mounted: false,
+            searchResultsConfigUrl: searchResultsConfig.url,
+            suggestedSearchResults: null,
+            searchTerm: null,
+        };
+    }
+
+    componentDidMount() {
+        this.setState({mounted: true});
+    }
+
+    componentWillUnmount() {
+        this.setState({mounted: false});
+    }
+
+    componentDidUpdate(prevProps) {
+        // After API call for suggested search results completes, update suggestedSearchResults state with fresh data
+        if (this.props.suggestedSearchResults !== prevProps.suggestedSearchResults) {
+            let suggestedItems = [];
+            let suggestedItemObjects = Object.entries(this.props.suggestedSearchResults.data);
+            suggestedItemObjects.map(result => {
+                suggestedItems.push(result[1])
+            });
+            this.setState({
+                suggestedSearchResults: suggestedItems
+            });
+        }
+    }
+
+    // build the endpoint for the results that populate in suggested search list
+    buildQuerySuggestedSearchResults = (searchQueryText) => {
+        let url = `${this.state.searchResultsConfigUrl}${searchQueryText}`;
+        return url;
+    };
+
+    // get data for search results that populate in suggested search list
+    getDataSuggestedSearchResults(nextProps) {
+        if (this.state.mounted) {
+            // Set searchTerm to the value of nextProps, nextProps refers to the current search string value in the field.
+            this.setState({ searchTerm: nextProps });
+            // Create query
+            let query = this.buildQuerySuggestedSearchResults(nextProps);
+            // define apiCall and endpoint url
+            const apiCall = Object.assign(searchResultsConfig);
+            apiCall.url = query;
+            // Make api call
+            let { getSuggestedSearchResultsData } = this.props;
+            getSuggestedSearchResultsData(apiCall);
+        }
+    }
+
+    // Define what happens when user clicks suggested search result entry
+    handleResultClick = (query) => {
+        const { history } = this.props;
+        console.log(query);
+        // query.name ? history.push(`/search?query=${query.name}`) : history.push(`/search?query=${query}`);
+    };
+
+    // Reset searchbar with searchterm value when a selection is made, no customizations needed here.
+    handleQueryUpdate = (query) => {
+        this.forceUpdate();
+        this.setState({
+            searchTerm: query
+        });
+    }
+
     render() {
+        let position = [51.505, -0.09];
         return (
             <div className='home'>
-                {/*<div className="home__hero u-full-max-width">*/}
-                {/*    <div className="row">*/}
-
-                {/*    </div>*/}
-                {/*</div>*/}
                 <div className="row search">
                     <div className="col-1-of-6"></div>
                     <div className="col-2-of-3">
                         <h2 className="section-header">
                             Jump to a Country, Region, or AS/ISP of Interest
                         </h2>
-
+                        <Searchbar placeholder={'Search for a Country, Region, or AS/ISP'}
+                                   getData={this.getDataSuggestedSearchResults.bind(this)}
+                                   itemPropertyName={'name'}
+                                   handleResultClick={(event) => this.handleResultClick(event)}
+                                   searchResults={this.state.suggestedSearchResults}
+                                   handleQueryUpdate={this.handleQueryUpdate}
+                        />
                         <p className="search__text">
                             or Continue to
                             <Link to="/">
@@ -96,6 +182,33 @@ class Home extends Component {
                         <p className="map__text">Last 24 hours</p>
                         <div className="map__content">
                             map
+                            <Map
+                                center={position}
+                                zoom={5}
+                                minZoom={1}
+                                style={{width: '100%', height: '400px', overflow: 'hidden'}}
+                            >
+                                <TileLayer
+                                    id="mapbox/streets-v11"
+                                    url={`https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=${mapAccessToken}`}
+                                />
+                                <GeoJSON
+                                    data={worldGeoJSON}
+                                    style={() => ({
+                                        color: '#fff',
+                                        weight: 2,
+                                        fillColor: '#2c3e50',
+                                        fillOpacity: 0.7,
+                                        dashArray: '2'
+                                    })}
+                                />
+                            </Map>
+                            {/*<Map center={position} zoom={13} style={{width: '100%', height: '400px', overflow: 'hidden'}}>*/}
+                            {/*    <TileLayer*/}
+                            {/*        id="mapbox/streets-v11"*/}
+                            {/*        url={`https://tile.thunderforest.com/mobile-atlas/{z}/{x}/{y}.png?apikey=${thunderForestapiKey}`}*/}
+                            {/*    />*/}
+                            {/*</Map>*/}
                         </div>
                     </div>
                     <div className="col-1-of-4">
@@ -147,4 +260,18 @@ class Home extends Component {
     }
 }
 
-export default Home;
+const mapStateToProps = (state) => {
+    return {
+        suggestedSearchResults: state.getSuggestedSearchResults.suggestedSearchResults
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getSuggestedSearchResultsData: (searchResultsConfig) => {
+            dispatch(getSuggestedSearchResults(searchResultsConfig))
+        }
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
