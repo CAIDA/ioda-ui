@@ -37,20 +37,18 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import {Searchbar} from 'caida-components-library'
 import { connect } from 'react-redux';
-
+// Internationalization
 import T from 'i18n-react';
-
 // Map Dependencies
 import { Map, Marker, Popup, TileLayer, GeoJSON } from 'react-leaflet';
 import worldGeoJSON from 'geojson-world-map';
-
+// Actions and Constants
 import {
     searchResultsConfig,
     mapAccessToken,
     thunderForestapiKey
 } from './HomeConstants';
 import { getSuggestedSearchResults } from './HomeActions';
-
 
 
 const Card = partner => {
@@ -71,9 +69,10 @@ const Card = partner => {
 };
 
 const Example = country => {
+    const countryName = Object.values(country);
   return (
     <div className="example">
-        {`${country}`}
+        {`${countryName}`}
     </div>
   );
 };
@@ -235,7 +234,7 @@ class Home extends Component {
                         <Example country="iran"/>
                     </div>
                     <div className="col-1-of-1">
-                        <Example country="iran"/>
+                        <Example country="gabon"/>
                     </div>
                 </div>
                 <div className="row partners">
