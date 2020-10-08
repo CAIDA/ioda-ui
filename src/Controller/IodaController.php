@@ -43,29 +43,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PandaController extends AbstractController
+class IodaController extends AbstractController
 {
     /**
      * @Route("/{reactRouting}", defaults={"reactRouting": null},
-     *     requirements={"reactRouting"=".+"}, methods={"GET"}, name="panda")
+     *     requirements={"reactRouting"=".+"}, methods={"GET"}, name="ioda")
      *
      * @return Response
      */
-    public function panda(): Response
+    public function ioda(): Response
     {
         return $this->render(
-            'panda.html.twig'
+            'ioda.html.twig'
         );
-    }
-
-    /**
-     * @Route("/test", defaults={"reactRouting": null},
-     *     requirements={"reactRouting"=".+"}, methods={"GET"}, name="panda")
-     *
-     * @return Response
-     */
-    public function test(): Response
-    {
-        return $this->json("test");
     }
 }
