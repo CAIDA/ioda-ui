@@ -47,7 +47,6 @@ const buildSearchConfig = (searchQueryText) => {
 };
 export const searchEntities = (dispatch, searchQuery) => {
     let searchConfig = buildSearchConfig(searchQuery)
-    console.log(searchConfig);
     fetchData(searchConfig).then(data => {
         dispatch({
             type: ENTITIES_SEARCH,
