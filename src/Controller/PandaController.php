@@ -57,4 +57,15 @@ class PandaController extends AbstractController
             'panda.html.twig'
         );
     }
+
+    /**
+     * @Route("/test", defaults={"reactRouting": null},
+     *     requirements={"reactRouting"=".+"}, methods={"GET"}, name="panda")
+     *
+     * @return Response
+     */
+    public function test(): Response
+    {
+        return $this->json("test");
+    }
 }
