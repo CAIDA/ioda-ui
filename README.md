@@ -1,6 +1,6 @@
-# panda-ui
-Web application UI for the PANDA project (https://panda.caida.org)
-- [PANDA server deployment](http://github.com/CAIDA/panda-deploy)
+# ioda-ui
+Web application UI for the IODA project (https://ioda.caida.org)
+- [IODA server deployment](http://github.com/CAIDA/ioda-deploy)
 
 
 ## Install

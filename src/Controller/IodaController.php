@@ -1,4 +1,8 @@
-/*
+<?php
+
+
+
+/**
  * This software is Copyright (c) 2013 The Regents of the University of
  * California. All Rights Reserved. Permission to copy, modify, and distribute this
  * software and its documentation for academic research and education purposes,
@@ -32,14 +36,25 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-import { combineReducers } from "redux";
-import {callDataApi} from "../data/DataReducer";
+namespace App\Controller;
 
 
-const reducers = {
-    callApi: callDataApi,
-};
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
-const rootReducer = combineReducers(reducers);
-
-export default rootReducer;
+class IodaController extends AbstractController
+{
+    /**
+     * @Route("/{reactRouting}", defaults={"reactRouting": null},
+     *     requirements={"reactRouting"=".+"}, methods={"GET"}, name="ioda")
+     *
+     * @return Response
+     */
+    public function ioda(): Response
+    {
+        return $this->render(
+            'ioda.html.twig'
+        );
+    }
+}

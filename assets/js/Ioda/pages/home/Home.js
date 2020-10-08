@@ -44,11 +44,9 @@ import { Map, Marker, Popup, TileLayer, GeoJSON } from 'react-leaflet';
 import worldGeoJSON from 'geojson-world-map';
 // Actions and Constants
 import {
-    searchResultsConfig,
     mapAccessToken,
-    thunderForestapiKey
 } from './HomeConstants';
-import { getSuggestedSearchResults } from './HomeActions';
+import {searchEntities} from "../../data/ActionEntities";
 
 
 const Card = partner => {
@@ -82,7 +80,6 @@ class Home extends Component {
         super(props);
         this.state = {
             mounted: false,
-            searchResultsConfigUrl: searchResultsConfig.url,
             suggestedSearchResults: null,
             searchTerm: null,
         };
@@ -101,6 +98,7 @@ class Home extends Component {
         if (this.props.suggestedSearchResults !== prevProps.suggestedSearchResults) {
             let suggestedItems = [];
             let suggestedItemObjects = Object.entries(this.props.suggestedSearchResults.data);
+            console.log(suggestedItemObjects);
             suggestedItemObjects.map(result => {
                 suggestedItems.push(result[1])
             });
@@ -110,25 +108,13 @@ class Home extends Component {
         }
     }
 
-    // build the endpoint for the results that populate in suggested search list
-    buildQuerySuggestedSearchResults = (searchQueryText) => {
-        let url = `${this.state.searchResultsConfigUrl}${searchQueryText}`;
-        return url;
-    };
-
     // get data for search results that populate in suggested search list
     getDataSuggestedSearchResults(nextProps) {
         if (this.state.mounted) {
             // Set searchTerm to the value of nextProps, nextProps refers to the current search string value in the field.
             this.setState({ searchTerm: nextProps });
-            // Create query
-            let query = this.buildQuerySuggestedSearchResults(nextProps);
-            // define apiCall and endpoint url
-            const apiCall = Object.assign(searchResultsConfig);
-            apiCall.url = query;
-            // Make api call
-            let { getSuggestedSearchResultsData } = this.props;
-            getSuggestedSearchResultsData(apiCall);
+            // // Make api call
+            this.props.searchEntitiesAction(nextProps);
         }
     }
 
@@ -261,14 +247,14 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        suggestedSearchResults: state.getSuggestedSearchResults.suggestedSearchResults
+        suggestedSearchResults: state.callApi.entities
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getSuggestedSearchResultsData: (searchResultsConfig) => {
-            dispatch(getSuggestedSearchResults(searchResultsConfig))
+        searchEntitiesAction: (searchQuery) => {
+           searchEntities(dispatch, searchQuery);
         }
     }
 };

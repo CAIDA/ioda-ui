@@ -1,8 +1,4 @@
-<?php
-
-
-
-/**
+/*
  * This software is Copyright (c) 2013 The Regents of the University of
  * California. All Rights Reserved. Permission to copy, modify, and distribute this
  * software and its documentation for academic research and education purposes,
@@ -36,25 +32,5 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-namespace App\Controller;
-
-
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-
-class PandaController extends AbstractController
-{
-    /**
-     * @Route("/{reactRouting}", defaults={"reactRouting": null},
-     *     requirements={"reactRouting"=".+"}, methods={"GET"}, name="panda")
-     *
-     * @return Response
-     */
-    public function panda(): Response
-    {
-        return $this->render(
-            'panda.html.twig'
-        );
-    }
-}
+// Action for getting search-result results based on query
+export const ENTITIES_SEARCH = "ENTITIES_SEARCH";

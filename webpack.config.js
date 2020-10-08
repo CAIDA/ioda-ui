@@ -21,7 +21,7 @@ Encore
      * (including one that's included on every page - e.g. "app")
      */
     /* TODO: figure out which entries we want here */
-    .addEntry('panda', ['babel-polyfill', './assets/js/Ioda/index.js'])
+    .addEntry('ioda', ['babel-polyfill', './assets/js/Ioda/index.js'])
 
     // shim to webpackify the horribly old jquery BBQ plugin
     .addLoader({
@@ -103,8 +103,8 @@ webpackConfig.resolve.alias = {
     // convenience for accessing our top-level modules
     'utils': path.resolve(__dirname, './assets/js/utils/'),
     'Config': path.resolve(__dirname, './assets/js/config/'),
-    'Panda/css': path.resolve(__dirname, './assets/css/Ioda/'),
-    'Panda': path.resolve(__dirname, './assets/js/Ioda/'),
+    'ioda/css': path.resolve(__dirname, './assets/css/Ioda/'),
+    'ioda': path.resolve(__dirname, './assets/js/Ioda/'),
 };
 
 webpackConfig.plugins.push(
