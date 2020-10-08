@@ -32,14 +32,26 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-import { combineReducers } from "redux";
-import {callDataApi} from "../data/DataReducer";
+import {fetchData} from "./Common";
+import {ENTITIES_SEARCH} from "./ActionTypes";
 
-
-const reducers = {
-    callApi: callDataApi,
+const configTemplate = {
+    method: "get",
+    url: `/entities?limit=15&search=`
 };
 
-const rootReducer = combineReducers(reducers);
-
-export default rootReducer;
+const buildSearchConfig = (searchQueryText) => {
+    let config = Object.assign({}, configTemplate);
+    config.url = `${config.url}${searchQueryText}`;
+    return config;
+};
+export const searchEntities = (dispatch, searchQuery) => {
+    let searchConfig = buildSearchConfig(searchQuery)
+    console.log(searchConfig);
+    fetchData(searchConfig).then(data => {
+        dispatch({
+            type: ENTITIES_SEARCH,
+            payload: data.data,
+        })
+    });
+}

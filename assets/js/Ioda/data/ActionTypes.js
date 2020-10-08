@@ -32,14 +32,5 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-import { combineReducers } from "redux";
-import {callDataApi} from "../data/DataReducer";
-
-
-const reducers = {
-    callApi: callDataApi,
-};
-
-const rootReducer = combineReducers(reducers);
-
-export default rootReducer;
+// Action for getting search-result results based on query
+export const ENTITIES_SEARCH = "ENTITIES_SEARCH";

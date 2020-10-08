@@ -32,14 +32,3 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-import { combineReducers } from "redux";
-import {callDataApi} from "../data/DataReducer";
-
-
-const reducers = {
-    callApi: callDataApi,
-};
-
-const rootReducer = combineReducers(reducers);
-
-export default rootReducer;

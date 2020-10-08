@@ -35,7 +35,7 @@
 import axios from "axios";
 import { merge } from 'lodash';
 
-export const fetchData = (dispatch, config) => {
+export const fetchData = (config) => {
     const baseURL = 'https://cors-anywhere.herokuapp.com/https://api.ioda.caida.org/v2';
     let concatURL = `${baseURL}${config.url}`;
     const configHeader = merge({}, config, {
@@ -54,6 +54,6 @@ export const fetchData = (dispatch, config) => {
             return response;
         })
         .catch(error => {
-           return Promise.reject(error);
+            return Promise.reject(error);
         });
 };

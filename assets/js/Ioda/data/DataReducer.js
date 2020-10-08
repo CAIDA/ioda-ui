@@ -32,14 +32,23 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-import { combineReducers } from "redux";
-import {callDataApi} from "../data/DataReducer";
+import {
+    ENTITIES_SEARCH
+} from './ActionTypes';
 
+const initialState = {
+    entities: null,
+    signals: null,
+    outages: null,
+}
 
-const reducers = {
-    callApi: callDataApi,
-};
-
-const rootReducer = combineReducers(reducers);
-
-export default rootReducer;
+export function callDataApi(state = initialState, action) {
+    switch (action.type) {
+        case ENTITIES_SEARCH:
+            return Object.assign({}, state, {
+                entities: action.payload
+            })
+        default:
+            return state;
+    }
+}
