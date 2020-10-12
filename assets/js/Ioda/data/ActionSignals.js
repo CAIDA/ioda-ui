@@ -32,3 +32,33 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
+/*
+BUILDING CONNECTION CONFIGS
+ */
+
+import {GET_SIGNALS} from "./ActionTypes";
+import {fetchData} from "./Common";
+
+const buildSignalsConfig = (entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
+    let url = `/signals/${entityType}/${entityCode}?from=${from}&until=${until}`
+    url += datasource!==null ? `&datasource=${datasource}`: "";
+    return {
+        method: "get",
+        url: url
+    }
+};
+
+/*
+PUBLIC ACTION FUNCTIONS
+ */
+
+export const getSignalsConfig = (dispatch, entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
+    let config = buildSignalsConfig(entityType, entityCode, from, until, datasource, maxPoints);
+    fetchData(config).then(data => {
+        dispatch({
+            type: GET_SIGNALS,
+            payload: data.data,
+        })
+    });
+}
+
