@@ -32,9 +32,41 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-// Action for getting search-result results based on query
-export const ENTITIES_SEARCH = "ENTITIES_SEARCH";
-export const OUTAGE_ALERTS_SEARCH = "OUTAGE_ALERTS_SERACH";
-export const OUTAGE_EVENTS_SEARCH = "OUTAGE_EVENTS_SERACH";
-export const OUTAGE_SUMMARY_SEARCH = "OUTAGE_SUMMARY_SERACH";
-export const GET_TOPO_DATA = "GET_TOPO_DATA";
+import {fetchData} from "./Common";
+import {GET_TOPO_DATA} from "./ActionTypes";
+
+/*
+BUILDING CONNECTION CONFIGS
+ */
+
+const buildTopoConfig = (entityType) => {
+    return {
+        method: "get",
+        url: `/topo/${entityType}`
+    }
+};
+
+/*
+PUBLIC ACTION FUNCTIONS
+ */
+
+/**
+ * Available types are:
+ * - continent
+ * - country
+ * - region
+ * - county
+ *
+ * @param dispatch
+ * @param entityType
+ */
+export const getTopoData = (dispatch, entityType) => {
+    let config = buildTopoConfig(entityType);
+    fetchData(config).then(data => {
+        dispatch({
+            type: GET_TOPO_DATA,
+            payload: data.data,
+        })
+    });
+}
+
