@@ -32,9 +32,33 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-// Action for getting search-result results based on query
-export const ENTITIES_SEARCH = "ENTITIES_SEARCH";
-export const OUTAGE_ALERTS_SEARCH = "OUTAGE_ALERTS_SERACH";
-export const OUTAGE_EVENTS_SEARCH = "OUTAGE_EVENTS_SERACH";
-export const OUTAGE_SUMMARY_SEARCH = "OUTAGE_SUMMARY_SERACH";
-export const GET_DATASOURCES = "GET_DATASOURCES";
+import {fetchData} from "./Common";
+import {GET_DATASOURCES} from "./ActionTypes";
+
+/*
+BUILDING CONNECTION CONFIGS
+ */
+
+const buildDatasourcesConfig = (datasource=null) => {
+    let url = "/datasources";
+    url += datasource!==null ? `/${datasource}` : "";
+    return {
+        method: "get",
+        url: url
+    }
+};
+
+/*
+PUBLIC ACTION FUNCTIONS
+ */
+
+export const getTopoData = (dispatch, datasource=null) => {
+    let config = buildDatasourcesConfig(datasource);
+    fetchData(config).then(data => {
+        dispatch({
+            type: GET_DATASOURCES,
+            payload: data.data,
+        })
+    });
+}
+
