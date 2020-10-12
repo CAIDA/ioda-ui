@@ -247,7 +247,7 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        suggestedSearchResults: state.callApi.entities
+        suggestedSearchResults: state.iodaApi.entities
     }
 };
 

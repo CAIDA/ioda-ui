@@ -42,7 +42,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 // Redux
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from "redux";
+import {createStore, applyMiddleware, combineReducers} from "redux";
 import thunk from 'redux-thunk';
 import rootReducer from './reducers';
 // Template Components
@@ -50,6 +50,7 @@ import Nav from "./templates/Nav";
 import Footer from "./templates/Footer";
 // Routes
 import Home from './pages/home/Home';
+import {iodaApiReducer} from "./data/DataReducer";
 
 
 class App extends Component {
@@ -64,6 +65,10 @@ class App extends Component {
     }
 }
 
+const reducers = {
+    iodaApi: iodaApiReducer,
+};
+const rootReducer = combineReducers(reducers);
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
 ReactDOM.render(

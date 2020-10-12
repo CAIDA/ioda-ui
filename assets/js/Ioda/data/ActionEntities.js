@@ -45,6 +45,7 @@ const buildSearchConfig = (searchQueryText) => {
     config.url = `${config.url}${searchQueryText}`;
     return config;
 };
+
 export const searchEntities = (dispatch, searchQuery) => {
     let searchConfig = buildSearchConfig(searchQuery)
     fetchData(searchConfig).then(data => {

@@ -42,7 +42,7 @@ const initialState = {
     outages: null,
 }
 
-export function callDataApi(state = initialState, action) {
+export function iodaApiReducer(state = initialState, action) {
     switch (action.type) {
         case ENTITIES_SEARCH:
             return Object.assign({}, state, {
