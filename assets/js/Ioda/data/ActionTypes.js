@@ -34,3 +34,5 @@
 
 // Action for getting search-result results based on query
 export const ENTITIES_SEARCH = "ENTITIES_SEARCH";
+export const OUTAGE_ALERTS_SEARCH = "OUTAGE_ALERTS_SERACH";
+export const OUTAGE_EVENTS_SEARCH = "OUTAGE_EVENTS_SERACH";

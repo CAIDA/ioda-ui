@@ -32,3 +32,35 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
+import {fetchData} from "./Common";
+import OUTAGE_ALERTS_SERACH from "./ActionTypes";
+
+const buildAlertsConfig = (from, until, entityType=null, entityCode=null, datasource=null, limit=null, page=null) => {
+    let url = "/outages/alerts/";
+    if(entityType !== null){
+        url += `${entityType}/`;
+        if(entityCode !== null) {
+            url += `${entityCode}/`;
+        }
+    }
+    url += `?from=${from}&until=${until}`;
+
+    url += datasource!==null ? `&datasource=${datasource}`: "";
+    url += limit!==null ? `&limit=${limit}`: "";
+    url += page!==null ? `&page=${page}`: "";
+
+    return {
+        method: "get",
+        url: url
+    }
+};
+
+export const searchAlerts = (dispatch, from, until, entityType=null, entityCode=null, datasource=null, limit=null, page=null) => {
+    let alertsConfig = buildAlertsConfig(from, until, entityType, entityCode, datasource, limit, page);
+    fetchData(alertsConfig).then(data => {
+        dispatch({
+            type: OUTAGE_ALERTS_SERACH,
+            payload: data.data,
+        })
+    });
+}
