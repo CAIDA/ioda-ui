@@ -33,7 +33,7 @@
  */
 
 import {fetchData} from "./Common";
-import {OUTAGE_ALERTS_SEARCH, OUTAGE_EVENTS_SEARCH} from "./ActionTypes";
+import {OUTAGE_ALERTS_SEARCH, OUTAGE_EVENTS_SEARCH, OUTAGE_SUMMARY_SEARCH} from "./ActionTypes";
 
 /*
 BUILDING CONNECTION CONFIGS
@@ -83,6 +83,25 @@ const buildEventsConfig = (from, until, entityType=null, entityCode=null, dataso
     }
 };
 
+const buildSummaryConfig = (from, until, entityType=null, entityCode=null, limit=null, page=null) => {
+    let url = "/outages/summary/";
+    if(entityType !== null){
+        url += `${entityType}/`;
+        if(entityCode !== null) {
+            url += `${entityCode}/`;
+        }
+    }
+    url += `?from=${from}&until=${until}`;
+
+    url += limit!==null ? `&limit=${limit}`: "";
+    url += page!==null ? `&page=${page}`: "";
+
+    return {
+        method: "get",
+        url: url
+    }
+};
+
 /*
 PUBLIC ACTION FUNCTIONS
  */
@@ -103,6 +122,16 @@ export const searchEvents = (dispatch, from, until, entityType=null, entityCode=
     fetchData(config).then(data => {
         dispatch({
             type: OUTAGE_EVENTS_SEARCH,
+            payload: data.data,
+        })
+    });
+}
+
+export const searchSummary = (dispatch, from, until, entityType=null, entityCode=null, limit=null, page=null) => {
+    let config = buildSummaryConfig(from, until, entityType, entityCode, limit, page);
+    fetchData(config).then(data => {
+        dispatch({
+            type: OUTAGE_SUMMARY_SEARCH,
             payload: data.data,
         })
     });
