@@ -32,8 +32,7 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-import {fetchData} from "./Common";
-import {ENTITIES_SEARCH} from "./ActionTypes";
+import {ENTITIES_SEARCH, fetchData} from "./ActionCommons";
 
 const buildSearchConfig = (searchQueryText, limit) => {
     return {
@@ -47,7 +46,7 @@ export const searchEntities = (dispatch, searchQuery, limit=15) => {
     fetchData(searchConfig).then(data => {
         dispatch({
             type: ENTITIES_SEARCH,
-            payload: data.data,
+            payload: data.data.data,
         })
     });
 }

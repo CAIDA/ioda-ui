@@ -40,7 +40,7 @@ import {
     OUTAGE_ALERTS_SEARCH,
     OUTAGE_EVENTS_SEARCH,
     OUTAGE_SUMMARY_SEARCH
-} from './ActionTypes';
+} from './ActionCommons';
 
 // TODO: make sure the state won't overwrite each other when multiple calls are executed
 const initialState = {
@@ -73,7 +73,9 @@ export function iodaApiReducer(state = initialState, action) {
             })
         case GET_TOPO_DATA:
             return Object.assign({}, state, {
-                topo: action.payload
+                topo: {
+                    [action.subtype]: action.payload
+                }
             })
         case GET_DATASOURCES:
             return Object.assign({}, state, {

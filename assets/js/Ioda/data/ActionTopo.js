@@ -32,8 +32,7 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-import {fetchData} from "./Common";
-import {GET_TOPO_DATA} from "./ActionTypes";
+import {fetchData, GET_TOPO_DATA} from "./ActionCommons";
 
 /*
 BUILDING CONNECTION CONFIGS
@@ -60,12 +59,13 @@ PUBLIC ACTION FUNCTIONS
  * @param dispatch
  * @param entityType
  */
-export const getTopoData = (dispatch, entityType) => {
+export const getTopoAction = (dispatch, entityType) => {
     let config = buildTopoConfig(entityType);
     fetchData(config).then(data => {
         dispatch({
             type: GET_TOPO_DATA,
-            payload: data.data,
+            subtype: entityType,
+            payload: data.data.data,
         })
     });
 }

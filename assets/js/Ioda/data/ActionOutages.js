@@ -32,8 +32,7 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-import {fetchData} from "./Common";
-import {OUTAGE_ALERTS_SEARCH, OUTAGE_EVENTS_SEARCH, OUTAGE_SUMMARY_SEARCH} from "./ActionTypes";
+import {fetchData, OUTAGE_ALERTS_SEARCH, OUTAGE_EVENTS_SEARCH, OUTAGE_SUMMARY_SEARCH} from "./ActionCommons";
 
 /*
 BUILDING CONNECTION CONFIGS
@@ -111,7 +110,7 @@ export const searchAlerts = (dispatch, from, until, entityType=null, entityCode=
     fetchData(config).then(data => {
         dispatch({
             type: OUTAGE_ALERTS_SEARCH,
-            payload: data.data,
+            payload: data.data.data,
         })
     });
 }
@@ -122,7 +121,7 @@ export const searchEvents = (dispatch, from, until, entityType=null, entityCode=
     fetchData(config).then(data => {
         dispatch({
             type: OUTAGE_EVENTS_SEARCH,
-            payload: data.data,
+            payload: data.data.data,
         })
     });
 }
@@ -132,7 +131,7 @@ export const searchSummary = (dispatch, from, until, entityType=null, entityCode
     fetchData(config).then(data => {
         dispatch({
             type: OUTAGE_SUMMARY_SEARCH,
-            payload: data.data,
+            payload: data.data.data,
         })
     });
 }

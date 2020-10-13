@@ -32,8 +32,7 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-import {fetchData} from "./Common";
-import {GET_DATASOURCES} from "./ActionTypes";
+import {fetchData, GET_DATASOURCES} from "./ActionCommons";
 
 /*
 BUILDING CONNECTION CONFIGS
@@ -52,12 +51,12 @@ const buildDatasourcesConfig = (datasource=null) => {
 PUBLIC ACTION FUNCTIONS
  */
 
-export const getTopoData = (dispatch, datasource=null) => {
+export const getDatasourcesAction = (dispatch, datasource=null) => {
     let config = buildDatasourcesConfig(datasource);
     fetchData(config).then(data => {
         dispatch({
             type: GET_DATASOURCES,
-            payload: data.data,
+            payload: data.data.data,
         })
     });
 }

@@ -36,8 +36,7 @@
 BUILDING CONNECTION CONFIGS
  */
 
-import {GET_SIGNALS} from "./ActionTypes";
-import {fetchData} from "./Common";
+import {fetchData, GET_SIGNALS} from "./ActionCommons";
 
 const buildSignalsConfig = (entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
     let url = `/signals/${entityType}/${entityCode}?from=${from}&until=${until}`
@@ -57,7 +56,7 @@ export const getSignalsConfig = (dispatch, entityType, entityCode, from, until, 
     fetchData(config).then(data => {
         dispatch({
             type: GET_SIGNALS,
-            payload: data.data,
+            payload: data.data.data,
         })
     });
 }
