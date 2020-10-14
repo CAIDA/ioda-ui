@@ -38,6 +38,8 @@ import {searchEntities} from "../../data/ActionEntities";
 import {connect} from "react-redux";
 import {getDatasourcesAction} from "../../data/ActionDatasources";
 import {getTopoAction} from "../../data/ActionTopo";
+import {searchAlerts, searchEvents, searchSummary} from "../../data/ActionOutages";
+import {getSignalsAction} from "../../data/ActionSignals";
 
 class TestAPI extends Component {
     constructor(props) {
@@ -54,20 +56,41 @@ class TestAPI extends Component {
         this.props.searchEntitiesAction("united states");
         this.props.getDatasourcesAction();
         this.props.getTopoAction("country");
+        this.props.searchAlertsAction(1602544098, 1602630498, "country", null, null, 30, null);
+        this.props.searchEventsAction(1602544098, 1602630498, "country", null, null, false, null, 30, null);
+        this.props.searchSummaryAction(1602544098, 1602630498, "country", null, 30, null);
+        this.props.getSignalsAction("country", "TM", 1602544098, 1602630498, null, null);
     }
 
     componentDidUpdate(prevProps) {
         // After API call for suggested search results completes, update suggestedSearchResults state with fresh data
         if (this.props.iodaApi.entities !== prevProps.iodaApi.entities) {
             console.assert(this.props.iodaApi.entities[0].code==="US")
-            console.log("entities tests passed")
+            console.log("entities test passed")
         }
         if (this.props.iodaApi.datasources !== prevProps.iodaApi.datasources) {
             console.assert(this.props.iodaApi.datasources.length===3)
-            console.log("datasources tests passed");
+            console.log("datasources test passed");
         }
         if (this.props.iodaApi.topo !== prevProps.iodaApi.topo) {
-            console.log(this.props.iodaApi.topo);
+            console.assert("country" in this.props.iodaApi.topo)
+            console.log("topology data test passed");
+        }
+        if (this.props.iodaApi.alerts !== prevProps.iodaApi.alerts) {
+            console.assert(this.props.iodaApi.alerts.length===14);
+            console.log("alerts search test passed");
+        }
+        if (this.props.iodaApi.events !== prevProps.iodaApi.events) {
+            console.assert(this.props.iodaApi.events.length===9);
+            console.log("events search test passed");
+        }
+        if (this.props.iodaApi.summary !== prevProps.iodaApi.summary) {
+            console.assert(this.props.iodaApi.summary.length===8);
+            console.log("summary search test passed");
+        }
+        if (this.props.iodaApi.signals !== prevProps.iodaApi.signals) {
+            console.assert(this.props.iodaApi.signals.length===3);
+            console.log("signals search test passed");
         }
     }
 
@@ -97,6 +120,19 @@ const mapDispatchToProps = (dispatch) => {
         getTopoAction: (type) => {
             getTopoAction(dispatch, type);
         },
+        searchAlertsAction: (from, until, entityType=null, entityCode=null, datasource=null, limit=null, page=null) => {
+            searchAlerts(dispatch, from, until, entityType, entityCode, datasource, limit, page);
+        },
+        searchEventsAction: (from, until, entityType=null, entityCode=null, datasource=null,
+                             includeAlerts=null, format=null, limit=null, page=null) => {
+            searchEvents(dispatch, from, until, entityType, entityCode, datasource, includeAlerts, format, limit, page);
+        },
+        searchSummaryAction: (from, until, entityType=null, entityCode=null, limit=null, page=null) => {
+            searchSummary(dispatch, from, until, entityType, entityCode, limit, page);
+        },
+        getSignalsAction: (entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
+            getSignalsAction(dispatch, entityType, entityCode, from, until, datasource, maxPoints);
+        }
     }
 };
 

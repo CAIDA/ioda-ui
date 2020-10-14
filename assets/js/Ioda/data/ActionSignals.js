@@ -51,7 +51,7 @@ const buildSignalsConfig = (entityType, entityCode, from, until, datasource=null
 PUBLIC ACTION FUNCTIONS
  */
 
-export const getSignalsConfig = (dispatch, entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
+export const getSignalsAction = (dispatch, entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
     let config = buildSignalsConfig(entityType, entityCode, from, until, datasource, maxPoints);
     fetchData(config).then(data => {
         dispatch({
