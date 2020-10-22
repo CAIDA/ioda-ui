@@ -67,7 +67,7 @@
         "i18n-react": "^0.7.0",
         "i18next": "^19.5.1",
         "is-url-external": "^1.0.3",
-        "jquery": "2.1.0",
+        "jquery": "3.5.0",
         "jquery-toggles": "^4.0.0",
         "jquery2-bbq": "^1.3.1",
         "jstree": "3.0.9",
