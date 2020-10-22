@@ -32,5 +32,32 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-// Action for getting search-result results based on query
-export const ENTITIES_SEARCH = "ENTITIES_SEARCH";
+import {fetchData, GET_DATASOURCES} from "./ActionCommons";
+
+/*
+BUILDING CONNECTION CONFIGS
+ */
+
+const buildDatasourcesConfig = (datasource=null) => {
+    let url = "/datasources";
+    url += datasource!==null ? `/${datasource}` : "";
+    return {
+        method: "get",
+        url: url
+    }
+};
+
+/*
+PUBLIC ACTION FUNCTIONS
+ */
+
+export const getDatasourcesAction = (dispatch, datasource=null) => {
+    let config = buildDatasourcesConfig(datasource);
+    fetchData(config).then(data => {
+        dispatch({
+            type: GET_DATASOURCES,
+            payload: data.data.data,
+        })
+    });
+}
+

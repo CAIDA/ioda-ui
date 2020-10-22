@@ -5,14 +5,30 @@
 ### States
 
 `state.iodaApi.`:
-- `entities`
-- `signals`
-- `outages`
+- `entities`: entities metadata
+- `topo`: for loading geographical map data
+- `datasources`: available data sources used in IODA
+- `signals`: for timeseries graphs
+- `alerts`: for building alerts tables
+- `events`: not sure where it fits
+- `summary`: for building events tables on the right of the map
 
 ### Actions
 
 - `searchEntities(dispatch, searchQuery)`
-  - `searchQuery` should be pure text of the entities user wants to search for
+    - `searchQuery` should be pure text of the entities user wants to search for
+- `getDatasourcesAction()`
+    - get data sources
+- `getTopoAction(type)`
+    - get map data for type, including `continent`, `country`, `region`, and `county`.
+- `searchAlertsAction(from, until, entityType=null, entityCode=null, datasource=null, limit=null, page=null) `
+    - search for alerts
+- `searchEventsAction(from, until, entityType=null, entityCode=null, datasource=null, includeAlerts=null, format=null, limit=null, page=null)`
+    - search for events
+- `searchSummaryAction(from, until, entityType=null, entityCode=null, limit=null, page=null)`
+    - search for event summaries
+- `getSignalsAction(entityType, entityCode, from, until, datasource=null, maxPoints=null)`
+    - get raw signals
 
 ## Usage
 

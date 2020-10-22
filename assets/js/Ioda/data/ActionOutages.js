@@ -32,3 +32,106 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
+import {fetchData, OUTAGE_ALERTS_SEARCH, OUTAGE_EVENTS_SEARCH, OUTAGE_SUMMARY_SEARCH} from "./ActionCommons";
+
+/*
+BUILDING CONNECTION CONFIGS
+ */
+
+const buildAlertsConfig = (from, until, entityType=null, entityCode=null, datasource=null, limit=null, page=null) => {
+    let url = "/outages/alerts/";
+    if(entityType !== null){
+        url += `${entityType}/`;
+        if(entityCode !== null) {
+            url += `${entityCode}/`;
+        }
+    }
+    url += `?from=${from}&until=${until}`;
+
+    url += datasource!==null ? `&datasource=${datasource}`: "";
+    url += limit!==null ? `&limit=${limit}`: "";
+    url += page!==null ? `&page=${page}`: "";
+
+    return {
+        method: "get",
+        url: url
+    }
+};
+
+const buildEventsConfig = (from, until, entityType=null, entityCode=null, datasource=null,
+                           includeAlerts=null, format=null,
+                           limit=null, page=null) => {
+    let url = "/outages/events/";
+    if(entityType !== null){
+        url += `${entityType}/`;
+        if(entityCode !== null) {
+            url += `${entityCode}/`;
+        }
+    }
+    url += `?from=${from}&until=${until}`;
+
+    url += datasource!==null ? `&datasource=${datasource}`: "";
+    url += format!==null ? `&format=${format}`: "";
+    url += includeAlerts!==null ? `&includeAlerts=${includeAlerts}`: "";
+    url += limit!==null ? `&limit=${limit}`: "";
+    url += page!==null ? `&page=${page}`: "";
+
+    return {
+        method: "get",
+        url: url
+    }
+};
+
+const buildSummaryConfig = (from, until, entityType=null, entityCode=null, limit=null, page=null) => {
+    let url = "/outages/summary/";
+    if(entityType !== null){
+        url += `${entityType}/`;
+        if(entityCode !== null) {
+            url += `${entityCode}/`;
+        }
+    }
+    url += `?from=${from}&until=${until}`;
+
+    url += limit!==null ? `&limit=${limit}`: "";
+    url += page!==null ? `&page=${page}`: "";
+
+    return {
+        method: "get",
+        url: url
+    }
+};
+
+/*
+PUBLIC ACTION FUNCTIONS
+ */
+
+export const searchAlerts = (dispatch, from, until, entityType=null, entityCode=null, datasource=null, limit=null, page=null) => {
+    let config = buildAlertsConfig(from, until, entityType, entityCode, datasource, limit, page);
+    fetchData(config).then(data => {
+        dispatch({
+            type: OUTAGE_ALERTS_SEARCH,
+            payload: data.data.data,
+        })
+    });
+}
+
+export const searchEvents = (dispatch, from, until, entityType=null, entityCode=null, datasource=null,
+                             includeAlerts=null, format=null, limit=null, page=null) => {
+    let config = buildEventsConfig(from, until, entityType, entityCode, datasource, includeAlerts, format, limit, page);
+    fetchData(config).then(data => {
+        dispatch({
+            type: OUTAGE_EVENTS_SEARCH,
+            payload: data.data.data,
+        })
+    });
+}
+
+export const searchSummary = (dispatch, from, until, entityType=null, entityCode=null, limit=null, page=null) => {
+    let config = buildSummaryConfig(from, until, entityType, entityCode, limit, page);
+    fetchData(config).then(data => {
+        dispatch({
+            type: OUTAGE_SUMMARY_SEARCH,
+            payload: data.data.data,
+        })
+    });
+}

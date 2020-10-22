@@ -44,13 +44,13 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import {createStore, applyMiddleware, combineReducers} from "redux";
 import thunk from 'redux-thunk';
-import rootReducer from './reducers';
 // Template Components
 import Nav from "./templates/Nav";
 import Footer from "./templates/Footer";
 // Routes
 import Home from './pages/home/Home';
 import {iodaApiReducer} from "./data/DataReducer";
+import TestAPI from "./pages/tests/TestAPI";
 
 
 class App extends Component {
@@ -58,6 +58,7 @@ class App extends Component {
         return <div className="app">
             <Nav/>
             <Switch>
+                <Route path='/test' component={TestAPI}/>
                 <Route path='/' component={Home}/>
             </Switch>
             <Footer/>

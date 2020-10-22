@@ -253,8 +253,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        searchEntitiesAction: (searchQuery) => {
-           searchEntities(dispatch, searchQuery);
+        searchEntitiesAction: (searchQuery, limit=15) => {
+           searchEntities(dispatch, searchQuery, limit);
         }
     }
 };

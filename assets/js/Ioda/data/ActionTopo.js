@@ -32,28 +32,41 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-import axios from "axios";
-import { merge } from 'lodash';
+import {fetchData, GET_TOPO_DATA} from "./ActionCommons";
 
-export const fetchData = (config) => {
-    const baseURL = 'https://cors-anywhere.herokuapp.com/https://api.ioda.caida.org/v2';
-    let concatURL = `${baseURL}${config.url}`;
-    const configHeader = merge({}, config, {
-        headers: {
-            "X-Requested-With": "XMLHttpRequest",
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        url: concatURL.replace(/\s/g, "")
-    });
-    return axios(configHeader)
-        .then(response => {
-            return Promise.resolve(response);
-        })
-        .then(response => {
-            return response;
-        })
-        .catch(error => {
-            return Promise.reject(error);
-        });
+/*
+BUILDING CONNECTION CONFIGS
+ */
+
+const buildTopoConfig = (entityType) => {
+    return {
+        method: "get",
+        url: `/topo/${entityType}`
+    }
 };
+
+/*
+PUBLIC ACTION FUNCTIONS
+ */
+
+/**
+ * Available types are:
+ * - continent
+ * - country
+ * - region
+ * - county
+ *
+ * @param dispatch
+ * @param entityType
+ */
+export const getTopoAction = (dispatch, entityType) => {
+    let config = buildTopoConfig(entityType);
+    fetchData(config).then(data => {
+        dispatch({
+            type: GET_TOPO_DATA,
+            subtype: entityType,
+            payload: data.data.data,
+        })
+    });
+}
+

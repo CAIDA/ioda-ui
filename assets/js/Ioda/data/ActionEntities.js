@@ -32,26 +32,21 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-import {fetchData} from "./Common";
-import {ENTITIES_SEARCH} from "./ActionTypes";
+import {ENTITIES_SEARCH, fetchData} from "./ActionCommons";
 
-const configTemplate = {
-    method: "get",
-    url: `/entities?limit=15&search=`
+const buildSearchConfig = (searchQueryText, limit) => {
+    return {
+        method: "get",
+        url: `/entities?limit=${limit}&search=${searchQueryText}`
+    }
 };
 
-const buildSearchConfig = (searchQueryText) => {
-    let config = Object.assign({}, configTemplate);
-    config.url = `${config.url}${searchQueryText}`;
-    return config;
-};
-
-export const searchEntities = (dispatch, searchQuery) => {
-    let searchConfig = buildSearchConfig(searchQuery)
+export const searchEntities = (dispatch, searchQuery, limit=15) => {
+    let searchConfig = buildSearchConfig(searchQuery, limit)
     fetchData(searchConfig).then(data => {
         dispatch({
             type: ENTITIES_SEARCH,
-            payload: data.data,
+            payload: data.data.data,
         })
     });
 }
