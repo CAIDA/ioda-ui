@@ -396,6 +396,48 @@ body {
 .u-margin-right {
   margin-right: 0.5rem !important; }
 
+.table {
+  background-color: #fff;
+  box-shadow: 0 2px 7px #333;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 5rem; }
+  .table__header {
+    background: linear-gradient(45deg, #0D2032, #617486);
+    color: #fff; }
+    .table__header-col button {
+      background: transparent;
+      color: inherit;
+      outline: none;
+      width: 100%;
+      height: 100%;
+      padding: 3px;
+      border: none; }
+  .table tbody {
+    max-height: 28rem;
+    overflow-y: scroll; }
+  .table tr:nth-child(odd) {
+    background-color: #f7f7f7; }
+  .table td {
+    border: 1px solid #eeeeee;
+    padding: 0.5rem 0.3rem; }
+  .table__scores {
+    display: none;
+    background-color: seagreen;
+    margin: 0;
+    padding: 0;
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-spacing: 0; }
+    .table__scores--visible {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0; }
+
 /*!
  * This software is Copyright (c) 2013 The Regents of the University of
  * California. All Rights Reserved. Permission to copy, modify, and distribute this

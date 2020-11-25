@@ -56,7 +56,7 @@ export const fetchData = (config) => {
         url: concatURL
         // url: concatURL.replace(/\s/g, "") NOTE: this won't work if search query are like "united states" (with space)
     });
-    console.log(configHeader);
+
     return axios(configHeader)
         .then(response => {
             return Promise.resolve(response);

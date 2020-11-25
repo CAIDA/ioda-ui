@@ -34,13 +34,8 @@
 
 import d3 from "d3";
 
-const HI3 = 'HI³';
-
-function humanizeBytes(bytes) {
-    return humanizeNumber(bytes) + 'B';
-}
-
-function humanizeNumber(value, precisionDigits) {
+// Humanize number with rounding, abbreviations, etc.
+export function humanizeNumber(value, precisionDigits) {
     precisionDigits = precisionDigits || 3;
     return d3.format(
             (isNaN(precisionDigits) ? '' : '.' + precisionDigits)
@@ -48,4 +43,35 @@ function humanizeNumber(value, precisionDigits) {
         )(value);
 }
 
-export {HI3, humanizeBytes, humanizeNumber};
+// For event/alert table
+export function convertSecondsToDateValues(s) {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const month = months[new Date(s * 1000).getMonth()];
+    const day = new Date(s * 1000).getDate();
+    const year = new Date(s * 1000).getFullYear();
+    const hourValue = new Date(s * 1000).getHours();
+    const hours = hourValue > 12
+        ? hourValue - 12
+        : hourValue < 10
+            ? `0${hourValue}`
+            : hourValue;
+    const minuteValue = new Date(s * 1000).getMinutes();
+    const minutes = minuteValue < 10
+        ? `0${minuteValue}`
+        : minuteValue;
+    const meridian = hourValue > 12 ? "pm" : "am";
+    return {
+        month: month,
+        day: day,
+        year: year,
+        hours: hours,
+        minutes: minutes,
+        meridian: meridian
+    }
+}
+
+export function toDateTime(s) {
+    var t = new Date(1970, 0, 1); // Epoch
+    t.setSeconds(s);
+    return t;
+}

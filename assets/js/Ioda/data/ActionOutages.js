@@ -126,6 +126,7 @@ export const searchEvents = (dispatch, from, until, entityType=null, entityCode=
     });
 }
 
+// Getting outage information to use for populating topoJSON data
 export const searchSummary = (dispatch, from, until, entityType=null, entityCode=null, limit=null, page=null) => {
     let config = buildSummaryConfig(from, until, entityType, entityCode, limit, page);
     fetchData(config).then(data => {

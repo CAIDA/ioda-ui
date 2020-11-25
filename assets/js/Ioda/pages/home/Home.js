@@ -46,7 +46,10 @@ import worldGeoJSON from 'geojson-world-map';
 import {
     mapAccessToken,
 } from './HomeConstants';
-import {searchEntities} from "../../data/ActionEntities";
+import { searchEntities } from "../../data/ActionEntities";
+import { getTopoAction } from "../../data/ActionTopo";
+import * as topojson from 'topojson';
+import { searchSummary } from "../../data/ActionOutages";
 
 
 const Card = partner => {
@@ -82,11 +85,17 @@ class Home extends Component {
             mounted: false,
             suggestedSearchResults: null,
             searchTerm: null,
+            topoData: null,
+            outageSummaryData: null
         };
     }
 
     componentDidMount() {
-        this.setState({mounted: true});
+        this.setState({mounted: true}, () => {
+            this.getDataTopo();
+            this.getDataOutageSummary();
+        });
+        // console.log(worldGeoJSON);
     }
 
     componentWillUnmount() {
@@ -105,6 +114,90 @@ class Home extends Component {
             this.setState({
                 suggestedSearchResults: suggestedItems
             });
+        }
+
+        // After API call for outage summary data completes, pass summary data to map function for data merging
+        if (this.props.summary !== prevProps.summary) {
+            this.setState({
+                outageSummaryData: this.props.summary
+            })
+        }
+
+        // After API call for topographic data completes, update topoData state with fresh data
+        if (this.props.topoData !== prevProps.topoData) {
+            let topoObjects = topojson.feature(this.props.topoData.country.topology, this.props.topoData.country.topology.objects["ne_10m_admin_0.countries.v3.1.0"]);
+            this.setState({
+                topoData: topoObjects
+            }, () => {
+                this.populateGeoJsonMap();
+            });
+        }
+    }
+
+    //
+    getDataOutageSummary() {
+        if (this.state.mounted) {
+            let until = Math.round((new Date().getTime() - 86400000) / 1000);
+            let from = Math.round((new Date().getTime() - (86400000 * 2)) / 1000);
+            const entityType = "country";
+            this.props.searchSummaryAction(from, until, entityType);
+        }
+    }
+
+    // Populate JSX that creates the map once topographic data is available
+    populateGeoJsonMap() {
+        let position = [20, 0];
+
+        if (this.state.topoData && this.state.outageSummaryData) {
+            console.log(this.state.outageSummaryData);
+            // console.log(this.state.topoData);
+            let topoData = this.state.topoData;
+
+            this.state.outageSummaryData.map(outage => {
+                let topoItemIndex = this.state.topoData.features.findIndex(topoItem => topoItem.properties.usercode === outage.entity.code);
+
+                if (topoItemIndex > 0) {
+                    let item = topoData.features[topoItemIndex];
+                    item.properties.score = outage.scores.overall;
+                    topoData.features[topoItemIndex] = item;
+                }
+            });
+
+            return <Map
+                center={position}
+                zoom={5}
+                minZoom={1}
+                style={{width: '100%', height: '400px', overflow: 'hidden'}}
+            >
+                <TileLayer
+                    id="mapbox/streets-v11"
+                    url={`https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=${mapAccessToken}`}
+                /><GeoJSON
+                data={topoData}
+                style={(feature) => ({
+                    color: '#fff',
+                    weight: 2,
+                    fillColor:
+                        !feature.properties.score
+                            ? "transparent"
+                            : feature.properties.score < 250
+                                ? "rgb(254, 204, 92)"
+                                : feature.properties.score < 500
+                                    ? "rgb(253, 141, 60)"
+                                    : "rgb(227, 26, 28)"
+                    ,
+                    fillOpacity: 0.7,
+                    dashArray: '2'
+                })}
+            /></Map>;
+        }
+    }
+
+    // Make API call to retrieve topographic data
+    getDataTopo() {
+        if (this.state.mounted) {
+            let entityType = "country";
+            this.props.getTopoAction(entityType);
         }
     }
 
@@ -134,7 +227,6 @@ class Home extends Component {
     }
 
     render() {
-        let position = [51.505, -0.09];
         return (
             <div className='home'>
                 <div className="row search">
@@ -167,27 +259,9 @@ class Home extends Component {
                         <p className="map__text">Last 24 hours</p>
                         <div className="map__content">
                             map
-                            <Map
-                                center={position}
-                                zoom={5}
-                                minZoom={1}
-                                style={{width: '100%', height: '400px', overflow: 'hidden'}}
-                            >
-                                <TileLayer
-                                    id="mapbox/streets-v11"
-                                    url={`https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=${mapAccessToken}`}
-                                />
-                                <GeoJSON
-                                    data={worldGeoJSON}
-                                    style={() => ({
-                                        color: '#fff',
-                                        weight: 2,
-                                        fillColor: '#2c3e50',
-                                        fillOpacity: 0.7,
-                                        dashArray: '2'
-                                    })}
-                                />
-                            </Map>
+                                {
+                                    this.populateGeoJsonMap()
+                                }
                             {/*<Map center={position} zoom={13} style={{width: '100%', height: '400px', overflow: 'hidden'}}>*/}
                             {/*    <TileLayer*/}
                             {/*        id="mapbox/streets-v11"*/}
@@ -247,7 +321,9 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        suggestedSearchResults: state.iodaApi.entities
+        suggestedSearchResults: state.iodaApi.entities,
+        summary: state.iodaApi.summary,
+        topoData: state.iodaApi.topo
     }
 };
 
@@ -255,6 +331,12 @@ const mapDispatchToProps = (dispatch) => {
     return {
         searchEntitiesAction: (searchQuery, limit=15) => {
            searchEntities(dispatch, searchQuery, limit);
+        },
+        searchSummaryAction: (from, until, entityType, entityCode=null, limit=null, page=null) => {
+            searchSummary(dispatch, from, until, entityType, entityCode, limit, page);
+        },
+        getTopoAction: (entityType) => {
+            getTopoAction(dispatch, entityType);
         }
     }
 };
