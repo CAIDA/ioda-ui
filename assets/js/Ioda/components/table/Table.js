@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import {humanizeNumber} from "../../utils";
 import SummaryTableRow from "./SummaryTableRow";
+import iconSortAsc from 'images/icons/icon-sortAsc.png';
+import iconSortDesc from 'images/icons/icon-sortDesc.png';
+import iconSortUnsorted from 'images/icons/icon-sortUnsort.png';
 
 class Table extends Component {
     constructor(props) {
@@ -45,7 +48,7 @@ class Table extends Component {
                     sortedColumn: {
                         name: "dateStamp",
                         position: "asc",
-                        arrow: "⇓"
+                        arrow: iconSortAsc
                     }
                 });
             }
@@ -56,7 +59,7 @@ class Table extends Component {
                     sortedColumn: {
                         name: "fromDate",
                         position: "asc",
-                        arrow: "⇓"
+                        arrow: iconSortAsc
                     }
                 });
             }
@@ -67,7 +70,7 @@ class Table extends Component {
                     sortedColumn: {
                         name: "score",
                         position: "asc",
-                        arrow: "⇓"
+                        arrow: iconSortAsc
                     }
                 });
             }
@@ -130,10 +133,10 @@ class Table extends Component {
                         ? "desc"
                         : "asc",
                 arrow: event.target.value !== position
-                    ? ""
+                    ? iconSortUnsorted
                     : this.state.sortedColumn.position === "asc"
-                        ? "⇑"
-                        : "⇓"
+                        ? iconSortDesc
+                        : iconSortAsc
             }
         }, () => {
             data = this.props.data.sort(this.compare(colToSort, this.state.sortedColumn.position));
@@ -146,7 +149,7 @@ class Table extends Component {
     render() {
         const { type } = this.props;
         return (
-            <table className={`table ${type === "alert" ? "table--alert" : "table--event"}`}>
+            <table className={`table ${type === "alert" ? "table--alert" : type === "event" ? "table--event" : "table--summary"}`}>
                 <thead>
                 <tr className="table__header">
                     {
@@ -162,13 +165,28 @@ class Table extends Component {
                                 <button onClick={(event) => this.sortByColumn(event)} value={header}>
                                     {header}
                                     {
-                                        type === "alert" && header === this.alertHeaders[this.state.sortedColumn.name] ? this.state.sortedColumn.arrow : null
+                                        type === "alert"
+                                            ? header === this.alertHeaders[this.state.sortedColumn.name]
+                                                ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
+                                                : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
+                                            : null
+
                                     }
                                     {
-                                        type === "event" && header === this.eventHeaders[this.state.sortedColumn.name] ? this.state.sortedColumn.arrow : null
+                                        type === "event"
+                                            ? header === this.eventHeaders[this.state.sortedColumn.name]
+                                                ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
+                                                : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
+                                            : null
+
                                     }
                                     {
-                                        type === "summary" && header === this.summaryHeaders[this.state.sortedColumn.name] ? this.state.sortedColumn.arrow : null
+                                        type === "summary"
+                                            ? header === this.summaryHeaders[this.state.sortedColumn.name]
+                                                ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
+                                                : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
+                                            : null
+
                                     }
                                 </button>
                             </th>;
@@ -180,7 +198,7 @@ class Table extends Component {
                 {
                     this.props.type === "alert" && this.state.data.map((alert, index) => {
                         return <tr key={index}>
-                            <td>
+                            <td className={alert.level === "warning" ? "table--alert-warning" : "table--alert-normal"}>
                                 {
                                     alert.level === "warning" ? "✗" : "✓"
                                 }

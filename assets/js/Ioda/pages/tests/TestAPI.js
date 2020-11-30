@@ -90,11 +90,11 @@ class TestAPI extends Component {
         this.setState({mounted: true});
         this.props.searchEntitiesAction("united states");
         this.props.getDatasourcesAction();
-        // this.props.getTopoAction("country");
+        this.props.getTopoAction("country");
         this.props.searchAlertsAction(1602544098, 1602630498, "country", "TM", null, 30, null);
         this.props.searchEventsAction(1602544098, 1602630498, "country", "TM", null, false, null, 30, null);
         this.props.searchSummaryAction(1602544098, 1602630498, "region", null, 30, null);
-        // this.props.getSignalsAction("country", "TM", 1602544098, 1602630498, null, null);
+        this.props.getSignalsAction("country", "TM", 1602544098, 1602630498, null, null);
     }
 
     componentDidUpdate(prevProps) {

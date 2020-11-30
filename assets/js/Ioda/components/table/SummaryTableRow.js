@@ -8,7 +8,8 @@ class SummaryTableRow extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isHovered: false
+            x: 0,
+            y: 0
         }
     }
 
@@ -16,7 +17,7 @@ class SummaryTableRow extends Component {
         return scores && scores.map((score, index) => {
             let scoreValue = humanizeNumber(score.score, 2);
             return (
-                <tr className="table__scores-row" key={index} >
+                <tr className="table__scores-row" key={index}>
                     <td className="table__scores-cell">
                         {score.source}
                     </td>
@@ -28,27 +29,45 @@ class SummaryTableRow extends Component {
         })
     }
 
-    handleRowHover() {
-        this.setState(prevState => ({
-            isHovered: !prevState.isHovered
-        }));
+    handleRowHover(event) {
+        event.persist();
+        // console.log(event);
+        // console.log(event.nativeEvent.offsetY);
+        // Keep the hover table aligned with the corresponding ellipses
+        this.setState({
+            y: event.nativeEvent.offsetY < 8
+                ? -2
+                : event.nativeEvent.offsetY > 20
+                    ? 14
+                    : event.nativeEvent.offsetY - 9
+        });
     }
 
     render() {
         let overallScore = humanizeNumber(this.props.data.score, 2);
         return(
-            <tr onMouseOver={() => this.handleRowHover(this.props.data.scores)} onMouseLeave={() => this.handleRowHover(this.props.data.scores)}>
+            <tr
+                className="table--summary-row"
+                onMouseMove={(event) => this.handleRowHover(event)}
+                onMouseLeave={(event) => this.handleRowHover(event)}
+            >
                 <td>
                     {this.props.data.name}
                 </td>
-                <td style={{position: "relative"}}>
+                <td
+                    className="table__cell--overallScore"
+
+                >
                     {overallScore}
-                    <button>⋮</button>
-                    <table className={this.state.isHovered ? "table__scores table__scores--visible" : "table__scores"}>
+                    <span className="table__ellipses">⋮</span>
+                    <table
+                        className="table__scores"
+                        style={{top: `${this.state.y}px`}}
+                    >
                         <thead>
                         <tr className="table__scores-headers">
                             <th className="table__scores-cell">
-                                Data Source
+                                Source
                             </th>
                             <th className="table__scores-cell">
                                 Score

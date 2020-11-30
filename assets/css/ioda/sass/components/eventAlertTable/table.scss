@@ -1,26 +1,62 @@
 .table {
   background-color: $color-white;
   box-shadow: $box-shadow;
-  margin: 0;
+  margin: 0 0 5rem;
   padding: 0;
   border:none;
   border-collapse:collapse;
   border-spacing: 0;
-  margin-bottom: 5rem;
+  z-index: 10;
+  border-radius: 3px;
+  width: 100%;
+  overflow: hidden;
 
+  &--alert {
+    &-warning {
+      background-color: $color-alert-feed-warning;
+    }
+
+    &-normal {
+      background-color: $color-alert-feed-normal;
+    }
+  }
+
+  &--summary {
+    &-row:hover .table__cell--overallScore .table__scores {
+      display: block;
+    }
+  }
 
   &__header {
-    background: linear-gradient(45deg, $color-primary-dark, $color-primary-light);
+    background: linear-gradient(2deg, $color-primary-dark, $color-primary-light);
     color: $color-white;
 
-    &-col button {
-      background: transparent;
-      color: inherit;
-      outline: none;
-      width: 100%;
-      height: 100%;
-      padding: 3px;
-      border: none;
+    &-col {
+      &:not(:last-child) {
+        border-right: 1px solid $color-table-head-border;
+      }
+
+      & button {
+        background: transparent;
+        color: inherit;
+        outline: none;
+        width: 100%;
+        height: 100%;
+        padding: 1rem;
+        border: none;
+        font-size: 1.4rem;
+        font-weight: 700;
+        letter-spacing: -1px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    &-sort {
+      height: 2rem;
+      width: 2rem;
+      margin-left: 0.5rem;
     }
   }
 
@@ -35,23 +71,101 @@
 
   & td {
     border: 1px solid $color-table-cell-border;
-    padding: 0.5rem 0.3rem;
+    padding: 0.8rem 0.75rem;
+    font-size: 1.3rem;
+    text-align: center;
+    position: relative;
+  }
+
+  &__cell--overallScore {
+    width: 14rem;
+    position: relative;
+  }
+
+  &__ellipses {
+    font-size: 2.4rem;
+    line-height: 2.4rem;
+    font-weight: 700;
+    vertical-align: sub;
+    position: absolute;
+    right: 0.5rem;
   }
 
   &__scores {
     display: none;
-    background-color: seagreen;
+    position: absolute;
     margin: 0;
     padding: 0;
-    border: 1px solid black;
     border-collapse:collapse;
     border-spacing: 0;
+    z-index: 100;
+    right: 2.5rem;
+    width: 24rem;
+    //border: 2px solid $color-primary-light;
 
-    &--visible {
-      display: block;
+    & td, & th {
+      position: relative;
+      z-index: 100;
+    }
+
+    & thead tr {
+      background: linear-gradient(2deg, $color-primary-dark, $color-primary-light);
+      color: $color-white;
+      box-shadow: $box-shadow;
+
+      & th {
+        padding: 0.5rem;
+      }
+    }
+
+    & tbody {
+      box-shadow: $box-shadow;
+      position: relative;
+      z-index: 99;
+
+      & tr {
+
+        & td {
+          border: none;
+        }
+
+        & td:first-child {
+          border-right: 1px solid $color-table-cell-border;
+          width: 18rem;
+        }
+
+        & td:last-child {
+          width: 6rem;
+        }
+      }
+    }
+
+    &:after {
+      top: -3px;
+      right: -1.5rem;
+      content: "";
+      height: 0;
+      width: 0;
       position: absolute;
-      top: 0;
-      right: 0;
+      pointer-events: none;
+      border-left: 1.5rem solid transparent;
+      //border-left: 1.5rem solid $color-primary-light;
+      border-top: 1.5rem solid transparent;
+      border-bottom: 1.5rem solid transparent;
+      z-index: 11;
+    }
+
+    &:before {
+      content: '';
+      position: absolute;
+      background: linear-gradient(-47deg, $color-primary-dark, $color-primary-light);
+      transform: rotate(45deg);
+      width: 2.4rem;
+      height: 2.4rem;
+      right: -1.2rem;
+      top: 0.5rem;
+      z-index: -1;
+      box-shadow: $box-shadow;
     }
   }
 }
