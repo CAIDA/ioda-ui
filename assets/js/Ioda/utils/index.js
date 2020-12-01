@@ -73,5 +73,6 @@ export function convertSecondsToDateValues(s) {
 export function toDateTime(s) {
     var t = new Date(1970, 0, 1); // Epoch
     t.setSeconds(s);
+    console.log(t);
     return t;
 }

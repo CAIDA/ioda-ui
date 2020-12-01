@@ -162,3 +162,86 @@ $breakpoint Argument Choices:
     @media only screen and (min-width: 112.5em) { @content }; // 1800px
   }
 }
+
+@mixin textLink {
+  &:link,
+  &:visited {
+    color: $color-secondary;
+    font-weight: 700;
+    text-decoration: none;
+    padding-bottom: 2px;
+    margin-bottom: 1px;
+    background:
+            linear-gradient(
+                            175deg,
+                            #f9ad40 0%,
+                            #f9ad40 33.3%,
+                            $color-secondary 83.5%,
+                            $color-secondary-dark 100%
+            )
+            left
+            bottom
+            transparent
+            no-repeat;
+    background-size: 100% 2px; /* controls underline thickness */
+  }
+}
+
+@mixin button {
+  background: linear-gradient(2deg, #C12F2E, #f9ad40, #C12F2E, #f9ad40);
+  height: 5rem;
+  border-radius: 0.5rem;
+  color: $color-white;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 2rem;
+  text-align: center;
+  border: none;
+  background-size: 100% 300%;
+  transition: all .4s ease-in-out;
+  position: relative;
+  z-index: 10;
+
+  &:before {
+    content: '';
+    display: inline-block;
+    height: 40px;
+    position: absolute;
+    bottom: -5px;
+    left: 30px;
+    right: 30px;
+    z-index: -1;
+    border-radius: 30em;
+    filter: blur(20px) brightness(0.95);
+    transform-style: preserve-3d;
+    transition: all 0.3s ease-out;
+
+
+    &:hover {
+      bottom: -7px;
+      opacity: 1;
+      filter: blur(20px);
+      background: linear-gradient(2deg, #C12F2E, #f9ad40, #C12F2E, #f9ad40);
+    }
+  }
+
+  &:hover,
+  &:active {
+    border-radius: 0.5rem;
+    //background-position: 0 100%;
+    transition: all .4s ease-in-out;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    filter: brightness(1.05) contrast(1.05);
+    transform: scale(1.03);
+
+    &:before {
+      bottom: -7px;
+      filter: blur(10px) brightness(0.95);
+    }
+  }
+
+  &:focus {
+    outline: none;
+  }
+}

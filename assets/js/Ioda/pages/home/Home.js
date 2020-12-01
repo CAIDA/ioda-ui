@@ -50,20 +50,38 @@ import { searchEntities } from "../../data/ActionEntities";
 import { getTopoAction } from "../../data/ActionTopo";
 import * as topojson from 'topojson';
 import { searchSummary } from "../../data/ActionOutages";
+import { TwitterTimelineEmbed } from 'react-twitter-embed';
+
+import otfLogo from 'images/logos/otf.png';
+import dhsLogo from 'images/logos/dhs.svg';
+import comcastLogo from 'images/logos/comcast.svg';
+import nsfLogo from 'images/logos/nsf.svg';
+import isocLogo from 'images/logos/isoc.svg';
 
 
 const Card = partner => {
+    const org = partner.partner;
+    const text = "home." +  org;
     // ToDo: Swap out images for sprite sheet
     return (
         <div className="card">
-            <div className="card__headline">
-                <img src="" alt={`${partner} logo`} className="card__headline-icon" />
-                <h2 className="card__headline-text">
-                    partner
-                </h2>
+            <div className="card__logo">
+                {
+                    org === 'otf'
+                    ? <img src={otfLogo} alt={`${partner.partner} logo`} className="card__logo-icon" />
+                    : org === 'dhs'
+                        ? <img src={dhsLogo} alt={`${partner.partner} logo`} className="card__logo-icon" />
+                        : org === 'comcast'
+                            ? <img src={comcastLogo} alt={`${partner.partner} logo`} className="card__logo-icon" />
+                            : org === 'nsf'
+                                ? <img src={nsfLogo} alt={`${partner.partner} logo`} className="card__logo-icon" />
+                                : org === 'isoc'
+                                    ? <img src={isocLogo} alt={`${partner.partner} logo`} className="card__logo-icon" />
+                                    : null
+                }
             </div>
             <div className="card__content">
-                <p className="card__text">serunt eos et hic illo itaque nihil placeat repellat.</p>
+                <T.p className="card__text" text={text}/>
             </div>
         </div>
     );
@@ -134,11 +152,11 @@ class Home extends Component {
         }
     }
 
-    //
+    // Make API  call to retrieve summary data to populate on map
     getDataOutageSummary() {
         if (this.state.mounted) {
-            let until = Math.round((new Date().getTime() - 86400000) / 1000);
-            let from = Math.round((new Date().getTime() - (86400000 * 2)) / 1000);
+            let until = Math.round(new Date().getTime() / 1000);
+            let from = Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000);
             const entityType = "country";
             this.props.searchSummaryAction(from, until, entityType);
         }
@@ -149,8 +167,8 @@ class Home extends Component {
         let position = [20, 0];
 
         if (this.state.topoData && this.state.outageSummaryData) {
-            console.log(this.state.outageSummaryData);
-            // console.log(this.state.topoData);
+            // console.log(this.state.outageSummaryData);
+            // // console.log(this.state.topoData);
             let topoData = this.state.topoData;
 
             this.state.outageSummaryData.map(outage => {
@@ -165,9 +183,9 @@ class Home extends Component {
 
             return <Map
                 center={position}
-                zoom={5}
+                zoom={2}
                 minZoom={1}
-                style={{width: '100%', height: '400px', overflow: 'hidden'}}
+                style={{width: 'inherit', height: 'inherit', overflow: 'hidden'}}
             >
                 <TileLayer
                     id="mapbox/streets-v11"
@@ -230,7 +248,6 @@ class Home extends Component {
         return (
             <div className='home'>
                 <div className="row search">
-                    <div className="col-1-of-6"></div>
                     <div className="col-2-of-3">
                         <h2 className="section-header">
                             Jump to a Country, Region, or AS/ISP of Interest
@@ -243,13 +260,12 @@ class Home extends Component {
                                    handleQueryUpdate={this.handleQueryUpdate}
                         />
                         <p className="search__text">
-                            or Continue to
-                            <Link to="/">
+                            or continue to
+                            <Link to="/" className="search__link">
                                 Outages Dashboard >>
                             </Link>
                         </p>
                     </div>
-                    <div className="col-1-of-6"></div>
                 </div>
                 <div className="row map">
                     <div className="col-3-of-4">
@@ -258,16 +274,9 @@ class Home extends Component {
                         </h2>
                         <p className="map__text">Last 24 hours</p>
                         <div className="map__content">
-                            map
-                                {
-                                    this.populateGeoJsonMap()
-                                }
-                            {/*<Map center={position} zoom={13} style={{width: '100%', height: '400px', overflow: 'hidden'}}>*/}
-                            {/*    <TileLayer*/}
-                            {/*        id="mapbox/streets-v11"*/}
-                            {/*        url={`https://tile.thunderforest.com/mobile-atlas/{z}/{x}/{y}.png?apikey=${thunderForestapiKey}`}*/}
-                            {/*    />*/}
-                            {/*</Map>*/}
+                            {
+                                this.populateGeoJsonMap()
+                            }
                         </div>
                     </div>
                     <div className="col-1-of-4">
@@ -275,29 +284,45 @@ class Home extends Component {
                             Latest News
                         </h2>
                         <div className="map__feed">
-                            feed
+                            <TwitterTimelineEmbed
+                                sourceType="profile"
+                                screenName="caida_ioda"
+                                options={{height: 483}}
+                            />
                         </div>
                     </div>
                 </div>
-                <div className="row about">
-                    <div className="col-2-of-3">
-                        <p className="about__text">
-                            blurb
-                        </p>
-                        <Link to="/">
-                            Outages Dashboard >>
-                        </Link>
+                <div className="about">
+                    <div className="row">
+                        <div className="col-2-of-3">
+                            <p className="about__text">
+                                IODA (Internet Outage Detection and Analysis) is a CAIDA project to develop an
+                                operational prototype system that monitors the internet, in near-realtime, to identify
+                                macroscopic Internet outages affecting the edge of the network, i.e. significantly
+                                impacting an AS (Autonomous System) or a large fraction of a country.
+                            </p>
+                            <Link to="/" className="button">
+                                <button>
+                                    Outages Dashboard >>
+                                </button>
+                            </Link>
+                        </div>
                     </div>
                 </div>
-                <div className="row examples">
-                    <div className="col-1-of-1">
-                        <Example country="iran"/>
-                    </div>
-                    <div className="col-1-of-1">
-                        <Example country="gabon"/>
-                    </div>
-                </div>
+                {/*<div className="row examples">*/}
+                {/*    <div className="col-1-of-1">*/}
+                {/*        <Example country="iran"/>*/}
+                {/*    </div>*/}
+                {/*    <div className="col-1-of-1">*/}
+                {/*        <Example country="gabon"/>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
                 <div className="row partners">
+                    <div className="col-1-of-1">
+                        <h2 className="section-header">
+                            Partners
+                        </h2>
+                    </div>
                     <div className="col-1-of-5">
                         <Card partner="otf"/>
                     </div>

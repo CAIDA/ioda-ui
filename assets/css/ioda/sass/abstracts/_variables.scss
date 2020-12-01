@@ -37,6 +37,7 @@ $grid-width: 114rem;
 $gutter-vertical: 4.5rem;
 $gutter-horizontal: 2.5rem;
 $gutter-vertical-small: 2.5rem;
+$header-height: 7rem;
 
 // FONTS
 $font-lato: 'Lato', sans-serif;
@@ -46,7 +47,7 @@ $font-ubuntu: 'Ubuntu', sans-serif;
 // COLORS
 $color-white: #fff;
 $color-black: #000;
-$color-background-white: #f0f0f0;
+$color-background-white: #fbfbfb;
 $color-primary: #2c3e50;
 $color-primary-light: #617486;
 $color-primary-dark: #0D2032;
@@ -62,4 +63,7 @@ $color-alert-feed-warning: #F18179;
 $color-alert-feed-normal: #D4F19D;
 
 // BOX SHADOW
-$box-shadow: 0 2px 7px #333;
+$box-shadow: 0 3px 5px #333;
+$linear-gradient-primary: linear-gradient(2deg, $color-primary-dark, $color-primary-light);
+$linear-gradient-secondary: linear-gradient(2deg, $color-secondary-dark, $color-secondary-light);
+$linear-gradient-secondary-reverse: linear-gradient(2deg, $color-secondary-light, $color-secondary-dark);
