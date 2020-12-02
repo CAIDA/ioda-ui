@@ -4,6 +4,8 @@ import SummaryTableRow from "./SummaryTableRow";
 import iconSortAsc from 'images/icons/icon-sortAsc.png';
 import iconSortDesc from 'images/icons/icon-sortDesc.png';
 import iconSortUnsorted from 'images/icons/icon-sortUnsort.png';
+import iconCancel from 'images/icons/icon-cancel.png';
+import iconCheckmark from 'images/icons/icon-checkmark.png';
 
 class Table extends Component {
     constructor(props) {
@@ -200,7 +202,9 @@ class Table extends Component {
                         return <tr key={index}>
                             <td className={alert.level === "warning" ? "table--alert-warning" : "table--alert-normal"}>
                                 {
-                                    alert.level === "warning" ? "✗" : "✓"
+                                    alert.level === "warning"
+                                        ? <img className="table--alert-level-img" src={iconCancel} alt="✗"/>
+                                        : <img className="table--alert-level-img" src={iconCheckmark} alt="✓"/>
                                 }
                             </td>
                             <td>

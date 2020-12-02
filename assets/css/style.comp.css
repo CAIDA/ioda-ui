@@ -412,6 +412,9 @@ body {
     background-color: #F18179; }
   .table--alert-normal {
     background-color: #D4F19D; }
+  .table--alert-level-img {
+    height: 1.1rem;
+    width: 1.1rem; }
   .table--summary-row:hover .table__cell--overallScore .table__scores {
     display: block; }
   .table__header {
