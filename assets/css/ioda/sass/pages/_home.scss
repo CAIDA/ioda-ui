@@ -32,6 +32,10 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
+button[class*="searchButton"] {
+  display: none!important;
+}
+
 .home {
   padding-top: $header-height;
   margin-top: 4rem;

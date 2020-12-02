@@ -493,7 +493,7 @@ class TestAPI extends Component {
                 </div>
                 <div className="row">
                     <div className="col-1-of-1">
-                        <h2>Horizon Time Series Chart</h2>
+                        <h2>Topo Map with Outages</h2>
                         <p><Link to="/">Working on Home page</Link></p>
                     </div>
                 </div>

@@ -34,24 +34,20 @@
 
 // React Components
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
-import {Searchbar} from 'caida-components-library'
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 // Internationalization
 import T from 'i18n-react';
-// Map Dependencies
-import { Map, Marker, Popup, TileLayer, GeoJSON } from 'react-leaflet';
-import worldGeoJSON from 'geojson-world-map';
-// Actions and Constants
-import {
-    mapAccessToken,
-} from './HomeConstants';
+// Data Hooks
 import { searchEntities } from "../../data/ActionEntities";
 import { getTopoAction } from "../../data/ActionTopo";
-import * as topojson from 'topojson';
 import { searchSummary } from "../../data/ActionOutages";
+// Components
+import { Searchbar } from 'caida-components-library'
 import { TwitterTimelineEmbed } from 'react-twitter-embed';
-
+import TopoMap from "../../components/map/Map";
+import * as topojson from 'topojson';
+// Images
 import otfLogo from 'images/logos/otf.png';
 import dhsLogo from 'images/logos/dhs.svg';
 import comcastLogo from 'images/logos/comcast.svg';
@@ -87,14 +83,14 @@ const Card = partner => {
     );
 };
 
-const Example = country => {
-    const countryName = Object.values(country);
-  return (
-    <div className="example">
-        {`${countryName}`}
-    </div>
-  );
-};
+// const Example = country => {
+//     const countryName = Object.values(country);
+//   return (
+//     <div className="example">
+//         {`${countryName}`}
+//     </div>
+//   );
+// };
 
 class Home extends Component {
     constructor(props) {
@@ -110,10 +106,10 @@ class Home extends Component {
 
     componentDidMount() {
         this.setState({mounted: true}, () => {
+            // Get topo and outage data to populate map
             this.getDataTopo();
             this.getDataOutageSummary();
         });
-        // console.log(worldGeoJSON);
     }
 
     componentWillUnmount() {
@@ -123,14 +119,8 @@ class Home extends Component {
     componentDidUpdate(prevProps) {
         // After API call for suggested search results completes, update suggestedSearchResults state with fresh data
         if (this.props.suggestedSearchResults !== prevProps.suggestedSearchResults) {
-            let suggestedItems = [];
-            let suggestedItemObjects = Object.entries(this.props.suggestedSearchResults.data);
-            console.log(suggestedItemObjects);
-            suggestedItemObjects.map(result => {
-                suggestedItems.push(result[1])
-            });
             this.setState({
-                suggestedSearchResults: suggestedItems
+                suggestedSearchResults: this.props.suggestedSearchResults
             });
         }
 
@@ -164,13 +154,10 @@ class Home extends Component {
 
     // Populate JSX that creates the map once topographic data is available
     populateGeoJsonMap() {
-        let position = [20, 0];
-
         if (this.state.topoData && this.state.outageSummaryData) {
-            // console.log(this.state.outageSummaryData);
-            // // console.log(this.state.topoData);
             let topoData = this.state.topoData;
 
+            // get Topographic info for a country if it has outages
             this.state.outageSummaryData.map(outage => {
                 let topoItemIndex = this.state.topoData.features.findIndex(topoItem => topoItem.properties.usercode === outage.entity.code);
 
@@ -180,34 +167,7 @@ class Home extends Component {
                     topoData.features[topoItemIndex] = item;
                 }
             });
-
-            return <Map
-                center={position}
-                zoom={2}
-                minZoom={1}
-                style={{width: 'inherit', height: 'inherit', overflow: 'hidden'}}
-            >
-                <TileLayer
-                    id="mapbox/streets-v11"
-                    url={`https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=${mapAccessToken}`}
-                /><GeoJSON
-                data={topoData}
-                style={(feature) => ({
-                    color: '#fff',
-                    weight: 2,
-                    fillColor:
-                        !feature.properties.score
-                            ? "transparent"
-                            : feature.properties.score < 250
-                                ? "rgb(254, 204, 92)"
-                                : feature.properties.score < 500
-                                    ? "rgb(253, 141, 60)"
-                                    : "rgb(227, 26, 28)"
-                    ,
-                    fillOpacity: 0.7,
-                    dashArray: '2'
-                })}
-            /></Map>;
+            return <TopoMap topoData={topoData}/>;
         }
     }
 
@@ -220,12 +180,12 @@ class Home extends Component {
     }
 
     // get data for search results that populate in suggested search list
-    getDataSuggestedSearchResults(nextProps) {
+    getDataSuggestedSearchResults(searchTerm) {
         if (this.state.mounted) {
             // Set searchTerm to the value of nextProps, nextProps refers to the current search string value in the field.
-            this.setState({ searchTerm: nextProps });
+            this.setState({ searchTerm: searchTerm });
             // // Make api call
-            this.props.searchEntitiesAction(nextProps);
+            this.props.searchEntitiesAction(searchTerm, 11);
         }
     }
 
@@ -345,6 +305,7 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log(state);
     return {
         suggestedSearchResults: state.iodaApi.entities,
         summary: state.iodaApi.summary,

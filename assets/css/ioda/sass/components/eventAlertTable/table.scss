@@ -3,13 +3,11 @@
   box-shadow: $box-shadow;
   margin: 0 0 5rem;
   padding: 0;
-  border:none;
-  border-collapse:collapse;
+  border: none;
   border-spacing: 0;
   z-index: 10;
   border-radius: 3px;
   width: 100%;
-  overflow: hidden;
 
   &--alert {
     &-warning {
@@ -30,8 +28,17 @@
   &__header {
     background: linear-gradient(2deg, $color-primary-dark, $color-primary-light);
     color: $color-white;
+    border-radius: 0.3rem 0.3rem 0 0;
 
     &-col {
+      &:first-child {
+        border-top-left-radius: 0.3rem;
+      }
+
+      &:last-child {
+        border-top-right-radius: 0.3rem;
+      }
+
       &:not(:last-child) {
         border-right: 1px solid $color-table-head-border;
       }
@@ -69,6 +76,16 @@
     background-color: $color-table-row-odd;
   }
 
+  & tr:last-child {
+    & td:first-child {
+      border-bottom-left-radius: 0.3rem;
+    }
+
+    & td:last-child {
+      border-bottom-right-radius: 0.3rem;
+    }
+  }
+
   & td {
     border: 1px solid $color-table-cell-border;
     padding: 0.8rem 0.75rem;
@@ -96,12 +113,11 @@
     position: absolute;
     margin: 0;
     padding: 0;
-    border-collapse:collapse;
+    border-collapse: collapse;
     border-spacing: 0;
     z-index: 100;
     right: 2.5rem;
     width: 24rem;
-    //border: 2px solid $color-primary-light;
 
     & td, & th {
       position: relative;
@@ -115,6 +131,10 @@
 
       & th {
         padding: 0.5rem;
+
+        &:first-child {
+          border-top-left-radius: 0.3rem;
+        }
       }
     }
 
@@ -122,9 +142,10 @@
       box-shadow: $box-shadow;
       position: relative;
       z-index: 99;
+      border-bottom-left-radius: 0.3rem;
+      border-bottom-right-radius: 0.3rem;
 
       & tr {
-
         & td {
           border: none;
         }

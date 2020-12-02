@@ -404,12 +404,10 @@ body {
   margin: 0 0 5rem;
   padding: 0;
   border: none;
-  border-collapse: collapse;
   border-spacing: 0;
   z-index: 10;
   border-radius: 3px;
-  width: 100%;
-  overflow: hidden; }
+  width: 100%; }
   .table--alert-warning {
     background-color: #F18179; }
   .table--alert-normal {
@@ -418,7 +416,12 @@ body {
     display: block; }
   .table__header {
     background: linear-gradient(2deg, #0D2032, #617486);
-    color: #fff; }
+    color: #fff;
+    border-radius: 0.3rem 0.3rem 0 0; }
+    .table__header-col:first-child {
+      border-top-left-radius: 0.3rem; }
+    .table__header-col:last-child {
+      border-top-right-radius: 0.3rem; }
     .table__header-col:not(:last-child) {
       border-right: 1px solid #798998; }
     .table__header-col button {
@@ -444,6 +447,10 @@ body {
     overflow-y: scroll; }
   .table tr:nth-child(odd) {
     background-color: #f7f7f7; }
+  .table tr:last-child td:first-child {
+    border-bottom-left-radius: 0.3rem; }
+  .table tr:last-child td:last-child {
+    border-bottom-right-radius: 0.3rem; }
   .table td {
     border: 1px solid #eeeeee;
     padding: 0.8rem 0.75rem;
@@ -479,10 +486,14 @@ body {
       box-shadow: 0 3px 5px #333; }
       .table__scores thead tr th {
         padding: 0.5rem; }
+        .table__scores thead tr th:first-child {
+          border-top-left-radius: 0.3rem; }
     .table__scores tbody {
       box-shadow: 0 3px 5px #333;
       position: relative;
-      z-index: 99; }
+      z-index: 99;
+      border-bottom-left-radius: 0.3rem;
+      border-bottom-right-radius: 0.3rem; }
       .table__scores tbody tr td {
         border: none; }
       .table__scores tbody tr td:first-child {
@@ -806,6 +817,9 @@ body {
  * IS" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
+button[class*="searchButton"] {
+  display: none !important; }
+
 .home {
   padding-top: 7rem;
   margin-top: 4rem; }

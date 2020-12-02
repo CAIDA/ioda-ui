@@ -50,6 +50,8 @@ class SummaryTableRow extends Component {
                 className="table--summary-row"
                 onMouseMove={(event) => this.handleRowHover(event)}
                 onMouseLeave={(event) => this.handleRowHover(event)}
+                onTouchStart={(event) => this.handleRowHover(event)}
+                onTouchLeave={(event) => this.handleRowHover(event)}
             >
                 <td>
                     {this.props.data.name}
