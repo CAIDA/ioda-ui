@@ -30,6 +30,7 @@ class Dashboard extends Component {
             mounted: false,
             // Tabs
             activeTab: country.tab,
+            activeTabType: country.type,
             tab: "Country View",
             // Search bar
             suggestedSearchResults: null,
@@ -57,8 +58,8 @@ class Dashboard extends Component {
             // Set initial tab to load
             this.handleSelectTab(this.tabs[this.props.match.params.tab]);
             // Get topo and outage data to populate map
-            this.getDataTopo();
-            this.getDataOutageSummary();
+            this.getDataTopo(country.type);
+            this.getDataOutageSummary(country.type);
         });
     }
 
@@ -68,10 +69,16 @@ class Dashboard extends Component {
         })
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
         // A check to prevent repetitive selection of the same tab
         if (this.props.match.params.tab !== prevProps.match.params.tab) {
             this.handleSelectTab(this.tabs[prevProps.match.params.tab]);
+        }
+
+        if (this.state.activeTabType && this.state.activeTabType !== prevState.activeTabType) {
+            // Get updated topo and outage data to populate map
+            this.getDataTopo(this.state.activeTabType);
+            this.getDataOutageSummary(this.state.activeTabType);
         }
 
         // After API call for suggested search results completes, update suggestedSearchResults state with fresh data
@@ -90,7 +97,15 @@ class Dashboard extends Component {
 
         // After API call for topographic data completes, update topoData state with fresh data
         if (this.props.topoData !== prevProps.topoData) {
-            let topoObjects = topojson.feature(this.props.topoData.country.topology, this.props.topoData.country.topology.objects["ne_10m_admin_0.countries.v3.1.0"]);
+            let topoObjects;
+            if (this.state.activeTabType === country.type) {
+                topoObjects = topojson.feature(this.props.topoData.country.topology, this.props.topoData.country.topology.objects["ne_10m_admin_0.countries.v3.1.0"]);
+            } else if (this.state.activeTabType === region.type) {
+                topoObjects = topojson.feature(this.props.topoData.region.topology, this.props.topoData.region.topology.objects["ne_10m_admin_1.regions.v3.0.0"]);
+            }
+
+
+
             this.setState({
                 topoData: topoObjects
             }, () => {
@@ -107,21 +122,24 @@ class Dashboard extends Component {
         if (selectedKey === as.tab) {
             this.setState({
                 activeTab: selectedKey,
-                tab: this.asTab
+                tab: this.asTab,
+                activeTabType: as.type
             });
             if (history.location.pathname !== as.url) {history.push(as.url);}
         }
         else if (selectedKey === region.tab) {
             this.setState({
                 activeTab: selectedKey,
-                tab: this.regionTab
+                tab: this.regionTab,
+                activeTabType: region.type
             });
             if (history.location.pathname !== region.url) {history.push(region.url);}
         }
         else if (selectedKey === country.tab || !selectedKey) {
             this.setState({
                 activeTab: country.tab,
-                tab: this.countryTab
+                tab: this.countryTab,
+                activeTabType: country.type
             });
             history.push(country.url);
         }
@@ -129,11 +147,12 @@ class Dashboard extends Component {
 
 // Outage Data
     // Make API  call to retrieve summary data to populate on map
-    getDataOutageSummary() {
+    getDataOutageSummary(entityType) {
         if (this.state.mounted) {
+            console.log(entityType);
             let until = Math.round(new Date().getTime() / 1000);
             let from = Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000);
-            const entityType = "country";
+            console.log(from, until);
             this.props.searchSummaryAction(from, until, entityType);
         }
     }
@@ -141,7 +160,8 @@ class Dashboard extends Component {
 // Map
     // Populate JSX that creates the map once topographic data is available
     populateGeoJsonMap() {
-        if (this.state.topoData && this.state.outageSummaryData) {
+        if (this.state.topoData && this.state.outageSummaryData && this.state.outageSummaryData[0]["entity"]["type"] === this.state.activeTabType) {
+            // console.log(this.state.outageSummaryData[0]["entity"]["type"]);
             let topoData = this.state.topoData;
 
             // get Topographic info for a country if it has outages
@@ -154,14 +174,15 @@ class Dashboard extends Component {
                     topoData.features[topoItemIndex] = item;
                 }
             });
+            console.log(topoData);
             return <TopoMap topoData={topoData}/>;
         }
     }
 
     // Make API call to retrieve topographic data
-    getDataTopo() {
+    getDataTopo(entityType) {
         if (this.state.mounted) {
-            let entityType = "country";
+            console.log(entityType);
             this.props.getTopoAction(entityType);
         }
     }
@@ -210,9 +231,9 @@ class Dashboard extends Component {
                             activeTab={activeTab}
                             handleSelectTab={this.handleSelectTab}
                         />
-                        {tab === this.countryTab && <DashboardTab type="country" populateGeoJsonMap={() => this.populateGeoJsonMap()}/>}
-                        {tab === this.regionTab && <DashboardTab type="region" populateGeoJsonMap={() => this.populateGeoJsonMap()}/>}
-                        {tab === this.asTab && <DashboardTab type="as" populateGeoJsonMap={() => this.populateGeoJsonMap()}/>}
+                        {tab === this.countryTab && <DashboardTab type={this.state.activeTabType} populateGeoJsonMap={() => this.populateGeoJsonMap()}/>}
+                        {tab === this.regionTab && <DashboardTab type={this.state.activeTabType} populateGeoJsonMap={() => this.populateGeoJsonMap()}/>}
+                        {tab === this.asTab && <DashboardTab type={this.state.activeTabType} populateGeoJsonMap={() => this.populateGeoJsonMap()}/>}
                     </div>
                 </div>
             </div>
