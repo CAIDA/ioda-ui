@@ -142,7 +142,7 @@ class Home extends Component {
         }
     }
 
-    // Make API  call to retrieve summary data to populate on map
+    // Make API call to retrieve summary data to populate on map
     getDataOutageSummary() {
         if (this.state.mounted) {
             let until = Math.round(new Date().getTime() / 1000);
@@ -305,7 +305,6 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
     return {
         suggestedSearchResults: state.iodaApi.entities,
         summary: state.iodaApi.summary,

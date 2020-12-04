@@ -1,13 +1,8 @@
 import React, {Component} from 'react';
 
-
 class DashboardTab extends Component {
     constructor(props) {
         super(props);
-    }
-
-    componentDidMount() {
-        this.props.populateGeoJsonMap();
     }
 
     render() {
@@ -20,8 +15,7 @@ class DashboardTab extends Component {
                             View Changer
                             Modal
                         </div>
-                        <div className="tab__map">
-                            Map
+                        <div className="tab__map" style={{height: '400px'}}>
                             {
                                 this.props.populateGeoJsonMap()
                             }

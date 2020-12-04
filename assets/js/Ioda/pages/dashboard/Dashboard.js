@@ -48,7 +48,6 @@ class Dashboard extends Component {
         this.countryTab = "Country View";
         this.regionTab = "Region View";
         this.asTab = "AS/ISP View";
-        this.populateGeoJsonMap = this.populateGeoJsonMap.bind(this);
     }
 
     componentDidMount() {
@@ -69,28 +68,28 @@ class Dashboard extends Component {
         })
     }
 
-    componentDidUpdate(nextProps) {
+    componentDidUpdate(prevProps) {
         // A check to prevent repetitive selection of the same tab
-        if (nextProps.match.params.tab !== this.props.match.params.tab) {
-            this.handleSelectTab(this.tabs[nextProps.match.params.tab]);
+        if (this.props.match.params.tab !== prevProps.match.params.tab) {
+            this.handleSelectTab(this.tabs[prevProps.match.params.tab]);
         }
 
         // After API call for suggested search results completes, update suggestedSearchResults state with fresh data
-        if (this.props.suggestedSearchResults !== nextProps.suggestedSearchResults) {
+        if (this.props.suggestedSearchResults !== prevProps.suggestedSearchResults) {
             this.setState({
                 suggestedSearchResults: this.props.suggestedSearchResults
             });
         }
 
         // After API call for outage summary data completes, pass summary data to map function for data merging
-        if (this.props.summary !== nextProps.summary) {
+        if (this.props.summary !== prevProps.summary) {
             this.setState({
                 outageSummaryData: this.props.summary
             })
         }
 
         // After API call for topographic data completes, update topoData state with fresh data
-        if (this.props.topoData !== nextProps.topoData) {
+        if (this.props.topoData !== prevProps.topoData) {
             let topoObjects = topojson.feature(this.props.topoData.country.topology, this.props.topoData.country.topology.objects["ne_10m_admin_0.countries.v3.1.0"]);
             this.setState({
                 topoData: topoObjects
