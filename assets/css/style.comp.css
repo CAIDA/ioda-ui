@@ -953,3 +953,7 @@ button[class*="searchButton"] {
       max-height: 15rem; }
   .card__text {
     height: 20rem; }
+
+.dashboard {
+  padding-top: 7rem;
+  margin-top: 4rem; }

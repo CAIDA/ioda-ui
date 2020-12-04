@@ -32,7 +32,7 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-// React Components
+// React Imports
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -64,8 +64,8 @@ const Card = partner => {
             <div className="card__logo">
                 {
                     org === 'otf'
-                    ? <img src={otfLogo} alt={`${partner.partner} logo`} className="card__logo-icon" />
-                    : org === 'dhs'
+                        ? <img src={otfLogo} alt={`${partner.partner} logo`} className="card__logo-icon" />
+                        : org === 'dhs'
                         ? <img src={dhsLogo} alt={`${partner.partner} logo`} className="card__logo-icon" />
                         : org === 'comcast'
                             ? <img src={comcastLogo} alt={`${partner.partner} logo`} className="card__logo-icon" />
@@ -221,7 +221,7 @@ class Home extends Component {
                         />
                         <p className="search__text">
                             or continue to
-                            <Link to="/" className="search__link">
+                            <Link to="/dashboard" className="search__link">
                                 Outages Dashboard >>
                             </Link>
                         </p>
@@ -261,7 +261,7 @@ class Home extends Component {
                                 macroscopic Internet outages affecting the edge of the network, i.e. significantly
                                 impacting an AS (Autonomous System) or a large fraction of a country.
                             </p>
-                            <Link to="/" className="button">
+                            <Link to="/dashboard" className="button">
                                 <button>
                                     Outages Dashboard >>
                                 </button>
@@ -316,7 +316,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         searchEntitiesAction: (searchQuery, limit=15) => {
-           searchEntities(dispatch, searchQuery, limit);
+            searchEntities(dispatch, searchQuery, limit);
         },
         searchSummaryAction: (from, until, entityType, entityCode=null, limit=null, page=null) => {
             searchSummary(dispatch, from, until, entityType, entityCode, limit, page);

@@ -32,6 +32,7 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
+// Remove button from search bar
 button[class*="searchButton"] {
   display: none!important;
 }

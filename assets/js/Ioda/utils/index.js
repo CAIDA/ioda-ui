@@ -76,3 +76,8 @@ export function toDateTime(s) {
     console.log(t);
     return t;
 }
+
+export function generateKeys(prefix) {
+    var key = (prefix) ? prefix : '';
+    return (key + Math.random().toString(34).slice(2));
+}
