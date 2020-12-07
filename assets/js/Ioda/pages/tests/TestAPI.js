@@ -447,7 +447,6 @@ class TestAPI extends Component {
             this.genSummaryTable();
         })
     }
-
     genSummaryTable() {
         return (
             this.state.summaryDataProcessed &&

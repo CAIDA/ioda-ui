@@ -9,19 +9,16 @@ import { getTopoAction } from "../../data/ActionTopo";
 import { searchSummary } from "../../data/ActionOutages";
 // Components
 import ControlPanel from '../../components/controlPanel/ControlPanel';
+import { Searchbar } from 'caida-components-library'
 import Tabs from '../../components/tabs/Tabs';
 import DashboardTab from "./DashboardTab";
-import { Searchbar } from 'caida-components-library'
 import TopoMap from "../../components/map/Map";
 import * as topojson from 'topojson';
+import Table from "../../components/table/Table";
 // Constants
 import {tabOptions, country, region, as} from "./DashboardConstants";
 import {connect} from "react-redux";
 import {convertSecondsToDateValues} from "../../utils";
-
-
-
-
 
 
 class Dashboard extends Component {
@@ -30,16 +27,17 @@ class Dashboard extends Component {
         this.state = {
             mounted: false,
             // Tabs
-            activeTab: region.tab,
-            activeTabType: region.type,
-            tab: "Region View",
+            activeTab: country.tab,
+            activeTabType: country.type,
+            tab: "Country View",
             // Search bar
             suggestedSearchResults: null,
             searchTerm: null,
             // Map data
             topoData: null,
-            // Table data
-            outageSummaryData: null
+            // Summary table
+            summaryDataRaw: null,
+            summaryDataProcessed: []
         };
         this.tabs = {
             country: country.tab,
@@ -56,10 +54,9 @@ class Dashboard extends Component {
         this.setState({
             mounted: true
         },() => {
-            console.log(this.state);
             // Set initial tab to load
             this.handleSelectTab(this.tabs[this.props.match.params.tab]);
-            // Get topo and outage data to populate map
+            // Get topo and outage data to populate map and table
             this.getDataTopo(this.state.activeTabType);
             this.getDataOutageSummary(this.state.activeTabType);
         });
@@ -93,7 +90,9 @@ class Dashboard extends Component {
         // After API call for outage summary data completes, pass summary data to map function for data merging
         if (this.props.summary !== prevProps.summary) {
             this.setState({
-                outageSummaryData: this.props.summary
+                summaryDataRaw: this.props.summary
+            },() => {
+                this.convertValuesForSummaryTable();
             })
         }
 
@@ -127,25 +126,25 @@ class Dashboard extends Component {
             });
             if (history.location.pathname !== as.url) {history.push(as.url);}
         }
-        else if (selectedKey === country.tab) {
-            this.setState({
-                activeTab: country.tab,
-                tab: this.countryTab,
-                activeTabType: country.type,
-                topoData: null,
-                outageSummaryData: null
-            });
-            history.push(country.url);
-        }
-        else if (selectedKey === region.tab || !selectedKey) {
+        else if (selectedKey === region.tab) {
             this.setState({
                 activeTab: selectedKey,
                 tab: this.regionTab,
                 activeTabType: region.type,
                 topoData: null,
-                outageSummaryData: null
+                summaryDataRaw: null
             });
             if (history.location.pathname !== region.url) {history.push(region.url);}
+        }
+        else if (selectedKey === country.tab || !selectedKey) {
+            this.setState({
+                activeTab: country.tab,
+                tab: this.countryTab,
+                activeTabType: country.type,
+                topoData: null,
+                summaryDataRaw: null
+            });
+            if (history.location.pathname !== country.url) {history.push(country.url);}
         }
     };
 
@@ -155,19 +154,19 @@ class Dashboard extends Component {
         if (this.state.mounted) {
             let until = Math.round(new Date().getTime() / 1000);
             let from = Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000);
-
             this.props.searchSummaryAction(from, until, entityType);
         }
     }
 
 // Map
     // Populate JSX that creates the map once topographic data is available
+    // Proccess Geo data, attribute outage scores to a new topoData property where possible, then render Map
     populateGeoJsonMap() {
-        if (this.state.topoData && this.state.outageSummaryData && this.state.outageSummaryData[0]["entity"]["type"] === this.state.activeTabType) {
+        if (this.state.topoData && this.state.summaryDataRaw && this.state.summaryDataRaw[0]["entity"]["type"] === this.state.activeTabType) {
             let topoData = this.state.topoData;
 
             // get Topographic info for a country if it has outages
-            this.state.outageSummaryData.map(outage => {
+            this.state.summaryDataRaw.map(outage => {
                 let topoItemIndex;
                 this.state.activeTabType === 'country'
                     ? topoItemIndex = this.state.topoData.features.findIndex(topoItem => topoItem.properties.usercode === outage.entity.code)
@@ -216,6 +215,56 @@ class Dashboard extends Component {
         });
     }
 
+// Summary Table
+    //
+    convertValuesForSummaryTable() {
+        let summaryData = [];
+        this.state.summaryDataRaw.map(summary => {
+            // console.log(summary["scores"]);
+            let overallScore = null;
+
+            let summaryScores = [];
+
+            Object.entries(summary["scores"]).map((entry) => {
+                // console.log(entry);
+                if (entry[0] !== "overall") {
+                    const entryItem = {
+                        source: entry[0],
+                        score: entry[1]
+                    };
+                    summaryScores.push(entryItem);
+                } else {
+                    overallScore = entry[1]
+                }
+            });
+
+            // console.log(summary);
+            const summaryItem = {
+                entityType: summary["entity"].type,
+                name: summary["entity"].name,
+                score: overallScore,
+                scores: summaryScores
+            };
+            summaryData.push(summaryItem);
+        });
+        this.setState({
+            summaryDataProcessed: summaryData
+        }, () => {
+            this.genSummaryTable();
+        })
+    }
+
+    genSummaryTable() {
+        return (
+            this.state.summaryDataProcessed &&
+            <Table
+                type={"summary"}
+                data={this.state.summaryDataProcessed}
+            />
+        )
+    }
+
+
     render() {
         let { tab, activeTab } = this.state;
         return(
@@ -234,15 +283,29 @@ class Dashboard extends Component {
                             activeTab={activeTab}
                             handleSelectTab={this.handleSelectTab}
                         />
-                        {tab === this.countryTab && <DashboardTab type={this.state.activeTabType} populateGeoJsonMap={() => this.populateGeoJsonMap()}/>}
-                        {tab === this.regionTab && <DashboardTab type={this.state.activeTabType} populateGeoJsonMap={() => this.populateGeoJsonMap()}/>}
-                        {tab === this.asTab && <DashboardTab type={this.state.activeTabType} populateGeoJsonMap={() => this.populateGeoJsonMap()}/>}
+                        {tab === this.countryTab && <DashboardTab
+                            type={this.state.activeTabType}
+                            populateGeoJsonMap={() => this.populateGeoJsonMap()}
+                            genSummaryTable={() => this.genSummaryTable()}
+                        />}
+                        {tab === this.regionTab && <DashboardTab
+                            type={this.state.activeTabType}
+                            populateGeoJsonMap={() => this.populateGeoJsonMap()}
+                            genSummaryTable={() => this.genSummaryTable()}
+                        />}
+                        {tab === this.asTab && <DashboardTab
+                            type={this.state.activeTabType}
+                            populateGeoJsonMap={() => this.populateGeoJsonMap()}
+                            genSummaryTable={() => this.genSummaryTable()}
+                        />}
                     </div>
                 </div>
             </div>
         );
     }
 }
+
+
 
 
 const mapStateToProps = (state) => {

@@ -23,7 +23,9 @@ class DashboardTab extends Component {
                     </div>
                     <div className="col-1-of-3">
                         <div className="tab__table">
-                            Table
+                            {
+                                this.props.genSummaryTable()
+                            }
                         </div>
                     </div>
                 </div>
