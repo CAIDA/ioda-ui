@@ -17,6 +17,7 @@ import * as topojson from 'topojson';
 // Constants
 import {tabOptions, country, region, as} from "./DashboardConstants";
 import {connect} from "react-redux";
+import {convertSecondsToDateValues} from "../../utils";
 
 
 
@@ -29,9 +30,9 @@ class Dashboard extends Component {
         this.state = {
             mounted: false,
             // Tabs
-            activeTab: country.tab,
-            activeTabType: country.type,
-            tab: "Country View",
+            activeTab: region.tab,
+            activeTabType: region.type,
+            tab: "Region View",
             // Search bar
             suggestedSearchResults: null,
             searchTerm: null,
@@ -55,11 +56,12 @@ class Dashboard extends Component {
         this.setState({
             mounted: true
         },() => {
+            console.log(this.state);
             // Set initial tab to load
             this.handleSelectTab(this.tabs[this.props.match.params.tab]);
             // Get topo and outage data to populate map
-            this.getDataTopo(country.type);
-            this.getDataOutageSummary(country.type);
+            this.getDataTopo(this.state.activeTabType);
+            this.getDataOutageSummary(this.state.activeTabType);
         });
     }
 
@@ -104,8 +106,6 @@ class Dashboard extends Component {
                 topoObjects = topojson.feature(this.props.topoData.region.topology, this.props.topoData.region.topology.objects["ne_10m_admin_1.regions.v3.0.0"]);
             }
 
-
-
             this.setState({
                 topoData: topoObjects
             }, () => {
@@ -127,21 +127,25 @@ class Dashboard extends Component {
             });
             if (history.location.pathname !== as.url) {history.push(as.url);}
         }
-        else if (selectedKey === region.tab) {
-            this.setState({
-                activeTab: selectedKey,
-                tab: this.regionTab,
-                activeTabType: region.type
-            });
-            if (history.location.pathname !== region.url) {history.push(region.url);}
-        }
-        else if (selectedKey === country.tab || !selectedKey) {
+        else if (selectedKey === country.tab) {
             this.setState({
                 activeTab: country.tab,
                 tab: this.countryTab,
-                activeTabType: country.type
+                activeTabType: country.type,
+                topoData: null,
+                outageSummaryData: null
             });
             history.push(country.url);
+        }
+        else if (selectedKey === region.tab || !selectedKey) {
+            this.setState({
+                activeTab: selectedKey,
+                tab: this.regionTab,
+                activeTabType: region.type,
+                topoData: null,
+                outageSummaryData: null
+            });
+            if (history.location.pathname !== region.url) {history.push(region.url);}
         }
     };
 
@@ -149,10 +153,9 @@ class Dashboard extends Component {
     // Make API  call to retrieve summary data to populate on map
     getDataOutageSummary(entityType) {
         if (this.state.mounted) {
-            console.log(entityType);
             let until = Math.round(new Date().getTime() / 1000);
             let from = Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000);
-            console.log(from, until);
+
             this.props.searchSummaryAction(from, until, entityType);
         }
     }
@@ -161,12 +164,16 @@ class Dashboard extends Component {
     // Populate JSX that creates the map once topographic data is available
     populateGeoJsonMap() {
         if (this.state.topoData && this.state.outageSummaryData && this.state.outageSummaryData[0]["entity"]["type"] === this.state.activeTabType) {
-            // console.log(this.state.outageSummaryData[0]["entity"]["type"]);
             let topoData = this.state.topoData;
 
             // get Topographic info for a country if it has outages
             this.state.outageSummaryData.map(outage => {
-                let topoItemIndex = this.state.topoData.features.findIndex(topoItem => topoItem.properties.usercode === outage.entity.code);
+                let topoItemIndex;
+                this.state.activeTabType === 'country'
+                    ? topoItemIndex = this.state.topoData.features.findIndex(topoItem => topoItem.properties.usercode === outage.entity.code)
+                    : this.state.activeTabType === 'region'
+                        ? topoItemIndex = this.state.topoData.features.findIndex(topoItem => topoItem.properties.name === outage.entity.name)
+                        : null;
 
                 if (topoItemIndex > 0) {
                     let item = topoData.features[topoItemIndex];
@@ -174,7 +181,6 @@ class Dashboard extends Component {
                     topoData.features[topoItemIndex] = item;
                 }
             });
-            console.log(topoData);
             return <TopoMap topoData={topoData}/>;
         }
     }
@@ -182,7 +188,6 @@ class Dashboard extends Component {
     // Make API call to retrieve topographic data
     getDataTopo(entityType) {
         if (this.state.mounted) {
-            console.log(entityType);
             this.props.getTopoAction(entityType);
         }
     }
@@ -197,14 +202,12 @@ class Dashboard extends Component {
             this.props.searchEntitiesAction(searchTerm, 11);
         }
     }
-
     // Define what happens when user clicks suggested search result entry
     handleResultClick = (query) => {
         const { history } = this.props;
         console.log(query);
         // query.name ? history.push(`/search?query=${query.name}`) : history.push(`/search?query=${query}`);
     };
-
     // Reset searchbar with searchterm value when a selection is made, no customizations needed here.
     handleQueryUpdate = (query) => {
         this.forceUpdate();

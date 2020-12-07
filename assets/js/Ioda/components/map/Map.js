@@ -7,7 +7,6 @@ const thunderForestapiKey = "f3709489dd7c411580a4610ccb5c1370";
 class TopoMap extends Component {
     render() {
         let position = [20, 0];
-        console.log(this.props.topoData);
         return (
             <Map
                 center={position}
