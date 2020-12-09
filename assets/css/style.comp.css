@@ -398,6 +398,21 @@ body {
 .u-margin-right {
   margin-right: 0.5rem !important; }
 
+.range__input {
+  background-color: #fff;
+  height: 3rem;
+  width: 100%; }
+
+.range__dropdown {
+  display: none; }
+  .range__dropdown--visible {
+    display: inline-block; }
+
+.range__time {
+  display: none; }
+  .range__time--visible {
+    display: block; }
+
 .table {
   background-color: #fff;
   box-shadow: 0 3px 5px #333;

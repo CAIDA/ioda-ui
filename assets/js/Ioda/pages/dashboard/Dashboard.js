@@ -18,7 +18,8 @@ import Table from "../../components/table/Table";
 // Constants
 import {tabOptions, country, region, as} from "./DashboardConstants";
 import {connect} from "react-redux";
-import {convertSecondsToDateValues} from "../../utils";
+// Helper Functions
+import {convertValuesForSummaryTable, toDateTime} from "../../utils";
 
 
 class Dashboard extends Component {
@@ -26,6 +27,9 @@ class Dashboard extends Component {
         super(props);
         this.state = {
             mounted: false,
+            // Control Panel
+            from: Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000),
+            until: Math.round(new Date().getTime() / 1000),
             // Tabs
             activeTab: country.tab,
             activeTabType: country.type,
@@ -48,6 +52,7 @@ class Dashboard extends Component {
         this.countryTab = "Country View";
         this.regionTab = "Region View";
         this.asTab = "AS/ISP View";
+        this.handleTimeFrame = this.handleTimeFrame.bind(this);
     }
 
     componentDidMount() {
@@ -113,6 +118,34 @@ class Dashboard extends Component {
         }
     }
 
+// Control Panel
+    // manage the date selected
+    handleTimeFrame(dateRange, timeRange) {
+        // initialize values from parameters
+        let dStart = dateRange.startDate;
+        let tStart = timeRange[0].split(":");
+        let dEnd = dateRange.endDate;
+        let tEnd = timeRange[1].split(":");
+        // set time stamp on date
+        dStart = dStart.setHours(tStart[0], tStart[1], tStart[2]);
+        dEnd = dEnd.setHours(tEnd[0], tEnd[1], tEnd[2]);
+        // convert to seconds
+        dStart = Math.round(new Date(dStart).getTime() / 1000);
+        dEnd = Math.round(new Date(dEnd).getTime() / 1000);
+
+        this.setState({
+            from: dStart,
+            until: dEnd,
+            summaryDataRaw: null,
+            topoData: null,
+            summaryDataProcessed: []
+        }, () => {
+            // Get topo and outage data to repopulate map and table
+            this.getDataTopo(this.state.activeTabType);
+            this.getDataOutageSummary(this.state.activeTabType);
+        })
+    }
+
 // Tabbing
     // Function to map active tab to state and manage url
     handleSelectTab = selectedKey => {
@@ -152,17 +185,20 @@ class Dashboard extends Component {
     // Make API  call to retrieve summary data to populate on map
     getDataOutageSummary(entityType) {
         if (this.state.mounted) {
-            let until = Math.round(new Date().getTime() / 1000);
-            let from = Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000);
+            // let until = Math.round(new Date().getTime() / 1000);
+            // let from = Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000);
+            let until = this.state.until;
+            let from = this.state.from;
             this.props.searchSummaryAction(from, until, entityType);
         }
     }
 
 // Map
     // Populate JSX that creates the map once topographic data is available
-    // Proccess Geo data, attribute outage scores to a new topoData property where possible, then render Map
+    // Process Geo data, attribute outage scores to a new topoData property where possible, then render Map
     populateGeoJsonMap() {
-        if (this.state.topoData && this.state.summaryDataRaw && this.state.summaryDataRaw[0]["entity"]["type"] === this.state.activeTabType) {
+        console.log(this.state.summaryDataRaw);
+        if (this.state.topoData && this.state.summaryDataRaw && this.state.summaryDataRaw[0]["entity"] && this.state.summaryDataRaw[0]["entity"]["type"] === this.state.activeTabType) {
             let topoData = this.state.topoData;
 
             // get Topographic info for a country if it has outages
@@ -171,8 +207,8 @@ class Dashboard extends Component {
                 this.state.activeTabType === 'country'
                     ? topoItemIndex = this.state.topoData.features.findIndex(topoItem => topoItem.properties.usercode === outage.entity.code)
                     : this.state.activeTabType === 'region'
-                        ? topoItemIndex = this.state.topoData.features.findIndex(topoItem => topoItem.properties.name === outage.entity.name)
-                        : null;
+                    ? topoItemIndex = this.state.topoData.features.findIndex(topoItem => topoItem.properties.name === outage.entity.name)
+                    : null;
 
                 if (topoItemIndex > 0) {
                     let item = topoData.features[topoItemIndex];
@@ -182,6 +218,7 @@ class Dashboard extends Component {
             });
             return <TopoMap topoData={topoData}/>;
         }
+
     }
 
     // Make API call to retrieve topographic data
@@ -216,37 +253,8 @@ class Dashboard extends Component {
     }
 
 // Summary Table
-    //
     convertValuesForSummaryTable() {
-        let summaryData = [];
-        this.state.summaryDataRaw.map(summary => {
-            // console.log(summary["scores"]);
-            let overallScore = null;
-
-            let summaryScores = [];
-
-            Object.entries(summary["scores"]).map((entry) => {
-                // console.log(entry);
-                if (entry[0] !== "overall") {
-                    const entryItem = {
-                        source: entry[0],
-                        score: entry[1]
-                    };
-                    summaryScores.push(entryItem);
-                } else {
-                    overallScore = entry[1]
-                }
-            });
-
-            // console.log(summary);
-            const summaryItem = {
-                entityType: summary["entity"].type,
-                name: summary["entity"].name,
-                score: overallScore,
-                scores: summaryScores
-            };
-            summaryData.push(summaryItem);
-        });
+        let summaryData = convertValuesForSummaryTable(this.state.summaryDataRaw);
         this.setState({
             summaryDataProcessed: summaryData
         }, () => {
@@ -275,7 +283,7 @@ class Dashboard extends Component {
                         <h2>Outages Occuring Today</h2>
                     </div>
                 </div>
-                <ControlPanel />
+                <ControlPanel timeFrame={this.handleTimeFrame} />
                 <div className="row tabs">
                     <div className="col-1-of-1">
                         <Tabs

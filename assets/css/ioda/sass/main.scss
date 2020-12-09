@@ -41,6 +41,7 @@
 @import "base/typography";
 @import "base/utilities";
 
+@import "components/controlPanel/controlPanel";
 @import "components/eventAlertTable/table";
 
 @import "layout/footer";
@@ -50,3 +51,5 @@
 
 @import "pages/home";
 @import "pages/dashboard";
+
+

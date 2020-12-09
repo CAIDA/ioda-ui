@@ -81,3 +81,33 @@ export function generateKeys(prefix) {
     var key = (prefix) ? prefix : '';
     return (key + Math.random().toString(34).slice(2));
 }
+
+export function convertValuesForSummaryTable(summaryDataRaw) {
+    let summaryData = [];
+    summaryDataRaw.map(summary => {
+        let overallScore = null;
+        let summaryScores = [];
+
+        Object.entries(summary["scores"]).map((entry) => {
+            if (entry[0] !== "overall") {
+                const entryItem = {
+                    source: entry[0],
+                    score: entry[1]
+                };
+                summaryScores.push(entryItem);
+            } else {
+                overallScore = entry[1]
+            }
+        });
+
+        // console.log(summary);
+        const summaryItem = {
+            entityType: summary["entity"].type,
+            name: summary["entity"].name,
+            score: overallScore,
+            scores: summaryScores
+        };
+        summaryData.push(summaryItem);
+    });
+    return summaryData;
+}
