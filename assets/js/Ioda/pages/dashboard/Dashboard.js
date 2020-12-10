@@ -19,7 +19,7 @@ import Table from "../../components/table/Table";
 import {tabOptions, country, region, as} from "./DashboardConstants";
 import {connect} from "react-redux";
 // Helper Functions
-import {convertValuesForSummaryTable, toDateTime} from "../../utils";
+import {convertValuesForSummaryTable} from "../../utils";
 
 
 class Dashboard extends Component {
@@ -194,10 +194,8 @@ class Dashboard extends Component {
     }
 
 // Map
-    // Populate JSX that creates the map once topographic data is available
     // Process Geo data, attribute outage scores to a new topoData property where possible, then render Map
     populateGeoJsonMap() {
-        console.log(this.state.summaryDataRaw);
         if (this.state.topoData && this.state.summaryDataRaw && this.state.summaryDataRaw[0]["entity"] && this.state.summaryDataRaw[0]["entity"]["type"] === this.state.activeTabType) {
             let topoData = this.state.topoData;
 
@@ -244,12 +242,22 @@ class Dashboard extends Component {
         console.log(query);
         // query.name ? history.push(`/search?query=${query.name}`) : history.push(`/search?query=${query}`);
     };
-    // Reset searchbar with searchterm value when a selection is made, no customizations needed here.
+    // Reset search bar with search term value when a selection is made, no customizations needed here.
     handleQueryUpdate = (query) => {
         this.forceUpdate();
         this.setState({
             searchTerm: query
         });
+    }
+    // Function that returns search bar passed into control panel
+    populateSearchBar() {
+        return <Searchbar placeholder={'Search for a Country, Region, or AS/ISP'}
+                          getData={this.getDataSuggestedSearchResults.bind(this)}
+                          itemPropertyName={'name'}
+                          handleResultClick={(event) => this.handleResultClick(event)}
+                          searchResults={this.state.suggestedSearchResults}
+                          handleQueryUpdate={this.handleQueryUpdate}
+        />
     }
 
 // Summary Table
@@ -283,7 +291,10 @@ class Dashboard extends Component {
                         <h2>Outages Occuring Today</h2>
                     </div>
                 </div>
-                <ControlPanel timeFrame={this.handleTimeFrame} />
+                <ControlPanel
+                    timeFrame={this.handleTimeFrame}
+                    searchbar={() => this.populateSearchBar()}
+                />
                 <div className="row tabs">
                     <div className="col-1-of-1">
                         <Tabs

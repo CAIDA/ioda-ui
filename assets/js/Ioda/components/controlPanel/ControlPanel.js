@@ -81,12 +81,14 @@ class ControlPanel extends Component {
                             />
                         </div>
                     </div>
-                    <p>Time Zone</p>
+                    <p style={{width: '100%', textAlign: 'right'}}>Time Zone</p>
                 </div>
                 <div className="col-2-of-3">
-                    <p>Social</p>
-                    <p>Searchbar</p>
-                    <p>Recent History</p>
+                    <p style={{width: '100%', textAlign: 'right'}}>Social</p>
+                    {
+                        this.props.searchbar()
+                    }
+                    <p style={{width: '100%', textAlign: 'right'}}>Recent Session History</p>
                 </div>
             </div>
         );

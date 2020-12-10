@@ -400,18 +400,88 @@ body {
 
 .range__input {
   background-color: #fff;
-  height: 3rem;
-  width: 100%; }
+  height: 3.5rem;
+  width: 100%;
+  margin-top: 1.8rem;
+  border: 1px solid #010201;
+  border-radius: 3px;
+  box-shadow: 0 3px 5px #333;
+  outline: none; }
 
 .range__dropdown {
-  display: none; }
+  display: none;
+  z-index: 10000;
+  position: absolute;
+  left: 0;
+  top: 7.25rem;
+  border: 1px solid #010201;
+  box-shadow: 0 3px 5px #333;
+  border-radius: 3px; }
+  .range__dropdown-checkbox {
+    position: absolute;
+    bottom: 3rem;
+    width: 18.3rem;
+    display: flex;
+    justify-content: center; }
   .range__dropdown--visible {
     display: inline-block; }
 
 .range__time {
-  display: none; }
+  display: none;
+  position: absolute;
+  bottom: 5rem;
+  left: 0.5rem; }
   .range__time--visible {
     display: block; }
+
+.react-timerange-picker {
+  display: inline-flex;
+  position: relative; }
+  .react-timerange-picker--disabled {
+    background-color: #f0f0f0;
+    color: #6d6d6d; }
+  .react-timerange-picker__wrapper {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 0;
+    border: thin solid gray; }
+  .react-timerange-picker__inputGroup {
+    min-width: calc((4px * 3) + 3.24em + 0.434em);
+    flex-grow: 1;
+    padding: 0 2px;
+    box-sizing: content-box; }
+    .react-timerange-picker__inputGroup__input {
+      min-width: .54em;
+      height: 100%;
+      position: relative;
+      padding: 0 1px;
+      border: 0;
+      background: none;
+      font: inherit;
+      box-sizing: content-box !important;
+      -moz-appearance: textfield; }
+      .react-timerange-picker__inputGroup__input::-webkit-outer-spin-button, .react-timerange-picker__inputGroup__input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0; }
+      .react-timerange-picker__inputGroup__input:invalid {
+        background: rgba(255, 0, 0, 0.1); }
+      .react-timerange-picker__inputGroup__input--hasLeadingZero {
+        margin-left: -0.54em;
+        padding-left: calc(1px + .54em); }
+    .react-timerange-picker__inputGroup__leadingZero {
+      margin-top: 1px; }
+    .react-timerange-picker__inputGroup__amPm {
+      font: inherit;
+      -moz-appearance: menulist; }
+
+.react-time-picker__inputGroup__divider {
+  padding: 1px 0;
+  white-space: pre; }
+
+.react-timerange-picker, .react-timerange-picker *, .react-timerange-picker *:before, .react-timerange-picker *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
 
 .table {
   background-color: #fff;
@@ -972,3 +1042,5 @@ button[class*="searchButton"] {
 .dashboard {
   padding-top: 7rem;
   margin-top: 4rem; }
+  .dashboard .col-1-of-3 {
+    position: relative; }

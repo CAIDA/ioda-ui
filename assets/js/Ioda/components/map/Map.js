@@ -15,7 +15,7 @@ class TopoMap extends Component {
                 style={{width: 'inherit', height: 'inherit', overflow: 'hidden'}}
             >
                 <TileLayer
-                    id="mapbox/streets-v11"
+                    id="mapbox/light-v10"
                     url={`https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=${mapAccessToken}`}
                 /><GeoJSON
                 data={this.props.topoData}
