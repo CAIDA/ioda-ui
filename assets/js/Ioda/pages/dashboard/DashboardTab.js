@@ -11,7 +11,7 @@ class DashboardTab extends Component {
                 <div className="row">
                     <div className="col-2-of-3">
                         <div className="tab__config">
-                            <button className="tab__config-button">View Changer</button>
+                            <button className="tab__config-button">View Chagnger</button>
                             <button className="tab__config-button">Modal</button>
                         </div>
                         {

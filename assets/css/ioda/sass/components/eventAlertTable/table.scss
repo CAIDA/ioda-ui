@@ -194,4 +194,26 @@
       box-shadow: $box-shadow;
     }
   }
+
+  &__page {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+
+    &-text {
+
+    }
+
+    &-button {
+      @include button;
+      width: 7rem;
+      height: 1.5rem;
+      border-radius: 1.5rem;
+      margin: 0.5rem 1rem;
+      font-size: 1.2rem;
+
+    }
+  }
 }

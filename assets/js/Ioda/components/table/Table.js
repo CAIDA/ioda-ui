@@ -12,6 +12,9 @@ class Table extends Component {
         super(props);
         this.state = {
             data: [],
+            pageNumber: 1,
+            currentDisplayLow: 0,
+            currentDisplayHigh: 10,
             sortedColumn: {
                 name: "",
                 position: "",
@@ -40,6 +43,7 @@ class Table extends Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.data !== prevProps.data) {
+            console.log(this.props.data);
             this.setState({
                 data: this.props.data
             });
@@ -49,8 +53,8 @@ class Table extends Component {
                 this.setState({
                     sortedColumn: {
                         name: "dateStamp",
-                        position: "asc",
-                        arrow: iconSortAsc
+                        position: "desc",
+                        arrow: iconSortDesc
                     }
                 });
             }
@@ -60,8 +64,8 @@ class Table extends Component {
                 this.setState({
                     sortedColumn: {
                         name: "fromDate",
-                        position: "asc",
-                        arrow: iconSortAsc
+                        position: "desc",
+                        arrow: iconSortDesc
                     }
                 });
             }
@@ -71,8 +75,8 @@ class Table extends Component {
                 this.setState({
                     sortedColumn: {
                         name: "score",
-                        position: "asc",
-                        arrow: iconSortAsc
+                        position: "desc",
+                        arrow: iconSortDesc
                     }
                 });
             }
@@ -148,112 +152,147 @@ class Table extends Component {
         })
     }
 
+    nextPage() {
+        if (this.state.data && this.state.pageNumber < this.state.data.length / 10) {
+
+            this.setState({
+                pageNumber: this.state.pageNumber + 1,
+                currentDisplayLow: this.state.currentDisplayLow + 10,
+                currentDisplayHigh: this.state.currentDisplayHigh + 10 < this.state.data.length
+                    ? this.state.currentDisplayHigh + 10
+                    : this.state.data.length
+            })
+        }
+    }
+
+    prevPage() {
+        if (this.state.data && this.state.pageNumber > 1) {
+            console.log(this.state.currentDisplayLow);
+            this.setState({
+                pageNumber: this.state.pageNumber - 1,
+                currentDisplayLow: this.state.currentDisplayLow - 10,
+                currentDisplayHigh: this.state.currentDisplayHigh + 10 > this.state.data.length
+                    ? 10 * this.state.pageNumber - 10
+                    : this.state.currentDisplayHigh - 10,
+            })
+        }
+    }
+
     render() {
         const { type } = this.props;
-        console.log(this.state.data);
         return (
-            <table className={`table ${type === "alert" ? "table--alert" : type === "event" ? "table--event" : "table--summary"}`}>
-                <thead>
-                <tr className="table__header">
+            <div className="table__wrapper">
+                <table className={`table ${type === "alert" ? "table--alert" : type === "event" ? "table--event" : "table--summary"}`}>
+                    <thead>
+                    <tr className="table__header">
+                        {
+                            Object.values(type === "alert"
+                                ? this.alertHeaders
+                                : type === "event"
+                                    ? this.eventHeaders
+                                    : type === "summary"
+                                        ? this.summaryHeaders
+                                        : null
+                            ).map(header => {
+                                return <th className="table__header-col" key={header}>
+                                    <button onClick={(event) => this.sortByColumn(event)} value={header}>
+                                        {header}
+                                        {
+                                            type === "alert"
+                                                ? header === this.alertHeaders[this.state.sortedColumn.name]
+                                                ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
+                                                : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
+                                                : null
+
+                                        }
+                                        {
+                                            type === "event"
+                                                ? header === this.eventHeaders[this.state.sortedColumn.name]
+                                                ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
+                                                : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
+                                                : null
+
+                                        }
+                                        {
+                                            type === "summary"
+                                                ? header === this.summaryHeaders[this.state.sortedColumn.name]
+                                                ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
+                                                : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
+                                                : null
+
+                                        }
+                                    </button>
+                                </th>;
+                            })
+                        }
+                    </tr>
+                    </thead>
+                    <tbody>
                     {
-                        Object.values(type === "alert"
-                            ? this.alertHeaders
-                            : type === "event"
-                                ? this.eventHeaders
-                                : type === "summary"
-                                    ? this.summaryHeaders
-                                    : null
-                        ).map(header => {
-                            return <th className="table__header-col" key={header}>
-                                <button onClick={(event) => this.sortByColumn(event)} value={header}>
-                                    {header}
+                        this.props.type === "alert" && this.state.data.map((alert, index) => {
+                            return <tr key={index}>
+                                <td className={alert.level === "warning" ? "table--alert-warning" : "table--alert-normal"}>
                                     {
-                                        type === "alert"
-                                            ? header === this.alertHeaders[this.state.sortedColumn.name]
-                                                ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
-                                                : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
-                                            : null
-
+                                        alert.level === "warning"
+                                            ? <img className="table--alert-level-img" src={iconCancel} alt="✗"/>
+                                            : <img className="table--alert-level-img" src={iconCheckmark} alt="✓"/>
                                     }
-                                    {
-                                        type === "event"
-                                            ? header === this.eventHeaders[this.state.sortedColumn.name]
-                                                ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
-                                                : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
-                                            : null
-
-                                    }
-                                    {
-                                        type === "summary"
-                                            ? header === this.summaryHeaders[this.state.sortedColumn.name]
-                                                ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
-                                                : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
-                                            : null
-
-                                    }
-                                </button>
-                            </th>;
+                                </td>
+                                <td>
+                                    <p>{alert.date.month} {alert.date.day}, {alert.date.year}</p>
+                                    <p>{alert.date.hours}:{alert.date.minutes} {alert.date.meridian}</p>
+                                </td>
+                                <td>
+                                    {alert.dataSource}
+                                </td>
+                                <td>
+                                    {alert.actualValue}
+                                </td>
+                                <td>
+                                    {alert.baselineValue}
+                                </td>
+                            </tr>
                         })
                     }
-                </tr>
-                </thead>
-                <tbody>
-                {
-                    this.props.type === "alert" && this.state.data.map((alert, index) => {
-                        return <tr key={index}>
-                            <td className={alert.level === "warning" ? "table--alert-warning" : "table--alert-normal"}>
-                                {
-                                    alert.level === "warning"
-                                        ? <img className="table--alert-level-img" src={iconCancel} alt="✗"/>
-                                        : <img className="table--alert-level-img" src={iconCheckmark} alt="✓"/>
-                                }
-                            </td>
-                            <td>
-                                <p>{alert.date.month} {alert.date.day}, {alert.date.year}</p>
-                                <p>{alert.date.hours}:{alert.date.minutes} {alert.date.meridian}</p>
-                            </td>
-                            <td>
-                                {alert.dataSource}
-                            </td>
-                            <td>
-                                {alert.actualValue}
-                            </td>
-                            <td>
-                                {alert.baselineValue}
-                            </td>
-                        </tr>
-                    })
-                }
-                {
-                    this.props.type === "event" && this.state.data.map((event, index) => {
-                        return <tr key={index}>
-                            <td>
-                                {event.age}
-                            </td>
-                            <td>
-                                <p>{event.from.month} {event.from.day}, {event.from.year}</p>
-                                <p>{event.from.hours}:{event.from.minutes} {event.from.meridian}</p>
-                            </td>
-                            <td>
-                                <p>{event.until.month} {event.until.day}, {event.until.year}</p>
-                                <p>{event.until.hours}:{event.until.minutes} {event.until.meridian}</p>
-                            </td>
-                            <td>
-                                {event.duration}
-                            </td>
-                            <td>
-                                {event.score}
-                            </td>
-                        </tr>
-                    })
-                }
-                {
-                    this.props.type === "summary" && this.state.data.map((summary, index) => {
-                        return <SummaryTableRow data={summary} key={index}/>
-                    }, this)
-                }
-                </tbody>
-            </table>
+                    {
+                        this.props.type === "event" && this.state.data.map((event, index) => {
+                            return <tr key={index}>
+                                <td>
+                                    {event.age}
+                                </td>
+                                <td>
+                                    <p>{event.from.month} {event.from.day}, {event.from.year}</p>
+                                    <p>{event.from.hours}:{event.from.minutes} {event.from.meridian}</p>
+                                </td>
+                                <td>
+                                    <p>{event.until.month} {event.until.day}, {event.until.year}</p>
+                                    <p>{event.until.hours}:{event.until.minutes} {event.until.meridian}</p>
+                                </td>
+                                <td>
+                                    {event.duration}
+                                </td>
+                                <td>
+                                    {event.score}
+                                </td>
+                            </tr>
+                        })
+                    }
+                    {
+                        this.props.type === "summary" && this.state.data.slice(this.state.currentDisplayLow, this.state.currentDisplayHigh).map((summary, index) => {
+                            return <SummaryTableRow data={summary} key={index}/>
+                        }, this)
+                    }
+                    </tbody>
+                </table>
+                <div className="table__page">
+                    <p className="table__page-text">Showing {this.state.currentDisplayLow + 1} - {this.state.currentDisplayHigh} of {this.state.data.length} Entries</p>
+                    <div className="table__page-controls">
+                        <button onClick={() => this.prevPage()} className="table__page-button">Prev</button>
+                        <button onClick={() => this.nextPage()} className="table__page-button">Next</button>
+                    </div>
+
+                </div>
+            </div>
         );
     }
 }
