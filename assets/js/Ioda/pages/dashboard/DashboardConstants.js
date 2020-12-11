@@ -10,7 +10,7 @@ const region = {
     url: '/dashboard/region'
 };
 const as = {
-    type: 'as',
+    type: 'asn',
     tab: 3,
     url: '/dashboard/as'
 };

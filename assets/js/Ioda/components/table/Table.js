@@ -150,6 +150,7 @@ class Table extends Component {
 
     render() {
         const { type } = this.props;
+        console.log(this.state.data);
         return (
             <table className={`table ${type === "alert" ? "table--alert" : type === "event" ? "table--event" : "table--summary"}`}>
                 <thead>

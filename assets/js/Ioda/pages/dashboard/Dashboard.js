@@ -80,8 +80,10 @@ class Dashboard extends Component {
         }
 
         if (this.state.activeTabType && this.state.activeTabType !== prevState.activeTabType) {
-            // Get updated topo and outage data to populate map
-            this.getDataTopo(this.state.activeTabType);
+            // Get updated topo and outage data to populate map, no topo for asns
+            this.state.activeTabType !== as.type
+                ? this.getDataTopo(this.state.activeTabType)
+                : null;
             this.getDataOutageSummary(this.state.activeTabType);
         }
 
@@ -119,7 +121,7 @@ class Dashboard extends Component {
     }
 
 // Control Panel
-    // manage the date selected
+    // manage the date selected in the input
     handleTimeFrame(dateRange, timeRange) {
         // initialize values from parameters
         let dStart = dateRange.startDate;
@@ -155,7 +157,9 @@ class Dashboard extends Component {
             this.setState({
                 activeTab: selectedKey,
                 tab: this.asTab,
-                activeTabType: as.type
+                activeTabType: as.type,
+                topoData: null,
+                summaryDataRaw: null
             });
             if (history.location.pathname !== as.url) {history.push(as.url);}
         }
@@ -182,7 +186,7 @@ class Dashboard extends Component {
     };
 
 // Outage Data
-    // Make API  call to retrieve summary data to populate on map
+    // Make API call to retrieve summary data to populate on map
     getDataOutageSummary(entityType) {
         if (this.state.mounted) {
             // let until = Math.round(new Date().getTime() / 1000);
@@ -262,6 +266,7 @@ class Dashboard extends Component {
 
 // Summary Table
     convertValuesForSummaryTable() {
+        console.log(this.state.summaryDataRaw);
         let summaryData = convertValuesForSummaryTable(this.state.summaryDataRaw);
         this.setState({
             summaryDataProcessed: summaryData
@@ -314,7 +319,6 @@ class Dashboard extends Component {
                         />}
                         {tab === this.asTab && <DashboardTab
                             type={this.state.activeTabType}
-                            populateGeoJsonMap={() => this.populateGeoJsonMap()}
                             genSummaryTable={() => this.genSummaryTable()}
                         />}
                     </div>

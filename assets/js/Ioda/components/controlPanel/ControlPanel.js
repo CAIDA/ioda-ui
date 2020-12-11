@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import { DateRangePicker } from 'react-date-range';
 import { addDays } from 'date-fns'
 // Time Picker Dependencies
-import TimeRangePicker from '@wojtekmaj/react-timerange-picker'
+import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
+import {getIsoStringFromDate} from '../../utils/index';
 
 class ControlPanel extends Component {
     constructor(props) {
@@ -51,11 +52,26 @@ class ControlPanel extends Component {
     }
 
     render() {
+        // let startDate = this.state.selection.startDate.toISOString().split("T")[0];
+        // let startTime = this.state.selection.startDate.toISOString().split("T")[1].split(".")[0];
+        let startTime = this.state.selection.startDate.toLocaleString( 'sv', { timeZoneName: 'short' } );
+        // let endDate = this.state.selection.endDate.toISOString().split("T")[0];
+        // let endTime = this.state.selection.endDate.toISOString().split("T")[1].split(".")[0];
+        let endTime = this.state.selection.endDate.toLocaleString( 'sv', { timeZoneName: 'short' } );
+
         return(
             <div className="row control-panel">
                 <div className="col-1-of-3">
                     <p>Time Range</p>
-                    <button className="range__input" onClick={() => this.handleRangeDisplay()}>A Day Ago - Now</button>
+                    <button className="range__input" onClick={() => this.handleRangeDisplay()}>
+                        <span className="range__input-start">
+                            {startTime}
+                        </span>
+                        <span className="range__input-dash">—</span>
+                        <span className="range__input-end">
+                            {endTime}
+                        </span>
+                    </button>
                     <div className={this.state.rangeInputVisibility ? "range__dropdown range__dropdown--visible" : "range__dropdown"}>
                         <DateRangePicker
                             onChange={item => this.setState({ ...this.state, ...item })}

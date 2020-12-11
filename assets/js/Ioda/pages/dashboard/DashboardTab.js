@@ -10,16 +10,21 @@ class DashboardTab extends Component {
             <div className="tab">
                 <div className="row">
                     <div className="col-2-of-3">
-                        {this.props.type}
                         <div className="tab__config">
-                            View Changer
-                            Modal
+                            <button className="tab__config-button">View Changer</button>
+                            <button className="tab__config-button">Modal</button>
                         </div>
-                        <div className="tab__map" style={{height: '400px'}}>
-                            {
-                                this.props.populateGeoJsonMap()
-                            }
-                        </div>
+                        {
+                            this.props.type !== "asn"
+                                ? <div className="tab__map" style={{height: '400px'}}>
+                                        {
+                                            this.props.populateGeoJsonMap()
+                                        }
+                                    </div>
+                                : <div className="tab__hts" style={{height: '400px'}}>
+                                        Time Series
+                                </div>
+                        }
                     </div>
                     <div className="col-1-of-3">
                         <div className="tab__table">

@@ -9,6 +9,18 @@
     border-radius: 3px;
     box-shadow: $box-shadow;
     outline: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    & span {
+      display: inline-block;
+    }
+
+    &-dash {
+      padding: 0 1.5rem;
+    }
   }
 
   &__dropdown {

@@ -406,7 +406,15 @@ body {
   border: 1px solid #010201;
   border-radius: 3px;
   box-shadow: 0 3px 5px #333;
-  outline: none; }
+  outline: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center; }
+  .range__input span {
+    display: inline-block; }
+  .range__input-dash {
+    padding: 0 1.5rem; }
 
 .range__dropdown {
   display: none;
@@ -546,7 +554,7 @@ body {
     text-align: center;
     position: relative; }
   .table__cell--overallScore {
-    width: 14rem;
+    width: 8rem;
     position: relative; }
   .table__ellipses {
     font-size: 2.4rem;
@@ -1044,3 +1052,115 @@ button[class*="searchButton"] {
   margin-top: 4rem; }
   .dashboard .col-1-of-3 {
     position: relative; }
+  .dashboard .tabs {
+    margin-bottom: 4.5rem; }
+    .dashboard .tabs .nav-tabs {
+      list-style-type: none;
+      height: 4rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: left; }
+      .dashboard .tabs .nav-tabs li {
+        width: 20rem; }
+        .dashboard .tabs .nav-tabs li a {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: #d66a35;
+          font-weight: 700;
+          text-decoration: none;
+          padding-bottom: 2px;
+          margin-bottom: 1px;
+          font-size: 1.2rem; }
+      .dashboard .tabs .nav-tabs li.active {
+        background-color: #fff; }
+        .dashboard .tabs .nav-tabs li.active a {
+          border-top-left-radius: 3px;
+          border-top-right-radius: 3px;
+          border: 1px solid #eeeeee;
+          background-size: 100% 2px;
+          box-shadow: 0 3px 5px #333;
+          z-index: 100;
+          position: relative; }
+          .dashboard .tabs .nav-tabs li.active a:link, .dashboard .tabs .nav-tabs li.active a:visited {
+            color: #d66a35;
+            font-weight: 700;
+            text-decoration: none;
+            padding-bottom: 2px;
+            margin-bottom: 1px;
+            background: linear-gradient(175deg, #f9ad40 0%, #f9ad40 33.3%, #d66a35 83.5%, #B24B18 100%) left bottom transparent no-repeat;
+            background-size: 100% 2px;
+            /* controls underline thickness */ }
+          .dashboard .tabs .nav-tabs li.active a:after {
+            content: '';
+            height: 1rem;
+            width: 20rem;
+            background-color: #fff;
+            position: absolute;
+            bottom: -1rem;
+            left: -1px; }
+    .dashboard .tabs .tab {
+      background-color: #fff;
+      border-bottom-right-radius: 0.3rem;
+      border-bottom-left-radius: 0.3rem;
+      border-top-right-radius: 0.3rem;
+      box-shadow: 0 3px 5px #333;
+      height: 50rem; }
+      .dashboard .tabs .tab__config {
+        width: 100%;
+        text-align: right; }
+        .dashboard .tabs .tab__config-button {
+          background: linear-gradient(2deg, #C12F2E, #f9ad40, #C12F2E, #f9ad40);
+          height: 5rem;
+          border-radius: 0.5rem;
+          color: #fff;
+          font-weight: 700;
+          font-size: 16px;
+          cursor: pointer;
+          margin: 2rem;
+          text-align: center;
+          border: none;
+          background-size: 100% 300%;
+          transition: all .4s ease-in-out;
+          position: relative;
+          z-index: 10;
+          height: 3rem;
+          font-size: 1rem;
+          margin: 1.5rem; }
+          .dashboard .tabs .tab__config-button:before {
+            content: '';
+            display: inline-block;
+            height: 40px;
+            position: absolute;
+            bottom: -5px;
+            left: 30px;
+            right: 30px;
+            z-index: -1;
+            border-radius: 30em;
+            filter: blur(20px) brightness(0.95);
+            transform-style: preserve-3d;
+            transition: all 0.3s ease-out; }
+            .dashboard .tabs .tab__config-button:before:hover {
+              bottom: -7px;
+              opacity: 1;
+              filter: blur(20px);
+              background: linear-gradient(2deg, #C12F2E, #f9ad40, #C12F2E, #f9ad40); }
+          .dashboard .tabs .tab__config-button:hover, .dashboard .tabs .tab__config-button:active {
+            border-radius: 0.5rem;
+            transition: all .4s ease-in-out;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+            filter: brightness(1.05) contrast(1.05);
+            transform: scale(1.03); }
+            .dashboard .tabs .tab__config-button:hover:before, .dashboard .tabs .tab__config-button:active:before {
+              bottom: -7px;
+              filter: blur(10px) brightness(0.95); }
+          .dashboard .tabs .tab__config-button:focus {
+            outline: none; }
+      .dashboard .tabs .tab__table {
+        height: 46rem;
+        overflow: auto; }
+        .dashboard .tabs .tab__table .table {
+          margin-bottom: 0;
+          height: inherit; }
