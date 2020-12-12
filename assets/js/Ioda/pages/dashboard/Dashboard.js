@@ -6,7 +6,7 @@ import T from 'i18n-react';
 // Data Hooks
 import { searchEntities } from "../../data/ActionEntities";
 import { getTopoAction } from "../../data/ActionTopo";
-import { searchSummary } from "../../data/ActionOutages";
+import { searchSummary, totalOutages} from "../../data/ActionOutages";
 // Components
 import ControlPanel from '../../components/controlPanel/ControlPanel';
 import { Searchbar } from 'caida-components-library'
@@ -34,14 +34,19 @@ class Dashboard extends Component {
             activeTab: country.tab,
             activeTabType: country.type,
             tab: "Country View",
-            // Search bar
+            // Search Bar
             suggestedSearchResults: null,
             searchTerm: null,
-            // Map data
+            // Map Data
             topoData: null,
-            // Summary table
+            // Summary Table
             summaryDataRaw: null,
-            summaryDataProcessed: []
+            summaryDataProcessed: [],
+            totalOutages: 0,
+            // Summary Table Pagination
+            pageNumber: 0,
+            currentDisplayLow: 0,
+            currentDisplayHigh: 10,
         };
         this.tabs = {
             country: country.tab,
@@ -64,6 +69,7 @@ class Dashboard extends Component {
             // Get topo and outage data to populate map and table
             this.getDataTopo(this.state.activeTabType);
             this.getDataOutageSummary(this.state.activeTabType);
+            this.getTotalOutages(this.state.activeTabType);
         });
     }
 
@@ -85,6 +91,7 @@ class Dashboard extends Component {
                 ? this.getDataTopo(this.state.activeTabType)
                 : null;
             this.getDataOutageSummary(this.state.activeTabType);
+            this.getTotalOutages(this.state.activeTabType);
         }
 
         // After API call for suggested search results completes, update suggestedSearchResults state with fresh data
@@ -100,6 +107,13 @@ class Dashboard extends Component {
                 summaryDataRaw: this.props.summary
             },() => {
                 this.convertValuesForSummaryTable();
+            })
+        }
+
+        // After API call for total outages summary data completes, pass total count to table to populate in UI
+        if (this.props.totalOutages !== prevProps.totalOutages) {
+            this.setState({
+                totalOutages: this.props.totalOutages.length
             })
         }
 
@@ -145,6 +159,7 @@ class Dashboard extends Component {
             // Get topo and outage data to repopulate map and table
             this.getDataTopo(this.state.activeTabType);
             this.getDataOutageSummary(this.state.activeTabType);
+            this.getTotalOutages(this.state.activeTabType);
         })
     }
 
@@ -158,8 +173,13 @@ class Dashboard extends Component {
                 activeTab: selectedKey,
                 tab: this.asTab,
                 activeTabType: as.type,
+                // Trigger Data Update for new tab
                 topoData: null,
-                summaryDataRaw: null
+                summaryDataRaw: null,
+                // Reset Table Page Count
+                pageNumber: 0,
+                currentDisplayLow: 0,
+                currentDisplayHigh: 10
             });
             if (history.location.pathname !== as.url) {history.push(as.url);}
         }
@@ -168,8 +188,13 @@ class Dashboard extends Component {
                 activeTab: selectedKey,
                 tab: this.regionTab,
                 activeTabType: region.type,
+                // Trigger Data Update for new tab
                 topoData: null,
-                summaryDataRaw: null
+                summaryDataRaw: null,
+                // Reset Table Page Count
+                pageNumber: 0,
+                currentDisplayLow: 0,
+                currentDisplayHigh: 10
             });
             if (history.location.pathname !== region.url) {history.push(region.url);}
         }
@@ -178,8 +203,13 @@ class Dashboard extends Component {
                 activeTab: country.tab,
                 tab: this.countryTab,
                 activeTabType: country.type,
+                // Trigger Data Update for new tab
                 topoData: null,
-                summaryDataRaw: null
+                summaryDataRaw: null,
+                // Reset Table Page Count
+                pageNumber: 0,
+                currentDisplayLow: 0,
+                currentDisplayHigh: 10
             });
             if (history.location.pathname !== country.url) {history.push(country.url);}
         }
@@ -193,7 +223,19 @@ class Dashboard extends Component {
             // let from = Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000);
             let until = this.state.until;
             let from = this.state.from;
-            this.props.searchSummaryAction(from, until, entityType);
+            const limit = 10;
+            const includeMetadata = true;
+            let page = this.state.pageNumber;
+            const entityCode = null;
+            this.props.searchSummaryAction(from, until, entityType, entityCode, limit, page, includeMetadata);
+        }
+    }
+
+    getTotalOutages(entityType) {
+        if (this.state.mounted) {
+            let until = this.state.until;
+            let from = this.state.from;
+            this.props.totalOutagesAction(from, until, entityType);
         }
     }
 
@@ -266,7 +308,6 @@ class Dashboard extends Component {
 
 // Summary Table
     convertValuesForSummaryTable() {
-        console.log(this.state.summaryDataRaw);
         let summaryData = convertValuesForSummaryTable(this.state.summaryDataRaw);
         this.setState({
             summaryDataProcessed: summaryData
@@ -274,17 +315,56 @@ class Dashboard extends Component {
             this.genSummaryTable();
         })
     }
-
     genSummaryTable() {
+        console.log(this.state.summaryDataProcessed);
         return (
             this.state.summaryDataProcessed &&
             <Table
                 type={"summary"}
                 data={this.state.summaryDataProcessed}
+                nextPage={() => this.nextPage()}
+                prevPage={() => this.prevPage()}
+                currentDisplayLow={this.state.currentDisplayLow}
+                currentDisplayHigh={this.state.currentDisplayHigh}
+                totalCount={this.state.totalOutages}
             />
         )
     }
-
+    nextPage() {
+        if (this.state.totalOutages && this.state.totalOutages > this.state.pageNumber * this.state.currentDisplayHigh) {
+            this.setState({
+                pageNumber: this.state.pageNumber + 1,
+                currentDisplayLow: this.state.currentDisplayLow + 10,
+                currentDisplayHigh: this.state.currentDisplayHigh + 10 < this.state.totalOutages
+                    ? this.state.currentDisplayHigh + 10
+                    : this.state.summaryDataProcessed.length,
+                topoData: null,
+            }, () => {
+                this.getDataOutageSummary(this.state.activeTabType);
+                this.state.activeTabType !== as.type
+                    ? this.getDataTopo(this.state.activeTabType)
+                    : null;
+            })
+        }
+    }
+    prevPage() {
+        if (this.state.summaryDataProcessed && this.state.pageNumber > 0) {
+            console.log(this.state.currentDisplayLow);
+            this.setState({
+                pageNumber: this.state.pageNumber - 1,
+                currentDisplayLow: this.state.currentDisplayLow - 10,
+                currentDisplayHigh: this.state.currentDisplayHigh + 10 > this.state.totalOutages
+                    ? 10 * this.state.pageNumber - 10
+                    : this.state.currentDisplayHigh - 10,
+                topoData: null,
+            }, () => {
+                this.getDataOutageSummary(this.state.activeTabType);
+                this.state.activeTabType !== as.type
+                    ? this.getDataTopo(this.state.activeTabType)
+                    : null;
+            })
+        }
+    }
 
     render() {
         let { tab, activeTab } = this.state;
@@ -335,7 +415,8 @@ const mapStateToProps = (state) => {
     return {
         suggestedSearchResults: state.iodaApi.entities,
         summary: state.iodaApi.summary,
-        topoData: state.iodaApi.topo
+        topoData: state.iodaApi.topo,
+        totalOutages: state.iodaApi.summaryTotalCount
     }
 };
 
@@ -344,8 +425,11 @@ const mapDispatchToProps = (dispatch) => {
         searchEntitiesAction: (searchQuery, limit=15) => {
             searchEntities(dispatch, searchQuery, limit);
         },
-        searchSummaryAction: (from, until, entityType, entityCode=null, limit=null, page=null) => {
-            searchSummary(dispatch, from, until, entityType, entityCode, limit, page);
+        searchSummaryAction: (from, until, entityType, entityCode=null, limit, page, includeMetaData) => {
+            searchSummary(dispatch, from, until, entityType, entityCode, limit, page, includeMetaData);
+        },
+        totalOutagesAction: (from, until, entityType) => {
+          totalOutages(dispatch, from, until, entityType);
         },
         getTopoAction: (entityType) => {
             getTopoAction(dispatch, entityType);

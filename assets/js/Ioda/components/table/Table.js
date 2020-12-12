@@ -12,9 +12,6 @@ class Table extends Component {
         super(props);
         this.state = {
             data: [],
-            pageNumber: 1,
-            currentDisplayLow: 0,
-            currentDisplayHigh: 10,
             sortedColumn: {
                 name: "",
                 position: "",
@@ -43,7 +40,6 @@ class Table extends Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.data !== prevProps.data) {
-            console.log(this.props.data);
             this.setState({
                 data: this.props.data
             });
@@ -152,33 +148,8 @@ class Table extends Component {
         })
     }
 
-    nextPage() {
-        if (this.state.data && this.state.pageNumber < this.state.data.length / 10) {
-
-            this.setState({
-                pageNumber: this.state.pageNumber + 1,
-                currentDisplayLow: this.state.currentDisplayLow + 10,
-                currentDisplayHigh: this.state.currentDisplayHigh + 10 < this.state.data.length
-                    ? this.state.currentDisplayHigh + 10
-                    : this.state.data.length
-            })
-        }
-    }
-
-    prevPage() {
-        if (this.state.data && this.state.pageNumber > 1) {
-            console.log(this.state.currentDisplayLow);
-            this.setState({
-                pageNumber: this.state.pageNumber - 1,
-                currentDisplayLow: this.state.currentDisplayLow - 10,
-                currentDisplayHigh: this.state.currentDisplayHigh + 10 > this.state.data.length
-                    ? 10 * this.state.pageNumber - 10
-                    : this.state.currentDisplayHigh - 10,
-            })
-        }
-    }
-
     render() {
+        console.log(this.state.data);
         const { type } = this.props;
         return (
             <div className="table__wrapper">
@@ -278,17 +249,17 @@ class Table extends Component {
                         })
                     }
                     {
-                        this.props.type === "summary" && this.state.data.slice(this.state.currentDisplayLow, this.state.currentDisplayHigh).map((summary, index) => {
+                        this.props.type === "summary" && this.state.data.map((summary, index) => {
                             return <SummaryTableRow data={summary} key={index}/>
-                        }, this)
+                        })
                     }
                     </tbody>
                 </table>
                 <div className="table__page">
-                    <p className="table__page-text">Showing {this.state.currentDisplayLow + 1} - {this.state.currentDisplayHigh} of {this.state.data.length} Entries</p>
+                    <p className="table__page-text">Showing {this.props.currentDisplayLow + 1} - {this.props.currentDisplayHigh} of {this.props.totalCount} Entries</p>
                     <div className="table__page-controls">
-                        <button onClick={() => this.prevPage()} className="table__page-button">Prev</button>
-                        <button onClick={() => this.nextPage()} className="table__page-button">Next</button>
+                        <button onClick={() => this.props.prevPage()} className="table__page-button">Prev</button>
+                        <button onClick={() => this.props.nextPage()} className="table__page-button">Next</button>
                     </div>
 
                 </div>
