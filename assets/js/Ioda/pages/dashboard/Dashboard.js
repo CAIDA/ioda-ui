@@ -21,7 +21,7 @@ import HorizonTSChart from 'horizon-timeseries-chart';
 import {tabOptions, country, region, as} from "./DashboardConstants";
 import {connect} from "react-redux";
 // Helper Functions
-import {convertValuesForSummaryTable, humanizeNumber} from "../../utils";
+import {convertValuesForSummaryTable, humanizeNumber, sortByKey} from "../../utils";
 
 
 
@@ -300,11 +300,14 @@ class Dashboard extends Component {
     }
     convertValuesForHtsViz() {
         let tsDataConverted = [];
-        console.log(this.state.eventDataRaw);
-        console.log(this.state.eventDataProcessed);
+        // console.log(this.state.eventDataRaw);
+
+        let eventDataSorted = sortByKey(this.state.eventDataRaw, 'score')
+        // console.log(eventDataSorted);
 
         this.state.eventDataRaw && this.state.eventDataRaw.slice(this.state.currentDisplayLow, this.state.currentDisplayHigh).map(tsData => {
-                // Create visualization-friendly data objects
+            // Create visualization-friendly data objects
+            // console.log(tsData);
                 let singleEntryConverted = [];
                 const plotPoint1 = {
                     entityCode: tsData.location.split("/")[1],
@@ -316,6 +319,7 @@ class Dashboard extends Component {
                     ts: new Date((tsData.start * 1000) + (tsData.duration * 1000)),
                     val: tsData.score
                 };
+
             // singleEntryConverted.push(plotPoint1);
             // singleEntryConverted.push(plotPoint2);
             // tsDataConverted.push(singleEntryConverted);
@@ -329,18 +333,20 @@ class Dashboard extends Component {
             eventDataProcessed: tsDataConverted
         });
     }
-    populateHtsChart() {
+    populateHtsChart(width) {
         if (this.state.eventDataProcessed) {
+            console.log(this.state.eventDataProcessed);
             const myChart = HorizonTSChart()(document.getElementById(`horizon-chart`));
             myChart
                 .data(this.state.eventDataProcessed)
                 .series('entityCode')
                 .yNormalize(true)
                 // Will need to detect column width to populate height
-                .width(500)
+                .width(width)
                 .height(400)
-                .enableZoom([true])
-                .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
+                .enableZoom(true)
+                .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
+                .useUtc(true);
         }
 
 
@@ -463,18 +469,18 @@ class Dashboard extends Component {
                             type={this.state.activeTabType}
                             populateGeoJsonMap={() => this.populateGeoJsonMap()}
                             genSummaryTable={() => this.genSummaryTable()}
-                            populateHtsChart={() => this.populateHtsChart()}
+                            populateHtsChart={(width) => this.populateHtsChart(width)}
                         />}
                         {tab === this.regionTab && <DashboardTab
                             type={this.state.activeTabType}
                             populateGeoJsonMap={() => this.populateGeoJsonMap()}
                             genSummaryTable={() => this.genSummaryTable()}
-                            populateHtsChart={() => this.populateHtsChart()}
+                            populateHtsChart={(width) => this.populateHtsChart(width)}
                         />}
                         {tab === this.asTab && <DashboardTab
                             type={this.state.activeTabType}
                             genSummaryTable={() => this.genSummaryTable()}
-                            populateHtsChart={() => this.populateHtsChart()}
+                            populateHtsChart={(width) => this.populateHtsChart(width)}
                         />}
                     </div>
                 </div>
