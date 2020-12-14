@@ -6,7 +6,8 @@ import T from 'i18n-react';
 // Data Hooks
 import { searchEntities } from "../../data/ActionEntities";
 import { getTopoAction } from "../../data/ActionTopo";
-import { searchSummary, totalOutages} from "../../data/ActionOutages";
+import {searchEvents, searchSummary, totalOutages} from "../../data/ActionOutages";
+import {getSignalsAction} from "../../data/ActionSignals";
 // Components
 import ControlPanel from '../../components/controlPanel/ControlPanel';
 import { Searchbar } from 'caida-components-library'
@@ -15,11 +16,13 @@ import DashboardTab from "./DashboardTab";
 import TopoMap from "../../components/map/Map";
 import * as topojson from 'topojson';
 import Table from "../../components/table/Table";
+import HorizonTSChart from 'horizon-timeseries-chart';
 // Constants
 import {tabOptions, country, region, as} from "./DashboardConstants";
 import {connect} from "react-redux";
 // Helper Functions
-import {convertValuesForSummaryTable} from "../../utils";
+import {convertValuesForSummaryTable, humanizeNumber} from "../../utils";
+
 
 
 class Dashboard extends Component {
@@ -47,6 +50,9 @@ class Dashboard extends Component {
             pageNumber: 0,
             currentDisplayLow: 0,
             currentDisplayHigh: 10,
+            // Event Data for Time Series
+            eventDataRaw: null,
+            eventDataProcessed: []
         };
         this.tabs = {
             country: country.tab,
@@ -70,6 +76,7 @@ class Dashboard extends Component {
             this.getDataTopo(this.state.activeTabType);
             this.getDataOutageSummary(this.state.activeTabType);
             this.getTotalOutages(this.state.activeTabType);
+            this.getDataEvents(this.state.activeTabType);
         });
     }
 
@@ -85,6 +92,7 @@ class Dashboard extends Component {
             this.handleSelectTab(this.tabs[prevProps.match.params.tab]);
         }
 
+        // Update visualizations when tabs are changed
         if (this.state.activeTabType && this.state.activeTabType !== prevState.activeTabType) {
             // Get updated topo and outage data to populate map, no topo for asns
             this.state.activeTabType !== as.type
@@ -92,6 +100,7 @@ class Dashboard extends Component {
                 : null;
             this.getDataOutageSummary(this.state.activeTabType);
             this.getTotalOutages(this.state.activeTabType);
+            this.getDataEvents(this.state.activeTabType);
         }
 
         // After API call for suggested search results completes, update suggestedSearchResults state with fresh data
@@ -112,6 +121,9 @@ class Dashboard extends Component {
 
         // After API call for total outages summary data completes, pass total count to table to populate in UI
         if (this.props.totalOutages !== prevProps.totalOutages) {
+            if (this.props.totalOutages.length < 10) {
+                this.setState({currentDisplayHigh: this.props.totalOutages.length});
+            }
             this.setState({
                 totalOutages: this.props.totalOutages.length
             })
@@ -130,6 +142,16 @@ class Dashboard extends Component {
                 topoData: topoObjects
             }, () => {
                 this.populateGeoJsonMap();
+            });
+        }
+
+        // Make API call for data to populate time seriesFaceTime FaceTime FaceTime
+        if (this.props.events !== prevProps.events) {
+            this.setState({
+                eventDataRaw: this.props.events
+            }, () => {
+                console.log("here");
+                this.convertValuesForHtsViz();
             });
         }
     }
@@ -230,7 +252,6 @@ class Dashboard extends Component {
             this.props.searchSummaryAction(from, until, entityType, entityCode, limit, page, includeMetadata);
         }
     }
-
     getTotalOutages(entityType) {
         if (this.state.mounted) {
             let until = this.state.until;
@@ -242,7 +263,7 @@ class Dashboard extends Component {
 // Map
     // Process Geo data, attribute outage scores to a new topoData property where possible, then render Map
     populateGeoJsonMap() {
-        if (this.state.topoData && this.state.summaryDataRaw && this.state.summaryDataRaw[0]["entity"] && this.state.summaryDataRaw[0]["entity"]["type"] === this.state.activeTabType) {
+        if (this.state.topoData && this.state.summaryDataRaw && this.state.summaryDataRaw[0] && this.state.summaryDataRaw[0]["entity"] && this.state.summaryDataRaw[0]["entity"]["type"] === this.state.activeTabType) {
             let topoData = this.state.topoData;
 
             // get Topographic info for a country if it has outages
@@ -264,12 +285,65 @@ class Dashboard extends Component {
         }
 
     }
-
     // Make API call to retrieve topographic data
     getDataTopo(entityType) {
         if (this.state.mounted) {
             this.props.getTopoAction(entityType);
         }
+    }
+
+// Event Time Series
+    getDataEvents(entityType) {
+        let until = this.state.until;
+        let from = this.state.from;
+        this.props.searchEventsAction(from, until, entityType);
+    }
+    convertValuesForHtsViz() {
+        let tsDataConverted = [];
+        console.log(this.state.eventDataRaw);
+        console.log(this.state.eventDataProcessed);
+
+        this.state.eventDataRaw && this.state.eventDataRaw.slice(this.state.currentDisplayLow, this.state.currentDisplayHigh).map(tsData => {
+                // Create visualization-friendly data objects
+                let singleEntryConverted = [];
+                const plotPoint1 = {
+                    entityCode: tsData.location.split("/")[1],
+                    ts: new Date(tsData.start * 1000),
+                    val: tsData.score
+                };
+                const plotPoint2 = {
+                    entityCode: tsData.location.split("/")[1],
+                    ts: new Date((tsData.start * 1000) + (tsData.duration * 1000)),
+                    val: tsData.score
+                };
+            // singleEntryConverted.push(plotPoint1);
+            // singleEntryConverted.push(plotPoint2);
+            // tsDataConverted.push(singleEntryConverted);
+            tsDataConverted.push(plotPoint1);
+            tsDataConverted.push(plotPoint2);
+
+        });
+
+        // Add data objects to state for each data source
+        this.setState( {
+            eventDataProcessed: tsDataConverted
+        });
+    }
+    populateHtsChart() {
+        if (this.state.eventDataProcessed) {
+            const myChart = HorizonTSChart()(document.getElementById(`horizon-chart`));
+            myChart
+                .data(this.state.eventDataProcessed)
+                .series('entityCode')
+                .yNormalize(true)
+                // Will need to detect column width to populate height
+                .width(500)
+                .height(400)
+                .enableZoom([true])
+                .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
+        }
+
+
     }
 
 // Search bar
@@ -316,7 +390,6 @@ class Dashboard extends Component {
         })
     }
     genSummaryTable() {
-        console.log(this.state.summaryDataProcessed);
         return (
             this.state.summaryDataProcessed &&
             <Table
@@ -331,7 +404,7 @@ class Dashboard extends Component {
         )
     }
     nextPage() {
-        if (this.state.totalOutages && this.state.totalOutages > this.state.pageNumber * this.state.currentDisplayHigh) {
+        if (this.state.totalOutages && this.state.totalOutages > this.state.pageNumber + 1 * this.state.currentDisplayHigh) {
             this.setState({
                 pageNumber: this.state.pageNumber + 1,
                 currentDisplayLow: this.state.currentDisplayLow + 10,
@@ -349,7 +422,6 @@ class Dashboard extends Component {
     }
     prevPage() {
         if (this.state.summaryDataProcessed && this.state.pageNumber > 0) {
-            console.log(this.state.currentDisplayLow);
             this.setState({
                 pageNumber: this.state.pageNumber - 1,
                 currentDisplayLow: this.state.currentDisplayLow - 10,
@@ -373,7 +445,7 @@ class Dashboard extends Component {
                 <div className="row title">
                     <div className="col-1-of-1">
                         {/*ToDo: Update today to be dynamic*/}
-                        <h2>Outages Occuring Today</h2>
+                        <h2>Outages Occurring Today</h2>
                     </div>
                 </div>
                 <ControlPanel
@@ -391,15 +463,18 @@ class Dashboard extends Component {
                             type={this.state.activeTabType}
                             populateGeoJsonMap={() => this.populateGeoJsonMap()}
                             genSummaryTable={() => this.genSummaryTable()}
+                            populateHtsChart={() => this.populateHtsChart()}
                         />}
                         {tab === this.regionTab && <DashboardTab
                             type={this.state.activeTabType}
                             populateGeoJsonMap={() => this.populateGeoJsonMap()}
                             genSummaryTable={() => this.genSummaryTable()}
+                            populateHtsChart={() => this.populateHtsChart()}
                         />}
                         {tab === this.asTab && <DashboardTab
                             type={this.state.activeTabType}
                             genSummaryTable={() => this.genSummaryTable()}
+                            populateHtsChart={() => this.populateHtsChart()}
                         />}
                     </div>
                 </div>
@@ -416,7 +491,9 @@ const mapStateToProps = (state) => {
         suggestedSearchResults: state.iodaApi.entities,
         summary: state.iodaApi.summary,
         topoData: state.iodaApi.topo,
-        totalOutages: state.iodaApi.summaryTotalCount
+        totalOutages: state.iodaApi.summaryTotalCount,
+        events: state.iodaApi.events,
+        signals: state.iodaApi.signals
     }
 };
 
@@ -433,6 +510,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         getTopoAction: (entityType) => {
             getTopoAction(dispatch, entityType);
+        },
+        searchEventsAction: (from, until, entityType=null, entityCode=null, datasource=null, includeAlerts=null, format=null, limit=null, page=null) => {
+            searchEvents(dispatch, from, until, entityType, entityCode, datasource, includeAlerts, format, limit, page);
+        },
+        getSignalsAction: (entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
+            getSignalsAction(dispatch, entityType, entityCode, from, until, datasource, maxPoints);
         }
     }
 };

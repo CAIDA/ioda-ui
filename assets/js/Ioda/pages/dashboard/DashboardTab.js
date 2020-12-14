@@ -21,10 +21,18 @@ class DashboardTab extends Component {
                                             this.props.populateGeoJsonMap()
                                         }
                                     </div>
-                                : <div className="tab__hts" style={{height: '400px'}}>
-                                        Time Series
-                                </div>
+                                : null
                         }
+                        <div className="tab__hts" style={{height: '400px'}}>
+                            <div className="row">
+                                <h3>Time Series</h3>
+                                <div id="horizon-chart">
+                                    {
+                                        this.props.populateHtsChart()
+                                    }
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div className="col-1-of-3">
                         <div className="tab__table">

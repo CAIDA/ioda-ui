@@ -181,6 +181,8 @@ class TestAPI extends Component {
             });
             tsDataConverted.push(tsDatumConverted);
 
+            console.log(tsDataConverted[2]);
+
             // Add data objects to state for each data source
             this.setState(prevState => ({
                 tsDataProcessed: {
@@ -192,7 +194,7 @@ class TestAPI extends Component {
             }));
         })
     }
-    genHtsChart(dataSource) {
+    genHtsChartForEntity(dataSource) {
         const myChart = HorizonTSChart()(document.getElementById(`horizon-chart--${dataSource}`));
         myChart
             .data(this.state.tsDataProcessed[dataSource])
@@ -201,6 +203,19 @@ class TestAPI extends Component {
             // Will need to detect column width to populate height
             .width(363.33)
             .height(100);
+    }
+    genHtsChartForEntityType(entityType) {
+        // console.log(this.state.alertDataRaw);
+        // console.log(this.state.alertDataProcessed);
+        // Need to use alert data here it looks like
+        // const myChart = HorizonTSChart()(document.getElementById(`horizon-chart--${dataSource}`));
+        // myChart
+        //     .data(this.state.alertDataProcessed)
+        //     .series('entityCode')
+        //     .yNormalize(true)
+        //     // Will need to detect column width to populate height
+        //     .width(363.33)
+        //     .height(100);
     }
 
     // XY Plot Graph Functions
@@ -464,12 +479,12 @@ class TestAPI extends Component {
                     <h1>TestAPI</h1>
                 </div>
                 <div className="row">
-                    <h2>Horizon Time Series Chart</h2>
+                    <h2>Horizon Time Series Chart for entityType</h2>
                     <div className="col-1-of-3">
                         <h3>Active Probing</h3>
                         <div id="horizon-chart--activeProbing">
                             {
-                                this.genHtsChart("activeProbing")
+                                this.genHtsChartForEntityType("country")
                             }
                         </div>
                     </div>
@@ -477,7 +492,7 @@ class TestAPI extends Component {
                         <h3>BGP</h3>
                         <div id="horizon-chart--bgp">
                             {
-                                this.genHtsChart("bgp")
+                                this.genHtsChartForEntityType("region")
                             }
                         </div>
                     </div>
@@ -485,7 +500,34 @@ class TestAPI extends Component {
                         <h3>Darknet</h3>
                         <div id="horizon-chart--darknet">
                             {
-                                this.genHtsChart("darknet")
+                                this.genHtsChartForEntityType("asn")
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div className="row">
+                    <h2>Horizon Time Series Chart for entity</h2>
+                    <div className="col-1-of-3">
+                        <h3>Active Probing</h3>
+                        <div id="horizon-chart--activeProbing">
+                            {
+                                this.genHtsChartForEntity("activeProbing")
+                            }
+                        </div>
+                    </div>
+                    <div className="col-1-of-3">
+                        <h3>BGP</h3>
+                        <div id="horizon-chart--bgp">
+                            {
+                                this.genHtsChartForEntity("bgp")
+                            }
+                        </div>
+                    </div>
+                    <div className="col-1-of-3">
+                        <h3>Darknet</h3>
+                        <div id="horizon-chart--darknet">
+                            {
+                                this.genHtsChartForEntity("darknet")
                             }
                         </div>
                     </div>

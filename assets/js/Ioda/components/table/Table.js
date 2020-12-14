@@ -149,7 +149,6 @@ class Table extends Component {
     }
 
     render() {
-        console.log(this.state.data);
         const { type } = this.props;
         return (
             <div className="table__wrapper">

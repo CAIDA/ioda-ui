@@ -53,6 +53,7 @@ PUBLIC ACTION FUNCTIONS
 
 export const getSignalsAction = (dispatch, entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
     let config = buildSignalsConfig(entityType, entityCode, from, until, datasource, maxPoints);
+    console.log(config);
     fetchData(config).then(data => {
         dispatch({
             type: GET_SIGNALS,
