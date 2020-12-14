@@ -365,8 +365,10 @@ class Dashboard extends Component {
     // Define what happens when user clicks suggested search result entry
     handleResultClick = (query) => {
         const { history } = this.props;
-        console.log(query);
-        // query.name ? history.push(`/search?query=${query.name}`) : history.push(`/search?query=${query}`);
+        const entity = this.state.suggestedSearchResults.filter(result => {
+            return result.name === query;
+        });
+        history.push(`/${entity[0].type}/${entity[0].code}`);
     };
     // Reset search bar with search term value when a selection is made, no customizations needed here.
     handleQueryUpdate = (query) => {

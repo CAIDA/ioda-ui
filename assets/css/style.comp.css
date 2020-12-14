@@ -1707,3 +1707,7 @@ button[class*="searchButton"] {
         .dashboard .tabs .tab__table .table {
           margin-bottom: 0;
           height: inherit; }
+
+.entity {
+  padding-top: 7rem;
+  margin-top: 4rem; }
