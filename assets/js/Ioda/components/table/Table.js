@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {humanizeNumber} from "../../utils";
+import {generateKeys, humanizeNumber} from "../../utils";
 import SummaryTableRow from "./SummaryTableRow";
 import iconSortAsc from 'images/icons/icon-sortAsc.png';
 import iconSortDesc from 'images/icons/icon-sortDesc.png';
@@ -11,6 +11,9 @@ class Table extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            eventData: [],
+            alertData: [],
+            summaryData: [],
             data: [],
             sortedColumn: {
                 name: "",
@@ -40,13 +43,10 @@ class Table extends Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.data !== prevProps.data) {
-            this.setState({
-                data: this.props.data
-            });
-
             if (this.props.type === "alert") {
                 // Event Table default sort
                 this.setState({
+                    alertData: this.props.data,
                     sortedColumn: {
                         name: "dateStamp",
                         position: "desc",
@@ -58,6 +58,7 @@ class Table extends Component {
             if (this.props.type === "event") {
                 // Event Table default sort
                 this.setState({
+                    eventData: this.props.data,
                     sortedColumn: {
                         name: "fromDate",
                         position: "desc",
@@ -69,6 +70,7 @@ class Table extends Component {
             if (this.props.type === "summary") {
                 // Summary Table default sort
                 this.setState({
+                    summaryData: this.props.data,
                     sortedColumn: {
                         name: "score",
                         position: "desc",
@@ -150,6 +152,7 @@ class Table extends Component {
 
     render() {
         const { type } = this.props;
+        console.log(this.props);
         return (
             <div className="table__wrapper">
                 <table className={`table ${type === "alert" ? "table--alert" : type === "event" ? "table--event" : "table--summary"}`}>
@@ -199,8 +202,9 @@ class Table extends Component {
                     </thead>
                     <tbody>
                     {
-                        this.props.type === "alert" && this.state.data.map((alert, index) => {
-                            return <tr key={index}>
+                        this.state.alertData && this.state.alertData.map(alert => {
+                            console.log(alert);
+                            return <tr key={generateKeys(this.props.type === 'alert' ? 'alert' : 'event')}>
                                 <td className={alert.level === "warning" ? "table--alert-warning" : "table--alert-normal"}>
                                     {
                                         alert.level === "warning"
@@ -225,8 +229,9 @@ class Table extends Component {
                         })
                     }
                     {
-                        this.props.type === "event" && this.state.data.map((event, index) => {
-                            return <tr key={index}>
+                        this.state.eventData && this.state.eventData.map(event => {
+                            console.log(generateKeys(this.props.type === 'alert' ? 'alert' : 'event'));
+                            return <tr key={generateKeys(this.props.type === 'alert' ? 'alert' : 'event')}>
                                 <td>
                                     {event.age}
                                 </td>
@@ -248,7 +253,7 @@ class Table extends Component {
                         })
                     }
                     {
-                        this.props.type === "summary" && this.state.data.map((summary, index) => {
+                        this.props.type === "summary" && this.state.summaryData.map((summary, index) => {
                             return <SummaryTableRow data={summary} key={index}/>
                         })
                     }

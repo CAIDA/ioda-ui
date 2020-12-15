@@ -54,7 +54,6 @@ class DashboardTab extends Component {
                         </div>
                     </div>
                 </div>
-
             </div>
         );
     }
