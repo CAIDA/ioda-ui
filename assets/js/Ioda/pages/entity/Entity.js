@@ -266,7 +266,6 @@ class Entity extends Component {
         // Get the relevant values to populate table with
         let alertData = [];
         this.state.alertDataRaw.map(alert => {
-            console.log(alert);
             const alertItem = {
                 entityName: alert.entity.name,
                 level: alert.level,
@@ -286,7 +285,6 @@ class Entity extends Component {
             alertData.push(alertItem);
         });
 
-        console.log(alertData);
         this.setState({
             alertDataProcessed: alertData
         }, () => {
@@ -294,7 +292,6 @@ class Entity extends Component {
         });
     }
     genAlertTable() {
-        // this.state.alertDataProcessed && console.log(this.state.alertDataProcessed);
         return (
             this.state.alertDataProcessed &&
             <Table

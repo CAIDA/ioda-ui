@@ -152,7 +152,6 @@ class Table extends Component {
 
     render() {
         const { type } = this.props;
-        console.log(this.props);
         return (
             <div className="table__wrapper">
                 <table className={`table ${type === "alert" ? "table--alert" : type === "event" ? "table--event" : "table--summary"}`}>
@@ -203,7 +202,6 @@ class Table extends Component {
                     <tbody>
                     {
                         this.state.alertData && this.state.alertData.map(alert => {
-                            console.log(alert);
                             return <tr key={generateKeys(this.props.type === 'alert' ? 'alert' : 'event')}>
                                 <td className={alert.level === "warning" ? "table--alert-warning" : "table--alert-normal"}>
                                     {
@@ -230,7 +228,6 @@ class Table extends Component {
                     }
                     {
                         this.state.eventData && this.state.eventData.map(event => {
-                            console.log(generateKeys(this.props.type === 'alert' ? 'alert' : 'event'));
                             return <tr key={generateKeys(this.props.type === 'alert' ? 'alert' : 'event')}>
                                 <td>
                                     {event.age}
