@@ -20,7 +20,7 @@ import * as sd from 'simple-duration'
 // Helper Functions
 import {convertSecondsToDateValues, humanizeNumber, toDateTime} from "../../utils"
 import {as} from "../dashboard/DashboardConstants";
-import CanvasJSChart from "../../libs/canvasjs/canvasjs.react";
+import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
 
 
 

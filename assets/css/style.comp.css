@@ -1031,6 +1031,8 @@ body {
     overflow-y: scroll; }
   .table tr:nth-child(odd) {
     background-color: #f7f7f7; }
+  .table tr:nth-child(even) {
+    background-color: #fff; }
   .table tr:last-child td:first-child {
     border-bottom-left-radius: 0.3rem; }
   .table tr:last-child td:last-child {

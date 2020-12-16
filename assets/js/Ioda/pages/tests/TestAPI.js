@@ -45,7 +45,7 @@ import {searchAlerts, searchEvents, searchSummary} from "../../data/ActionOutage
 import {getSignalsAction} from "../../data/ActionSignals";
 
 // XY Graph Dependencies
-import CanvasJSChart from '../../libs/canvasjs/canvasjs.react';
+import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
 
 // Time Series Chart Dependencies
 import HorizonTSChart from 'horizon-timeseries-chart';
