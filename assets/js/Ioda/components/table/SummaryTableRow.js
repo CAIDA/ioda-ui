@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import {humanizeNumber} from "../../utils";
 import {Link} from "react-router-dom";
 
@@ -10,8 +11,18 @@ class SummaryTableRow extends Component {
         super(props);
         this.state = {
             x: 0,
-            y: 0
-        }
+            y: 0,
+            displayScores: false
+        };
+        this.handleRowScoreHide = this.handleRowScoreHide.bind(this);
+    }
+
+    componentDidMount() {
+        document.addEventListener('click', this.handleRowScoreHide, true);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('click', this.handleRowScoreHide, true);
     }
 
     handlePopulateScores(scores) {
@@ -27,6 +38,22 @@ class SummaryTableRow extends Component {
                     </td>
                 </tr>
             )
+        })
+    }
+
+    handleRowScoreHide() {
+        const domNode = ReactDOM.findDOMNode(this);
+
+        if (!domNode || !domNode.contains(event.target)) {
+            this.setState({
+                displayScores: false
+            });
+        }
+    }
+
+    handleRowScoreDisplay() {
+        this.setState({
+            displayScores: !this.state.displayScores
         })
     }
 
@@ -49,8 +76,8 @@ class SummaryTableRow extends Component {
         return(
             <tr
                 className="table--summary-row"
-                onMouseMove={(event) => this.handleRowHover(event)}
-                onMouseLeave={(event) => this.handleRowHover(event)}
+                // onMouseMove={(event) => this.handleRowHover(event)}
+                // onMouseLeave={(event) => this.handleRowHover(event)}
                 onTouchStart={(event) => this.handleRowHover(event)}
             >
                 <td>
@@ -60,12 +87,13 @@ class SummaryTableRow extends Component {
                 </td>
                 <td
                     className="table__cell--overallScore"
+                    onClick={() => this.handleRowScoreDisplay()}
 
                 >
                     {overallScore}
                     <span className="table__ellipses">⋮</span>
                     <table
-                        className="table__scores"
+                        className={this.state.displayScores ? "table__scores table__scores--active" : "table__scores"}
                         style={{top: `${this.state.y}px`}}
                     >
                         <thead>

@@ -25,7 +25,11 @@
   }
 
   &--summary {
-    &-row:hover .table__cell--overallScore .table__scores {
+    //&-row:hover .table__cell--overallScore .table__scores {
+    //  display: block;
+    //}
+
+    & .table__scores--active {
       display: block;
     }
   }
@@ -127,6 +131,7 @@
     &--overallScore {
       width: 8rem;
       position: relative;
+      cursor: pointer;
     }
   }
 
