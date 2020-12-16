@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {humanizeNumber} from "../../utils";
+import {Link} from "react-router-dom";
 
 // Each row of the summary table needs it's own component to manage the
 // hover state, which controls the table that displays score breakdowns.
@@ -53,7 +54,9 @@ class SummaryTableRow extends Component {
                 onTouchStart={(event) => this.handleRowHover(event)}
             >
                 <td>
-                    {this.props.data.name}
+                    <Link className="table__cell-link" to={`/${this.props.data.entityType}/${this.props.data.entityCode}`}>
+                        {this.props.data.name}
+                    </Link>
                 </td>
                 <td
                     className="table__cell--overallScore"

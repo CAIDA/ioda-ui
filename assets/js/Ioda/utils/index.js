@@ -102,6 +102,7 @@ export function convertValuesForSummaryTable(summaryDataRaw) {
         // console.log(summary);
         const summaryItem = {
             entityType: summary["entity"].type,
+            entityCode: summary["entity"].code,
             name: summary["entity"].name,
             score: overallScore,
             scores: summaryScores

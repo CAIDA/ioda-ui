@@ -1029,6 +1029,8 @@ body {
   .table tbody {
     max-height: 28rem;
     overflow-y: scroll; }
+  .table tr {
+    height: 4rem; }
   .table tr:nth-child(odd) {
     background-color: #f7f7f7; }
   .table tr:nth-child(even) {
@@ -1039,10 +1041,29 @@ body {
     border-bottom-right-radius: 0.3rem; }
   .table td {
     border: 1px solid #eeeeee;
-    padding: 0.8rem 0.75rem;
     font-size: 1.3rem;
     text-align: center;
-    position: relative; }
+    position: relative;
+    height: inherit; }
+  .table__cell-link {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center; }
+    .table__cell-link:link, .table__cell-link:visited {
+      padding-bottom: 0 !important;
+      margin-bottom: 0 !important;
+      background-size: 100% 0 !important;
+      /* controls underline thickness */ }
+      .table__cell-link:link:link, .table__cell-link:link:visited, .table__cell-link:visited:link, .table__cell-link:visited:visited {
+        color: #d66a35;
+        font-weight: 700;
+        text-decoration: none;
+        padding-bottom: 2px;
+        margin-bottom: 1px;
+        background: linear-gradient(175deg, #f9ad40 0%, #f9ad40 33.3%, #d66a35 83.5%, #B24B18 100%) left bottom transparent no-repeat;
+        background-size: 100% 2px;
+        /* controls underline thickness */ }
   .table__cell--overallScore {
     width: 8rem;
     position: relative; }
