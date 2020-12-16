@@ -31,8 +31,12 @@ class Dashboard extends Component {
         this.state = {
             mounted: false,
             // Control Panel
-            from: Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000),
-            until: Math.round(new Date().getTime() / 1000),
+            from: window.location.search.split("?")[1]
+                ? window.location.search.split("?")[1].split("&")[0].split("=")[1]
+                : Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000),
+            until: window.location.search.split("?")[1]
+                ? window.location.search.split("?")[1].split("&")[1].split("=")[1]
+                : Math.round(new Date().getTime() / 1000),
             // Tabs
             activeTab: country.tab,
             activeTabType: country.type,
@@ -67,6 +71,14 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
+        let timeEntryInUrl = window.location.pathname.split("?");
+        if (timeEntryInUrl[1]){
+            this.setState({
+                from: timeEntryInUrl[1].split("&")[0].split("=")[1],
+                until: timeEntryInUrl[1].split("&")[1].split("=")[1],
+            })
+        }
+
         this.setState({
             mounted: true
         },() => {
@@ -150,7 +162,6 @@ class Dashboard extends Component {
             this.setState({
                 eventDataRaw: this.props.events
             }, () => {
-                console.log("here");
                 this.convertValuesForHtsViz();
             });
         }
@@ -170,6 +181,7 @@ class Dashboard extends Component {
         // convert to seconds
         dStart = Math.round(new Date(dStart).getTime() / 1000);
         dEnd = Math.round(new Date(dEnd).getTime() / 1000);
+        this.props.history.push(`/dashboard?from=${dStart}&until=${dEnd}`);
 
         this.setState({
             from: dStart,
@@ -335,7 +347,6 @@ class Dashboard extends Component {
     }
     populateHtsChart(width) {
         if (this.state.eventDataProcessed) {
-            console.log(this.state.eventDataProcessed);
             const myChart = HorizonTSChart()(document.getElementById(`horizon-chart`));
             myChart
                 .data(this.state.eventDataProcessed)
@@ -459,6 +470,8 @@ class Dashboard extends Component {
                 <ControlPanel
                     timeFrame={this.handleTimeFrame}
                     searchbar={() => this.populateSearchBar()}
+                    from={this.state.from}
+                    until={this.state.until}
                 />
                 <div className="row tabs">
                     <div className="col-1-of-1">

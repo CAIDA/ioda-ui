@@ -5,23 +5,23 @@ import { withRouter } from 'react-router-dom';
 // Internationalization
 import T from 'i18n-react';
 // Data Hooks
-import { searchEntities } from "../../data/ActionEntities";
+import { searchEntities, searchRelatedEntities } from "../../data/ActionEntities";
 import { getTopoAction } from "../../data/ActionTopo";
 import {searchAlerts, searchEvents, searchSummary, totalOutages} from "../../data/ActionOutages";
 import {getSignalsAction} from "../../data/ActionSignals";
 // Components
 import ControlPanel from '../../components/controlPanel/ControlPanel';
 import { Searchbar } from 'caida-components-library'
-import Tabs from '../../components/tabs/Tabs';
-import TopoMap from "../../components/map/Map";
-import * as topojson from 'topojson';
 import Table from "../../components/table/Table";
+import EntityRelated from "./EntityRelated";
 import HorizonTSChart from 'horizon-timeseries-chart';
 // Event Table Dependencies
 import * as sd from 'simple-duration'
 // Helper Functions
-import { convertSecondsToDateValues, humanizeNumber } from "../../utils"
+import {convertSecondsToDateValues, humanizeNumber, toDateTime} from "../../utils"
 import {as} from "../dashboard/DashboardConstants";
+import CanvasJSChart from "../../libs/canvasjs/canvasjs.react";
+
 
 
 class Entity extends Component {
@@ -33,11 +33,22 @@ class Entity extends Component {
             entityType: window.location.pathname.split("/")[1],
             entityCode: window.location.pathname.split("/")[2],
             // Control Panel
-            from: Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000),
-            until: Math.round(new Date().getTime() / 1000),
+            from: window.location.search.split("?")[1]
+                ? window.location.search.split("?")[1].split("&")[0].split("=")[1]
+                : Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000),
+            until: window.location.search.split("?")[1]
+                ? window.location.search.split("?")[1].split("&")[1].split("=")[1]
+                : Math.round(new Date().getTime() / 1000),
             // Search Bar
             suggestedSearchResults: null,
             searchTerm: null,
+            // Time Series states
+            tsDataRaw: null,
+            tsDataProcessed: {
+                activeProbing: [],
+                bgp: [],
+                darknet: []
+            },
             // Table Pagination
             pageNumber: 0,
             currentDisplayLow: 0,
@@ -48,18 +59,19 @@ class Entity extends Component {
             eventDataProcessed: [],
             alertDataRaw: null,
             alertDataProcessed: [],
+
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
     }
 
     componentDidMount() {
-
-        console.log(window.location.pathname.split("/")[1]);
         this.setState({
             mounted: true
         },() => {
-            this.props.searchEventsAction(this.state.from, this.state.until, this.state.entityType, this.state.entityCode);
-            this.props.searchAlertsAction(this.state.from, this.state.until, this.state.entityType, this.state.entityCode, null, null, null);
+            // Overview Panel
+            this.props.searchEventsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
+            this.props.searchAlertsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], null, null, null);
+            this.props.getSignalsAction( window.location.pathname.split("/")[1],window.location.pathname.split("/")[2], this.state.from, this.state.until, null, null);
         });
     }
 
@@ -75,6 +87,17 @@ class Entity extends Component {
             this.setState({
                 suggestedSearchResults: this.props.suggestedSearchResults
             });
+        }
+
+        // Make API call for data to populate XY Chart
+        if (this.props.signals !== prevProps.signals) {
+            // Map props to state and initiate data processing
+            this.setState({
+                tsDataRaw: this.props.signals
+            }, () => {
+                // For XY Plotted Graph
+                this.convertValuesForXyViz();
+            })
         }
 
         // Make API call for data to populate event table
@@ -114,17 +137,18 @@ class Entity extends Component {
         dStart = Math.round(new Date(dStart).getTime() / 1000);
         dEnd = Math.round(new Date(dEnd).getTime() / 1000);
 
+        const { history } = this.props;
+
+        history.push(`/${this.state.entityType}/${this.state.entityCode}?from=${dStart}&until=${dEnd}`);
+
         this.setState({
             from: dStart,
-            until: dEnd,
-            summaryDataRaw: null,
-            topoData: null,
-            summaryDataProcessed: []
+            until: dEnd
         }, () => {
             // Get topo and outage data to repopulate map and table
-            this.getDataTopo(this.state.activeTabType);
-            this.getDataOutageSummary(this.state.activeTabType);
-            this.getTotalOutages(this.state.activeTabType);
+            this.props.searchEventsAction(this.state.from, this.state.until, this.state.entityType, this.state.entityCode);
+            this.props.searchAlertsAction(this.state.from, this.state.until, this.state.entityType, this.state.entityCode, null, null, null);
+            this.props.getSignalsAction( this.state.entityType, this.state.entityCode, this.state.from, this.state.until, null, null);
         })
     }
 // Search bar
@@ -144,6 +168,7 @@ class Entity extends Component {
             return result.name === query;
         });
         history.push(`/${entity[0].type}/${entity[0].code}`);
+        this.componentDidMount();
     };
     // Reset search bar with search term value when a selection is made, no customizations needed here.
     handleQueryUpdate = (query) => {
@@ -161,6 +186,127 @@ class Entity extends Component {
                           searchResults={this.state.suggestedSearchResults}
                           handleQueryUpdate={this.handleQueryUpdate}
         />
+    }
+
+// XY Chart Functions
+    // XY Plot Graph Functions
+    convertValuesForXyViz() {
+        let bgp = this.state.tsDataRaw[1];
+        let bgpValues = [];
+        bgp.values && bgp.values.map((value, index) => {
+            let x, y;
+            x = toDateTime(bgp.from + (bgp.step * index));
+            y = value;
+            bgpValues.push({x: x, y: y});
+        });
+
+        let activeProbing = this.state.tsDataRaw[2];
+        let activeProbingValues = [];
+        activeProbing.values && activeProbing.values.map((value, index) => {
+            let x, y;
+            x = toDateTime(activeProbing.from + (activeProbing.step * index));
+            y = value;
+            activeProbingValues.push({x: x, y: y});
+        });
+
+        let networkTelescope = this.state.tsDataRaw[0];
+        let networkTelescopeValues = [];
+        networkTelescope.values && networkTelescope.values.map((value, index) => {
+            let x, y;
+            x = toDateTime(networkTelescope.from + (networkTelescope.step * index));
+            y = value;
+            networkTelescopeValues.push({x: x, y: y});
+        });
+
+        // Create Alert band objects
+        let stripLines = [];
+        this.state.eventDataRaw && this.state.eventDataRaw.map(event => {
+            const stripLine = {
+                startValue: toDateTime(event.start),
+                endValue: toDateTime(event.start + event.duration),
+                color:"#BE1D2D",
+                opacity: .2
+            };
+            stripLines.push(stripLine);
+        });
+
+        this.setState({
+            xyDataOptions: {
+                theme: "light2",
+                animationEnabled: true,
+                title: {
+                    text: `IODA Signals for ${activeProbing.entityCode}`
+                },
+                axisX: {
+                    title: "Time (UTC)",
+                    stripLines: stripLines
+                },
+                axisY: {
+                    title: "Active Probing and BGP",
+                    titleFontsColor: "#2c3e50",
+                    lineColor: "#34a02c",
+                    labelFontColor: "#34a02c",
+                    tickColor: "#34a02c"
+                },
+                axisY2: {
+                    title: "Network Telescope",
+                    titleFontsColor: "#2c3e50",
+                    lineColor: "#00a9e0",
+                    labelFontColor: "#00a9e0",
+                    tickColor: "#00a9e0"
+                },
+                toolTip: {
+                    shared: true,
+                    enabled: true,
+                    animationEnabled: true
+                },
+                legend: {
+                    cursor: "pointer"
+                },
+                data: [
+                    {
+                        type: "spline",
+                        name: bgp.datasource,
+                        showInLegend: true,
+                        xValueFormatString: "HH:MM - MMM DD, YYYY",
+                        yValueFormatString: "##",
+                        dataPoints: bgpValues,
+                        toolTipContent: "{x} <br/> BGP: {y}"
+                    },
+                    {
+                        type: "spline",
+                        name: activeProbing.datasource,
+                        showInLegend: true,
+                        xValueFormatString: "HH:MM - MMM DD, YYYY",
+                        yValueFormatString: "##",
+                        dataPoints: activeProbingValues,
+                        toolTipContent: "{x} <br/> Active Probing: {y}"
+                    },
+                    {
+                        type: "spline",
+                        name: networkTelescope.datasource,
+                        axisYType: "secondary",
+                        showInLegend: true,
+                        xValueFormatString: "HH:MM - MMM DD, YYYY",
+                        yValueFormatString: "##",
+                        dataPoints: networkTelescopeValues,
+                        toolTipContent: "{x} <br/> Network Telescope: {y}"
+                    }
+                ]
+            }
+        }, () => {
+            this.genXyChart();
+        });
+    }
+    genXyChart() {
+        return (
+            this.state.xyDataOptions && <div>
+                <CanvasJSChart options = {this.state.xyDataOptions}
+                               onRef={ref => this.chart = ref}
+                />
+                {/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
+            </div>
+        );
     }
 
 // Event Table
@@ -306,8 +452,6 @@ class Entity extends Component {
         )
     }
 
-
-
     render() {
         return(
             <div className="entity">
@@ -318,6 +462,8 @@ class Entity extends Component {
                     </div>
                 </div>
                 <ControlPanel
+                    from={this.state.from}
+                    until={this.state.until}
                     timeFrame={this.handleTimeFrame}
                     searchbar={() => this.populateSearchBar()}
                 />
@@ -327,7 +473,7 @@ class Entity extends Component {
                             <button className="overview__config-button">Modal</button>
                         </div>
                         {
-
+                            this.genXyChart()
                         }
                     </div>
                     <div className="col-2-of-5">
@@ -348,6 +494,9 @@ class Entity extends Component {
                         </div>
                     </div>
                 </div>
+                {/*<EntityRelated*/}
+                {/*    entity={this.state.entityCode}*/}
+                {/*/>*/}
             </div>
         )
     }
@@ -356,6 +505,7 @@ class Entity extends Component {
 const mapStateToProps = (state) => {
     return {
         suggestedSearchResults: state.iodaApi.entities,
+        relatedEntities: state.iodaApi.relatedEntities,
         summary: state.iodaApi.summary,
         topoData: state.iodaApi.topo,
         totalOutages: state.iodaApi.summaryTotalCount,
@@ -370,7 +520,10 @@ const mapDispatchToProps = (dispatch) => {
         searchEntitiesAction: (searchQuery, limit=15) => {
             searchEntities(dispatch, searchQuery, limit);
         },
-        searchSummaryAction: (from, until, entityType, entityCode=null, limit, page, includeMetaData) => {
+        searchRelatedEntitiesAction: (from, until, entityType, relatedToEntityType, relatedToEntityCode) => {
+            searchRelatedEntities(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode);
+        },
+        searchSummaryAction: (from, until, entityType, entityCode, limit, page, includeMetaData) => {
             searchSummary(dispatch, from, until, entityType, entityCode, limit, page, includeMetaData);
         },
         totalOutagesAction: (from, until, entityType) => {

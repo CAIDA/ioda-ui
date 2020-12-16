@@ -32,7 +32,7 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-import {ENTITIES_SEARCH, fetchData} from "./ActionCommons";
+import {ENTITIES_SEARCH, GET_RELATED_ENTITIES, fetchData} from "./ActionCommons";
 
 const buildSearchConfig = (searchQueryText, limit) => {
     return {
@@ -46,6 +46,24 @@ export const searchEntities = (dispatch, searchQuery, limit=15) => {
     fetchData(searchConfig).then(data => {
         dispatch({
             type: ENTITIES_SEARCH,
+            payload: data.data.data,
+        })
+    });
+}
+
+export const buildSearchRelatedEntitiesConfig = (from, until, entityType, relatedToEntityType, relatedToEntityCode) => {
+    return {
+        method: "get",
+        url: `/entities/${entityType}/?relatedTo=${relatedToEntityType}/${relatedToEntityCode}`
+    }
+}
+
+// Getting outage information to use for populating topoJSON data
+export const searchRelatedEntities = (dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode) => {
+    let config = buildSearchRelatedEntitiesConfig(from, until, entityType, relatedToEntityType, relatedToEntityCode);
+    fetchData(config).then(data => {
+        dispatch({
+            type: GET_RELATED_ENTITIES,
             payload: data.data.data,
         })
     });

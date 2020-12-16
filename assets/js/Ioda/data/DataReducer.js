@@ -34,6 +34,7 @@
 
 import {
     ENTITIES_SEARCH,
+    GET_RELATED_ENTITIES,
     GET_DATASOURCES,
     GET_SIGNALS,
     GET_TOPO_DATA,
@@ -46,6 +47,7 @@ import {
 // TODO: make sure the state won't overwrite each other when multiple calls are executed
 const initialState = {
     entities: null,
+    relatedEntities: null,
     signals: null,
     alerts: null,
     events: null,
@@ -60,6 +62,10 @@ export function iodaApiReducer(state = initialState, action) {
         case ENTITIES_SEARCH:
             return Object.assign({}, state, {
                 entities: action.payload
+            })
+        case GET_RELATED_ENTITIES:
+            return Object.assign({}, state, {
+                relatedEntities: action.payload
             })
         case OUTAGE_ALERTS_SEARCH:
             return Object.assign({}, state, {

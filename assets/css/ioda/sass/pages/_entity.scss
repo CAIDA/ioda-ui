@@ -2,6 +2,10 @@
   padding-top: $header-height;
   margin-top: 4rem;
 
+  .col-1-of-3 {
+    position: relative;
+  }
+
   .overview {
     background-color: $color-white;
     border-bottom-right-radius: 0.3rem;
@@ -30,6 +34,17 @@
         margin-bottom: 0;
         height: inherit;
       }
+    }
+  }
+
+  .related {
+    .col-1-of-2 {
+      background-color: $color-white;
+      border-bottom-right-radius: 0.3rem;
+      border-bottom-left-radius: 0.3rem;
+      border-top-right-radius: 0.3rem;
+      box-shadow: $box-shadow;
+      height: 50rem;
     }
   }
 }

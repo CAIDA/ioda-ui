@@ -26,11 +26,38 @@ class ControlPanel extends Component {
         }
     }
 
+    componentDidMount() {
+        this.setState({
+            selection: {
+                key: 'selection',
+                startDate: new Date(this.props.from * 1000),
+                endDate: new Date(this.props.until * 1000)
+            }
+        });
+    }
+
     componentDidUpdate(nextProps, nextState) {
         // If date or time have changed, call parent function to update visuals
         if (nextState.selection !== this.state.selection || nextState.timeRange !== this.state.timeRange) {
-            console.log(this.state.timeRange);
             this.props.timeFrame(this.state.selection, this.state.timeRange);
+        }
+
+        if (nextProps.from !== this.props.from) {
+            this.setState(prevState => ({
+                selection: {
+                    ...prevState.selection,
+                    startDate: new Date(this.props.from * 1000)
+                }
+            }))
+        }
+
+        if (nextProps.until !== this.props.until) {
+            this.setState(prevState => ({
+                selection: {
+                    ...prevState.selection,
+                    endDate: new Date(this.props.until * 1000)
+                }
+            }))
         }
     }
 

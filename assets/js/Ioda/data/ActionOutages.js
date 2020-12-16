@@ -127,7 +127,7 @@ export const searchEvents = (dispatch, from, until, entityType=null, entityCode=
 }
 
 // Getting outage information to use for populating topoJSON data
-export const searchSummary = (dispatch, from, until, entityType=null, entityCode=null, limit, page, includeMetadata) => {
+export const searchSummary = (dispatch, from, until, entityType, entityCode, limit, page, includeMetadata) => {
     let config = buildSummaryConfig(from, until, entityType, entityCode, limit, page, includeMetadata);
     includeMetadata
         ? config.url = config.url + "&includeMetadata"
