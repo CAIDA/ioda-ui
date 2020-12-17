@@ -59,6 +59,7 @@
         "bootstrap": "^4.4.1",
         "bootstrap-select": "^1.13.18",
         "caida-components-library": "^1.0.20",
+        "canvasjs": "^1.8.3",
         "classnames": "^2.2.6",
         "crossfilter": "^1.3.12",
         "d3": "3",
@@ -71,6 +72,7 @@
         "has": "^1.0.3",
         "highcharts": "7.2.2",
         "history": "^4.10.1",
+        "horizon-timeseries-chart": "^1.6.4",
         "i18n-react": "^0.7.0",
         "i18next": "^19.5.1",
         "is-url-external": "^1.0.3",
@@ -81,7 +83,6 @@
         "leaflet": "^0.7.3",
         "leaflet-sleep": "^0.5.1",
         "lodash": "^4.17.15",
-        "moment": "^2.22.2",
         "multiselect-react-dropdown": "^1.4.7",
         "prop-types": "^15.6.2",
         "react": "^16.14.0",
@@ -105,6 +106,7 @@
         "seconds-converter": "^1.3.0",
         "title-case": "^2.1.1",
         "topojson": "1.6.18",
+        "topojson-client": "^3.1.0",
         "underscore": "^1.9.1"
     }
 }
