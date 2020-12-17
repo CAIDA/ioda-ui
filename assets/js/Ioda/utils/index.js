@@ -34,13 +34,8 @@
 
 import d3 from "d3";
 
-const HI3 = 'HI³';
-
-function humanizeBytes(bytes) {
-    return humanizeNumber(bytes) + 'B';
-}
-
-function humanizeNumber(value, precisionDigits) {
+// Humanize number with rounding, abbreviations, etc.
+export function humanizeNumber(value, precisionDigits) {
     precisionDigits = precisionDigits || 3;
     return d3.format(
             (isNaN(precisionDigits) ? '' : '.' + precisionDigits)
@@ -48,4 +43,95 @@ function humanizeNumber(value, precisionDigits) {
         )(value);
 }
 
-export {HI3, humanizeBytes, humanizeNumber};
+// For event/alert table
+export function convertSecondsToDateValues(s) {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const month = months[new Date(s * 1000).getMonth()];
+    const day = new Date(s * 1000).getDate();
+    const year = new Date(s * 1000).getFullYear();
+    const hourValue = new Date(s * 1000).getHours();
+    const hours = hourValue > 12
+        ? hourValue - 12
+        : hourValue < 10
+            ? `0${hourValue}`
+            : hourValue;
+    const minuteValue = new Date(s * 1000).getMinutes();
+    const minutes = minuteValue < 10
+        ? `0${minuteValue}`
+        : minuteValue;
+    const meridian = hourValue > 12 ? "pm" : "am";
+    return {
+        month: month,
+        day: day,
+        year: year,
+        hours: hours,
+        minutes: minutes,
+        meridian: meridian
+    }
+}
+
+export function toDateTime(s) {
+    var t = new Date(1970, 0, 1); // Epoch
+    t.setSeconds(s);
+    return t;
+}
+
+export function generateKeys(prefix) {
+    var key = (prefix) ? prefix : '';
+    return (key + Math.random().toString(34).slice(2));
+}
+
+export function convertValuesForSummaryTable(summaryDataRaw) {
+    let summaryData = [];
+    summaryDataRaw.map(summary => {
+        let overallScore = null;
+        let summaryScores = [];
+
+        Object.entries(summary["scores"]).map((entry) => {
+            if (entry[0] !== "overall") {
+                const entryItem = {
+                    source: entry[0],
+                    score: entry[1]
+                };
+                summaryScores.push(entryItem);
+            } else {
+                overallScore = entry[1]
+            }
+        });
+
+        // console.log(summary);
+        const summaryItem = {
+            entityType: summary["entity"].type,
+            entityCode: summary["entity"].code,
+            name: summary["entity"].name,
+            score: overallScore,
+            scores: summaryScores
+        };
+        summaryData.push(summaryItem);
+    });
+    return summaryData;
+}
+
+export function getIsoStringFromDate() {
+    var tzo = -this.getTimezoneOffset(),
+        dif = tzo >= 0 ? '+' : '-',
+        pad = function(num) {
+            var norm = Math.floor(Math.abs(num));
+            return (norm < 10 ? '0' : '') + norm;
+        };
+    return this.getFullYear() +
+        '-' + pad(this.getMonth() + 1) +
+        '-' + pad(this.getDate()) +
+        'T' + pad(this.getHours()) +
+        ':' + pad(this.getMinutes()) +
+        ':' + pad(this.getSeconds()) +
+        dif + pad(tzo / 60) +
+        ':' + pad(tzo % 60);
+}
+
+export function sortByKey(array, key) {
+    return array.sort(function(a, b) {
+        var x = a[key]; var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+}

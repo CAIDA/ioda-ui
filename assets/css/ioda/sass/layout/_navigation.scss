@@ -34,13 +34,14 @@
 
 .navigation {
   width: 100%;
-  background-color: $color-white;
-  box-shadow: 0 2px 7px #333;
+  background-color: $color-primary;
+  box-shadow: $box-shadow;
   position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  height: $header-height;
 
   &__container {
     display: flex;
@@ -62,7 +63,7 @@
       display: block;
 
       & img {
-        height: 7rem;
+        height: 5rem;
       }
     }
   }

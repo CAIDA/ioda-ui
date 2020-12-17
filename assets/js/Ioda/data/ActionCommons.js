@@ -37,15 +37,17 @@ import { merge } from 'lodash';
 
 // Action for getting search-result results based on query
 export const ENTITIES_SEARCH = "ENTITIES_SEARCH";
+export const GET_RELATED_ENTITIES = "GET_RELATED_ENTITIES";
 export const OUTAGE_ALERTS_SEARCH = "OUTAGE_ALERTS_SERACH";
 export const OUTAGE_EVENTS_SEARCH = "OUTAGE_EVENTS_SERACH";
 export const OUTAGE_SUMMARY_SEARCH = "OUTAGE_SUMMARY_SERACH";
+export const OUTAGE_TOTAL_COUNT = "OUTAGE_TOTAL_COUNT";
 export const GET_DATASOURCES = "GET_DATASOURCES";
 export const GET_TOPO_DATA = "GET_TOPO_DATA";
 export const GET_SIGNALS = "GET_SIGNALS";
 
 export const fetchData = (config) => {
-    const baseURL = 'https://cors-anywhere.herokuapp.com/https://api.ioda.caida.org/v2';
+    const baseURL = 'https://thingproxy.freeboard.io/fetch/https://api.ioda.caida.org/v2';
     let concatURL = `${baseURL}${config.url}`;
     const configHeader = merge({}, config, {
         headers: {
@@ -56,7 +58,7 @@ export const fetchData = (config) => {
         url: concatURL
         // url: concatURL.replace(/\s/g, "") NOTE: this won't work if search query are like "united states" (with space)
     });
-    console.log(configHeader);
+
     return axios(configHeader)
         .then(response => {
             return Promise.resolve(response);

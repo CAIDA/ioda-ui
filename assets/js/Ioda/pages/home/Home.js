@@ -32,48 +32,65 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-// React Components
+// React Imports
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
-import {Searchbar} from 'caida-components-library'
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 // Internationalization
 import T from 'i18n-react';
-// Map Dependencies
-import { Map, Marker, Popup, TileLayer, GeoJSON } from 'react-leaflet';
-import worldGeoJSON from 'geojson-world-map';
-// Actions and Constants
-import {
-    mapAccessToken,
-} from './HomeConstants';
-import {searchEntities} from "../../data/ActionEntities";
+// Data Hooks
+import { searchEntities } from "../../data/ActionEntities";
+import { getTopoAction } from "../../data/ActionTopo";
+import { searchSummary } from "../../data/ActionOutages";
+// Components
+import { Searchbar } from 'caida-components-library'
+import { TwitterTimelineEmbed } from 'react-twitter-embed';
+import TopoMap from "../../components/map/Map";
+import * as topojson from 'topojson';
+// Images
+import otfLogo from 'images/logos/otf.png';
+import dhsLogo from 'images/logos/dhs.svg';
+import comcastLogo from 'images/logos/comcast.svg';
+import nsfLogo from 'images/logos/nsf.svg';
+import isocLogo from 'images/logos/isoc.svg';
 
 
 const Card = partner => {
+    const org = partner.partner;
+    const text = "home." +  org;
     // ToDo: Swap out images for sprite sheet
     return (
         <div className="card">
-            <div className="card__headline">
-                <img src="" alt={`${partner} logo`} className="card__headline-icon" />
-                <h2 className="card__headline-text">
-                    partner
-                </h2>
+            <div className="card__logo">
+                {
+                    org === 'otf'
+                        ? <img src={otfLogo} alt={`${partner.partner} logo`} className="card__logo-icon" />
+                        : org === 'dhs'
+                        ? <img src={dhsLogo} alt={`${partner.partner} logo`} className="card__logo-icon" />
+                        : org === 'comcast'
+                            ? <img src={comcastLogo} alt={`${partner.partner} logo`} className="card__logo-icon" />
+                            : org === 'nsf'
+                                ? <img src={nsfLogo} alt={`${partner.partner} logo`} className="card__logo-icon" />
+                                : org === 'isoc'
+                                    ? <img src={isocLogo} alt={`${partner.partner} logo`} className="card__logo-icon" />
+                                    : null
+                }
             </div>
             <div className="card__content">
-                <p className="card__text">serunt eos et hic illo itaque nihil placeat repellat.</p>
+                <T.p className="card__text" text={text}/>
             </div>
         </div>
     );
 };
 
-const Example = country => {
-    const countryName = Object.values(country);
-  return (
-    <div className="example">
-        {`${countryName}`}
-    </div>
-  );
-};
+// const Example = country => {
+//     const countryName = Object.values(country);
+//   return (
+//     <div className="example">
+//         {`${countryName}`}
+//     </div>
+//   );
+// };
 
 class Home extends Component {
     constructor(props) {
@@ -82,11 +99,17 @@ class Home extends Component {
             mounted: false,
             suggestedSearchResults: null,
             searchTerm: null,
+            topoData: null,
+            outageSummaryData: null
         };
     }
 
     componentDidMount() {
-        this.setState({mounted: true});
+        this.setState({mounted: true}, () => {
+            // Get topo and outage data to populate map
+            this.getDataTopo();
+            this.getDataOutageSummary();
+        });
     }
 
     componentWillUnmount() {
@@ -96,33 +119,83 @@ class Home extends Component {
     componentDidUpdate(prevProps) {
         // After API call for suggested search results completes, update suggestedSearchResults state with fresh data
         if (this.props.suggestedSearchResults !== prevProps.suggestedSearchResults) {
-            let suggestedItems = [];
-            let suggestedItemObjects = Object.entries(this.props.suggestedSearchResults.data);
-            console.log(suggestedItemObjects);
-            suggestedItemObjects.map(result => {
-                suggestedItems.push(result[1])
-            });
             this.setState({
-                suggestedSearchResults: suggestedItems
+                suggestedSearchResults: this.props.suggestedSearchResults
+            });
+        }
+
+        // After API call for outage summary data completes, pass summary data to map function for data merging
+        if (this.props.summary !== prevProps.summary) {
+            this.setState({
+                outageSummaryData: this.props.summary
+            })
+        }
+
+        // After API call for topographic data completes, update topoData state with fresh data
+        if (this.props.topoData !== prevProps.topoData) {
+            let topoObjects = topojson.feature(this.props.topoData.country.topology, this.props.topoData.country.topology.objects["ne_10m_admin_0.countries.v3.1.0"]);
+            this.setState({
+                topoData: topoObjects
+            }, () => {
+                this.populateGeoJsonMap();
             });
         }
     }
 
+    // Make API call to retrieve summary data to populate on map
+    getDataOutageSummary() {
+        if (this.state.mounted) {
+            let until = Math.round(new Date().getTime() / 1000);
+            let from = Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000);
+            const entityType = "country";
+            this.props.searchSummaryAction(from, until, entityType);
+        }
+    }
+
+    // Populate JSX that creates the map once topographic data is available
+    populateGeoJsonMap() {
+        if (this.state.topoData && this.state.outageSummaryData) {
+            let topoData = this.state.topoData;
+
+            // get Topographic info for a country if it has outages
+            this.state.outageSummaryData.map(outage => {
+                let topoItemIndex = this.state.topoData.features.findIndex(topoItem => topoItem.properties.usercode === outage.entity.code);
+
+                if (topoItemIndex > 0) {
+                    let item = topoData.features[topoItemIndex];
+                    item.properties.score = outage.scores.overall;
+                    topoData.features[topoItemIndex] = item;
+                }
+            });
+            return <TopoMap topoData={topoData}/>;
+        }
+    }
+
+    // Make API call to retrieve topographic data
+    getDataTopo() {
+        if (this.state.mounted) {
+            let entityType = "country";
+            this.props.getTopoAction(entityType);
+        }
+    }
+
     // get data for search results that populate in suggested search list
-    getDataSuggestedSearchResults(nextProps) {
+    getDataSuggestedSearchResults(searchTerm) {
         if (this.state.mounted) {
             // Set searchTerm to the value of nextProps, nextProps refers to the current search string value in the field.
-            this.setState({ searchTerm: nextProps });
+            this.setState({ searchTerm: searchTerm });
             // // Make api call
-            this.props.searchEntitiesAction(nextProps);
+            this.props.searchEntitiesAction(searchTerm, 11);
         }
     }
 
     // Define what happens when user clicks suggested search result entry
     handleResultClick = (query) => {
         const { history } = this.props;
-        console.log(query);
-        // query.name ? history.push(`/search?query=${query.name}`) : history.push(`/search?query=${query}`);
+        const entity = this.state.suggestedSearchResults.filter(result => {
+            return result.name === query;
+        });
+        history.push(`/${entity[0].type}/${entity[0].code}`);
     };
 
     // Reset searchbar with searchterm value when a selection is made, no customizations needed here.
@@ -134,11 +207,9 @@ class Home extends Component {
     }
 
     render() {
-        let position = [51.505, -0.09];
         return (
             <div className='home'>
                 <div className="row search">
-                    <div className="col-1-of-6"></div>
                     <div className="col-2-of-3">
                         <h2 className="section-header">
                             Jump to a Country, Region, or AS/ISP of Interest
@@ -151,13 +222,12 @@ class Home extends Component {
                                    handleQueryUpdate={this.handleQueryUpdate}
                         />
                         <p className="search__text">
-                            or Continue to
-                            <Link to="/">
+                            or continue to
+                            <Link to="/dashboard" className="search__link">
                                 Outages Dashboard >>
                             </Link>
                         </p>
                     </div>
-                    <div className="col-1-of-6"></div>
                 </div>
                 <div className="row map">
                     <div className="col-3-of-4">
@@ -166,34 +236,9 @@ class Home extends Component {
                         </h2>
                         <p className="map__text">Last 24 hours</p>
                         <div className="map__content">
-                            map
-                            <Map
-                                center={position}
-                                zoom={5}
-                                minZoom={1}
-                                style={{width: '100%', height: '400px', overflow: 'hidden'}}
-                            >
-                                <TileLayer
-                                    id="mapbox/streets-v11"
-                                    url={`https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=${mapAccessToken}`}
-                                />
-                                <GeoJSON
-                                    data={worldGeoJSON}
-                                    style={() => ({
-                                        color: '#fff',
-                                        weight: 2,
-                                        fillColor: '#2c3e50',
-                                        fillOpacity: 0.7,
-                                        dashArray: '2'
-                                    })}
-                                />
-                            </Map>
-                            {/*<Map center={position} zoom={13} style={{width: '100%', height: '400px', overflow: 'hidden'}}>*/}
-                            {/*    <TileLayer*/}
-                            {/*        id="mapbox/streets-v11"*/}
-                            {/*        url={`https://tile.thunderforest.com/mobile-atlas/{z}/{x}/{y}.png?apikey=${thunderForestapiKey}`}*/}
-                            {/*    />*/}
-                            {/*</Map>*/}
+                            {
+                                this.populateGeoJsonMap()
+                            }
                         </div>
                     </div>
                     <div className="col-1-of-4">
@@ -201,29 +246,45 @@ class Home extends Component {
                             Latest News
                         </h2>
                         <div className="map__feed">
-                            feed
+                            <TwitterTimelineEmbed
+                                sourceType="profile"
+                                screenName="caida_ioda"
+                                options={{height: 483}}
+                            />
                         </div>
                     </div>
                 </div>
-                <div className="row about">
-                    <div className="col-2-of-3">
-                        <p className="about__text">
-                            blurb
-                        </p>
-                        <Link to="/">
-                            Outages Dashboard >>
-                        </Link>
+                <div className="about">
+                    <div className="row">
+                        <div className="col-2-of-3">
+                            <p className="about__text">
+                                IODA (Internet Outage Detection and Analysis) is a CAIDA project to develop an
+                                operational prototype system that monitors the internet, in near-realtime, to identify
+                                macroscopic Internet outages affecting the edge of the network, i.e. significantly
+                                impacting an AS (Autonomous System) or a large fraction of a country.
+                            </p>
+                            <Link to="/dashboard" className="button">
+                                <button>
+                                    Outages Dashboard >>
+                                </button>
+                            </Link>
+                        </div>
                     </div>
                 </div>
-                <div className="row examples">
-                    <div className="col-1-of-1">
-                        <Example country="iran"/>
-                    </div>
-                    <div className="col-1-of-1">
-                        <Example country="gabon"/>
-                    </div>
-                </div>
+                {/*<div className="row examples">*/}
+                {/*    <div className="col-1-of-1">*/}
+                {/*        <Example country="iran"/>*/}
+                {/*    </div>*/}
+                {/*    <div className="col-1-of-1">*/}
+                {/*        <Example country="gabon"/>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
                 <div className="row partners">
+                    <div className="col-1-of-1">
+                        <h2 className="section-header">
+                            Partners
+                        </h2>
+                    </div>
                     <div className="col-1-of-5">
                         <Card partner="otf"/>
                     </div>
@@ -247,14 +308,22 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        suggestedSearchResults: state.iodaApi.entities
+        suggestedSearchResults: state.iodaApi.entities,
+        summary: state.iodaApi.summary,
+        topoData: state.iodaApi.topo
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         searchEntitiesAction: (searchQuery, limit=15) => {
-           searchEntities(dispatch, searchQuery, limit);
+            searchEntities(dispatch, searchQuery, limit);
+        },
+        searchSummaryAction: (from, until, entityType, entityCode=null, limit=null, page=null) => {
+            searchSummary(dispatch, from, until, entityType, entityCode, limit, page);
+        },
+        getTopoAction: (entityType) => {
+            getTopoAction(dispatch, entityType);
         }
     }
 };

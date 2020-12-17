@@ -1,0 +1,59 @@
+.range {
+
+  &__input {
+    background-color: $color-white;
+    height: 3.5rem;
+    width: 100%;
+    margin-top: 1.8rem;
+    border: 1px solid #010201;
+    border-radius: 3px;
+    box-shadow: $box-shadow;
+    outline: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    & span {
+      display: inline-block;
+    }
+
+    &-dash {
+      padding: 0 1.5rem;
+    }
+  }
+
+  &__dropdown {
+    display: none;
+    z-index: 10000;
+    position: absolute;
+    left: 0;
+    top: 7.25rem;
+    border: 1px solid #010201;
+    box-shadow: $box-shadow;
+    border-radius: 3px;
+
+    &-checkbox {
+      position: absolute;
+      bottom: 3rem;
+      width: 18.3rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    &--visible {
+      display: inline-block;
+    }
+  }
+
+  &__time {
+    display: none;
+    position: absolute;
+    bottom: 5rem;
+    left: 0.5rem;
+
+    &--visible {
+      display: block;
+    }
+  }
+}

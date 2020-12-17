@@ -34,9 +34,9 @@
 
 // global CSS styles exported from sass scripts
 import 'css/style.css';
-// internationalization
+// Internationalization Files
 import './constants/strings';
-// library imports
+// React imports
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -44,13 +44,17 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import {createStore, applyMiddleware, combineReducers} from "redux";
 import thunk from 'redux-thunk';
+import {iodaApiReducer} from "./data/DataReducer";
 // Template Components
 import Nav from "./templates/Nav";
 import Footer from "./templates/Footer";
 // Routes
 import Home from './pages/home/Home';
-import {iodaApiReducer} from "./data/DataReducer";
+import Dashboard from './pages/dashboard/Dashboard';
+import Entity from './pages/entity/Entity';
 import TestAPI from "./pages/tests/TestAPI";
+
+
 
 
 class App extends Component {
@@ -59,6 +63,8 @@ class App extends Component {
             <Nav/>
             <Switch>
                 <Route path='/test' component={TestAPI}/>
+                <Route path='/dashboard' component={Dashboard}/>
+                <Route exact path='/:entityType/:entityCode' component={Entity} />
                 <Route path='/' component={Home}/>
             </Switch>
             <Footer/>

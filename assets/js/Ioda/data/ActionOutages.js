@@ -32,7 +32,7 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-import {fetchData, OUTAGE_ALERTS_SEARCH, OUTAGE_EVENTS_SEARCH, OUTAGE_SUMMARY_SEARCH} from "./ActionCommons";
+import {fetchData, OUTAGE_ALERTS_SEARCH, OUTAGE_EVENTS_SEARCH, OUTAGE_SUMMARY_SEARCH, OUTAGE_TOTAL_COUNT} from "./ActionCommons";
 
 /*
 BUILDING CONNECTION CONFIGS
@@ -126,11 +126,26 @@ export const searchEvents = (dispatch, from, until, entityType=null, entityCode=
     });
 }
 
-export const searchSummary = (dispatch, from, until, entityType=null, entityCode=null, limit=null, page=null) => {
-    let config = buildSummaryConfig(from, until, entityType, entityCode, limit, page);
+// Getting outage information to use for populating topoJSON data
+export const searchSummary = (dispatch, from, until, entityType, entityCode, limit, page, includeMetadata) => {
+    let config = buildSummaryConfig(from, until, entityType, entityCode, limit, page, includeMetadata);
+    includeMetadata
+        ? config.url = config.url + "&includeMetadata"
+        : config.url;
     fetchData(config).then(data => {
         dispatch({
             type: OUTAGE_SUMMARY_SEARCH,
+            payload: data.data.data,
+        })
+    });
+}
+
+// Getting outage information to use for populating topoJSON data
+export const totalOutages = (dispatch, from, until, entityType=null, limit=null, page=null, includeMetadata=null) => {
+    let config = buildSummaryConfig(from, until, entityType, limit, page, includeMetadata);
+    fetchData(config).then(data => {
+        dispatch({
+            type: OUTAGE_TOTAL_COUNT,
             payload: data.data.data,
         })
     });
