@@ -16,10 +16,10 @@ class ControlPanel extends Component {
                 key: 'selection'
             },
             timeRange: [
-                // new Date(Date.now() - 86400000).toISOString().split("T")[1].split(".")[0],
-                // new Date(Date.now() - 1000).toISOString().split("T")[1].split(".")[0]
-                "00:00:00",
-                "23:59:59"
+                new Date(Date.now() - 86400000).toISOString().split("T")[1].split(".")[0],
+                new Date(Date.now() - 1000).toISOString().split("T")[1].split(".")[0]
+                // "00:00:00",
+                // "23:59:59"
             ],
             rangeInputVisibility: false,
             wholeDayInputSelected: false

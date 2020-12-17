@@ -50,9 +50,13 @@ class Entity extends Component {
                 darknet: []
             },
             // Table Pagination
-            pageNumber: 0,
-            currentDisplayLow: 0,
-            currentDisplayHigh: 10,
+            eventTablePageNumber: 0,
+            eventTableCurrentDisplayLow: 0,
+            eventTableCurrentDisplayHigh: 10,
+
+            alertTablePageNumber: 0,
+            alertTableCurrentDisplayLow: 0,
+            alertTableCurrentDisplayHigh: 10,
             // Event/Table Data
             currentTable: 'alert',
             eventDataRaw: null,
@@ -103,10 +107,10 @@ class Entity extends Component {
         // Make API call for data to populate event table
         if (this.props.events !== prevProps.events) {
             if (this.props.events.length < 10) {
-                this.setState({currentDisplayHigh: this.props.events.length});
+                this.setState({eventTableCurrentDisplayHigh: this.props.events.length});
             }
             this.setState({
-                eventDataRaw: this.props.events
+                eventDataRaw: this.props.events,
             }, () => {
                 this.convertValuesForEventTable();
             });
@@ -114,6 +118,9 @@ class Entity extends Component {
 
         // Make API call for data to populate Alert Table
         if (this.props.alerts !== prevProps.alerts) {
+            if (this.props.alerts.length < 10) {
+                this.setState({alertTableCurrentDisplayHigh: this.props.alerts.length});
+            }
             this.setState({
                 alertDataRaw: this.props.alerts
             }, () => {
@@ -354,47 +361,68 @@ class Entity extends Component {
             <Table
                 type={"event"}
                 data={this.state.eventDataProcessed}
-                nextPage={() => this.nextPage()}
-                prevPage={() => this.prevPage()}
-                currentDisplayLow={this.state.currentDisplayLow}
-                currentDisplayHigh={this.state.currentDisplayHigh}
+                nextPage={(type) => this.nextPage(type)}
+                prevPage={(type) => this.prevPage(type)}
+                currentDisplayLow={this.state.eventTableCurrentDisplayLow}
+                currentDisplayHigh={this.state.eventTableCurrentDisplayHigh}
                 totalCount={this.state.eventDataProcessed.length}
             />
         )
     }
-    nextPage() {
-        if (this.state.totalOutages && this.state.totalOutages > this.state.pageNumber + 1 * this.state.currentDisplayHigh) {
-            this.setState({
-                pageNumber: this.state.pageNumber + 1,
-                currentDisplayLow: this.state.currentDisplayLow + 10,
-                currentDisplayHigh: this.state.currentDisplayHigh + 10 < this.state.totalOutages
-                    ? this.state.currentDisplayHigh + 10
-                    : this.state.summaryDataProcessed.length,
-                topoData: null,
-            }, () => {
-                this.getDataOutageSummary(this.state.activeTabType);
-                this.state.activeTabType !== as.type
-                    ? this.getDataTopo(this.state.activeTabType)
-                    : null;
-            })
+    nextPage(type) {
+        if (type === 'alert') {
+            if (this.state.alertDataProcessed && this.state.alertDataProcessed.length > this.state.alertTablePageNumber + this.state.alertTableCurrentDisplayHigh) {
+                this.setState({
+                    alertTablePageNumber: this.state.alertTablePageNumber + 1,
+                    alertTableCurrentDisplayLow: this.state.alertTableCurrentDisplayLow + 10,
+                    alertTableCurrentDisplayHigh: this.state.alertTableCurrentDisplayHigh + 10 < this.state.alertDataProcessed.length
+                        ? this.state.alertTableCurrentDisplayHigh + 10
+                        : this.state.alertDataProcessed.length
+                })
+            }
+        }
+
+        if (type === 'event') {
+            if (this.state.eventDataProcessed && this.state.eventDataProcessed.length > this.state.eventTablePageNumber + this.state.eventTableCurrentDisplayHigh) {
+                this.setState({
+                    eventTablePageNumber: this.state.eventTablePageNumber + 1,
+                    eventTableCurrentDisplayLow: this.state.eventTableCurrentDisplayLow + 10,
+                    eventTableCurrentDisplayHigh: this.state.eventTableCurrentDisplayHigh + 10 < this.state.eventDataProcessed.length
+                        ? this.state.eventTableCurrentDisplayHigh + 10
+                        : this.state.eventDataProcessed.length
+                })
+            }
         }
     }
-    prevPage() {
-        if (this.state.summaryDataProcessed && this.state.pageNumber > 0) {
-            this.setState({
-                pageNumber: this.state.pageNumber - 1,
-                currentDisplayLow: this.state.currentDisplayLow - 10,
-                currentDisplayHigh: this.state.currentDisplayHigh + 10 > this.state.totalOutages
-                    ? 10 * this.state.pageNumber - 10
-                    : this.state.currentDisplayHigh - 10,
-                topoData: null,
-            }, () => {
-                this.getDataOutageSummary(this.state.activeTabType);
-                this.state.activeTabType !== as.type
-                    ? this.getDataTopo(this.state.activeTabType)
-                    : null;
-            })
+    prevPage(type) {
+        if (type === 'alert') {
+            if (this.state.alertDataProcessed && this.state.alertTablePageNumber > 0) {
+                this.setState({
+                    alertTablePageNumber: this.state.alertTablePageNumber - 1,
+                    alertTableCurrentDisplayLow: this.state.alertTableCurrentDisplayHigh + 10 > this.state.alertDataProcessed.length
+                    ? 10 * this.state.alertTablePageNumber - 10
+                    : this.state.alertTableCurrentDisplayLow - 10,
+                    alertTableCurrentDisplayHigh: this.state.alertTableCurrentDisplayHigh + 10 > this.state.alertDataProcessed.length
+                        ? 10 * this.state.alertTablePageNumber
+                        : this.state.alertTableCurrentDisplayHigh - 10
+                })
+            }
         }
+
+        if (type === 'event') {
+            if (this.state.eventDataProcessed && this.state.eventTablePageNumber > 0) {
+                this.setState({
+                    eventTablePageNumber: this.state.eventTablePageNumber - 1,
+                    eventTableCurrentDisplayLow: this.state.eventTableCurrentDisplayHigh + 10 > this.state.eventDataProcessed.length
+                        ? 10 * this.state.alertTablePageNumber - 10
+                        : this.state.eventTableCurrentDisplayLow - 10,
+                    eventTableCurrentDisplayHigh: this.state.eventTableCurrentDisplayHigh + 10 > this.state.eventDataProcessed.length
+                        ? 10 * this.state.eventTablePageNumber
+                        : this.state.eventTableCurrentDisplayHigh - 10
+                })
+            }
+        }
+
     }
     changeCurrentTable() {
         if (this.state.currentTable === 'event') {
@@ -443,11 +471,11 @@ class Entity extends Component {
             <Table
                 type={"alert"}
                 data={this.state.alertDataProcessed}
-                nextPage={() => this.nextPage()}
-                prevPage={() => this.prevPage()}
-                currentDisplayLow={this.state.currentDisplayLow}
-                currentDisplayHigh={this.state.currentDisplayHigh}
-                totalCount={this.state.eventDataProcessed.length}
+                nextPage={(type) => this.nextPage(type)}
+                prevPage={(type) => this.prevPage(type)}
+                currentDisplayLow={this.state.alertTableCurrentDisplayLow}
+                currentDisplayHigh={this.state.alertTableCurrentDisplayHigh}
+                totalCount={this.state.alertDataProcessed.length}
             />
         )
     }

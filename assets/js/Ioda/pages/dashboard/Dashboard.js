@@ -423,13 +423,13 @@ class Dashboard extends Component {
         )
     }
     nextPage() {
-        if (this.state.totalOutages && this.state.totalOutages > this.state.pageNumber + 1 * this.state.currentDisplayHigh) {
+        if (this.state.totalOutages && this.state.totalOutages > this.state.currentDisplayHigh) {
             this.setState({
                 pageNumber: this.state.pageNumber + 1,
                 currentDisplayLow: this.state.currentDisplayLow + 10,
                 currentDisplayHigh: this.state.currentDisplayHigh + 10 < this.state.totalOutages
                     ? this.state.currentDisplayHigh + 10
-                    : this.state.summaryDataProcessed.length,
+                    : this.state.totalOutages,
                 topoData: null,
             }, () => {
                 this.getDataOutageSummary(this.state.activeTabType);
@@ -441,11 +441,16 @@ class Dashboard extends Component {
     }
     prevPage() {
         if (this.state.summaryDataProcessed && this.state.pageNumber > 0) {
+            console.log(this.state.pageNumber);
+            console.log(10 * this.state.pageNumber);
+            console.log(this.state.currentDisplayHigh - 10);
             this.setState({
                 pageNumber: this.state.pageNumber - 1,
-                currentDisplayLow: this.state.currentDisplayLow - 10,
-                currentDisplayHigh: this.state.currentDisplayHigh + 10 > this.state.totalOutages
+                currentDisplayLow: this.state.currentDisplayHigh + 10 > this.state.totalOutages
                     ? 10 * this.state.pageNumber - 10
+                    : this.state.currentDisplayLow - 10,
+                currentDisplayHigh: this.state.currentDisplayHigh + 10 > this.state.totalOutages
+                    ? 10 * this.state.pageNumber
                     : this.state.currentDisplayHigh - 10,
                 topoData: null,
             }, () => {

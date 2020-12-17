@@ -259,8 +259,8 @@ class Table extends Component {
                 <div className="table__page">
                     <p className="table__page-text">Showing {this.props.currentDisplayLow + 1} - {this.props.currentDisplayHigh} of {this.props.totalCount} Entries</p>
                     <div className="table__page-controls">
-                        <button onClick={() => this.props.prevPage()} className="table__page-button">Prev</button>
-                        <button onClick={() => this.props.nextPage()} className="table__page-button">Next</button>
+                        <button onClick={(type) => this.props.prevPage(type)} className="table__page-button">Prev</button>
+                        <button onClick={(type) => this.props.nextPage(type)} className="table__page-button">Next</button>
                     </div>
 
                 </div>
