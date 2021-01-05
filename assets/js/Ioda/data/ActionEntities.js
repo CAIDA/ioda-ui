@@ -32,7 +32,7 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-import {ENTITIES_SEARCH, GET_RELATED_ENTITIES, fetchData} from "./ActionCommons";
+import {ENTITIES_SEARCH, ENTITY_METADATA, GET_RELATED_ENTITIES, fetchData} from "./ActionCommons";
 
 const buildSearchConfig = (searchQueryText, limit) => {
     return {
@@ -64,6 +64,23 @@ export const searchRelatedEntities = (dispatch, from, until, entityType, related
     fetchData(config).then(data => {
         dispatch({
             type: GET_RELATED_ENTITIES,
+            payload: data.data.data,
+        })
+    });
+}
+
+const buildEntityMetadataConfig = (entityType, entityCode) => {
+    return {
+        method: "get",
+        url: `/entities/${entityType}/${entityCode}`
+    }
+};
+
+export const getEntityMetadata = (dispatch, entityType, entityCode) => {
+    let config = buildEntityMetadataConfig(entityType, entityCode);
+    fetchData(config).then(data => {
+        dispatch({
+            type: ENTITY_METADATA,
             payload: data.data.data,
         })
     });

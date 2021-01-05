@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 // Internationalization
 import T from 'i18n-react';
 // Data Hooks
-import { searchEntities, searchRelatedEntities } from "../../data/ActionEntities";
+import { searchEntities, searchRelatedEntities, getEntityMetadata } from "../../data/ActionEntities";
 import { getTopoAction } from "../../data/ActionTopo";
 import {searchAlerts, searchEvents, searchSummary, totalOutages} from "../../data/ActionOutages";
 import {getSignalsAction} from "../../data/ActionSignals";
@@ -32,6 +32,7 @@ class Entity extends Component {
             mounted: false,
             entityType: window.location.pathname.split("/")[1],
             entityCode: window.location.pathname.split("/")[2],
+            entityName: "",
             // Control Panel
             from: window.location.search.split("?")[1]
                 ? window.location.search.split("?")[1].split("&")[0].split("=")[1]
@@ -76,6 +77,8 @@ class Entity extends Component {
             this.props.searchEventsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
             this.props.searchAlertsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], null, null, null);
             this.props.getSignalsAction( window.location.pathname.split("/")[1],window.location.pathname.split("/")[2], window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], null, null);
+            // Get entity name from code provided in url
+            this.props.getEntityMetadataAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
         });
     }
 
@@ -86,6 +89,13 @@ class Entity extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        // After API call for getting entity name from url
+        if (this.props.entityMetadata !== prevProps.entityMetadata) {
+            this.setState({
+                entityName: this.props.entityMetadata[0]["name"]
+            });
+        }
+
         // After API call for suggested search results completes, update suggestedSearchResults state with fresh data
         if (this.props.suggestedSearchResults !== prevProps.suggestedSearchResults) {
             this.setState({
@@ -245,7 +255,7 @@ class Entity extends Component {
                 animationEnabled: true,
                 zoomEnabled: true,
                 title: {
-                    text: `IODA Signals for ${activeProbing.entityCode}`
+                    text: `IODA Signals for ${this.state.entityName}`
                 },
                 crosshair: {
                     enabled: true,
@@ -502,7 +512,7 @@ class Entity extends Component {
                 <div className="row title">
                     <div className="col-1-of-1">
                         {/*ToDo: Update today to be dynamic*/}
-                        <h2>Outages Occurring Today</h2>
+                        <h2>Outages Occurring Today in {this.state.entityName}</h2>
                     </div>
                 </div>
                 <ControlPanel
@@ -550,6 +560,7 @@ const mapStateToProps = (state) => {
     return {
         suggestedSearchResults: state.iodaApi.entities,
         relatedEntities: state.iodaApi.relatedEntities,
+        entityMetadata: state.iodaApi.entityMetadata,
         summary: state.iodaApi.summary,
         topoData: state.iodaApi.topo,
         totalOutages: state.iodaApi.summaryTotalCount,
@@ -564,11 +575,14 @@ const mapDispatchToProps = (dispatch) => {
         searchEntitiesAction: (searchQuery, limit=15) => {
             searchEntities(dispatch, searchQuery, limit);
         },
-        searchRelatedEntitiesAction: (from, until, entityType, relatedToEntityType, relatedToEntityCode) => {
-            searchRelatedEntities(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode);
-        },
+        // searchRelatedEntitiesAction: (from, until, entityType, relatedToEntityType, relatedToEntityCode) => {
+        //     searchRelatedEntities(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode);
+        // },
         searchSummaryAction: (from, until, entityType, entityCode, limit, page, includeMetaData) => {
             searchSummary(dispatch, from, until, entityType, entityCode, limit, page, includeMetaData);
+        },
+        getEntityMetadataAction: (entityType, entityCode) => {
+          getEntityMetadata(dispatch, entityType, entityCode);
         },
         totalOutagesAction: (from, until, entityType) => {
             totalOutages(dispatch, from, until, entityType);
