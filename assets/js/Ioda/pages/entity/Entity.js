@@ -509,17 +509,12 @@ class Entity extends Component {
     render() {
         return(
             <div className="entity">
-                <div className="row title">
-                    <div className="col-1-of-1">
-                        {/*ToDo: Update today to be dynamic*/}
-                        <h2>Outages Occurring Today in {this.state.entityName}</h2>
-                    </div>
-                </div>
                 <ControlPanel
                     from={this.state.from}
                     until={this.state.until}
                     timeFrame={this.handleTimeFrame}
                     searchbar={() => this.populateSearchBar()}
+                    entityName={this.state.entityName}
                 />
                 <div className="row overview">
                     <div className="col-3-of-5">
