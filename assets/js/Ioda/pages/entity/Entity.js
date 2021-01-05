@@ -243,6 +243,7 @@ class Entity extends Component {
             xyDataOptions: {
                 theme: "light2",
                 animationEnabled: true,
+                zoomEnabled: true,
                 title: {
                     text: `IODA Signals for ${activeProbing.entityCode}`
                 },
