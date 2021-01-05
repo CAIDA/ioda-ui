@@ -82,6 +82,10 @@ class Dashboard extends Component {
         this.setState({
             mounted: true
         },() => {
+
+            console.log(this.state.from);
+            console.log(this.state.until);
+
             // Set initial tab to load
             this.handleSelectTab(this.tabs[this.props.match.params.tab]);
             // Get topo and outage data to populate map and table
@@ -175,9 +179,9 @@ class Dashboard extends Component {
         let tStart = timeRange[0].split(":");
         let dEnd = dateRange.endDate;
         let tEnd = timeRange[1].split(":");
-        // set time stamp on date
-        dStart = dStart.setHours(tStart[0], tStart[1], tStart[2]);
-        dEnd = dEnd.setHours(tEnd[0], tEnd[1], tEnd[2]);
+        // set time stamp on date with timezone offset
+        dStart = dStart.setHours(tStart[0], tStart[1], tStart[2]) - (new Date(dStart).getTimezoneOffset() * 60 * 1000);
+        dEnd = dEnd.setHours(tEnd[0], tEnd[1], tEnd[2]) - (new Date(dStart).getTimezoneOffset() * 60 * 1000);
         // convert to seconds
         dStart = Math.round(new Date(dStart).getTime() / 1000);
         dEnd = Math.round(new Date(dEnd).getTime() / 1000);

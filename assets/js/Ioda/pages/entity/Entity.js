@@ -75,7 +75,7 @@ class Entity extends Component {
             // Overview Panel
             this.props.searchEventsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
             this.props.searchAlertsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], null, null, null);
-            this.props.getSignalsAction( window.location.pathname.split("/")[1],window.location.pathname.split("/")[2], this.state.from, this.state.until, null, null);
+            this.props.getSignalsAction( window.location.pathname.split("/")[1],window.location.pathname.split("/")[2], window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], null, null);
         });
     }
 
@@ -137,12 +137,12 @@ class Entity extends Component {
         let tStart = timeRange[0].split(":");
         let dEnd = dateRange.endDate;
         let tEnd = timeRange[1].split(":");
-        // set time stamp on date
-        dStart = dStart.setHours(tStart[0], tStart[1], tStart[2]);
-        dEnd = dEnd.setHours(tEnd[0], tEnd[1], tEnd[2]);
+        // set time stamp on date with timezone offset
+        dStart = dStart.setHours(tStart[0], tStart[1], tStart[2]) - (new Date(dStart).getTimezoneOffset() * 60 * 1000);
+        dEnd = dEnd.setHours(tEnd[0], tEnd[1], tEnd[2]) - (new Date(dStart).getTimezoneOffset() * 60 * 1000);
         // convert to seconds
-        dStart = Math.round(new Date(dStart).getTime() / 1000);
-        dEnd = Math.round(new Date(dEnd).getTime() / 1000);
+        dStart = Math.round(dStart / 1000);
+        dEnd = Math.round(dEnd / 1000);
 
         const { history } = this.props;
 
@@ -198,11 +198,13 @@ class Entity extends Component {
 // XY Chart Functions
     // XY Plot Graph Functions
     convertValuesForXyViz() {
+        // ToDo: Set x values to local time zone initially
         let bgp = this.state.tsDataRaw[1];
         let bgpValues = [];
         bgp.values && bgp.values.map((value, index) => {
             let x, y;
             x = toDateTime(bgp.from + (bgp.step * index));
+            // console.log(x);
             y = value;
             bgpValues.push({x: x, y: y});
         });
@@ -244,26 +246,30 @@ class Entity extends Component {
                 title: {
                     text: `IODA Signals for ${activeProbing.entityCode}`
                 },
+                crosshair: {
+                    enabled: true,
+                    snapToDataPoint: true
+                },
                 axisX: {
                     title: "Time (UTC)",
                     stripLines: stripLines
                 },
                 axisY: {
-                    title: "Active Probing and BGP",
-                    titleFontsColor: "#2c3e50",
+                    // title: "Active Probing and BGP",
+                    titleFontsColor: "#666666",
                     lineColor: "#34a02c",
-                    labelFontColor: "#34a02c",
+                    labelFontColor: "#666666",
                     tickColor: "#34a02c"
                 },
                 axisY2: {
-                    title: "Network Telescope",
-                    titleFontsColor: "#2c3e50",
+                    // title: "Network Telescope",
+                    titleFontsColor: "#666666",
                     lineColor: "#00a9e0",
-                    labelFontColor: "#00a9e0",
+                    labelFontColor: "#666666",
                     tickColor: "#00a9e0"
                 },
                 toolTip: {
-                    shared: true,
+                    shared: false,
                     enabled: true,
                     animationEnabled: true
                 },
@@ -273,31 +279,40 @@ class Entity extends Component {
                 data: [
                     {
                         type: "spline",
+                        lineThickness: 1,
+                        markerType: "circle",
+                        markerSize: 2,
                         name: bgp.datasource,
                         showInLegend: true,
-                        xValueFormatString: "HH:MM - MMM DD, YYYY",
+                        xValueFormatString: "DDD, MMM DD - HH:MM",
                         yValueFormatString: "##",
                         dataPoints: bgpValues,
-                        toolTipContent: "{x} <br/> BGP: {y}"
+                        toolTipContent: "{x} <br/> BGP (# Visbile /24s): {y}"
                     },
                     {
                         type: "spline",
+                        lineThickness: 1,
+                        markerType: "circle",
+                        markerSize: 2,
                         name: activeProbing.datasource,
                         showInLegend: true,
-                        xValueFormatString: "HH:MM - MMM DD, YYYY",
+                        xValueFormatString: "DDD, MMM DD - HH:MM",
                         yValueFormatString: "##",
                         dataPoints: activeProbingValues,
-                        toolTipContent: "{x} <br/> Active Probing: {y}"
+                        toolTipContent: "{x} <br/> Active Probing (# /24s Up): {y}"
                     },
                     {
                         type: "spline",
+                        lineThickness: 1,
+                        markerType: "circle",
+                        markerSize: 2,
                         name: networkTelescope.datasource,
                         axisYType: "secondary",
                         showInLegend: true,
-                        xValueFormatString: "HH:MM - MMM DD, YYYY",
+                        xValueFormatString: "DDD, MMM DD - HH:MM",
                         yValueFormatString: "##",
                         dataPoints: networkTelescopeValues,
-                        toolTipContent: "{x} <br/> Network Telescope: {y}"
+                        toolTipContent: "{x} <br/> Network Telescope (# Unique Source IPs): {y}"
                     }
                 ]
             }
@@ -308,7 +323,7 @@ class Entity extends Component {
     genXyChart() {
         return (
             this.state.xyDataOptions && <div>
-                <CanvasJSChart options = {this.state.xyDataOptions}
+                <CanvasJSChart options={this.state.xyDataOptions}
                                onRef={ref => this.chart = ref}
                 />
                 {/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
