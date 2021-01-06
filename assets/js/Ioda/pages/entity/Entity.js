@@ -148,14 +148,16 @@ class Entity extends Component {
         let dEnd = dateRange.endDate;
         let tEnd = timeRange[1].split(":");
         // set time stamp on date with timezone offset
-        dStart = dStart.setHours(tStart[0], tStart[1], tStart[2]) - (new Date(dStart).getTimezoneOffset() * 60 * 1000);
-        dEnd = dEnd.setHours(tEnd[0], tEnd[1], tEnd[2]) - (new Date(dStart).getTimezoneOffset() * 60 * 1000);
+        dStart = dStart.setHours(tStart[0], tStart[1], tStart[2]);
+        dEnd = dEnd.setHours(tEnd[0], tEnd[1], tEnd[2]);
         // convert to seconds
         dStart = Math.round(dStart / 1000);
         dEnd = Math.round(dEnd / 1000);
+        // // Adjust for timezone?
+        // dStart = new Date(dStart) - new Date(dStart).getTimezoneOffset() * 60;
+        // dEnd = new Date(dStart) - new Date(dStart).getTimezoneOffset() * 60;
 
         const { history } = this.props;
-
         history.push(`/${this.state.entityType}/${this.state.entityCode}?from=${dStart}&until=${dEnd}`);
 
         this.setState({
