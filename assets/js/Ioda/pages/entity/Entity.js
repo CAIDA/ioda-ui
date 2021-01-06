@@ -76,7 +76,7 @@ class Entity extends Component {
             // Overview Panel
             this.props.searchEventsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
             this.props.searchAlertsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], null, null, null);
-            this.props.getSignalsAction( window.location.pathname.split("/")[1],window.location.pathname.split("/")[2], window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], null, null);
+            this.props.getSignalsAction( window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], null, null);
             // Get entity name from code provided in url
             this.props.getEntityMetadataAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
         });
