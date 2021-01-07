@@ -52,11 +52,14 @@ class Dashboard extends Component {
             totalOutages: 0,
             // Summary Table Pagination
             pageNumber: 0,
+            apiPageNumber: 1,
             currentDisplayLow: 0,
             currentDisplayHigh: 10,
             // Event Data for Time Series
             eventDataRaw: null,
-            eventDataProcessed: []
+            eventDataProcessed: [],
+            eventOrderByAttr: "score",
+            eventOrderByOrder: "desc"
         };
         this.tabs = {
             country: country.tab,
@@ -162,7 +165,7 @@ class Dashboard extends Component {
             this.setState({
                 eventDataRaw: this.props.events
             }, () => {
-                this.convertValuesForHtsViz();
+                this.convertValuesForHtsViz()
             });
         }
     }
@@ -215,6 +218,7 @@ class Dashboard extends Component {
                 // Trigger Data Update for new tab
                 topoData: null,
                 summaryDataRaw: null,
+                eventDataRaw: null,
                 // Reset Table Page Count
                 pageNumber: 0,
                 currentDisplayLow: 0,
@@ -230,6 +234,7 @@ class Dashboard extends Component {
                 // Trigger Data Update for new tab
                 topoData: null,
                 summaryDataRaw: null,
+                eventDataRaw: null,
                 // Reset Table Page Count
                 pageNumber: 0,
                 currentDisplayLow: 0,
@@ -245,6 +250,7 @@ class Dashboard extends Component {
                 // Trigger Data Update for new tab
                 topoData: null,
                 summaryDataRaw: null,
+                eventDataRaw: null,
                 // Reset Table Page Count
                 pageNumber: 0,
                 currentDisplayLow: 0,
@@ -258,13 +264,12 @@ class Dashboard extends Component {
     // Make API call to retrieve summary data to populate on map
     getDataOutageSummary(entityType) {
         if (this.state.mounted) {
-            // let until = Math.round(new Date().getTime() / 1000);
-            // let from = Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000);
             let until = this.state.until;
             let from = this.state.from;
-            const limit = 10;
+            const limit = 170;
             const includeMetadata = true;
             let page = this.state.pageNumber;
+            // let page = null;
             const entityCode = null;
             this.props.searchSummaryAction(from, until, entityType, entityCode, limit, page, includeMetadata);
         }
@@ -313,35 +318,52 @@ class Dashboard extends Component {
     getDataEvents(entityType) {
         let until = this.state.until;
         let from = this.state.from;
-        this.props.searchEventsAction(from, until, entityType);
+        let attr = this.state.eventOrderByAttr;
+        let order = this.state.eventOrderByOrder;
+        this.props.searchEventsAction(from, until, entityType, attr, order);
     }
     convertValuesForHtsViz() {
         let tsDataConverted = [];
-        // console.log(this.state.eventDataRaw);
 
-        let eventDataSorted = sortByKey(this.state.eventDataRaw, 'score')
-        // console.log(eventDataSorted);
+        let eventDataSorted = sortByKey(this.state.eventDataRaw, 'location');
+        console.log(this.state.eventDataRaw);
+        console.log(eventDataSorted);
 
-        this.state.eventDataRaw && this.state.eventDataRaw.slice(this.state.currentDisplayLow, this.state.currentDisplayHigh).map(tsData => {
+        this.state.eventDataRaw && this.state.eventDataRaw.slice(0, 100).map(tsData => {
             // Create visualization-friendly data objects
-            // console.log(tsData);
-                let singleEntryConverted = [];
-                const plotPoint1 = {
+            console.log(tsData);
+            let singleEntryConverted = [];
+            const initialPlotPoint = {
+                entityCode: tsData.location.split("/")[1],
+                ts: new Date(tsData.start * 1000),
+                val: tsData.score
+            };
+            tsDataConverted.push(initialPlotPoint);
+            console.log(initialPlotPoint);
+
+            // ToDo: Resolution Precursor?
+            // Create additional plot points to fill in event data
+            for (let i = tsData.start * 1000; i < (tsData.start * 1000) + (tsData.duration * 1000);  i = i + 1000 * 60 * 5) {
+                const fillerPlotPoint = {
                     entityCode: tsData.location.split("/")[1],
-                    ts: new Date(tsData.start * 1000),
+                    ts: i,
                     val: tsData.score
-                };
-                const plotPoint2 = {
-                    entityCode: tsData.location.split("/")[1],
-                    ts: new Date((tsData.start * 1000) + (tsData.duration * 1000)),
-                    val: tsData.score
-                };
+                }
+                tsDataConverted.push(fillerPlotPoint);
+            }
+
+            const endingPlotPoint = {
+                entityCode: tsData.location.split("/")[1],
+                ts: new Date((tsData.start * 1000) + (tsData.duration * 1000)),
+                val: tsData.score
+            };
+
 
             // singleEntryConverted.push(plotPoint1);
             // singleEntryConverted.push(plotPoint2);
             // tsDataConverted.push(singleEntryConverted);
-            tsDataConverted.push(plotPoint1);
-            tsDataConverted.push(plotPoint2);
+
+            tsDataConverted.push(endingPlotPoint);
 
         });
 
@@ -349,6 +371,8 @@ class Dashboard extends Component {
         this.setState( {
             eventDataProcessed: tsDataConverted
         });
+
+
     }
     populateHtsChart(width) {
         if (this.state.eventDataProcessed) {
@@ -435,20 +459,15 @@ class Dashboard extends Component {
                 currentDisplayHigh: this.state.currentDisplayHigh + 10 < this.state.totalOutages
                     ? this.state.currentDisplayHigh + 10
                     : this.state.totalOutages,
-                topoData: null,
             }, () => {
-                this.getDataOutageSummary(this.state.activeTabType);
-                this.state.activeTabType !== as.type
-                    ? this.getDataTopo(this.state.activeTabType)
-                    : null;
+                if (this.state.currentDisplayHigh > 170) {
+
+                }
             })
         }
     }
     prevPage() {
         if (this.state.summaryDataProcessed && this.state.pageNumber > 0) {
-            console.log(this.state.pageNumber);
-            console.log(10 * this.state.pageNumber);
-            console.log(this.state.currentDisplayHigh - 10);
             this.setState({
                 pageNumber: this.state.pageNumber - 1,
                 currentDisplayLow: this.state.currentDisplayHigh + 10 > this.state.totalOutages
@@ -457,12 +476,6 @@ class Dashboard extends Component {
                 currentDisplayHigh: this.state.currentDisplayHigh + 10 > this.state.totalOutages
                     ? 10 * this.state.pageNumber
                     : this.state.currentDisplayHigh - 10,
-                topoData: null,
-            }, () => {
-                this.getDataOutageSummary(this.state.activeTabType);
-                this.state.activeTabType !== as.type
-                    ? this.getDataTopo(this.state.activeTabType)
-                    : null;
             })
         }
     }

@@ -58,9 +58,10 @@ const buildAlertsConfig = (from, until, entityType=null, entityCode=null, dataso
     }
 };
 
-const buildEventsConfig = (from, until, entityType=null, entityCode=null, datasource=null,
+const buildEventsConfig = (from, until, entityType=null, attr, order, entityCode=null, datasource=null,
                            includeAlerts=null, format=null,
-                           limit=null, page=null) => {
+                           limit=null, page=null, ) => {
+    console.log(attr, order);
     let url = "/outages/events/";
     if(entityType !== null){
         url += `${entityType}/`;
@@ -75,6 +76,7 @@ const buildEventsConfig = (from, until, entityType=null, entityCode=null, dataso
     url += includeAlerts!==null ? `&includeAlerts=${includeAlerts}`: "";
     url += limit!==null ? `&limit=${limit}`: "";
     url += page!==null ? `&page=${page}`: "";
+    url += attr!==null && order!==null ? `&orderBy=${attr}/${order}`: "";
 
     return {
         method: "get",
@@ -116,8 +118,9 @@ export const searchAlerts = (dispatch, from, until, entityType=null, entityCode=
 }
 
 export const searchEvents = (dispatch, from, until, entityType=null, entityCode=null, datasource=null,
-                             includeAlerts=null, format=null, limit=null, page=null) => {
-    let config = buildEventsConfig(from, until, entityType, entityCode, datasource, includeAlerts, format, limit, page);
+                             includeAlerts=null, format=null, limit=null, page=null, attr=null, order=null) => {
+    let config = buildEventsConfig(from, until, entityType, entityCode, datasource, includeAlerts, format, limit, page, attr, order);
+    console.log(config);
     fetchData(config).then(data => {
         dispatch({
             type: OUTAGE_EVENTS_SEARCH,
