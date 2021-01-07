@@ -250,7 +250,7 @@ class Table extends Component {
                         })
                     }
                     {
-                        this.props.type === "summary" && this.state.summaryData.map((summary, index) => {
+                        this.props.type === "summary" && this.state.summaryData.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map((summary, index) => {
                             return <SummaryTableRow data={summary} key={index}/>
                         })
                     }

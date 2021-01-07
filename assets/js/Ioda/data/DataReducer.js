@@ -35,6 +35,7 @@
 import {
     ENTITIES_SEARCH,
     GET_RELATED_ENTITIES,
+    ENTITY_METADATA,
     GET_DATASOURCES,
     GET_SIGNALS,
     GET_TOPO_DATA,
@@ -48,6 +49,7 @@ import {
 const initialState = {
     entities: null,
     relatedEntities: null,
+    entityMetadata: null,
     signals: null,
     alerts: null,
     events: null,
@@ -66,6 +68,10 @@ export function iodaApiReducer(state = initialState, action) {
         case GET_RELATED_ENTITIES:
             return Object.assign({}, state, {
                 relatedEntities: action.payload
+            })
+        case ENTITY_METADATA:
+            return Object.assign({}, state, {
+                entityMetadata: action.payload
             })
         case OUTAGE_ALERTS_SEARCH:
             return Object.assign({}, state, {

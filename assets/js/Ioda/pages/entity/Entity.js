@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 // Internationalization
 import T from 'i18n-react';
 // Data Hooks
-import { searchEntities, searchRelatedEntities } from "../../data/ActionEntities";
+import { searchEntities, searchRelatedEntities, getEntityMetadata } from "../../data/ActionEntities";
 import { getTopoAction } from "../../data/ActionTopo";
 import {searchAlerts, searchEvents, searchSummary, totalOutages} from "../../data/ActionOutages";
 import {getSignalsAction} from "../../data/ActionSignals";
@@ -32,6 +32,7 @@ class Entity extends Component {
             mounted: false,
             entityType: window.location.pathname.split("/")[1],
             entityCode: window.location.pathname.split("/")[2],
+            entityName: "",
             // Control Panel
             from: window.location.search.split("?")[1]
                 ? window.location.search.split("?")[1].split("&")[0].split("=")[1]
@@ -75,7 +76,9 @@ class Entity extends Component {
             // Overview Panel
             this.props.searchEventsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
             this.props.searchAlertsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], null, null, null);
-            this.props.getSignalsAction( window.location.pathname.split("/")[1],window.location.pathname.split("/")[2], this.state.from, this.state.until, null, null);
+            this.props.getSignalsAction( window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], null, null);
+            // Get entity name from code provided in url
+            this.props.getEntityMetadataAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
         });
     }
 
@@ -86,6 +89,13 @@ class Entity extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        // After API call for getting entity name from url
+        if (this.props.entityMetadata !== prevProps.entityMetadata) {
+            this.setState({
+                entityName: this.props.entityMetadata[0]["name"]
+            });
+        }
+
         // After API call for suggested search results completes, update suggestedSearchResults state with fresh data
         if (this.props.suggestedSearchResults !== prevProps.suggestedSearchResults) {
             this.setState({
@@ -137,15 +147,17 @@ class Entity extends Component {
         let tStart = timeRange[0].split(":");
         let dEnd = dateRange.endDate;
         let tEnd = timeRange[1].split(":");
-        // set time stamp on date
+        // set time stamp on date with timezone offset
         dStart = dStart.setHours(tStart[0], tStart[1], tStart[2]);
         dEnd = dEnd.setHours(tEnd[0], tEnd[1], tEnd[2]);
         // convert to seconds
-        dStart = Math.round(new Date(dStart).getTime() / 1000);
-        dEnd = Math.round(new Date(dEnd).getTime() / 1000);
+        dStart = Math.round(dStart / 1000);
+        dEnd = Math.round(dEnd / 1000);
+        // // Adjust for timezone (only needed on entity page)
+        dStart = new Date(dStart) - new Date(dStart).getTimezoneOffset() * 60;
+        dEnd = new Date(dEnd) - new Date(dEnd).getTimezoneOffset() * 60;
 
         const { history } = this.props;
-
         history.push(`/${this.state.entityType}/${this.state.entityCode}?from=${dStart}&until=${dEnd}`);
 
         this.setState({
@@ -198,11 +210,13 @@ class Entity extends Component {
 // XY Chart Functions
     // XY Plot Graph Functions
     convertValuesForXyViz() {
+        // ToDo: Set x values to local time zone initially
         let bgp = this.state.tsDataRaw[1];
         let bgpValues = [];
         bgp.values && bgp.values.map((value, index) => {
             let x, y;
             x = toDateTime(bgp.from + (bgp.step * index));
+            // console.log(x);
             y = value;
             bgpValues.push({x: x, y: y});
         });
@@ -241,29 +255,34 @@ class Entity extends Component {
             xyDataOptions: {
                 theme: "light2",
                 animationEnabled: true,
+                zoomEnabled: true,
                 title: {
-                    text: `IODA Signals for ${activeProbing.entityCode}`
+                    text: `IODA Signals for ${this.state.entityName}`
+                },
+                crosshair: {
+                    enabled: true,
+                    snapToDataPoint: true
                 },
                 axisX: {
                     title: "Time (UTC)",
                     stripLines: stripLines
                 },
                 axisY: {
-                    title: "Active Probing and BGP",
-                    titleFontsColor: "#2c3e50",
+                    // title: "Active Probing and BGP",
+                    titleFontsColor: "#666666",
                     lineColor: "#34a02c",
-                    labelFontColor: "#34a02c",
+                    labelFontColor: "#666666",
                     tickColor: "#34a02c"
                 },
                 axisY2: {
-                    title: "Network Telescope",
-                    titleFontsColor: "#2c3e50",
+                    // title: "Network Telescope",
+                    titleFontsColor: "#666666",
                     lineColor: "#00a9e0",
-                    labelFontColor: "#00a9e0",
+                    labelFontColor: "#666666",
                     tickColor: "#00a9e0"
                 },
                 toolTip: {
-                    shared: true,
+                    shared: false,
                     enabled: true,
                     animationEnabled: true
                 },
@@ -273,31 +292,40 @@ class Entity extends Component {
                 data: [
                     {
                         type: "spline",
+                        lineThickness: 1,
+                        markerType: "circle",
+                        markerSize: 2,
                         name: bgp.datasource,
                         showInLegend: true,
-                        xValueFormatString: "HH:MM - MMM DD, YYYY",
+                        xValueFormatString: "DDD, MMM DD - HH:MM",
                         yValueFormatString: "##",
                         dataPoints: bgpValues,
-                        toolTipContent: "{x} <br/> BGP: {y}"
+                        toolTipContent: "{x} <br/> BGP (# Visbile /24s): {y}"
                     },
                     {
                         type: "spline",
+                        lineThickness: 1,
+                        markerType: "circle",
+                        markerSize: 2,
                         name: activeProbing.datasource,
                         showInLegend: true,
-                        xValueFormatString: "HH:MM - MMM DD, YYYY",
+                        xValueFormatString: "DDD, MMM DD - HH:MM",
                         yValueFormatString: "##",
                         dataPoints: activeProbingValues,
-                        toolTipContent: "{x} <br/> Active Probing: {y}"
+                        toolTipContent: "{x} <br/> Active Probing (# /24s Up): {y}"
                     },
                     {
                         type: "spline",
+                        lineThickness: 1,
+                        markerType: "circle",
+                        markerSize: 2,
                         name: networkTelescope.datasource,
                         axisYType: "secondary",
                         showInLegend: true,
-                        xValueFormatString: "HH:MM - MMM DD, YYYY",
+                        xValueFormatString: "DDD, MMM DD - HH:MM",
                         yValueFormatString: "##",
                         dataPoints: networkTelescopeValues,
-                        toolTipContent: "{x} <br/> Network Telescope: {y}"
+                        toolTipContent: "{x} <br/> Network Telescope (# Unique Source IPs): {y}"
                     }
                 ]
             }
@@ -308,7 +336,7 @@ class Entity extends Component {
     genXyChart() {
         return (
             this.state.xyDataOptions && <div>
-                <CanvasJSChart options = {this.state.xyDataOptions}
+                <CanvasJSChart options={this.state.xyDataOptions}
                                onRef={ref => this.chart = ref}
                 />
                 {/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
@@ -483,17 +511,12 @@ class Entity extends Component {
     render() {
         return(
             <div className="entity">
-                <div className="row title">
-                    <div className="col-1-of-1">
-                        {/*ToDo: Update today to be dynamic*/}
-                        <h2>Outages Occurring Today</h2>
-                    </div>
-                </div>
                 <ControlPanel
                     from={this.state.from}
                     until={this.state.until}
                     timeFrame={this.handleTimeFrame}
                     searchbar={() => this.populateSearchBar()}
+                    entityName={this.state.entityName}
                 />
                 <div className="row overview">
                     <div className="col-3-of-5">
@@ -534,6 +557,7 @@ const mapStateToProps = (state) => {
     return {
         suggestedSearchResults: state.iodaApi.entities,
         relatedEntities: state.iodaApi.relatedEntities,
+        entityMetadata: state.iodaApi.entityMetadata,
         summary: state.iodaApi.summary,
         topoData: state.iodaApi.topo,
         totalOutages: state.iodaApi.summaryTotalCount,
@@ -548,11 +572,14 @@ const mapDispatchToProps = (dispatch) => {
         searchEntitiesAction: (searchQuery, limit=15) => {
             searchEntities(dispatch, searchQuery, limit);
         },
-        searchRelatedEntitiesAction: (from, until, entityType, relatedToEntityType, relatedToEntityCode) => {
-            searchRelatedEntities(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode);
-        },
+        // searchRelatedEntitiesAction: (from, until, entityType, relatedToEntityType, relatedToEntityCode) => {
+        //     searchRelatedEntities(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode);
+        // },
         searchSummaryAction: (from, until, entityType, entityCode, limit, page, includeMetaData) => {
             searchSummary(dispatch, from, until, entityType, entityCode, limit, page, includeMetaData);
+        },
+        getEntityMetadataAction: (entityType, entityCode) => {
+          getEntityMetadata(dispatch, entityType, entityCode);
         },
         totalOutagesAction: (from, until, entityType) => {
             totalOutages(dispatch, from, until, entityType);
