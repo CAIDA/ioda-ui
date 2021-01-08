@@ -39,7 +39,7 @@ BUILDING CONNECTION CONFIGS
 import {fetchData, GET_SIGNALS} from "./ActionCommons";
 
 const buildSignalsConfig = (entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
-    let url = `/signals/${entityType}/${entityCode}?from=${from}&until=${until}`
+    let url = `/signals/${entityType}/${entityCode}?from=${from}&until=${until}`;
     url += datasource!==null ? `&datasource=${datasource}`: "";
     return {
         method: "get",

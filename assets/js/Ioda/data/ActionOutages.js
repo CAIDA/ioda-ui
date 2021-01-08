@@ -58,10 +58,9 @@ const buildAlertsConfig = (from, until, entityType=null, entityCode=null, dataso
     }
 };
 
-const buildEventsConfig = (from, until, entityType=null, attr, order, entityCode=null, datasource=null,
+const buildEventsConfig = (from, until, entityType=null, entityCode=null, attr, order, datasource=null,
                            includeAlerts=null, format=null,
                            limit=null, page=null, ) => {
-    console.log(attr, order);
     let url = "/outages/events/";
     if(entityType !== null){
         url += `${entityType}/`;

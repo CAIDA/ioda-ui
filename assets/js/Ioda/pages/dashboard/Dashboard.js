@@ -320,18 +320,18 @@ class Dashboard extends Component {
         let from = this.state.from;
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
-        this.props.searchEventsAction(from, until, entityType, attr, order);
+        this.props.searchEventsAction(from, until, entityType, null, attr, order);
     }
     convertValuesForHtsViz() {
         let tsDataConverted = [];
 
         let eventDataSorted = sortByKey(this.state.eventDataRaw, 'location');
-        console.log(this.state.eventDataRaw);
-        console.log(eventDataSorted);
+        // console.log(this.state.eventDataRaw);
+        // console.log(eventDataSorted);
 
         this.state.eventDataRaw && this.state.eventDataRaw.slice(0, 100).map(tsData => {
             // Create visualization-friendly data objects
-            console.log(tsData);
+            // console.log(tsData);
             let singleEntryConverted = [];
             const initialPlotPoint = {
                 entityCode: tsData.location.split("/")[1],
@@ -339,9 +339,8 @@ class Dashboard extends Component {
                 val: tsData.score
             };
             tsDataConverted.push(initialPlotPoint);
-            console.log(initialPlotPoint);
+            // console.log(initialPlotPoint);
 
-            // ToDo: Resolution Precursor?
             // Create additional plot points to fill in event data
             for (let i = tsData.start * 1000; i < (tsData.start * 1000) + (tsData.duration * 1000);  i = i + 1000 * 60 * 5) {
                 const fillerPlotPoint = {
