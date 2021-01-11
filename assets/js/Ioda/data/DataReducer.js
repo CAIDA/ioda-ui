@@ -42,6 +42,7 @@ import {
     OUTAGE_ALERTS_SEARCH,
     OUTAGE_EVENTS_SEARCH,
     OUTAGE_SUMMARY_SEARCH,
+    OUTAGE_RELATED_TO_SUMMARY_SEARCH,
     OUTAGE_TOTAL_COUNT
 } from './ActionCommons';
 
@@ -84,6 +85,10 @@ export function iodaApiReducer(state = initialState, action) {
         case OUTAGE_SUMMARY_SEARCH:
             return Object.assign({}, state, {
                 summary: action.payload
+            })
+        case OUTAGE_RELATED_TO_SUMMARY_SEARCH:
+            return Object.assign({}, state, {
+                relatedToSummary: action.payload
             })
         case OUTAGE_TOTAL_COUNT:
             return Object.assign({}, state, {
