@@ -175,6 +175,7 @@ export const searchRelatedToSummary = (dispatch, from, until, entityType, relate
         ? config.url = config.url + "&includeMetadata=true"
         : config.url;
     fetchData(config).then(data => {
+        console.log(data);
         dispatch({
             type: OUTAGE_RELATED_TO_SUMMARY_SEARCH,
             payload: data.data.data,

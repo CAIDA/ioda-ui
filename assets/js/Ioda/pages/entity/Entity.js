@@ -35,6 +35,8 @@ class Entity extends Component {
             entityType: window.location.pathname.split("/")[1],
             entityCode: window.location.pathname.split("/")[2],
             entityName: "",
+            parentEntityName: "",
+            parentEntityCode: "",
             // Control Panel
             from: window.location.search.split("?")[1]
                 ? window.location.search.split("?")[1].split("&")[0].split("=")[1]
@@ -96,15 +98,19 @@ class Entity extends Component {
     componentDidUpdate(prevProps, prevState) {
         // After API call for getting entity name from url
         if (this.props.entityMetadata !== prevProps.entityMetadata) {
+            console.log(this.props.entityMetadata[0])
+            console.log(this.props.entityMetadata[0]["country_name"])
             this.setState({
-                entityName: this.props.entityMetadata[0]["name"]
+                entityName: this.props.entityMetadata[0]["name"],
+                parentEntityName: this.props.entityMetadata[0]["attrs"]["country_name"] ? this.props.entityMetadata[0]["attrs"]["country_name"] : "",
+                parentEntityCode: this.props.entityMetadata[0]["attrs"]["country_code"] ? this.props.entityMetadata[0]["attrs"]["country_code"] : ""
             }, () => {
                 // Get Topo Data for relatedTo Map
                 // ToDo: update parameter to base value off of url entity type
-                if (window.location.pathname.split("/")[1] === 'country' || window.location.pathname.split("/")[1] === 'region') {
+                // if (window.location.pathname.split("/")[1] === 'country' || window.location.pathname.split("/")[1] === 'region') {
                     this.getDataTopo("region");
                     this.getDataOutageSummary("region");
-                }
+                // }
             });
         }
 
@@ -148,6 +154,10 @@ class Entity extends Component {
             }, () => {
                 this.convertValuesForAlertTable();
             });
+        }
+
+        if (this.state.entityCode !== prevState.entityCode) {
+            this.genEntityRelatedRow();
         }
 
         // After API call for topographic data completes, update topoData state with fresh data
@@ -539,6 +549,15 @@ class Entity extends Component {
         )
     }
 
+// EntityRelated Row
+    genEntityRelatedRow() {
+        return <EntityRelated
+            entityName={this.state.entityName}
+            entityType={this.state.entityType}
+            parentEntityName={this.state.parentEntityName}
+            populateGeoJsonMap={() => this.populateGeoJsonMap()}
+        />;
+    }
 // relatedTo Map
     // Process Geo data, attribute outage scores to a new topoData property where possible, then render Map
     populateGeoJsonMap() {
@@ -583,16 +602,23 @@ class Entity extends Component {
             const limit = 170;
             const includeMetadata = true;
             let page = this.state.pageNumber;
-            // let page = null;
             const entityCode = null;
             let relatedToEntityType, relatedToEntityCode;
-            this.state.entityType === 'region'
-                ? relatedToEntityType = 'country'
-                : relatedToEntityType = this.state.entityType;
-            this.state.entityType === 'region'
-                ? relatedToEntityCode = this.props.entityMetadata[0]["attrs"]["fqid"].split(".")[2]
-                : relatedToEntityCode = this.state.entityCode;
-
+            switch (this.state.entityType) {
+                case 'country':
+                    relatedToEntityType = this.state.entityType;
+                    relatedToEntityCode = this.state.entityCode;
+                    break;
+                case 'region':
+                    relatedToEntityType = 'country';
+                    relatedToEntityCode = this.props.entityMetadata[0]["attrs"]["fqid"].split(".")[3];
+                    break;
+                case 'asn':
+                    relatedToEntityType = 'asn';
+                    relatedToEntityCode = this.props.entityMetadata[0]["attrs"]["fqid"].split(".")[1];
+                    break;
+            }
+            console.log(entityType, relatedToEntityType, relatedToEntityCode);
             this.props.searchRelatedToSummary(from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetadata);
         }
     }
@@ -634,10 +660,9 @@ class Entity extends Component {
                         </div>
                     </div>
                 </div>
-                <EntityRelated
-                    entity={this.state.entityName}
-                    populateGeoJsonMap={() => this.populateGeoJsonMap()}
-                />
+                {
+                    this.genEntityRelatedRow()
+                }
             </div>
         )
     }

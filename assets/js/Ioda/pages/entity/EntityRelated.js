@@ -11,7 +11,18 @@ class EntityRelated extends Component {
         return(
             <div className="row related">
                 <div className="col-1-of-2">
-                    <h2>Regional Outages in {this.props.entity}</h2>
+                    <h2>
+                        {
+                            this.props.entityType === 'country'
+                                ? `Regional Outages in ${this.props.entityName}`
+                                : this.props.entityType === 'region'
+                                    ? `Other Regions Affected in ${this.props.parentEntityName}`
+                                    : this.props.entityType === 'asn'
+                                        ? `Regional Outages Related to ${this.props.entityName}`
+                                        : null
+                        }
+
+                    </h2>
                     <div className="map" style={{display: 'block', height: '400px'}}>
                     {
                         this.props.populateGeoJsonMap()
@@ -19,7 +30,7 @@ class EntityRelated extends Component {
                     </div>
                 </div>
                 <div className="col-1-of-2">
-                    <h2>ASNs/ISPs operating within {this.props.entity}</h2>
+                    <h2>ASNs/ISPs operating within {this.props.entityName}</h2>
                 </div>
             </div>
         );
