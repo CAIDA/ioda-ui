@@ -54,7 +54,7 @@
         "@wojtekmaj/react-timerange-picker": "^3.0.0",
         "apollo-boost": "^0.4.7",
         "auth0-js": "^9.8.0",
-        "axios": "^0.19.2",
+        "axios": "^0.21.1",
         "backbone": "1.1.2",
         "bootstrap": "^4.4.1",
         "bootstrap-select": "^1.13.18",
