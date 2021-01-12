@@ -32,7 +32,14 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-import {fetchData, OUTAGE_ALERTS_SEARCH, OUTAGE_EVENTS_SEARCH, OUTAGE_SUMMARY_SEARCH, OUTAGE_TOTAL_COUNT} from "./ActionCommons";
+import {
+    fetchData,
+    OUTAGE_ALERTS_SEARCH,
+    OUTAGE_EVENTS_SEARCH,
+    OUTAGE_SUMMARY_SEARCH,
+    OUTAGE_RELATED_TO_SUMMARY_SEARCH,
+    OUTAGE_TOTAL_COUNT
+} from "./ActionCommons";
 
 /*
 BUILDING CONNECTION CONFIGS
@@ -58,10 +65,9 @@ const buildAlertsConfig = (from, until, entityType=null, entityCode=null, dataso
     }
 };
 
-const buildEventsConfig = (from, until, entityType=null, attr, order, entityCode=null, datasource=null,
+const buildEventsConfig = (from, until, entityType=null, entityCode=null, attr, order, datasource=null,
                            includeAlerts=null, format=null,
                            limit=null, page=null, ) => {
-    console.log(attr, order);
     let url = "/outages/events/";
     if(entityType !== null){
         url += `${entityType}/`;
@@ -103,6 +109,26 @@ const buildSummaryConfig = (from, until, entityType=null, entityCode=null, limit
     }
 };
 
+const buildRelatedToSummaryConfig = (from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode=null, limit=null, page=null) => {
+    let url = "/outages/summary/";
+    if(entityType !== null){
+        url += `${entityType}/`;
+        // if(entityCode !== null) {
+        //     url += `${entityCode}/`;
+        // }
+    }
+    url += `?from=${from}&until=${until}`;
+
+    url += limit!==null ? `&limit=${limit}`: "";
+    url += page!==null ? `&page=${page}`: "";
+    url += relatedToEntityType!==null ? `&relatedTo=${relatedToEntityType}/${relatedToEntityCode}` : "";
+
+    return {
+        method: "get",
+        url: url
+    }
+};
+
 /*
 PUBLIC ACTION FUNCTIONS
  */
@@ -120,7 +146,6 @@ export const searchAlerts = (dispatch, from, until, entityType=null, entityCode=
 export const searchEvents = (dispatch, from, until, entityType=null, entityCode=null, datasource=null,
                              includeAlerts=null, format=null, limit=null, page=null, attr=null, order=null) => {
     let config = buildEventsConfig(from, until, entityType, entityCode, datasource, includeAlerts, format, limit, page, attr, order);
-    console.log(config);
     fetchData(config).then(data => {
         dispatch({
             type: OUTAGE_EVENTS_SEARCH,
@@ -133,11 +158,25 @@ export const searchEvents = (dispatch, from, until, entityType=null, entityCode=
 export const searchSummary = (dispatch, from, until, entityType, entityCode, limit, page, includeMetadata) => {
     let config = buildSummaryConfig(from, until, entityType, entityCode, limit, page, includeMetadata);
     includeMetadata
-        ? config.url = config.url + "&includeMetadata"
+        ? config.url = config.url + "&includeMetadata=true"
         : config.url;
     fetchData(config).then(data => {
         dispatch({
             type: OUTAGE_SUMMARY_SEARCH,
+            payload: data.data.data,
+        })
+    });
+}
+
+// Getting outage information to use for populating topoJSON data
+export const searchRelatedToSummary = (dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetadata) => {
+    let config = buildRelatedToSummaryConfig(from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetadata);
+    includeMetadata
+        ? config.url = config.url + "&includeMetadata=true"
+        : config.url;
+    fetchData(config).then(data => {
+        dispatch({
+            type: OUTAGE_RELATED_TO_SUMMARY_SEARCH,
             payload: data.data.data,
         })
     });

@@ -7,7 +7,7 @@ import T from 'i18n-react';
 // Data Hooks
 import { searchEntities, searchRelatedEntities, getEntityMetadata } from "../../data/ActionEntities";
 import { getTopoAction } from "../../data/ActionTopo";
-import {searchAlerts, searchEvents, searchSummary, totalOutages} from "../../data/ActionOutages";
+import {searchAlerts, searchEvents, searchSummary, searchRelatedToSummary, totalOutages} from "../../data/ActionOutages";
 import {getSignalsAction} from "../../data/ActionSignals";
 // Components
 import ControlPanel from '../../components/controlPanel/ControlPanel';
@@ -22,6 +22,8 @@ import {convertSecondsToDateValues, humanizeNumber, toDateTime} from "../../util
 import {as} from "../dashboard/DashboardConstants";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
 
+import TopoMap from "../../components/map/Map";
+import * as topojson from 'topojson';
 
 
 class Entity extends Component {
@@ -64,6 +66,9 @@ class Entity extends Component {
             eventDataProcessed: [],
             alertDataRaw: null,
             alertDataProcessed: [],
+            // relatedTo entity Map
+            topoData: null,
+            summaryDataRaw: null
 
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
@@ -76,7 +81,7 @@ class Entity extends Component {
             // Overview Panel
             this.props.searchEventsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
             this.props.searchAlertsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], null, null, null);
-            this.props.getSignalsAction( window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], null, null);
+            this.props.getSignalsAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], this.state.from, this.state.until, null, null);
             // Get entity name from code provided in url
             this.props.getEntityMetadataAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
         });
@@ -93,6 +98,13 @@ class Entity extends Component {
         if (this.props.entityMetadata !== prevProps.entityMetadata) {
             this.setState({
                 entityName: this.props.entityMetadata[0]["name"]
+            }, () => {
+                // Get Topo Data for relatedTo Map
+                // ToDo: update parameter to base value off of url entity type
+                if (window.location.pathname.split("/")[1] === 'country' || window.location.pathname.split("/")[1] === 'region') {
+                    this.getDataTopo("region");
+                    this.getDataOutageSummary("region");
+                }
             });
         }
 
@@ -136,6 +148,25 @@ class Entity extends Component {
             }, () => {
                 this.convertValuesForAlertTable();
             });
+        }
+
+        // After API call for topographic data completes, update topoData state with fresh data
+        if (this.props.topoData !== prevProps.topoData) {
+            let topoObjects = topojson.feature(this.props.topoData.region.topology, this.props.topoData.region.topology.objects["ne_10m_admin_1.regions.v3.0.0"]);
+            this.setState({
+                topoData: topoObjects
+            }, () => {
+                this.populateGeoJsonMap();
+            });
+        }
+
+        // After API call for outage summary data completes, pass summary data to map function for data merging
+        if (this.props.relatedToSummary !== prevProps.relatedToSummary) {
+            this.setState({
+                summaryDataRaw: this.props.relatedToSummary
+            },() => {
+                // this.convertValuesForSummaryTable();
+            })
         }
     }
 
@@ -428,8 +459,8 @@ class Entity extends Component {
                 this.setState({
                     alertTablePageNumber: this.state.alertTablePageNumber - 1,
                     alertTableCurrentDisplayLow: this.state.alertTableCurrentDisplayHigh + 10 > this.state.alertDataProcessed.length
-                    ? 10 * this.state.alertTablePageNumber - 10
-                    : this.state.alertTableCurrentDisplayLow - 10,
+                        ? 10 * this.state.alertTablePageNumber - 10
+                        : this.state.alertTableCurrentDisplayLow - 10,
                     alertTableCurrentDisplayHigh: this.state.alertTableCurrentDisplayHigh + 10 > this.state.alertDataProcessed.length
                         ? 10 * this.state.alertTablePageNumber
                         : this.state.alertTableCurrentDisplayHigh - 10
@@ -508,6 +539,64 @@ class Entity extends Component {
         )
     }
 
+// relatedTo Map
+    // Process Geo data, attribute outage scores to a new topoData property where possible, then render Map
+    populateGeoJsonMap() {
+        if (this.state.topoData && this.state.summaryDataRaw && this.state.summaryDataRaw[0] && this.state.summaryDataRaw[0]["entity"]) {
+            // console.log(this.state.summaryDataRaw);
+            let topoData = this.state.topoData;
+
+            // get Topographic info for a country if it has outages
+            this.state.summaryDataRaw.map(outage => {
+                // let topoItemIndex;
+                // this.state.activeTabType === 'country'
+                //     ? topoItemIndex = this.state.topoData.features.findIndex(topoItem => topoItem.properties.usercode === outage.entity.code)
+                //     : this.state.activeTabType === 'region'
+                //     ? topoItemIndex = this.state.topoData.features.findIndex(topoItem => topoItem.properties.name === outage.entity.name)
+                //     : null;
+
+                let topoItemIndex = this.state.topoData.features.findIndex(topoItem => topoItem.properties.name === outage.entity.name);
+
+                if (topoItemIndex > 0) {
+                    let item = topoData.features[topoItemIndex];
+                    item.properties.score = outage.scores.overall;
+                    topoData.features[topoItemIndex] = item;
+                }
+            });
+
+            // console.log(topoData);
+            return <TopoMap topoData={topoData}/>;
+        }
+
+    }
+    // Make API call to retrieve topographic data
+    getDataTopo(entityType) {
+        if (this.state.mounted) {
+            this.props.getTopoAction(entityType);
+        }
+    }
+    // Make API call to retrieve summary data to populate on map
+    getDataOutageSummary(entityType) {
+        if (this.state.mounted) {
+            let until = this.state.until;
+            let from = this.state.from;
+            const limit = 170;
+            const includeMetadata = true;
+            let page = this.state.pageNumber;
+            // let page = null;
+            const entityCode = null;
+            let relatedToEntityType, relatedToEntityCode;
+            this.state.entityType === 'region'
+                ? relatedToEntityType = 'country'
+                : relatedToEntityType = this.state.entityType;
+            this.state.entityType === 'region'
+                ? relatedToEntityCode = this.props.entityMetadata[0]["attrs"]["fqid"].split(".")[2]
+                : relatedToEntityCode = this.state.entityCode;
+
+            this.props.searchRelatedToSummary(from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetadata);
+        }
+    }
+
     render() {
         return(
             <div className="entity">
@@ -545,9 +634,10 @@ class Entity extends Component {
                         </div>
                     </div>
                 </div>
-                {/*<EntityRelated*/}
-                {/*    entity={this.state.entityCode}*/}
-                {/*/>*/}
+                <EntityRelated
+                    entity={this.state.entityName}
+                    populateGeoJsonMap={() => this.populateGeoJsonMap()}
+                />
             </div>
         )
     }
@@ -558,7 +648,7 @@ const mapStateToProps = (state) => {
         suggestedSearchResults: state.iodaApi.entities,
         relatedEntities: state.iodaApi.relatedEntities,
         entityMetadata: state.iodaApi.entityMetadata,
-        summary: state.iodaApi.summary,
+        relatedToSummary: state.iodaApi.relatedToSummary,
         topoData: state.iodaApi.topo,
         totalOutages: state.iodaApi.summaryTotalCount,
         events: state.iodaApi.events,
@@ -575,11 +665,11 @@ const mapDispatchToProps = (dispatch) => {
         // searchRelatedEntitiesAction: (from, until, entityType, relatedToEntityType, relatedToEntityCode) => {
         //     searchRelatedEntities(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode);
         // },
-        searchSummaryAction: (from, until, entityType, entityCode, limit, page, includeMetaData) => {
-            searchSummary(dispatch, from, until, entityType, entityCode, limit, page, includeMetaData);
+        searchRelatedToSummary: (from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData) => {
+            searchRelatedToSummary(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData);
         },
         getEntityMetadataAction: (entityType, entityCode) => {
-          getEntityMetadata(dispatch, entityType, entityCode);
+            getEntityMetadata(dispatch, entityType, entityCode);
         },
         totalOutagesAction: (from, until, entityType) => {
             totalOutages(dispatch, from, until, entityType);
@@ -600,3 +690,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Entity);
+9
