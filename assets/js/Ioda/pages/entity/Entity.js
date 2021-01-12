@@ -98,12 +98,10 @@ class Entity extends Component {
     componentDidUpdate(prevProps, prevState) {
         // After API call for getting entity name from url
         if (this.props.entityMetadata !== prevProps.entityMetadata) {
-            console.log(this.props.entityMetadata[0])
-            console.log(this.props.entityMetadata[0]["country_name"])
             this.setState({
                 entityName: this.props.entityMetadata[0]["name"],
-                parentEntityName: this.props.entityMetadata[0]["attrs"]["country_name"] ? this.props.entityMetadata[0]["attrs"]["country_name"] : "",
-                parentEntityCode: this.props.entityMetadata[0]["attrs"]["country_code"] ? this.props.entityMetadata[0]["attrs"]["country_code"] : ""
+                parentEntityName: this.props.entityMetadata[0]["attrs"]["country_name"] ? this.props.entityMetadata[0]["attrs"]["country_name"] : this.state.parentEntityName,
+                parentEntityCode: this.props.entityMetadata[0]["attrs"]["country_code"] ? this.props.entityMetadata[0]["attrs"]["country_code"] : this.state.parentEntityCode
             }, () => {
                 // Get Topo Data for relatedTo Map
                 // ToDo: update parameter to base value off of url entity type
@@ -618,7 +616,7 @@ class Entity extends Component {
                     relatedToEntityCode = this.props.entityMetadata[0]["attrs"]["fqid"].split(".")[1];
                     break;
             }
-            console.log(entityType, relatedToEntityType, relatedToEntityCode);
+            // console.log(entityType, relatedToEntityType, relatedToEntityCode);
             this.props.searchRelatedToSummary(from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetadata);
         }
     }
