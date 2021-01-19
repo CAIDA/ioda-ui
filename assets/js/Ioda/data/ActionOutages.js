@@ -36,6 +36,7 @@ import {
     fetchData,
     OUTAGE_ALERTS_SEARCH,
     OUTAGE_EVENTS_SEARCH,
+    OUTAGE_OVERALL_EVENTS_SEARCH,
     OUTAGE_SUMMARY_SEARCH,
     OUTAGE_RELATED_TO_SUMMARY_SEARCH,
     OUTAGE_TOTAL_COUNT
@@ -143,12 +144,26 @@ export const searchAlerts = (dispatch, from, until, entityType=null, entityCode=
     });
 }
 
+// Endpoint to get events that populate in table component
 export const searchEvents = (dispatch, from, until, entityType=null, entityCode=null, datasource=null,
                              includeAlerts=null, format=null, limit=null, page=null, attr=null, order=null) => {
     let config = buildEventsConfig(from, until, entityType, entityCode, datasource, includeAlerts, format, limit, page, attr, order);
     fetchData(config).then(data => {
         dispatch({
             type: OUTAGE_EVENTS_SEARCH,
+            payload: data.data.data,
+        })
+    });
+}
+
+// Endpoint to get events that populate in stacked horizon component
+export const searchOverallEvents = (dispatch, from, until, entityType=null, entityCode=null, datasource=null,
+                             includeAlerts=null, format=null, limit=null, page=null, attr=null, order=null) => {
+    let config = buildEventsConfig(from, until, entityType, entityCode, datasource, includeAlerts, format, limit, page, attr, order);
+    config.url += "&format=ioda&overall";
+    fetchData(config).then(data => {
+        dispatch({
+            type: OUTAGE_OVERALL_EVENTS_SEARCH,
             payload: data.data.data,
         })
     });

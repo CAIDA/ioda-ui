@@ -41,6 +41,7 @@ import {
     GET_TOPO_DATA,
     OUTAGE_ALERTS_SEARCH,
     OUTAGE_EVENTS_SEARCH,
+    OUTAGE_OVERALL_EVENTS_SEARCH,
     OUTAGE_SUMMARY_SEARCH,
     OUTAGE_RELATED_TO_SUMMARY_SEARCH,
     OUTAGE_TOTAL_COUNT
@@ -54,6 +55,7 @@ const initialState = {
     signals: null,
     alerts: null,
     events: null,
+    overallEvents: null,
     summary: null,
     summaryTotalCount: null,
     topo: null,
@@ -81,6 +83,10 @@ export function iodaApiReducer(state = initialState, action) {
         case OUTAGE_EVENTS_SEARCH:
             return Object.assign({}, state, {
                 events: action.payload
+            })
+        case OUTAGE_OVERALL_EVENTS_SEARCH:
+            return Object.assign({}, state, {
+                overallEvents: action.payload
             })
         case OUTAGE_SUMMARY_SEARCH:
             return Object.assign({}, state, {

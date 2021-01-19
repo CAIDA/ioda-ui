@@ -193,8 +193,8 @@ class Entity extends Component {
         dStart = Math.round(dStart / 1000);
         dEnd = Math.round(dEnd / 1000);
         // // Adjust for timezone (only needed on entity page)
-        // dStart = new Date(dStart) - new Date(dStart).getTimezoneOffset() * 60;
-        // dEnd = new Date(dEnd) - new Date(dEnd).getTimezoneOffset() * 60;
+        dStart = new Date(dStart) - new Date(dStart).getTimezoneOffset() * 60;
+        dEnd = new Date(dEnd) - new Date(dEnd).getTimezoneOffset() * 60;
 
         const { history } = this.props;
         history.push(`/${this.state.entityType}/${this.state.entityCode}?from=${dStart}&until=${dEnd}`);

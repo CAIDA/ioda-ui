@@ -68,6 +68,7 @@ class EntityRelated extends Component {
                             toggleModal={this.toggleModal}
                         />
                     </div>
+
                 </div>
             </div>
         );
