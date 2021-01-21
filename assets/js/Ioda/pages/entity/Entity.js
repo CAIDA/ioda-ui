@@ -7,7 +7,7 @@ import T from 'i18n-react';
 // Data Hooks
 import { searchEntities, searchRelatedEntities, getEntityMetadata } from "../../data/ActionEntities";
 import { getTopoAction } from "../../data/ActionTopo";
-import {searchAlerts, searchEvents, searchSummary, searchRelatedToSummary, totalOutages} from "../../data/ActionOutages";
+import {searchAlerts, searchEvents, searchSummary, searchRelatedToMapSummary, searchRelatedToTableSummary, totalOutages} from "../../data/ActionOutages";
 import {getSignalsAction} from "../../data/ActionSignals";
 // Components
 import ControlPanel from '../../components/controlPanel/ControlPanel';
@@ -18,7 +18,7 @@ import HorizonTSChart from 'horizon-timeseries-chart';
 // Event Table Dependencies
 import * as sd from 'simple-duration'
 // Helper Functions
-import {convertSecondsToDateValues, humanizeNumber, toDateTime} from "../../utils"
+import {convertSecondsToDateValues, humanizeNumber, toDateTime, convertValuesForSummaryTable} from "../../utils";
 import {as} from "../dashboard/DashboardConstants";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
 
@@ -70,7 +70,15 @@ class Entity extends Component {
             alertDataProcessed: [],
             // relatedTo entity Map
             topoData: null,
-            summaryDataRaw: null
+            relatedToMapSummary: null,
+            // relatedTo entity Table
+            relatedToTableSummary: null,
+            relatedToTableSummaryProcessed: null,
+            relatedToTablePageNumber: 0,
+            relatedToTableCurrentDisplayLow: 0,
+            relatedToTableCurrentDisplayHigh: 10,
+
+
 
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
@@ -107,7 +115,8 @@ class Entity extends Component {
                 // ToDo: update parameter to base value off of url entity type
                 // if (window.location.pathname.split("/")[1] === 'country' || window.location.pathname.split("/")[1] === 'region') {
                     this.getDataTopo("region");
-                    this.getDataOutageSummary("region");
+                    this.getDataRelatedToMapSummary("region");
+                    this.getDataRelatedToTableSummary("asn");
                 // }
             });
         }
@@ -169,11 +178,23 @@ class Entity extends Component {
         }
 
         // After API call for outage summary data completes, pass summary data to map function for data merging
-        if (this.props.relatedToSummary !== prevProps.relatedToSummary) {
+        if (this.props.relatedToMapSummary !== prevProps.relatedToMapSummary) {
             this.setState({
-                summaryDataRaw: this.props.relatedToSummary
+                summaryDataMapRaw: this.props.relatedToMapSummary
             },() => {
                 // this.convertValuesForSummaryTable();
+            })
+        }
+
+        // After API call for outage summary data completes, pass summary data to table component for data merging
+        if (this.props.relatedToTableSummary !== prevProps.relatedToTableSummary) {
+            if (this.props.relatedToTableSummary.length < 10) {
+                this.setState({relatedToTableCurrentDisplayHigh: this.props.relatedToTableSummary.length});
+            }
+            this.setState({
+                relatedToTableSummary: this.props.relatedToTableSummary
+            },() => {
+                this.convertValuesForSummaryTable();
             })
         }
     }
@@ -554,17 +575,18 @@ class Entity extends Component {
             entityType={this.state.entityType}
             parentEntityName={this.state.parentEntityName}
             populateGeoJsonMap={() => this.populateGeoJsonMap()}
+            genSummaryTable={() => this.genSummaryTable()}
         />;
     }
-// relatedTo Map
+// RelatedTo Map
     // Process Geo data, attribute outage scores to a new topoData property where possible, then render Map
     populateGeoJsonMap() {
-        if (this.state.topoData && this.state.summaryDataRaw && this.state.summaryDataRaw[0] && this.state.summaryDataRaw[0]["entity"]) {
-            // console.log(this.state.summaryDataRaw);
+        if (this.state.topoData && this.state.summaryDataMapRaw && this.state.summaryDataMapRaw[0] && this.state.summaryDataMapRaw[0]["entity"]) {
+            // console.log(this.state.summaryDataMapRaw);
             let topoData = this.state.topoData;
 
             // get Topographic info for a country if it has outages
-            this.state.summaryDataRaw.map(outage => {
+            this.state.summaryDataMapRaw.map(outage => {
                 // let topoItemIndex;
                 // this.state.activeTabType === 'country'
                 //     ? topoItemIndex = this.state.topoData.features.findIndex(topoItem => topoItem.properties.usercode === outage.entity.code)
@@ -593,7 +615,7 @@ class Entity extends Component {
         }
     }
     // Make API call to retrieve summary data to populate on map
-    getDataOutageSummary(entityType) {
+    getDataRelatedToMapSummary(entityType) {
         if (this.state.mounted) {
             let until = this.state.until;
             let from = this.state.from;
@@ -617,7 +639,88 @@ class Entity extends Component {
                     break;
             }
             // console.log(entityType, relatedToEntityType, relatedToEntityCode);
-            this.props.searchRelatedToSummary(from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetadata);
+            this.props.searchRelatedToMapSummary(from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetadata);
+        }
+    }
+// Summary Table
+    // Make API call to retrieve summary data to populate on map
+    getDataRelatedToTableSummary(entityType) {
+        if (this.state.mounted) {
+            let until = this.state.until;
+            let from = this.state.from;
+            const limit = 170;
+            const includeMetadata = true;
+            let page = this.state.pageNumber;
+            const entityCode = null;
+            let relatedToEntityType, relatedToEntityCode;
+            // console.log(this.props.entityMetadata[0]["attrs"]);
+            switch (this.state.entityType) {
+                case 'country':
+                    relatedToEntityType = this.state.entityType;
+                    relatedToEntityCode = this.state.entityCode;
+                    break;
+                case 'region':
+                    relatedToEntityType = 'country';
+                    relatedToEntityCode = this.props.entityMetadata[0]["attrs"]["fqid"].split(".")[3];
+                    break;
+                case 'asn':
+                    relatedToEntityType = 'asn';
+                    relatedToEntityCode = this.props.entityMetadata[0]["attrs"]["fqid"].split(".")[1];
+                    entityType = 'country';
+                    break;
+            }
+            // console.log(entityType, relatedToEntityType, relatedToEntityCode);
+            this.props.searchRelatedToTableSummary(from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetadata);
+        }
+    }
+    convertValuesForSummaryTable() {
+        let summaryData = convertValuesForSummaryTable(this.state.relatedToTableSummary);
+        this.setState({
+            relatedToTableSummaryProcessed: summaryData
+        }, () => {
+            this.genSummaryTable();
+        })
+    }
+    genSummaryTable() {
+        return (
+            this.state.relatedToTableSummaryProcessed &&
+            <Table
+                type={"summary"}
+                data={this.state.relatedToTableSummaryProcessed}
+                nextPage={() => this.nextPageRelatedToTableSummary()}
+                prevPage={() => this.prevPageRelatedToTableSummary()}
+                currentDisplayLow={this.state.relatedToTableCurrentDisplayLow}
+                currentDisplayHigh={this.state.relatedToTableCurrentDisplayHigh}
+                totalCount={this.state.relatedToTableSummaryProcessed.length}
+            />
+        )
+    }
+    nextPageRelatedToTableSummary(type) {
+        if (type === 'summary') {
+            if (this.state.relatedToTableSummaryProcessed && this.state.relatedToTableSummaryProcessed.length > this.state.relatedToTablePageNumber + this.state.relatedToTableCurrentDisplayHigh) {
+                this.setState({
+                    relatedToTablePageNumber: this.state.relatedToTablePageNumber + 1,
+                    relatedToTableCurrentDisplayLow: this.state.relatedToTableCurrentDisplayLow + 10,
+                    relatedToTableCurrentDisplayHigh: this.state.relatedToTableCurrentDisplayHigh + 10 < this.state.relatedToTableSummaryProcessed.length
+                        ? this.state.relatedToTableCurrentDisplayHigh + 10
+                        : this.state.relatedToTableSummaryProcessed.length
+                })
+            }
+        }
+    }
+    prevPageRelatedToTableSummary(type) {
+        if (type === 'summary') {
+            if (this.state.relatedToTableSummaryProcessed && this.state.relatedToTablePageNumber > 0) {
+                this.setState({
+                    relatedToTablePageNumber: this.state.relatedToTablePageNumber - 1,
+                    relatedToTableCurrentDisplayLow: this.state.relatedToTableCurrentDisplayHigh + 10 > this.state.alertDataProcessed.length
+                        ? 10 * this.state.relatedToTablePageNumber - 10
+                        : this.state.relatedToTableCurrentDisplayLow - 10,
+                    relatedToTableCurrentDisplayHigh: this.state.relatedToTableCurrentDisplayHigh + 10 > this.state.alertDataProcessed.length
+                        ? 10 * this.state.relatedToTablePageNumber
+                        : this.state.relatedToTableCurrentDisplayHigh - 10
+                })
+            }
         }
     }
 
@@ -671,7 +774,8 @@ const mapStateToProps = (state) => {
         suggestedSearchResults: state.iodaApi.entities,
         relatedEntities: state.iodaApi.relatedEntities,
         entityMetadata: state.iodaApi.entityMetadata,
-        relatedToSummary: state.iodaApi.relatedToSummary,
+        relatedToMapSummary: state.iodaApi.relatedToMapSummary,
+        relatedToTableSummary: state.iodaApi.relatedToTableSummary,
         topoData: state.iodaApi.topo,
         totalOutages: state.iodaApi.summaryTotalCount,
         events: state.iodaApi.events,
@@ -688,8 +792,11 @@ const mapDispatchToProps = (dispatch) => {
         // searchRelatedEntitiesAction: (from, until, entityType, relatedToEntityType, relatedToEntityCode) => {
         //     searchRelatedEntities(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode);
         // },
-        searchRelatedToSummary: (from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData) => {
-            searchRelatedToSummary(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData);
+        searchRelatedToMapSummary: (from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData) => {
+            searchRelatedToMapSummary(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData);
+        },
+        searchRelatedToTableSummary: (from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData) => {
+            searchRelatedToTableSummary(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData);
         },
         getEntityMetadataAction: (entityType, entityCode) => {
             getEntityMetadata(dispatch, entityType, entityCode);

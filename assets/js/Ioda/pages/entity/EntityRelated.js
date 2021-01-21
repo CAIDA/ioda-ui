@@ -57,7 +57,18 @@ class EntityRelated extends Component {
                     </div>
                 </div>
                 <div className="col-1-of-2">
-                    <h2>ASNs/ISPs operating within {this.props.entityName}</h2>
+                    <h2>
+                        {
+                            this.props.entityType === 'country'
+                                ? `ASNs/ISPs affected by ${this.props.entityName} Outages`
+                                : this.props.entityType === 'region'
+                                ? `ASNs/ISPs affected by ${this.props.parentEntityName} Outages`
+                                : this.props.entityType === 'asn'
+                                    ? `Countries affected by ${this.props.entityName} Outages`
+                                    : null
+                        }
+
+                    </h2>
                     <div className="related__modal--region related__modal">
                         <button className="related__modal-button" onClick={() => this.toggleModal("table")}>
                             View Details
@@ -68,7 +79,11 @@ class EntityRelated extends Component {
                             toggleModal={this.toggleModal}
                         />
                     </div>
-
+                    <div className="tab__table">
+                        {
+                            this.props.genSummaryTable()
+                        }
+                    </div>
                 </div>
             </div>
         );

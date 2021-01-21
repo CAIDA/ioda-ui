@@ -43,14 +43,16 @@ import {
     OUTAGE_EVENTS_SEARCH,
     OUTAGE_OVERALL_EVENTS_SEARCH,
     OUTAGE_SUMMARY_SEARCH,
-    OUTAGE_RELATED_TO_SUMMARY_SEARCH,
+    OUTAGE_RELATED_TO_MAP_SUMMARY_SEARCH,
+    OUTAGE_RELATED_TO_TABLE_SUMMARY_SEARCH,
     OUTAGE_TOTAL_COUNT
 } from './ActionCommons';
 
 // TODO: make sure the state won't overwrite each other when multiple calls are executed
 const initialState = {
     entities: null,
-    relatedEntities: null,
+    relatedToMapSummary: null,
+    relatedToTableSummary: null,
     entityMetadata: null,
     signals: null,
     alerts: null,
@@ -92,9 +94,13 @@ export function iodaApiReducer(state = initialState, action) {
             return Object.assign({}, state, {
                 summary: action.payload
             })
-        case OUTAGE_RELATED_TO_SUMMARY_SEARCH:
+        case OUTAGE_RELATED_TO_MAP_SUMMARY_SEARCH:
             return Object.assign({}, state, {
-                relatedToSummary: action.payload
+                relatedToMapSummary: action.payload
+            })
+        case OUTAGE_RELATED_TO_TABLE_SUMMARY_SEARCH:
+            return Object.assign({}, state, {
+                relatedToTableSummary: action.payload
             })
         case OUTAGE_TOTAL_COUNT:
             return Object.assign({}, state, {

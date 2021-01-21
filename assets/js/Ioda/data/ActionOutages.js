@@ -38,7 +38,8 @@ import {
     OUTAGE_EVENTS_SEARCH,
     OUTAGE_OVERALL_EVENTS_SEARCH,
     OUTAGE_SUMMARY_SEARCH,
-    OUTAGE_RELATED_TO_SUMMARY_SEARCH,
+    OUTAGE_RELATED_TO_MAP_SUMMARY_SEARCH,
+    OUTAGE_RELATED_TO_TABLE_SUMMARY_SEARCH,
     OUTAGE_TOTAL_COUNT
 } from "./ActionCommons";
 
@@ -184,14 +185,28 @@ export const searchSummary = (dispatch, from, until, entityType, entityCode, lim
 }
 
 // Getting outage information to use for populating topoJSON data
-export const searchRelatedToSummary = (dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetadata) => {
+export const searchRelatedToMapSummary = (dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetadata) => {
     let config = buildRelatedToSummaryConfig(from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetadata);
     includeMetadata
         ? config.url = config.url + "&includeMetadata=true"
         : config.url;
     fetchData(config).then(data => {
         dispatch({
-            type: OUTAGE_RELATED_TO_SUMMARY_SEARCH,
+            type: OUTAGE_RELATED_TO_MAP_SUMMARY_SEARCH,
+            payload: data.data.data,
+        })
+    });
+}
+
+// Getting outage information to use for populating related to summary table
+export const searchRelatedToTableSummary = (dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetadata) => {
+    let config = buildRelatedToSummaryConfig(from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetadata);
+    includeMetadata
+        ? config.url = config.url + "&includeMetadata=true"
+        : config.url;
+    fetchData(config).then(data => {
+        dispatch({
+            type: OUTAGE_RELATED_TO_TABLE_SUMMARY_SEARCH,
             payload: data.data.data,
         })
     });
