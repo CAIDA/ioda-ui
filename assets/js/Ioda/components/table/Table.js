@@ -80,6 +80,19 @@ class Table extends Component {
             }
         }
 
+        // Check for getting relatedTo Outage Summary data on Entity Page to populate
+        if (this.props.type === "summary" && this.state.summaryData !== this.props.data) {
+            // Summary Table default sort
+            this.setState({
+                summaryData: this.props.data,
+                sortedColumn: {
+                    name: "score",
+                    position: "desc",
+                    arrow: iconSortDesc
+                }
+            });
+        }
+
     }
 
     compare(key, order) {

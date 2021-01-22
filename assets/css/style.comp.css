@@ -1188,6 +1188,17 @@ body {
       .table__page-button:focus {
         outline: none; }
 
+.modal {
+  background: #fbfbfb;
+  position: fixed;
+  top: 20vh;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 2px solid #eeeeee;
+  box-shadow: 0 3px 5px #333;
+  width: 114rem;
+  z-index: 1000; }
+
 /*!
  * This software is Copyright (c) 2013 The Regents of the University of
  * California. All Rights Reserved. Permission to copy, modify, and distribute this
@@ -1806,4 +1817,4 @@ button[class*="searchButton"] {
     border-bottom-left-radius: 0.3rem;
     border-top-right-radius: 0.3rem;
     box-shadow: 0 3px 5px #333;
-    height: 50rem; }
+    min-height: 50rem; }

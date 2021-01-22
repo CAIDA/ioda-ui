@@ -6,8 +6,8 @@ import T from 'i18n-react';
 // Data Hooks
 import { searchEntities } from "../../data/ActionEntities";
 import { getTopoAction } from "../../data/ActionTopo";
-import {searchEvents, searchSummary, totalOutages} from "../../data/ActionOutages";
-import {getSignalsAction} from "../../data/ActionSignals";
+import { searchOverallEvents, searchSummary, totalOutages } from "../../data/ActionOutages";
+import { getSignalsAction } from "../../data/ActionSignals";
 // Components
 import ControlPanel from '../../components/controlPanel/ControlPanel';
 import { Searchbar } from 'caida-components-library'
@@ -160,10 +160,10 @@ class Dashboard extends Component {
             });
         }
 
-        // Make API call for data to populate time seriesFaceTime FaceTime FaceTime
-        if (this.props.events !== prevProps.events) {
+        // Make API call for data to populate time series stacked horizon view
+        if (this.props.overallEvents !== prevProps.overallEvents) {
             this.setState({
-                eventDataRaw: this.props.events
+                eventDataRaw: this.props.overallEvents
             }, () => {
                 this.convertValuesForHtsViz()
             });
@@ -219,6 +219,7 @@ class Dashboard extends Component {
                 topoData: null,
                 summaryDataRaw: null,
                 eventDataRaw: null,
+                eventDataProcessed: null,
                 // Reset Table Page Count
                 pageNumber: 0,
                 currentDisplayLow: 0,
@@ -235,6 +236,7 @@ class Dashboard extends Component {
                 topoData: null,
                 summaryDataRaw: null,
                 eventDataRaw: null,
+                eventDataProcessed: null,
                 // Reset Table Page Count
                 pageNumber: 0,
                 currentDisplayLow: 0,
@@ -251,6 +253,7 @@ class Dashboard extends Component {
                 topoData: null,
                 summaryDataRaw: null,
                 eventDataRaw: null,
+                eventDataProcessed: null,
                 // Reset Table Page Count
                 pageNumber: 0,
                 currentDisplayLow: 0,
@@ -320,7 +323,7 @@ class Dashboard extends Component {
         let from = this.state.from;
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
-        this.props.searchEventsAction(from, until, entityType, null, attr, order);
+        this.props.searchOverallEventsAction(from, until, entityType, null, attr, order);
     }
     convertValuesForHtsViz() {
         let tsDataConverted = [];
@@ -334,17 +337,17 @@ class Dashboard extends Component {
             // console.log(tsData);
             let singleEntryConverted = [];
             const initialPlotPoint = {
-                entityCode: tsData.location.split("/")[1],
-                ts: new Date(tsData.start * 1000),
+                entityCode: tsData.entity.name,
+                ts: new Date(tsData.from * 1000),
                 val: tsData.score
             };
             tsDataConverted.push(initialPlotPoint);
             // console.log(initialPlotPoint);
 
             // Create additional plot points to fill in event data
-            for (let i = tsData.start * 1000; i < (tsData.start * 1000) + (tsData.duration * 1000);  i = i + 1000 * 60 * 5) {
+            for (let i = tsData.from * 1000; i < (tsData.until * 1000);  i = i + 1000 * 60 * 5) {
                 const fillerPlotPoint = {
-                    entityCode: tsData.location.split("/")[1],
+                    entityCode: tsData.entity.name,
                     ts: i,
                     val: tsData.score
                 }
@@ -352,19 +355,15 @@ class Dashboard extends Component {
             }
 
             const endingPlotPoint = {
-                entityCode: tsData.location.split("/")[1],
-                ts: new Date((tsData.start * 1000) + (tsData.duration * 1000)),
+                entityCode: tsData.entity.name,
+                ts: new Date(tsData.until * 1000),
                 val: tsData.score
             };
-
-
-            // singleEntryConverted.push(plotPoint1);
-            // singleEntryConverted.push(plotPoint2);
-            // tsDataConverted.push(singleEntryConverted);
 
             tsDataConverted.push(endingPlotPoint);
 
         });
+        // console.log(tsDataConverted);
 
         // Add data objects to state for each data source
         this.setState( {
@@ -379,13 +378,15 @@ class Dashboard extends Component {
             myChart
                 .data(this.state.eventDataProcessed)
                 .series('entityCode')
-                .yNormalize(true)
+                .yNormalize(false)
+                .useUtc(true)
+                .use24h(false)
                 // Will need to detect column width to populate height
                 .width(width)
                 .height(400)
                 .enableZoom(true)
                 .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
-                .useUtc(true);
+                .showRuler(true);
         }
 
 
@@ -535,7 +536,7 @@ const mapStateToProps = (state) => {
         summary: state.iodaApi.summary,
         topoData: state.iodaApi.topo,
         totalOutages: state.iodaApi.summaryTotalCount,
-        events: state.iodaApi.events,
+        overallEvents: state.iodaApi.overallEvents,
         signals: state.iodaApi.signals
     }
 };
@@ -554,8 +555,8 @@ const mapDispatchToProps = (dispatch) => {
         getTopoAction: (entityType) => {
             getTopoAction(dispatch, entityType);
         },
-        searchEventsAction: (from, until, entityType=null, entityCode=null, datasource=null, includeAlerts=null, format=null, limit=null, page=null) => {
-            searchEvents(dispatch, from, until, entityType, entityCode, datasource, includeAlerts, format, limit, page);
+        searchOverallEventsAction: (from, until, entityType=null, entityCode=null, datasource=null, includeAlerts=null, format=null, limit=null, page=null) => {
+            searchOverallEvents(dispatch, from, until, entityType, entityCode, datasource, includeAlerts, format, limit, page);
         },
         getSignalsAction: (entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
             getSignalsAction(dispatch, entityType, entityCode, from, until, datasource, maxPoints);
