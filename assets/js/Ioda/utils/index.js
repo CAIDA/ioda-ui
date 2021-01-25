@@ -135,3 +135,29 @@ export function sortByKey(array, key) {
         return ((x < y) ? -1 : ((x > y) ? 1 : 0));
     });
 }
+
+// Used for table component
+export function nextPage(dataLength, pageNumber, currentDisplayHigh, currentDisplayLow) {
+    if (data && dataLength > pageNumber + currentDisplayHigh) {
+
+        let newPageNumber = pageNumber + 1;
+        let newCurrentDisplayLow = currentDisplayLow + 10;
+        let newCurrentDisplayHigh = currentDisplayHigh + 10 < dataLength
+            ? currentDisplayHigh + 10
+            : dataLength;
+        return [newPageNumber, newCurrentDisplayLow, newCurrentDisplayHigh]
+    }
+}
+export function prevPage() {
+    if (this.state.alertDataProcessed && this.state.alertTablePageNumber > 0) {
+        this.setState({
+            alertTablePageNumber: this.state.alertTablePageNumber - 1,
+            alertTableCurrentDisplayLow: this.state.alertTableCurrentDisplayHigh + 10 > this.state.alertDataProcessed.length
+                ? 10 * this.state.alertTablePageNumber - 10
+                : this.state.alertTableCurrentDisplayLow - 10,
+            alertTableCurrentDisplayHigh: this.state.alertTableCurrentDisplayHigh + 10 > this.state.alertDataProcessed.length
+                ? 10 * this.state.alertTablePageNumber
+                : this.state.alertTableCurrentDisplayHigh - 10
+        })
+    }
+}
