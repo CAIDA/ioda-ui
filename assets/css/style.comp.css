@@ -509,7 +509,7 @@ body {
       cursor: pointer;
       height: 2.5em;
       line-height: 2.5em;
-      border: 0px;
+      border: 0;
       background: transparent;
       width: 100%;
       color: #849095; }
@@ -620,8 +620,6 @@ body {
   position: absolute;
   left: 0;
   right: 0;
-  top: 0;
-  bottom: 0;
   top: 5px;
   bottom: 5px;
   display: -webkit-box;
@@ -691,23 +689,23 @@ body {
   border-top-left-radius: 1.333em;
   border-bottom-left-radius: 1.333em;
   border-left-width: 1px;
-  left: 0px; }
+  left: 0; }
 
 .rdrDayEndOfMonth .rdrDayInPreview, .rdrDayEndOfMonth .rdrDayStartPreview, .rdrDayEndOfWeek .rdrDayInPreview, .rdrDayEndOfWeek .rdrDayStartPreview {
   border-top-right-radius: 1.333em;
   border-bottom-right-radius: 1.333em;
   border-right-width: 1px;
-  right: 0px; }
+  right: 0; }
 
 .rdrDayStartPreview, .rdrDayInPreview, .rdrDayEndPreview {
   background: rgba(255, 255, 255, 0.09);
   position: absolute;
   top: 3px;
-  left: 0px;
-  right: 0px;
+  left: 0;
+  right: 0;
   bottom: 3px;
   pointer-events: none;
-  border: 0px solid currentColor;
+  border: 0 solid currentColor;
   z-index: 1; }
 
 .rdrDayStartPreview {
@@ -716,7 +714,7 @@ body {
   border-bottom-width: 1px;
   border-top-left-radius: 1.333em;
   border-bottom-left-radius: 1.333em;
-  left: 0px; }
+  left: 0; }
 
 .rdrDayInPreview {
   border-top-width: 1px;
@@ -728,8 +726,7 @@ body {
   border-bottom-width: 1px;
   border-top-right-radius: 1.333em;
   border-bottom-right-radius: 1.333em;
-  right: 2px;
-  right: 0px; }
+  right: 0; }
 
 .rdrDefinedRangesWrapper {
   font-size: 12px;
@@ -790,8 +787,8 @@ body {
   position: absolute;
   top: -2px;
   bottom: -2px;
-  left: 0px;
-  right: 0px;
+  left: 0;
+  right: 0;
   background: transparent; }
 
 .rdrDayPassive {
