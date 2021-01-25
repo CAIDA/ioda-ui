@@ -61,7 +61,10 @@ export const fetchData = (config) => {
         headers: {
             "x-requested-with": "XMLHttpRequest",
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Access-Control-Allow-Origin':  'https://dev.v2.ioda.caida.org/',
+            'Access-Control-Allow-Methods': 'POST',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization'
         },
         url: concatURL
         // url: concatURL.replace(/\s/g, "") NOTE: this won't work if search query are like "united states" (with space)
