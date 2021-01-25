@@ -51,8 +51,8 @@ export const GET_TOPO_DATA = "GET_TOPO_DATA";
 export const GET_SIGNALS = "GET_SIGNALS";
 
 export const fetchData = (config) => {
-    // const baseURL = 'https://thingproxy.freeboard.io/fetch/https://api.ioda.caida.org/dev';
-    const baseURL = 'https://cors-anywhere.herokuapp.com/https://api.ioda.caida.org/dev';
+    const baseURL = 'https://thingproxy.freeboard.io/fetch/https://api.ioda.caida.org/dev';
+    // const baseURL = 'https://cors-anywhere.herokuapp.com/https://api.ioda.caida.org/dev';
     // const baseURL = 'http://gobetween.oklabs.org/https://api.ioda.caida.org/dev';
     // const baseURL = 'https://api.ioda.caida.org/dev';
     // const baseURL = 'https://api.ioda.caida.org/v2';
