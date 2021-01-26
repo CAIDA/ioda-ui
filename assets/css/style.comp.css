@@ -255,7 +255,10 @@ body {
   padding: 1px 0;
   white-space: pre; }
 
-.react-timerange-picker, .react-timerange-picker *, .react-timerange-picker *:before, .react-timerange-picker *:after {
+.react-timerange-picker,
+.react-timerange-picker *,
+.react-timerange-picker *:before,
+.react-timerange-picker *:after {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
