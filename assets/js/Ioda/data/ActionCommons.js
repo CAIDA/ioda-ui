@@ -51,22 +51,15 @@ export const GET_TOPO_DATA = "GET_TOPO_DATA";
 export const GET_SIGNALS = "GET_SIGNALS";
 
 export const fetchData = (config) => {
-    const baseURL = 'https://thingproxy.freeboard.io/fetch/https://api.ioda.caida.org/dev';
-    // const baseURL = 'https://cors-anywhere.herokuapp.com/https://api.ioda.caida.org/dev';
-    // const baseURL = 'http://gobetween.oklabs.org/https://api.ioda.caida.org/dev';
-    // const baseURL = 'https://api.ioda.caida.org/dev';
+    const baseURL = 'https://api.ioda.caida.org/dev';
     // const baseURL = 'https://api.ioda.caida.org/v2';
     let concatURL = `${baseURL}${config.url}`;
     const configHeader = merge({}, config, {
         headers: {
-            // "x-requested-with": "XMLHttpRequest",
-            // 'Content-Type': 'application/json',
-            // 'Accept': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            // 'Access-Control-Allow-Methods': ['GET', 'POST'],
-            // 'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+            "x-requested-with": "XMLHttpRequest",
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
         },
-        crossDomain: true,
         url: concatURL
         // url: concatURL.replace(/\s/g, "") NOTE: this won't work if search query are like "united states" (with space)
     });
