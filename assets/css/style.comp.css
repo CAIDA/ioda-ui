@@ -1107,7 +1107,11 @@ body {
   height: 27px; }
 
 .leaflet-control-zoom-in {
+  background-image: url(images/zoom-in.png);
   margin-bottom: 5px; }
+
+.leaflet-control-zoom-out {
+  background-image: url(images/zoom-out.png); }
 
 .leaflet-control-layers {
   box-shadow: 0 1px 7px #999;
@@ -1117,6 +1121,7 @@ body {
   border-radius: 8px; }
 
 .leaflet-control-layers a {
+  background-image: url("");
   width: 36px;
   height: 36px; }
 

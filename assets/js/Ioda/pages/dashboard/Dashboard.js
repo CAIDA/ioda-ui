@@ -21,7 +21,7 @@ import HorizonTSChart from 'horizon-timeseries-chart';
 import {tabOptions, country, region, as} from "./DashboardConstants";
 import {connect} from "react-redux";
 // Helper Functions
-import {convertValuesForSummaryTable, humanizeNumber, sortByKey} from "../../utils";
+import {convertValuesForSummaryTable, humanizeNumber, sortByKey, nextPage, prevPage} from "../../utils";
 
 
 
@@ -452,31 +452,28 @@ class Dashboard extends Component {
         )
     }
     nextPage() {
+
         if (this.state.totalOutages && this.state.totalOutages > this.state.currentDisplayHigh) {
+            let nextPageValues = nextPage(!!this.state.summaryDataProcessed, this.state.totalOutages, this.state.currentDisplayHigh, this.state.currentDisplayLow);
             this.setState({
-                pageNumber: this.state.pageNumber + 1,
-                currentDisplayLow: this.state.currentDisplayLow + 10,
-                currentDisplayHigh: this.state.currentDisplayHigh + 10 < this.state.totalOutages
-                    ? this.state.currentDisplayHigh + 10
-                    : this.state.totalOutages,
+                PageNumber: nextPageValues.newPageNumber,
+                currentDisplayLow: nextPageValues.newCurrentDisplayLow,
+                currentDisplayHigh: nextPageValues.newCurrentDisplayHigh
             }, () => {
                 if (this.state.currentDisplayHigh > 170) {
 
                 }
-            })
+            });
         }
     }
     prevPage() {
         if (this.state.summaryDataProcessed && this.state.pageNumber > 0) {
+            let prevPageValues = prevPage(!!this.state.summaryDataProcessed, this.state.totalOutages, this.state.currentDisplayHigh, this.state.currentDisplayLow);
             this.setState({
-                pageNumber: this.state.pageNumber - 1,
-                currentDisplayLow: this.state.currentDisplayHigh + 10 > this.state.totalOutages
-                    ? 10 * this.state.pageNumber - 10
-                    : this.state.currentDisplayLow - 10,
-                currentDisplayHigh: this.state.currentDisplayHigh + 10 > this.state.totalOutages
-                    ? 10 * this.state.pageNumber
-                    : this.state.currentDisplayHigh - 10,
-            })
+                pageNumber: prevPageValues.newPageNumber,
+                currentDisplayLow: prevPageValues.newCurrentDisplayLow,
+                currentDisplayHigh: prevPageValues.newCurrentDisplayHigh
+            });
         }
     }
 

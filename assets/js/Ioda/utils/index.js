@@ -136,8 +136,8 @@ export function sortByKey(array, key) {
     });
 }
 
-// Used for table component
-export function nextPage(dataLength, pageNumber, currentDisplayHigh, currentDisplayLow) {
+// Used for table component pagination
+export function nextPage(data, dataLength, pageNumber, currentDisplayHigh, currentDisplayLow) {
     if (data && dataLength > pageNumber + currentDisplayHigh) {
 
         let newPageNumber = pageNumber + 1;
@@ -145,19 +145,18 @@ export function nextPage(dataLength, pageNumber, currentDisplayHigh, currentDisp
         let newCurrentDisplayHigh = currentDisplayHigh + 10 < dataLength
             ? currentDisplayHigh + 10
             : dataLength;
-        return [newPageNumber, newCurrentDisplayLow, newCurrentDisplayHigh]
+        return {newPageNumber: newPageNumber, newCurrentDisplayLow: newCurrentDisplayLow, newCurrentDisplayHigh: newCurrentDisplayHigh};
     }
 }
-export function prevPage() {
-    if (this.state.alertDataProcessed && this.state.alertTablePageNumber > 0) {
-        this.setState({
-            alertTablePageNumber: this.state.alertTablePageNumber - 1,
-            alertTableCurrentDisplayLow: this.state.alertTableCurrentDisplayHigh + 10 > this.state.alertDataProcessed.length
-                ? 10 * this.state.alertTablePageNumber - 10
-                : this.state.alertTableCurrentDisplayLow - 10,
-            alertTableCurrentDisplayHigh: this.state.alertTableCurrentDisplayHigh + 10 > this.state.alertDataProcessed.length
-                ? 10 * this.state.alertTablePageNumber
-                : this.state.alertTableCurrentDisplayHigh - 10
-        })
+export function prevPage(data, dataLength, pageNumber, currentDisplayHigh, currentDisplayLow) {
+    if (data && pageNumber > 0) {
+        let newPageNumber = pageNumber - 1;
+        let newCurrentDisplayLow = currentDisplayHigh + 10 > dataLength
+            ? 10 * pageNumber - 10
+            : currentDisplayLow - 10;
+        let newCurrentDisplayHigh = currentDisplayHigh + 10 > dataLength
+            ? 10 * pageNumber
+            : currentDisplayHigh - 10;
+        return {newPageNumber: newPageNumber, newCurrentDisplayLow: newCurrentDisplayLow, newCurrentDisplayHigh: newCurrentDisplayHigh};
     }
 }
