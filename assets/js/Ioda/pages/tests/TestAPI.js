@@ -89,7 +89,7 @@ class TestAPI extends Component {
     componentDidMount() {
         this.setState({mounted: true});
         this.props.searchEntitiesAction("united states");
-        this.props.getDatasourcesAction();
+        // this.props.getDatasourcesAction();
         this.props.getTopoAction("country");
         this.props.searchAlertsAction(1602544098, 1602630498, "country", "TM", null, 30, null);
         this.props.searchEventsAction(1602544098, 1602630498, "country", "TM", null, false, null, 30, null);
@@ -102,7 +102,7 @@ class TestAPI extends Component {
         if (this.props.iodaApi.entities !== prevProps.iodaApi.entities) {
             // console.assert(this.props.iodaApi.entities[0].code==="US")
             // console.log("entities test passed")
-            console.log(this.props.iodaApi.entities);
+            // console.log(this.props.iodaApi.entities);
         }
         if (this.props.iodaApi.datasources !== prevProps.iodaApi.datasources) {
             console.assert(this.props.iodaApi.datasources.length===3)
@@ -127,7 +127,7 @@ class TestAPI extends Component {
             // console.assert(this.props.iodaApi.events.length===9);
             // console.log("events search test passed");
 
-            console.log(this.props.iodaApi);
+            // console.log(this.props.iodaApi);
 
             this.setState({
                 eventDataRaw: this.props.iodaApi.events
@@ -138,7 +138,7 @@ class TestAPI extends Component {
         if (this.props.iodaApi.summary !== prevProps.iodaApi.summary) {
             // console.assert(this.props.iodaApi.summary.length===8);
             // console.log("summary search test passed");
-            console.log(this.props.iodaApi.summary);
+            // console.log(this.props.iodaApi.summary);
             this.setState({
                 summaryDataRaw: this.props.iodaApi.summary
             },() => {
@@ -167,6 +167,9 @@ class TestAPI extends Component {
     // Horizon Time Series Functions
     convertValuesForHtsViz() {
         let tsDataConverted = [];
+
+        console.log(this.state.tsDataRaw);
+
         this.state.tsDataRaw.map(tsData => {
             // Create visualization-friendly data objects
             let tsDatumConverted = [];

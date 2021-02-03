@@ -7,7 +7,7 @@ import T from 'i18n-react';
 import { searchEntities } from "../../data/ActionEntities";
 import { getTopoAction } from "../../data/ActionTopo";
 import { searchOverallEvents, searchSummary, totalOutages } from "../../data/ActionOutages";
-import { getSignalsAction } from "../../data/ActionSignals";
+import { getSignalsAction, getEventSignalsAction } from "../../data/ActionSignals";
 // Components
 import ControlPanel from '../../components/controlPanel/ControlPanel';
 import { Searchbar } from 'caida-components-library'
@@ -56,7 +56,7 @@ class Dashboard extends Component {
             currentDisplayLow: 0,
             currentDisplayHigh: 10,
             // Event Data for Time Series
-            eventDataRaw: null,
+            eventDataRaw: [],
             eventDataProcessed: [],
             eventOrderByAttr: "score",
             eventOrderByOrder: "desc"
@@ -130,7 +130,10 @@ class Dashboard extends Component {
             this.setState({
                 summaryDataRaw: this.props.summary
             },() => {
+                console.log(this.props.summary)
                 this.convertValuesForSummaryTable();
+                // Make API calls to get event signal data
+                this.getDataEvents(this.state.activeTabType);
             })
         }
 
@@ -161,11 +164,28 @@ class Dashboard extends Component {
         }
 
         // Make API call for data to populate time series stacked horizon view
-        if (this.props.overallEvents !== prevProps.overallEvents) {
-            this.setState({
-                eventDataRaw: this.props.overallEvents
-            }, () => {
-                this.convertValuesForHtsViz()
+        // if (this.props.overallEvents !== prevProps.overallEvents) {
+        //     this.setState({
+        //         eventDataRaw: this.props.overallEvents
+        //     }, () => {
+        //         this.convertValuesForHtsViz()
+        //     });
+        // }
+
+        if (this.props.eventSignals !== prevProps.eventSignals) {
+            let newEventData = this.props.eventSignals[0];
+            // console.log(newEventData);
+            this.setState(prevState => ({
+                eventDataRaw: [...prevState.eventDataRaw, newEventData]
+            }), () => {
+                // const result = this.state.eventDataRaw.reduce( (acc, o) => (acc[o.entityCode] = (acc[o.entityCode] || 0)+1, acc), {} );
+                const result = this.state.eventDataRaw;
+                // console.log(Object.keys(result).length, "/", this.state.summaryDataRaw.length);
+                console.log(this.state.summaryDataRaw);
+                console.log(this.state.eventDataRaw);
+                if (Object.keys(result).length === this.state.summaryDataRaw.length) {
+                    // this.convertValuesForHtsViz();
+                }
             });
         }
     }
@@ -218,7 +238,7 @@ class Dashboard extends Component {
                 // Trigger Data Update for new tab
                 topoData: null,
                 summaryDataRaw: null,
-                eventDataRaw: null,
+                eventDataRaw: [],
                 eventDataProcessed: null,
                 // Reset Table Page Count
                 pageNumber: 0,
@@ -235,7 +255,7 @@ class Dashboard extends Component {
                 // Trigger Data Update for new tab
                 topoData: null,
                 summaryDataRaw: null,
-                eventDataRaw: null,
+                eventDataRaw: [],
                 eventDataProcessed: null,
                 // Reset Table Page Count
                 pageNumber: 0,
@@ -252,7 +272,7 @@ class Dashboard extends Component {
                 // Trigger Data Update for new tab
                 topoData: null,
                 summaryDataRaw: null,
-                eventDataRaw: null,
+                eventDataRaw: [],
                 eventDataProcessed: null,
                 // Reset Table Page Count
                 pageNumber: 0,
@@ -319,56 +339,138 @@ class Dashboard extends Component {
 
 // Event Time Series
     getDataEvents(entityType) {
+        // If using /outages/events endpoint
+        // let until = this.state.until;
+        // let from = this.state.from;
+        // let attr = this.state.eventOrderByAttr;
+        // let order = this.state.eventOrderByOrder;
+        //
+        // this.props.searchOverallEventsAction(from, until, entityType, null, attr, order);
+
+        // If using /signals/events endpoint
         let until = this.state.until;
         let from = this.state.from;
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
-        this.props.searchOverallEventsAction(from, until, entityType, null, attr, order);
+
+        if (this.state.summaryDataRaw) {
+
+            const anAsyncFunction = async entityCode => {
+                if (entityCode) {
+                    return Promise.resolve(this.props.getEventSignalsAction(entityType, entityCode, from, until, attr, order))
+                }
+            };
+
+            const getData = async () => {
+                return Promise.all(this.state.summaryDataRaw.map(entity => anAsyncFunction(entity.entity.code)))
+            };
+
+            // I need to try to figure out a way to trigger the convertValuesForHtsViz function after both
+            // the Promise resolves and the eventDataRaw finishes updating in the componentDidUpdate function.
+
+            // Check to see if the number of unique entities reporting events matches the number of entities listed in the summary table
+            getData().then(() => {
+                // let result =
+                // console.log(result);
+                // if (this.state.summaryDataRaw.length === this.state.eventDataRaw.filter(obj => obj.entityCode)) {
+
+                // }
+                // Need a way to figure out how to determin
+                // console.log(this.state.eventDataRaw);
+            });
+
+
+            // const promises = this.state.summaryDataRaw.map(entity => {
+            //         return new Promise(((resolve, reject) => {
+            //             resolve(this.props.getEventSignalsAction(entityType, entity.entity.code, from, until, attr, order));
+            //         }));
+            //     });
+            //
+            // console.log(promises);
+            //
+            // Promise.all(promises).then((events) => {
+            //     console.log(events);
+            //     // this.convertValuesForHtsViz();
+            // });
+
+
+        }
+
     }
     convertValuesForHtsViz() {
         let tsDataConverted = [];
-
-        let eventDataSorted = sortByKey(this.state.eventDataRaw, 'location');
-        // console.log(this.state.eventDataRaw);
-        // console.log(eventDataSorted);
-
-        this.state.eventDataRaw && this.state.eventDataRaw.slice(0, 100).map(tsData => {
+        console.log(this.state.eventDataRaw);
+        this.state.eventDataRaw.map(tsData => {
             // Create visualization-friendly data objects
-            // console.log(tsData);
-            let singleEntryConverted = [];
-            const initialPlotPoint = {
-                entityCode: tsData.entity.name,
-                ts: new Date(tsData.from * 1000),
-                val: tsData.score
-            };
-            tsDataConverted.push(initialPlotPoint);
-            // console.log(initialPlotPoint);
+            let tsDatumConverted = [];
+            tsData.values.map((value, index) => {
+                const plotPoint = {
+                    entityCode: tsData.entityCode,
+                    datasource: tsData.datasource,
+                    ts: new Date(tsData.from + tsData.step * index),
+                    val: value
+                };
+                tsDatumConverted.push(plotPoint);
+            });
+            tsDataConverted.push(tsDatumConverted);
 
-            // Create additional plot points to fill in event data
-            for (let i = tsData.from * 1000; i < (tsData.until * 1000);  i = i + 1000 * 60 * 5) {
-                const fillerPlotPoint = {
-                    entityCode: tsData.entity.name,
-                    ts: i,
-                    val: tsData.score
+            // console.log(tsDataConverted[2]);
+
+            // Add data objects to state for each data source
+            this.setState(prevState => ({
+                eventDataProcessed: {
+                    ...prevState.tsDataProcessed,
+                    activeProbing: tsDataConverted[2],
+                    bgp: tsDataConverted[1],
+                    darknet: tsDataConverted[0]
                 }
-                tsDataConverted.push(fillerPlotPoint);
-            }
+            }));
+        })
 
-            const endingPlotPoint = {
-                entityCode: tsData.entity.name,
-                ts: new Date(tsData.until * 1000),
-                val: tsData.score
-            };
 
-            tsDataConverted.push(endingPlotPoint);
-
-        });
-        // console.log(tsDataConverted);
-
-        // Add data objects to state for each data source
-        this.setState( {
-            eventDataProcessed: tsDataConverted
-        });
+        // let tsDataConverted = [];
+        //
+        // let eventDataSorted = sortByKey(this.state.eventDataRaw, 'location');
+        // // console.log(this.state.eventDataRaw);
+        // // console.log(eventDataSorted);
+        //
+        // this.state.eventDataRaw && this.state.eventDataRaw.slice(0, 100).map(tsData => {
+        //     // Create visualization-friendly data objects
+        //     // console.log(tsData);
+        //     let singleEntryConverted = [];
+        //     const initialPlotPoint = {
+        //         entityCode: tsData.entity.name,
+        //         ts: new Date(tsData.from * 1000),
+        //         val: tsData.score
+        //     };
+        //     tsDataConverted.push(initialPlotPoint);
+        //     // console.log(initialPlotPoint);
+        //
+        //     // Create additional plot points to fill in event data
+        //     for (let i = tsData.from * 1000; i < (tsData.until * 1000);  i = i + 1000 * 60 * 5) {
+        //         const fillerPlotPoint = {
+        //             entityCode: tsData.entity.name,
+        //             ts: i,
+        //             val: tsData.score
+        //         }
+        //         tsDataConverted.push(fillerPlotPoint);
+        //     }
+        //
+        //     const endingPlotPoint = {
+        //         entityCode: tsData.entity.name,
+        //         ts: new Date(tsData.until * 1000),
+        //         val: tsData.score
+        //     };
+        //
+        //     tsDataConverted.push(endingPlotPoint);
+        //
+        // });
+        // // console.log(tsDataConverted);
+        //
+        // // Add data objects to state for each data source
+        // this.setState( {
+        //     eventDataProcessed: tsDataConverted
+        // });
 
 
     }
@@ -534,7 +636,8 @@ const mapStateToProps = (state) => {
         topoData: state.iodaApi.topo,
         totalOutages: state.iodaApi.summaryTotalCount,
         overallEvents: state.iodaApi.overallEvents,
-        signals: state.iodaApi.signals
+        signals: state.iodaApi.signals,
+        eventSignals: state.iodaApi.eventSignals
     }
 };
 
@@ -557,6 +660,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         getSignalsAction: (entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
             getSignalsAction(dispatch, entityType, entityCode, from, until, datasource, maxPoints);
+        },
+        getEventSignalsAction:(entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
+            getEventSignalsAction(dispatch, entityType, entityCode, from, until, datasource, maxPoints);
         }
     }
 };
