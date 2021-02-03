@@ -85,8 +85,6 @@ class Entity extends Component {
             relatedToTableCurrentDisplayLow: 0,
             relatedToTableCurrentDisplayHigh: 10,
 
-
-
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
     }
@@ -707,6 +705,9 @@ class Entity extends Component {
         }
     }
 
+// Map Modal
+
+
     render() {
         return(
             <div className="entity">
@@ -763,7 +764,9 @@ const mapStateToProps = (state) => {
         totalOutages: state.iodaApi.summaryTotalCount,
         events: state.iodaApi.events,
         alerts: state.iodaApi.alerts,
-        signals: state.iodaApi.signals
+        signals: state.iodaApi.signals,
+        mapModalSummary: state.iodaApi.mapModalSummary,
+        mapModalTopoData: state.iodaApi.mapModalTopoData
     }
 };
 
@@ -772,24 +775,10 @@ const mapDispatchToProps = (dispatch) => {
         searchEntitiesAction: (searchQuery, limit=15) => {
             searchEntities(dispatch, searchQuery, limit);
         },
-        // searchRelatedEntitiesAction: (from, until, entityType, relatedToEntityType, relatedToEntityCode) => {
-        //     searchRelatedEntities(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode);
-        // },
-        searchRelatedToMapSummary: (from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData) => {
-            searchRelatedToMapSummary(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData);
-        },
-        searchRelatedToTableSummary: (from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData) => {
-            searchRelatedToTableSummary(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData);
-        },
         getEntityMetadataAction: (entityType, entityCode) => {
             getEntityMetadata(dispatch, entityType, entityCode);
         },
-        totalOutagesAction: (from, until, entityType) => {
-            totalOutages(dispatch, from, until, entityType);
-        },
-        getTopoAction: (entityType) => {
-            getTopoAction(dispatch, entityType);
-        },
+
         searchEventsAction: (from, until, entityType, entityCode, datasource=null, includeAlerts=null, format=null, limit=null, page=null) => {
             searchEvents(dispatch, from, until, entityType, entityCode, datasource, includeAlerts, format, limit, page);
         },
@@ -798,7 +787,28 @@ const mapDispatchToProps = (dispatch) => {
         },
         getSignalsAction: (entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
             getSignalsAction(dispatch, entityType, entityCode, from, until, datasource, maxPoints);
-        }
+        },
+
+        searchRelatedToMapSummary: (from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData) => {
+            searchRelatedToMapSummary(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData);
+        },
+        getTopoAction: (entityType) => {
+            getTopoAction(dispatch, entityType);
+        },
+        searchRelatedToTableSummary: (from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData) => {
+            searchRelatedToTableSummary(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData);
+        },
+        totalOutagesAction: (from, until, entityType) => {
+            totalOutages(dispatch, from, until, entityType);
+        },
+
+
+        // searchRelatedEntitiesAction: (from, until, entityType, relatedToEntityType, relatedToEntityCode) => {
+        //     searchRelatedEntities(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode);
+        // },
+
+
+
     }
 };
 
