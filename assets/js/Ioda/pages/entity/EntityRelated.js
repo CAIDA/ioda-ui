@@ -51,7 +51,8 @@ class EntityRelated extends Component {
                             populateGeoJsonMap={this.props.populateGeoJsonMap}
                         />
                     </div>
-                    <div className="map" style={{display: 'block', height: '400px'}}>
+                    <div className="map" style={{display: 'block', height: '2====' +
+                            '0px'}}>
                     {
                         this.props.populateGeoJsonMap()
                     }

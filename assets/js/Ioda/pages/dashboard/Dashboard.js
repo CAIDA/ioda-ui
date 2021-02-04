@@ -59,7 +59,9 @@ class Dashboard extends Component {
             eventDataRaw: [],
             eventDataProcessed: [],
             eventOrderByAttr: "score",
-            eventOrderByOrder: "desc"
+            eventOrderByOrder: "desc",
+            eventEndpointCalled: false,
+            totalEventCount: 0
         };
         this.tabs = {
             country: country.tab,
@@ -130,10 +132,29 @@ class Dashboard extends Component {
             this.setState({
                 summaryDataRaw: this.props.summary
             },() => {
-                console.log(this.props.summary)
                 this.convertValuesForSummaryTable();
-                // Make API calls to get event signal data
-                this.getDataEvents(this.state.activeTabType);
+
+                if (!this.state.eventEndpointCalled) {
+                    this.setState({
+                        eventEndpointCalled: !this.state.eventEndpointCalled
+                    }, () => {
+                        // Make API calls to get event signal data
+                        this.getDataEvents(this.state.activeTabType);
+                        //Get total event count to reference with event data
+                        let totalEventCount = 0;
+                        let eventCnt = 0;
+                        this.state.summaryDataRaw.map(obj => {
+                            console.log(obj);
+                            eventCnt = eventCnt + obj.event_cnt;
+                            console.log(obj.event_cnt, eventCnt);
+                            totalEventCount += obj.event_cnt;
+                        });
+                        console.log("here");
+                        this.setState({
+                            totalEventCount: totalEventCount
+                        });
+                    });
+                }
             })
         }
 
@@ -181,10 +202,11 @@ class Dashboard extends Component {
                 // const result = this.state.eventDataRaw.reduce( (acc, o) => (acc[o.entityCode] = (acc[o.entityCode] || 0)+1, acc), {} );
                 const result = this.state.eventDataRaw;
                 // console.log(Object.keys(result).length, "/", this.state.summaryDataRaw.length);
-                console.log(this.state.summaryDataRaw);
-                console.log(this.state.eventDataRaw);
+                console.log(this.state.summaryDataRaw.length);
+                console.log(this.state.eventDataRaw.length);
+
                 if (Object.keys(result).length === this.state.summaryDataRaw.length) {
-                    // this.convertValuesForHtsViz();
+                    this.convertValuesForHtsViz();
                 }
             });
         }
@@ -339,14 +361,6 @@ class Dashboard extends Component {
 
 // Event Time Series
     getDataEvents(entityType) {
-        // If using /outages/events endpoint
-        // let until = this.state.until;
-        // let from = this.state.from;
-        // let attr = this.state.eventOrderByAttr;
-        // let order = this.state.eventOrderByOrder;
-        //
-        // this.props.searchOverallEventsAction(from, until, entityType, null, attr, order);
-
         // If using /signals/events endpoint
         let until = this.state.until;
         let from = this.state.from;
@@ -354,128 +368,39 @@ class Dashboard extends Component {
         let order = this.state.eventOrderByOrder;
 
         if (this.state.summaryDataRaw) {
-
-            const anAsyncFunction = async entityCode => {
-                if (entityCode) {
-                    return Promise.resolve(this.props.getEventSignalsAction(entityType, entityCode, from, until, attr, order))
-                }
-            };
-
-            const getData = async () => {
-                return Promise.all(this.state.summaryDataRaw.map(entity => anAsyncFunction(entity.entity.code)))
-            };
-
-            // I need to try to figure out a way to trigger the convertValuesForHtsViz function after both
-            // the Promise resolves and the eventDataRaw finishes updating in the componentDidUpdate function.
-
-            // Check to see if the number of unique entities reporting events matches the number of entities listed in the summary table
-            getData().then(() => {
-                // let result =
-                // console.log(result);
-                // if (this.state.summaryDataRaw.length === this.state.eventDataRaw.filter(obj => obj.entityCode)) {
-
-                // }
-                // Need a way to figure out how to determin
-                // console.log(this.state.eventDataRaw);
+            this.state.summaryDataRaw.map(entity => {
+                this.props.getEventSignalsAction(entityType, entity.entity.code, from, until, attr, order)
             });
-
-
-            // const promises = this.state.summaryDataRaw.map(entity => {
-            //         return new Promise(((resolve, reject) => {
-            //             resolve(this.props.getEventSignalsAction(entityType, entity.entity.code, from, until, attr, order));
-            //         }));
-            //     });
-            //
-            // console.log(promises);
-            //
-            // Promise.all(promises).then((events) => {
-            //     console.log(events);
-            //     // this.convertValuesForHtsViz();
-            // });
-
-
         }
-
     }
     convertValuesForHtsViz() {
         let tsDataConverted = [];
-        console.log(this.state.eventDataRaw);
+        // console.log(this.state.eventDataRaw);
         this.state.eventDataRaw.map(tsData => {
             // Create visualization-friendly data objects
             let tsDatumConverted = [];
+            // console.log(tsData);
             tsData.values.map((value, index) => {
                 const plotPoint = {
                     entityCode: tsData.entityCode,
-                    datasource: tsData.datasource,
-                    ts: new Date(tsData.from + tsData.step * index),
+                    ts: new Date(tsData.from * 1000 + tsData.step * 1000 * index),
                     val: value
                 };
                 tsDatumConverted.push(plotPoint);
             });
             tsDataConverted.push(tsDatumConverted);
 
-            // console.log(tsDataConverted[2]);
+            // console.log(tsDataConverted);
 
             // Add data objects to state for each data source
-            this.setState(prevState => ({
-                eventDataProcessed: {
-                    ...prevState.tsDataProcessed,
-                    activeProbing: tsDataConverted[2],
-                    bgp: tsDataConverted[1],
-                    darknet: tsDataConverted[0]
-                }
-            }));
+            this.setState({
+                eventDataProcessed: tsDataConverted
+            });
         })
-
-
-        // let tsDataConverted = [];
-        //
-        // let eventDataSorted = sortByKey(this.state.eventDataRaw, 'location');
-        // // console.log(this.state.eventDataRaw);
-        // // console.log(eventDataSorted);
-        //
-        // this.state.eventDataRaw && this.state.eventDataRaw.slice(0, 100).map(tsData => {
-        //     // Create visualization-friendly data objects
-        //     // console.log(tsData);
-        //     let singleEntryConverted = [];
-        //     const initialPlotPoint = {
-        //         entityCode: tsData.entity.name,
-        //         ts: new Date(tsData.from * 1000),
-        //         val: tsData.score
-        //     };
-        //     tsDataConverted.push(initialPlotPoint);
-        //     // console.log(initialPlotPoint);
-        //
-        //     // Create additional plot points to fill in event data
-        //     for (let i = tsData.from * 1000; i < (tsData.until * 1000);  i = i + 1000 * 60 * 5) {
-        //         const fillerPlotPoint = {
-        //             entityCode: tsData.entity.name,
-        //             ts: i,
-        //             val: tsData.score
-        //         }
-        //         tsDataConverted.push(fillerPlotPoint);
-        //     }
-        //
-        //     const endingPlotPoint = {
-        //         entityCode: tsData.entity.name,
-        //         ts: new Date(tsData.until * 1000),
-        //         val: tsData.score
-        //     };
-        //
-        //     tsDataConverted.push(endingPlotPoint);
-        //
-        // });
-        // // console.log(tsDataConverted);
-        //
-        // // Add data objects to state for each data source
-        // this.setState( {
-        //     eventDataProcessed: tsDataConverted
-        // });
-
-
     }
     populateHtsChart(width) {
         if (this.state.eventDataProcessed) {
+            console.log(this.state.eventDataProcessed);
             const myChart = HorizonTSChart()(document.getElementById(`horizon-chart`));
             myChart
                 .data(this.state.eventDataProcessed)
