@@ -469,11 +469,10 @@ class Dashboard extends Component {
         )
     }
     nextPage() {
-
         if (this.state.totalOutages && this.state.totalOutages > this.state.currentDisplayHigh) {
-            let nextPageValues = nextPage(!!this.state.summaryDataProcessed, this.state.totalOutages, this.state.currentDisplayHigh, this.state.currentDisplayLow);
+            let nextPageValues = nextPage(!!this.state.summaryDataProcessed, this.state.totalOutages, this.state.pageNumber, this.state.currentDisplayHigh, this.state.currentDisplayLow);
             this.setState({
-                PageNumber: nextPageValues.newPageNumber,
+                pageNumber: nextPageValues.newPageNumber,
                 currentDisplayLow: nextPageValues.newCurrentDisplayLow,
                 currentDisplayHigh: nextPageValues.newCurrentDisplayHigh
             }, () => {
@@ -485,7 +484,7 @@ class Dashboard extends Component {
     }
     prevPage() {
         if (this.state.summaryDataProcessed && this.state.pageNumber > 0) {
-            let prevPageValues = prevPage(!!this.state.summaryDataProcessed, this.state.totalOutages, this.state.currentDisplayHigh, this.state.currentDisplayLow);
+            let prevPageValues = prevPage(!!this.state.summaryDataProcessed, this.state.totalOutages, this.state.pageNumber, this.state.currentDisplayHigh, this.state.currentDisplayLow);
             this.setState({
                 pageNumber: prevPageValues.newPageNumber,
                 currentDisplayLow: prevPageValues.newCurrentDisplayLow,

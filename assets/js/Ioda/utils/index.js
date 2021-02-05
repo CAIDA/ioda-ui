@@ -139,7 +139,6 @@ export function sortByKey(array, key) {
 // Used for table component pagination
 export function nextPage(data, dataLength, pageNumber, currentDisplayHigh, currentDisplayLow) {
     if (data && dataLength > pageNumber + currentDisplayHigh) {
-
         let newPageNumber = pageNumber + 1;
         let newCurrentDisplayLow = currentDisplayLow + 10;
         let newCurrentDisplayHigh = currentDisplayHigh + 10 < dataLength
@@ -151,7 +150,7 @@ export function nextPage(data, dataLength, pageNumber, currentDisplayHigh, curre
 export function prevPage(data, dataLength, pageNumber, currentDisplayHigh, currentDisplayLow) {
     if (data && pageNumber > 0) {
         let newPageNumber = pageNumber - 1;
-        let newCurrentDisplayLow = currentDisplayHigh + 10 > dataLength
+        let newCurrentDisplayLow = currentDisplayLow + 10 > dataLength
             ? 10 * pageNumber - 10
             : currentDisplayLow - 10;
         let newCurrentDisplayHigh = currentDisplayHigh + 10 > dataLength
