@@ -144,12 +144,9 @@ class Dashboard extends Component {
                         let totalEventCount = 0;
                         let eventCnt = 0;
                         this.state.summaryDataRaw.map(obj => {
-                            console.log(obj);
                             eventCnt = eventCnt + obj.event_cnt;
-                            console.log(obj.event_cnt, eventCnt);
                             totalEventCount += obj.event_cnt;
                         });
-                        console.log("here");
                         this.setState({
                             totalEventCount: totalEventCount
                         });
@@ -195,16 +192,11 @@ class Dashboard extends Component {
 
         if (this.props.eventSignals !== prevProps.eventSignals) {
             let newEventData = this.props.eventSignals[0];
-            // console.log(newEventData);
             this.setState(prevState => ({
                 eventDataRaw: [...prevState.eventDataRaw, newEventData]
             }), () => {
-                // const result = this.state.eventDataRaw.reduce( (acc, o) => (acc[o.entityCode] = (acc[o.entityCode] || 0)+1, acc), {} );
+                // Use summary entities to populate time series chart
                 const result = this.state.eventDataRaw;
-                // console.log(Object.keys(result).length, "/", this.state.summaryDataRaw.length);
-                console.log(this.state.summaryDataRaw.length);
-                console.log(this.state.eventDataRaw.length);
-
                 if (Object.keys(result).length === this.state.summaryDataRaw.length) {
                     this.convertValuesForHtsViz();
                 }
@@ -262,6 +254,8 @@ class Dashboard extends Component {
                 summaryDataRaw: null,
                 eventDataRaw: [],
                 eventDataProcessed: null,
+                eventEndpointCalled: false,
+                totalEventCount: 0,
                 // Reset Table Page Count
                 pageNumber: 0,
                 currentDisplayLow: 0,
@@ -279,6 +273,8 @@ class Dashboard extends Component {
                 summaryDataRaw: null,
                 eventDataRaw: [],
                 eventDataProcessed: null,
+                eventEndpointCalled: false,
+                totalEventCount: 0,
                 // Reset Table Page Count
                 pageNumber: 0,
                 currentDisplayLow: 0,
@@ -296,6 +292,8 @@ class Dashboard extends Component {
                 summaryDataRaw: null,
                 eventDataRaw: [],
                 eventDataProcessed: null,
+                eventEndpointCalled: false,
+                totalEventCount: 0,
                 // Reset Table Page Count
                 pageNumber: 0,
                 currentDisplayLow: 0,
@@ -375,23 +373,16 @@ class Dashboard extends Component {
     }
     convertValuesForHtsViz() {
         let tsDataConverted = [];
-        // console.log(this.state.eventDataRaw);
         this.state.eventDataRaw.map(tsData => {
             // Create visualization-friendly data objects
-            let tsDatumConverted = [];
-            // console.log(tsData);
             tsData.values.map((value, index) => {
                 const plotPoint = {
                     entityCode: tsData.entityCode,
                     ts: new Date(tsData.from * 1000 + tsData.step * 1000 * index),
                     val: value
                 };
-                tsDatumConverted.push(plotPoint);
+                tsDataConverted.push(plotPoint);
             });
-            tsDataConverted.push(tsDatumConverted);
-
-            // console.log(tsDataConverted);
-
             // Add data objects to state for each data source
             this.setState({
                 eventDataProcessed: tsDataConverted
@@ -400,7 +391,6 @@ class Dashboard extends Component {
     }
     populateHtsChart(width) {
         if (this.state.eventDataProcessed) {
-            console.log(this.state.eventDataProcessed);
             const myChart = HorizonTSChart()(document.getElementById(`horizon-chart`));
             myChart
                 .data(this.state.eventDataProcessed)
