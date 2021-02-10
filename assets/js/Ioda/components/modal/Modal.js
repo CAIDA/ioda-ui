@@ -34,6 +34,11 @@ class Modal extends Component {
                             <div className="row">
                                 <div className="col-1-of-3">
                                     Table displaying all regions regardless of score
+                                    <div className="modal__table">
+                                        {
+                                            this.props.genSignalsTable()
+                                        }
+                                    </div>
                                 </div>
                                 <div className="col-2-of-3">
                                     <p>Stacked Horizon Graph of all regions sorted by score</p>

@@ -84,6 +84,12 @@ class Entity extends Component {
             relatedToTablePageNumber: 0,
             relatedToTableCurrentDisplayLow: 0,
             relatedToTableCurrentDisplayHigh: 10,
+            // Signals Modal Table
+            signalsTableSummary: null,
+            signalsTableSummaryProcessed: null,
+            signalsTablePageNumber: 0,
+            signalsTableCurrentDisplayLow: 0,
+            signalsTableCurrentDisplayHigh: 10,
 
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
@@ -684,29 +690,64 @@ class Entity extends Component {
             />
         )
     }
-    nextPageRelatedToTableSummary(type) {
-        if (type === 'summary') {
-            let nextPageValues = nextPage(!!this.state.relatedToTableSummaryProcessed, this.state.relatedToTableSummaryProcessed.length, this.state.relatedToTableCurrentDisplayHigh, this.state.relatedToTableCurrentDisplayLow);
-            this.setState({
-                relatedToTablePageNumber: nextPageValues.newPageNumber,
-                relatedToTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
-                relatedToTableCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh
-            });
-        }
+    nextPageRelatedToTableSummary() {
+        let nextPageValues = nextPage(!!this.state.relatedToTableSummaryProcessed, this.state.relatedToTableSummaryProcessed.length, this.state.relatedToTablePageNumber, this.state.relatedToTableCurrentDisplayHigh, this.state.relatedToTableCurrentDisplayLow);
+        this.setState({
+            relatedToTablePageNumber: nextPageValues.newPageNumber,
+            relatedToTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
+            relatedToTableCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh
+        });
     }
-    prevPageRelatedToTableSummary(type) {
-        if (type === 'summary') {
-            let prevPageValues = prevPage(!!this.state.relatedToTableSummaryProcessed, this.state.relatedToTableSummaryProcessed.length, this.state.relatedToTableCurrentDisplayHigh, this.state.relatedToTableCurrentDisplayLow);
-            this.setState({
-                relatedToTablePageNumber: prevPageValues.newPageNumber,
-                relatedToTableCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
-                relatedToTableCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh
-            });
-        }
+    prevPageRelatedToTableSummary() {
+        let prevPageValues = prevPage(!!this.state.relatedToTableSummaryProcessed, this.state.relatedToTableSummaryProcessed.length, this.state.relatedToTablePageNumber, this.state.relatedToTableCurrentDisplayHigh, this.state.relatedToTableCurrentDisplayLow);
+        this.setState({
+            relatedToTablePageNumber: prevPageValues.newPageNumber,
+            relatedToTableCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
+            relatedToTableCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh
+        });
+
     }
 
 // Map Modal
+    convertValuesForSignalsTable() {
+        let summaryData = convertValuesForSignalsTable(this.state.signalsTableSummary);
+        this.setState({
+            signalsTableSummaryProcessed: summaryData
+        }, () => {
+            this.genSignalsTable();
+        })
+    }
+    genSignalsTable() {
+        return (
+            this.state.relatedToTableSummaryProcessed &&
+            <Table
+                type={"signals"}
+                data={this.state.signalsTableSummaryProcessed}
+                nextPage={() => this.nextPageSignalsTableSummary()}
+                prevPage={() => this.prevPageSignalsTableSummary()}
+                currentDisplayLow={this.state.relatedToTableCurrentDisplayLow}
+                currentDisplayHigh={this.state.relatedToTableCurrentDisplayHigh}
+                totalCount={this.state.signalsTableSummaryProcessed.length}
+            />
+        )
+    }
+    nextPageSignalsTableSummary() {
+        let nextPageValues = nextPage(!!this.state.signalsTableSummaryProcessed, this.state.signalsTableSummaryProcessed.length, this.state.signalsTablePageNumber, this.state.signalsTableCurrentDisplayHigh, this.state.signalsTableCurrentDisplayLow);
+        this.setState({
+            signalsTablePageNumber: nextPageValues.newPageNumber,
+            signalsTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
+            signalsTableCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh
+        });
+    }
+    prevPageSignalsTableSummary() {
+        let prevPageValues = prevPage(!!this.state.signalsTableSummaryProcessed, this.state.signalsTableSummaryProcessed.length, this.state.signalsTablePageNumber, this.state.signalsTableCurrentDisplayHigh, this.state.signalsTableCurrentDisplayLow);
+        this.setState({
+            signalsTablePageNumber: prevPageValues.newPageNumber,
+            signalsTableCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
+            signalsTableCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh
+        });
 
+    }
 
     render() {
         return(
