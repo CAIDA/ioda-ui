@@ -50,6 +50,7 @@ export const GET_DATASOURCES = "GET_DATASOURCES";
 export const GET_TOPO_DATA = "GET_TOPO_DATA";
 export const GET_SIGNALS = "GET_SIGNALS";
 export const GET_EVENT_SIGNALS = "GET_EVENT_SIGNALS";
+export const GET_SUMMARY_DATA_FOR_SIGNALS_TABLE = "GET_SUMMARY_DATA_FOR_SIGNALS_TABLE";
 
 export const fetchData = (config) => {
     const baseURL = 'https://api.ioda.caida.org/dev';
@@ -62,7 +63,6 @@ export const fetchData = (config) => {
             'Accept': 'application/json',
         },
         url: concatURL
-        // url: concatURL.replace(/\s/g, "") NOTE: this won't work if search query are like "united states" (with space)
     });
 
     return axios(configHeader)

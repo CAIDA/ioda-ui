@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 // Internationalization
 import T from 'i18n-react';
 // Data Hooks
-import { searchEntities, searchRelatedEntities, getEntityMetadata } from "../../data/ActionEntities";
+import { searchEntities, getEntityMetadata, summaryDataForSignalsTableAction } from "../../data/ActionEntities";
 import { getTopoAction } from "../../data/ActionTopo";
 import {searchAlerts, searchEvents, searchSummary, searchRelatedToMapSummary, searchRelatedToTableSummary, totalOutages} from "../../data/ActionOutages";
 import {getSignalsAction} from "../../data/ActionSignals";
@@ -23,6 +23,7 @@ import {
     humanizeNumber,
     toDateTime,
     convertValuesForSummaryTable,
+    combineValuesForSignalsTable,
     nextPage,
     prevPage
 } from "../../utils";
@@ -65,7 +66,6 @@ class Entity extends Component {
             eventTablePageNumber: 0,
             eventTableCurrentDisplayLow: 0,
             eventTableCurrentDisplayHigh: 10,
-
             alertTablePageNumber: 0,
             alertTableCurrentDisplayLow: 0,
             alertTableCurrentDisplayHigh: 10,
@@ -85,8 +85,8 @@ class Entity extends Component {
             relatedToTableCurrentDisplayLow: 0,
             relatedToTableCurrentDisplayHigh: 10,
             // Signals Modal Table
-            signalsTableSummary: null,
-            signalsTableSummaryProcessed: null,
+            summaryDataForSignalsTable: null,
+            summaryDataForSignalsTableProcessed: null,
             signalsTablePageNumber: 0,
             signalsTableCurrentDisplayLow: 0,
             signalsTableCurrentDisplayHigh: 10,
@@ -105,6 +105,8 @@ class Entity extends Component {
             this.props.getSignalsAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], this.state.from, this.state.until, null, null);
             // Get entity name from code provided in url
             this.props.getEntityMetadataAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
+            // Get related entities used on table in map modal
+            this.props.summaryDataForSignalsTableAction("region", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
         });
     }
 
@@ -194,6 +196,7 @@ class Entity extends Component {
                 summaryDataMapRaw: this.props.relatedToMapSummary
             },() => {
                 // this.convertValuesForSummaryTable();
+                this.combineValuesForSignalsTable();
             })
         }
 
@@ -206,6 +209,14 @@ class Entity extends Component {
                 relatedToTableSummary: this.props.relatedToTableSummary
             },() => {
                 this.convertValuesForSummaryTable();
+            })
+        }
+
+        if (this.props.summaryDataForSignalsTable !== prevProps.summaryDataForSignalsTable) {
+            this.setState({
+                summaryDataForSignalsTable: this.props.summaryDataForSignalsTable
+            }, () => {
+                this.combineValuesForSignalsTable();
             })
         }
     }
@@ -280,6 +291,8 @@ class Entity extends Component {
 
 // XY Chart Functions
     // XY Plot Graph Functions
+
+    // ToDo: Check which data sources are available, can't rely on all three returning.
     convertValuesForXyViz() {
         // ToDo: Set x values to local time zone initially
         let bgp = this.state.tsDataRaw[1];
@@ -709,24 +722,28 @@ class Entity extends Component {
     }
 
 // Map Modal
-    convertValuesForSignalsTable() {
-        let summaryData = convertValuesForSignalsTable(this.state.signalsTableSummary);
-        this.setState({
-            signalsTableSummaryProcessed: summaryData
-        }, () => {
-            this.genSignalsTable();
-        })
+    // Table
+    combineValuesForSignalsTable() {
+        if (this.state.summaryDataMapRaw && this.state.summaryDataForSignalsTable) {
+            console.log("here");
+            let signalsTableData = combineValuesForSignalsTable(this.state.summaryDataMapRaw, this.state.summaryDataForSignalsTable);
+            this.setState({
+                summaryDataForSignalsTableProcessed: signalsTableData
+            }, () => {
+                this.genSignalsTable();
+            })
+        }
     }
     genSignalsTable() {
         return (
-            this.state.relatedToTableSummaryProcessed &&
+            this.state.summaryDataForSignalsTableProcessed &&
             <Table
                 type={"signals"}
                 data={this.state.signalsTableSummaryProcessed}
                 nextPage={() => this.nextPageSignalsTableSummary()}
                 prevPage={() => this.prevPageSignalsTableSummary()}
-                currentDisplayLow={this.state.relatedToTableCurrentDisplayLow}
-                currentDisplayHigh={this.state.relatedToTableCurrentDisplayHigh}
+                currentDisplayLow={this.state.signalsTableCurrentDisplayLow}
+                currentDisplayHigh={this.state.signalsTableCurrentDisplayHigh}
                 totalCount={this.state.signalsTableSummaryProcessed.length}
             />
         )
@@ -807,7 +824,8 @@ const mapStateToProps = (state) => {
         alerts: state.iodaApi.alerts,
         signals: state.iodaApi.signals,
         mapModalSummary: state.iodaApi.mapModalSummary,
-        mapModalTopoData: state.iodaApi.mapModalTopoData
+        mapModalTopoData: state.iodaApi.mapModalTopoData,
+        summaryDataForSignalsTable: state.iodaApi.summaryDataForSignalsTable
     }
 };
 
@@ -842,6 +860,9 @@ const mapDispatchToProps = (dispatch) => {
         totalOutagesAction: (from, until, entityType) => {
             totalOutages(dispatch, from, until, entityType);
         },
+        summaryDataForSignalsTableAction: (entityType, relatedToEntityType, relatedToEntityCode) => {
+            summaryDataForSignalsTableAction(dispatch, entityType, relatedToEntityType, relatedToEntityCode);
+        }
 
 
         // searchRelatedEntitiesAction: (from, until, entityType, relatedToEntityType, relatedToEntityCode) => {

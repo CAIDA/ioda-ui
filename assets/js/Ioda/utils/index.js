@@ -112,6 +112,53 @@ export function convertValuesForSummaryTable(summaryDataRaw) {
     return summaryData;
 }
 
+export function combineValuesForSignalsTable(entitiesWithOutages, additionalEntities) {
+    let summaryData = [];
+    let duplicatesRemoved = additionalEntities;
+    entitiesWithOutages.map(entity => {
+        let overallScore = null;
+        let summaryScores = [];
+        // Get each score value for score table
+        Object.entries(entity["scores"]).map((entry) => {
+            if (entry[0] !== "overall") {
+                const entryItem = {
+                    source: entry[0],
+                    score: entry[1]
+                };
+                summaryScores.push(entryItem);
+            } else {
+                overallScore = entry[1]
+            }
+        });
+        // Remove entity from raw entity list
+        duplicatesRemoved = duplicatesRemoved.filter(obj => obj.code !== entity["entity"].code);
+        console.log(duplicatesRemoved);
+
+        // Display entity with outage on signal table
+        const summaryItem = {
+            entityType: entity["entity"].type,
+            entityCode: entity["entity"].code,
+            name: entity["entity"].name,
+            score: overallScore,
+            scores: summaryScores
+        };
+        summaryData.push(summaryItem);
+    });
+
+    // Display scoreless entities on signal table
+    duplicatesRemoved.map(entity => {
+        const entityItem = {
+            entityType: entity.type,
+            entityCode: entity.code,
+            name: entity.name,
+            score: 0,
+            scores: null
+        };
+        summaryData.push(entityItem);
+    });
+    return summaryData;
+}
+
 export function getIsoStringFromDate() {
     var tzo = -this.getTimezoneOffset(),
         dif = tzo >= 0 ? '+' : '-',
