@@ -132,7 +132,6 @@ export function combineValuesForSignalsTable(entitiesWithOutages, additionalEnti
         });
         // Remove entity from raw entity list
         duplicatesRemoved = duplicatesRemoved.filter(obj => obj.code !== entity["entity"].code);
-        console.log(duplicatesRemoved);
 
         // Display entity with outage on signal table
         const summaryItem = {
@@ -152,7 +151,7 @@ export function combineValuesForSignalsTable(entitiesWithOutages, additionalEnti
             entityCode: entity.code,
             name: entity.name,
             score: 0,
-            scores: null
+            scores: [{source: "Overall Score", score: 0}]
         };
         summaryData.push(entityItem);
     });
@@ -192,6 +191,8 @@ export function nextPage(data, dataLength, pageNumber, currentDisplayHigh, curre
             ? currentDisplayHigh + 10
             : dataLength;
         return {newPageNumber: newPageNumber, newCurrentDisplayLow: newCurrentDisplayLow, newCurrentDisplayHigh: newCurrentDisplayHigh};
+    } else {
+        return {newPageNumber: pageNumber, newCurrentDisplayLow: currentDisplayLow, newCurrentDisplayHigh: currentDisplayHigh};
     }
 }
 export function prevPage(data, dataLength, pageNumber, currentDisplayHigh, currentDisplayLow) {
@@ -204,5 +205,7 @@ export function prevPage(data, dataLength, pageNumber, currentDisplayHigh, curre
             ? 10 * pageNumber
             : currentDisplayHigh - 10;
         return {newPageNumber: newPageNumber, newCurrentDisplayLow: newCurrentDisplayLow, newCurrentDisplayHigh: newCurrentDisplayHigh};
+    } else {
+        return {newPageNumber: pageNumber, newCurrentDisplayLow: currentDisplayLow, newCurrentDisplayHigh: currentDisplayHigh};
     }
 }

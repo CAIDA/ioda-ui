@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {generateKeys, humanizeNumber} from "../../utils";
 import SummaryTableRow from "./SummaryTableRow";
+import SignalTableRow from "./SignalTableRow";
 import iconSortAsc from 'images/icons/icon-sortAsc.png';
 import iconSortDesc from 'images/icons/icon-sortDesc.png';
 import iconSortUnsorted from 'images/icons/icon-sortUnsort.png';
@@ -14,6 +15,7 @@ class Table extends Component {
             eventData: [],
             alertData: [],
             summaryData: [],
+            signalData: [],
             data: [],
             sortedColumn: {
                 name: "",
@@ -39,12 +41,33 @@ class Table extends Component {
             name: "Name",
             score: "Score",
         };
+        this.signalHeaders = {
+            visibility: "Visibility",
+            name: "Name",
+            score: "Score"
+        };
     }
 
     componentDidUpdate(prevProps) {
+        // if (this.state !== prevState) {
+        //     if (this.props.type === "signal") {
+        //         // Signal Table default sort
+        //         this.setState({
+        //             signalData: this.props.data,
+        //             sortedColumn: {
+        //                 name: "score",
+        //                 position: "desc",
+        //                 arrow: iconSortDesc
+        //             }
+        //         },() => {
+        //             console.log(this.state.signalData);
+        //         });
+        //     }
+        // }
+
         if (this.props.data !== prevProps.data) {
             if (this.props.type === "alert") {
-                // Event Table default sort
+                // Alert Table default sort
                 this.setState({
                     alertData: this.props.data,
                     sortedColumn: {
@@ -78,6 +101,20 @@ class Table extends Component {
                     }
                 });
             }
+
+            if (this.props.type === "signal") {
+                // Signal Table default sort
+                this.setState({
+                    signalData: this.props.data,
+                    sortedColumn: {
+                        name: "score",
+                        position: "desc",
+                        arrow: iconSortDesc
+                    }
+                },() => {
+                    console.log(this.state.signalData);
+                });
+            }
         }
 
         // Check for getting relatedTo Outage Summary data on Entity Page to populate
@@ -85,6 +122,19 @@ class Table extends Component {
             // Summary Table default sort
             this.setState({
                 summaryData: this.props.data,
+                sortedColumn: {
+                    name: "score",
+                    position: "desc",
+                    arrow: iconSortDesc
+                }
+            });
+        }
+
+        // Check for getting Map Modal Signal Table data on Entity Page to populate
+        if (this.props.type === "signal" && this.state.signalData !== this.props.data) {
+            // Signal Table default sort
+            this.setState({
+                signalData: this.props.data,
                 sortedColumn: {
                     name: "score",
                     position: "desc",
@@ -139,6 +189,11 @@ class Table extends Component {
             position = this.summaryHeaders[colToSort];
         }
 
+        if (type === "signal") {
+            colToSort = Object.keys(this.signalHeaders).find(key => this.signalHeaders[key] === event.target.value);
+            position = this.signalHeaders[colToSort];
+        }
+
         // Update state of table to sort rows and add icon
         // ToDo: Replace icon with proper image file
         this.setState( {
@@ -167,7 +222,7 @@ class Table extends Component {
         const { type } = this.props;
         return (
             <div className="table__wrapper">
-                <table className={`table ${type === "alert" ? "table--alert" : type === "event" ? "table--event" : "table--summary"}`}>
+                <table className={`table ${type === "alert" ? "table--alert" : type === "event" ? "table--event" : type === "summary" ? "table--summary" : "table--signal"}`}>
                     <thead>
                     <tr className="table__header">
                         {
@@ -177,7 +232,9 @@ class Table extends Component {
                                     ? this.eventHeaders
                                     : type === "summary"
                                         ? this.summaryHeaders
-                                        : null
+                                        : type === "signal"
+                                            ? this.signalHeaders
+                                            : null
                             ).map(header => {
                                 return <th className="table__header-col" key={header}>
                                     <button onClick={(event) => this.sortByColumn(event)} value={header}>
@@ -201,6 +258,14 @@ class Table extends Component {
                                         {
                                             type === "summary"
                                                 ? header === this.summaryHeaders[this.state.sortedColumn.name]
+                                                ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
+                                                : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
+                                                : null
+
+                                        }
+                                        {
+                                            type === "signal"
+                                                ? header === this.signalHeaders[this.state.sortedColumn.name]
                                                 ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
                                                 : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
                                                 : null
@@ -263,8 +328,14 @@ class Table extends Component {
                         })
                     }
                     {
-                        this.props.type === "summary" && this.state.summaryData.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map((summary, index) => {
-                            return <SummaryTableRow data={summary} key={index}/>
+                        this.props.type === "summary" && this.state.summaryData.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(summary => {
+                            return <SummaryTableRow key={generateKeys('summary')} type={this.props.type} data={summary}/>
+                        })
+                    }
+                    {
+                        this.props.type === "signal" && this.props.data.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(signal => {
+                            return <SignalTableRow key={generateKeys('signal')} type={this.props.type} data={signal}/>
+
                         })
                     }
                     </tbody>

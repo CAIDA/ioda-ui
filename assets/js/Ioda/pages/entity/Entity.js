@@ -291,36 +291,88 @@ class Entity extends Component {
 
 // XY Chart Functions
     // XY Plot Graph Functions
+    createXyVizDataObject(networkTelescopeValues, bgpValues, activeProbingValues) {
+        let networkTelescope, bgp, activeProbing;
+        if (networkTelescopeValues) {
+            networkTelescope = {
+                type: "spline",
+                lineThickness: 1,
+                markerType: "circle",
+                markerSize: 2,
+                name: "Network Telescope",
+                axisYType: "secondary",
+                showInLegend: true,
+                xValueFormatString: "DDD, MMM DD - HH:MM",
+                yValueFormatString: "##",
+                dataPoints: networkTelescopeValues,
+                toolTipContent: "{x} <br/> Network Telescope (# Unique Source IPs): {y}"
+            }
+        }
+        if (bgpValues) {
+            bgp = {
+                type: "spline",
+                lineThickness: 1,
+                markerType: "circle",
+                markerSize: 2,
+                name: "BGP",
+                showInLegend: true,
+                xValueFormatString: "DDD, MMM DD - HH:MM",
+                yValueFormatString: "##",
+                dataPoints: bgpValues,
+                toolTipContent: "{x} <br/> BGP (# Visbile /24s): {y}"
+            }
+        }
 
-    // ToDo: Check which data sources are available, can't rely on all three returning.
+        if (activeProbingValues) {
+            activeProbing = {
+                type: "spline",
+                lineThickness: 1,
+                markerType: "circle",
+                markerSize: 2,
+                name: "Active Probing",
+                showInLegend: true,
+                xValueFormatString: "DDD, MMM DD - HH:MM",
+                yValueFormatString: "##",
+                dataPoints: activeProbingValues,
+                toolTipContent: "{x} <br/> Active Probing (# /24s Up): {y}"
+            }
+        }
+
+        return [networkTelescope, bgp, activeProbing]
+    }
     convertValuesForXyViz() {
         // ToDo: Set x values to local time zone initially
-        let bgp = this.state.tsDataRaw[1];
-        let bgpValues = [];
-        bgp.values && bgp.values.map((value, index) => {
-            let x, y;
-            x = toDateTime(bgp.from + (bgp.step * index));
-            // console.log(x);
-            y = value;
-            bgpValues.push({x: x, y: y});
-        });
-
-        let activeProbing = this.state.tsDataRaw[2];
-        let activeProbingValues = [];
-        activeProbing.values && activeProbing.values.map((value, index) => {
-            let x, y;
-            x = toDateTime(activeProbing.from + (activeProbing.step * index));
-            y = value;
-            activeProbingValues.push({x: x, y: y});
-        });
-
-        let networkTelescope = this.state.tsDataRaw[0];
         let networkTelescopeValues = [];
-        networkTelescope.values && networkTelescope.values.map((value, index) => {
-            let x, y;
-            x = toDateTime(networkTelescope.from + (networkTelescope.step * index));
-            y = value;
-            networkTelescopeValues.push({x: x, y: y});
+        let bgpValues = [];
+        let activeProbingValues = [];
+
+        // Loop through available datasources to collect plot points
+        this.state.tsDataRaw.map(datasource => {
+            switch (datasource.datasource) {
+                case "ucsd-nt":
+                    datasource.values && datasource.values.map((value, index) => {
+                        let x, y;
+                        x = toDateTime(datasource.from + (datasource.step * index));
+                        y = value;
+                        networkTelescopeValues.push({x: x, y: y});
+                    });
+                    break;
+                case "bgp":
+                    datasource.values && datasource.values.map((value, index) => {
+                        let x, y;
+                        x = toDateTime(datasource.from + (datasource.step * index));
+                        y = value;
+                        bgpValues.push({x: x, y: y});
+                    });
+                    break;
+                case "ping-slash24":
+                    datasource.values && datasource.values.map((value, index) => {
+                        let x, y;
+                        x = toDateTime(datasource.from + (datasource.step * index));
+                        y = value;
+                        activeProbingValues.push({x: x, y: y});
+                    });
+            }
         });
 
         // Create Alert band objects
@@ -373,45 +425,7 @@ class Entity extends Component {
                 legend: {
                     cursor: "pointer"
                 },
-                data: [
-                    {
-                        type: "spline",
-                        lineThickness: 1,
-                        markerType: "circle",
-                        markerSize: 2,
-                        name: bgp.datasource,
-                        showInLegend: true,
-                        xValueFormatString: "DDD, MMM DD - HH:MM",
-                        yValueFormatString: "##",
-                        dataPoints: bgpValues,
-                        toolTipContent: "{x} <br/> BGP (# Visbile /24s): {y}"
-                    },
-                    {
-                        type: "spline",
-                        lineThickness: 1,
-                        markerType: "circle",
-                        markerSize: 2,
-                        name: activeProbing.datasource,
-                        showInLegend: true,
-                        xValueFormatString: "DDD, MMM DD - HH:MM",
-                        yValueFormatString: "##",
-                        dataPoints: activeProbingValues,
-                        toolTipContent: "{x} <br/> Active Probing (# /24s Up): {y}"
-                    },
-                    {
-                        type: "spline",
-                        lineThickness: 1,
-                        markerType: "circle",
-                        markerSize: 2,
-                        name: networkTelescope.datasource,
-                        axisYType: "secondary",
-                        showInLegend: true,
-                        xValueFormatString: "DDD, MMM DD - HH:MM",
-                        yValueFormatString: "##",
-                        dataPoints: networkTelescopeValues,
-                        toolTipContent: "{x} <br/> Network Telescope (# Unique Source IPs): {y}"
-                    }
-                ]
+                data: this.createXyVizDataObject(networkTelescopeValues, bgpValues, activeProbingValues)
             }
         }, () => {
             this.genXyChart();
@@ -584,6 +598,7 @@ class Entity extends Component {
             parentEntityName={this.state.parentEntityName}
             populateGeoJsonMap={() => this.populateGeoJsonMap()}
             genSummaryTable={() => this.genSummaryTable()}
+            genSignalsTable={() => this.genSignalsTable()}
         />;
     }
 // RelatedTo Map
@@ -693,7 +708,7 @@ class Entity extends Component {
         return (
             this.state.relatedToTableSummaryProcessed &&
             <Table
-                type={"summary"}
+                type="summary"
                 data={this.state.relatedToTableSummaryProcessed}
                 nextPage={() => this.nextPageRelatedToTableSummary()}
                 prevPage={() => this.prevPageRelatedToTableSummary()}
@@ -725,7 +740,6 @@ class Entity extends Component {
     // Table
     combineValuesForSignalsTable() {
         if (this.state.summaryDataMapRaw && this.state.summaryDataForSignalsTable) {
-            console.log("here");
             let signalsTableData = combineValuesForSignalsTable(this.state.summaryDataMapRaw, this.state.summaryDataForSignalsTable);
             this.setState({
                 summaryDataForSignalsTableProcessed: signalsTableData
@@ -737,19 +751,20 @@ class Entity extends Component {
     genSignalsTable() {
         return (
             this.state.summaryDataForSignalsTableProcessed &&
+
             <Table
-                type={"signals"}
-                data={this.state.signalsTableSummaryProcessed}
+                type="signal"
+                data={this.state.summaryDataForSignalsTableProcessed}
                 nextPage={() => this.nextPageSignalsTableSummary()}
                 prevPage={() => this.prevPageSignalsTableSummary()}
                 currentDisplayLow={this.state.signalsTableCurrentDisplayLow}
                 currentDisplayHigh={this.state.signalsTableCurrentDisplayHigh}
-                totalCount={this.state.signalsTableSummaryProcessed.length}
+                totalCount={this.state.summaryDataForSignalsTableProcessed.length}
             />
         )
     }
     nextPageSignalsTableSummary() {
-        let nextPageValues = nextPage(!!this.state.signalsTableSummaryProcessed, this.state.signalsTableSummaryProcessed.length, this.state.signalsTablePageNumber, this.state.signalsTableCurrentDisplayHigh, this.state.signalsTableCurrentDisplayLow);
+        let nextPageValues = nextPage(!!this.state.summaryDataForSignalsTableProcessed, this.state.summaryDataForSignalsTableProcessed.length, this.state.signalsTablePageNumber, this.state.signalsTableCurrentDisplayHigh, this.state.signalsTableCurrentDisplayLow);
         this.setState({
             signalsTablePageNumber: nextPageValues.newPageNumber,
             signalsTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
@@ -757,7 +772,7 @@ class Entity extends Component {
         });
     }
     prevPageSignalsTableSummary() {
-        let prevPageValues = prevPage(!!this.state.signalsTableSummaryProcessed, this.state.signalsTableSummaryProcessed.length, this.state.signalsTablePageNumber, this.state.signalsTableCurrentDisplayHigh, this.state.signalsTableCurrentDisplayLow);
+        let prevPageValues = prevPage(!!this.state.summaryDataForSignalsTableProcessed, this.state.summaryDataForSignalsTableProcessed.length, this.state.signalsTablePageNumber, this.state.signalsTableCurrentDisplayHigh, this.state.signalsTableCurrentDisplayLow);
         this.setState({
             signalsTablePageNumber: prevPageValues.newPageNumber,
             signalsTableCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
