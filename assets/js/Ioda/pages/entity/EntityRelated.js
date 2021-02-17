@@ -48,6 +48,8 @@ class EntityRelated extends Component {
                             modalLocation={"map"}
                             showModal={this.state.showMapModal}
                             toggleModal={this.toggleModal}
+                            populateGeoJsonMap={this.props.populateGeoJsonMap}
+                            genSignalsTable={() => this.props.genSignalsTable()}
                         />
                     </div>
                     <div className="map" style={{display: 'block', height: '400px'}}>

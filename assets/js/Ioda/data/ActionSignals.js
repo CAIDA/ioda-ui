@@ -36,10 +36,19 @@
 BUILDING CONNECTION CONFIGS
  */
 
-import {fetchData, GET_SIGNALS} from "./ActionCommons";
+import {fetchData, GET_EVENT_SIGNALS, GET_SIGNALS} from "./ActionCommons";
 
 const buildSignalsConfig = (entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
-    let url = `/signals/${entityType}/${entityCode}?from=${from}&until=${until}`;
+    let url = `/signals/raw/${entityType}/${entityCode}?from=${from}&until=${until}`;
+    url += datasource!==null ? `&datasource=${datasource}`: "";
+    return {
+        method: "get",
+        url: url
+    }
+};
+
+const buildEventSignalsConfig = (entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
+    let url = `/signals/events/${entityType}/${entityCode}?from=${from}&until=${until}`;
     url += datasource!==null ? `&datasource=${datasource}`: "";
     return {
         method: "get",
@@ -56,6 +65,18 @@ export const getSignalsAction = (dispatch, entityType, entityCode, from, until, 
     fetchData(config).then(data => {
         dispatch({
             type: GET_SIGNALS,
+            payload: data.data.data,
+        })
+    });
+}
+
+export const getEventSignalsAction = (dispatch, entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
+    let config = buildEventSignalsConfig(entityType, entityCode, from, until, datasource, maxPoints);
+    // console.log(config);
+    fetchData(config).then(data => {
+        // console.log(data);
+        dispatch({
+            type: GET_EVENT_SIGNALS,
             payload: data.data.data,
         })
     });

@@ -32,7 +32,13 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-import {ENTITIES_SEARCH, ENTITY_METADATA, GET_RELATED_ENTITIES, fetchData} from "./ActionCommons";
+import {
+    ENTITIES_SEARCH,
+    ENTITY_METADATA,
+    GET_RELATED_ENTITIES,
+    fetchData,
+    GET_SUMMARY_DATA_FOR_SIGNALS_TABLE
+} from "./ActionCommons";
 
 const buildSearchConfig = (searchQueryText, limit) => {
     return {
@@ -69,6 +75,7 @@ export const searchRelatedEntities = (dispatch, from, until, entityType, related
     });
 }
 
+
 const buildEntityMetadataConfig = (entityType, entityCode) => {
     return {
         method: "get",
@@ -81,6 +88,24 @@ export const getEntityMetadata = (dispatch, entityType, entityCode) => {
     fetchData(config).then(data => {
         dispatch({
             type: ENTITY_METADATA,
+            payload: data.data.data,
+        })
+    });
+}
+
+const summaryDataForSignalsTableConfig = (entityType, relatedToEntityType, relatedToEntityCode) => {
+    return {
+        method: "get",
+        url: `/entities/${entityType}/?relatedTo=${relatedToEntityType}/${relatedToEntityCode}`
+    }
+}
+
+// Action for getting data used on signals table in map modal on entities page
+export const summaryDataForSignalsTableAction = (dispatch, entityType, relatedToEntityType, relatedToEntityCode) => {
+    let config = summaryDataForSignalsTableConfig(entityType, relatedToEntityType, relatedToEntityCode);
+    fetchData(config).then(data => {
+        dispatch({
+            type: GET_SUMMARY_DATA_FOR_SIGNALS_TABLE,
             payload: data.data.data,
         })
     });

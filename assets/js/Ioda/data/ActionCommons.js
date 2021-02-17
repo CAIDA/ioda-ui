@@ -39,16 +39,18 @@ import { merge } from 'lodash';
 export const ENTITIES_SEARCH = "ENTITIES_SEARCH";
 export const ENTITY_METADATA = "ENTITY_METADATA";
 export const GET_RELATED_ENTITIES = "GET_RELATED_ENTITIES";
-export const OUTAGE_ALERTS_SEARCH = "OUTAGE_ALERTS_SERACH";
-export const OUTAGE_EVENTS_SEARCH = "OUTAGE_EVENTS_SERACH";
+export const OUTAGE_ALERTS_SEARCH = "OUTAGE_ALERTS_SEARCH";
+export const OUTAGE_EVENTS_SEARCH = "OUTAGE_EVENTS_SEARCH";
 export const OUTAGE_OVERALL_EVENTS_SEARCH = "OUTAGE_OVERALL_EVENTS_SEARCH";
-export const OUTAGE_SUMMARY_SEARCH = "OUTAGE_SUMMARY_SERACH";
+export const OUTAGE_SUMMARY_SEARCH = "OUTAGE_SUMMARY_SEARCH";
 export const OUTAGE_RELATED_TO_MAP_SUMMARY_SEARCH = "OUTAGE_RELATED_TO_MAP_SUMMARY_SEARCH";
 export const OUTAGE_RELATED_TO_TABLE_SUMMARY_SEARCH = "OUTAGE_RELATED_TO_TABLE_SUMMARY_SEARCH";
 export const OUTAGE_TOTAL_COUNT = "OUTAGE_TOTAL_COUNT";
 export const GET_DATASOURCES = "GET_DATASOURCES";
 export const GET_TOPO_DATA = "GET_TOPO_DATA";
 export const GET_SIGNALS = "GET_SIGNALS";
+export const GET_EVENT_SIGNALS = "GET_EVENT_SIGNALS";
+export const GET_SUMMARY_DATA_FOR_SIGNALS_TABLE = "GET_SUMMARY_DATA_FOR_SIGNALS_TABLE";
 
 export const fetchData = (config) => {
     const baseURL = 'https://api.ioda.caida.org/dev';
@@ -61,7 +63,6 @@ export const fetchData = (config) => {
             'Accept': 'application/json',
         },
         url: concatURL
-        // url: concatURL.replace(/\s/g, "") NOTE: this won't work if search query are like "united states" (with space)
     });
 
     return axios(configHeader)

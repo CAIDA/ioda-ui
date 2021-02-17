@@ -7,7 +7,7 @@ import T from 'i18n-react';
 import { searchEntities } from "../../data/ActionEntities";
 import { getTopoAction } from "../../data/ActionTopo";
 import { searchOverallEvents, searchSummary, totalOutages } from "../../data/ActionOutages";
-import { getSignalsAction } from "../../data/ActionSignals";
+import { getSignalsAction, getEventSignalsAction } from "../../data/ActionSignals";
 // Components
 import ControlPanel from '../../components/controlPanel/ControlPanel';
 import { Searchbar } from 'caida-components-library'
@@ -21,7 +21,7 @@ import HorizonTSChart from 'horizon-timeseries-chart';
 import {tabOptions, country, region, as} from "./DashboardConstants";
 import {connect} from "react-redux";
 // Helper Functions
-import {convertValuesForSummaryTable, humanizeNumber, sortByKey} from "../../utils";
+import {convertValuesForSummaryTable, humanizeNumber, sortByKey, nextPage, prevPage} from "../../utils";
 
 
 
@@ -56,10 +56,12 @@ class Dashboard extends Component {
             currentDisplayLow: 0,
             currentDisplayHigh: 10,
             // Event Data for Time Series
-            eventDataRaw: null,
+            eventDataRaw: [],
             eventDataProcessed: [],
             eventOrderByAttr: "score",
-            eventOrderByOrder: "desc"
+            eventOrderByOrder: "desc",
+            eventEndpointCalled: false,
+            totalEventCount: 0
         };
         this.tabs = {
             country: country.tab,
@@ -131,6 +133,25 @@ class Dashboard extends Component {
                 summaryDataRaw: this.props.summary
             },() => {
                 this.convertValuesForSummaryTable();
+
+                if (!this.state.eventEndpointCalled) {
+                    this.setState({
+                        eventEndpointCalled: !this.state.eventEndpointCalled
+                    }, () => {
+                        // Make API calls to get event signal data
+                        this.getDataEvents(this.state.activeTabType);
+                        //Get total event count to reference with event data
+                        let totalEventCount = 0;
+                        let eventCnt = 0;
+                        this.state.summaryDataRaw.map(obj => {
+                            eventCnt = eventCnt + obj.event_cnt;
+                            totalEventCount += obj.event_cnt;
+                        });
+                        this.setState({
+                            totalEventCount: totalEventCount
+                        });
+                    });
+                }
             })
         }
 
@@ -161,11 +182,24 @@ class Dashboard extends Component {
         }
 
         // Make API call for data to populate time series stacked horizon view
-        if (this.props.overallEvents !== prevProps.overallEvents) {
-            this.setState({
-                eventDataRaw: this.props.overallEvents
-            }, () => {
-                this.convertValuesForHtsViz()
+        // if (this.props.overallEvents !== prevProps.overallEvents) {
+        //     this.setState({
+        //         eventDataRaw: this.props.overallEvents
+        //     }, () => {
+        //         this.convertValuesForHtsViz()
+        //     });
+        // }
+
+        if (this.props.eventSignals !== prevProps.eventSignals) {
+            let newEventData = this.props.eventSignals[0];
+            this.setState(prevState => ({
+                eventDataRaw: [...prevState.eventDataRaw, newEventData]
+            }), () => {
+                // Use summary entities to populate time series chart
+                const result = this.state.eventDataRaw;
+                if (Object.keys(result).length === this.state.summaryDataRaw.length) {
+                    this.convertValuesForHtsViz();
+                }
             });
         }
     }
@@ -218,8 +252,10 @@ class Dashboard extends Component {
                 // Trigger Data Update for new tab
                 topoData: null,
                 summaryDataRaw: null,
-                eventDataRaw: null,
+                eventDataRaw: [],
                 eventDataProcessed: null,
+                eventEndpointCalled: false,
+                totalEventCount: 0,
                 // Reset Table Page Count
                 pageNumber: 0,
                 currentDisplayLow: 0,
@@ -235,8 +271,10 @@ class Dashboard extends Component {
                 // Trigger Data Update for new tab
                 topoData: null,
                 summaryDataRaw: null,
-                eventDataRaw: null,
+                eventDataRaw: [],
                 eventDataProcessed: null,
+                eventEndpointCalled: false,
+                totalEventCount: 0,
                 // Reset Table Page Count
                 pageNumber: 0,
                 currentDisplayLow: 0,
@@ -252,8 +290,10 @@ class Dashboard extends Component {
                 // Trigger Data Update for new tab
                 topoData: null,
                 summaryDataRaw: null,
-                eventDataRaw: null,
+                eventDataRaw: [],
                 eventDataProcessed: null,
+                eventEndpointCalled: false,
+                totalEventCount: 0,
                 // Reset Table Page Count
                 pageNumber: 0,
                 currentDisplayLow: 0,
@@ -319,58 +359,35 @@ class Dashboard extends Component {
 
 // Event Time Series
     getDataEvents(entityType) {
+        // If using /signals/events endpoint
         let until = this.state.until;
         let from = this.state.from;
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
-        this.props.searchOverallEventsAction(from, until, entityType, null, attr, order);
+
+        if (this.state.summaryDataRaw) {
+            this.state.summaryDataRaw.map(entity => {
+                this.props.getEventSignalsAction(entityType, entity.entity.code, from, until, attr, order)
+            });
+        }
     }
     convertValuesForHtsViz() {
         let tsDataConverted = [];
-
-        let eventDataSorted = sortByKey(this.state.eventDataRaw, 'location');
-        // console.log(this.state.eventDataRaw);
-        // console.log(eventDataSorted);
-
-        this.state.eventDataRaw && this.state.eventDataRaw.slice(0, 100).map(tsData => {
+        this.state.eventDataRaw.map(tsData => {
             // Create visualization-friendly data objects
-            // console.log(tsData);
-            let singleEntryConverted = [];
-            const initialPlotPoint = {
-                entityCode: tsData.entity.name,
-                ts: new Date(tsData.from * 1000),
-                val: tsData.score
-            };
-            tsDataConverted.push(initialPlotPoint);
-            // console.log(initialPlotPoint);
-
-            // Create additional plot points to fill in event data
-            for (let i = tsData.from * 1000; i < (tsData.until * 1000);  i = i + 1000 * 60 * 5) {
-                const fillerPlotPoint = {
-                    entityCode: tsData.entity.name,
-                    ts: i,
-                    val: tsData.score
-                }
-                tsDataConverted.push(fillerPlotPoint);
-            }
-
-            const endingPlotPoint = {
-                entityCode: tsData.entity.name,
-                ts: new Date(tsData.until * 1000),
-                val: tsData.score
-            };
-
-            tsDataConverted.push(endingPlotPoint);
-
-        });
-        // console.log(tsDataConverted);
-
-        // Add data objects to state for each data source
-        this.setState( {
-            eventDataProcessed: tsDataConverted
-        });
-
-
+            tsData.values.map((value, index) => {
+                const plotPoint = {
+                    entityCode: tsData.entityCode,
+                    ts: new Date(tsData.from * 1000 + tsData.step * 1000 * index),
+                    val: value
+                };
+                tsDataConverted.push(plotPoint);
+            });
+            // Add data objects to state for each data source
+            this.setState({
+                eventDataProcessed: tsDataConverted
+            });
+        })
     }
     populateHtsChart(width) {
         if (this.state.eventDataProcessed) {
@@ -453,30 +470,26 @@ class Dashboard extends Component {
     }
     nextPage() {
         if (this.state.totalOutages && this.state.totalOutages > this.state.currentDisplayHigh) {
+            let nextPageValues = nextPage(!!this.state.summaryDataProcessed, this.state.totalOutages, this.state.pageNumber, this.state.currentDisplayHigh, this.state.currentDisplayLow);
             this.setState({
-                pageNumber: this.state.pageNumber + 1,
-                currentDisplayLow: this.state.currentDisplayLow + 10,
-                currentDisplayHigh: this.state.currentDisplayHigh + 10 < this.state.totalOutages
-                    ? this.state.currentDisplayHigh + 10
-                    : this.state.totalOutages,
+                pageNumber: nextPageValues.newPageNumber,
+                currentDisplayLow: nextPageValues.newCurrentDisplayLow,
+                currentDisplayHigh: nextPageValues.newCurrentDisplayHigh
             }, () => {
                 if (this.state.currentDisplayHigh > 170) {
 
                 }
-            })
+            });
         }
     }
     prevPage() {
         if (this.state.summaryDataProcessed && this.state.pageNumber > 0) {
+            let prevPageValues = prevPage(!!this.state.summaryDataProcessed, this.state.totalOutages, this.state.pageNumber, this.state.currentDisplayHigh, this.state.currentDisplayLow);
             this.setState({
-                pageNumber: this.state.pageNumber - 1,
-                currentDisplayLow: this.state.currentDisplayHigh + 10 > this.state.totalOutages
-                    ? 10 * this.state.pageNumber - 10
-                    : this.state.currentDisplayLow - 10,
-                currentDisplayHigh: this.state.currentDisplayHigh + 10 > this.state.totalOutages
-                    ? 10 * this.state.pageNumber
-                    : this.state.currentDisplayHigh - 10,
-            })
+                pageNumber: prevPageValues.newPageNumber,
+                currentDisplayLow: prevPageValues.newCurrentDisplayLow,
+                currentDisplayHigh: prevPageValues.newCurrentDisplayHigh
+            });
         }
     }
 
@@ -537,7 +550,8 @@ const mapStateToProps = (state) => {
         topoData: state.iodaApi.topo,
         totalOutages: state.iodaApi.summaryTotalCount,
         overallEvents: state.iodaApi.overallEvents,
-        signals: state.iodaApi.signals
+        signals: state.iodaApi.signals,
+        eventSignals: state.iodaApi.eventSignals
     }
 };
 
@@ -560,6 +574,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         getSignalsAction: (entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
             getSignalsAction(dispatch, entityType, entityCode, from, until, datasource, maxPoints);
+        },
+        getEventSignalsAction:(entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
+            getEventSignalsAction(dispatch, entityType, entityCode, from, until, datasource, maxPoints);
         }
     }
 };

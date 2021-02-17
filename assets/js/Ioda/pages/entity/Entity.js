@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 // Internationalization
 import T from 'i18n-react';
 // Data Hooks
-import { searchEntities, searchRelatedEntities, getEntityMetadata } from "../../data/ActionEntities";
+import { searchEntities, getEntityMetadata, summaryDataForSignalsTableAction } from "../../data/ActionEntities";
 import { getTopoAction } from "../../data/ActionTopo";
 import {searchAlerts, searchEvents, searchSummary, searchRelatedToMapSummary, searchRelatedToTableSummary, totalOutages} from "../../data/ActionOutages";
 import {getSignalsAction} from "../../data/ActionSignals";
@@ -18,7 +18,15 @@ import HorizonTSChart from 'horizon-timeseries-chart';
 // Event Table Dependencies
 import * as sd from 'simple-duration'
 // Helper Functions
-import {convertSecondsToDateValues, humanizeNumber, toDateTime, convertValuesForSummaryTable} from "../../utils";
+import {
+    convertSecondsToDateValues,
+    humanizeNumber,
+    toDateTime,
+    convertValuesForSummaryTable,
+    combineValuesForSignalsTable,
+    nextPage,
+    prevPage
+} from "../../utils";
 import {as} from "../dashboard/DashboardConstants";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
 
@@ -58,7 +66,6 @@ class Entity extends Component {
             eventTablePageNumber: 0,
             eventTableCurrentDisplayLow: 0,
             eventTableCurrentDisplayHigh: 10,
-
             alertTablePageNumber: 0,
             alertTableCurrentDisplayLow: 0,
             alertTableCurrentDisplayHigh: 10,
@@ -77,8 +84,12 @@ class Entity extends Component {
             relatedToTablePageNumber: 0,
             relatedToTableCurrentDisplayLow: 0,
             relatedToTableCurrentDisplayHigh: 10,
-
-
+            // Signals Modal Table
+            summaryDataForSignalsTable: null,
+            summaryDataForSignalsTableProcessed: null,
+            signalsTablePageNumber: 0,
+            signalsTableCurrentDisplayLow: 0,
+            signalsTableCurrentDisplayHigh: 10,
 
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
@@ -94,6 +105,8 @@ class Entity extends Component {
             this.props.getSignalsAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], this.state.from, this.state.until, null, null);
             // Get entity name from code provided in url
             this.props.getEntityMetadataAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
+            // Get related entities used on table in map modal
+            this.props.summaryDataForSignalsTableAction("region", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
         });
     }
 
@@ -183,6 +196,7 @@ class Entity extends Component {
                 summaryDataMapRaw: this.props.relatedToMapSummary
             },() => {
                 // this.convertValuesForSummaryTable();
+                this.combineValuesForSignalsTable();
             })
         }
 
@@ -195,6 +209,14 @@ class Entity extends Component {
                 relatedToTableSummary: this.props.relatedToTableSummary
             },() => {
                 this.convertValuesForSummaryTable();
+            })
+        }
+
+        if (this.props.summaryDataForSignalsTable !== prevProps.summaryDataForSignalsTable) {
+            this.setState({
+                summaryDataForSignalsTable: this.props.summaryDataForSignalsTable
+            }, () => {
+                this.combineValuesForSignalsTable();
             })
         }
     }
@@ -269,34 +291,88 @@ class Entity extends Component {
 
 // XY Chart Functions
     // XY Plot Graph Functions
+    createXyVizDataObject(networkTelescopeValues, bgpValues, activeProbingValues) {
+        let networkTelescope, bgp, activeProbing;
+        if (networkTelescopeValues) {
+            networkTelescope = {
+                type: "spline",
+                lineThickness: 1,
+                markerType: "circle",
+                markerSize: 2,
+                name: "Network Telescope",
+                axisYType: "secondary",
+                showInLegend: true,
+                xValueFormatString: "DDD, MMM DD - HH:MM",
+                yValueFormatString: "##",
+                dataPoints: networkTelescopeValues,
+                toolTipContent: "{x} <br/> Network Telescope (# Unique Source IPs): {y}"
+            }
+        }
+        if (bgpValues) {
+            bgp = {
+                type: "spline",
+                lineThickness: 1,
+                markerType: "circle",
+                markerSize: 2,
+                name: "BGP",
+                showInLegend: true,
+                xValueFormatString: "DDD, MMM DD - HH:MM",
+                yValueFormatString: "##",
+                dataPoints: bgpValues,
+                toolTipContent: "{x} <br/> BGP (# Visbile /24s): {y}"
+            }
+        }
+
+        if (activeProbingValues) {
+            activeProbing = {
+                type: "spline",
+                lineThickness: 1,
+                markerType: "circle",
+                markerSize: 2,
+                name: "Active Probing",
+                showInLegend: true,
+                xValueFormatString: "DDD, MMM DD - HH:MM",
+                yValueFormatString: "##",
+                dataPoints: activeProbingValues,
+                toolTipContent: "{x} <br/> Active Probing (# /24s Up): {y}"
+            }
+        }
+
+        return [networkTelescope, bgp, activeProbing]
+    }
     convertValuesForXyViz() {
         // ToDo: Set x values to local time zone initially
-        let bgp = this.state.tsDataRaw[1];
-        let bgpValues = [];
-        bgp.values && bgp.values.map((value, index) => {
-            let x, y;
-            x = toDateTime(bgp.from + (bgp.step * index));
-            // console.log(x);
-            y = value;
-            bgpValues.push({x: x, y: y});
-        });
-
-        let activeProbing = this.state.tsDataRaw[2];
-        let activeProbingValues = [];
-        activeProbing.values && activeProbing.values.map((value, index) => {
-            let x, y;
-            x = toDateTime(activeProbing.from + (activeProbing.step * index));
-            y = value;
-            activeProbingValues.push({x: x, y: y});
-        });
-
-        let networkTelescope = this.state.tsDataRaw[0];
         let networkTelescopeValues = [];
-        networkTelescope.values && networkTelescope.values.map((value, index) => {
-            let x, y;
-            x = toDateTime(networkTelescope.from + (networkTelescope.step * index));
-            y = value;
-            networkTelescopeValues.push({x: x, y: y});
+        let bgpValues = [];
+        let activeProbingValues = [];
+
+        // Loop through available datasources to collect plot points
+        this.state.tsDataRaw.map(datasource => {
+            switch (datasource.datasource) {
+                case "ucsd-nt":
+                    datasource.values && datasource.values.map((value, index) => {
+                        let x, y;
+                        x = toDateTime(datasource.from + (datasource.step * index));
+                        y = value;
+                        networkTelescopeValues.push({x: x, y: y});
+                    });
+                    break;
+                case "bgp":
+                    datasource.values && datasource.values.map((value, index) => {
+                        let x, y;
+                        x = toDateTime(datasource.from + (datasource.step * index));
+                        y = value;
+                        bgpValues.push({x: x, y: y});
+                    });
+                    break;
+                case "ping-slash24":
+                    datasource.values && datasource.values.map((value, index) => {
+                        let x, y;
+                        x = toDateTime(datasource.from + (datasource.step * index));
+                        y = value;
+                        activeProbingValues.push({x: x, y: y});
+                    });
+            }
         });
 
         // Create Alert band objects
@@ -349,45 +425,7 @@ class Entity extends Component {
                 legend: {
                     cursor: "pointer"
                 },
-                data: [
-                    {
-                        type: "spline",
-                        lineThickness: 1,
-                        markerType: "circle",
-                        markerSize: 2,
-                        name: bgp.datasource,
-                        showInLegend: true,
-                        xValueFormatString: "DDD, MMM DD - HH:MM",
-                        yValueFormatString: "##",
-                        dataPoints: bgpValues,
-                        toolTipContent: "{x} <br/> BGP (# Visbile /24s): {y}"
-                    },
-                    {
-                        type: "spline",
-                        lineThickness: 1,
-                        markerType: "circle",
-                        markerSize: 2,
-                        name: activeProbing.datasource,
-                        showInLegend: true,
-                        xValueFormatString: "DDD, MMM DD - HH:MM",
-                        yValueFormatString: "##",
-                        dataPoints: activeProbingValues,
-                        toolTipContent: "{x} <br/> Active Probing (# /24s Up): {y}"
-                    },
-                    {
-                        type: "spline",
-                        lineThickness: 1,
-                        markerType: "circle",
-                        markerSize: 2,
-                        name: networkTelescope.datasource,
-                        axisYType: "secondary",
-                        showInLegend: true,
-                        xValueFormatString: "DDD, MMM DD - HH:MM",
-                        yValueFormatString: "##",
-                        dataPoints: networkTelescopeValues,
-                        toolTipContent: "{x} <br/> Network Telescope (# Unique Source IPs): {y}"
-                    }
-                ]
+                data: this.createXyVizDataObject(networkTelescopeValues, bgpValues, activeProbingValues)
             }
         }, () => {
             this.genXyChart();
@@ -459,56 +497,40 @@ class Entity extends Component {
     }
     nextPage(type) {
         if (type === 'alert') {
-            if (this.state.alertDataProcessed && this.state.alertDataProcessed.length > this.state.alertTablePageNumber + this.state.alertTableCurrentDisplayHigh) {
-                this.setState({
-                    alertTablePageNumber: this.state.alertTablePageNumber + 1,
-                    alertTableCurrentDisplayLow: this.state.alertTableCurrentDisplayLow + 10,
-                    alertTableCurrentDisplayHigh: this.state.alertTableCurrentDisplayHigh + 10 < this.state.alertDataProcessed.length
-                        ? this.state.alertTableCurrentDisplayHigh + 10
-                        : this.state.alertDataProcessed.length
-                })
-            }
+            let nextPageValues = nextPage(!!this.state.alertDataProcessed, this.state.alertDataProcessed.length, this.state.alertTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
+            this.setState({
+                alertPageNumber: nextPageValues.newPageNumber,
+                alertTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
+                alertTableCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh
+            });
         }
 
         if (type === 'event') {
-            if (this.state.eventDataProcessed && this.state.eventDataProcessed.length > this.state.eventTablePageNumber + this.state.eventTableCurrentDisplayHigh) {
-                this.setState({
-                    eventTablePageNumber: this.state.eventTablePageNumber + 1,
-                    eventTableCurrentDisplayLow: this.state.eventTableCurrentDisplayLow + 10,
-                    eventTableCurrentDisplayHigh: this.state.eventTableCurrentDisplayHigh + 10 < this.state.eventDataProcessed.length
-                        ? this.state.eventTableCurrentDisplayHigh + 10
-                        : this.state.eventDataProcessed.length
-                })
-            }
+            let nextPageValues = nextPage(!!this.state.eventDataProcessed, this.state.eventDataProcessed.length, this.state.eventTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
+            this.setState({
+                eventTablePageNumber: nextPageValues.newPageNumber,
+                eventTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
+                eventTableCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh
+            });
         }
     }
     prevPage(type) {
         if (type === 'alert') {
-            if (this.state.alertDataProcessed && this.state.alertTablePageNumber > 0) {
-                this.setState({
-                    alertTablePageNumber: this.state.alertTablePageNumber - 1,
-                    alertTableCurrentDisplayLow: this.state.alertTableCurrentDisplayHigh + 10 > this.state.alertDataProcessed.length
-                        ? 10 * this.state.alertTablePageNumber - 10
-                        : this.state.alertTableCurrentDisplayLow - 10,
-                    alertTableCurrentDisplayHigh: this.state.alertTableCurrentDisplayHigh + 10 > this.state.alertDataProcessed.length
-                        ? 10 * this.state.alertTablePageNumber
-                        : this.state.alertTableCurrentDisplayHigh - 10
-                })
-            }
+            let prevPageValues = prevPage(!!this.state.alertDataProcessed, this.state.alertDataProcessed.length, this.state.alertTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
+            this.setState({
+                alertPageNumber: prevPageValues.newPageNumber,
+                alertTableCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
+                alertTableCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh
+            });
         }
 
         if (type === 'event') {
-            if (this.state.eventDataProcessed && this.state.eventTablePageNumber > 0) {
-                this.setState({
-                    eventTablePageNumber: this.state.eventTablePageNumber - 1,
-                    eventTableCurrentDisplayLow: this.state.eventTableCurrentDisplayHigh + 10 > this.state.eventDataProcessed.length
-                        ? 10 * this.state.alertTablePageNumber - 10
-                        : this.state.eventTableCurrentDisplayLow - 10,
-                    eventTableCurrentDisplayHigh: this.state.eventTableCurrentDisplayHigh + 10 > this.state.eventDataProcessed.length
-                        ? 10 * this.state.eventTablePageNumber
-                        : this.state.eventTableCurrentDisplayHigh - 10
-                })
-            }
+            let prevPageValues = prevPage(!!this.state.eventDataProcessed, this.state.eventDataProcessed.length, this.state.eventTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
+            this.setState({
+                eventTablePageNumber: prevPageValues.newPageNumber,
+                eventTableCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
+                eventTableCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh
+            });
         }
 
     }
@@ -576,6 +598,7 @@ class Entity extends Component {
             parentEntityName={this.state.parentEntityName}
             populateGeoJsonMap={() => this.populateGeoJsonMap()}
             genSummaryTable={() => this.genSummaryTable()}
+            genSignalsTable={() => this.genSignalsTable()}
         />;
     }
 // RelatedTo Map
@@ -685,7 +708,7 @@ class Entity extends Component {
         return (
             this.state.relatedToTableSummaryProcessed &&
             <Table
-                type={"summary"}
+                type="summary"
                 data={this.state.relatedToTableSummaryProcessed}
                 nextPage={() => this.nextPageRelatedToTableSummary()}
                 prevPage={() => this.prevPageRelatedToTableSummary()}
@@ -695,33 +718,67 @@ class Entity extends Component {
             />
         )
     }
-    nextPageRelatedToTableSummary(type) {
-        if (type === 'summary') {
-            if (this.state.relatedToTableSummaryProcessed && this.state.relatedToTableSummaryProcessed.length > this.state.relatedToTablePageNumber + this.state.relatedToTableCurrentDisplayHigh) {
-                this.setState({
-                    relatedToTablePageNumber: this.state.relatedToTablePageNumber + 1,
-                    relatedToTableCurrentDisplayLow: this.state.relatedToTableCurrentDisplayLow + 10,
-                    relatedToTableCurrentDisplayHigh: this.state.relatedToTableCurrentDisplayHigh + 10 < this.state.relatedToTableSummaryProcessed.length
-                        ? this.state.relatedToTableCurrentDisplayHigh + 10
-                        : this.state.relatedToTableSummaryProcessed.length
-                })
-            }
+    nextPageRelatedToTableSummary() {
+        let nextPageValues = nextPage(!!this.state.relatedToTableSummaryProcessed, this.state.relatedToTableSummaryProcessed.length, this.state.relatedToTablePageNumber, this.state.relatedToTableCurrentDisplayHigh, this.state.relatedToTableCurrentDisplayLow);
+        this.setState({
+            relatedToTablePageNumber: nextPageValues.newPageNumber,
+            relatedToTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
+            relatedToTableCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh
+        });
+    }
+    prevPageRelatedToTableSummary() {
+        let prevPageValues = prevPage(!!this.state.relatedToTableSummaryProcessed, this.state.relatedToTableSummaryProcessed.length, this.state.relatedToTablePageNumber, this.state.relatedToTableCurrentDisplayHigh, this.state.relatedToTableCurrentDisplayLow);
+        this.setState({
+            relatedToTablePageNumber: prevPageValues.newPageNumber,
+            relatedToTableCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
+            relatedToTableCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh
+        });
+
+    }
+
+// Map Modal
+    // Table
+    combineValuesForSignalsTable() {
+        if (this.state.summaryDataMapRaw && this.state.summaryDataForSignalsTable) {
+            let signalsTableData = combineValuesForSignalsTable(this.state.summaryDataMapRaw, this.state.summaryDataForSignalsTable);
+            this.setState({
+                summaryDataForSignalsTableProcessed: signalsTableData
+            }, () => {
+                this.genSignalsTable();
+            })
         }
     }
-    prevPageRelatedToTableSummary(type) {
-        if (type === 'summary') {
-            if (this.state.relatedToTableSummaryProcessed && this.state.relatedToTablePageNumber > 0) {
-                this.setState({
-                    relatedToTablePageNumber: this.state.relatedToTablePageNumber - 1,
-                    relatedToTableCurrentDisplayLow: this.state.relatedToTableCurrentDisplayHigh + 10 > this.state.alertDataProcessed.length
-                        ? 10 * this.state.relatedToTablePageNumber - 10
-                        : this.state.relatedToTableCurrentDisplayLow - 10,
-                    relatedToTableCurrentDisplayHigh: this.state.relatedToTableCurrentDisplayHigh + 10 > this.state.alertDataProcessed.length
-                        ? 10 * this.state.relatedToTablePageNumber
-                        : this.state.relatedToTableCurrentDisplayHigh - 10
-                })
-            }
-        }
+    genSignalsTable() {
+        return (
+            this.state.summaryDataForSignalsTableProcessed &&
+
+            <Table
+                type="signal"
+                data={this.state.summaryDataForSignalsTableProcessed}
+                nextPage={() => this.nextPageSignalsTableSummary()}
+                prevPage={() => this.prevPageSignalsTableSummary()}
+                currentDisplayLow={this.state.signalsTableCurrentDisplayLow}
+                currentDisplayHigh={this.state.signalsTableCurrentDisplayHigh}
+                totalCount={this.state.summaryDataForSignalsTableProcessed.length}
+            />
+        )
+    }
+    nextPageSignalsTableSummary() {
+        let nextPageValues = nextPage(!!this.state.summaryDataForSignalsTableProcessed, this.state.summaryDataForSignalsTableProcessed.length, this.state.signalsTablePageNumber, this.state.signalsTableCurrentDisplayHigh, this.state.signalsTableCurrentDisplayLow);
+        this.setState({
+            signalsTablePageNumber: nextPageValues.newPageNumber,
+            signalsTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
+            signalsTableCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh
+        });
+    }
+    prevPageSignalsTableSummary() {
+        let prevPageValues = prevPage(!!this.state.summaryDataForSignalsTableProcessed, this.state.summaryDataForSignalsTableProcessed.length, this.state.signalsTablePageNumber, this.state.signalsTableCurrentDisplayHigh, this.state.signalsTableCurrentDisplayLow);
+        this.setState({
+            signalsTablePageNumber: prevPageValues.newPageNumber,
+            signalsTableCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
+            signalsTableCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh
+        });
+
     }
 
     render() {
@@ -780,7 +837,10 @@ const mapStateToProps = (state) => {
         totalOutages: state.iodaApi.summaryTotalCount,
         events: state.iodaApi.events,
         alerts: state.iodaApi.alerts,
-        signals: state.iodaApi.signals
+        signals: state.iodaApi.signals,
+        mapModalSummary: state.iodaApi.mapModalSummary,
+        mapModalTopoData: state.iodaApi.mapModalTopoData,
+        summaryDataForSignalsTable: state.iodaApi.summaryDataForSignalsTable
     }
 };
 
@@ -789,24 +849,10 @@ const mapDispatchToProps = (dispatch) => {
         searchEntitiesAction: (searchQuery, limit=15) => {
             searchEntities(dispatch, searchQuery, limit);
         },
-        // searchRelatedEntitiesAction: (from, until, entityType, relatedToEntityType, relatedToEntityCode) => {
-        //     searchRelatedEntities(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode);
-        // },
-        searchRelatedToMapSummary: (from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData) => {
-            searchRelatedToMapSummary(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData);
-        },
-        searchRelatedToTableSummary: (from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData) => {
-            searchRelatedToTableSummary(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData);
-        },
         getEntityMetadataAction: (entityType, entityCode) => {
             getEntityMetadata(dispatch, entityType, entityCode);
         },
-        totalOutagesAction: (from, until, entityType) => {
-            totalOutages(dispatch, from, until, entityType);
-        },
-        getTopoAction: (entityType) => {
-            getTopoAction(dispatch, entityType);
-        },
+
         searchEventsAction: (from, until, entityType, entityCode, datasource=null, includeAlerts=null, format=null, limit=null, page=null) => {
             searchEvents(dispatch, from, until, entityType, entityCode, datasource, includeAlerts, format, limit, page);
         },
@@ -815,7 +861,31 @@ const mapDispatchToProps = (dispatch) => {
         },
         getSignalsAction: (entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
             getSignalsAction(dispatch, entityType, entityCode, from, until, datasource, maxPoints);
+        },
+
+        searchRelatedToMapSummary: (from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData) => {
+            searchRelatedToMapSummary(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData);
+        },
+        getTopoAction: (entityType) => {
+            getTopoAction(dispatch, entityType);
+        },
+        searchRelatedToTableSummary: (from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData) => {
+            searchRelatedToTableSummary(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetaData);
+        },
+        totalOutagesAction: (from, until, entityType) => {
+            totalOutages(dispatch, from, until, entityType);
+        },
+        summaryDataForSignalsTableAction: (entityType, relatedToEntityType, relatedToEntityCode) => {
+            summaryDataForSignalsTableAction(dispatch, entityType, relatedToEntityType, relatedToEntityCode);
         }
+
+
+        // searchRelatedEntitiesAction: (from, until, entityType, relatedToEntityType, relatedToEntityCode) => {
+        //     searchRelatedEntities(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode);
+        // },
+
+
+
     }
 };
 

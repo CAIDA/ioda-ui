@@ -112,6 +112,52 @@ export function convertValuesForSummaryTable(summaryDataRaw) {
     return summaryData;
 }
 
+export function combineValuesForSignalsTable(entitiesWithOutages, additionalEntities) {
+    let summaryData = [];
+    let duplicatesRemoved = additionalEntities;
+    entitiesWithOutages.map(entity => {
+        let overallScore = null;
+        let summaryScores = [];
+        // Get each score value for score table
+        Object.entries(entity["scores"]).map((entry) => {
+            if (entry[0] !== "overall") {
+                const entryItem = {
+                    source: entry[0],
+                    score: entry[1]
+                };
+                summaryScores.push(entryItem);
+            } else {
+                overallScore = entry[1]
+            }
+        });
+        // Remove entity from raw entity list
+        duplicatesRemoved = duplicatesRemoved.filter(obj => obj.code !== entity["entity"].code);
+
+        // Display entity with outage on signal table
+        const summaryItem = {
+            entityType: entity["entity"].type,
+            entityCode: entity["entity"].code,
+            name: entity["entity"].name,
+            score: overallScore,
+            scores: summaryScores
+        };
+        summaryData.push(summaryItem);
+    });
+
+    // Display scoreless entities on signal table
+    duplicatesRemoved.map(entity => {
+        const entityItem = {
+            entityType: entity.type,
+            entityCode: entity.code,
+            name: entity.name,
+            score: 0,
+            scores: [{source: "Overall Score", score: 0}]
+        };
+        summaryData.push(entityItem);
+    });
+    return summaryData;
+}
+
 export function getIsoStringFromDate() {
     var tzo = -this.getTimezoneOffset(),
         dif = tzo >= 0 ? '+' : '-',
@@ -136,28 +182,30 @@ export function sortByKey(array, key) {
     });
 }
 
-// Used for table component
-export function nextPage(dataLength, pageNumber, currentDisplayHigh, currentDisplayLow) {
+// Used for table component pagination
+export function nextPage(data, dataLength, pageNumber, currentDisplayHigh, currentDisplayLow) {
     if (data && dataLength > pageNumber + currentDisplayHigh) {
-
         let newPageNumber = pageNumber + 1;
         let newCurrentDisplayLow = currentDisplayLow + 10;
         let newCurrentDisplayHigh = currentDisplayHigh + 10 < dataLength
             ? currentDisplayHigh + 10
             : dataLength;
-        return [newPageNumber, newCurrentDisplayLow, newCurrentDisplayHigh]
+        return {newPageNumber: newPageNumber, newCurrentDisplayLow: newCurrentDisplayLow, newCurrentDisplayHigh: newCurrentDisplayHigh};
+    } else {
+        return {newPageNumber: pageNumber, newCurrentDisplayLow: currentDisplayLow, newCurrentDisplayHigh: currentDisplayHigh};
     }
 }
-export function prevPage() {
-    if (this.state.alertDataProcessed && this.state.alertTablePageNumber > 0) {
-        this.setState({
-            alertTablePageNumber: this.state.alertTablePageNumber - 1,
-            alertTableCurrentDisplayLow: this.state.alertTableCurrentDisplayHigh + 10 > this.state.alertDataProcessed.length
-                ? 10 * this.state.alertTablePageNumber - 10
-                : this.state.alertTableCurrentDisplayLow - 10,
-            alertTableCurrentDisplayHigh: this.state.alertTableCurrentDisplayHigh + 10 > this.state.alertDataProcessed.length
-                ? 10 * this.state.alertTablePageNumber
-                : this.state.alertTableCurrentDisplayHigh - 10
-        })
+export function prevPage(data, dataLength, pageNumber, currentDisplayHigh, currentDisplayLow) {
+    if (data && pageNumber > 0) {
+        let newPageNumber = pageNumber - 1;
+        let newCurrentDisplayLow = currentDisplayLow + 10 > dataLength
+            ? 10 * pageNumber - 10
+            : currentDisplayLow - 10;
+        let newCurrentDisplayHigh = currentDisplayHigh + 10 > dataLength
+            ? 10 * pageNumber
+            : currentDisplayHigh - 10;
+        return {newPageNumber: newPageNumber, newCurrentDisplayLow: newCurrentDisplayLow, newCurrentDisplayHigh: newCurrentDisplayHigh};
+    } else {
+        return {newPageNumber: pageNumber, newCurrentDisplayLow: currentDisplayLow, newCurrentDisplayHigh: currentDisplayHigh};
     }
 }

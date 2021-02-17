@@ -6,7 +6,7 @@ import {Link} from "react-router-dom";
 // Each row of the summary table needs it's own component to manage the
 // hover state, which controls the table that displays score breakdowns.
 
-class SummaryTableRow extends Component {
+class SignalTableRow extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,10 +18,6 @@ class SummaryTableRow extends Component {
     }
 
     componentDidMount() {
-        if (this.props.signal) {
-            console.log(this.props.data);
-        }
-
         document.addEventListener('click', this.handleRowScoreHide, true);
     }
 
@@ -77,8 +73,11 @@ class SummaryTableRow extends Component {
         });
     }
 
-    render() {
+    handleCheckboxChange(event) {
+        console.log(event.target);
+    }
 
+    render() {
         let overallScore = humanizeNumber(this.props.data.score, 2);
         return(
             <tr
@@ -88,11 +87,11 @@ class SummaryTableRow extends Component {
                 onTouchStart={(event) => this.handleRowHover(event)}
             >
                 {
-                    this.props.signal
-                    ? <td>
-                            <input className="table__cell-checkbox" type="checkbox" checked={true}/>
+                    this.props.type === "signal"
+                        ? <td>
+                            <input className="table__cell-checkbox" type="checkbox" checked={true} onChange={event => this.handleCheckboxChange(event)}/>
                         </td>
-                    : null
+                        : null
                 }
                 <td>
                     <Link className="table__cell-link" to={`/${this.props.data.entityType}/${this.props.data.entityCode}`}>
@@ -131,4 +130,4 @@ class SummaryTableRow extends Component {
     }
 }
 
-export default SummaryTableRow;
+export default SignalTableRow;
