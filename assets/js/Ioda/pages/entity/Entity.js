@@ -84,13 +84,18 @@ class Entity extends Component {
             relatedToTablePageNumber: 0,
             relatedToTableCurrentDisplayLow: 0,
             relatedToTableCurrentDisplayHigh: 10,
-            // Signals Modal Table
+            // Signals Modal Table on Map
             summaryDataForSignalsTable: null,
             summaryDataForSignalsTableProcessed: null,
             signalsTablePageNumber: 0,
             signalsTableCurrentDisplayLow: 0,
             signalsTableCurrentDisplayHigh: 10,
-
+            // Signals Modal Table on Table
+            summaryDataForSignalsTableAsn: null,
+            summaryDataForSignalsTableAsnProcessed: null,
+            signalsTableAsnPageNumber: 0,
+            signalsTableAsnCurrentDisplayLow: 0,
+            signalsTableAsnCurrentDisplayHigh: 10
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
     }

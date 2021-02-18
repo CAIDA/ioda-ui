@@ -142,7 +142,6 @@ class Table extends Component {
                 }
             });
         }
-
     }
 
     compare(key, order) {
