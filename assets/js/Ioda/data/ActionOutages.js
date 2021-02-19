@@ -137,7 +137,6 @@ PUBLIC ACTION FUNCTIONS
 
 export const searchAlerts = (dispatch, from, until, entityType=null, entityCode=null, datasource=null, limit=null, page=null) => {
     let config = buildAlertsConfig(from, until, entityType, entityCode, datasource, limit, page);
-    console.log(config);
     fetchData(config).then(data => {
         dispatch({
             type: OUTAGE_ALERTS_SEARCH,
