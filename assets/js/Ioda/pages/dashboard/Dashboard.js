@@ -91,7 +91,6 @@ class Dashboard extends Component {
             this.handleSelectTab(this.tabs[this.props.match.params.tab]);
             // Get topo and outage data to populate map and table
             this.getDataTopo(this.state.activeTabType);
-            console.log(this.state.activeTabType);
             this.getDataOutageSummary(this.state.activeTabType);
             this.getTotalOutages(this.state.activeTabType);
             this.getDataEvents(this.state.activeTabType);
@@ -224,7 +223,13 @@ class Dashboard extends Component {
         // dEnd = new Date(dStart) - new Date(dStart).getTimezoneOffset() * 60;
 
         const { history } = this.props;
-        history.push(`/dashboard?from=${dStart}&until=${dEnd}`);
+        if (this.state.from !== dStart || this.state.until !== dEnd) {
+            console.log(this.state.from);
+            console.log(dStart);
+            console.log("here");
+            history.push(`/dashboard?from=${dStart}&until=${dEnd}`);
+        }
+
 
         this.setState({
             from: dStart,
@@ -234,7 +239,6 @@ class Dashboard extends Component {
             summaryDataProcessed: []
         }, () => {
             // Get topo and outage data to repopulate map and table
-            console.log("here");
             this.getDataTopo(this.state.activeTabType);
             this.getDataOutageSummary(this.state.activeTabType);
             this.getTotalOutages(this.state.activeTabType);
@@ -316,7 +320,6 @@ class Dashboard extends Component {
             let page = this.state.pageNumber;
             // let page = null;
             const entityCode = null;
-            console.log(from, until, entityType, entityCode, limit, page, includeMetadata);
             this.props.searchSummaryAction(from, until, entityType, entityCode, limit, page, includeMetadata);
         }
     }

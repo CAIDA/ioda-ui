@@ -11,29 +11,19 @@ class ControlPanel extends Component {
         super(props);
         this.state = {
             selection: {
-                startDate: new Date(Date.now() - 86400000),
-                endDate: new Date(),
+                startDate: new Date(this.props.from * 1000),
+                endDate: new Date(this.props.until * 1000),
                 key: 'selection'
             },
             timeRange: [
-                new Date(Date.now() - 86400000).toISOString().split("T")[1].split(".")[0],
-                new Date(Date.now() - 1000).toISOString().split("T")[1].split(".")[0]
+                new Date((this.props.from * 1000) - 86400000).toISOString().split("T")[1].split(".")[0],
+                new Date((this.props.until * 1000) - 1000).toISOString().split("T")[1].split(".")[0]
                 // "00:00:00",
                 // "23:59:59"
             ],
             rangeInputVisibility: false,
             wholeDayInputSelected: false
         }
-    }
-
-    componentDidMount() {
-        this.setState({
-            selection: {
-                key: 'selection',
-                startDate: new Date(this.props.from * 1000),
-                endDate: new Date(this.props.until * 1000)
-            }
-        });
     }
 
     componentDidUpdate(nextProps, nextState) {
@@ -79,12 +69,16 @@ class ControlPanel extends Component {
     }
 
     render() {
-        // let startDate = this.state.selection.startDate.toISOString().split("T")[0];
-        // let startTime = this.state.selection.startDate.toISOString().split("T")[1].split(".")[0];
-        let startTime = this.state.selection.startDate.toLocaleString( 'sv', { timeZoneName: 'short' } );
-        // let endDate = this.state.selection.endDate.toISOString().split("T")[0];
-        // let endTime = this.state.selection.endDate.toISOString().split("T")[1].split(".")[0];
-        let endTime = this.state.selection.endDate.toLocaleString( 'sv', { timeZoneName: 'short' } );
+        let startDate = this.state.selection.startDate.toISOString().split("T")[0];
+        let startTime = this.state.selection.startDate.toISOString().split("T")[1].split(".")[0];
+        // convert for timezone
+        // let startTime = this.state.selection.startDate.toLocaleString( 'sv', { timeZoneName: 'short' } );
+        // let startTime = this.state.selection.startDate.toLocaleString( 'sv', { timeZoneName: 'short' } );
+        let endDate = this.state.selection.endDate.toISOString().split("T")[0];
+        let endTime = this.state.selection.endDate.toISOString().split("T")[1].split(".")[0];
+        // convert for timezone
+        // let endTime = this.state.selection.endDate.toLocaleString( 'sv', { timeZoneName: 'short' } );
+        // let endTime = this.state.selection.endDate;
 
         return(
             <div className="row control-panel">
@@ -93,11 +87,11 @@ class ControlPanel extends Component {
                     <p>Time Range</p>
                     <button className="range__input" onClick={() => this.handleRangeDisplay()}>
                         <span className="range__input-start">
-                            {startTime}
+                            {startDate} - {startTime}<sub><sup><sub>UTC</sub></sup></sub>
                         </span>
                         <span className="range__input-dash">—</span>
                         <span className="range__input-end">
-                            {endTime}
+                            {endDate} - {endTime}<sub><sup><sub>UTC</sub></sup></sub>
                         </span>
                     </button>
                     <div className={this.state.rangeInputVisibility ? "range__dropdown range__dropdown--visible" : "range__dropdown"}>
