@@ -41,6 +41,8 @@ class Dashboard extends Component {
             activeTab: country.tab,
             activeTabType: country.type,
             tab: "Country View",
+            //Tab View Changer Button
+            tabCurrentView: "map",
             // Search Bar
             suggestedSearchResults: null,
             searchTerm: null,
@@ -76,6 +78,7 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
+        // console.log(window.location.search.split("?")[1].split("&")[0].split("=")[1]);
         let timeEntryInUrl = window.location.pathname.split("?");
         if (timeEntryInUrl[1]){
             this.setState({
@@ -93,7 +96,6 @@ class Dashboard extends Component {
             this.getDataTopo(this.state.activeTabType);
             this.getDataOutageSummary(this.state.activeTabType);
             this.getTotalOutages(this.state.activeTabType);
-            this.getDataEvents(this.state.activeTabType);
         });
     }
 
@@ -117,7 +119,6 @@ class Dashboard extends Component {
                 : null;
             this.getDataOutageSummary(this.state.activeTabType);
             this.getTotalOutages(this.state.activeTabType);
-            this.getDataEvents(this.state.activeTabType);
         }
 
         // After API call for suggested search results completes, update suggestedSearchResults state with fresh data
@@ -138,8 +139,6 @@ class Dashboard extends Component {
                     this.setState({
                         eventEndpointCalled: !this.state.eventEndpointCalled
                     }, () => {
-                        // Make API calls to get event signal data
-                        this.getDataEvents(this.state.activeTabType);
                         //Get total event count to reference with event data
                         let totalEventCount = 0;
                         let eventCnt = 0;
@@ -223,14 +222,25 @@ class Dashboard extends Component {
         // dEnd = new Date(dStart) - new Date(dStart).getTimezoneOffset() * 60;
 
         const { history } = this.props;
-        history.push(`/dashboard?from=${dStart}&until=${dEnd}`);
+        if (this.state.from !== dStart || this.state.until !== dEnd) {
+            history.push(`/dashboard?from=${dStart}&until=${dEnd}`);
+        }
+
 
         this.setState({
             from: dStart,
             until: dEnd,
             summaryDataRaw: null,
             topoData: null,
-            summaryDataProcessed: []
+            summaryDataProcessed: [],
+            tabCurrentView: "map",
+            eventDataRaw: [],
+            eventDataProcessed: [],
+            // Reset table count values
+            pageNumber: 0,
+            apiPageNumber: 1,
+            currentDisplayLow: 0,
+            currentDisplayHigh: 10,
         }, () => {
             // Get topo and outage data to repopulate map and table
             this.getDataTopo(this.state.activeTabType);
@@ -250,6 +260,7 @@ class Dashboard extends Component {
                 tab: this.asTab,
                 activeTabType: as.type,
                 // Trigger Data Update for new tab
+                tabCurrentView: "map",
                 topoData: null,
                 summaryDataRaw: null,
                 eventDataRaw: [],
@@ -269,6 +280,7 @@ class Dashboard extends Component {
                 tab: this.regionTab,
                 activeTabType: region.type,
                 // Trigger Data Update for new tab
+                tabCurrentView: "map",
                 topoData: null,
                 summaryDataRaw: null,
                 eventDataRaw: [],
@@ -288,6 +300,7 @@ class Dashboard extends Component {
                 tab: this.countryTab,
                 activeTabType: country.type,
                 // Trigger Data Update for new tab
+                tabCurrentView: "map",
                 topoData: null,
                 summaryDataRaw: null,
                 eventDataRaw: [],
@@ -301,7 +314,17 @@ class Dashboard extends Component {
             });
             if (history.location.pathname !== country.url) {history.push(country.url);}
         }
-    };
+    }
+    handleTabChangeViewButton() {
+        if (this.state.tabCurrentView === 'map') {
+            this.setState({tabCurrentView: 'timeSeries'}, () => {
+                console.log(this.state.tabCurrentView);
+                this.getDataEvents(this.state.activeTabType);
+            });
+        } else if (this.state.tabCurrentView === 'timeSeries') {
+            this.setState({tabCurrentView: 'map'});
+        }
+    }
 
 // Outage Data
     // Make API call to retrieve summary data to populate on map
@@ -365,9 +388,12 @@ class Dashboard extends Component {
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
 
+        console.log("here");
         if (this.state.summaryDataRaw) {
             this.state.summaryDataRaw.map(entity => {
-                this.props.getEventSignalsAction(entityType, entity.entity.code, from, until, attr, order)
+                if (entity.entity.code !== "??") {
+                    this.props.getEventSignalsAction(entityType, entity.entity.code, from, until, attr, order)
+                }
             });
         }
     }
@@ -386,6 +412,8 @@ class Dashboard extends Component {
             // Add data objects to state for each data source
             this.setState({
                 eventDataProcessed: tsDataConverted
+            }, () => {
+                this.populateHtsChart(900)
             });
         })
     }
@@ -521,17 +549,23 @@ class Dashboard extends Component {
                             populateGeoJsonMap={() => this.populateGeoJsonMap()}
                             genSummaryTable={() => this.genSummaryTable()}
                             populateHtsChart={(width) => this.populateHtsChart(width)}
+                            handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
+                            tabCurrentView={this.state.tabCurrentView}
                         />}
                         {tab === this.regionTab && <DashboardTab
                             type={this.state.activeTabType}
                             populateGeoJsonMap={() => this.populateGeoJsonMap()}
                             genSummaryTable={() => this.genSummaryTable()}
                             populateHtsChart={(width) => this.populateHtsChart(width)}
+                            handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
+                            tabCurrentView={this.state.tabCurrentView}
                         />}
                         {tab === this.asTab && <DashboardTab
                             type={this.state.activeTabType}
                             genSummaryTable={() => this.genSummaryTable()}
                             populateHtsChart={(width) => this.populateHtsChart(width)}
+                            handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
+                            tabCurrentView={this.state.tabCurrentView}
                         />}
                     </div>
                 </div>

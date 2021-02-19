@@ -111,8 +111,6 @@ class Table extends Component {
                         position: "desc",
                         arrow: iconSortDesc
                     }
-                },() => {
-                    console.log(this.state.signalData);
                 });
             }
         }
@@ -142,7 +140,6 @@ class Table extends Component {
                 }
             });
         }
-
     }
 
     compare(key, order) {
@@ -328,7 +325,7 @@ class Table extends Component {
                         })
                     }
                     {
-                        this.props.type === "summary" && this.state.summaryData.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(summary => {
+                        this.props.type === "summary" && this.props.data.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(summary => {
                             return <SummaryTableRow key={generateKeys('summary')} type={this.props.type} data={summary}/>
                         })
                     }
