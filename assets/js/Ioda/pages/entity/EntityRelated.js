@@ -49,7 +49,7 @@ class EntityRelated extends Component {
                             showModal={this.state.showMapModal}
                             toggleModal={this.toggleModal}
                             populateGeoJsonMap={this.props.populateGeoJsonMap}
-                            genSignalsTable={() => this.props.genSignalsTable()}
+                            genSignalsTable={() => this.props.genRegionSignalsTable()}
                         />
                     </div>
                     <div className="map" style={{display: 'block', height: '400px'}}>
@@ -79,6 +79,7 @@ class EntityRelated extends Component {
                             modalLocation={"table"}
                             showModal={this.state.showTableModal}
                             toggleModal={this.toggleModal}
+                            genSignalsTable={() => this.props.genAsnSignalsTable()}
                         />
                     </div>
                     <div className="tab__table">
