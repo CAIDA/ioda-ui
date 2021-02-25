@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 // Internationalization
 import T from 'i18n-react';
 // Data Hooks
-import { searchEntities, getEntityMetadata, summaryDataForSignalsTableAction } from "../../data/ActionEntities";
+import { searchEntities, getEntityMetadata, regionalSignalsTableSummaryDataAction, asnSignalsTableSummaryDataAction } from "../../data/ActionEntities";
 import { getTopoAction } from "../../data/ActionTopo";
 import {searchAlerts, searchEvents, searchSummary, searchRelatedToMapSummary, searchRelatedToTableSummary, totalOutages} from "../../data/ActionOutages";
 import {getSignalsAction} from "../../data/ActionSignals";
@@ -84,20 +84,24 @@ class Entity extends Component {
             relatedToTablePageNumber: 0,
             relatedToTableCurrentDisplayLow: 0,
             relatedToTableCurrentDisplayHigh: 10,
-            // Signals Modal Table on Map
-            summaryDataForSignalsTable: null,
-            summaryDataForSignalsTableProcessed: null,
-            signalsTablePageNumber: 0,
-            signalsTableCurrentDisplayLow: 0,
-            signalsTableCurrentDisplayHigh: 10,
-            // Signals Modal Table on Table
-            summaryDataForSignalsTableAsn: null,
-            summaryDataForSignalsTableAsnProcessed: null,
-            signalsTableAsnPageNumber: 0,
-            signalsTableAsnCurrentDisplayLow: 0,
-            signalsTableAsnCurrentDisplayHigh: 10
+            // Modal window display status
+            showMapModal: false,
+            showTableModal: false,
+            // Signals Modal Table on Map Panel
+            regionalSignalsTableSummaryData: null,
+            regionalSignalsTableSummaryDataProcessed: null,
+            regionalSignalsTablePageNumber: 0,
+            regionalSignalsTableCurrentDisplayLow: 0,
+            regionalSignalsTableCurrentDisplayHigh: 10,
+            // Signals Modal Table on Table Panel
+            asnSignalsTableSummaryData: null,
+            asnSignalsTableSummaryDataProcessed: null,
+            asnSignalsTablePageNumber: 0,
+            asnSignalsTableCurrentDisplayLow: 0,
+            asnSignalsTableCurrentDisplayHigh: 10
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
     }
 
     componentDidMount() {
@@ -111,7 +115,9 @@ class Entity extends Component {
             // Get entity name from code provided in url
             this.props.getEntityMetadataAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
             // Get related entities used on table in map modal
-            this.props.summaryDataForSignalsTableAction("region", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
+            this.props.regionalSignalsTableSummaryDataAction("region", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
+            this.props.asnSignalsTableSummaryDataAction("asn", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
+
         });
     }
 
@@ -201,7 +207,7 @@ class Entity extends Component {
                 summaryDataMapRaw: this.props.relatedToMapSummary
             },() => {
                 // this.convertValuesForSummaryTable();
-                this.combineValuesForSignalsTable();
+                this.combineValuesForRegionalSignalsTable();
             })
         }
 
@@ -213,15 +219,24 @@ class Entity extends Component {
             this.setState({
                 relatedToTableSummary: this.props.relatedToTableSummary
             },() => {
+                this.combineValuesForAsnSignalsTable();
                 this.convertValuesForSummaryTable();
             })
         }
 
-        if (this.props.summaryDataForSignalsTable !== prevProps.summaryDataForSignalsTable) {
+        if (this.props.regionalSignalsTableSummaryData !== prevProps.regionalSignalsTableSummaryData) {
             this.setState({
-                summaryDataForSignalsTable: this.props.summaryDataForSignalsTable
+                regionalSignalsTableSummaryData: this.props.regionalSignalsTableSummaryData
             }, () => {
-                this.combineValuesForSignalsTable();
+                this.combineValuesForRegionalSignalsTable();
+            })
+        }
+
+        if (this.props.asnSignalsTableSummaryData !== prevProps.asnSignalsTableSummaryData) {
+            this.setState({
+                asnSignalsTableSummaryData: this.props.asnSignalsTableSummaryData
+            }, () => {
+                this.combineValuesForAsnSignalsTable();
             })
         }
     }
@@ -294,6 +309,7 @@ class Entity extends Component {
         />
     }
 
+// 1st Row
 // XY Chart Functions
     // XY Plot Graph Functions
     createXyVizDataObject(networkTelescopeValues, bgpValues, activeProbingValues) {
@@ -447,8 +463,9 @@ class Entity extends Component {
         );
     }
 
+
 // Event Table
-    // Event Table Functions
+    // Take values from api and format for table
     convertValuesForEventTable()  {
         // Get the relevant values to populate table with
         let eventData = [];
@@ -485,6 +502,7 @@ class Entity extends Component {
             this.genEventTable();
         });
     }
+    // Generate the table that will display in the UI with the formatted values
     genEventTable() {
         // this.state.eventDataProcessed && console.log(this.state.eventDataProcessed);
         return (
@@ -500,6 +518,7 @@ class Entity extends Component {
             />
         )
     }
+    // Table controls
     nextPage(type) {
         if (type === 'alert') {
             let nextPageValues = nextPage(!!this.state.alertDataProcessed, this.state.alertDataProcessed.length, this.state.alertTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
@@ -539,6 +558,7 @@ class Entity extends Component {
         }
 
     }
+    // Switching between Events and Alerts
     changeCurrentTable() {
         if (this.state.currentTable === 'event') {
             this.setState({currentTable: 'alert'}, () => {
@@ -550,6 +570,8 @@ class Entity extends Component {
             });
         }
     }
+
+
 // Alert Table Functions
     convertValuesForAlertTable() {
         // Get the relevant values to populate table with
@@ -595,17 +617,34 @@ class Entity extends Component {
         )
     }
 
-// EntityRelated Row
+// 2nd Row
+// EntityRelated
     genEntityRelatedRow() {
         return <EntityRelated
             entityName={this.state.entityName}
             entityType={this.state.entityType}
             parentEntityName={this.state.parentEntityName}
+            toggleModal={this.toggleModal}
+            showMapModal={this.state.showMapModal}
+            showTableModal={this.state.showTableModal}
             populateGeoJsonMap={() => this.populateGeoJsonMap()}
             genSummaryTable={() => this.genSummaryTable()}
-            genSignalsTable={() => this.genSignalsTable()}
+            genRegionSignalsTable={() => this.genRegionalSignalsTable()}
+            genAsnSignalsTable={() => this.genAsnSignalsTable()}
         />;
     }
+    toggleModal(modalLocation) {
+        if (modalLocation === 'map') {
+            this.setState({
+                showMapModal: !this.state.showMapModal
+            });
+        } else if (modalLocation === 'table') {
+            this.setState({
+                showTableModal: !this.state.showTableModal
+            });
+        }
+    }
+
 // RelatedTo Map
     // Process Geo data, attribute outage scores to a new topoData property where possible, then render Map
     populateGeoJsonMap() {
@@ -670,7 +709,8 @@ class Entity extends Component {
             this.props.searchRelatedToMapSummary(from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetadata);
         }
     }
-// Summary Table
+
+// Summary Table for related ASNs
     // Make API call to retrieve summary data to populate on map
     getDataRelatedToTableSummary(entityType) {
         if (this.state.mounted) {
@@ -741,47 +781,150 @@ class Entity extends Component {
 
     }
 
+
 // Map Modal
-    // Table
-    combineValuesForSignalsTable() {
-        if (this.state.summaryDataMapRaw && this.state.summaryDataForSignalsTable) {
-            let signalsTableData = combineValuesForSignalsTable(this.state.summaryDataMapRaw, this.state.summaryDataForSignalsTable);
+    // Table displaying all regions regardless of score
+    combineValuesForRegionalSignalsTable() {
+        if (this.state.summaryDataMapRaw && this.state.regionalSignalsTableSummaryData) {
+            let signalsTableData = combineValuesForSignalsTable(this.state.summaryDataMapRaw, this.state.regionalSignalsTableSummaryData);
             this.setState({
-                summaryDataForSignalsTableProcessed: signalsTableData
+                regionalSignalsTableSummaryDataProcessed: signalsTableData
             }, () => {
-                this.genSignalsTable();
+                this.genRegionalSignalsTable();
             })
         }
     }
-    genSignalsTable() {
+    genRegionalSignalsTable() {
         return (
-            this.state.summaryDataForSignalsTableProcessed &&
+            this.state.regionalSignalsTableSummaryDataProcessed &&
 
             <Table
                 type="signal"
-                data={this.state.summaryDataForSignalsTableProcessed}
-                nextPage={() => this.nextPageSignalsTableSummary()}
-                prevPage={() => this.prevPageSignalsTableSummary()}
-                currentDisplayLow={this.state.signalsTableCurrentDisplayLow}
-                currentDisplayHigh={this.state.signalsTableCurrentDisplayHigh}
-                totalCount={this.state.summaryDataForSignalsTableProcessed.length}
+                data={this.state.regionalSignalsTableSummaryDataProcessed}
+                nextPage={() => this.nextPageRegionalSignalsTableSummary()}
+                prevPage={() => this.prevPageRegionalSignalsTableSummary()}
+                currentDisplayLow={this.state.regionalSignalsTableCurrentDisplayLow}
+                currentDisplayHigh={this.state.regionalSignalsTableCurrentDisplayHigh}
+                totalCount={this.state.regionalSignalsTableSummaryDataProcessed.length}
             />
         )
     }
-    nextPageSignalsTableSummary() {
-        let nextPageValues = nextPage(!!this.state.summaryDataForSignalsTableProcessed, this.state.summaryDataForSignalsTableProcessed.length, this.state.signalsTablePageNumber, this.state.signalsTableCurrentDisplayHigh, this.state.signalsTableCurrentDisplayLow);
+    nextPageRegionalSignalsTableSummary() {
+        let nextPageValues = nextPage(!!this.state.regionalSignalsTableSummaryDataProcessed, this.state.regionalSignalsTableSummaryDataProcessed.length, this.state.regionalSignalsTablePageNumber, this.state.regionalSignalsTableCurrentDisplayHigh, this.state.regionalSignalsTableCurrentDisplayLow);
         this.setState({
-            signalsTablePageNumber: nextPageValues.newPageNumber,
-            signalsTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
-            signalsTableCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh
+            regionalSignalsTablePageNumber: nextPageValues.newPageNumber,
+            regionalSignalsTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
+            regionalSignalsTableCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh
         });
     }
-    prevPageSignalsTableSummary() {
-        let prevPageValues = prevPage(!!this.state.summaryDataForSignalsTableProcessed, this.state.summaryDataForSignalsTableProcessed.length, this.state.signalsTablePageNumber, this.state.signalsTableCurrentDisplayHigh, this.state.signalsTableCurrentDisplayLow);
+    prevPageRegionalSignalsTableSummary() {
+        let prevPageValues = prevPage(!!this.state.regionalSignalsTableSummaryDataProcessed, this.state.regionalSignalsTableSummaryDataProcessed.length, this.state.regionalSignalsTablePageNumber, this.state.regionalSignalsTableCurrentDisplayHigh, this.state.regionalSignalsTableCurrentDisplayLow);
         this.setState({
-            signalsTablePageNumber: prevPageValues.newPageNumber,
-            signalsTableCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
-            signalsTableCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh
+            regionalSignalsTablePageNumber: prevPageValues.newPageNumber,
+            regionalSignalsTableCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
+            regionalSignalsTableCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh
+        });
+
+    }
+
+    // Time Series for displaying regional signals
+    getRegionalSignalsHtsDataEvents(entityType) {
+        let until = this.state.until;
+        let from = this.state.from;
+        let attr = this.state.eventOrderByAttr;
+        let order = this.state.eventOrderByOrder;
+
+        if (this.state.summaryDataRaw) {
+            this.state.summaryDataRaw.map(entity => {
+                // some entities don't return a code to be used in an api call
+                if (entity.entity.code !== "??") {
+                    this.props.getEventSignalsAction(entityType, entity.entity.code, from, until, attr, order)
+                }
+            });
+        }
+    }
+    convertValuesForHtsViz() {
+        let tsDataConverted = [];
+        this.state.eventDataRaw.map(tsData => {
+            // Create visualization-friendly data objects
+            tsData.values.map((value, index) => {
+                const plotPoint = {
+                    entityCode: tsData.entityCode,
+                    ts: new Date(tsData.from * 1000 + tsData.step * 1000 * index),
+                    val: value
+                };
+                tsDataConverted.push(plotPoint);
+            });
+            // Add data objects to state for each data source
+            this.setState({
+                eventDataProcessed: tsDataConverted
+            }, () => {
+                this.populateHtsChart(900)
+            });
+        })
+    }
+    populateHtsChart(width) {
+        if (this.state.eventDataProcessed) {
+            const myChart = HorizonTSChart()(document.getElementById(`horizon-chart`));
+            myChart
+                .data(this.state.eventDataProcessed)
+                .series('entityCode')
+                .yNormalize(false)
+                .useUtc(true)
+                .use24h(false)
+                // Will need to detect column width to populate height
+                .width(width)
+                .height(400)
+                .enableZoom(true)
+                .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
+                .showRuler(true);
+        }
+
+
+    }
+
+
+// Table Modal
+    // Table displaying all ASes regardless of score
+    combineValuesForAsnSignalsTable() {
+        if (this.state.relatedToTableSummary && this.state.asnSignalsTableSummaryData) {
+            let signalsTableData = combineValuesForSignalsTable(this.state.relatedToTableSummary, this.state.asnSignalsTableSummaryData);
+            this.setState({
+                asnSignalsTableSummaryDataProcessed: signalsTableData
+            }, () => {
+                console.log(signalsTableData);
+                this.genAsnSignalsTable();
+            })
+        }
+    }
+    genAsnSignalsTable() {
+        return (
+            this.state.asnSignalsTableSummaryDataProcessed &&
+            <Table
+                type="signal"
+                data={this.state.asnSignalsTableSummaryDataProcessed}
+                nextPage={() => this.nextPageAsnSignalsTableSummary()}
+                prevPage={() => this.prevPageAsnSignalsTableSummary()}
+                currentDisplayLow={this.state.asnSignalsTableCurrentDisplayLow}
+                currentDisplayHigh={this.state.asnSignalsTableCurrentDisplayHigh}
+                totalCount={this.state.asnSignalsTableSummaryDataProcessed.length}
+            />
+        )
+    }
+    nextPageAsnSignalsTableSummary() {
+        let nextPageValues = nextPage(!!this.state.asnSignalsTableSummaryDataProcessed, this.state.asnSignalsTableSummaryDataProcessed.length, this.state.asnSignalsTablePageNumber, this.state.asnSignalsTableCurrentDisplayHigh, this.state.asnSignalsTableCurrentDisplayLow);
+        this.setState({
+            asnSignalsTablePageNumber: nextPageValues.newPageNumber,
+            asnSignalsTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
+            asnSignalsTableCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh
+        });
+    }
+    prevPageAsnSignalsTableSummary() {
+        let prevPageValues = prevPage(!!this.state.asnSignalsTableSummaryDataProcessed, this.state.asnSignalsTableSummaryDataProcessed.length, this.state.asnSignalsTablePageNumber, this.state.asnSignalsTableCurrentDisplayHigh, this.state.asnSignalsTableCurrentDisplayLow);
+        this.setState({
+            asnSignalsTablePageNumber: prevPageValues.newPageNumber,
+            asnSignalsTableCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
+            asnSignalsTableCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh
         });
 
     }
@@ -845,7 +988,8 @@ const mapStateToProps = (state) => {
         signals: state.iodaApi.signals,
         mapModalSummary: state.iodaApi.mapModalSummary,
         mapModalTopoData: state.iodaApi.mapModalTopoData,
-        summaryDataForSignalsTable: state.iodaApi.summaryDataForSignalsTable
+        regionalSignalsTableSummaryData: state.iodaApi.regionalSignalsTableSummaryData,
+        asnSignalsTableSummaryData: state.iodaApi.asnSignalsTableSummaryData
     }
 };
 
@@ -880,9 +1024,13 @@ const mapDispatchToProps = (dispatch) => {
         totalOutagesAction: (from, until, entityType) => {
             totalOutages(dispatch, from, until, entityType);
         },
-        summaryDataForSignalsTableAction: (entityType, relatedToEntityType, relatedToEntityCode) => {
-            summaryDataForSignalsTableAction(dispatch, entityType, relatedToEntityType, relatedToEntityCode);
+        regionalSignalsTableSummaryDataAction: (entityType, relatedToEntityType, relatedToEntityCode) => {
+            regionalSignalsTableSummaryDataAction(dispatch, entityType, relatedToEntityType, relatedToEntityCode);
+        },
+        asnSignalsTableSummaryDataAction: (entityType, relatedToEntityType, relatedToEntityCode) => {
+            asnSignalsTableSummaryDataAction(dispatch, entityType, relatedToEntityType, relatedToEntityCode);
         }
+
 
 
         // searchRelatedEntitiesAction: (from, until, entityType, relatedToEntityType, relatedToEntityCode) => {

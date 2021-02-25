@@ -47,7 +47,8 @@ import {
     OUTAGE_RELATED_TO_MAP_SUMMARY_SEARCH,
     OUTAGE_RELATED_TO_TABLE_SUMMARY_SEARCH,
     OUTAGE_TOTAL_COUNT,
-    GET_SUMMARY_DATA_FOR_SIGNALS_TABLE
+    GET_REGIONAL_SIGNALS_TABLE_SUMMARY_DATA,
+    GET_ASN_SIGNALS_TABLE_SUMMARY_DATA
 } from './ActionCommons';
 
 // TODO: make sure the state won't overwrite each other when multiple calls are executed
@@ -66,7 +67,8 @@ const initialState = {
     topo: null,
     datasources: null,
     // Map Modal
-    summaryDataForSignalsTable: null,
+    regionalSignalsTableSummaryData: null,
+    asnSignalsTableSummaryData: null
 }
 
 export function iodaApiReducer(state = initialState, action) {
@@ -129,9 +131,13 @@ export function iodaApiReducer(state = initialState, action) {
             return Object.assign({}, state, {
                 eventSignals: action.payload
             })
-        case GET_SUMMARY_DATA_FOR_SIGNALS_TABLE:
+        case GET_REGIONAL_SIGNALS_TABLE_SUMMARY_DATA:
             return Object.assign({}, state, {
-                summaryDataForSignalsTable: action.payload
+                regionalSignalsTableSummaryData: action.payload
+            })
+        case GET_ASN_SIGNALS_TABLE_SUMMARY_DATA:
+            return Object.assign({}, state, {
+                asnSignalsTableSummaryData: action.payload
             })
         default:
             return state;
