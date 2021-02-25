@@ -318,7 +318,6 @@ class Dashboard extends Component {
     handleTabChangeViewButton() {
         if (this.state.tabCurrentView === 'map') {
             this.setState({tabCurrentView: 'timeSeries'}, () => {
-                console.log(this.state.tabCurrentView);
                 this.getDataEvents(this.state.activeTabType);
             });
         } else if (this.state.tabCurrentView === 'timeSeries') {
@@ -388,7 +387,6 @@ class Dashboard extends Component {
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
 
-        console.log("here");
         if (this.state.summaryDataRaw) {
             this.state.summaryDataRaw.map(entity => {
                 if (entity.entity.code !== "??") {

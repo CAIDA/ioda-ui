@@ -84,6 +84,9 @@ class Entity extends Component {
             relatedToTablePageNumber: 0,
             relatedToTableCurrentDisplayLow: 0,
             relatedToTableCurrentDisplayHigh: 10,
+            // Modal window display status
+            showMapModal: false,
+            showTableModal: false,
             // Signals Modal Table on Map Panel
             regionalSignalsTableSummaryData: null,
             regionalSignalsTableSummaryDataProcessed: null,
@@ -98,6 +101,7 @@ class Entity extends Component {
             asnSignalsTableCurrentDisplayHigh: 10
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
     }
 
     componentDidMount() {
@@ -305,6 +309,7 @@ class Entity extends Component {
         />
     }
 
+// 1st Row
 // XY Chart Functions
     // XY Plot Graph Functions
     createXyVizDataObject(networkTelescopeValues, bgpValues, activeProbingValues) {
@@ -612,19 +617,33 @@ class Entity extends Component {
         )
     }
 
-// EntityRelated Row
+// 2nd Row
+// EntityRelated
     genEntityRelatedRow() {
         return <EntityRelated
             entityName={this.state.entityName}
             entityType={this.state.entityType}
             parentEntityName={this.state.parentEntityName}
+            toggleModal={this.toggleModal}
+            showMapModal={this.state.showMapModal}
+            showTableModal={this.state.showTableModal}
             populateGeoJsonMap={() => this.populateGeoJsonMap()}
             genSummaryTable={() => this.genSummaryTable()}
             genRegionSignalsTable={() => this.genRegionalSignalsTable()}
             genAsnSignalsTable={() => this.genAsnSignalsTable()}
         />;
     }
-
+    toggleModal(modalLocation) {
+        if (modalLocation === 'map') {
+            this.setState({
+                showMapModal: !this.state.showMapModal
+            });
+        } else if (modalLocation === 'table') {
+            this.setState({
+                showTableModal: !this.state.showTableModal
+            });
+        }
+    }
 
 // RelatedTo Map
     // Process Geo data, attribute outage scores to a new topoData property where possible, then render Map
@@ -690,7 +709,6 @@ class Entity extends Component {
             this.props.searchRelatedToMapSummary(from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetadata);
         }
     }
-
 
 // Summary Table for related ASNs
     // Make API call to retrieve summary data to populate on map
@@ -809,6 +827,62 @@ class Entity extends Component {
 
     }
 
+    // Time Series for displaying regional signals
+    getRegionalSignalsHtsDataEvents(entityType) {
+        let until = this.state.until;
+        let from = this.state.from;
+        let attr = this.state.eventOrderByAttr;
+        let order = this.state.eventOrderByOrder;
+
+        if (this.state.summaryDataRaw) {
+            this.state.summaryDataRaw.map(entity => {
+                // some entities don't return a code to be used in an api call
+                if (entity.entity.code !== "??") {
+                    this.props.getEventSignalsAction(entityType, entity.entity.code, from, until, attr, order)
+                }
+            });
+        }
+    }
+    convertValuesForHtsViz() {
+        let tsDataConverted = [];
+        this.state.eventDataRaw.map(tsData => {
+            // Create visualization-friendly data objects
+            tsData.values.map((value, index) => {
+                const plotPoint = {
+                    entityCode: tsData.entityCode,
+                    ts: new Date(tsData.from * 1000 + tsData.step * 1000 * index),
+                    val: value
+                };
+                tsDataConverted.push(plotPoint);
+            });
+            // Add data objects to state for each data source
+            this.setState({
+                eventDataProcessed: tsDataConverted
+            }, () => {
+                this.populateHtsChart(900)
+            });
+        })
+    }
+    populateHtsChart(width) {
+        if (this.state.eventDataProcessed) {
+            const myChart = HorizonTSChart()(document.getElementById(`horizon-chart`));
+            myChart
+                .data(this.state.eventDataProcessed)
+                .series('entityCode')
+                .yNormalize(false)
+                .useUtc(true)
+                .use24h(false)
+                // Will need to detect column width to populate height
+                .width(width)
+                .height(400)
+                .enableZoom(true)
+                .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
+                .showRuler(true);
+        }
+
+
+    }
+
 
 // Table Modal
     // Table displaying all ASes regardless of score
@@ -901,7 +975,6 @@ class Entity extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
     return {
         suggestedSearchResults: state.iodaApi.entities,
         relatedEntities: state.iodaApi.relatedEntities,
