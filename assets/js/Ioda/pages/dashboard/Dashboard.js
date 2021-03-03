@@ -226,7 +226,6 @@ class Dashboard extends Component {
             history.push(`/dashboard?from=${dStart}&until=${dEnd}`);
         }
 
-
         this.setState({
             from: dStart,
             until: dEnd,

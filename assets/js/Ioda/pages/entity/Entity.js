@@ -8,7 +8,7 @@ import T from 'i18n-react';
 import { searchEntities, getEntityMetadata, regionalSignalsTableSummaryDataAction, asnSignalsTableSummaryDataAction } from "../../data/ActionEntities";
 import { getTopoAction } from "../../data/ActionTopo";
 import {searchAlerts, searchEvents, searchSummary, searchRelatedToMapSummary, searchRelatedToTableSummary, totalOutages} from "../../data/ActionOutages";
-import {getSignalsAction} from "../../data/ActionSignals";
+import {getSignalsAction, getRawRegionalSignalsAction} from "../../data/ActionSignals";
 // Components
 import ControlPanel from '../../components/controlPanel/ControlPanel';
 import { Searchbar } from 'caida-components-library'
@@ -25,7 +25,8 @@ import {
     convertValuesForSummaryTable,
     combineValuesForSignalsTable,
     nextPage,
-    prevPage
+    prevPage,
+    convertTsDataForHtsViz
 } from "../../utils";
 import {as} from "../dashboard/DashboardConstants";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
@@ -98,7 +99,12 @@ class Entity extends Component {
             asnSignalsTableSummaryDataProcessed: null,
             asnSignalsTablePageNumber: 0,
             asnSignalsTableCurrentDisplayLow: 0,
-            asnSignalsTableCurrentDisplayHigh: 10
+            asnSignalsTableCurrentDisplayHigh: 10,
+            // Stacked Horizon Visual on Map Panel
+            rawRegionalSignals: [],
+            rawRegionalSignalsProcessedBgp: null,
+            rawRegionalSignalsProcessedPingSlash24: null,
+            rawRegionalSignalsProcessedBgpUcsdNt: null,
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
@@ -238,6 +244,20 @@ class Entity extends Component {
             }, () => {
                 this.combineValuesForAsnSignalsTable();
             })
+        }
+
+        if (this.props.rawRegionalSignals !== prevProps.rawRegionalSignals) {
+            this.props.rawRegionalSignals.map(signal => {
+                let rawRegionalSignals = this.state.rawRegionalSignals;
+                rawRegionalSignals.push(signal);
+                this.setState({
+                    rawRegionalSignals: rawRegionalSignals
+                }, () => {
+                    this.convertValuesForHtsViz();
+                    // console.log(this.state.rawRegionalSignals);
+                })
+            });
+
         }
     }
 
@@ -631,6 +651,7 @@ class Entity extends Component {
             genSummaryTable={() => this.genSummaryTable()}
             genRegionSignalsTable={() => this.genRegionalSignalsTable()}
             genAsnSignalsTable={() => this.genAsnSignalsTable()}
+            populateRegionalHtsChart={(width, datasource) => this.populateRegionalHtsChart(width, datasource)}
         />;
     }
     toggleModal(modalLocation) {
@@ -791,6 +812,8 @@ class Entity extends Component {
                 regionalSignalsTableSummaryDataProcessed: signalsTableData
             }, () => {
                 this.genRegionalSignalsTable();
+                // Populate Stacked horizon graph with all regions
+                this.getRegionalSignalsHtsDataEvents("region");
             })
         }
     }
@@ -817,6 +840,7 @@ class Entity extends Component {
             regionalSignalsTableCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh
         });
     }
+
     prevPageRegionalSignalsTableSummary() {
         let prevPageValues = prevPage(!!this.state.regionalSignalsTableSummaryDataProcessed, this.state.regionalSignalsTableSummaryDataProcessed.length, this.state.regionalSignalsTablePageNumber, this.state.regionalSignalsTableCurrentDisplayHigh, this.state.regionalSignalsTableCurrentDisplayLow);
         this.setState({
@@ -834,53 +858,113 @@ class Entity extends Component {
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
 
-        if (this.state.summaryDataRaw) {
-            this.state.summaryDataRaw.map(entity => {
-                // some entities don't return a code to be used in an api call
-                if (entity.entity.code !== "??") {
-                    this.props.getEventSignalsAction(entityType, entity.entity.code, from, until, attr, order)
+        if (this.state.regionalSignalsTableSummaryDataProcessed) {
+            this.state.regionalSignalsTableSummaryDataProcessed.map(entity => {
+                // some entities don't return a code to be used in an api call, seem to default to '??' in that event
+                if (entity.code !== "??") {
+                    // console.log(entity);
+                    this.props.getRawRegionalSignalsAction(entityType, entity.entityCode, from, until, attr, order)
                 }
             });
         }
     }
     convertValuesForHtsViz() {
-        let tsDataConverted = [];
-        this.state.eventDataRaw.map(tsData => {
+        let rawRegionalSignalsProcessedPingSlash24 = [];
+        let rawRegionalSignalsProcessedBgp = [];
+        let rawRegionalSignalsProcessedBgpUcsdNt = [];
+
+        // console.log(this.state.rawRegionalSignals);
+        this.state.rawRegionalSignals.map(tsData => {
             // Create visualization-friendly data objects
-            tsData.values.map((value, index) => {
-                const plotPoint = {
-                    entityCode: tsData.entityCode,
-                    ts: new Date(tsData.from * 1000 + tsData.step * 1000 * index),
-                    val: value
-                };
-                tsDataConverted.push(plotPoint);
-            });
-            // Add data objects to state for each data source
-            this.setState({
-                eventDataProcessed: tsDataConverted
-            }, () => {
-                this.populateHtsChart(900)
-            });
-        })
+            let series;
+            switch(tsData.datasource) {
+                case 'ping-slash24':
+                    series = convertTsDataForHtsViz(tsData);
+                    rawRegionalSignalsProcessedPingSlash24 = rawRegionalSignalsProcessedPingSlash24.concat(series);
+                    break;
+                case 'bgp':
+                    series = convertTsDataForHtsViz(tsData);
+                    rawRegionalSignalsProcessedBgp = rawRegionalSignalsProcessedBgp.concat(series);
+                    break;
+                case 'ucsd-nt':
+                    series = convertTsDataForHtsViz(tsData);
+                    rawRegionalSignalsProcessedBgpUcsdNt = rawRegionalSignalsProcessedBgpUcsdNt.concat(series);
+                    break;
+                default:
+                    break;
+            }
+        });
+        // Add data objects to state for each data source
+        this.setState({
+            rawRegionalSignalsProcessedPingSlash24: rawRegionalSignalsProcessedPingSlash24,
+            rawRegionalSignalsProcessedBgp: rawRegionalSignalsProcessedBgp,
+            rawRegionalSignalsProcessedUcsdNt: rawRegionalSignalsProcessedBgpUcsdNt
+        }, () => {
+            // console.log(this.state.rawRegionalSignalsProcessedPingSlash24);
+            // console.log(this.state.rawRegionalSignalsProcessedBgp);
+            // console.log(this.state.rawRegionalSignalsProcessedUcsdNt);
+            this.populateRegionalHtsChart(900, 'ping-slash24');
+            // this.populateRegionalHtsChart(900, 'bgp');
+            // this.populateRegionalHtsChart(900, 'ucsd-nt');
+        });
     }
-    populateHtsChart(width) {
-        if (this.state.eventDataProcessed) {
-            const myChart = HorizonTSChart()(document.getElementById(`horizon-chart`));
-            myChart
-                .data(this.state.eventDataProcessed)
-                .series('entityCode')
-                .yNormalize(false)
-                .useUtc(true)
-                .use24h(false)
-                // Will need to detect column width to populate height
-                .width(width)
-                .height(400)
-                .enableZoom(true)
-                .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
-                .showRuler(true);
+    populateRegionalHtsChart(width, datasource) {
+        switch(datasource) {
+            case 'ping-slash24':
+                if (this.state.rawRegionalSignalsProcessedPingSlash24) {
+                    // console.log(this.state.rawRegionalSignalsProcessedPingSlash24);
+                    const myChart = HorizonTSChart()(document.getElementById(`regional-horizon-chart--pingSlash24`));
+                    myChart
+                        .data(this.state.rawRegionalSignalsProcessedPingSlash24)
+                        .series('entityCode')
+                        .yNormalize(false)
+                        .useUtc(true)
+                        .use24h(false)
+                        // Will need to detect column width to populate height
+                        .width(width)
+                        .height(200)
+                        .enableZoom(false)
+                        .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
+                        .showRuler(true);
+                }
+                break;
+            case 'bgp':
+                if (this.state.rawRegionalSignalsProcessedBgp) {
+                    const myChart = HorizonTSChart()(document.getElementById(`regional-horizon-chart--bgp`));
+                    myChart
+                        .data(this.state.rawRegionalSignalsProcessedBgp)
+                        .series('entityCode')
+                        .yNormalize(false)
+                        .useUtc(true)
+                        .use24h(false)
+                        // Will need to detect column width to populate height
+                        .width(width)
+                        .height(400)
+                        .enableZoom(false)
+                        .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
+                        .showRuler(true);
+                }
+                break;
+            case 'ucsd-nt':
+                if (this.state.rawRegionalSignalsProcessedUcsdNt) {
+                    const myChart = HorizonTSChart()(document.getElementById(`regional-horizon-chart--ucsdNt`));
+                    myChart
+                        .data(this.state.rawRegionalSignalsProcessedUcsdNt)
+                        .series('entityCode')
+                        .yNormalize(false)
+                        .useUtc(true)
+                        .use24h(false)
+                        // Will need to detect column width to populate height
+                        .width(width)
+                        .height(400)
+                        .enableZoom(false)
+                        .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
+                        .showRuler(true);
+                }
+                break;
+            default:
+                break;
         }
-
-
     }
 
 
@@ -892,7 +976,6 @@ class Entity extends Component {
             this.setState({
                 asnSignalsTableSummaryDataProcessed: signalsTableData
             }, () => {
-                console.log(signalsTableData);
                 this.genAsnSignalsTable();
             })
         }
@@ -989,7 +1072,8 @@ const mapStateToProps = (state) => {
         mapModalSummary: state.iodaApi.mapModalSummary,
         mapModalTopoData: state.iodaApi.mapModalTopoData,
         regionalSignalsTableSummaryData: state.iodaApi.regionalSignalsTableSummaryData,
-        asnSignalsTableSummaryData: state.iodaApi.asnSignalsTableSummaryData
+        asnSignalsTableSummaryData: state.iodaApi.asnSignalsTableSummaryData,
+        rawRegionalSignals: state.iodaApi.rawRegionalSignals
     }
 };
 
@@ -1029,8 +1113,10 @@ const mapDispatchToProps = (dispatch) => {
         },
         asnSignalsTableSummaryDataAction: (entityType, relatedToEntityType, relatedToEntityCode) => {
             asnSignalsTableSummaryDataAction(dispatch, entityType, relatedToEntityType, relatedToEntityCode);
-        }
-
+        },
+        getRawRegionalSignalsAction: (entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
+            getRawRegionalSignalsAction(dispatch, entityType, entityCode, from, until, datasource, maxPoints);
+        },
 
 
         // searchRelatedEntitiesAction: (from, until, entityType, relatedToEntityType, relatedToEntityCode) => {

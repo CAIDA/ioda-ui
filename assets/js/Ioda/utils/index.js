@@ -209,3 +209,19 @@ export function prevPage(data, dataLength, pageNumber, currentDisplayHigh, curre
         return {newPageNumber: pageNumber, newCurrentDisplayLow: currentDisplayLow, newCurrentDisplayHigh: currentDisplayHigh};
     }
 }
+
+// Function for raw signals table on entity page
+// Will process time series data and return in a format compatible with the Horizon-time-series visual
+export function convertTsDataForHtsViz(tsData) {
+    let seriesConverted = [];
+    tsData.values.map((value, index) => {
+        const plotPoint = {
+            entityCode: tsData.entityCode,
+            datasource: tsData.datasource,
+            ts: new Date(tsData.from * 1000 + tsData.step * 1000 * index),
+            val: value
+        };
+        seriesConverted.push(plotPoint);
+    });
+    return seriesConverted;
+}

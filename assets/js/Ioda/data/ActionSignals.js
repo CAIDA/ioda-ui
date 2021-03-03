@@ -36,7 +36,7 @@
 BUILDING CONNECTION CONFIGS
  */
 
-import {fetchData, GET_EVENT_SIGNALS, GET_SIGNALS} from "./ActionCommons";
+import {fetchData, GET_EVENT_SIGNALS, GET_SIGNALS, GET_RAW_REGIONAL_SIGNALS} from "./ActionCommons";
 
 const buildSignalsConfig = (entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
     let url = `/signals/raw/${entityType}/${entityCode}?from=${from}&until=${until}`;
@@ -68,7 +68,7 @@ export const getSignalsAction = (dispatch, entityType, entityCode, from, until, 
             payload: data.data.data,
         })
     });
-}
+};
 
 export const getEventSignalsAction = (dispatch, entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
     let config = buildEventSignalsConfig(entityType, entityCode, from, until, datasource, maxPoints);
@@ -80,5 +80,15 @@ export const getEventSignalsAction = (dispatch, entityType, entityCode, from, un
             payload: data.data.data,
         })
     });
-}
+};
+
+export const getRawRegionalSignalsAction = (dispatch, entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
+    let config = buildSignalsConfig(entityType, entityCode, from, until, datasource, maxPoints);
+    fetchData(config).then(data => {
+        dispatch({
+            type: GET_RAW_REGIONAL_SIGNALS,
+            payload: data.data.data,
+        })
+    });
+};
 

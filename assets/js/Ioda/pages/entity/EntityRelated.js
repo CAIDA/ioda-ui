@@ -28,6 +28,7 @@ class EntityRelated extends Component {
                             toggleModal={this.props.toggleModal}
                             populateGeoJsonMap={this.props.populateGeoJsonMap}
                             genSignalsTable={() => this.props.genRegionSignalsTable()}
+                            populateRegionalHtsChart={(width, datasource) => this.props.populateRegionalHtsChart(width, datasource)}
                         />
                     </div>
                     <div className="map" style={{display: 'block', height: '400px'}}>

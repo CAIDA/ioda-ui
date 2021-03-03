@@ -177,14 +177,14 @@ class TestAPI extends Component {
                 const plotPoint = {
                     entityCode: tsData.entityCode,
                     datasource: tsData.datasource,
-                    ts: new Date(tsData.from + tsData.step * index),
+                    ts: new Date(tsData.from * 1000 + tsData.step * 1000 * index),
                     val: value
                 };
                 tsDatumConverted.push(plotPoint);
             });
             tsDataConverted.push(tsDatumConverted);
 
-            console.log(tsDataConverted[2]);
+            // console.log(tsDataConverted[2]);
 
             // Add data objects to state for each data source
             this.setState(prevState => ({
@@ -194,7 +194,9 @@ class TestAPI extends Component {
                     bgp: tsDataConverted[1],
                     darknet: tsDataConverted[0]
                 }
-            }));
+            }), () => {
+                // console.log(this.state.tsDataProcessed);
+            });
         })
     }
     genHtsChartForEntity(dataSource) {
@@ -448,9 +450,6 @@ class TestAPI extends Component {
                 }
             });
 
-            // console.log(summaryScores);
-
-            // console.log(summary);
             const summaryItem = {
                 entityType: summary["entity"].type,
                 name: summary["entity"].name,

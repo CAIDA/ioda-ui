@@ -52,6 +52,7 @@ export const GET_SIGNALS = "GET_SIGNALS";
 export const GET_EVENT_SIGNALS = "GET_EVENT_SIGNALS";
 export const GET_REGIONAL_SIGNALS_TABLE_SUMMARY_DATA = "GET_REGIONAL_SIGNALS_TABLE_SUMMARY_DATA";
 export const GET_ASN_SIGNALS_TABLE_SUMMARY_DATA = "GET_ASN_SIGNALS_TABLE_SUMMARY_DATA";
+export const GET_RAW_REGIONAL_SIGNALS = "GET_RAW_REGIONAL_SIGNALS";
 
 export const fetchData = (config) => {
     const baseURL = 'https://api.ioda.caida.org/dev';

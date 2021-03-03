@@ -4,8 +4,9 @@ import PropTypes from "prop-types";
 class Modal extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-        }
+        this.configPingSlash24 = React.createRef();
+        this.configBgp = React.createRef();
+        this.configUcsdNt = React.createRef();
     }
 
     render() {
@@ -15,6 +16,7 @@ class Modal extends Component {
         if (this.props.modalLocation === 'table' && !this.props.showModal) {
             return null;
         }
+        console.log(this.configPingSlash24);
         return(
             <div className="modal">
                 {
@@ -42,6 +44,22 @@ class Modal extends Component {
                                 </div>
                                 <div className="col-2-of-3">
                                     <p>Stacked Horizon Graph of all regions sorted by score</p>
+                                    <div id="regional-horizon-chart--pingSlash24">
+                                        {
+                                            this.props.populateRegionalHtsChart('900', 'ping-slash24')
+                                        }
+                                    </div>
+                                    <div id="regional-horizon-chart--bgp">
+                                        {
+                                            this.props.populateRegionalHtsChart('900', 'bgp')
+                                        }
+                                    </div>
+                                    <div id="regional-horizon-chart--ucsdNt">
+                                        {
+                                            this.props.populateRegionalHtsChart('900', 'ucsd-nt')
+                                        }
+                                    </div>
+
                                     <p>Map of Regional Outages</p>
                                     <div className="modal__map" style={{display: 'block', height: '400px'}}>
                                         {
