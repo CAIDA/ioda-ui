@@ -49,7 +49,8 @@ import {
     OUTAGE_TOTAL_COUNT,
     GET_REGIONAL_SIGNALS_TABLE_SUMMARY_DATA,
     GET_ASN_SIGNALS_TABLE_SUMMARY_DATA,
-    GET_RAW_REGIONAL_SIGNALS
+    GET_RAW_REGIONAL_SIGNALS,
+    GET_RAW_ASN_SIGNALS,
 } from './ActionCommons';
 
 // TODO: make sure the state won't overwrite each other when multiple calls are executed
@@ -69,8 +70,10 @@ const initialState = {
     datasources: null,
     // Map Modal
     regionalSignalsTableSummaryData: null,
+    rawRegionalSignals: null,
+    // Table Modal
     asnSignalsTableSummaryData: null,
-    rawRegionalSignals: null
+    rawAsnSignals: null
 }
 
 export function iodaApiReducer(state = initialState, action) {
@@ -132,6 +135,10 @@ export function iodaApiReducer(state = initialState, action) {
         case GET_RAW_REGIONAL_SIGNALS:
             return Object.assign({}, state, {
                 rawRegionalSignals: action.payload
+            })
+        case GET_RAW_ASN_SIGNALS:
+            return Object.assign({}, state, {
+                rawAsnSignals: action.payload
             })
         case GET_EVENT_SIGNALS:
             return Object.assign({}, state, {

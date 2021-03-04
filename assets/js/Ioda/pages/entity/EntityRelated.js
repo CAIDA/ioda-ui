@@ -59,6 +59,8 @@ class EntityRelated extends Component {
                             showModal={this.props.showTableModal}
                             toggleModal={this.props.toggleModal}
                             genSignalsTable={() => this.props.genAsnSignalsTable()}
+                            populateAsnHtsChart={(width, datasource) => this.props.populateAsnHtsChart(width, datasource)}
+
                         />
                     </div>
                     <div className="tab__table">
