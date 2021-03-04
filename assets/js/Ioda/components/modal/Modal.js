@@ -16,7 +16,7 @@ class Modal extends Component {
         if (this.props.modalLocation === 'table' && !this.props.showModal) {
             return null;
         }
-        console.log(this.configPingSlash24);
+        // console.log(this.configPingSlash24);
         return(
             <div className="modal">
                 {
@@ -84,7 +84,22 @@ class Modal extends Component {
                                     </div>
                                 </div>
                                 <div className="col-2-of-3">
-                                    <p>Stacked Horizon Graph of all ASes sorted by score</p>
+                                    <p>Stacked Horizon Graph of all ASNs sorted by score</p>
+                                    <div id="asn-horizon-chart--pingSlash24">
+                                        {
+                                            this.props.populateAsnHtsChart('900', 'ping-slash24')
+                                        }
+                                    </div>
+                                    <div id="asn-horizon-chart--bgp">
+                                        {
+                                            this.props.populateAsnHtsChart('900', 'bgp')
+                                        }
+                                    </div>
+                                    <div id="asn-horizon-chart--ucsdNt">
+                                        {
+                                            this.props.populateAsnHtsChart('900', 'ucsd-nt')
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>
