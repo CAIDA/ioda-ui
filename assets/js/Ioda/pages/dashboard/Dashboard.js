@@ -131,8 +131,6 @@ class Dashboard extends Component {
 
         // After API call for outage summary data completes, pass summary data to map function for data merging
         if (this.props.summary !== prevProps.summary) {
-            console.log("this.props.summary");
-            console.log(this.props.summary);
             this.setState({
                 summaryDataRaw: this.props.summary
             },() => {
@@ -340,7 +338,6 @@ class Dashboard extends Component {
             let page = this.state.apiPageNumber;
             // let page = null;
             const entityCode = null;
-            console.log(from, until, entityType, entityCode, limit, page, includeMetadata);
             this.props.searchSummaryAction(from, until, entityType, entityCode, limit, page, includeMetadata);
         }
     }
@@ -479,7 +476,6 @@ class Dashboard extends Component {
 // Summary Table
     convertValuesForSummaryTable() {
         let summaryData = convertValuesForSummaryTable(this.state.summaryDataRaw);
-        console.log(summaryData);
 
         if (this.state.apiPageNumber === 0) {
             this.setState({

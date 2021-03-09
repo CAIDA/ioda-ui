@@ -90,14 +90,12 @@ class Entity extends Component {
             showMapModal: false,
             showTableModal: false,
             // Signals Modal Table on Map Panel
-            regionalSignalsTableApiPageNumber: 0,
             regionalSignalsTableSummaryData: null,
             regionalSignalsTableSummaryDataProcessed: null,
             regionalSignalsTablePageNumber: 0,
             regionalSignalsTableCurrentDisplayLow: 0,
             regionalSignalsTableCurrentDisplayHigh: 10,
             // Signals Modal Table on Table Panel
-            asnSignalsTableApiPageNumber: 0,
             asnSignalsTableSummaryData: null,
             asnSignalsTableSummaryDataProcessed: null,
             asnSignalsTablePageNumber: 0,
