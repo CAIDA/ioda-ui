@@ -787,6 +787,7 @@ class Entity extends Component {
         this.setState({
             relatedToTableSummaryProcessed: summaryData
         }, () => {
+            console.log(this.state.relatedToTableSummaryProcessed);
             this.genSummaryTable();
         })
     }
@@ -877,15 +878,15 @@ class Entity extends Component {
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
 
-        if (this.state.regionalSignalsTableSummaryDataProcessed) {
-            this.state.regionalSignalsTableSummaryDataProcessed.map(entity => {
-                // some entities don't return a code to be used in an api call, seem to default to '??' in that event
-                if (entity.code !== "??") {
-                    // console.log(entity);
-                    this.props.getRawRegionalSignalsAction(entityType, entity.entityCode, from, until, attr, order)
-                }
-            });
-        }
+        // if (this.state.regionalSignalsTableSummaryDataProcessed) {
+        //     this.state.regionalSignalsTableSummaryDataProcessed.map(entity => {
+        //         // some entities don't return a code to be used in an api call, seem to default to '??' in that event
+        //         if (entity.code !== "??") {
+        //             // console.log(entity);
+        //             this.props.getRawRegionalSignalsAction(entityType, entity.entityCode, from, until, attr, order)
+        //         }
+        //     });
+        // }
     }
     convertValuesForHtsViz() {
         let rawRegionalSignalsProcessedPingSlash24 = [];
@@ -1041,12 +1042,24 @@ class Entity extends Component {
         let order = this.state.eventOrderByOrder;
 
         if (this.state.asnSignalsTableSummaryDataProcessed) {
-            this.state.asnSignalsTableSummaryDataProcessed.map(entity => {
-                // some entities don't return a code to be used in an api call, seem to default to '??' in that event
-                if (entity.code !== "??") {
-                    this.props.getRawAsnSignalsAction(entityType, entity.entityCode, from, until, attr, order)
-                }
-            });
+            // let entityCodes = "";
+            // this.state.asnSignalsTableSummaryDataProcessed.map(entity => {
+            //     // some entities don't return a code to be used in an api call, seem to default to '??' in that event
+            //     if (entity.code !== "??") {
+            //         entityCodes = entityCodes + `${entity.code},`;
+            //     }
+            // }, () => {
+            //     console.log(entityCodes);
+            //     this.props.getRawAsnSignalsAction(entityType, entityCodes, from, until, attr, order)
+            // });
+
+
+            // this.state.asnSignalsTableSummaryDataProcessed.map(entity => {
+            //     // some entities don't return a code to be used in an api call, seem to default to '??' in that event
+            //     if (entity.code !== "??") {
+            //         this.props.getRawAsnSignalsAction(entityType, entity.entityCode, from, until, attr, order)
+            //     }
+            // });
         }
     }
     convertValuesForAsnHtsViz() {

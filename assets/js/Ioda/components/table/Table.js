@@ -39,6 +39,7 @@ class Table extends Component {
         };
         this.summaryHeaders = {
             name: "Name",
+            ipCount: "IP Count",
             score: "Score",
         };
         this.signalHeaders = {
@@ -326,6 +327,7 @@ class Table extends Component {
                     }
                     {
                         this.props.type === "summary" && this.props.data.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(summary => {
+                            console.log(summary);
                             return <SummaryTableRow key={generateKeys('summary')} type={this.props.type} data={summary}/>
                         })
                     }

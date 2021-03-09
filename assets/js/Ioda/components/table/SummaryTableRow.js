@@ -18,7 +18,7 @@ class SummaryTableRow extends Component {
     }
 
     componentDidMount() {
-        if (this.props.signal) {
+        if (this.props.data) {
             console.log(this.props.data);
         }
 
@@ -78,7 +78,6 @@ class SummaryTableRow extends Component {
     }
 
     render() {
-
         let overallScore = humanizeNumber(this.props.data.score, 2);
         return(
             <tr
@@ -98,6 +97,9 @@ class SummaryTableRow extends Component {
                     <Link className="table__cell-link" to={`/${this.props.data.entityType}/${this.props.data.entityCode}`}>
                         {this.props.data.name}
                     </Link>
+                </td>
+                <td>
+                    {this.props.data.ipCount}
                 </td>
                 <td
                     className="table__cell--overallScore"

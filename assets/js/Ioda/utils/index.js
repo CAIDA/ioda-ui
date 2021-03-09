@@ -99,8 +99,18 @@ export function convertValuesForSummaryTable(summaryDataRaw) {
             }
         });
 
-        // console.log(summary);
-        const summaryItem = {
+        // If entity type has ip_count/is an ASN
+        let summaryItem;
+        summary.entity.type === 'asn'
+            ? summaryItem = {
+                entityType: summary["entity"].type,
+                entityCode: summary["entity"].code,
+                name: summary["entity"].name,
+                score: overallScore,
+                scores: summaryScores,
+                ipCount: summary["entity"]["attrs"]["ip_count"]
+            }
+            : summaryItem = {
             entityType: summary["entity"].type,
             entityCode: summary["entity"].code,
             name: summary["entity"].name,
