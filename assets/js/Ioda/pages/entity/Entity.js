@@ -80,6 +80,7 @@ class Entity extends Component {
             topoData: null,
             relatedToMapSummary: null,
             // relatedTo entity Table
+            relatedToTableApiPageNumber: 0,
             relatedToTableSummary: null,
             relatedToTableSummaryProcessed: null,
             relatedToTablePageNumber: 0,
@@ -89,12 +90,14 @@ class Entity extends Component {
             showMapModal: false,
             showTableModal: false,
             // Signals Modal Table on Map Panel
+            regionalSignalsTableApiPageNumber: 0,
             regionalSignalsTableSummaryData: null,
             regionalSignalsTableSummaryDataProcessed: null,
             regionalSignalsTablePageNumber: 0,
             regionalSignalsTableCurrentDisplayLow: 0,
             regionalSignalsTableCurrentDisplayHigh: 10,
             // Signals Modal Table on Table Panel
+            asnSignalsTableApiPageNumber: 0,
             asnSignalsTableSummaryData: null,
             asnSignalsTableSummaryDataProcessed: null,
             asnSignalsTablePageNumber: 0,
@@ -113,6 +116,7 @@ class Entity extends Component {
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
+        this.apiQueryLimit = 170;
     }
 
     componentDidMount() {
@@ -757,9 +761,9 @@ class Entity extends Component {
         if (this.state.mounted) {
             let until = this.state.until;
             let from = this.state.from;
-            const limit = 170;
+            const limit = this.apiQueryLimit;;
             const includeMetadata = true;
-            let page = this.state.pageNumber;
+            let page = this.state.relatedToTableApiPageNumber;
             const entityCode = null;
             let relatedToEntityType, relatedToEntityCode;
             // console.log(this.props.entityMetadata[0]["attrs"]);
@@ -784,11 +788,24 @@ class Entity extends Component {
     }
     convertValuesForSummaryTable() {
         let summaryData = convertValuesForSummaryTable(this.state.relatedToTableSummary);
-        this.setState({
-            relatedToTableSummaryProcessed: summaryData
-        }, () => {
-            this.genSummaryTable();
-        })
+
+        if (this.state.relatedToTableApiPageNumber === 0) {
+            this.setState({
+                relatedToTableSummaryProcessed: summaryData
+            }, () => {
+                this.genSummaryTable();
+            })
+        }
+
+        if (this.state.relatedToTableApiPageNumber > 0) {
+            this.setState({
+                relatedToTableSummaryProcessed: this.state.relatedToTableSummaryProcessed.concat(summaryData)
+            }, () => {
+                this.genSummaryTable();
+            })
+        }
+
+
     }
     genSummaryTable() {
         return (
@@ -810,6 +827,17 @@ class Entity extends Component {
             relatedToTablePageNumber: nextPageValues.newPageNumber,
             relatedToTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
             relatedToTableCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh
+        }, () => {
+            // load more entries if user browses beyond initial amount loaded, defined at this.apiQueryLimit
+            if (this.state.relatedToTableCurrentDisplayHigh > (this.state.relatedToTableApiPageNumber + 1) * this.apiQueryLimit) {
+
+                this.setState({
+                    apiPageNumber: this.state.relatedToTableApiPageNumber + 1,
+                }, () => {
+                    this.getDataRelatedToTableSummary("asn");
+                });
+
+            }
         });
     }
     prevPageRelatedToTableSummary() {
@@ -877,15 +905,15 @@ class Entity extends Component {
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
 
-        // if (this.state.regionalSignalsTableSummaryDataProcessed) {
-        //     this.state.regionalSignalsTableSummaryDataProcessed.map(entity => {
-        //         // some entities don't return a code to be used in an api call, seem to default to '??' in that event
-        //         if (entity.code !== "??") {
-        //             // console.log(entity);
-        //             this.props.getRawRegionalSignalsAction(entityType, entity.entityCode, from, until, attr, order)
-        //         }
-        //     });
-        // }
+        if (this.state.regionalSignalsTableSummaryDataProcessed) {
+            this.state.regionalSignalsTableSummaryDataProcessed.map(entity => {
+                // some entities don't return a code to be used in an api call, seem to default to '??' in that event
+                if (entity.code !== "??") {
+                    // console.log(entity);
+                    this.props.getRawRegionalSignalsAction(entityType, entity.entityCode, from, until, attr, order)
+                }
+            });
+        }
     }
     convertValuesForHtsViz() {
         let rawRegionalSignalsProcessedPingSlash24 = [];
@@ -1053,12 +1081,12 @@ class Entity extends Component {
             // });
 
 
-            // this.state.asnSignalsTableSummaryDataProcessed.map(entity => {
-            //     // some entities don't return a code to be used in an api call, seem to default to '??' in that event
-            //     if (entity.code !== "??") {
-            //         this.props.getRawAsnSignalsAction(entityType, entity.entityCode, from, until, attr, order)
-            //     }
-            // });
+            this.state.asnSignalsTableSummaryDataProcessed.map(entity => {
+                // some entities don't return a code to be used in an api call, seem to default to '??' in that event
+                if (entity.code !== "??") {
+                    this.props.getRawAsnSignalsAction(entityType, entity.entityCode, from, until, attr, order)
+                }
+            });
         }
     }
     convertValuesForAsnHtsViz() {

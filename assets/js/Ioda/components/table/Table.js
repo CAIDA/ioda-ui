@@ -54,22 +54,6 @@ class Table extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        // if (this.state !== prevState) {
-        //     if (this.props.type === "signal") {
-        //         // Signal Table default sort
-        //         this.setState({
-        //             signalData: this.props.data,
-        //             sortedColumn: {
-        //                 name: "score",
-        //                 position: "desc",
-        //                 arrow: iconSortDesc
-        //             }
-        //         },() => {
-        //             console.log(this.state.signalData);
-        //         });
-        //     }
-        // }
-
         if (this.props.data !== prevProps.data) {
             if (this.props.type === "alert") {
                 // Alert Table default sort

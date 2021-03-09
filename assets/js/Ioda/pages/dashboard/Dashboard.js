@@ -270,6 +270,7 @@ class Dashboard extends Component {
                 totalEventCount: 0,
                 // Reset Table Page Count
                 pageNumber: 0,
+                apiPageNumber: 0,
                 currentDisplayLow: 0,
                 currentDisplayHigh: 10
             });
@@ -290,7 +291,6 @@ class Dashboard extends Component {
                 totalEventCount: 0,
                 // Reset Table Page Count
                 pageNumber: 0,
-                // Tracking the table page and the api page separately
                 apiPageNumber: 0,
                 currentDisplayLow: 0,
                 currentDisplayHigh: 10
@@ -312,6 +312,7 @@ class Dashboard extends Component {
                 totalEventCount: 0,
                 // Reset Table Page Count
                 pageNumber: 0,
+                apiPageNumber: 0,
                 currentDisplayLow: 0,
                 currentDisplayHigh: 10
             });
@@ -340,18 +341,6 @@ class Dashboard extends Component {
             // let page = null;
             const entityCode = null;
             console.log(from, until, entityType, entityCode, limit, page, includeMetadata);
-            this.props.searchSummaryAction(from, until, entityType, entityCode, limit, page, includeMetadata);
-        }
-    }
-    getDataOutageSummaryAdditional(entityType) {
-        if (this.state.mounted) {
-            let until = this.state.until;
-            let from = this.state.from;
-            const limit = 170;
-            const includeMetadata = true;
-            let page = this.state.apiPageNumber;
-            // let page = null;
-            const entityCode = null;
             this.props.searchSummaryAction(from, until, entityType, entityCode, limit, page, includeMetadata);
         }
     }
