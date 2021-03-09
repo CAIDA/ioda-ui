@@ -108,7 +108,7 @@ export function convertValuesForSummaryTable(summaryDataRaw) {
                 name: summary["entity"].name,
                 score: overallScore,
                 scores: summaryScores,
-                ipCount: summary["entity"]["attrs"]["ip_count"]
+                ipCount: humanizeNumber(summary["entity"]["attrs"]["ip_count"], 2)
             }
             : summaryItem = {
             entityType: summary["entity"].type,
