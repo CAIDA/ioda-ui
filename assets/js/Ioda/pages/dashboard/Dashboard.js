@@ -70,11 +70,12 @@ class Dashboard extends Component {
             region: region.tab,
             as: as.tab
         };
-        // Add to internationalization
+        // ToDo: Add to internationalization
         this.countryTab = "Country View";
         this.regionTab = "Region View";
         this.asTab = "AS/ISP View";
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
+        this.apiQueryLimit = 170;
     }
 
     componentDidMount() {
@@ -130,6 +131,8 @@ class Dashboard extends Component {
 
         // After API call for outage summary data completes, pass summary data to map function for data merging
         if (this.props.summary !== prevProps.summary) {
+            console.log("this.props.summary");
+            console.log(this.props.summary);
             this.setState({
                 summaryDataRaw: this.props.summary
             },() => {
@@ -331,12 +334,24 @@ class Dashboard extends Component {
         if (this.state.mounted) {
             let until = this.state.until;
             let from = this.state.from;
-            const limit = 170;
+            const limit = this.apiQueryLimit;
             const includeMetadata = true;
             let page = this.state.apiPageNumber;
             // let page = null;
             const entityCode = null;
             console.log(from, until, entityType, entityCode, limit, page, includeMetadata);
+            this.props.searchSummaryAction(from, until, entityType, entityCode, limit, page, includeMetadata);
+        }
+    }
+    getDataOutageSummaryAdditional(entityType) {
+        if (this.state.mounted) {
+            let until = this.state.until;
+            let from = this.state.from;
+            const limit = 170;
+            const includeMetadata = true;
+            let page = this.state.apiPageNumber;
+            // let page = null;
+            const entityCode = null;
             this.props.searchSummaryAction(from, until, entityType, entityCode, limit, page, includeMetadata);
         }
     }
@@ -475,15 +490,27 @@ class Dashboard extends Component {
 // Summary Table
     convertValuesForSummaryTable() {
         let summaryData = convertValuesForSummaryTable(this.state.summaryDataRaw);
-        this.setState({
-            summaryDataProcessed: summaryData
-        }, () => {
-            this.genSummaryTable();
-        })
+        console.log(summaryData);
+
+        if (this.state.apiPageNumber === 0) {
+            this.setState({
+                summaryDataProcessed: summaryData
+            }, () => {
+                this.genSummaryTable();
+            })
+        }
+
+        if (this.state.apiPageNumber > 0) {
+            this.setState({
+                summaryDataProcessed: this.state.summaryDataProcessed.concat(summaryData)
+            }, () => {
+                this.genSummaryTable();
+            })
+        }
+
     }
     genSummaryTable() {
         return (
-            this.state.summaryDataProcessed &&
             <Table
                 type={"summary"}
                 data={this.state.summaryDataProcessed}
@@ -504,11 +531,11 @@ class Dashboard extends Component {
                 currentDisplayLow: nextPageValues.newCurrentDisplayLow,
                 currentDisplayHigh: nextPageValues.newCurrentDisplayHigh
             }, () => {
-                if (this.state.currentDisplayHigh > 170) {
+                // load more entries if user browses beyond initial amount loaded, defined at this.apiQueryLimit
+                if (this.state.currentDisplayHigh > (this.state.apiPageNumber + 1) * this.apiQueryLimit) {
+
                     this.setState({
                         apiPageNumber: this.state.apiPageNumber + 1,
-                        summaryDataRaw: null,
-                        summaryDataProcessed: []
                     }, () => {
                         this.getDataOutageSummary(this.state.activeTabType);
                     });

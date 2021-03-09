@@ -222,7 +222,6 @@ class Table extends Component {
 
     render() {
         const { type } = this.props;
-        console.log(this.props);
         return (
             <div className="table__wrapper">
                 <table className={`table ${type === "alert" ? "table--alert" : type === "event" ? "table--event" : type === "summary" ? "table--summary" : "table--signal"}`}>
