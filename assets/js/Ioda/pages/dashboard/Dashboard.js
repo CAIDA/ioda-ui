@@ -54,7 +54,7 @@ class Dashboard extends Component {
             totalOutages: 0,
             // Summary Table Pagination
             pageNumber: 0,
-            apiPageNumber: 1,
+            apiPageNumber: 0,
             currentDisplayLow: 0,
             currentDisplayHigh: 10,
             // Event Data for Time Series
@@ -237,7 +237,6 @@ class Dashboard extends Component {
             eventDataProcessed: [],
             // Reset table count values
             pageNumber: 0,
-            apiPageNumber: 1,
             currentDisplayLow: 0,
             currentDisplayHigh: 10,
         }, () => {
@@ -288,6 +287,8 @@ class Dashboard extends Component {
                 totalEventCount: 0,
                 // Reset Table Page Count
                 pageNumber: 0,
+                // Tracking the table page and the api page separately
+                apiPageNumber: 0,
                 currentDisplayLow: 0,
                 currentDisplayHigh: 10
             });
@@ -332,9 +333,10 @@ class Dashboard extends Component {
             let from = this.state.from;
             const limit = 170;
             const includeMetadata = true;
-            let page = this.state.pageNumber;
+            let page = this.state.apiPageNumber;
             // let page = null;
             const entityCode = null;
+            console.log(from, until, entityType, entityCode, limit, page, includeMetadata);
             this.props.searchSummaryAction(from, until, entityType, entityCode, limit, page, includeMetadata);
         }
     }
@@ -490,6 +492,7 @@ class Dashboard extends Component {
                 currentDisplayLow={this.state.currentDisplayLow}
                 currentDisplayHigh={this.state.currentDisplayHigh}
                 totalCount={this.state.totalOutages}
+                entityType={this.state.activeTabType}
             />
         )
     }
@@ -502,6 +505,13 @@ class Dashboard extends Component {
                 currentDisplayHigh: nextPageValues.newCurrentDisplayHigh
             }, () => {
                 if (this.state.currentDisplayHigh > 170) {
+                    this.setState({
+                        apiPageNumber: this.state.apiPageNumber + 1,
+                        summaryDataRaw: null,
+                        summaryDataProcessed: []
+                    }, () => {
+                        this.getDataOutageSummary(this.state.activeTabType);
+                    });
 
                 }
             });
@@ -595,7 +605,7 @@ const mapDispatchToProps = (dispatch) => {
             searchSummary(dispatch, from, until, entityType, entityCode, limit, page, includeMetaData);
         },
         totalOutagesAction: (from, until, entityType) => {
-          totalOutages(dispatch, from, until, entityType);
+            totalOutages(dispatch, from, until, entityType);
         },
         getTopoAction: (entityType) => {
             getTopoAction(dispatch, entityType);

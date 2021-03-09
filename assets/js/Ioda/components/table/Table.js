@@ -39,6 +39,10 @@ class Table extends Component {
         };
         this.summaryHeaders = {
             name: "Name",
+            score: "Score",
+        };
+        this.summaryHeadersAsn = {
+            name: "Name",
             ipCount: "IP Count",
             score: "Score",
         };
@@ -218,6 +222,7 @@ class Table extends Component {
 
     render() {
         const { type } = this.props;
+        console.log(this.props);
         return (
             <div className="table__wrapper">
                 <table className={`table ${type === "alert" ? "table--alert" : type === "event" ? "table--event" : type === "summary" ? "table--summary" : "table--signal"}`}>
@@ -228,11 +233,13 @@ class Table extends Component {
                                 ? this.alertHeaders
                                 : type === "event"
                                     ? this.eventHeaders
-                                    : type === "summary"
-                                        ? this.summaryHeaders
-                                        : type === "signal"
-                                            ? this.signalHeaders
-                                            : null
+                                    : type === "summary" && this.props.entityType === 'asn'
+                                        ? this.summaryHeadersAsn
+                                        : type === "summary" && this.props.entityType !== 'asn'
+                                            ? this.summaryHeaders
+                                            : type === "signal"
+                                                ? this.signalHeaders
+                                                : null
                             ).map(header => {
                                 return <th className="table__header-col" key={header}>
                                     <button onClick={(event) => this.sortByColumn(event)} value={header}>
@@ -327,8 +334,7 @@ class Table extends Component {
                     }
                     {
                         this.props.type === "summary" && this.props.data.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(summary => {
-                            console.log(summary);
-                            return <SummaryTableRow key={generateKeys('summary')} type={this.props.type} data={summary}/>
+                            return <SummaryTableRow key={generateKeys('summary')} type={this.props.type} entityType={this.props.entityType} data={summary}/>
                         })
                     }
                     {

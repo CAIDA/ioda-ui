@@ -787,7 +787,6 @@ class Entity extends Component {
         this.setState({
             relatedToTableSummaryProcessed: summaryData
         }, () => {
-            console.log(this.state.relatedToTableSummaryProcessed);
             this.genSummaryTable();
         })
     }
