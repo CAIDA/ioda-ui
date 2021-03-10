@@ -7,6 +7,10 @@ button[class*="searchButton"] {
   padding-top: $header-height;
   margin-top: 4rem;
 
+  .row {
+    max-width: $grid-width;
+  }
+
   & .col-1-of-1 .row {
     display: flex;
     justify-content: center;

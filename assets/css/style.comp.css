@@ -1357,7 +1357,6 @@ body {
     letter-spacing: 0.6px; }
 
 .row {
-  max-width: 114rem;
   margin: 0 auto; }
   .row:not(:last-child) {
     margin-bottom: 4.5rem; }
@@ -1476,6 +1475,8 @@ button[class*="searchButton"] {
 .home {
   padding-top: 7rem;
   margin-top: 4rem; }
+  .home .row {
+    max-width: 114rem; }
   .home .col-1-of-1 .row {
     display: flex;
     justify-content: center; }
@@ -1606,7 +1607,7 @@ button[class*="searchButton"] {
 
 .dashboard {
   padding-top: 7rem;
-  margin-top: 4rem; }
+  margin: 4rem 4.5rem 0; }
   .dashboard .col-1-of-3 {
     position: relative; }
   .dashboard .tabs {
@@ -1724,7 +1725,7 @@ button[class*="searchButton"] {
 
 .entity {
   padding-top: 7rem;
-  margin-top: 4rem; }
+  margin: 4rem 4.5rem 0; }
   .entity .col-1-of-3 {
     position: relative; }
   .entity .overview {
