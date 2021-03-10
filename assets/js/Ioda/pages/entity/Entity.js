@@ -128,9 +128,8 @@ class Entity extends Component {
             // Get entity name from code provided in url
             this.props.getEntityMetadataAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
             // Get related entities used on table in map modal
-            this.props.regionalSignalsTableSummaryDataAction("region", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
-            this.props.asnSignalsTableSummaryDataAction("asn", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
-
+            // this.props.regionalSignalsTableSummaryDataAction("region", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
+            // this.props.asnSignalsTableSummaryDataAction("asn", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
         });
     }
 
@@ -408,8 +407,10 @@ class Entity extends Component {
         let bgpValues = [];
         let activeProbingValues = [];
 
+        console.log(this.state.tsDataRaw);
+
         // Loop through available datasources to collect plot points
-        this.state.tsDataRaw.map(datasource => {
+        this.state.tsDataRaw[0].map(datasource => {
             switch (datasource.datasource) {
                 case "ucsd-nt":
                     datasource.values && datasource.values.map((value, index) => {
