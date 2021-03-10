@@ -452,6 +452,7 @@ class Entity extends Component {
         this.setState({
             xyDataOptions: {
                 theme: "light2",
+                height: 650,
                 animationEnabled: true,
                 zoomEnabled: true,
                 title: {

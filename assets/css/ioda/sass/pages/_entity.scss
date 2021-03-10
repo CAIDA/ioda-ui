@@ -38,13 +38,30 @@
   }
 
   .related {
+    margin-bottom: $gutter-vertical;
+
     .col-1-of-2 {
       background-color: $color-white;
       border-bottom-right-radius: 0.3rem;
       border-bottom-left-radius: 0.3rem;
       border-top-right-radius: 0.3rem;
       box-shadow: $box-shadow;
-      min-height: 50rem;
+      min-height: 65rem;
+    }
+
+    &__title {
+      display: flex;
+      flex-direction: row;
+      margin: 1.5rem;
+      justify-content: space-between;
+    }
+
+    &__modal-button {
+      @include button;
+      height: 3rem;
+      font-size: 1rem;
+      margin: 0;
+      padding: 0 1rem;
     }
   }
 }
