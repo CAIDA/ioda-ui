@@ -1122,8 +1122,8 @@ class Entity extends Component {
             // console.log(this.state.rawAsnSignalsProcessedBgp);
             // console.log(this.state.rawAsnSignalsProcessedUcsdNt);
             this.populateAsnHtsChart(900, 'ping-slash24');
-            this.populateRegionalHtsChart(900, 'bgp');
-            this.populateRegionalHtsChart(900, 'ucsd-nt');
+            this.populateAsnHtsChart(900, 'bgp');
+            this.populateAsnHtsChart(900, 'ucsd-nt');
         });
     }
     populateAsnHtsChart(width, datasource) {
