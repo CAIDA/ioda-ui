@@ -80,6 +80,7 @@ class Entity extends Component {
             topoData: null,
             relatedToMapSummary: null,
             // relatedTo entity Table
+            relatedToTableApiPageNumber: 0,
             relatedToTableSummary: null,
             relatedToTableSummaryProcessed: null,
             relatedToTablePageNumber: 0,
@@ -113,6 +114,7 @@ class Entity extends Component {
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
+        this.apiQueryLimit = 170;
     }
 
     componentDidMount() {
@@ -128,7 +130,6 @@ class Entity extends Component {
             // Get related entities used on table in map modal
             this.props.regionalSignalsTableSummaryDataAction("region", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
             this.props.asnSignalsTableSummaryDataAction("asn", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
-
         });
     }
 
@@ -218,7 +219,7 @@ class Entity extends Component {
                 summaryDataMapRaw: this.props.relatedToMapSummary
             },() => {
                 // this.convertValuesForSummaryTable();
-                this.combineValuesForRegionalSignalsTable();
+
             })
         }
 
@@ -230,7 +231,6 @@ class Entity extends Component {
             this.setState({
                 relatedToTableSummary: this.props.relatedToTableSummary
             },() => {
-                this.combineValuesForAsnSignalsTable();
                 this.convertValuesForSummaryTable();
             })
         }
@@ -239,7 +239,7 @@ class Entity extends Component {
             this.setState({
                 regionalSignalsTableSummaryData: this.props.regionalSignalsTableSummaryData
             }, () => {
-                this.combineValuesForRegionalSignalsTable();
+                // this.combineValuesForRegionalSignalsTable();
             })
         }
 
@@ -247,7 +247,8 @@ class Entity extends Component {
             this.setState({
                 asnSignalsTableSummaryData: this.props.asnSignalsTableSummaryData
             }, () => {
-                this.combineValuesForAsnSignalsTable();
+                // this.combineValuesForAsnSignalsTable();
+                // this.convertValuesForAsnHtsViz();
             })
         }
 
@@ -258,7 +259,7 @@ class Entity extends Component {
                 this.setState({
                     rawRegionalSignals: rawRegionalSignals
                 }, () => {
-                    this.convertValuesForHtsViz();
+                    // this.convertValuesForRegionalHtsViz();
                     // console.log(this.state.rawRegionalSignals);
                 })
             });
@@ -273,7 +274,7 @@ class Entity extends Component {
                 this.setState({
                     rawAsnSignals: rawAsnSignals
                 }, () => {
-                    this.convertValuesForAsnHtsViz();
+
                     // console.log(this.state.rawRegionalSignals);
                 })
             });
@@ -407,7 +408,7 @@ class Entity extends Component {
         let activeProbingValues = [];
 
         // Loop through available datasources to collect plot points
-        this.state.tsDataRaw.map(datasource => {
+        this.state.tsDataRaw[0].map(datasource => {
             switch (datasource.datasource) {
                 case "ucsd-nt":
                     datasource.values && datasource.values.map((value, index) => {
@@ -450,6 +451,7 @@ class Entity extends Component {
         this.setState({
             xyDataOptions: {
                 theme: "light2",
+                height: 650,
                 animationEnabled: true,
                 zoomEnabled: true,
                 title: {
@@ -676,10 +678,14 @@ class Entity extends Component {
     }
     toggleModal(modalLocation) {
         if (modalLocation === 'map') {
+            this.combineValuesForRegionalSignalsTable();
+            this.convertValuesForRegionalHtsViz();
             this.setState({
                 showMapModal: !this.state.showMapModal
             });
         } else if (modalLocation === 'table') {
+            this.combineValuesForAsnSignalsTable();
+            this.convertValuesForAsnHtsViz();
             this.setState({
                 showTableModal: !this.state.showTableModal
             });
@@ -757,9 +763,9 @@ class Entity extends Component {
         if (this.state.mounted) {
             let until = this.state.until;
             let from = this.state.from;
-            const limit = 170;
+            const limit = this.apiQueryLimit;;
             const includeMetadata = true;
-            let page = this.state.pageNumber;
+            let page = this.state.relatedToTableApiPageNumber;
             const entityCode = null;
             let relatedToEntityType, relatedToEntityCode;
             // console.log(this.props.entityMetadata[0]["attrs"]);
@@ -784,11 +790,24 @@ class Entity extends Component {
     }
     convertValuesForSummaryTable() {
         let summaryData = convertValuesForSummaryTable(this.state.relatedToTableSummary);
-        this.setState({
-            relatedToTableSummaryProcessed: summaryData
-        }, () => {
-            this.genSummaryTable();
-        })
+
+        if (this.state.relatedToTableApiPageNumber === 0) {
+            this.setState({
+                relatedToTableSummaryProcessed: summaryData
+            }, () => {
+                this.genSummaryTable();
+            })
+        }
+
+        if (this.state.relatedToTableApiPageNumber > 0) {
+            this.setState({
+                relatedToTableSummaryProcessed: this.state.relatedToTableSummaryProcessed.concat(summaryData)
+            }, () => {
+                this.genSummaryTable();
+            })
+        }
+
+
     }
     genSummaryTable() {
         return (
@@ -810,6 +829,17 @@ class Entity extends Component {
             relatedToTablePageNumber: nextPageValues.newPageNumber,
             relatedToTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
             relatedToTableCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh
+        }, () => {
+            // load more entries if user browses beyond initial amount loaded, defined at this.apiQueryLimit
+            if (this.state.relatedToTableCurrentDisplayHigh > (this.state.relatedToTableApiPageNumber + 1) * this.apiQueryLimit) {
+
+                this.setState({
+                    apiPageNumber: this.state.relatedToTableApiPageNumber + 1,
+                }, () => {
+                    this.getDataRelatedToTableSummary("asn");
+                });
+
+            }
         });
     }
     prevPageRelatedToTableSummary() {
@@ -876,42 +906,41 @@ class Entity extends Component {
         let from = this.state.from;
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
-
-        if (this.state.regionalSignalsTableSummaryDataProcessed) {
-            this.state.regionalSignalsTableSummaryDataProcessed.map(entity => {
-                // some entities don't return a code to be used in an api call, seem to default to '??' in that event
-                if (entity.code !== "??") {
-                    // console.log(entity);
-                    this.props.getRawRegionalSignalsAction(entityType, entity.entityCode, from, until, attr, order)
-                }
-            });
-        }
+        let entities = this.state.regionalSignalsTableSummaryDataProcessed.slice(0, 30).map(entity => {
+            // some entities don't return a code to be used in an api call, seem to default to '??' in that event
+            if (entity.code !== "??") {
+                return entity.entityCode;
+            }
+        }).toString();
+        this.props.getRawRegionalSignalsAction(entityType, entities, from, until, attr, order);
     }
-    convertValuesForHtsViz() {
+    convertValuesForRegionalHtsViz() {
         let rawRegionalSignalsProcessedPingSlash24 = [];
         let rawRegionalSignalsProcessedBgp = [];
         let rawRegionalSignalsProcessedUcsdNt = [];
-
-        // console.log(this.state.rawRegionalSignals);
+        // Create visualization-friendly data objects
         this.state.rawRegionalSignals.map(tsData => {
-            // Create visualization-friendly data objects
-            let series;
-            switch(tsData.datasource) {
-                case 'ping-slash24':
-                    series = convertTsDataForHtsViz(tsData);
-                    rawRegionalSignalsProcessedPingSlash24 = rawRegionalSignalsProcessedPingSlash24.concat(series);
-                    break;
-                case 'bgp':
-                    series = convertTsDataForHtsViz(tsData);
-                    rawRegionalSignalsProcessedBgp = rawRegionalSignalsProcessedBgp.concat(series);
-                    break;
-                case 'ucsd-nt':
-                    series = convertTsDataForHtsViz(tsData);
-                    rawRegionalSignalsProcessedUcsdNt = rawRegionalSignalsProcessedUcsdNt.concat(series);
-                    break;
-                default:
-                    break;
-            }
+            tsData.map(datasource => {
+                console.log(datasource);
+                let series;
+                switch(datasource.datasource) {
+                    case 'ping-slash24':
+                        series = convertTsDataForHtsViz(datasource);
+                        rawRegionalSignalsProcessedPingSlash24 = rawRegionalSignalsProcessedPingSlash24.concat(series);
+                        break;
+                    case 'bgp':
+                        series = convertTsDataForHtsViz(datasource);
+                        rawRegionalSignalsProcessedBgp = rawRegionalSignalsProcessedBgp.concat(series);
+                        break;
+                    case 'ucsd-nt':
+                        series = convertTsDataForHtsViz(datasource);
+                        rawRegionalSignalsProcessedUcsdNt = rawRegionalSignalsProcessedUcsdNt.concat(series);
+                        break;
+                    default:
+                        break;
+                }
+            });
+
         });
         // Add data objects to state for each data source
         this.setState({
@@ -919,15 +948,17 @@ class Entity extends Component {
             rawRegionalSignalsProcessedBgp: rawRegionalSignalsProcessedBgp,
             rawRegionalSignalsProcessedUcsdNt: rawRegionalSignalsProcessedUcsdNt
         }, () => {
+            console.log("here");
             // console.log(this.state.rawRegionalSignalsProcessedPingSlash24);
             // console.log(this.state.rawRegionalSignalsProcessedBgp);
             // console.log(this.state.rawRegionalSignalsProcessedUcsdNt);
             this.populateRegionalHtsChart(900, 'ping-slash24');
-            // this.populateRegionalHtsChart(900, 'bgp');
-            // this.populateRegionalHtsChart(900, 'ucsd-nt');
+            this.populateRegionalHtsChart(900, 'bgp');
+            this.populateRegionalHtsChart(900, 'ucsd-nt');
         });
     }
     populateRegionalHtsChart(width, datasource) {
+        console.log("here");
         switch(datasource) {
             case 'ping-slash24':
                 if (this.state.rawRegionalSignalsProcessedPingSlash24) {
@@ -1039,15 +1070,15 @@ class Entity extends Component {
         let from = this.state.from;
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
-
-        if (this.state.asnSignalsTableSummaryDataProcessed) {
-            this.state.asnSignalsTableSummaryDataProcessed.map(entity => {
-                // some entities don't return a code to be used in an api call, seem to default to '??' in that event
-                if (entity.code !== "??") {
-                    this.props.getRawAsnSignalsAction(entityType, entity.entityCode, from, until, attr, order)
-                }
-            });
-        }
+        console.log(this.state.asnSignalsTableSummaryDataProcessed.slice(0, 30));
+        let entities = this.state.asnSignalsTableSummaryDataProcessed.slice(0, 30).map(entity => {
+            // some entities don't return a code to be used in an api call, seem to default to '??' in that event
+            if (entity.code !== "??") {
+                return entity.entityCode;
+            }
+        }).toString();
+        console.log(entities);
+        this.props.getRawAsnSignalsAction(entityType, entities, from, until, attr, order);
     }
     convertValuesForAsnHtsViz() {
         let rawAsnSignalsProcessedPingSlash24 = [];
@@ -1058,24 +1089,28 @@ class Entity extends Component {
 
         // console.log(this.state.rawRegionalSignals);
         this.state.rawAsnSignals.map(tsData => {
-            // Create visualization-friendly data objects
-            let series;
-            switch(tsData.datasource) {
-                case 'ping-slash24':
-                    series = convertTsDataForHtsViz(tsData);
-                    rawAsnSignalsProcessedPingSlash24 = rawAsnSignalsProcessedPingSlash24.concat(series);
-                    break;
-                case 'bgp':
-                    series = convertTsDataForHtsViz(tsData);
-                    rawAsnSignalsProcessedBgp = rawAsnSignalsProcessedBgp.concat(series);
-                    break;
-                case 'ucsd-nt':
-                    series = convertTsDataForHtsViz(tsData);
-                    rawAsnSignalsProcessedUcsdNt = rawAsnSignalsProcessedUcsdNt.concat(series);
-                    break;
-                default:
-                    break;
-            }
+            tsData.map(datasource => {
+                console.log(datasource);
+                // Create visualization-friendly data objects
+                let series;
+                switch(datasource.datasource) {
+                    case 'ping-slash24':
+                        series = convertTsDataForHtsViz(datasource);
+                        rawAsnSignalsProcessedPingSlash24 = rawAsnSignalsProcessedPingSlash24.concat(series);
+                        break;
+                    case 'bgp':
+                        series = convertTsDataForHtsViz(datasource);
+                        rawAsnSignalsProcessedBgp = rawAsnSignalsProcessedBgp.concat(series);
+                        break;
+                    case 'ucsd-nt':
+                        series = convertTsDataForHtsViz(datasource);
+                        rawAsnSignalsProcessedUcsdNt = rawAsnSignalsProcessedUcsdNt.concat(series);
+                        break;
+                    default:
+                        break;
+                }
+            });
+
         });
         // Add data objects to state for each data source
         this.setState({
@@ -1087,8 +1122,8 @@ class Entity extends Component {
             // console.log(this.state.rawAsnSignalsProcessedBgp);
             // console.log(this.state.rawAsnSignalsProcessedUcsdNt);
             this.populateAsnHtsChart(900, 'ping-slash24');
-            // this.populateRegionalHtsChart(900, 'bgp');
-            // this.populateRegionalHtsChart(900, 'ucsd-nt');
+            this.populateRegionalHtsChart(900, 'bgp');
+            this.populateRegionalHtsChart(900, 'ucsd-nt');
         });
     }
     populateAsnHtsChart(width, datasource) {

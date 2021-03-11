@@ -18,8 +18,8 @@ class SummaryTableRow extends Component {
     }
 
     componentDidMount() {
-        if (this.props.signal) {
-            console.log(this.props.data);
+        if (this.props.data) {
+            // console.log(this.props.data);
         }
 
         document.addEventListener('click', this.handleRowScoreHide, true);
@@ -78,7 +78,6 @@ class SummaryTableRow extends Component {
     }
 
     render() {
-
         let overallScore = humanizeNumber(this.props.data.score, 2);
         return(
             <tr
@@ -99,6 +98,11 @@ class SummaryTableRow extends Component {
                         {this.props.data.name}
                     </Link>
                 </td>
+                {
+                    this.props.entityType === 'asn'
+                    ? <td>{this.props.data.ipCount}</td>
+                    : null
+                }
                 <td
                     className="table__cell--overallScore"
                     onClick={() => this.handleRowScoreDisplay()}

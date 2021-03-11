@@ -45,16 +45,19 @@ class Modal extends Component {
                                 <div className="col-2-of-3">
                                     <p>Stacked Horizon Graph of all regions sorted by score</p>
                                     <div id="regional-horizon-chart--pingSlash24">
+                                        <h3>Active Probing</h3>
                                         {
                                             this.props.populateRegionalHtsChart('900', 'ping-slash24')
                                         }
                                     </div>
                                     <div id="regional-horizon-chart--bgp">
+                                        <h3>BGP</h3>
                                         {
                                             this.props.populateRegionalHtsChart('900', 'bgp')
                                         }
                                     </div>
                                     <div id="regional-horizon-chart--ucsdNt">
+                                        <h3>Network Telescope</h3>
                                         {
                                             this.props.populateRegionalHtsChart('900', 'ucsd-nt')
                                         }
@@ -86,16 +89,19 @@ class Modal extends Component {
                                 <div className="col-2-of-3">
                                     <p>Stacked Horizon Graph of all ASNs sorted by score</p>
                                     <div id="asn-horizon-chart--pingSlash24">
+                                        <h3>Active Probing</h3>
                                         {
                                             this.props.populateAsnHtsChart('900', 'ping-slash24')
                                         }
                                     </div>
                                     <div id="asn-horizon-chart--bgp">
+                                        <h3>BGP</h3>
                                         {
                                             this.props.populateAsnHtsChart('900', 'bgp')
                                         }
                                     </div>
                                     <div id="asn-horizon-chart--ucsdNt">
+                                        <h3>Network Telescope</h3>
                                         {
                                             this.props.populateAsnHtsChart('900', 'ucsd-nt')
                                         }

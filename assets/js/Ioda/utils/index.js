@@ -99,8 +99,18 @@ export function convertValuesForSummaryTable(summaryDataRaw) {
             }
         });
 
-        // console.log(summary);
-        const summaryItem = {
+        // If entity type has ip_count/is an ASN
+        let summaryItem;
+        summary.entity.type === 'asn'
+            ? summaryItem = {
+                entityType: summary["entity"].type,
+                entityCode: summary["entity"].code,
+                name: summary["entity"].name,
+                score: overallScore,
+                scores: summaryScores,
+                ipCount: humanizeNumber(summary["entity"]["attrs"]["ip_count"], 2)
+            }
+            : summaryItem = {
             entityType: summary["entity"].type,
             entityCode: summary["entity"].code,
             name: summary["entity"].name,
@@ -213,6 +223,7 @@ export function prevPage(data, dataLength, pageNumber, currentDisplayHigh, curre
 // Function for raw signals table on entity page
 // Will process time series data and return in a format compatible with the Horizon-time-series visual
 export function convertTsDataForHtsViz(tsData) {
+    console.log(tsData);
     let seriesConverted = [];
     tsData.values.map((value, index) => {
         const plotPoint = {

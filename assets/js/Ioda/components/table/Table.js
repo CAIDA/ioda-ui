@@ -41,6 +41,11 @@ class Table extends Component {
             name: "Name",
             score: "Score",
         };
+        this.summaryHeadersAsn = {
+            name: "Name",
+            ipCount: "IP Count",
+            score: "Score",
+        };
         this.signalHeaders = {
             visibility: "Visibility",
             name: "Name",
@@ -49,22 +54,6 @@ class Table extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        // if (this.state !== prevState) {
-        //     if (this.props.type === "signal") {
-        //         // Signal Table default sort
-        //         this.setState({
-        //             signalData: this.props.data,
-        //             sortedColumn: {
-        //                 name: "score",
-        //                 position: "desc",
-        //                 arrow: iconSortDesc
-        //             }
-        //         },() => {
-        //             console.log(this.state.signalData);
-        //         });
-        //     }
-        // }
-
         if (this.props.data !== prevProps.data) {
             if (this.props.type === "alert") {
                 // Alert Table default sort
@@ -227,11 +216,13 @@ class Table extends Component {
                                 ? this.alertHeaders
                                 : type === "event"
                                     ? this.eventHeaders
-                                    : type === "summary"
-                                        ? this.summaryHeaders
-                                        : type === "signal"
-                                            ? this.signalHeaders
-                                            : null
+                                    : type === "summary" && this.props.entityType === 'asn'
+                                        ? this.summaryHeadersAsn
+                                        : type === "summary" && this.props.entityType !== 'asn'
+                                            ? this.summaryHeaders
+                                            : type === "signal"
+                                                ? this.signalHeaders
+                                                : null
                             ).map(header => {
                                 return <th className="table__header-col" key={header}>
                                     <button onClick={(event) => this.sortByColumn(event)} value={header}>
@@ -326,7 +317,7 @@ class Table extends Component {
                     }
                     {
                         this.props.type === "summary" && this.props.data.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(summary => {
-                            return <SummaryTableRow key={generateKeys('summary')} type={this.props.type} data={summary}/>
+                            return <SummaryTableRow key={generateKeys('summary')} type={this.props.type} entityType={this.props.entityType} data={summary}/>
                         })
                     }
                     {
