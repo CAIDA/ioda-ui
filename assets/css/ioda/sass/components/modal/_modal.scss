@@ -1,11 +1,12 @@
 .modal {
   background: $color-background-white;
-  position: fixed;
+  position: absolute;
   top: 20vh;
   left: 50%;
   transform: translateX(-50%);
   border: 2px solid $color-table-cell-border;
   box-shadow: $box-shadow;
-  width: $grid-width;
+  width: calc(100% - 9rem);
   z-index: 1000;
+  overflow-y: auto;
 }

@@ -906,7 +906,7 @@ class Entity extends Component {
         let from = this.state.from;
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
-        let entities = this.state.regionalSignalsTableSummaryDataProcessed.map(entity => {
+        let entities = this.state.regionalSignalsTableSummaryDataProcessed.slice(0, 30).map(entity => {
             // some entities don't return a code to be used in an api call, seem to default to '??' in that event
             if (entity.code !== "??") {
                 return entity.entityCode;
@@ -918,7 +918,7 @@ class Entity extends Component {
         let rawRegionalSignalsProcessedPingSlash24 = [];
         let rawRegionalSignalsProcessedBgp = [];
         let rawRegionalSignalsProcessedUcsdNt = [];
-
+        // Create visualization-friendly data objects
         this.state.rawRegionalSignals.map(tsData => {
             tsData.map(datasource => {
                 console.log(datasource);
@@ -940,7 +940,6 @@ class Entity extends Component {
                         break;
                 }
             });
-            // Create visualization-friendly data objects
 
         });
         // Add data objects to state for each data source
@@ -949,15 +948,17 @@ class Entity extends Component {
             rawRegionalSignalsProcessedBgp: rawRegionalSignalsProcessedBgp,
             rawRegionalSignalsProcessedUcsdNt: rawRegionalSignalsProcessedUcsdNt
         }, () => {
+            console.log("here");
             // console.log(this.state.rawRegionalSignalsProcessedPingSlash24);
             // console.log(this.state.rawRegionalSignalsProcessedBgp);
             // console.log(this.state.rawRegionalSignalsProcessedUcsdNt);
             this.populateRegionalHtsChart(900, 'ping-slash24');
-            // this.populateRegionalHtsChart(900, 'bgp');
-            // this.populateRegionalHtsChart(900, 'ucsd-nt');
+            this.populateRegionalHtsChart(900, 'bgp');
+            this.populateRegionalHtsChart(900, 'ucsd-nt');
         });
     }
     populateRegionalHtsChart(width, datasource) {
+        console.log("here");
         switch(datasource) {
             case 'ping-slash24':
                 if (this.state.rawRegionalSignalsProcessedPingSlash24) {
@@ -1069,7 +1070,8 @@ class Entity extends Component {
         let from = this.state.from;
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
-        let entities = this.state.asnSignalsTableSummaryDataProcessed.map(entity => {
+        console.log(this.state.asnSignalsTableSummaryDataProcessed.slice(0, 30));
+        let entities = this.state.asnSignalsTableSummaryDataProcessed.slice(0, 30).map(entity => {
             // some entities don't return a code to be used in an api call, seem to default to '??' in that event
             if (entity.code !== "??") {
                 return entity.entityCode;
@@ -1120,8 +1122,8 @@ class Entity extends Component {
             // console.log(this.state.rawAsnSignalsProcessedBgp);
             // console.log(this.state.rawAsnSignalsProcessedUcsdNt);
             this.populateAsnHtsChart(900, 'ping-slash24');
-            // this.populateRegionalHtsChart(900, 'bgp');
-            // this.populateRegionalHtsChart(900, 'ucsd-nt');
+            this.populateRegionalHtsChart(900, 'bgp');
+            this.populateRegionalHtsChart(900, 'ucsd-nt');
         });
     }
     populateAsnHtsChart(width, datasource) {

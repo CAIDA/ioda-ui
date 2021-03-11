@@ -1340,8 +1340,9 @@ body {
   transform: translateX(-50%);
   border: 2px solid #eeeeee;
   box-shadow: 0 3px 5px #333;
-  width: 114rem;
-  z-index: 1000; }
+  width: calc(100% - 9rem);
+  z-index: 1000;
+  overflow-y: auto; }
 
 .footer {
   filter: drop-shadow(0.5rem 0.5rem 0.5rem #222);
