@@ -1334,7 +1334,7 @@ body {
 
 .modal {
   background: #fbfbfb;
-  position: fixed;
+  position: absolute;
   top: 20vh;
   left: 50%;
   transform: translateX(-50%);
