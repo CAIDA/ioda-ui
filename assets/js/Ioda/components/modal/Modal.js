@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from "prop-types";
+import Loading from "../../components/loading/Loading";
 
 class Modal extends Component {
     constructor(props) {
@@ -21,7 +22,7 @@ class Modal extends Component {
             <div className="modal">
                 {
                     this.props.modalLocation === 'map'
-                        ? <h2>modal window from map</h2>
+                        ? <h2>Regional Raw Signals related to {this.props.entityName}</h2>
                         : this.props.modalLocation === 'table'
                             ? <h2>modal window from table</h2>
                             : null
@@ -35,17 +36,16 @@ class Modal extends Component {
                         ? <div className="modal__content">
                             <div className="row">
                                 <div className="col-1-of-3">
-                                    Table displaying all regions regardless of score
+                                    <h3>Regional Raw Signals</h3>
                                     <div className="modal__table">
                                         {
-                                            this.props.genSignalsTable()
+                                            this.props.genRegionalSignalsTable()
                                         }
                                     </div>
                                 </div>
                                 <div className="col-2-of-3">
                                     <h3>Active Probing</h3>
                                     <div id="regional-horizon-chart--pingSlash24">
-
                                         {
                                             this.props.populateRegionalHtsChart('900', 'ping-slash24')
                                         }
@@ -81,7 +81,7 @@ class Modal extends Component {
                         ? <div className="modal__content">
                             <div className="row">
                                 <div className="col-1-of-3">
-                                    Table displaying all ASes regardless of score
+                                    <h3>ASN/ISP Raw Signals</h3>
                                     <div className="modal__table">
                                         {
                                             this.props.genSignalsTable()

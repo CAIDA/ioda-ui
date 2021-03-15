@@ -171,10 +171,8 @@ body {
   background-color: #fff;
   height: 3.5rem;
   width: 100%;
-  margin-top: 1.8rem;
   border: 1px solid #010201;
   border-radius: 3px;
-  box-shadow: 0 3px 5px #333;
   outline: none;
   display: flex;
   flex-direction: row;
@@ -908,7 +906,7 @@ body {
     font-size: 1.2rem;
     margin-top: 1rem; }
     .table__page-button {
-      background: linear-gradient(2deg, #C12F2E, #f9ad40, #C12F2E, #f9ad40);
+      background: linear-gradient(2deg, #617486, #0D2032, #617486, #0D2032);
       height: 5rem;
       border-radius: 0.5rem;
       color: #fff;
@@ -1537,7 +1535,7 @@ button[class*="searchButton"] {
       color: #fff;
       font-size: 1.6rem; }
     .home .about .button button {
-      background: linear-gradient(2deg, #C12F2E, #f9ad40, #C12F2E, #f9ad40);
+      background: linear-gradient(2deg, #617486, #0D2032, #617486, #0D2032);
       height: 5rem;
       border-radius: 0.5rem;
       color: #fff;
@@ -1671,7 +1669,7 @@ button[class*="searchButton"] {
         width: 100%;
         text-align: right; }
         .dashboard .tabs .tab__config-button {
-          background: linear-gradient(2deg, #C12F2E, #f9ad40, #C12F2E, #f9ad40);
+          background: linear-gradient(2deg, #617486, #0D2032, #617486, #0D2032);
           height: 5rem;
           border-radius: 0.5rem;
           color: #fff;
@@ -1734,13 +1732,12 @@ button[class*="searchButton"] {
     border-bottom-right-radius: 0.3rem;
     border-bottom-left-radius: 0.3rem;
     border-top-right-radius: 0.3rem;
-    box-shadow: 0 3px 5px #333;
     min-height: 65rem; }
     .entity .overview__config {
       width: 100%;
       text-align: right; }
       .entity .overview__config-button {
-        background: linear-gradient(2deg, #C12F2E, #f9ad40, #C12F2E, #f9ad40);
+        background: linear-gradient(2deg, #617486, #0D2032, #617486, #0D2032);
         height: 5rem;
         border-radius: 0.5rem;
         color: #fff;
@@ -1799,7 +1796,6 @@ button[class*="searchButton"] {
       border-bottom-right-radius: 0.3rem;
       border-bottom-left-radius: 0.3rem;
       border-top-right-radius: 0.3rem;
-      box-shadow: 0 3px 5px #333;
       min-height: 65rem; }
     .entity .related__title {
       display: flex;
@@ -1807,7 +1803,7 @@ button[class*="searchButton"] {
       margin: 1.5rem;
       justify-content: space-between; }
     .entity .related__modal-button {
-      background: linear-gradient(2deg, #C12F2E, #f9ad40, #C12F2E, #f9ad40);
+      background: linear-gradient(2deg, #617486, #0D2032, #617486, #0D2032);
       height: 5rem;
       border-radius: 0.5rem;
       color: #fff;

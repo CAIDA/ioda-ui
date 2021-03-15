@@ -15,6 +15,7 @@ import { Searchbar } from 'caida-components-library'
 import Table from "../../components/table/Table";
 import EntityRelated from "./EntityRelated";
 import HorizonTSChart from 'horizon-timeseries-chart';
+import Loading from "../../components/loading/Loading";
 // Event Table Dependencies
 import * as sd from 'simple-duration'
 // Helper Functions
@@ -66,10 +67,10 @@ class Entity extends Component {
             // Table Pagination
             eventTablePageNumber: 0,
             eventTableCurrentDisplayLow: 0,
-            eventTableCurrentDisplayHigh: 10,
+            eventTableCurrentDisplayHigh: 0,
             alertTablePageNumber: 0,
             alertTableCurrentDisplayLow: 0,
-            alertTableCurrentDisplayHigh: 10,
+            alertTableCurrentDisplayHigh: 0,
             // Event/Table Data
             currentTable: 'alert',
             eventDataRaw: null,
@@ -85,32 +86,33 @@ class Entity extends Component {
             relatedToTableSummaryProcessed: null,
             relatedToTablePageNumber: 0,
             relatedToTableCurrentDisplayLow: 0,
-            relatedToTableCurrentDisplayHigh: 10,
+            relatedToTableCurrentDisplayHigh: 0,
             // Modal window display status
             showMapModal: false,
             showTableModal: false,
             // Signals Modal Table on Map Panel
-            regionalSignalsTableSummaryData: null,
-            regionalSignalsTableSummaryDataProcessed: null,
+            regionalSignalsTableLoading: false,
+            regionalSignalsTableSummaryData: [],
+            regionalSignalsTableSummaryDataProcessed: [],
             regionalSignalsTablePageNumber: 0,
             regionalSignalsTableCurrentDisplayLow: 0,
-            regionalSignalsTableCurrentDisplayHigh: 10,
+            regionalSignalsTableCurrentDisplayHigh: 0,
             // Signals Modal Table on Table Panel
-            asnSignalsTableSummaryData: null,
-            asnSignalsTableSummaryDataProcessed: null,
+            asnSignalsTableSummaryData: [],
+            asnSignalsTableSummaryDataProcessed: [],
             asnSignalsTablePageNumber: 0,
             asnSignalsTableCurrentDisplayLow: 0,
-            asnSignalsTableCurrentDisplayHigh: 10,
+            asnSignalsTableCurrentDisplayHigh: 0,
             // Stacked Horizon Visual on Region Map Panel
             rawRegionalSignals: [],
-            rawRegionalSignalsProcessedBgp: null,
-            rawRegionalSignalsProcessedPingSlash24: null,
-            rawRegionalSignalsProcessedUcsdNt: null,
+            rawRegionalSignalsProcessedBgp: [],
+            rawRegionalSignalsProcessedPingSlash24: [],
+            rawRegionalSignalsProcessedUcsdNt: [],
             // Stacked Horizon Visual on ASN Table Panel
             rawAsnSignals: [],
-            rawAsnSignalsProcessedBgp: null,
-            rawAsnSignalsProcessedPingSlash24: null,
-            rawAsnSignalsProcessedUcsdNt: null,
+            rawAsnSignalsProcessedBgp: [],
+            rawAsnSignalsProcessedPingSlash24: [],
+            rawAsnSignalsProcessedUcsdNt: [],
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
@@ -127,9 +129,10 @@ class Entity extends Component {
             this.props.getSignalsAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], this.state.from, this.state.until, null, null);
             // Get entity name from code provided in url
             this.props.getEntityMetadataAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
-            // Get related entities used on table in map modal
+
             this.props.regionalSignalsTableSummaryDataAction("region", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
-            this.props.asnSignalsTableSummaryDataAction("asn", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
+
+
         });
     }
 
@@ -218,8 +221,7 @@ class Entity extends Component {
             this.setState({
                 summaryDataMapRaw: this.props.relatedToMapSummary
             },() => {
-                // this.convertValuesForSummaryTable();
-
+                // this.combineValuesForRegionalSignalsTable();
             })
         }
 
@@ -232,6 +234,7 @@ class Entity extends Component {
                 relatedToTableSummary: this.props.relatedToTableSummary
             },() => {
                 this.convertValuesForSummaryTable();
+                this.combineValuesForAsnSignalsTable();
             })
         }
 
@@ -239,7 +242,8 @@ class Entity extends Component {
             this.setState({
                 regionalSignalsTableSummaryData: this.props.regionalSignalsTableSummaryData
             }, () => {
-                // this.combineValuesForRegionalSignalsTable();
+                console.log(this.state.regionalSignalsTableSummaryData);
+                this.combineValuesForRegionalSignalsTable();
             })
         }
 
@@ -247,11 +251,11 @@ class Entity extends Component {
             this.setState({
                 asnSignalsTableSummaryData: this.props.asnSignalsTableSummaryData
             }, () => {
-                // this.combineValuesForAsnSignalsTable();
-                // this.convertValuesForAsnHtsViz();
+                this.combineValuesForAsnSignalsTable();
             })
         }
 
+        // data for regional signals table
         if (this.props.rawRegionalSignals !== prevProps.rawRegionalSignals) {
             this.props.rawRegionalSignals.map(signal => {
                 let rawRegionalSignals = this.state.rawRegionalSignals;
@@ -260,22 +264,18 @@ class Entity extends Component {
                     rawRegionalSignals: rawRegionalSignals
                 }, () => {
                     // this.convertValuesForRegionalHtsViz();
-                    // console.log(this.state.rawRegionalSignals);
                 })
             });
         }
 
         if (this.props.rawAsnSignals !== prevProps.rawAsnSignals) {
-            // console.log("componentDidUpdate");
-            // console.log(this.props.rawAsnSignals);
             this.props.rawAsnSignals.map(signal => {
                 let rawAsnSignals = this.state.rawAsnSignals;
                 rawAsnSignals.push(signal);
                 this.setState({
                     rawAsnSignals: rawAsnSignals
                 }, () => {
-
-                    // console.log(this.state.rawRegionalSignals);
+                    // this.convertValuesForAsnHtsViz();
                 })
             });
         }
@@ -670,7 +670,8 @@ class Entity extends Component {
             showTableModal={this.state.showTableModal}
             populateGeoJsonMap={() => this.populateGeoJsonMap()}
             genSummaryTable={() => this.genSummaryTable()}
-            genRegionSignalsTable={() => this.genRegionalSignalsTable()}
+            regionalSignalsTableLoading={this.state.regionalSignalsTableLoading}
+            genRegionalSignalsTable={() => this.genRegionalSignalsTable()}
             genAsnSignalsTable={() => this.genAsnSignalsTable()}
             populateRegionalHtsChart={(width, datasource) => this.populateRegionalHtsChart(width, datasource)}
             populateAsnHtsChart={(width, datasource) => this.populateAsnHtsChart(width, datasource)}
@@ -678,14 +679,23 @@ class Entity extends Component {
     }
     toggleModal(modalLocation) {
         if (modalLocation === 'map') {
-            this.combineValuesForRegionalSignalsTable();
+            // Get related entities used on table in map modal
             this.convertValuesForRegionalHtsViz();
-            this.setState({
-                showMapModal: !this.state.showMapModal
-            });
+            // if (this.state.summaryDataMapRaw && this.state.regionalSignalsTableSummaryData && this.state.rawRegionalSignals) {
+                // this.combineValuesForRegionalSignalsTable();
+            console.log("updated");
+                this.convertValuesForRegionalHtsViz();
+                this.combineValuesForRegionalSignalsTable();
+                this.setState({
+                    regionalSignalsTableLoading: true,
+                    showMapModal: !this.state.showMapModal
+                });
+            // }
         } else if (modalLocation === 'table') {
-            this.combineValuesForAsnSignalsTable();
+            this.props.asnSignalsTableSummaryDataAction("asn", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
             this.convertValuesForAsnHtsViz();
+            // this.combineValuesForAsnSignalsTable();
+            // this.convertValuesForAsnHtsViz();
             this.setState({
                 showTableModal: !this.state.showTableModal
             });
@@ -792,6 +802,7 @@ class Entity extends Component {
         let summaryData = convertValuesForSummaryTable(this.state.relatedToTableSummary);
 
         if (this.state.relatedToTableApiPageNumber === 0) {
+            // console.log(summaryData);
             this.setState({
                 relatedToTableSummaryProcessed: summaryData
             }, () => {
@@ -806,7 +817,6 @@ class Entity extends Component {
                 this.genSummaryTable();
             })
         }
-
 
     }
     genSummaryTable() {
@@ -856,10 +866,14 @@ class Entity extends Component {
 // Map Modal
     // Table displaying all regions regardless of score
     combineValuesForRegionalSignalsTable() {
+        console.log(this.state.regionalSignalsTableSummaryData);
+        console.log(this.state.summaryDataMapRaw);
         if (this.state.summaryDataMapRaw && this.state.regionalSignalsTableSummaryData) {
             let signalsTableData = combineValuesForSignalsTable(this.state.summaryDataMapRaw, this.state.regionalSignalsTableSummaryData);
+            console.log(signalsTableData);
             this.setState({
-                regionalSignalsTableSummaryDataProcessed: signalsTableData
+                regionalSignalsTableSummaryDataProcessed: signalsTableData,
+                regionalSignalsTableLoading: false
             }, () => {
                 this.genRegionalSignalsTable();
                 // Populate Stacked horizon graph with all regions
@@ -868,19 +882,20 @@ class Entity extends Component {
         }
     }
     genRegionalSignalsTable() {
-        return (
-            this.state.regionalSignalsTableSummaryDataProcessed &&
+        if (this.state.regionalSignalsTableSummaryDataProcessed) {
+            return (
+                this.state.regionalSignalsTableSummaryDataProcessed && <Table
+                    type="signal"
+                    data={this.state.regionalSignalsTableSummaryDataProcessed}
+                    nextPage={() => this.nextPageRegionalSignalsTableSummary()}
+                    prevPage={() => this.prevPageRegionalSignalsTableSummary()}
+                    currentDisplayLow={this.state.regionalSignalsTableCurrentDisplayLow}
+                    currentDisplayHigh={this.state.regionalSignalsTableCurrentDisplayHigh}
+                    totalCount={this.state.regionalSignalsTableSummaryDataProcessed.length}
+                />
+            )
+        }
 
-            <Table
-                type="signal"
-                data={this.state.regionalSignalsTableSummaryDataProcessed}
-                nextPage={() => this.nextPageRegionalSignalsTableSummary()}
-                prevPage={() => this.prevPageRegionalSignalsTableSummary()}
-                currentDisplayLow={this.state.regionalSignalsTableCurrentDisplayLow}
-                currentDisplayHigh={this.state.regionalSignalsTableCurrentDisplayHigh}
-                totalCount={this.state.regionalSignalsTableSummaryDataProcessed.length}
-            />
-        )
     }
     nextPageRegionalSignalsTableSummary() {
         let nextPageValues = nextPage(!!this.state.regionalSignalsTableSummaryDataProcessed, this.state.regionalSignalsTableSummaryDataProcessed.length, this.state.regionalSignalsTablePageNumber, this.state.regionalSignalsTableCurrentDisplayHigh, this.state.regionalSignalsTableCurrentDisplayLow);
@@ -921,7 +936,6 @@ class Entity extends Component {
         // Create visualization-friendly data objects
         this.state.rawRegionalSignals.map(tsData => {
             tsData.map(datasource => {
-                console.log(datasource);
                 let series;
                 switch(datasource.datasource) {
                     case 'ping-slash24':
@@ -940,7 +954,6 @@ class Entity extends Component {
                         break;
                 }
             });
-
         });
         // Add data objects to state for each data source
         this.setState({
@@ -948,7 +961,6 @@ class Entity extends Component {
             rawRegionalSignalsProcessedBgp: rawRegionalSignalsProcessedBgp,
             rawRegionalSignalsProcessedUcsdNt: rawRegionalSignalsProcessedUcsdNt
         }, () => {
-            console.log("here");
             // console.log(this.state.rawRegionalSignalsProcessedPingSlash24);
             // console.log(this.state.rawRegionalSignalsProcessedBgp);
             // console.log(this.state.rawRegionalSignalsProcessedUcsdNt);
@@ -958,10 +970,10 @@ class Entity extends Component {
         });
     }
     populateRegionalHtsChart(width, datasource) {
-        console.log("here");
         switch(datasource) {
             case 'ping-slash24':
-                if (this.state.rawRegionalSignalsProcessedPingSlash24) {
+                if (this.state.rawAsnSignalsProcessedPingSlash24.length > 0) {
+                    console.log(this.state.rawAsnSignalsProcessedPingSlash24);
                     // console.log(this.state.rawRegionalSignalsProcessedPingSlash24);
                     const myChart = HorizonTSChart()(document.getElementById(`regional-horizon-chart--pingSlash24`));
                     myChart
@@ -974,10 +986,11 @@ class Entity extends Component {
                         .width(width)
                         .height(200)
                         .enableZoom(false)
-                        .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
+                        .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`
                         .showRuler(true);
+
+                    break;
                 }
-                break;
             case 'bgp':
                 if (this.state.rawRegionalSignalsProcessedBgp) {
                     const myChart = HorizonTSChart()(document.getElementById(`regional-horizon-chart--bgp`));
@@ -1070,14 +1083,12 @@ class Entity extends Component {
         let from = this.state.from;
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
-        console.log(this.state.asnSignalsTableSummaryDataProcessed.slice(0, 30));
         let entities = this.state.asnSignalsTableSummaryDataProcessed.slice(0, 30).map(entity => {
             // some entities don't return a code to be used in an api call, seem to default to '??' in that event
             if (entity.code !== "??") {
                 return entity.entityCode;
             }
         }).toString();
-        console.log(entities);
         this.props.getRawAsnSignalsAction(entityType, entities, from, until, attr, order);
     }
     convertValuesForAsnHtsViz() {
@@ -1090,7 +1101,6 @@ class Entity extends Component {
         // console.log(this.state.rawRegionalSignals);
         this.state.rawAsnSignals.map(tsData => {
             tsData.map(datasource => {
-                console.log(datasource);
                 // Create visualization-friendly data objects
                 let series;
                 switch(datasource.datasource) {
