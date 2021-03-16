@@ -223,7 +223,6 @@ export function prevPage(data, dataLength, pageNumber, currentDisplayHigh, curre
 // Function for raw signals table on entity page
 // Will process time series data and return in a format compatible with the Horizon-time-series visual
 export function convertTsDataForHtsViz(tsData) {
-    console.log(tsData);
     let seriesConverted = [];
     tsData.values.map((value, index) => {
         const plotPoint = {

@@ -85,15 +85,17 @@ class ControlPanel extends Component {
                 <div className="col-1-of-3">
                     <h2>{this.props.entityName}</h2>
                     <p>Time Range</p>
-                    <button className="range__input" onClick={() => this.handleRangeDisplay()}>
-                        <span className="range__input-start">
-                            {startDate} - {startTime}<sub><sup><sub>UTC</sub></sup></sub>
-                        </span>
-                        <span className="range__input-dash">—</span>
-                        <span className="range__input-end">
-                            {endDate} - {endTime}<sub><sup><sub>UTC</sub></sup></sub>
-                        </span>
-                    </button>
+                    <div className="range">
+                        <button className="range__input" onClick={() => this.handleRangeDisplay()}>
+                            <span className="range__input-start">
+                                {startDate} - {startTime}<sub><sup><sub>UTC</sub></sup></sub>
+                            </span>
+                            <span className="range__input-dash">—</span>
+                            <span className="range__input-end">
+                                {endDate} - {endTime}<sub><sup><sub>UTC</sub></sup></sub>
+                            </span>
+                        </button>
+                    </div>
                     <div className={this.state.rangeInputVisibility ? "range__dropdown range__dropdown--visible" : "range__dropdown"}>
                         <DateRangePicker
                             onChange={item => this.setState({ ...this.state, ...item })}
@@ -119,14 +121,13 @@ class ControlPanel extends Component {
                             />
                         </div>
                     </div>
-                    <p style={{width: '100%', textAlign: 'right'}}>Time Zone</p>
                 </div>
                 <div className="col-2-of-3">
-                    <p style={{width: '100%', textAlign: 'right'}}>Social</p>
+                    <div className="searchbar">
                     {
                         this.props.searchbar()
                     }
-                    <p style={{width: '100%', textAlign: 'right'}}>Recent Session History</p>
+                    </div>
                 </div>
             </div>
         );

@@ -25,10 +25,11 @@ class EntityRelated extends Component {
                             </button>
                             <Modal
                                 modalLocation={"map"}
+                                entityName={this.props.entityName}
                                 showModal={this.props.showMapModal}
                                 toggleModal={this.props.toggleModal}
-                                populateGeoJsonMap={this.props.populateGeoJsonMap}
-                                genSignalsTable={() => this.props.genRegionSignalsTable()}
+                                populateGeoJsonMap={() => this.props.populateGeoJsonMap()}
+                                genRegionalSignalsTable={this.props.genRegionalSignalsTable}
                                 populateRegionalHtsChart={(width, datasource) => this.props.populateRegionalHtsChart(width, datasource)}
                             />
                         </div>

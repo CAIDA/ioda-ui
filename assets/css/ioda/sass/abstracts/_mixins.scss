@@ -154,7 +154,8 @@ $breakpoint Argument Choices:
 }
 
 @mixin button {
-  background: linear-gradient(2deg, #C12F2E, #f9ad40, #C12F2E, #f9ad40);
+  //background: linear-gradient(2deg, #C12F2E, #f9ad40, #C12F2E, #f9ad40);
+  background: linear-gradient(2deg, $color-primary-light, $color-primary-dark, $color-primary-light, $color-primary-dark);
   height: 5rem;
   border-radius: 0.5rem;
   color: $color-white;

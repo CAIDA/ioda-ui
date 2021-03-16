@@ -82,7 +82,6 @@ export const getEventSignalsAction = (dispatch, entityType, entityCode, from, un
 
 export const getRawRegionalSignalsAction = (dispatch, entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
     let config = buildSignalsConfig(entityType, entityCode, from, until, datasource, maxPoints);
-    console.log(config);
     fetchData(config).then(data => {
         dispatch({
             type: GET_RAW_REGIONAL_SIGNALS,
@@ -93,7 +92,6 @@ export const getRawRegionalSignalsAction = (dispatch, entityType, entityCode, fr
 
 export const getRawAsnSignalsAction = (dispatch, entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
     let config = buildSignalsConfig(entityType, entityCode, from, until, datasource, maxPoints);
-    console.log(config);
     fetchData(config).then(data => {
         dispatch({
             type: GET_RAW_ASN_SIGNALS,
