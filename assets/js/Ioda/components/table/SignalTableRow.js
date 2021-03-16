@@ -98,6 +98,11 @@ class SignalTableRow extends Component {
                         {this.props.data.name}
                     </Link>
                 </td>
+                {
+                    this.props.entityType === 'asn'
+                        ? <td>{this.props.data.ipCount}</td>
+                        : null
+                }
                 <td
                     className="table__cell--overallScore"
                     onClick={() => this.handleRowScoreDisplay()}

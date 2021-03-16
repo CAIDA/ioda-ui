@@ -143,28 +143,53 @@ export function combineValuesForSignalsTable(entitiesWithOutages, additionalEnti
         // Remove entity from raw entity list
         duplicatesRemoved = duplicatesRemoved.filter(obj => obj.code !== entity["entity"].code);
 
-        // Display entity with outage on signal table
-        const summaryItem = {
+        // Display entity with outage on signal table, if asn add ip count property
+        let summaryItem;
+        entity.entity.type === 'asn'
+            ? summaryItem = {
+                entityType: entity["entity"].type,
+                entityCode: entity["entity"].code,
+                name: entity["entity"].name,
+                score: overallScore,
+                scores: summaryScores,
+                ipCount: humanizeNumber(entity["entity"]["attrs"]["ip_count"], 2)
+                }
+            : summaryItem = {
             entityType: entity["entity"].type,
             entityCode: entity["entity"].code,
             name: entity["entity"].name,
             score: overallScore,
             scores: summaryScores
-        };
+            };
         summaryData.push(summaryItem);
     });
 
-    // Display scoreless entities on signal table
+    // Display scoreless entities on signal table, if asn add ip count property
     duplicatesRemoved.map(entity => {
-        const entityItem = {
-            entityType: entity.type,
-            entityCode: entity.code,
-            name: entity.name,
-            score: 0,
-            scores: [{source: "Overall Score", score: 0}]
-        };
+        // console.log(entity);
+        // console.log(entity.attrs.ip_count);
+        // console.log(entity["attrs"]["ip_count"]);
+        console.log(entity.type);
+        let entityItem;
+        entity.type === 'asn'
+            ? entityItem = {
+                entityType: entity.type,
+                entityCode: entity.code,
+                name: entity.name,
+                score: 0,
+                scores: [{source: "Overall Score", score: 0}],
+                ipCount: humanizeNumber(entity.attrs.ip_count, 2)
+                }
+            : entityItem = {
+                    entityType: entity.type,
+                    entityCode: entity.code,
+                    name: entity.name,
+                    score: 0,
+                    scores: [{source: "Overall Score", score: 0}]
+                };
         summaryData.push(entityItem);
     });
+    console.log(summaryData);
     return summaryData;
 }
 

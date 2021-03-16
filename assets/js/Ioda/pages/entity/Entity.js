@@ -328,13 +328,6 @@ class Entity extends Component {
             entityName: "",
             parentEntityName: "",
             parentEntityCode: "",
-            // Control Panel
-            // from: window.location.search.split("?")[1]
-            //     ? window.location.search.split("?")[1].split("&")[0].split("=")[1]
-            //     : Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000),
-            // until: window.location.search.split("?")[1]
-            //     ? window.location.search.split("?")[1].split("&")[1].split("=")[1]
-            //     : Math.round(new Date().getTime() / 1000),
             // Search Bar
             suggestedSearchResults: null,
             searchTerm: null,
@@ -348,10 +341,10 @@ class Entity extends Component {
             // Table Pagination
             eventTablePageNumber: 0,
             eventTableCurrentDisplayLow: 0,
-            eventTableCurrentDisplayHigh: 0,
+            eventTableCurrentDisplayHigh: 10,
             alertTablePageNumber: 0,
             alertTableCurrentDisplayLow: 0,
-            alertTableCurrentDisplayHigh: 0,
+            alertTableCurrentDisplayHigh: 10,
             // Event/Table Data
             currentTable: 'alert',
             eventDataRaw: null,
@@ -838,7 +831,7 @@ class Entity extends Component {
         if (this.state.mounted) {
             let until = this.state.until;
             let from = this.state.from;
-            const limit = this.apiQueryLimit;;
+            const limit = this.apiQueryLimit;
             const includeMetadata = true;
             let page = this.state.relatedToTableApiPageNumber;
             const entityCode = null;
@@ -895,6 +888,7 @@ class Entity extends Component {
                 currentDisplayLow={this.state.relatedToTableCurrentDisplayLow}
                 currentDisplayHigh={this.state.relatedToTableCurrentDisplayHigh}
                 totalCount={this.state.relatedToTableSummaryProcessed.length}
+                entityType={this.state.entityType === "asn" ? "country" : "asn"}
             />
         )
     }
@@ -1104,7 +1098,9 @@ class Entity extends Component {
             }, () => {
                 this.genAsnSignalsTable();
                 // Populate Stacked horizon graph with all regions
-                this.getAsnSignalsHtsDataEvents("asn");
+                this.state.entityType !== 'asn'
+                ? this.getAsnSignalsHtsDataEvents("asn")
+                : this.getAsnSignalsHtsDataEvents("country");
             })
         }
     }
@@ -1119,6 +1115,7 @@ class Entity extends Component {
                 currentDisplayLow={this.state.asnSignalsTableCurrentDisplayLow}
                 currentDisplayHigh={this.state.asnSignalsTableCurrentDisplayHigh}
                 totalCount={this.state.asnSignalsTableSummaryDataProcessed.length}
+                entityType={this.state.entityType === "asn" ? "country" : "asn"}
             />
         )
     }

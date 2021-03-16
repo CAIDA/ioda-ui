@@ -47,8 +47,14 @@ class Table extends Component {
             score: "Score",
         };
         this.signalHeaders = {
-            visibility: "Visibility",
+            visibility: "",
             name: "Name",
+            score: "Score"
+        };
+        this.signalHeadersAsn = {
+            visibility: "",
+            name: "Name",
+            ipCount: "IP Count",
             score: "Score"
         };
     }
@@ -220,9 +226,11 @@ class Table extends Component {
                                         ? this.summaryHeadersAsn
                                         : type === "summary" && this.props.entityType !== 'asn'
                                             ? this.summaryHeaders
-                                            : type === "signal"
-                                                ? this.signalHeaders
-                                                : null
+                                            : type === "signal" && this.props.entityType === 'asn'
+                                                ? this.signalHeadersAsn
+                                                : type === 'signal' && this.props.entityType !== 'asn'
+                                                    ? this.signalHeaders
+                                                    : null
                             ).map(header => {
                                 return <th className="table__header-col" key={header}>
                                     <button onClick={(event) => this.sortByColumn(event)} value={header}>
@@ -317,12 +325,14 @@ class Table extends Component {
                     }
                     {
                         this.props.type === "summary" && this.props.data.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(summary => {
+                            console.log(this.props.entityType);
                             return <SummaryTableRow key={generateKeys('summary')} type={this.props.type} entityType={this.props.entityType} data={summary}/>
                         })
                     }
                     {
                         this.props.type === "signal" && this.props.data.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(signal => {
-                            return <SignalTableRow key={generateKeys('signal')} type={this.props.type} data={signal}/>
+                            console.log(signal);
+                            return <SignalTableRow key={generateKeys('signal')} type={this.props.type} entityType={this.props.entityType} data={signal}/>
 
                         })
                     }
