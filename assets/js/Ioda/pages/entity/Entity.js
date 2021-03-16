@@ -86,7 +86,7 @@ class Entity extends Component {
             relatedToTableSummaryProcessed: null,
             relatedToTablePageNumber: 0,
             relatedToTableCurrentDisplayLow: 0,
-            relatedToTableCurrentDisplayHigh: 0,
+            relatedToTableCurrentDisplayHigh: 10,
             // Modal window display status
             showMapModal: false,
             showTableModal: false,
@@ -96,13 +96,13 @@ class Entity extends Component {
             regionalSignalsTableSummaryDataProcessed: [],
             regionalSignalsTablePageNumber: 0,
             regionalSignalsTableCurrentDisplayLow: 0,
-            regionalSignalsTableCurrentDisplayHigh: 0,
+            regionalSignalsTableCurrentDisplayHigh: 10,
             // Signals Modal Table on Table Panel
             asnSignalsTableSummaryData: [],
             asnSignalsTableSummaryDataProcessed: [],
             asnSignalsTablePageNumber: 0,
             asnSignalsTableCurrentDisplayLow: 0,
-            asnSignalsTableCurrentDisplayHigh: 0,
+            asnSignalsTableCurrentDisplayHigh: 10,
             // Stacked Horizon Visual on Region Map Panel
             rawRegionalSignals: [],
             rawRegionalSignalsProcessedBgp: [],
@@ -129,10 +129,6 @@ class Entity extends Component {
             this.props.getSignalsAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], this.state.from, this.state.until, null, null);
             // Get entity name from code provided in url
             this.props.getEntityMetadataAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
-
-            this.props.regionalSignalsTableSummaryDataAction("region", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
-
-
         });
     }
 
@@ -202,10 +198,6 @@ class Entity extends Component {
             });
         }
 
-        if (this.state.entityCode !== prevState.entityCode) {
-            this.genEntityRelatedRow();
-        }
-
         // After API call for topographic data completes, update topoData state with fresh data
         if (this.props.topoData !== prevProps.topoData) {
             let topoObjects = topojson.feature(this.props.topoData.region.topology, this.props.topoData.region.topology.objects["ne_10m_admin_1.regions.v3.0.0"]);
@@ -263,7 +255,7 @@ class Entity extends Component {
                 this.setState({
                     rawRegionalSignals: rawRegionalSignals
                 }, () => {
-                    // this.convertValuesForRegionalHtsViz();
+                    this.convertValuesForRegionalHtsViz();
                 })
             });
         }
@@ -275,7 +267,7 @@ class Entity extends Component {
                 this.setState({
                     rawAsnSignals: rawAsnSignals
                 }, () => {
-                    // this.convertValuesForAsnHtsViz();
+                    this.convertValuesForAsnHtsViz();
                 })
             });
         }
@@ -329,7 +321,83 @@ class Entity extends Component {
             return result.name === query;
         });
         history.push(`/${entity[0].type}/${entity[0].code}`);
-        this.componentDidMount();
+        this.setState({
+            mounted: false,
+            entityType: window.location.pathname.split("/")[1],
+            entityCode: window.location.pathname.split("/")[2],
+            entityName: "",
+            parentEntityName: "",
+            parentEntityCode: "",
+            // Control Panel
+            // from: window.location.search.split("?")[1]
+            //     ? window.location.search.split("?")[1].split("&")[0].split("=")[1]
+            //     : Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000),
+            // until: window.location.search.split("?")[1]
+            //     ? window.location.search.split("?")[1].split("&")[1].split("=")[1]
+            //     : Math.round(new Date().getTime() / 1000),
+            // Search Bar
+            suggestedSearchResults: null,
+            searchTerm: null,
+            // Time Series states
+            tsDataRaw: null,
+            tsDataProcessed: {
+                activeProbing: [],
+                bgp: [],
+                darknet: []
+            },
+            // Table Pagination
+            eventTablePageNumber: 0,
+            eventTableCurrentDisplayLow: 0,
+            eventTableCurrentDisplayHigh: 0,
+            alertTablePageNumber: 0,
+            alertTableCurrentDisplayLow: 0,
+            alertTableCurrentDisplayHigh: 0,
+            // Event/Table Data
+            currentTable: 'alert',
+            eventDataRaw: null,
+            eventDataProcessed: [],
+            alertDataRaw: null,
+            alertDataProcessed: [],
+            // relatedTo entity Map
+            topoData: null,
+            relatedToMapSummary: null,
+            // relatedTo entity Table
+            relatedToTableApiPageNumber: 0,
+            relatedToTableSummary: null,
+            relatedToTableSummaryProcessed: null,
+            relatedToTablePageNumber: 0,
+            relatedToTableCurrentDisplayLow: 0,
+            relatedToTableCurrentDisplayHigh: 10,
+            // Modal window display status
+            showMapModal: false,
+            showTableModal: false,
+            // Signals Modal Table on Map Panel
+            regionalSignalsTableLoading: false,
+            regionalSignalsTableSummaryData: [],
+            regionalSignalsTableSummaryDataProcessed: [],
+            regionalSignalsTablePageNumber: 0,
+            regionalSignalsTableCurrentDisplayLow: 0,
+            regionalSignalsTableCurrentDisplayHigh: 10,
+            // Signals Modal Table on Table Panel
+            asnSignalsTableSummaryData: [],
+            asnSignalsTableSummaryDataProcessed: [],
+            asnSignalsTablePageNumber: 0,
+            asnSignalsTableCurrentDisplayLow: 0,
+            asnSignalsTableCurrentDisplayHigh: 10,
+            // Stacked Horizon Visual on Region Map Panel
+            rawRegionalSignals: [],
+            rawRegionalSignalsProcessedBgp: [],
+            rawRegionalSignalsProcessedPingSlash24: [],
+            rawRegionalSignalsProcessedUcsdNt: [],
+            // Stacked Horizon Visual on ASN Table Panel
+            rawAsnSignals: [],
+            rawAsnSignalsProcessedBgp: [],
+            rawAsnSignalsProcessedPingSlash24: [],
+            rawAsnSignalsProcessedUcsdNt: [],
+        }, () => {
+            this.componentDidMount();
+        });
+
     };
     // Reset search bar with search term value when a selection is made, no customizations needed here.
     handleQueryUpdate = (query) => {
@@ -679,18 +747,15 @@ class Entity extends Component {
     }
     toggleModal(modalLocation) {
         if (modalLocation === 'map') {
+            this.props.regionalSignalsTableSummaryDataAction("region", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
             // Get related entities used on table in map modal
             this.convertValuesForRegionalHtsViz();
-            // if (this.state.summaryDataMapRaw && this.state.regionalSignalsTableSummaryData && this.state.rawRegionalSignals) {
-                // this.combineValuesForRegionalSignalsTable();
-            console.log("updated");
-                this.convertValuesForRegionalHtsViz();
-                this.combineValuesForRegionalSignalsTable();
-                this.setState({
-                    regionalSignalsTableLoading: true,
-                    showMapModal: !this.state.showMapModal
-                });
-            // }
+            this.combineValuesForRegionalSignalsTable();
+            this.setState({
+                regionalSignalsTableLoading: true,
+                showMapModal: !this.state.showMapModal
+            });
+
         } else if (modalLocation === 'table') {
             this.props.asnSignalsTableSummaryDataAction("asn", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
             this.convertValuesForAsnHtsViz();
@@ -972,9 +1037,7 @@ class Entity extends Component {
     populateRegionalHtsChart(width, datasource) {
         switch(datasource) {
             case 'ping-slash24':
-                if (this.state.rawAsnSignalsProcessedPingSlash24.length > 0) {
-                    console.log(this.state.rawAsnSignalsProcessedPingSlash24);
-                    // console.log(this.state.rawRegionalSignalsProcessedPingSlash24);
+                if (this.state.rawAsnSignalsProcessedPingSlash24) {
                     const myChart = HorizonTSChart()(document.getElementById(`regional-horizon-chart--pingSlash24`));
                     myChart
                         .data(this.state.rawRegionalSignalsProcessedPingSlash24)

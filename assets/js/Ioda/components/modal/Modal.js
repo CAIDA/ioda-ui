@@ -17,7 +17,6 @@ class Modal extends Component {
         if (this.props.modalLocation === 'table' && !this.props.showModal) {
             return null;
         }
-        // console.log(this.configPingSlash24);
         return(
             <div className="modal">
                 {
