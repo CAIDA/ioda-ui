@@ -417,7 +417,7 @@ class Entity extends Component {
         let networkTelescope, bgp, activeProbing;
         if (networkTelescopeValues) {
             networkTelescope = {
-                type: "spline",
+                type: "line",
                 lineThickness: 1,
                 markerType: "circle",
                 markerSize: 2,
@@ -432,7 +432,7 @@ class Entity extends Component {
         }
         if (bgpValues) {
             bgp = {
-                type: "spline",
+                type: "line",
                 lineThickness: 1,
                 markerType: "circle",
                 markerSize: 2,
@@ -447,7 +447,7 @@ class Entity extends Component {
 
         if (activeProbingValues) {
             activeProbing = {
-                type: "spline",
+                type: "line",
                 lineThickness: 1,
                 markerType: "circle",
                 markerSize: 2,
@@ -516,7 +516,9 @@ class Entity extends Component {
                 animationEnabled: true,
                 zoomEnabled: true,
                 title: {
-                    text: `IODA Signals for ${this.state.entityName}`
+                    text: `IODA Signals for ${this.state.entityName}`,
+                    fontSize: 18,
+                    horizontalAlign: "left",
                 },
                 crosshair: {
                     enabled: true,
@@ -524,21 +526,24 @@ class Entity extends Component {
                 },
                 axisX: {
                     title: "Time (UTC)",
-                    stripLines: stripLines
+                    stripLines: stripLines,
+                    labelFontSize: 12,
                 },
                 axisY: {
                     // title: "Active Probing and BGP",
                     titleFontsColor: "#666666",
                     lineColor: "#34a02c",
                     labelFontColor: "#666666",
-                    tickColor: "#34a02c"
+                    tickColor: "#34a02c",
+                    labelFontSize: 12,
                 },
                 axisY2: {
                     // title: "Network Telescope",
                     titleFontsColor: "#666666",
                     lineColor: "#00a9e0",
                     labelFontColor: "#666666",
-                    tickColor: "#00a9e0"
+                    tickColor: "#00a9e0",
+                    labelFontSize: 12,
                 },
                 toolTip: {
                     shared: false,
@@ -764,7 +769,6 @@ class Entity extends Component {
     // Process Geo data, attribute outage scores to a new topoData property where possible, then render Map
     populateGeoJsonMap() {
         if (this.state.topoData && this.state.summaryDataMapRaw && this.state.summaryDataMapRaw[0] && this.state.summaryDataMapRaw[0]["entity"]) {
-            // console.log(this.state.summaryDataMapRaw);
             let topoData = this.state.topoData;
 
             // get Topographic info for a country if it has outages
@@ -784,8 +788,6 @@ class Entity extends Component {
                     topoData.features[topoItemIndex] = item;
                 }
             });
-
-            // console.log(topoData);
             return <TopoMap topoData={topoData}/>;
         }
 

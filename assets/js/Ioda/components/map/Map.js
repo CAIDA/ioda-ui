@@ -43,6 +43,7 @@ class TopoMap extends Component {
 
     render() {
         let position = [20, 0];
+        let zoom = 2;
         return (
             <div style={{position: 'relative', height: 'inherit', width: '100%'}}>
                 <div className={this.state.hoverTooltipDisplay ? "tooltip tooltip--visible" : "tooltip"}>
@@ -50,7 +51,7 @@ class TopoMap extends Component {
                 </div>
                 <Map
                     center={position}
-                    zoom={2}
+                    zoom={zoom}
                     minZoom={1}
                     style={{width: 'inherit', height: 'inherit', overflow: 'hidden'}}
                 >

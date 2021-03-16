@@ -325,13 +325,11 @@ class Table extends Component {
                     }
                     {
                         this.props.type === "summary" && this.props.data.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(summary => {
-                            console.log(this.props.entityType);
                             return <SummaryTableRow key={generateKeys('summary')} type={this.props.type} entityType={this.props.entityType} data={summary}/>
                         })
                     }
                     {
                         this.props.type === "signal" && this.props.data.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(signal => {
-                            console.log(signal);
                             return <SignalTableRow key={generateKeys('signal')} type={this.props.type} entityType={this.props.entityType} data={signal}/>
 
                         })
