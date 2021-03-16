@@ -823,12 +823,12 @@ body {
       background-size: 100% 0 !important;
       /* controls underline thickness */ }
       .table__cell-link:link:link, .table__cell-link:link:visited, .table__cell-link:visited:link, .table__cell-link:visited:visited {
-        color: #d66a35;
+        color: #6190B5;
         font-weight: 700;
         text-decoration: none;
         padding-bottom: 2px;
         margin-bottom: 1px;
-        background: linear-gradient(175deg, #f9ad40 0%, #f9ad40 33.3%, #d66a35 83.5%, #B24B18 100%) left bottom transparent no-repeat;
+        background: linear-gradient(175deg, #f9ad40 0%, #f9ad40 33.3%, #6190B5 83.5%, #1E3E7C 100%) left bottom transparent no-repeat;
         background-size: 100% 2px;
         /* controls underline thickness */ }
   .table__cell--overallScore {
@@ -906,8 +906,8 @@ body {
     font-size: 1.2rem;
     margin-top: 1rem; }
     .table__page-button {
-      background: linear-gradient(2deg, #617486, #0D2032, #617486, #0D2032);
-      height: 5rem;
+      background: linear-gradient(2deg, #1E3E7C, #6AA5D5, #1E3E7C, #6AA5D5);
+      height: 3.5rem;
       border-radius: 0.5rem;
       color: #fff;
       font-weight: 700;
@@ -1494,12 +1494,12 @@ button[class*="searchButton"] {
     .home .search__link {
       margin-left: 0.5rem; }
       .home .search__link:link, .home .search__link:visited {
-        color: #d66a35;
+        color: #6190B5;
         font-weight: 700;
         text-decoration: none;
         padding-bottom: 2px;
         margin-bottom: 1px;
-        background: linear-gradient(175deg, #f9ad40 0%, #f9ad40 33.3%, #d66a35 83.5%, #B24B18 100%) left bottom transparent no-repeat;
+        background: linear-gradient(175deg, #f9ad40 0%, #f9ad40 33.3%, #6190B5 83.5%, #1E3E7C 100%) left bottom transparent no-repeat;
         background-size: 100% 2px;
         /* controls underline thickness */ }
   .home .map__content {
@@ -1535,8 +1535,8 @@ button[class*="searchButton"] {
       color: #fff;
       font-size: 1.6rem; }
     .home .about .button button {
-      background: linear-gradient(2deg, #617486, #0D2032, #617486, #0D2032);
-      height: 5rem;
+      background: linear-gradient(2deg, #1E3E7C, #6AA5D5, #1E3E7C, #6AA5D5);
+      height: 3.5rem;
       border-radius: 0.5rem;
       color: #fff;
       font-weight: 700;
@@ -1625,7 +1625,7 @@ button[class*="searchButton"] {
           display: flex;
           justify-content: center;
           align-items: center;
-          color: #d66a35;
+          color: #6190B5;
           font-weight: 700;
           text-decoration: none;
           padding-bottom: 2px;
@@ -1642,12 +1642,12 @@ button[class*="searchButton"] {
           z-index: 100;
           position: relative; }
           .dashboard .tabs .nav-tabs li.active a:link, .dashboard .tabs .nav-tabs li.active a:visited {
-            color: #d66a35;
+            color: #6190B5;
             font-weight: 700;
             text-decoration: none;
             padding-bottom: 2px;
             margin-bottom: 1px;
-            background: linear-gradient(175deg, #f9ad40 0%, #f9ad40 33.3%, #d66a35 83.5%, #B24B18 100%) left bottom transparent no-repeat;
+            background: linear-gradient(175deg, #f9ad40 0%, #f9ad40 33.3%, #6190B5 83.5%, #1E3E7C 100%) left bottom transparent no-repeat;
             background-size: 100% 2px;
             /* controls underline thickness */ }
           .dashboard .tabs .nav-tabs li.active a:after {
@@ -1669,8 +1669,8 @@ button[class*="searchButton"] {
         width: 100%;
         text-align: right; }
         .dashboard .tabs .tab__config-button {
-          background: linear-gradient(2deg, #617486, #0D2032, #617486, #0D2032);
-          height: 5rem;
+          background: linear-gradient(2deg, #1E3E7C, #6AA5D5, #1E3E7C, #6AA5D5);
+          height: 3.5rem;
           border-radius: 0.5rem;
           color: #fff;
           font-weight: 700;
@@ -1737,8 +1737,8 @@ button[class*="searchButton"] {
       width: 100%;
       text-align: right; }
       .entity .overview__config-button {
-        background: linear-gradient(2deg, #617486, #0D2032, #617486, #0D2032);
-        height: 5rem;
+        background: linear-gradient(2deg, #1E3E7C, #6AA5D5, #1E3E7C, #6AA5D5);
+        height: 3.5rem;
         border-radius: 0.5rem;
         color: #fff;
         font-weight: 700;
@@ -1803,8 +1803,8 @@ button[class*="searchButton"] {
       margin: 1.5rem;
       justify-content: space-between; }
     .entity .related__modal-button {
-      background: linear-gradient(2deg, #617486, #0D2032, #617486, #0D2032);
-      height: 5rem;
+      background: linear-gradient(2deg, #1E3E7C, #6AA5D5, #1E3E7C, #6AA5D5);
+      height: 3.5rem;
       border-radius: 0.5rem;
       color: #fff;
       font-weight: 700;
