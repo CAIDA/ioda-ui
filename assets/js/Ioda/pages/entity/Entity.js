@@ -328,13 +328,6 @@ class Entity extends Component {
             entityName: "",
             parentEntityName: "",
             parentEntityCode: "",
-            // Control Panel
-            // from: window.location.search.split("?")[1]
-            //     ? window.location.search.split("?")[1].split("&")[0].split("=")[1]
-            //     : Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000),
-            // until: window.location.search.split("?")[1]
-            //     ? window.location.search.split("?")[1].split("&")[1].split("=")[1]
-            //     : Math.round(new Date().getTime() / 1000),
             // Search Bar
             suggestedSearchResults: null,
             searchTerm: null,
@@ -348,10 +341,10 @@ class Entity extends Component {
             // Table Pagination
             eventTablePageNumber: 0,
             eventTableCurrentDisplayLow: 0,
-            eventTableCurrentDisplayHigh: 0,
+            eventTableCurrentDisplayHigh: 10,
             alertTablePageNumber: 0,
             alertTableCurrentDisplayLow: 0,
-            alertTableCurrentDisplayHigh: 0,
+            alertTableCurrentDisplayHigh: 10,
             // Event/Table Data
             currentTable: 'alert',
             eventDataRaw: null,
@@ -424,7 +417,7 @@ class Entity extends Component {
         let networkTelescope, bgp, activeProbing;
         if (networkTelescopeValues) {
             networkTelescope = {
-                type: "spline",
+                type: "line",
                 lineThickness: 1,
                 markerType: "circle",
                 markerSize: 2,
@@ -439,7 +432,7 @@ class Entity extends Component {
         }
         if (bgpValues) {
             bgp = {
-                type: "spline",
+                type: "line",
                 lineThickness: 1,
                 markerType: "circle",
                 markerSize: 2,
@@ -454,7 +447,7 @@ class Entity extends Component {
 
         if (activeProbingValues) {
             activeProbing = {
-                type: "spline",
+                type: "line",
                 lineThickness: 1,
                 markerType: "circle",
                 markerSize: 2,
@@ -523,7 +516,9 @@ class Entity extends Component {
                 animationEnabled: true,
                 zoomEnabled: true,
                 title: {
-                    text: `IODA Signals for ${this.state.entityName}`
+                    text: `IODA Signals for ${this.state.entityName}`,
+                    fontSize: 18,
+                    horizontalAlign: "left",
                 },
                 crosshair: {
                     enabled: true,
@@ -531,21 +526,24 @@ class Entity extends Component {
                 },
                 axisX: {
                     title: "Time (UTC)",
-                    stripLines: stripLines
+                    stripLines: stripLines,
+                    labelFontSize: 12,
                 },
                 axisY: {
                     // title: "Active Probing and BGP",
                     titleFontsColor: "#666666",
                     lineColor: "#34a02c",
                     labelFontColor: "#666666",
-                    tickColor: "#34a02c"
+                    tickColor: "#34a02c",
+                    labelFontSize: 12,
                 },
                 axisY2: {
                     // title: "Network Telescope",
                     titleFontsColor: "#666666",
                     lineColor: "#00a9e0",
                     labelFontColor: "#666666",
-                    tickColor: "#00a9e0"
+                    tickColor: "#00a9e0",
+                    labelFontSize: 12,
                 },
                 toolTip: {
                     shared: false,
@@ -771,7 +769,6 @@ class Entity extends Component {
     // Process Geo data, attribute outage scores to a new topoData property where possible, then render Map
     populateGeoJsonMap() {
         if (this.state.topoData && this.state.summaryDataMapRaw && this.state.summaryDataMapRaw[0] && this.state.summaryDataMapRaw[0]["entity"]) {
-            // console.log(this.state.summaryDataMapRaw);
             let topoData = this.state.topoData;
 
             // get Topographic info for a country if it has outages
@@ -791,8 +788,6 @@ class Entity extends Component {
                     topoData.features[topoItemIndex] = item;
                 }
             });
-
-            // console.log(topoData);
             return <TopoMap topoData={topoData}/>;
         }
 
@@ -838,7 +833,7 @@ class Entity extends Component {
         if (this.state.mounted) {
             let until = this.state.until;
             let from = this.state.from;
-            const limit = this.apiQueryLimit;;
+            const limit = this.apiQueryLimit;
             const includeMetadata = true;
             let page = this.state.relatedToTableApiPageNumber;
             const entityCode = null;
@@ -895,6 +890,7 @@ class Entity extends Component {
                 currentDisplayLow={this.state.relatedToTableCurrentDisplayLow}
                 currentDisplayHigh={this.state.relatedToTableCurrentDisplayHigh}
                 totalCount={this.state.relatedToTableSummaryProcessed.length}
+                entityType={this.state.entityType === "asn" ? "country" : "asn"}
             />
         )
     }
@@ -935,7 +931,6 @@ class Entity extends Component {
         console.log(this.state.summaryDataMapRaw);
         if (this.state.summaryDataMapRaw && this.state.regionalSignalsTableSummaryData) {
             let signalsTableData = combineValuesForSignalsTable(this.state.summaryDataMapRaw, this.state.regionalSignalsTableSummaryData);
-            console.log(signalsTableData);
             this.setState({
                 regionalSignalsTableSummaryDataProcessed: signalsTableData,
                 regionalSignalsTableLoading: false
@@ -957,10 +952,10 @@ class Entity extends Component {
                     currentDisplayLow={this.state.regionalSignalsTableCurrentDisplayLow}
                     currentDisplayHigh={this.state.regionalSignalsTableCurrentDisplayHigh}
                     totalCount={this.state.regionalSignalsTableSummaryDataProcessed.length}
+                    toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInHtsViz(event)}
                 />
             )
         }
-
     }
     nextPageRegionalSignalsTableSummary() {
         let nextPageValues = nextPage(!!this.state.regionalSignalsTableSummaryDataProcessed, this.state.regionalSignalsTableSummaryDataProcessed.length, this.state.regionalSignalsTablePageNumber, this.state.regionalSignalsTableCurrentDisplayHigh, this.state.regionalSignalsTableCurrentDisplayLow);
@@ -978,6 +973,36 @@ class Entity extends Component {
             regionalSignalsTableCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh
         });
 
+    }
+    toggleEntityVisibilityInHtsViz(event) {
+        console.log(event.target.name);
+        console.log(this.state.regionalSignalsTableSummaryDataProcessed);
+        let indexValue;
+        let regionalSignalsTableSummaryDataProcessed = this.state.regionalSignalsTableSummaryDataProcessed;
+
+        // Get the index of where the checkmark was that was clicked
+        this.state.regionalSignalsTableSummaryDataProcessed.filter((entity, index) => {
+            if (entity.entityCode === event.target.name) {
+                console.log(index);
+                indexValue = index;
+            }
+        }, () => {
+
+        });
+        // Update visibility boolean in copied object
+        console.log("here3");
+        console.log(regionalSignalsTableSummaryDataProcessed[indexValue]["visibility"]);
+        regionalSignalsTableSummaryDataProcessed[indexValue]["visibility"] = !regionalSignalsTableSummaryDataProcessed[indexValue]["visibility"];
+        console.log(regionalSignalsTableSummaryDataProcessed[indexValue]);
+        // Update new state with visibility checked
+        this.setState({
+            regionalSignalsTableSummaryDataProcessed: regionalSignalsTableSummaryDataProcessed
+        }, () => {
+            // re draw horizon time series chart
+            this.populateRegionalHtsChart(900, 'ping-slash24');
+            this.populateRegionalHtsChart(900, 'bgp');
+            this.populateRegionalHtsChart(900, 'ucsd-nt');
+        })
     }
 
     // Time Series for displaying regional signals
@@ -1104,7 +1129,9 @@ class Entity extends Component {
             }, () => {
                 this.genAsnSignalsTable();
                 // Populate Stacked horizon graph with all regions
-                this.getAsnSignalsHtsDataEvents("asn");
+                this.state.entityType !== 'asn'
+                ? this.getAsnSignalsHtsDataEvents("asn")
+                : this.getAsnSignalsHtsDataEvents("country");
             })
         }
     }
@@ -1119,6 +1146,7 @@ class Entity extends Component {
                 currentDisplayLow={this.state.asnSignalsTableCurrentDisplayLow}
                 currentDisplayHigh={this.state.asnSignalsTableCurrentDisplayHigh}
                 totalCount={this.state.asnSignalsTableSummaryDataProcessed.length}
+                entityType={this.state.entityType === "asn" ? "country" : "asn"}
             />
         )
     }
