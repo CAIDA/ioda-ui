@@ -171,6 +171,7 @@ export function combineValuesForSignalsTable(entitiesWithOutages, additionalEnti
         let entityItem;
         entity.type === 'asn'
             ? entityItem = {
+                visibility: true,
                 entityType: entity.type,
                 entityCode: entity.code,
                 name: entity.name,
@@ -179,6 +180,7 @@ export function combineValuesForSignalsTable(entitiesWithOutages, additionalEnti
                 ipCount: humanizeNumber(entity.attrs.ip_count, 2)
                 }
             : entityItem = {
+                    visibility: true,
                     entityType: entity.type,
                     entityCode: entity.code,
                     name: entity.name,

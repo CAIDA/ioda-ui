@@ -981,7 +981,7 @@ class Entity extends Component {
 
         // Group IDs for items that have visibility set to false, remove items from group that are now set to true
         regionalSignalsTableSummaryDataProcessed.map((regionalSignalsTableEntity, index) => {
-            if (regionalSignalsTableEntity.visibility === false || !regionalSignalsTableEntity.visibility) {
+            if (regionalSignalsTableEntity.visibility === false) {
                 visibilityFalseEntities.push(regionalSignalsTableEntity.entityCode);
             } else {
                 visibilityFalseEntities.splice(index, index + 1);
