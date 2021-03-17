@@ -23,6 +23,7 @@ $color-secondary-dark: #1E3E7C;
 //$color-secondary: #d66a35;
 //$color-secondary-light: #FFB08B;
 //$color-secondary-dark: #B24B18;
+$color-blue-border: #DCE4EA;
 
 $color-table-row-odd: #f7f7f7;
 $color-table-cell-border: #eeeeee;
@@ -32,7 +33,7 @@ $color-alert-feed-warning: #F18179;
 $color-alert-feed-normal: #D4F19D;
 
 // BOX SHADOW
-$box-shadow: 0 3px 5px #333;
+$box-shadow: 0 1px 2px #333;
 $linear-gradient-primary: linear-gradient(2deg, $color-primary-dark, $color-primary-light);
 $linear-gradient-secondary: linear-gradient(2deg, $color-secondary-dark, $color-secondary-light);
 $linear-gradient-secondary-reverse: linear-gradient(2deg, $color-secondary-light, $color-secondary-dark);

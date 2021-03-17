@@ -524,7 +524,9 @@ class Entity extends Component {
                 axisX: {
                     title: "Time (UTC)",
                     stripLines: stripLines,
-                    labelFontSize: 12,
+                    titleFontSize: 12,
+                    labelFontSize: 10,
+                    margin: 2
                 },
                 axisY: {
                     // title: "Active Probing and BGP",
@@ -548,7 +550,9 @@ class Entity extends Component {
                     animationEnabled: true
                 },
                 legend: {
-                    cursor: "pointer"
+                    cursor: "default",
+                    fontSize: 14,
+
                 },
                 data: this.createXyVizDataObject(networkTelescopeValues, bgpValues, activeProbingValues)
             }
