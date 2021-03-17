@@ -149,9 +149,9 @@ class Entity extends Component {
                 // Get Topo Data for relatedTo Map
                 // ToDo: update parameter to base value off of url entity type
                 // if (window.location.pathname.split("/")[1] === 'country' || window.location.pathname.split("/")[1] === 'region') {
-                    this.getDataTopo("region");
-                    this.getDataRelatedToMapSummary("region");
-                    this.getDataRelatedToTableSummary("asn");
+                this.getDataTopo("region");
+                this.getDataRelatedToMapSummary("region");
+                this.getDataRelatedToTableSummary("asn");
                 // }
             });
         }
@@ -983,11 +983,12 @@ class Entity extends Component {
                 indexValue = index;
             }
         });
-        // Update visibility boolean in copied object to update table
+        // Update visibility boolean property in copied object to update table
         regionalSignalsTableSummaryDataProcessed[indexValue]["visibility"] = !regionalSignalsTableSummaryDataProcessed[indexValue]["visibility"];
 
+        // Group IDs for items that have visibility set to false, remove items from group that are now set to true
         regionalSignalsTableSummaryDataProcessed.map((regionalSignalsTableEntity, index) => {
-            if (regionalSignalsTableEntity.visibility === false) {
+            if (regionalSignalsTableEntity.visibility === false || !regionalSignalsTableEntity.visibility) {
                 visibilityFalseEntities.push(regionalSignalsTableEntity.entityCode);
             } else {
                 visibilityFalseEntities.splice(index, index + 1);
@@ -1003,12 +1004,11 @@ class Entity extends Component {
             rawRegionalSignals = this.props.rawRegionalSignals;
         }
 
-        // Update new state with visibility checked and new hts data that reflects that
+        // Update new state with visibility checked and new hts data that reflects that, then redraw the chart
         this.setState({
             rawRegionalSignals: rawRegionalSignals,
             regionalSignalsTableSummaryDataProcessed: regionalSignalsTableSummaryDataProcessed
         }, () => {
-            // re draw horizon time series chart with updated series
             this.convertValuesForRegionalHtsViz();
         });
     }
@@ -1138,8 +1138,8 @@ class Entity extends Component {
                 this.genAsnSignalsTable();
                 // Populate Stacked horizon graph with all regions
                 this.state.entityType !== 'asn'
-                ? this.getAsnSignalsHtsDataEvents("asn")
-                : this.getAsnSignalsHtsDataEvents("country");
+                    ? this.getAsnSignalsHtsDataEvents("asn")
+                    : this.getAsnSignalsHtsDataEvents("country");
             })
         }
     }
