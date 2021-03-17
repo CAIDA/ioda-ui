@@ -91,7 +91,6 @@ class Entity extends Component {
             showMapModal: false,
             showTableModal: false,
             // Signals Modal Table on Map Panel
-            regionalSignalsTableLoading: false,
             regionalSignalsTableSummaryData: [],
             regionalSignalsTableSummaryDataProcessed: [],
             regionalSignalsTablePageNumber: 0,
@@ -149,9 +148,9 @@ class Entity extends Component {
                 // Get Topo Data for relatedTo Map
                 // ToDo: update parameter to base value off of url entity type
                 // if (window.location.pathname.split("/")[1] === 'country' || window.location.pathname.split("/")[1] === 'region') {
-                    this.getDataTopo("region");
-                    this.getDataRelatedToMapSummary("region");
-                    this.getDataRelatedToTableSummary("asn");
+                this.getDataTopo("region");
+                this.getDataRelatedToMapSummary("region");
+                this.getDataRelatedToTableSummary("asn");
                 // }
             });
         }
@@ -226,7 +225,7 @@ class Entity extends Component {
                 relatedToTableSummary: this.props.relatedToTableSummary
             },() => {
                 this.convertValuesForSummaryTable();
-                this.combineValuesForAsnSignalsTable();
+                // this.combineValuesForAsnSignalsTable();
             })
         }
 
@@ -234,7 +233,6 @@ class Entity extends Component {
             this.setState({
                 regionalSignalsTableSummaryData: this.props.regionalSignalsTableSummaryData
             }, () => {
-                console.log(this.state.regionalSignalsTableSummaryData);
                 this.combineValuesForRegionalSignalsTable();
             })
         }
@@ -365,7 +363,6 @@ class Entity extends Component {
             showMapModal: false,
             showTableModal: false,
             // Signals Modal Table on Map Panel
-            regionalSignalsTableLoading: false,
             regionalSignalsTableSummaryData: [],
             regionalSignalsTableSummaryDataProcessed: [],
             regionalSignalsTablePageNumber: 0,
@@ -736,7 +733,6 @@ class Entity extends Component {
             showTableModal={this.state.showTableModal}
             populateGeoJsonMap={() => this.populateGeoJsonMap()}
             genSummaryTable={() => this.genSummaryTable()}
-            regionalSignalsTableLoading={this.state.regionalSignalsTableLoading}
             genRegionalSignalsTable={() => this.genRegionalSignalsTable()}
             genAsnSignalsTable={() => this.genAsnSignalsTable()}
             populateRegionalHtsChart={(width, datasource) => this.populateRegionalHtsChart(width, datasource)}
@@ -748,17 +744,13 @@ class Entity extends Component {
             this.props.regionalSignalsTableSummaryDataAction("region", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
             // Get related entities used on table in map modal
             this.convertValuesForRegionalHtsViz();
-            this.combineValuesForRegionalSignalsTable();
             this.setState({
-                regionalSignalsTableLoading: true,
                 showMapModal: !this.state.showMapModal
             });
 
         } else if (modalLocation === 'table') {
             this.props.asnSignalsTableSummaryDataAction("asn", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
             this.convertValuesForAsnHtsViz();
-            // this.combineValuesForAsnSignalsTable();
-            // this.convertValuesForAsnHtsViz();
             this.setState({
                 showTableModal: !this.state.showTableModal
             });
@@ -927,13 +919,10 @@ class Entity extends Component {
 // Map Modal
     // Table displaying all regions regardless of score
     combineValuesForRegionalSignalsTable() {
-        console.log(this.state.regionalSignalsTableSummaryData);
-        console.log(this.state.summaryDataMapRaw);
         if (this.state.summaryDataMapRaw && this.state.regionalSignalsTableSummaryData) {
             let signalsTableData = combineValuesForSignalsTable(this.state.summaryDataMapRaw, this.state.regionalSignalsTableSummaryData);
             this.setState({
-                regionalSignalsTableSummaryDataProcessed: signalsTableData,
-                regionalSignalsTableLoading: false
+                regionalSignalsTableSummaryDataProcessed: signalsTableData
             }, () => {
                 this.genRegionalSignalsTable();
                 // Populate Stacked horizon graph with all regions
@@ -952,7 +941,7 @@ class Entity extends Component {
                     currentDisplayLow={this.state.regionalSignalsTableCurrentDisplayLow}
                     currentDisplayHigh={this.state.regionalSignalsTableCurrentDisplayHigh}
                     totalCount={this.state.regionalSignalsTableSummaryDataProcessed.length}
-                    toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInHtsViz(event)}
+                    toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInRegionalHtsViz(event)}
                 />
             )
         }
@@ -974,35 +963,47 @@ class Entity extends Component {
         });
 
     }
-    toggleEntityVisibilityInHtsViz(event) {
-        console.log(event.target.name);
-        console.log(this.state.regionalSignalsTableSummaryDataProcessed);
+    toggleEntityVisibilityInRegionalHtsViz(event) {
         let indexValue;
         let regionalSignalsTableSummaryDataProcessed = this.state.regionalSignalsTableSummaryDataProcessed;
+        let rawRegionalSignals = this.props.rawRegionalSignals;
+
+        let visibilityFalseEntities = [];
 
         // Get the index of where the checkmark was that was clicked
-        this.state.regionalSignalsTableSummaryDataProcessed.filter((entity, index) => {
+        regionalSignalsTableSummaryDataProcessed.filter((entity, index) => {
             if (entity.entityCode === event.target.name) {
-                console.log(index);
                 indexValue = index;
             }
-        }, () => {
-
         });
-        // Update visibility boolean in copied object
-        console.log("here3");
-        console.log(regionalSignalsTableSummaryDataProcessed[indexValue]["visibility"]);
+        // Update visibility boolean property in copied object to update table
         regionalSignalsTableSummaryDataProcessed[indexValue]["visibility"] = !regionalSignalsTableSummaryDataProcessed[indexValue]["visibility"];
-        console.log(regionalSignalsTableSummaryDataProcessed[indexValue]);
-        // Update new state with visibility checked
+
+        // Group IDs for items that have visibility set to false, remove items from group that are now set to true
+        regionalSignalsTableSummaryDataProcessed.map((regionalSignalsTableEntity, index) => {
+            if (regionalSignalsTableEntity.visibility === false || !regionalSignalsTableEntity.visibility) {
+                visibilityFalseEntities.push(regionalSignalsTableEntity.entityCode);
+            } else {
+                visibilityFalseEntities.splice(index, index + 1);
+            }
+        });
+
+        // Update rawRegionalSignals state removing selected items with visibility set to false in regionalSignalsTableSummaryDataProcessed
+        if (visibilityFalseEntities.length > 0) {
+            visibilityFalseEntities.map(entityCode => {
+                rawRegionalSignals = rawRegionalSignals.filter(regionalSignal => regionalSignal[0].entityCode !== entityCode)
+            }, this);
+        } else {
+            rawRegionalSignals = this.props.rawRegionalSignals;
+        }
+
+        // Update new state with visibility checked and new hts data that reflects that, then redraw the chart
         this.setState({
+            rawRegionalSignals: rawRegionalSignals,
             regionalSignalsTableSummaryDataProcessed: regionalSignalsTableSummaryDataProcessed
         }, () => {
-            // re draw horizon time series chart
-            this.populateRegionalHtsChart(900, 'ping-slash24');
-            this.populateRegionalHtsChart(900, 'bgp');
-            this.populateRegionalHtsChart(900, 'ucsd-nt');
-        })
+            this.convertValuesForRegionalHtsViz();
+        });
     }
 
     // Time Series for displaying regional signals
@@ -1051,9 +1052,6 @@ class Entity extends Component {
             rawRegionalSignalsProcessedBgp: rawRegionalSignalsProcessedBgp,
             rawRegionalSignalsProcessedUcsdNt: rawRegionalSignalsProcessedUcsdNt
         }, () => {
-            // console.log(this.state.rawRegionalSignalsProcessedPingSlash24);
-            // console.log(this.state.rawRegionalSignalsProcessedBgp);
-            // console.log(this.state.rawRegionalSignalsProcessedUcsdNt);
             this.populateRegionalHtsChart(900, 'ping-slash24');
             this.populateRegionalHtsChart(900, 'bgp');
             this.populateRegionalHtsChart(900, 'ucsd-nt');
@@ -1062,7 +1060,7 @@ class Entity extends Component {
     populateRegionalHtsChart(width, datasource) {
         switch(datasource) {
             case 'ping-slash24':
-                if (this.state.rawAsnSignalsProcessedPingSlash24) {
+                if (this.state.rawRegionalSignalsProcessedPingSlash24) {
                     const myChart = HorizonTSChart()(document.getElementById(`regional-horizon-chart--pingSlash24`));
                     myChart
                         .data(this.state.rawRegionalSignalsProcessedPingSlash24)
@@ -1130,8 +1128,8 @@ class Entity extends Component {
                 this.genAsnSignalsTable();
                 // Populate Stacked horizon graph with all regions
                 this.state.entityType !== 'asn'
-                ? this.getAsnSignalsHtsDataEvents("asn")
-                : this.getAsnSignalsHtsDataEvents("country");
+                    ? this.getAsnSignalsHtsDataEvents("asn")
+                    : this.getAsnSignalsHtsDataEvents("country");
             })
         }
     }
@@ -1147,6 +1145,7 @@ class Entity extends Component {
                 currentDisplayHigh={this.state.asnSignalsTableCurrentDisplayHigh}
                 totalCount={this.state.asnSignalsTableSummaryDataProcessed.length}
                 entityType={this.state.entityType === "asn" ? "country" : "asn"}
+                toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInAsnHtsViz(event)}
             />
         )
     }
@@ -1166,6 +1165,48 @@ class Entity extends Component {
             asnSignalsTableCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh
         });
 
+    }
+    toggleEntityVisibilityInAsnHtsViz(event) {
+        let indexValue;
+        let asnSignalsTableSummaryDataProcessed = this.state.asnSignalsTableSummaryDataProcessed;
+        let rawAsnSignals = this.props.rawAsnSignals;
+
+        let visibilityFalseEntities = [];
+
+        // Get the index of where the checkmark was that was clicked
+        asnSignalsTableSummaryDataProcessed.filter((entity, index) => {
+            if (entity.entityCode === event.target.name) {
+                indexValue = index;
+            }
+        });
+        // Update visibility boolean property in copied object to update table
+       asnSignalsTableSummaryDataProcessed[indexValue]["visibility"] = !asnSignalsTableSummaryDataProcessed[indexValue]["visibility"];
+
+        // Group IDs for items that have visibility set to false, remove items from group that are now set to true
+        asnSignalsTableSummaryDataProcessed.map((asnSignalsTableEntity, index) => {
+            if (asnSignalsTableEntity.visibility === false || !asnSignalsTableEntity.visibility) {
+                visibilityFalseEntities.push(asnSignalsTableEntity.entityCode);
+            } else {
+                visibilityFalseEntities.splice(index, index + 1);
+            }
+        });
+
+        // Update rawRegionalSignals state removing selected items with visibility set to false in regionalSignalsTableSummaryDataProcessed
+        if (visibilityFalseEntities.length > 0) {
+            visibilityFalseEntities.map(entityCode => {
+                rawAsnSignals = rawAsnSignals.filter(asnSignal => asnSignal[0].entityCode !== entityCode)
+            }, this);
+        } else {
+            rawAsnSignals = this.props.rawAsnSignals;
+        }
+
+        // Update new state with visibility checked and new hts data that reflects that, then redraw the chart
+        this.setState({
+            rawAsnSignals: rawAsnSignals,
+            asnSignalsTableSummaryDataProcessed: asnSignalsTableSummaryDataProcessed
+        }, () => {
+            this.convertValuesForAsnHtsViz();
+        });
     }
 
     // Time Series for displaying regional signals
@@ -1187,9 +1228,6 @@ class Entity extends Component {
         let rawAsnSignalsProcessedBgp = [];
         let rawAsnSignalsProcessedUcsdNt = [];
 
-        // console.log(this.state.rawAsnSignals);
-
-        // console.log(this.state.rawRegionalSignals);
         this.state.rawAsnSignals.map(tsData => {
             tsData.map(datasource => {
                 // Create visualization-friendly data objects
@@ -1219,9 +1257,6 @@ class Entity extends Component {
             rawAsnSignalsProcessedBgp: rawAsnSignalsProcessedBgp,
             rawAsnSignalsProcessedUcsdNt: rawAsnSignalsProcessedUcsdNt
         }, () => {
-            // console.log(this.state.rawAsnSignalsProcessedPingSlash24);
-            // console.log(this.state.rawAsnSignalsProcessedBgp);
-            // console.log(this.state.rawAsnSignalsProcessedUcsdNt);
             this.populateAsnHtsChart(900, 'ping-slash24');
             this.populateAsnHtsChart(900, 'bgp');
             this.populateAsnHtsChart(900, 'ucsd-nt');
@@ -1231,7 +1266,6 @@ class Entity extends Component {
         switch(datasource) {
             case 'ping-slash24':
                 if (this.state.rawAsnSignalsProcessedPingSlash24) {
-                    // console.log(this.state.rawRegionalSignalsProcessedPingSlash24);
                     const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--pingSlash24`));
                     myChart
                         .data(this.state.rawAsnSignalsProcessedPingSlash24)

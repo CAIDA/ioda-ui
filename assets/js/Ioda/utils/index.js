@@ -168,10 +168,6 @@ export function combineValuesForSignalsTable(entitiesWithOutages, additionalEnti
 
     // Display scoreless entities on signal table, if asn add ip count property
     duplicatesRemoved.map(entity => {
-        // console.log(entity);
-        // console.log(entity.attrs.ip_count);
-        // console.log(entity["attrs"]["ip_count"]);
-        console.log(entity.type);
         let entityItem;
         entity.type === 'asn'
             ? entityItem = {
