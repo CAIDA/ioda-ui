@@ -226,7 +226,7 @@ class Entity extends Component {
                 relatedToTableSummary: this.props.relatedToTableSummary
             },() => {
                 this.convertValuesForSummaryTable();
-                this.combineValuesForAsnSignalsTable();
+                // this.combineValuesForAsnSignalsTable();
             })
         }
 
@@ -234,7 +234,6 @@ class Entity extends Component {
             this.setState({
                 regionalSignalsTableSummaryData: this.props.regionalSignalsTableSummaryData
             }, () => {
-                console.log(this.state.regionalSignalsTableSummaryData);
                 this.combineValuesForRegionalSignalsTable();
             })
         }
@@ -748,7 +747,6 @@ class Entity extends Component {
             this.props.regionalSignalsTableSummaryDataAction("region", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
             // Get related entities used on table in map modal
             this.convertValuesForRegionalHtsViz();
-            this.combineValuesForRegionalSignalsTable();
             this.setState({
                 regionalSignalsTableLoading: true,
                 showMapModal: !this.state.showMapModal
@@ -927,8 +925,6 @@ class Entity extends Component {
 // Map Modal
     // Table displaying all regions regardless of score
     combineValuesForRegionalSignalsTable() {
-        console.log(this.state.regionalSignalsTableSummaryData);
-        console.log(this.state.summaryDataMapRaw);
         if (this.state.summaryDataMapRaw && this.state.regionalSignalsTableSummaryData) {
             let signalsTableData = combineValuesForSignalsTable(this.state.summaryDataMapRaw, this.state.regionalSignalsTableSummaryData);
             this.setState({
@@ -975,34 +971,46 @@ class Entity extends Component {
 
     }
     toggleEntityVisibilityInHtsViz(event) {
-        console.log(event.target.name);
-        console.log(this.state.regionalSignalsTableSummaryDataProcessed);
         let indexValue;
         let regionalSignalsTableSummaryDataProcessed = this.state.regionalSignalsTableSummaryDataProcessed;
+        let rawRegionalSignals = this.props.rawRegionalSignals;
+
+        let visibilityFalseEntities = [];
 
         // Get the index of where the checkmark was that was clicked
-        this.state.regionalSignalsTableSummaryDataProcessed.filter((entity, index) => {
+        regionalSignalsTableSummaryDataProcessed.filter((entity, index) => {
             if (entity.entityCode === event.target.name) {
-                console.log(index);
                 indexValue = index;
             }
-        }, () => {
-
         });
-        // Update visibility boolean in copied object
-        console.log("here3");
-        console.log(regionalSignalsTableSummaryDataProcessed[indexValue]["visibility"]);
+        // Update visibility boolean in copied object to update table
         regionalSignalsTableSummaryDataProcessed[indexValue]["visibility"] = !regionalSignalsTableSummaryDataProcessed[indexValue]["visibility"];
-        console.log(regionalSignalsTableSummaryDataProcessed[indexValue]);
-        // Update new state with visibility checked
+
+        regionalSignalsTableSummaryDataProcessed.map((regionalSignalsTableEntity, index) => {
+            if (regionalSignalsTableEntity.visibility === false) {
+                visibilityFalseEntities.push(regionalSignalsTableEntity.entityCode);
+            } else {
+                visibilityFalseEntities.splice(index, index + 1);
+            }
+        });
+
+        // Update rawRegionalSignals state removing selected items with visibility set to false in regionalSignalsTableSummaryDataProcessed
+        if (visibilityFalseEntities.length > 0) {
+            visibilityFalseEntities.map(entityCode => {
+                rawRegionalSignals = rawRegionalSignals.filter(regionalSignal => regionalSignal[0].entityCode !== entityCode)
+            }, this);
+        } else {
+            rawRegionalSignals = this.props.rawRegionalSignals;
+        }
+
+        // Update new state with visibility checked and new hts data that reflects that
         this.setState({
+            rawRegionalSignals: rawRegionalSignals,
             regionalSignalsTableSummaryDataProcessed: regionalSignalsTableSummaryDataProcessed
         }, () => {
-            // re draw horizon time series chart
-            this.populateRegionalHtsChart(900, 'ping-slash24');
-            this.populateRegionalHtsChart(900, 'bgp');
-            this.populateRegionalHtsChart(900, 'ucsd-nt');
-        })
+            // re draw horizon time series chart with updated series
+            this.convertValuesForRegionalHtsViz();
+        });
     }
 
     // Time Series for displaying regional signals
