@@ -147,6 +147,7 @@ export function combineValuesForSignalsTable(entitiesWithOutages, additionalEnti
         let summaryItem;
         entity.entity.type === 'asn'
             ? summaryItem = {
+                visibility: true,
                 entityType: entity["entity"].type,
                 entityCode: entity["entity"].code,
                 name: entity["entity"].name,
@@ -155,6 +156,7 @@ export function combineValuesForSignalsTable(entitiesWithOutages, additionalEnti
                 ipCount: humanizeNumber(entity["entity"]["attrs"]["ip_count"], 2)
                 }
             : summaryItem = {
+            visibility: true,
             entityType: entity["entity"].type,
             entityCode: entity["entity"].code,
             name: entity["entity"].name,
@@ -189,7 +191,6 @@ export function combineValuesForSignalsTable(entitiesWithOutages, additionalEnti
                 };
         summaryData.push(entityItem);
     });
-    console.log(summaryData);
     return summaryData;
 }
 

@@ -330,7 +330,10 @@ class Table extends Component {
                     }
                     {
                         this.props.type === "signal" && this.props.data.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(signal => {
-                            return <SignalTableRow key={generateKeys('signal')} type={this.props.type} entityType={this.props.entityType} data={signal}/>
+                            return <SignalTableRow key={generateKeys('signal')} type={this.props.type}
+                                                   entityType={this.props.entityType} data={signal}
+                                                   toggleEntityVisibilityInHtsViz={event => this.props.toggleEntityVisibilityInHtsViz(event)}
+                            />
 
                         })
                     }

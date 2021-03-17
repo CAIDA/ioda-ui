@@ -73,12 +73,9 @@ class SignalTableRow extends Component {
         });
     }
 
-    handleCheckboxChange(event) {
-        console.log(event.target);
-    }
-
     render() {
         let overallScore = humanizeNumber(this.props.data.score, 2);
+        const entityCode = this.props.data.entityCode;
         return(
             <tr
                 className="table--summary-row"
@@ -89,7 +86,7 @@ class SignalTableRow extends Component {
                 {
                     this.props.type === "signal"
                         ? <td>
-                            <input className="table__cell-checkbox" type="checkbox" checked={true} onChange={event => this.handleCheckboxChange(event)}/>
+                            <input className="table__cell-checkbox" type="checkbox" name={entityCode} checked={this.props.data.visibility} onChange={(event) => this.props.toggleEntityVisibilityInHtsViz(event)}/>
                         </td>
                         : null
                 }

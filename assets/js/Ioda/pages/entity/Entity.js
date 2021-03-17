@@ -931,7 +931,6 @@ class Entity extends Component {
         console.log(this.state.summaryDataMapRaw);
         if (this.state.summaryDataMapRaw && this.state.regionalSignalsTableSummaryData) {
             let signalsTableData = combineValuesForSignalsTable(this.state.summaryDataMapRaw, this.state.regionalSignalsTableSummaryData);
-            console.log(signalsTableData);
             this.setState({
                 regionalSignalsTableSummaryDataProcessed: signalsTableData,
                 regionalSignalsTableLoading: false
@@ -953,10 +952,10 @@ class Entity extends Component {
                     currentDisplayLow={this.state.regionalSignalsTableCurrentDisplayLow}
                     currentDisplayHigh={this.state.regionalSignalsTableCurrentDisplayHigh}
                     totalCount={this.state.regionalSignalsTableSummaryDataProcessed.length}
+                    toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInHtsViz(event)}
                 />
             )
         }
-
     }
     nextPageRegionalSignalsTableSummary() {
         let nextPageValues = nextPage(!!this.state.regionalSignalsTableSummaryDataProcessed, this.state.regionalSignalsTableSummaryDataProcessed.length, this.state.regionalSignalsTablePageNumber, this.state.regionalSignalsTableCurrentDisplayHigh, this.state.regionalSignalsTableCurrentDisplayLow);
@@ -974,6 +973,36 @@ class Entity extends Component {
             regionalSignalsTableCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh
         });
 
+    }
+    toggleEntityVisibilityInHtsViz(event) {
+        console.log(event.target.name);
+        console.log(this.state.regionalSignalsTableSummaryDataProcessed);
+        let indexValue;
+        let regionalSignalsTableSummaryDataProcessed = this.state.regionalSignalsTableSummaryDataProcessed;
+
+        // Get the index of where the checkmark was that was clicked
+        this.state.regionalSignalsTableSummaryDataProcessed.filter((entity, index) => {
+            if (entity.entityCode === event.target.name) {
+                console.log(index);
+                indexValue = index;
+            }
+        }, () => {
+
+        });
+        // Update visibility boolean in copied object
+        console.log("here3");
+        console.log(regionalSignalsTableSummaryDataProcessed[indexValue]["visibility"]);
+        regionalSignalsTableSummaryDataProcessed[indexValue]["visibility"] = !regionalSignalsTableSummaryDataProcessed[indexValue]["visibility"];
+        console.log(regionalSignalsTableSummaryDataProcessed[indexValue]);
+        // Update new state with visibility checked
+        this.setState({
+            regionalSignalsTableSummaryDataProcessed: regionalSignalsTableSummaryDataProcessed
+        }, () => {
+            // re draw horizon time series chart
+            this.populateRegionalHtsChart(900, 'ping-slash24');
+            this.populateRegionalHtsChart(900, 'bgp');
+            this.populateRegionalHtsChart(900, 'ucsd-nt');
+        })
     }
 
     // Time Series for displaying regional signals
