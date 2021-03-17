@@ -91,7 +91,6 @@ class Entity extends Component {
             showMapModal: false,
             showTableModal: false,
             // Signals Modal Table on Map Panel
-            regionalSignalsTableLoading: false,
             regionalSignalsTableSummaryData: [],
             regionalSignalsTableSummaryDataProcessed: [],
             regionalSignalsTablePageNumber: 0,
@@ -364,7 +363,6 @@ class Entity extends Component {
             showMapModal: false,
             showTableModal: false,
             // Signals Modal Table on Map Panel
-            regionalSignalsTableLoading: false,
             regionalSignalsTableSummaryData: [],
             regionalSignalsTableSummaryDataProcessed: [],
             regionalSignalsTablePageNumber: 0,
@@ -735,7 +733,6 @@ class Entity extends Component {
             showTableModal={this.state.showTableModal}
             populateGeoJsonMap={() => this.populateGeoJsonMap()}
             genSummaryTable={() => this.genSummaryTable()}
-            regionalSignalsTableLoading={this.state.regionalSignalsTableLoading}
             genRegionalSignalsTable={() => this.genRegionalSignalsTable()}
             genAsnSignalsTable={() => this.genAsnSignalsTable()}
             populateRegionalHtsChart={(width, datasource) => this.populateRegionalHtsChart(width, datasource)}
@@ -748,7 +745,6 @@ class Entity extends Component {
             // Get related entities used on table in map modal
             this.convertValuesForRegionalHtsViz();
             this.setState({
-                regionalSignalsTableLoading: true,
                 showMapModal: !this.state.showMapModal
             });
 
@@ -928,8 +924,7 @@ class Entity extends Component {
         if (this.state.summaryDataMapRaw && this.state.regionalSignalsTableSummaryData) {
             let signalsTableData = combineValuesForSignalsTable(this.state.summaryDataMapRaw, this.state.regionalSignalsTableSummaryData);
             this.setState({
-                regionalSignalsTableSummaryDataProcessed: signalsTableData,
-                regionalSignalsTableLoading: false
+                regionalSignalsTableSummaryDataProcessed: signalsTableData
             }, () => {
                 this.genRegionalSignalsTable();
                 // Populate Stacked horizon graph with all regions
