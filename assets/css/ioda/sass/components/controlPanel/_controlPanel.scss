@@ -2,15 +2,16 @@
 
   &__input {
     background-color: $color-white;
-    height: 3.5rem;
+    height: 3.75rem;
     width: 100%;
-    border: 1px solid #010201;
-    border-radius: 3px;
-    outline: none;
+    border: 2px solid $color-blue-border;
+    border-radius: 5px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    color: #757575;
+    padding-top: 0.5rem;
 
     & span {
       display: inline-block;
@@ -27,7 +28,6 @@
     position: absolute;
     left: 0;
     top: 7.25rem;
-    border: 1px solid #010201;
     box-shadow: $box-shadow;
     border-radius: 3px;
 

@@ -524,7 +524,9 @@ class Entity extends Component {
                 axisX: {
                     title: "Time (UTC)",
                     stripLines: stripLines,
-                    labelFontSize: 12,
+                    titleFontSize: 12,
+                    labelFontSize: 10,
+                    margin: 2
                 },
                 axisY: {
                     // title: "Active Probing and BGP",
@@ -548,7 +550,9 @@ class Entity extends Component {
                     animationEnabled: true
                 },
                 legend: {
-                    cursor: "pointer"
+                    cursor: "default",
+                    fontSize: 14,
+
                 },
                 data: this.createXyVizDataObject(networkTelescopeValues, bgpValues, activeProbingValues)
             }
@@ -569,7 +573,7 @@ class Entity extends Component {
 
 
 // Event Table
-    // Take values from api and format for table
+    // Take values from api and format for Event table
     convertValuesForEventTable()  {
         // Get the relevant values to populate table with
         let eventData = [];
@@ -606,7 +610,7 @@ class Entity extends Component {
             this.genEventTable();
         });
     }
-    // Generate the table that will display in the UI with the formatted values
+    // Generate the Event table that will display in the UI with the formatted values
     genEventTable() {
         // this.state.eventDataProcessed && console.log(this.state.eventDataProcessed);
         return (
@@ -622,7 +626,7 @@ class Entity extends Component {
             />
         )
     }
-    // Table controls
+    // Table controls used by both alert and event table
     nextPage(type) {
         if (type === 'alert') {
             let nextPageValues = nextPage(!!this.state.alertDataProcessed, this.state.alertDataProcessed.length, this.state.alertTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
@@ -674,9 +678,8 @@ class Entity extends Component {
             });
         }
     }
-
-
 // Alert Table Functions
+    // Take values from api and format for Alert table
     convertValuesForAlertTable() {
         // Get the relevant values to populate table with
         let alertData = [];
@@ -706,6 +709,7 @@ class Entity extends Component {
             this.genAlertTable();
         });
     }
+    // Generate the Alert table that will display in the UI with the formatted values
     genAlertTable() {
         return (
             this.state.alertDataProcessed &&
@@ -723,6 +727,7 @@ class Entity extends Component {
 
 // 2nd Row
 // EntityRelated
+    // Populate 2nd Row UI objects (managed in EntityRelated Component)
     genEntityRelatedRow() {
         return <EntityRelated
             entityName={this.state.entityName}
@@ -739,6 +744,7 @@ class Entity extends Component {
             populateAsnHtsChart={(width, datasource) => this.populateAsnHtsChart(width, datasource)}
         />;
     }
+    // Show/hide modal when button is clicked on either panel
     toggleModal(modalLocation) {
         if (modalLocation === 'map') {
             this.props.regionalSignalsTableSummaryDataAction("region", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
@@ -758,7 +764,13 @@ class Entity extends Component {
     }
 
 // RelatedTo Map
-    // Process Geo data, attribute outage scores to a new topoData property where possible, then render Map
+    // Make API call to retrieve topographic data
+    getDataTopo(entityType) {
+        if (this.state.mounted) {
+            this.props.getTopoAction(entityType);
+        }
+    }
+    // Process Geo data from api, attribute outage scores to a new topoData property where possible, then render Map
     populateGeoJsonMap() {
         if (this.state.topoData && this.state.summaryDataMapRaw && this.state.summaryDataMapRaw[0] && this.state.summaryDataMapRaw[0]["entity"]) {
             let topoData = this.state.topoData;
@@ -783,12 +795,6 @@ class Entity extends Component {
             return <TopoMap topoData={topoData}/>;
         }
 
-    }
-    // Make API call to retrieve topographic data
-    getDataTopo(entityType) {
-        if (this.state.mounted) {
-            this.props.getTopoAction(entityType);
-        }
     }
     // Make API call to retrieve summary data to populate on map
     getDataRelatedToMapSummary(entityType) {
@@ -850,6 +856,7 @@ class Entity extends Component {
             this.props.searchRelatedToTableSummary(from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetadata);
         }
     }
+    // Make raw values from api compatible with table component
     convertValuesForSummaryTable() {
         let summaryData = convertValuesForSummaryTable(this.state.relatedToTableSummary);
 
@@ -861,7 +868,7 @@ class Entity extends Component {
                 this.genSummaryTable();
             })
         }
-
+        // If the end of the data list is hit but more data exists, fetch it and tack it on
         if (this.state.relatedToTableApiPageNumber > 0) {
             this.setState({
                 relatedToTableSummaryProcessed: this.state.relatedToTableSummaryProcessed.concat(summaryData)
@@ -871,6 +878,7 @@ class Entity extends Component {
         }
 
     }
+    // Populate Summary table in the UI for Related ASNs
     genSummaryTable() {
         return (
             this.state.relatedToTableSummaryProcessed &&
@@ -886,6 +894,7 @@ class Entity extends Component {
             />
         )
     }
+    // Pagination for summary table
     nextPageRelatedToTableSummary() {
         let nextPageValues = nextPage(!!this.state.relatedToTableSummaryProcessed, this.state.relatedToTableSummaryProcessed.length, this.state.relatedToTablePageNumber, this.state.relatedToTableCurrentDisplayHigh, this.state.relatedToTableCurrentDisplayLow);
         this.setState({
@@ -981,7 +990,7 @@ class Entity extends Component {
 
         // Group IDs for items that have visibility set to false, remove items from group that are now set to true
         regionalSignalsTableSummaryDataProcessed.map((regionalSignalsTableEntity, index) => {
-            if (regionalSignalsTableEntity.visibility === false || !regionalSignalsTableEntity.visibility) {
+            if (regionalSignalsTableEntity.visibility === false) {
                 visibilityFalseEntities.push(regionalSignalsTableEntity.entityCode);
             } else {
                 visibilityFalseEntities.splice(index, index + 1);
@@ -1070,7 +1079,7 @@ class Entity extends Component {
                         .use24h(false)
                         // Will need to detect column width to populate height
                         .width(width)
-                        .height(200)
+                        .height(280)
                         .enableZoom(false)
                         .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`
                         .showRuler(true);
@@ -1088,7 +1097,7 @@ class Entity extends Component {
                         .use24h(false)
                         // Will need to detect column width to populate height
                         .width(width)
-                        .height(400)
+                        .height(280)
                         .enableZoom(false)
                         .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
                         .showRuler(true);
@@ -1105,7 +1114,7 @@ class Entity extends Component {
                         .use24h(false)
                         // Will need to detect column width to populate height
                         .width(width)
-                        .height(400)
+                        .height(280)
                         .enableZoom(false)
                         .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
                         .showRuler(true);
@@ -1209,7 +1218,7 @@ class Entity extends Component {
         });
     }
 
-    // Time Series for displaying regional signals
+    // Time Series for displaying ASN signals
     getAsnSignalsHtsDataEvents(entityType) {
         let until = this.state.until;
         let from = this.state.from;
@@ -1320,7 +1329,6 @@ class Entity extends Component {
         }
     }
 
-
     render() {
         return(
             <div className="entity">
@@ -1430,14 +1438,6 @@ const mapDispatchToProps = (dispatch) => {
         getRawAsnSignalsAction: (entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
             getRawAsnSignalsAction(dispatch, entityType, entityCode, from, until, datasource, maxPoints);
         }
-
-
-        // searchRelatedEntitiesAction: (from, until, entityType, relatedToEntityType, relatedToEntityCode) => {
-        //     searchRelatedEntities(dispatch, from, until, entityType, relatedToEntityType, relatedToEntityCode);
-        // },
-
-
-
     }
 };
 
