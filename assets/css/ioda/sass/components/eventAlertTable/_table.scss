@@ -9,6 +9,10 @@
   border-radius: 3px;
   width: 100%;
 
+  &--signal {
+    margin: 0;
+  }
+
   &--alert {
     &-warning {
       background-color: $color-alert-feed-warning;

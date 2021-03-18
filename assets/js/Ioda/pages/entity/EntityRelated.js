@@ -21,7 +21,7 @@ class EntityRelated extends Component {
                         </h2>
                         <div className="related__modal--region related__modal">
                             <button className="related__modal-button" onClick={() => this.props.toggleModal("map")}>
-                                View Details
+                                Regional Raw Signals
                             </button>
                             <Modal
                                 modalLocation={"map"}
@@ -56,7 +56,7 @@ class EntityRelated extends Component {
                         </h2>
                         <div className="related__modal--region related__modal">
                             <button className="related__modal-button" onClick={() => this.props.toggleModal("table")}>
-                                View Details
+                                ASN/ISP Raw Signals
                             </button>
                             <Modal
                                 modalLocation={"table"}
