@@ -1360,7 +1360,7 @@ class Entity extends Component {
                                 style={this.props.type === 'asn' ? {display: 'none'} : null}
                         >View {this.state.currentTable === 'event' ? 'alert' : 'event'} Table</button>
                         <h3 className="overview__table-title">
-                            {this.state.currentTable === 'event' ? 'Event' : 'Alert'}
+                            {this.state.currentTable === 'event' ? `Event Feed for ${this.state.entityName}` : `Alert Feed for ${this.state.entityName}`}
                         </h3>
                         <div className="overview__table">
                             <div style={this.state.currentTable === 'event' ? {display: 'block'} : {display: 'none'}}>
