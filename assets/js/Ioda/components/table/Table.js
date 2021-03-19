@@ -217,127 +217,143 @@ class Table extends Component {
                 <table className={`table ${type === "alert" ? "table--alert" : type === "event" ? "table--event" : type === "summary" ? "table--summary" : "table--signal"}`}>
                     <thead>
                     <tr className="table__header">
-                        {
-                            Object.values(type === "alert"
-                                ? this.alertHeaders
-                                : type === "event"
-                                    ? this.eventHeaders
-                                    : type === "summary" && this.props.entityType === 'asn'
-                                        ? this.summaryHeadersAsn
-                                        : type === "summary" && this.props.entityType !== 'asn'
-                                            ? this.summaryHeaders
-                                            : type === "signal" && this.props.entityType === 'asn'
-                                                ? this.signalHeadersAsn
-                                                : type === 'signal' && this.props.entityType !== 'asn'
-                                                    ? this.signalHeaders
-                                                    : null
-                            ).map(header => {
-                                return <th className="table__header-col" key={header}>
-                                    <button onClick={(event) => this.sortByColumn(event)} value={header}>
-                                        {header}
-                                        {
-                                            type === "alert"
-                                                ? header === this.alertHeaders[this.state.sortedColumn.name]
-                                                ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
-                                                : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
+                    {
+                        Object.values(type === "alert"
+                            ? this.alertHeaders
+                            : type === "event"
+                                ? this.eventHeaders
+                                : type === "summary" && this.props.entityType === 'asn'
+                                    ? this.summaryHeadersAsn
+                                    : type === "summary" && this.props.entityType !== 'asn'
+                                        ? this.summaryHeaders
+                                        : type === "signal" && this.props.entityType === 'asn'
+                                            ? this.signalHeadersAsn
+                                            : type === 'signal' && this.props.entityType !== 'asn'
+                                                ? this.signalHeaders
                                                 : null
+                        ).map(header => {
+                            return <th className="table__header-col" key={header}>
+                                <button onClick={(event) => this.sortByColumn(event)} value={header}>
+                                    {header}
+                                    {
+                                        type === "alert"
+                                            ? header === this.alertHeaders[this.state.sortedColumn.name]
+                                            ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
+                                            : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
+                                            : null
 
-                                        }
-                                        {
-                                            type === "event"
-                                                ? header === this.eventHeaders[this.state.sortedColumn.name]
-                                                ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
-                                                : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
-                                                : null
+                                    }
+                                    {
+                                        type === "event"
+                                            ? header === this.eventHeaders[this.state.sortedColumn.name]
+                                            ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
+                                            : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
+                                            : null
 
-                                        }
-                                        {
-                                            type === "summary"
-                                                ? header === this.summaryHeaders[this.state.sortedColumn.name]
-                                                ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
-                                                : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
-                                                : null
+                                    }
+                                    {
+                                        type === "summary"
+                                            ? header === this.summaryHeaders[this.state.sortedColumn.name]
+                                            ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
+                                            : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
+                                            : null
 
-                                        }
-                                        {
-                                            type === "signal"
-                                                ? header === this.signalHeaders[this.state.sortedColumn.name]
-                                                ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
-                                                : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
-                                                : null
+                                    }
+                                    {
+                                        type === "signal"
+                                            ? header === this.signalHeaders[this.state.sortedColumn.name]
+                                            ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
+                                            : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
+                                            : null
 
-                                        }
-                                    </button>
-                                </th>;
-                            })
-                        }
+                                    }
+                                </button>
+                            </th>;
+                        })
+                    }
                     </tr>
                     </thead>
-                    <tbody>
-                    {
-                        this.state.alertData && this.state.alertData.map(alert => {
-                            return <tr key={generateKeys(this.props.type === 'alert' ? 'alert' : 'event')}>
-                                <td className={alert.level === "warning" ? "table--alert-warning" : "table--alert-normal"}>
-                                    {
-                                        alert.level === "warning"
-                                            ? <img className="table--alert-level-img" src={iconCancel} alt="✗"/>
-                                            : <img className="table--alert-level-img" src={iconCheckmark} alt="✓"/>
-                                    }
-                                </td>
-                                <td>
-                                    <p>{alert.date.month} {alert.date.day}, {alert.date.year}</p>
-                                    <p>{alert.date.hours}:{alert.date.minutes} {alert.date.meridian}</p>
-                                </td>
-                                <td>
-                                    {alert.dataSource}
-                                </td>
-                                <td>
-                                    {alert.actualValue}
-                                </td>
-                                <td>
-                                    {alert.baselineValue}
-                                </td>
-                            </tr>
-                        })
-                    }
-                    {
-                        this.state.eventData && this.state.eventData.map(event => {
-                            return <tr key={generateKeys(this.props.type === 'alert' ? 'alert' : 'event')}>
-                                <td>
-                                    {event.age}
-                                </td>
-                                <td>
-                                    <p>{event.from.month} {event.from.day}, {event.from.year}</p>
-                                    <p>{event.from.hours}:{event.from.minutes} {event.from.meridian}</p>
-                                </td>
-                                <td>
-                                    <p>{event.until.month} {event.until.day}, {event.until.year}</p>
-                                    <p>{event.until.hours}:{event.until.minutes} {event.until.meridian}</p>
-                                </td>
-                                <td>
-                                    {event.duration}
-                                </td>
-                                <td>
-                                    {event.score}
-                                </td>
-                            </tr>
-                        })
-                    }
-                    {
-                        this.props.type === "summary" && this.props.data.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(summary => {
-                            return <SummaryTableRow key={generateKeys('summary')} type={this.props.type} entityType={this.props.entityType} data={summary}/>
-                        })
-                    }
-                    {
-                        this.props.type === "signal" && this.props.data.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(signal => {
-                            return <SignalTableRow key={generateKeys('signal')} type={this.props.type}
-                                                   entityType={this.props.entityType} data={signal}
-                                                   toggleEntityVisibilityInHtsViz={event => this.props.toggleEntityVisibilityInHtsViz(event)}
-                            />
 
-                        })
+                    {
+                        this.state.eventData.length > 0 || this.state.alertData.length > 0 ||
+                        this.props.type === "summary" && this.props.data ||
+                        this.props.type === "signal" && this.props.data
+                        ? <tbody>
+                                {
+                                    this.state.alertData && this.state.alertData.map(alert => {
+                                        return <tr key={generateKeys(this.props.type === 'alert' ? 'alert' : 'event')}>
+                                            <td className={alert.level === "warning" ? "table--alert-warning" : "table--alert-normal"}>
+                                                {
+                                                    alert.level === "warning"
+                                                        ? <img className="table--alert-level-img" src={iconCancel} alt="✗"/>
+                                                        : <img className="table--alert-level-img" src={iconCheckmark} alt="✓"/>
+                                                }
+                                            </td>
+                                            <td>
+                                                <p>{alert.date.month} {alert.date.day}, {alert.date.year}</p>
+                                                <p>{alert.date.hours}:{alert.date.minutes} {alert.date.meridian}</p>
+                                            </td>
+                                            <td>
+                                                {alert.dataSource}
+                                            </td>
+                                            <td>
+                                                {alert.actualValue}
+                                            </td>
+                                            <td>
+                                                {alert.baselineValue}
+                                            </td>
+                                        </tr>
+                                    })
+                                }
+                                {
+                                    this.state.eventData && this.state.eventData.map(event => {
+                                        return <tr key={generateKeys(this.props.type === 'alert' ? 'alert' : 'event')}>
+                                            <td>
+                                                {event.age}
+                                            </td>
+                                            <td>
+                                                <p>{event.from.month} {event.from.day}, {event.from.year}</p>
+                                                <p>{event.from.hours}:{event.from.minutes} {event.from.meridian}</p>
+                                            </td>
+                                            <td>
+                                                <p>{event.until.month} {event.until.day}, {event.until.year}</p>
+                                                <p>{event.until.hours}:{event.until.minutes} {event.until.meridian}</p>
+                                            </td>
+                                            <td>
+                                                {event.duration}
+                                            </td>
+                                            <td>
+                                                {event.score}
+                                            </td>
+                                        </tr>
+                                    })
+                                }
+                                {
+                                    this.props.type === "summary" && this.props.data.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(summary => {
+                                        return <SummaryTableRow key={generateKeys('summary')} type={this.props.type} entityType={this.props.entityType} data={summary}/>
+                                    })
+                                }
+                                {
+                                    this.props.type === "signal" && this.props.data.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(signal => {
+                                        return <SignalTableRow key={generateKeys('signal')} type={this.props.type}
+                                                               entityType={this.props.entityType} data={signal}
+                                                               toggleEntityVisibilityInHtsViz={event => this.props.toggleEntityVisibilityInHtsViz(event)}
+                                        />
+
+                                    })
+                                }
+                            </tbody>
+                        : <tbody className="table__empty">
+                            {
+                                this.props.type === "event" ? <tr><td colSpan='100%'>No Outage Events Detected</td></tr>
+                                    : this.props.type === 'alert' ? <tr><td colSpan='100%'>No Outage Alerts Detected</td></tr>
+                                : this.props.type === "summary" ? <tr><td colSpan='100%'>No Outages Detected</td></tr>
+                                : this.props.type === "signal" ? <tr><td colSpan='100%'>No Raw Signals Returned</td></tr>
+                                : null
+                            }
+                        </tbody>
                     }
-                    </tbody>
+
                 </table>
                 <div className="table__page">
                     <p className="table__page-text">Showing {this.props.currentDisplayLow + 1} - {this.props.currentDisplayHigh} of {this.props.totalCount} Entries</p>
@@ -345,10 +361,9 @@ class Table extends Component {
                         <button onClick={(type) => this.props.prevPage(type)} className="table__page-button">Prev</button>
                         <button onClick={(type) => this.props.nextPage(type)} className="table__page-button">Next</button>
                     </div>
-
                 </div>
             </div>
-        );
+        )
     }
 }
 

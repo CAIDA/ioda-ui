@@ -178,6 +178,9 @@ class Entity extends Component {
             if (this.props.events.length < 10) {
                 this.setState({eventTableCurrentDisplayHigh: this.props.events.length});
             }
+            if (this.props.events.length < 1) {
+                this.setState({eventTableCurrentDisplayLow: -1});
+            }
             this.setState({
                 eventDataRaw: this.props.events,
             }, () => {
@@ -185,10 +188,13 @@ class Entity extends Component {
             });
         }
 
-        // Make API call for data to populate Alert Table
+        // After API call for Alert Table data completes, check for lengths to set display counts and then process to populate
         if (this.props.alerts !== prevProps.alerts) {
             if (this.props.alerts.length < 10) {
                 this.setState({alertTableCurrentDisplayHigh: this.props.alerts.length});
+            }
+            if (this.props.events.length < 1) {
+                this.setState({alertTableCurrentDisplayLow: -1});
             }
             this.setState({
                 alertDataRaw: this.props.alerts
@@ -1353,8 +1359,8 @@ class Entity extends Component {
                                 onClick={() => this.changeCurrentTable()}
                                 style={this.props.type === 'asn' ? {display: 'none'} : null}
                         >View {this.state.currentTable === 'event' ? 'alert' : 'event'} Table</button>
-                        <h3>
-                            {this.state.currentTable === 'event' ? 'Event' : 'Alert'}
+                        <h3 className="overview__table-title">
+                            {this.state.currentTable === 'event' ? `Event Feed for ${this.state.entityName}` : `Alert Feed for ${this.state.entityName}`}
                         </h3>
                         <div className="overview__table">
                             <div style={this.state.currentTable === 'event' ? {display: 'block'} : {display: 'none'}}>

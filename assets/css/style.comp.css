@@ -957,6 +957,8 @@ body {
           filter: blur(10px) brightness(0.95); }
       .table__page-button:focus {
         outline: none; }
+  .table__empty {
+    font-size: 1.3rem; }
 
 /* required styles */
 .leaflet-map-pane,
