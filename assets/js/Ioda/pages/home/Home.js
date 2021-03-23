@@ -100,6 +100,7 @@ class Home extends Component {
             mounted: false,
             suggestedSearchResults: null,
             searchTerm: null,
+            lastFetched: 0,
             topoData: null,
             outageSummaryData: null
         };
@@ -187,7 +188,13 @@ class Home extends Component {
             // Set searchTerm to the value of nextProps, nextProps refers to the current search string value in the field.
             this.setState({ searchTerm: searchTerm });
             // // Make api call
-            this.props.searchEntitiesAction(searchTerm, 11);
+            if (searchTerm.length >= 2 && (new Date() - new Date(this.state.lastFetched)) > 300) {
+                this.setState({
+                    lastFetched: Date.now()
+                }, () => {
+                    this.props.searchEntitiesAction(searchTerm, 11);
+                })
+            }
         }
     }
     // Define what happens when user clicks suggested search result entry
