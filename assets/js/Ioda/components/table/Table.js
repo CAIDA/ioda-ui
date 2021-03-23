@@ -276,8 +276,8 @@ class Table extends Component {
 
                     {
                         this.state.eventData.length > 0 || this.state.alertData.length > 0 ||
-                        this.props.type === "summary" && this.props.data ||
-                        this.props.type === "signal" && this.props.data
+                        this.props.type === "summary" && this.props.data.length > 0 ||
+                        this.props.type === "signal" && this.props.data.length > 0
                         ? <tbody>
                                 {
                                     this.state.alertData && this.state.alertData.map(alert => {
@@ -346,22 +346,28 @@ class Table extends Component {
                         : <tbody className="table__empty">
                             {
                                 this.props.type === "event" ? <tr><td colSpan='100%'>No Outage Events Detected</td></tr>
-                                    : this.props.type === 'alert' ? <tr><td colSpan='100%'>No Outage Alerts Detected</td></tr>
+                                : this.props.type === 'alert' ? <tr><td colSpan='100%'>No Outage Alerts Detected</td></tr>
                                 : this.props.type === "summary" ? <tr><td colSpan='100%'>No Outages Detected</td></tr>
                                 : this.props.type === "signal" ? <tr><td colSpan='100%'>No Raw Signals Returned</td></tr>
                                 : null
                             }
                         </tbody>
                     }
-
                 </table>
-                <div className="table__page">
-                    <p className="table__page-text">Showing {this.props.currentDisplayLow + 1} - {this.props.currentDisplayHigh} of {this.props.totalCount} Entries</p>
-                    <div className="table__page-controls">
-                        <button onClick={(type) => this.props.prevPage(type)} className="table__page-button">Prev</button>
-                        <button onClick={(type) => this.props.nextPage(type)} className="table__page-button">Next</button>
-                    </div>
-                </div>
+                {
+                    this.state.eventData.length > 0 || this.state.alertData.length > 0 ||
+                    this.props.type === "summary" && this.props.data.length > 0 ||
+                    this.props.type === "signal" && this.props.data.length > 0
+                        ? <div className="table__page">
+                            <p className="table__page-text">Showing {this.props.currentDisplayLow + 1} - {this.props.currentDisplayHigh} of {this.props.totalCount} Entries</p>
+                            <div className="table__page-controls">
+                                <button onClick={(type) => this.props.prevPage(type)} className="table__page-button">Prev</button>
+                                <button onClick={(type) => this.props.nextPage(type)} className="table__page-button">Next</button>
+                            </div>
+                        </div>
+                        : null
+                }
+
             </div>
         )
     }

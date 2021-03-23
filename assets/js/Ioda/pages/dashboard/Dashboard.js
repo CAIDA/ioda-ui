@@ -22,6 +22,7 @@ import {tabOptions, country, region, as} from "./DashboardConstants";
 import {connect} from "react-redux";
 // Helper Functions
 import {convertValuesForSummaryTable, humanizeNumber, sortByKey, nextPage, prevPage} from "../../utils";
+import Loading from "../../components/loading/Loading";
 
 
 
@@ -563,29 +564,48 @@ class Dashboard extends Component {
                             activeTab={activeTab}
                             handleSelectTab={this.handleSelectTab}
                         />
-                        {tab === this.countryTab && <DashboardTab
-                            type={this.state.activeTabType}
-                            populateGeoJsonMap={() => this.populateGeoJsonMap()}
-                            genSummaryTable={() => this.genSummaryTable()}
-                            populateHtsChart={(width) => this.populateHtsChart(width)}
-                            handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
-                            tabCurrentView={this.state.tabCurrentView}
-                        />}
-                        {tab === this.regionTab && <DashboardTab
-                            type={this.state.activeTabType}
-                            populateGeoJsonMap={() => this.populateGeoJsonMap()}
-                            genSummaryTable={() => this.genSummaryTable()}
-                            populateHtsChart={(width) => this.populateHtsChart(width)}
-                            handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
-                            tabCurrentView={this.state.tabCurrentView}
-                        />}
-                        {tab === this.asTab && <DashboardTab
-                            type={this.state.activeTabType}
-                            genSummaryTable={() => this.genSummaryTable()}
-                            populateHtsChart={(width) => this.populateHtsChart(width)}
-                            handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
-                            tabCurrentView={this.state.tabCurrentView}
-                        />}
+                        {
+                            tab === this.countryTab
+                                ? this.state.topoData
+                                    ? <DashboardTab
+                                        type={this.state.activeTabType}
+                                        populateGeoJsonMap={() => this.populateGeoJsonMap()}
+                                        genSummaryTable={() => this.genSummaryTable()}
+                                        populateHtsChart={(width) => this.populateHtsChart(width)}
+                                        handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
+                                        tabCurrentView={this.state.tabCurrentView}
+                                        />
+                                    : <Loading/>
+                                :null
+                        }
+                        {
+                            tab === this.regionTab
+                                ? this.state.topoData
+                                    ? <DashboardTab
+                                        type={this.state.activeTabType}
+                                        populateGeoJsonMap={() => this.populateGeoJsonMap()}
+                                        genSummaryTable={() => this.genSummaryTable()}
+                                        populateHtsChart={(width) => this.populateHtsChart(width)}
+                                        handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
+                                        tabCurrentView={this.state.tabCurrentView}
+                                    />
+                                    : <Loading/>
+                                :null
+                        }
+                        {
+                            tab === this.asTab
+                                ? this.state.eventDataProcessed
+                                    ? <DashboardTab
+                                        type={this.state.activeTabType}
+                                        genSummaryTable={() => this.genSummaryTable()}
+                                        populateHtsChart={(width) => this.populateHtsChart(width)}
+                                        handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
+                                        tabCurrentView={this.state.tabCurrentView}
+                                    />
+                                    : <Loading/>
+                                :null
+
+                        }
                     </div>
                 </div>
             </div>

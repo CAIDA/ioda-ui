@@ -67,10 +67,10 @@ class Entity extends Component {
             // Table Pagination
             eventTablePageNumber: 0,
             eventTableCurrentDisplayLow: 0,
-            eventTableCurrentDisplayHigh: 0,
+            eventTableCurrentDisplayHigh: 10,
             alertTablePageNumber: 0,
             alertTableCurrentDisplayLow: 0,
-            alertTableCurrentDisplayHigh: 0,
+            alertTableCurrentDisplayHigh: 10,
             // Event/Table Data
             currentTable: 'alert',
             eventDataRaw: null,
@@ -193,7 +193,7 @@ class Entity extends Component {
             if (this.props.alerts.length < 10) {
                 this.setState({alertTableCurrentDisplayHigh: this.props.alerts.length});
             }
-            if (this.props.events.length < 1) {
+            if (this.props.alerts.length < 1) {
                 this.setState({alertTableCurrentDisplayLow: -1});
             }
             this.setState({
@@ -799,8 +799,9 @@ class Entity extends Component {
                 }
             });
             return <TopoMap topoData={topoData}/>;
+        } else {
+            return <Loading/>
         }
-
     }
     // Make API call to retrieve summary data to populate on map
     getDataRelatedToMapSummary(entityType) {
@@ -1089,9 +1090,8 @@ class Entity extends Component {
                         .enableZoom(false)
                         .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`
                         .showRuler(true);
-
-                    break;
                 }
+                break;
             case 'bgp':
                 if (this.state.rawRegionalSignalsProcessedBgp) {
                     const myChart = HorizonTSChart()(document.getElementById(`regional-horizon-chart--bgp`));
@@ -1351,7 +1351,9 @@ class Entity extends Component {
                             <button className="overview__config-button">Modal</button>
                         </div>
                         {
-                            this.genXyChart()
+                            this.state.xyDataOptions
+                                ? this.genXyChart()
+                                : <Loading/>
                         }
                     </div>
                     <div className="col-2-of-5">
