@@ -58,6 +58,7 @@ class Entity extends Component {
             // Search Bar
             suggestedSearchResults: null,
             searchTerm: null,
+            lastFetched: 0,
             // Time Series states
             tsDataRaw: null,
             tsDataProcessed: {
@@ -315,8 +316,14 @@ class Entity extends Component {
         if (this.state.mounted) {
             // Set searchTerm to the value of nextProps, nextProps refers to the current search string value in the field.
             this.setState({ searchTerm: searchTerm });
-            // // Make api call
-            this.props.searchEntitiesAction(searchTerm, 11);
+            // Make api call
+            if (searchTerm.length >= 2 && (new Date() - new Date(this.state.lastFetched)) > 300) {
+                this.setState({
+                    lastFetched: Date.now()
+                }, () => {
+                    this.props.searchEntitiesAction(searchTerm, 11);
+                })
+            }
         }
     }
     // Define what happens when user clicks suggested search result entry
