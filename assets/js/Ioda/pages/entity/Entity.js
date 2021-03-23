@@ -67,10 +67,10 @@ class Entity extends Component {
             // Table Pagination
             eventTablePageNumber: 0,
             eventTableCurrentDisplayLow: 0,
-            eventTableCurrentDisplayHigh: 0,
+            eventTableCurrentDisplayHigh: 10,
             alertTablePageNumber: 0,
             alertTableCurrentDisplayLow: 0,
-            alertTableCurrentDisplayHigh: 0,
+            alertTableCurrentDisplayHigh: 10,
             // Event/Table Data
             currentTable: 'alert',
             eventDataRaw: null,
@@ -193,7 +193,7 @@ class Entity extends Component {
             if (this.props.alerts.length < 10) {
                 this.setState({alertTableCurrentDisplayHigh: this.props.alerts.length});
             }
-            if (this.props.events.length < 1) {
+            if (this.props.alerts.length < 1) {
                 this.setState({alertTableCurrentDisplayLow: -1});
             }
             this.setState({
@@ -635,16 +635,16 @@ class Entity extends Component {
     // Table controls used by both alert and event table
     nextPage(type) {
         if (type === 'alert') {
-            let nextPageValues = nextPage(!!this.state.alertDataProcessed, this.state.alertDataProcessed.length, this.state.alertTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
+            let nextPageValues = nextPage(!!this.state.alertDataProcessed, this.state.alertDataProcessed.length, this.state.alertTablePageNumber, this.state.alertTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
             this.setState({
-                alertPageNumber: nextPageValues.newPageNumber,
+                alertTablePageNumber: nextPageValues.newPageNumber,
                 alertTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
                 alertTableCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh
             });
         }
 
         if (type === 'event') {
-            let nextPageValues = nextPage(!!this.state.eventDataProcessed, this.state.eventDataProcessed.length, this.state.eventTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
+            let nextPageValues = nextPage(!!this.state.eventDataProcessed, this.state.eventDataProcessed.length, this.state.eventTablePageNumber, this.state.eventTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
             this.setState({
                 eventTablePageNumber: nextPageValues.newPageNumber,
                 eventTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
@@ -654,16 +654,16 @@ class Entity extends Component {
     }
     prevPage(type) {
         if (type === 'alert') {
-            let prevPageValues = prevPage(!!this.state.alertDataProcessed, this.state.alertDataProcessed.length, this.state.alertTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
+            let prevPageValues = prevPage(!!this.state.alertDataProcessed, this.state.alertDataProcessed.length, this.state.alertTablePageNumber, this.state.alertTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
             this.setState({
-                alertPageNumber: prevPageValues.newPageNumber,
+                alertTablePageNumber: prevPageValues.newPageNumber,
                 alertTableCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
                 alertTableCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh
             });
         }
 
         if (type === 'event') {
-            let prevPageValues = prevPage(!!this.state.eventDataProcessed, this.state.eventDataProcessed.length, this.state.eventTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
+            let prevPageValues = prevPage(!!this.state.eventDataProcessed, this.state.eventDataProcessed.length, this.state.eventTablePageNumber, this.state.eventTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
             this.setState({
                 eventTablePageNumber: prevPageValues.newPageNumber,
                 eventTableCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
@@ -720,7 +720,7 @@ class Entity extends Component {
         return (
             this.state.alertDataProcessed &&
             <Table
-                type={"alert"}
+                type="alert"
                 data={this.state.alertDataProcessed}
                 nextPage={(type) => this.nextPage(type)}
                 prevPage={(type) => this.prevPage(type)}
@@ -799,8 +799,9 @@ class Entity extends Component {
                 }
             });
             return <TopoMap topoData={topoData}/>;
+        } else {
+            return <Loading/>
         }
-
     }
     // Make API call to retrieve summary data to populate on map
     getDataRelatedToMapSummary(entityType) {
@@ -1089,9 +1090,8 @@ class Entity extends Component {
                         .enableZoom(false)
                         .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`
                         .showRuler(true);
-
-                    break;
                 }
+                break;
             case 'bgp':
                 if (this.state.rawRegionalSignalsProcessedBgp) {
                     const myChart = HorizonTSChart()(document.getElementById(`regional-horizon-chart--bgp`));
@@ -1351,7 +1351,9 @@ class Entity extends Component {
                             <button className="overview__config-button">Modal</button>
                         </div>
                         {
-                            this.genXyChart()
+                            this.state.xyDataOptions
+                                ? this.genXyChart()
+                                : <Loading/>
                         }
                     </div>
                     <div className="col-2-of-5">

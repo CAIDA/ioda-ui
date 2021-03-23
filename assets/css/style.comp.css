@@ -75,6 +75,13 @@ $breakpoint Argument Choices:
   100% {
     opacity: 0; } }
 
+/*Loading Bar Animation*/
+@keyframes progress-bar-stripes {
+  0% {
+    background-position: 4rem 0; }
+  100% {
+    background-position: 0 0; } }
+
 /*!
  * This software is Copyright (c) 2013 The Regents of the University of
  * California. All Rights Reserved. Permission to copy, modify, and distribute this
@@ -1334,6 +1341,30 @@ body {
   z-index: 1000; }
   .tooltip--visible {
     display: flex; }
+
+.progress-bar-striped {
+  overflow: hidden;
+  height: 2rem;
+  background-color: #fbfbfb;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  margin: 2rem 0; }
+  .progress-bar-striped > div {
+    width: 0;
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+    background-size: 4rem 4rem;
+    float: left;
+    height: 100%;
+    font-size: 1.3rem;
+    line-height: 2rem;
+    color: #fff;
+    text-align: center;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    transition: width 3s ease;
+    animation: progress-bar-stripes 2s linear infinite;
+    background-color: #1E3E7C; }
+  .progress-bar-striped p {
+    margin: 0; }
 
 .modal__background {
   background: #000;

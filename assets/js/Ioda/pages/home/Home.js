@@ -53,6 +53,7 @@ import dhsLogo from 'images/logos/dhs.svg';
 import comcastLogo from 'images/logos/comcast.svg';
 import nsfLogo from 'images/logos/nsf.svg';
 import isocLogo from 'images/logos/isoc.svg';
+import Loading from "../../components/loading/Loading";
 
 
 const Card = partner => {
@@ -105,7 +106,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        this.setState({mounted: true}, () => {
+        this.setState({mounted: true, mapLoading: true}, () => {
             // Get topo and outage data to populate map
             this.getDataTopo();
             this.getDataOutageSummary();
@@ -167,7 +168,9 @@ class Home extends Component {
                     topoData.features[topoItemIndex] = item;
                 }
             });
+
             return <TopoMap topoData={topoData}/>;
+
         }
     }
 
@@ -178,7 +181,6 @@ class Home extends Component {
             this.props.getTopoAction(entityType);
         }
     }
-
     // get data for search results that populate in suggested search list
     getDataSuggestedSearchResults(searchTerm) {
         if (this.state.mounted) {
@@ -188,7 +190,6 @@ class Home extends Component {
             this.props.searchEntitiesAction(searchTerm, 11);
         }
     }
-
     // Define what happens when user clicks suggested search result entry
     handleResultClick = (query) => {
         const { history } = this.props;
@@ -197,7 +198,6 @@ class Home extends Component {
         });
         history.push(`/${entity[0].type}/${entity[0].code}`);
     };
-
     // Reset searchbar with searchterm value when a selection is made, no customizations needed here.
     handleQueryUpdate = (query) => {
         this.forceUpdate();
@@ -235,11 +235,15 @@ class Home extends Component {
                             Recent Outages
                         </h2>
                         <p className="map__text">Last 24 hours</p>
-                        <div className="map__content">
-                            {
-                                this.populateGeoJsonMap()
-                            }
-                        </div>
+                        {
+                            !this.state.topoData
+                                ? <Loading/>
+                                : <div className="map__content">
+                                    {
+                                        this.populateGeoJsonMap()
+                                    }
+                                </div>
+                        }
                     </div>
                     <div className="col-1-of-4">
                         <h2 className="section-header">
