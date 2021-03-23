@@ -27,7 +27,8 @@ import {
     combineValuesForSignalsTable,
     nextPage,
     prevPage,
-    convertTsDataForHtsViz
+    convertTsDataForHtsViz,
+    getOutageCoords
 } from "../../utils";
 import {as} from "../dashboard/DashboardConstants";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
@@ -780,25 +781,28 @@ class Entity extends Component {
     populateGeoJsonMap() {
         if (this.state.topoData && this.state.summaryDataMapRaw && this.state.summaryDataMapRaw[0] && this.state.summaryDataMapRaw[0]["entity"]) {
             let topoData = this.state.topoData;
+            let features = [];
+            let outageCoords;
+
 
             // get Topographic info for a country if it has outages
             this.state.summaryDataMapRaw.map(outage => {
-                // let topoItemIndex;
-                // this.state.activeTabType === 'country'
-                //     ? topoItemIndex = this.state.topoData.features.findIndex(topoItem => topoItem.properties.usercode === outage.entity.code)
-                //     : this.state.activeTabType === 'region'
-                //     ? topoItemIndex = this.state.topoData.features.findIndex(topoItem => topoItem.properties.name === outage.entity.name)
-                //     : null;
-
                 let topoItemIndex = this.state.topoData.features.findIndex(topoItem => topoItem.properties.name === outage.entity.name);
 
                 if (topoItemIndex > 0) {
                     let item = topoData.features[topoItemIndex];
                     item.properties.score = outage.scores.overall;
                     topoData.features[topoItemIndex] = item;
+                    features.push(item);
                 }
             });
-            return <TopoMap topoData={topoData}/>;
+
+            // get impacted coordinates to determine zoom location based on affected entities, if any
+            if (features.length > 0) {
+                outageCoords = getOutageCoords(features);
+            }
+
+            return <TopoMap topoData={topoData} bounds={outageCoords}/>;
         } else {
             return <Loading/>
         }

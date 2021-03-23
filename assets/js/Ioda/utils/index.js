@@ -259,3 +259,19 @@ export function convertTsDataForHtsViz(tsData) {
     });
     return seriesConverted;
 }
+
+// take a list of outages that will populate on a map and create a bounding box the map will use for zoom location
+export function getOutageCoords(features) {
+    return features.map(d3.geo.bounds).reduce(function (prev, cur) {
+        return [
+            [
+                Math.min(prev[0][0], cur[0][0]),
+                Math.min(prev[0][1], cur[0][1])
+            ],
+            [
+                Math.max(prev[1][0], cur[1][0]),
+                Math.max(prev[1][1], cur[1][1])
+            ]
+        ];
+    }).map(function (coords) { return coords.reverse(); }); // Invert lat long coords
+}
