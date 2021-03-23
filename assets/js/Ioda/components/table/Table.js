@@ -367,7 +367,6 @@ class Table extends Component {
                         </div>
                         : null
                 }
-
             </div>
         )
     }
