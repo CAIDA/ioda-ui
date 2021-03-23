@@ -100,6 +100,7 @@ class Home extends Component {
             mounted: false,
             suggestedSearchResults: null,
             searchTerm: null,
+            lastFetched: 0,
             topoData: null,
             outageSummaryData: null
         };
