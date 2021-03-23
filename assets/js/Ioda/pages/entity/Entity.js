@@ -635,16 +635,16 @@ class Entity extends Component {
     // Table controls used by both alert and event table
     nextPage(type) {
         if (type === 'alert') {
-            let nextPageValues = nextPage(!!this.state.alertDataProcessed, this.state.alertDataProcessed.length, this.state.alertTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
+            let nextPageValues = nextPage(!!this.state.alertDataProcessed, this.state.alertDataProcessed.length, this.state.alertTablePageNumber, this.state.alertTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
             this.setState({
-                alertPageNumber: nextPageValues.newPageNumber,
+                alertTablePageNumber: nextPageValues.newPageNumber,
                 alertTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
                 alertTableCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh
             });
         }
 
         if (type === 'event') {
-            let nextPageValues = nextPage(!!this.state.eventDataProcessed, this.state.eventDataProcessed.length, this.state.eventTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
+            let nextPageValues = nextPage(!!this.state.eventDataProcessed, this.state.eventDataProcessed.length, this.state.eventTablePageNumber, this.state.eventTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
             this.setState({
                 eventTablePageNumber: nextPageValues.newPageNumber,
                 eventTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
@@ -654,16 +654,16 @@ class Entity extends Component {
     }
     prevPage(type) {
         if (type === 'alert') {
-            let prevPageValues = prevPage(!!this.state.alertDataProcessed, this.state.alertDataProcessed.length, this.state.alertTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
+            let prevPageValues = prevPage(!!this.state.alertDataProcessed, this.state.alertDataProcessed.length, this.state.alertTablePageNumber, this.state.alertTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
             this.setState({
-                alertPageNumber: prevPageValues.newPageNumber,
+                alertTablePageNumber: prevPageValues.newPageNumber,
                 alertTableCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
                 alertTableCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh
             });
         }
 
         if (type === 'event') {
-            let prevPageValues = prevPage(!!this.state.eventDataProcessed, this.state.eventDataProcessed.length, this.state.eventTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
+            let prevPageValues = prevPage(!!this.state.eventDataProcessed, this.state.eventDataProcessed.length, this.state.eventTablePageNumber, this.state.eventTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
             this.setState({
                 eventTablePageNumber: prevPageValues.newPageNumber,
                 eventTableCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
@@ -720,7 +720,7 @@ class Entity extends Component {
         return (
             this.state.alertDataProcessed &&
             <Table
-                type={"alert"}
+                type="alert"
                 data={this.state.alertDataProcessed}
                 nextPage={(type) => this.nextPage(type)}
                 prevPage={(type) => this.prevPage(type)}
