@@ -50,8 +50,9 @@ class TopoMap extends Component {
                     <p>{this.state.hoverName} - {this.state.hoverScore}</p>
                 </div>
                 <Map
-                    center={position}
-                    zoom={zoom}
+                    center={this.props.bounds ? null : position}
+                    zoom={this.props.bounds ? null : zoom}
+                    bounds={this.props.bounds ? this.props.bounds : null}
                     minZoom={1}
                     style={{width: 'inherit', height: 'inherit', overflow: 'hidden'}}
                 >
