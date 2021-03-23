@@ -26,3 +26,13 @@
   80% { opacity: 0; }
   100% { opacity: 0; }
 }
+
+/*Loading Bar Animation*/
+@keyframes progress-bar-stripes {
+  0% {
+    background-position: 4rem 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
