@@ -56,6 +56,17 @@
       justify-content: space-between;
     }
 
+    &__no-outages {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 6rem;
+
+      &-title {
+        margin-bottom: 1rem;
+      }
+    }
+
     &__modal-button {
       @include button;
       height: 3rem;
