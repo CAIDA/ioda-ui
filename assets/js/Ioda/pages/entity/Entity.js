@@ -789,6 +789,7 @@ class Entity extends Component {
         if (this.state.topoData && this.state.summaryDataMapRaw && this.state.summaryDataMapRaw[0] && this.state.summaryDataMapRaw[0]["entity"]) {
             let topoData = this.state.topoData;
             let features = [];
+            let scores = [];
             let outageCoords;
 
 
@@ -801,6 +802,11 @@ class Entity extends Component {
                     item.properties.score = outage.scores.overall;
                     topoData.features[topoItemIndex] = item;
                     features.push(item);
+                    // Used to determine coloring on map objects
+                    scores.push(outage.scores.overall);
+                    scores.sort((a, b) => {
+                        return a - b;
+                    });
                 }
             });
 
@@ -809,7 +815,7 @@ class Entity extends Component {
                 outageCoords = getOutageCoords(features);
             }
 
-            return <TopoMap topoData={topoData} bounds={outageCoords}/>;
+            return <TopoMap topoData={topoData} bounds={outageCoords} scores={scores}/>;
         } else if (this.state.summaryDataMapRaw && this.state.summaryDataMapRaw.length === 0) {
             return <div className="related__no-outages">
                 <h2 className="related__no-outages-title">No Regional Outages Detected</h2>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Map, TileLayer, GeoJSON } from 'react-leaflet';
-import { humanizeNumber } from "../../utils";
+import { humanizeNumber, shadeColor } from "../../utils";
+import d3 from "d3";
 
 const mapAccessToken = "pk.eyJ1Ijoid2ViZXIwMjUiLCJhIjoiY2tmNXp5bG0wMDAzaTMxbWQzcXQ1Y3k2eCJ9.NMu5bfrybATuYQ7HdYvq-g";
 const thunderForestapiKey = "f3709489dd7c411580a4610ccb5c1370";
@@ -18,7 +19,7 @@ class TopoMap extends Component {
     onEachFeature = (feature, layer) => {
         layer.on({
             mouseover: (e) => this.mouseOverFeature(e, feature),
-            mouseout: () => this.mouseOutFeature()
+            mouseout: (e) => this.mouseOutFeature(e)
         });
     };
 
@@ -28,11 +29,27 @@ class TopoMap extends Component {
                 hoverName: feature.properties.name,
                 hoverScore: humanizeNumber(feature.properties.score),
                 hoverTooltipDisplay: true
+            }, () => {
+                if (e.target.options && e.target.options.fillColor) {
+                    let hoverColor = shadeColor(e.target.options.fillColor, -10);
+                    e.target.setStyle({
+                        fillColor: hoverColor,
+                        color: '#fff',
+                        fillOpacity: 0.4,
+                        weight: 3,
+                        dashArray: '2'
+                    });
+                }
             })
         }
     };
 
-    mouseOutFeature = () => {
+    mouseOutFeature = (e) => {
+            e.target.setStyle({
+                weight: 2,
+                fillOpacity: 0.7,
+            });
+
         this.setState({
             hoverName: "",
             hoverScore: 0,
@@ -42,8 +59,14 @@ class TopoMap extends Component {
 
 
     render() {
+        let { scores } = this.props;
         let position = [20, 0];
         let zoom = 2;
+        const colorSet = ["rgb(254, 204, 92)", "rgb(253, 141, 60)", "rgb(227, 26, 28)"];
+        let colScaleLinear = d3.scale.linear()
+            .domain([scores[Math.round((scores.length - 1) / 4)], scores[Math.round((scores.length - 1) / 2)], scores[scores.length - 1]])
+            .range(colorSet);
+
         return (
             <div style={{position: 'relative', height: 'inherit', width: '100%'}}>
                 <div className={this.state.hoverTooltipDisplay ? "tooltip tooltip--visible" : "tooltip"}>
@@ -63,18 +86,13 @@ class TopoMap extends Component {
                     <GeoJSON
                         data={this.props.topoData}
                         onEachFeature={this.onEachFeature}
-
                         style={(feature) => ({
-                            color: '#fff',
+                            color: 'transparent',
                             weight: 2,
                             fillColor:
                                 !feature.properties.score
                                     ? "transparent"
-                                    : feature.properties.score < 250
-                                    ? "rgb(254, 204, 92)"
-                                    : feature.properties.score < 500
-                                        ? "rgb(253, 141, 60)"
-                                        : "rgb(227, 26, 28)"
+                                    : colScaleLinear(feature.properties.score)
                             ,
                             fillOpacity: 0.7,
                             dashArray: '2'
