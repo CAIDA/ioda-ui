@@ -217,7 +217,6 @@ class Entity extends Component {
 
         // After API call for outage summary data completes, pass summary data to map function for data merging
         if (this.props.relatedToMapSummary !== prevProps.relatedToMapSummary) {
-            console.log(this.props.relatedToMapSummary);
             this.setState({
                 summaryDataMapRaw: this.props.relatedToMapSummary
             },() => {
