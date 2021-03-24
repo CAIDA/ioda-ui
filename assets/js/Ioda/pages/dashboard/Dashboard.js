@@ -355,6 +355,7 @@ class Dashboard extends Component {
     populateGeoJsonMap() {
         if (this.state.topoData && this.state.summaryDataRaw && this.state.summaryDataRaw[0] && this.state.summaryDataRaw[0]["entity"] && this.state.summaryDataRaw[0]["entity"]["type"] === this.state.activeTabType) {
             let topoData = this.state.topoData;
+            let scores = [];
 
             // get Topographic info for a country if it has outages
             this.state.summaryDataRaw.map(outage => {
@@ -369,9 +370,15 @@ class Dashboard extends Component {
                     let item = topoData.features[topoItemIndex];
                     item.properties.score = outage.scores.overall;
                     topoData.features[topoItemIndex] = item;
+
+                    // Used to determine coloring on map objects
+                    scores.push(outage.scores.overall);
+                    scores.sort((a, b) => {
+                        return a - b;
+                    });
                 }
             });
-            return <TopoMap topoData={topoData}/>;
+            return <TopoMap topoData={topoData} scores={scores}/>;
         }
 
     }
