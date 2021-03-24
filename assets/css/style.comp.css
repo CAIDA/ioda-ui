@@ -1908,6 +1908,13 @@ button[class*="searchButton"] {
       flex-direction: row;
       margin: 1.5rem;
       justify-content: space-between; }
+    .entity .related__no-outages {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 6rem; }
+      .entity .related__no-outages-title {
+        margin-bottom: 1rem; }
     .entity .related__modal-button {
       background: linear-gradient(2deg, #1E3E7C, #6AA5D5, #1E3E7C, #6AA5D5);
       height: 3.5rem;

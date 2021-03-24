@@ -810,6 +810,10 @@ class Entity extends Component {
             }
 
             return <TopoMap topoData={topoData} bounds={outageCoords}/>;
+        } else if (this.state.summaryDataMapRaw && this.state.summaryDataMapRaw.length === 0) {
+            return <div className="related__no-outages">
+                <h2 className="related__no-outages-title">No Regional Outages Detected</h2>
+            </div>
         } else {
             return <Loading/>
         }
