@@ -19,7 +19,7 @@ class TopoMap extends Component {
     onEachFeature = (feature, layer) => {
         layer.on({
             mouseover: (e) => this.mouseOverFeature(e, feature),
-            mouseout: (e) => this.mouseOutFeature(e, feature)
+            mouseout: (e) => this.mouseOutFeature(e)
         });
     };
 
@@ -62,9 +62,6 @@ class TopoMap extends Component {
         let { scores } = this.props;
         let position = [20, 0];
         let zoom = 2;
-
-
-
         const colorSet = ["rgb(254, 204, 92)", "rgb(253, 141, 60)", "rgb(227, 26, 28)"];
         let colScaleLinear = d3.scale.linear()
             .domain([scores[Math.round((scores.length - 1) / 4)], scores[Math.round((scores.length - 1) / 2)], scores[scores.length - 1]])
