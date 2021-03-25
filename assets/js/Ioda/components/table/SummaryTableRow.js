@@ -94,7 +94,7 @@ class SummaryTableRow extends Component {
                     : null
                 }
                 <td>
-                    <Link className="table__cell-link" to={`/${this.props.data.entityType}/${this.props.data.entityCode}`}>
+                    <Link className="table__cell-link" to={`/${this.props.data.entityType}/${this.props.data.entityCode}`} onClick={() => this.props.handleEntityClick()}>
                         {this.props.data.name}
                     </Link>
                 </td>
