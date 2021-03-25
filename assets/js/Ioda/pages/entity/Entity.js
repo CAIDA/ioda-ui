@@ -401,7 +401,6 @@ class Entity extends Component {
         }, () => {
             this.componentDidMount();
         });
-
     };
     // Reset search bar with search term value when a selection is made, no customizations needed here.
     handleQueryUpdate = (query) => {
@@ -913,6 +912,7 @@ class Entity extends Component {
                 currentDisplayHigh={this.state.relatedToTableCurrentDisplayHigh}
                 totalCount={this.state.relatedToTableSummaryProcessed.length}
                 entityType={this.state.entityType === "asn" ? "country" : "asn"}
+                handleEntityClick={() => this.handleEntityClick()}
             />
         )
     }
@@ -945,7 +945,77 @@ class Entity extends Component {
         });
 
     }
-
+    handleEntityClick() {
+        this.setState({
+            mounted: false,
+            entityType: window.location.pathname.split("/")[1],
+            entityCode: window.location.pathname.split("/")[2],
+            entityName: "",
+            parentEntityName: "",
+            parentEntityCode: "",
+            // Search Bar
+            suggestedSearchResults: null,
+            searchTerm: null,
+            lastFetched: 0,
+            // Time Series states
+            tsDataRaw: null,
+            tsDataProcessed: {
+                activeProbing: [],
+                bgp: [],
+                darknet: []
+            },
+            // Table Pagination
+            eventTablePageNumber: 0,
+            eventTableCurrentDisplayLow: 0,
+            eventTableCurrentDisplayHigh: 10,
+            alertTablePageNumber: 0,
+            alertTableCurrentDisplayLow: 0,
+            alertTableCurrentDisplayHigh: 10,
+            // Event/Table Data
+            currentTable: 'alert',
+            eventDataRaw: null,
+            eventDataProcessed: [],
+            alertDataRaw: null,
+            alertDataProcessed: [],
+            // relatedTo entity Map
+            topoData: null,
+            relatedToMapSummary: null,
+            // relatedTo entity Table
+            relatedToTableApiPageNumber: 0,
+            relatedToTableSummary: null,
+            relatedToTableSummaryProcessed: null,
+            relatedToTablePageNumber: 0,
+            relatedToTableCurrentDisplayLow: 0,
+            relatedToTableCurrentDisplayHigh: 10,
+            // Modal window display status
+            showMapModal: false,
+            showTableModal: false,
+            // Signals Modal Table on Map Panel
+            regionalSignalsTableSummaryData: [],
+            regionalSignalsTableSummaryDataProcessed: [],
+            regionalSignalsTablePageNumber: 0,
+            regionalSignalsTableCurrentDisplayLow: 0,
+            regionalSignalsTableCurrentDisplayHigh: 10,
+            // Signals Modal Table on Table Panel
+            asnSignalsTableSummaryData: [],
+            asnSignalsTableSummaryDataProcessed: [],
+            asnSignalsTablePageNumber: 0,
+            asnSignalsTableCurrentDisplayLow: 0,
+            asnSignalsTableCurrentDisplayHigh: 10,
+            // Stacked Horizon Visual on Region Map Panel
+            rawRegionalSignals: [],
+            rawRegionalSignalsProcessedBgp: [],
+            rawRegionalSignalsProcessedPingSlash24: [],
+            rawRegionalSignalsProcessedUcsdNt: [],
+            // Stacked Horizon Visual on ASN Table Panel
+            rawAsnSignals: [],
+            rawAsnSignalsProcessedBgp: [],
+            rawAsnSignalsProcessedPingSlash24: [],
+            rawAsnSignalsProcessedUcsdNt: [],
+        }, () => {
+            this.componentDidMount();
+        });
+    }
 
 // Map Modal
     // Table displaying all regions regardless of score
@@ -973,6 +1043,7 @@ class Entity extends Component {
                     currentDisplayHigh={this.state.regionalSignalsTableCurrentDisplayHigh}
                     totalCount={this.state.regionalSignalsTableSummaryDataProcessed.length}
                     toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInRegionalHtsViz(event)}
+                    handleEntityClick={() => this.handleEntityClick()}
                 />
             )
         }
@@ -1176,6 +1247,7 @@ class Entity extends Component {
                 totalCount={this.state.asnSignalsTableSummaryDataProcessed.length}
                 entityType={this.state.entityType === "asn" ? "country" : "asn"}
                 toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInAsnHtsViz(event)}
+                handleEntityClick={() => this.handleEntityClick()}
             />
         )
     }
