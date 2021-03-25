@@ -27,11 +27,6 @@ class ControlPanel extends Component {
     }
 
     componentDidUpdate(nextProps, nextState) {
-        // If date or time have changed, call parent function to update visuals
-        if (nextState.selection !== this.state.selection || nextState.timeRange !== this.state.timeRange) {
-            this.props.timeFrame(this.state.selection, this.state.timeRange);
-        }
-
         if (nextProps.from !== this.props.from) {
             this.setState(prevState => ({
                 selection: {
@@ -66,6 +61,10 @@ class ControlPanel extends Component {
         this.setState({
             rangeInputVisibility: !this.state.rangeInputVisibility
         })
+    }
+
+    handleRangeUpdate() {
+        this.props.timeFrame(this.state.selection, this.state.timeRange);
     }
 
     render() {
@@ -120,6 +119,9 @@ class ControlPanel extends Component {
                                 clearIcon={null}
                             />
                         </div>
+                        <button className="range__button" onClick={() => this.handleRangeUpdate()}>
+                            Apply
+                        </button>
                     </div>
                 </div>
                 <div className="col-2-of-3">
