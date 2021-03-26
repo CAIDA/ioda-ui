@@ -2,11 +2,15 @@
   "home": {
     "title": "IODA",
     "subheader": "A platform for Applied Network Data Analysis",
-
     "otf": "This platform is supported by the Open Technology Fund under contract number 1002-2018-027.",
     "dhs": "This platform is supported by Department of Homeland Security Science and Technology Directorate (DHS S&T) contract HHSP 233201600012C (Science of Internet Security: Technology and Experimental Research), and DHS S&T cooperative agreement FA8750-12-2-0326 (Supporting Research and Development of Security Technologies through Network and Security Data Collection).",
     "comcast": "Additional funding to work on visualization interfaces was generously provided by a Comcast research grant.",
     "nsf": "This platform was supported by NSF grant CNS-1228994 (Detection and Analysis of Large-scale Internet Infrastructure Outages (IODA)).",
-    "isoc": "Additional funding to support this platform was generously provided by a grant from the Internet Society."
+    "isoc": "Additional funding to support this platform was generously provided by a grant from the Internet Society.",
+    "dos1": "This platform is supported by ",
+    "dos2": "U.S. Department of State, Bureau of Democracy, Human Rights, and Labor",
+    "dos3": " and ",
+    "dos4": "Bureau of Near Eastern Affairs",
+    "dos5": "."
   }
 }
