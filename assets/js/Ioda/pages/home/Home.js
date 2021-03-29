@@ -47,6 +47,7 @@ import { Searchbar } from 'caida-components-library'
 import { TwitterTimelineEmbed } from 'react-twitter-embed';
 import TopoMap from "../../components/map/Map";
 import * as topojson from 'topojson';
+import Card from "./Card";
 // Images
 import otfLogo from 'images/logos/otf.png';
 import dhsLogo from 'images/logos/dhs.svg';
@@ -54,35 +55,9 @@ import comcastLogo from 'images/logos/comcast.svg';
 import nsfLogo from 'images/logos/nsf.svg';
 import isocLogo from 'images/logos/isoc.svg';
 import Loading from "../../components/loading/Loading";
+// Constants
+import urls from "../../constants/urls/urls";
 
-
-const Card = partner => {
-    const org = partner.partner;
-    const text = "home." +  org;
-    // ToDo: Swap out images for sprite sheet
-    return (
-        <div className="card">
-            <div className="card__logo">
-                {
-                    org === 'otf'
-                        ? <img src={otfLogo} alt={`${partner.partner} logo`} className="card__logo-icon" />
-                        : org === 'dhs'
-                        ? <img src={dhsLogo} alt={`${partner.partner} logo`} className="card__logo-icon" />
-                        : org === 'comcast'
-                            ? <img src={comcastLogo} alt={`${partner.partner} logo`} className="card__logo-icon" />
-                            : org === 'nsf'
-                                ? <img src={nsfLogo} alt={`${partner.partner} logo`} className="card__logo-icon" />
-                                : org === 'isoc'
-                                    ? <img src={isocLogo} alt={`${partner.partner} logo`} className="card__logo-icon" />
-                                    : null
-                }
-            </div>
-            <div className="card__content">
-                <T.p className="card__text" text={text}/>
-            </div>
-        </div>
-    );
-};
 
 // const Example = country => {
 //     const countryName = Object.values(country);
@@ -158,6 +133,7 @@ class Home extends Component {
     populateGeoJsonMap() {
         if (this.state.topoData && this.state.outageSummaryData) {
             let topoData = this.state.topoData;
+            let scores = [];
 
             // get Topographic info for a country if it has outages
             this.state.outageSummaryData.map(outage => {
@@ -167,10 +143,16 @@ class Home extends Component {
                     let item = topoData.features[topoItemIndex];
                     item.properties.score = outage.scores.overall;
                     topoData.features[topoItemIndex] = item;
+
+                    // Used to determine coloring on map objects
+                    scores.push(outage.scores.overall);
+                    scores.sort((a, b) => {
+                        return a - b;
+                    });
                 }
             });
 
-            return <TopoMap topoData={topoData}/>;
+            return <TopoMap topoData={topoData} scores={scores}/>;
 
         }
     }
@@ -296,20 +278,23 @@ class Home extends Component {
                             Partners
                         </h2>
                     </div>
-                    <div className="col-1-of-5">
-                        <Card partner="otf"/>
-                    </div>
-                    <div className="col-1-of-5">
-                        <Card partner="dhs"/>
-                    </div>
-                    <div className="col-1-of-5">
-                        <Card partner="comcast"/>
-                    </div>
-                    <div className="col-1-of-5">
+                    <div className="col-1-of-3">
                         <Card partner="nsf"/>
                     </div>
-                    <div className="col-1-of-5">
+                    <div className="col-1-of-3">
+                        <Card partner="dhs"/>
+                    </div>
+                    <div className="col-1-of-3">
+                        <Card partner="otf"/>
+                    </div>
+                    <div className="col-1-of-3">
+                        <Card partner="comcast"/>
+                    </div>
+                    <div className="col-1-of-3">
                         <Card partner="isoc"/>
+                    </div>
+                    <div className="col-1-of-3">
+                        <Card partner="dos"/>
                     </div>
                 </div>
             </div>
