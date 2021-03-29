@@ -12,10 +12,10 @@
   &__container {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: left;
     max-width: $grid-width;
     width: 100%;
-    height: 8rem;
+    height: auto;
   }
 
   &__logo {
@@ -29,36 +29,37 @@
       display: block;
 
       & img {
-        height: 5rem;
+        height: 3.5rem;
       }
     }
   }
 
-  &__mobile-nav {
-    display: none;
+  &__nav {
+    position: relative;
+    z-index: 10;
+
+    &--mobile {
+      display: none;
+    }
   }
 
   &__list {
     display: flex;
     justify-content: space-between;
-    font-family: $font-ubuntu;
-    font-size: 1.8rem;
-    text-transform: uppercase;
-    font-weight: 700;
+    color: $color-white;
+    font-family: $font-lato;
+    font-size: 1.4rem;
+    text-transform: capitalize;
     height: 100%;
     margin: 0;
   }
 
   &__item {
-    width: 22rem;
+    width: 18rem;
     list-style-type: none;
     height: auto;
     display: flex;
-    border-right: 1px solid #5A4E3C;
-
-    &:first-child {
-      border-left: 1px solid #5A4E3C;
-    }
+    border-right: 1px solid $color-secondary-dark;
   }
 
   &__link:link,
@@ -68,7 +69,8 @@
     align-items: center;
     width: 100%;
     height: auto;
-    color: $color-primary;
+    color: $color-white;
+    text-decoration: none;
 
     &:hover {
       text-decoration: none;
