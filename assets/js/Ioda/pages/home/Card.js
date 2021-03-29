@@ -42,6 +42,7 @@ import dhsLogo from 'images/logos/dhs.svg';
 import comcastLogo from 'images/logos/comcast.svg';
 import nsfLogo from 'images/logos/nsf.svg';
 import isocLogo from 'images/logos/isoc.svg';
+import dosLogo from 'images/logos/dos.png';
 // Constants
 import urls from "../../constants/urls/urls";
 
@@ -51,7 +52,7 @@ class Card extends Component {
         const text = "home." +  org;
         if (org !== "dos") {
             return (
-                <a href={urls.home[`${org}`]}>
+                <a className="card__link" href={urls.home[`${org}`]}>
                     <div className="card" >
                         <div className="card__logo">
                             {
@@ -78,16 +79,16 @@ class Card extends Component {
             return (
                 <div className="card">
                     <div className="card__logo">
-                        <img src={null} alt={`${this.props.partner} logo`} className="card__logo-icon" />
+                        <img src={dosLogo} alt={`${this.props.partner} logo`} className="card__logo-icon" />
                     </div>
                     <div className="card__content">
                         <p className="card__text">
                             <T.span className="card__text" text={"home.dos1"}/>
-                            <a href={urls.home.dos1}>
+                            <a className="card__text-link" href={urls.home.dos1}>
                                 <T.span className="card__text" text={"home.dos2"}/>
                             </a>
                             <T.span className="card__text" text={"home.dos3"}/>
-                            <a href={urls.home.dos2}>
+                            <a className="card__text-link" href={urls.home.dos2}>
                                 <T.span className="card__text" text={"home.dos4"}/>
                             </a>
                             <T.span className="card__text" text={"home.dos5"}/>

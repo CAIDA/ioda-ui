@@ -125,6 +125,11 @@ button[class*="searchButton"] {
   border-radius: 0.5rem;
   padding: 0 2rem 2rem;
 
+  &__link {
+    color: $color-black;
+    text-decoration: none;
+  }
+
   &__logo {
     height: 18rem;
     display: flex;
@@ -138,6 +143,10 @@ button[class*="searchButton"] {
   }
 
   &__text {
-    height: 20rem;
+    height: 12rem;
+
+    &-link {
+      @include textLink;
+    }
   }
 }
