@@ -51,7 +51,7 @@ class Nav extends Component {
                         </Link>
                     </div>
                     <nav className="navigation__nav">
-                        <div className="navigation__mobile-nav">
+                        <div className="navigation__nav--mobile">
                             <input type="checkbox" className="navigation__checkbox" ref={this.checkbox} id="nav-toggle" />
                             <label htmlFor="nav-toggle" className="navigation__button">
                                 <span className="navigation__icon">&nbsp;</span>

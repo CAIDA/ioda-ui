@@ -1573,14 +1573,14 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  height: 7rem; }
+  height: 5rem; }
   .navigation__container {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: left;
     max-width: 114rem;
     width: 100%;
-    height: 8rem; }
+    height: auto; }
   .navigation__logo {
     display: flex;
     align-items: center;
@@ -1590,33 +1590,35 @@ body {
     .navigation__logo a {
       display: block; }
       .navigation__logo a img {
-        height: 5rem; }
-  .navigation__mobile-nav {
-    display: none; }
+        height: 3.5rem; }
+  .navigation__nav {
+    position: relative;
+    z-index: 10; }
+    .navigation__nav--mobile {
+      display: none; }
   .navigation__list {
     display: flex;
     justify-content: space-between;
-    font-family: "Ubuntu", sans-serif;
-    font-size: 1.8rem;
-    text-transform: uppercase;
-    font-weight: 700;
+    color: #fff;
+    font-family: "Lato", sans-serif;
+    font-size: 1.4rem;
+    text-transform: capitalize;
     height: 100%;
     margin: 0; }
   .navigation__item {
-    width: 22rem;
+    width: 18rem;
     list-style-type: none;
     height: auto;
     display: flex;
-    border-right: 1px solid #5A4E3C; }
-    .navigation__item:first-child {
-      border-left: 1px solid #5A4E3C; }
+    border-right: 1px solid #1E3E7C; }
   .navigation__link:link, .navigation__link:visited {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: auto;
-    color: #2c3e50; }
+    color: #fff;
+    text-decoration: none; }
     .navigation__link:link:hover, .navigation__link:visited:hover {
       text-decoration: none;
       color: #fff;
@@ -1626,7 +1628,7 @@ button[class*="searchButton"] {
   display: none !important; }
 
 .home {
-  padding-top: 7rem;
+  padding-top: 5rem;
   margin-top: 4rem; }
   .home .row {
     max-width: 114rem; }
@@ -1775,7 +1777,7 @@ button[class*="searchButton"] {
       /* controls underline thickness */ }
 
 .dashboard {
-  padding-top: 7rem;
+  padding-top: 5rem;
   margin: 4rem 4.5rem 0; }
   .dashboard .col-1-of-3 {
     position: relative; }
@@ -1893,7 +1895,7 @@ button[class*="searchButton"] {
           height: inherit; }
 
 .entity {
-  padding-top: 7rem;
+  padding-top: 5rem;
   margin: 4rem 4.5rem 0; }
   .entity .col-1-of-3 {
     position: relative; }
