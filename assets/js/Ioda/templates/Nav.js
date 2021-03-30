@@ -34,6 +34,7 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import T from 'i18n-react';
 import iodaLogo from 'images/logos/ioda-logo.svg';
 
 class Nav extends Component {
@@ -42,25 +43,28 @@ class Nav extends Component {
     }
 
     render() {
+        const dashboard = T.translate("header.dashboard");
+        const iodaLogoAltText = T.translate("header.iodaLogoAltText");
+
         return(
-            <div className="navigation">
-                <div className="navigation__container">
-                    <div className="navigation__logo">
+            <div className="header">
+                <div className="header__container">
+                    <div className="header__logo">
                         <Link to="/">
-                            <img src={iodaLogo} alt="IODA Logo" />
+                            <img src={iodaLogo} alt={iodaLogoAltText} />
                         </Link>
                     </div>
-                    <nav className="navigation__nav">
-                        <div className="navigation__nav--mobile">
-                            <input type="checkbox" className="navigation__checkbox" ref={this.checkbox} id="nav-toggle" />
-                            <label htmlFor="nav-toggle" className="navigation__button">
-                                <span className="navigation__icon">&nbsp;</span>
+                    <nav className="header__nav">
+                        <div className="header__nav--mobile">
+                            <input type="checkbox" className="header__checkbox" ref={this.checkbox} id="nav-toggle" />
+                            <label htmlFor="nav-toggle" className="header__button">
+                                <span className="header__icon">&nbsp;</span>
                             </label>
                         </div>
                         <ul className="navigation__list">
-                            <li className="navigation__item">
-                                <Link to="/dashboard" className="navigation__link">
-                                    Dashboard
+                            <li className="header__item">
+                                <Link to="/dashboard" className="header__link">
+                                    {dashboard}
                                 </Link>
                             </li>
                             {/*<li className="navigation__item">*/}

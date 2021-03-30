@@ -31,7 +31,6 @@ class Table extends Component {
             baselineValue: "Baseline Value"
         };
         this.eventHeaders = {
-            age: "Age",
             fromDate: "From",
             untilDate: "Until",
             duration: "Duration",
@@ -308,9 +307,6 @@ class Table extends Component {
                                 {
                                     this.state.eventData && this.state.eventData.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(event => {
                                         return <tr key={generateKeys(this.props.type === 'alert' ? 'alert' : 'event')}>
-                                            <td>
-                                                {event.age}
-                                            </td>
                                             <td>
                                                 <p>{event.from.month} {event.from.day}, {event.from.year}</p>
                                                 <p>{event.from.hours}:{event.from.minutes} {event.from.meridian}</p>

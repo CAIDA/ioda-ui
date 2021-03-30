@@ -33,6 +33,7 @@
  */
 
 import React, { Component } from 'react';
+import T from 'i18n-react';
 import { Link } from 'react-router-dom';
 
 
@@ -47,27 +48,17 @@ class Footer extends Component {
             <div className="footer">
                 <div className="footer__content">
                     <div className="row">
-                        <div className="col-1-of-4">
-
-                        </div>
-                        <div className="col-1-of-4">
-
-                        </div>
-                        <div className="col-1-of-4">
-
-                        </div>
-                        <div className="col-1-of-4">
-
-                        </div>
-                    </div>
-                    <div className="row">
                         <div className="col-1-of-1">
                             <div className="footer__copyright">
-                                Ⓒ Copyright {year} &#8212; Center for Applied Internet Data Analysis
+                                <p>
+                                    <T.span text="footer.copyright1"/>
+                                    <span>{year}</span>
+                                    <T.span text="footer.copyright2"/>
+                                </p>
+                                <T.p text="footer.copyright3"/>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         );
