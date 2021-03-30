@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from "prop-types";
+import T from 'i18n-react';
 import Loading from "../../components/loading/Loading";
 
 class Modal extends Component {
@@ -17,6 +18,16 @@ class Modal extends Component {
         if (this.props.modalLocation === 'table' && !this.props.showModal) {
             return null;
         }
+
+        const regionTitle = T.translate("entityModal.regionTitle");
+        const asnTitle = T.translate("entityModal.asnTitle");
+        const regionalTableTitle = T.translate("entityModal.regionalTableTitle");
+        const asnTableTitle = T.translate("entityModal.asnTableTitle");
+        const regionalMapTitle = T.translate("entityModal.regionalMapTitle");
+        const pingSlash24HtsLabel = T.translate("entityModal.pingSlash24HtsLabel");
+        const bgpHtsLabel = T.translate("entityModal.bgpHtsLabel");
+        const ucsdNtHtsLabel = T.translate("entityModal.ucsdNtHtsLabel");
+
         return(
             <div className="modal">
                 <div className="modal__background"></div>
@@ -24,9 +35,9 @@ class Modal extends Component {
                     <div className="modal__heading">
                         {
                             this.props.modalLocation === 'map'
-                                ? <h2>Regional Raw Signals related to {this.props.entityName}</h2>
+                                ? <h2>{regionTitle} {this.props.entityName}</h2>
                                 : this.props.modalLocation === 'table'
-                                ? <h2>ASN/ISP Raw Signals related to {this.props.entityName}</h2>
+                                ? <h2>{asnTitle} {this.props.entityName}</h2>
                                 : null
                         }
                         <button className="modal__button" onClick={() => this.props.toggleModal(this.props.modalLocation)}>
@@ -38,13 +49,13 @@ class Modal extends Component {
                             ? <div className="modal__content">
                                 <div className="row">
                                     <div className="col-1-of-3">
-                                        <h3>Regional Raw Signals</h3>
+                                        <h3>{regionalTableTitle}</h3>
                                         <div className="modal__table">
                                             {
                                                 this.props.genRegionalSignalsTable()
                                             }
                                         </div>
-                                        <h3>Map of Regional Outages</h3>
+                                        <h3>{regionalMapTitle}</h3>
                                         <div className="modal__map" style={{display: 'block', height: '400px'}}>
                                             {
                                                 this.props.populateGeoJsonMap()
@@ -52,20 +63,20 @@ class Modal extends Component {
                                         </div>
                                     </div>
                                     <div className="col-2-of-3">
-                                        <h3>Active Probing</h3>
+                                        <h3>{pingSlash24HtsLabel}</h3>
                                         <div id="regional-horizon-chart--pingSlash24">
                                             {
                                                 this.props.populateRegionalHtsChart('900', 'ping-slash24')
                                             }
                                         </div>
-                                        <h3>BGP</h3>
+                                        <h3>{bgpHtsLabel}</h3>
                                         <div id="regional-horizon-chart--bgp">
 
                                             {
                                                 this.props.populateRegionalHtsChart('900', 'bgp')
                                             }
                                         </div>
-                                        <h3>Network Telescope</h3>
+                                        <h3>{ucsdNtHtsLabel}</h3>
                                         <div id="regional-horizon-chart--ucsdNt">
 
                                             {
@@ -82,7 +93,7 @@ class Modal extends Component {
                             ? <div className="modal__content">
                                 <div className="row">
                                     <div className="col-1-of-3">
-                                        <h3>ASN/ISP Raw Signals</h3>
+                                        <h3>{asnTableTitle}</h3>
                                         <div className="modal__table">
                                             {
                                                 this.props.genSignalsTable()
@@ -90,23 +101,20 @@ class Modal extends Component {
                                         </div>
                                     </div>
                                     <div className="col-2-of-3">
-                                        <h3>Active Probing</h3>
+                                        <h3>{pingSlash24HtsLabel}</h3>
                                         <div id="asn-horizon-chart--pingSlash24">
-
                                             {
                                                 this.props.populateAsnHtsChart('900', 'ping-slash24')
                                             }
                                         </div>
-                                        <h3>BGP</h3>
+                                        <h3>{bgpHtsLabel}</h3>
                                         <div id="asn-horizon-chart--bgp">
-
                                             {
                                                 this.props.populateAsnHtsChart('900', 'bgp')
                                             }
                                         </div>
-                                        <h3>Network Telescope</h3>
+                                        <h3>{ucsdNtHtsLabel}</h3>
                                         <div id="asn-horizon-chart--ucsdNt">
-
                                             {
                                                 this.props.populateAsnHtsChart('900', 'ucsd-nt')
                                             }

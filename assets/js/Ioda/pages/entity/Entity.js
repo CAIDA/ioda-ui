@@ -411,7 +411,7 @@ class Entity extends Component {
     }
     // Function that returns search bar passed into control panel
     populateSearchBar() {
-        return <Searchbar placeholder={'Search for a Country, Region, or AS/ISP'}
+        return <Searchbar placeholder={T.translate("controlPanel.searchBarPlaceholder")}
                           getData={this.getDataSuggestedSearchResults.bind(this)}
                           itemPropertyName={'name'}
                           handleResultClick={(event) => this.handleResultClick(event)}
@@ -1429,6 +1429,11 @@ class Entity extends Component {
     }
 
     render() {
+        const eventAlertButtonText1 = T.translate("entity.eventAlertButtonText1");
+        const eventAlertButtonText2 = T.translate("entity.eventAlertButtonText2");
+        const eventFeedTitle = T.translate("entity.eventFeedTitle");
+        const alertFeedTitle = T.translate("entity.alertFeedTitle");
+
         return(
             <div className="entity">
                 <ControlPanel
@@ -1441,7 +1446,7 @@ class Entity extends Component {
                 <div className="row overview">
                     <div className="col-3-of-5">
                         <div className="overview__config" ref={this.config}>
-                            <button className="overview__config-button">Modal</button>
+                            {/*<button className="overview__config-button">Modal</button>*/}
                         </div>
                         {
                             this.state.xyDataOptions
@@ -1453,9 +1458,9 @@ class Entity extends Component {
                         <button className="overview__config-button"
                                 onClick={() => this.changeCurrentTable()}
                                 style={this.props.type === 'asn' ? {display: 'none'} : null}
-                        >View {this.state.currentTable === 'event' ? 'alert' : 'event'} Table</button>
+                        >{eventAlertButtonText1}{this.state.currentTable === 'event' ? 'alert' : 'event'}{eventAlertButtonText2}</button>
                         <h3 className="overview__table-title">
-                            {this.state.currentTable === 'event' ? `Event Feed for ${this.state.entityName}` : `Alert Feed for ${this.state.entityName}`}
+                            {this.state.currentTable === 'event' ? `${eventFeedTitle} ${this.state.entityName}` : `${alertFeedTitle} ${this.state.entityName}`}
                         </h3>
                         <div className="overview__table">
                             <div style={this.state.currentTable === 'event' ? {display: 'block'} : {display: 'none'}}>

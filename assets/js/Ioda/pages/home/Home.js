@@ -196,14 +196,23 @@ class Home extends Component {
     }
 
     render() {
+        const searchBarTitle = T.translate("home.searchBarTitle");
+        const searchBarPlaceholder = T.translate("home.searchBarPlaceholder");
+        const searchBarDashboardText = T.translate("home.searchBarDashboardText");
+        const searchBarDashboardLink = T.translate("home.searchBarDashboardLink");
+        const recentOutages = T.translate("home.recentOutages");
+        const twitterWidgetTitle = T.translate("home.twitterWidgetTitle");
+        const aboutButtonText = T.translate("home.aboutButtonText");
+        const partnersSectionTitle = T.translate("home.partnersSectionTitle");
+
         return (
             <div className='home'>
                 <div className="row search">
                     <div className="col-2-of-3">
                         <h2 className="section-header">
-                            Jump to a Country, Region, or AS/ISP of Interest
+                            {searchBarTitle}
                         </h2>
-                        <Searchbar placeholder={'Search for a Country, Region, or AS/ISP'}
+                        <Searchbar placeholder={searchBarPlaceholder}
                                    getData={this.getDataSuggestedSearchResults.bind(this)}
                                    itemPropertyName={'name'}
                                    handleResultClick={(event) => this.handleResultClick(event)}
@@ -211,9 +220,9 @@ class Home extends Component {
                                    handleQueryUpdate={this.handleQueryUpdate}
                         />
                         <p className="search__text">
-                            or continue to
+                            {searchBarDashboardText}
                             <Link to="/dashboard" className="search__link">
-                                Outages Dashboard >>
+                                {searchBarDashboardLink}
                             </Link>
                         </p>
                     </div>
@@ -221,9 +230,9 @@ class Home extends Component {
                 <div className="row map">
                     <div className="col-3-of-4">
                         <h2 className="section-header">
-                            Recent Outages
+                            {recentOutages}
                         </h2>
-                        <p className="map__text">Last 24 hours</p>
+                        <T.p className="map__text" text="home.mapTimeFrame"/>
                         {
                             !this.state.topoData
                                 ? <Loading/>
@@ -236,13 +245,14 @@ class Home extends Component {
                     </div>
                     <div className="col-1-of-4">
                         <h2 className="section-header">
-                            Latest News
+                            {twitterWidgetTitle}
                         </h2>
                         <div className="map__feed">
                             <TwitterTimelineEmbed
                                 sourceType="profile"
                                 screenName="caida_ioda"
                                 options={{height: 483}}
+                                lang="en"
                             />
                         </div>
                     </div>
@@ -250,15 +260,10 @@ class Home extends Component {
                 <div className="about">
                     <div className="row">
                         <div className="col-2-of-3">
-                            <p className="about__text">
-                                IODA (Internet Outage Detection and Analysis) is a CAIDA project to develop an
-                                operational prototype system that monitors the internet, in near-realtime, to identify
-                                macroscopic Internet outages affecting the edge of the network, i.e. significantly
-                                impacting an AS (Autonomous System) or a large fraction of a country.
-                            </p>
+                            <T.p className="about__text" text="home.about"/>
                             <Link to="/dashboard" className="button">
                                 <button>
-                                    Outages Dashboard >>
+                                    {aboutButtonText}
                                 </button>
                             </Link>
                         </div>
@@ -275,7 +280,7 @@ class Home extends Component {
                 <div className="row partners">
                     <div className="col-1-of-1">
                         <h2 className="section-header">
-                            Partners
+                            {partnersSectionTitle}
                         </h2>
                     </div>
                     <div className="col-1-of-3">

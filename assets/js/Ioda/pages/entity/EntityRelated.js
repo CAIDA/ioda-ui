@@ -1,8 +1,12 @@
 import React, {Component} from 'react';
 import Modal from '../../components/modal/Modal';
+import T from "i18n-react";
 
 class EntityRelated extends Component {
     render() {
+
+        const regionalModalButtonText = T.translate("entity.regionalModalButtonText");
+        const asnModalButtonText = T.translate("entity.asnModalButtonText");
         return(
             <div className="row related">
                 <div className="col-1-of-2">
@@ -24,7 +28,7 @@ class EntityRelated extends Component {
 
                             }
                             <button className="related__modal-button" onClick={() => this.props.toggleModal("map")}>
-                                Regional Raw Signals
+                                {regionalModalButtonText}
                             </button>
 
                             <Modal
@@ -60,7 +64,7 @@ class EntityRelated extends Component {
                         </h2>
                         <div className="related__modal--region related__modal">
                             <button className="related__modal-button" onClick={() => this.props.toggleModal("table")}>
-                                ASN/ISP Raw Signals
+                                {asnModalButtonText}
                             </button>
                             <Modal
                                 modalLocation={"table"}

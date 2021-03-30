@@ -1,7 +1,26 @@
 {
+  "header": {
+    "dashboard": "Dashboard",
+    "iodaLogoAltText": "IODA Logo"
+  },
+  "footer": {
+    "copyright1": "Ⓒ Copyright ",
+    "copyright2": " — Regents of the University of California",
+    "copyright3": "All Rights Reserved."
+  },
   "home": {
     "title": "IODA",
     "subheader": "A platform for Applied Network Data Analysis",
+    "searchBarTitle": "Jump to a Country, Region, or ASN/ISP of Interest",
+    "searchBarPlaceholder": "Search for a Country, Region, or ASN/ISP",
+    "searchBarDashboardText": "or continue to",
+    "searchBarDashboardLink": "Outages Dashboard >>",
+    "recentOutages": "Recent Outages",
+    "mapTimeFrame": "Last 24 hours",
+    "twitterWidgetTitle": "Latest News",
+    "about": "IODA (Internet Outage Detection and Analysis) is a CAIDA project to develop an operational prototype system that monitors the internet, in near-realtime, to identify macroscopic Internet outages affecting the edge of the network, i.e. significantly impacting an AS (Autonomous System) or a large fraction of a country.",
+    "aboutButtonText": "Outages Dashboard >>",
+    "partnersSectionTitle": "Partners",
     "otf": "This platform is supported by the Open Technology Fund under contract number 1002-2018-027.",
     "dhs": "This platform is supported by Department of Homeland Security Science and Technology Directorate (DHS S&T) contract HHSP 233201600012C (Science of Internet Security: Technology and Experimental Research), and DHS S&T cooperative agreement FA8750-12-2-0326 (Supporting Research and Development of Security Technologies through Network and Security Data Collection).",
     "comcast": "Additional funding to work on visualization interfaces was generously provided by a Comcast research grant.",
@@ -12,5 +31,79 @@
     "dos3": " and ",
     "dos4": "Bureau of Near Eastern Affairs",
     "dos5": "."
+  },
+  "dashboard": {
+    "countryTabTitle": "Country View",
+    "regionTabTitle": "Region View",
+    "asnTabTitle": "ASN/ISP View",
+    "viewChangeIconAltText": "View Changer"
+  },
+  "entity": {
+    "eventAlertButtonText1": "View ",
+    "eventAlertButtonText2": " Table",
+    "eventFeedTitle": "Event Feed for ",
+    "alertFeedTitle": "Alert Feed for ",
+    "regionalModalButtonText": "Regional Raw Signals",
+    "asnModalButtonText": "ASN/ISP Raw Signals"
+  },
+  "controlPanel": {
+    "timeRange": "Time Range",
+    "utc": "UTC",
+    "timeInputCheckbox": "Whole Day",
+    "applyButtonText": "Apply",
+    "searchBarPlaceholder": "Search for a Country, Region, or ASN/ISP"
+  },
+  "loadingBar": {
+    "loading": "Loading..."
+  },
+  "entityModal": {
+    "regionTitle": "Regional Raw Signals related to ",
+    "regionalTableTitle": "Regional Raw Signals",
+    "regionalMapTitle": "Map of Regional Outages",
+    "asnTitle": "ASN/ISP Raw Signals related to ",
+    "asnTableTitle": "ASN/ISP Raw Signals",
+    "pingSlash24HtsLabel": "Active Probing",
+    "bgpHtsLabel": "BGP",
+    "ucsdNtHtsLabel": "Network Telescope"
+  },
+  "table": {
+    "alertHeaders": {
+      "level": "Alert",
+      "dateStamp": "Time (UTC)",
+      "dataSource": "Data Source",
+      "actualValue": "Actual Value",
+      "baselineValue": "Baseline Value"
+    },
+    "eventHeaders": {
+      "fromDate": "From",
+      "untilDate": "Until",
+      "duration": "Duration",
+      "score": "Score"
+    },
+    "summaryHeaders": {
+      "name": "Name",
+      "ipCount": "IP Count",
+      "score": "Score"
+    },
+    "signalHeaders": {
+      "visibility": "",
+      "name": "Name",
+      "ipCount": "IP Count",
+      "score": "Score"
+    },
+    "unsortedIconAltText": "Unsorted",
+    "scoresTable": {
+      "dataSourceHeading": "Source",
+      "scoreHeading": "Score"
+    },
+    "displayCountShowing": "Showing ",
+    "displayCountOf": " of ",
+    "displayCountEntries": " Entries",
+    "prevButtonText": "prev",
+    "nextButtonText": "next",
+    "eventNoOutagesMessage": "No Outage Events Detected",
+    "alertNoOutagesMessage": "No Outage Alerts Detected",
+    "summaryNoOutagesMessage": "No Outage Events Detected",
+    "signalNoOutagesMessage": "No Raw Signals Returned"
   }
 }

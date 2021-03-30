@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import {humanizeNumber} from "../../utils";
 import {Link} from "react-router-dom";
+import T from 'i18n-react';
 
 // Each row of the summary table needs it's own component to manage the
 // hover state, which controls the table that displays score breakdowns.
@@ -76,6 +77,10 @@ class SignalTableRow extends Component {
     render() {
         let overallScore = humanizeNumber(this.props.data.score, 2);
         const entityCode = this.props.data.entityCode;
+
+        const dataSourceHeading = T.translate("table.scoresTable.dataSourceHeading");
+        const scoreHeading = T.translate("table.scoresTable.scoreHeading");
+
         return(
             <tr
                 className="table--summary-row"
@@ -114,10 +119,10 @@ class SignalTableRow extends Component {
                         <thead>
                         <tr className="table__scores-headers">
                             <th className="table__scores-cell">
-                                Source
+                                {dataSourceHeading}
                             </th>
                             <th className="table__scores-cell">
-                                Score
+                                {scoreHeading}
                             </th>
                         </tr>
                         </thead>

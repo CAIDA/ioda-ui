@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import T from 'i18n-react';
 import {generateKeys, humanizeNumber} from "../../utils";
 import SummaryTableRow from "./SummaryTableRow";
 import SignalTableRow from "./SignalTableRow";
@@ -24,38 +25,37 @@ class Table extends Component {
             }
         };
         this.alertHeaders = {
-            level: "Alert",
-            dateStamp: "Time (UTC)",
-            dataSource: "Data Source",
-            actualValue: "Actual Value",
-            baselineValue: "Baseline Value"
+            level: T.translate("table.alertHeaders.level"),
+            dateStamp: T.translate("table.alertHeaders.dateStamp"),
+            dataSource: T.translate("table.alertHeaders.dataSource"),
+            actualValue: T.translate("table.alertHeaders.actualValue"),
+            baselineValue: T.translate("table.alertHeaders.baselineValue")
         };
         this.eventHeaders = {
-            age: "Age",
-            fromDate: "From",
-            untilDate: "Until",
-            duration: "Duration",
-            score: "Score"
+            fromDate: T.translate("table.eventHeaders.fromDate"),
+            untilDate: T.translate("table.eventHeaders.untilDate"),
+            duration: T.translate("table.eventHeaders.duration"),
+            score: T.translate("table.eventHeaders.score")
         };
         this.summaryHeaders = {
-            name: "Name",
-            score: "Score",
+            name: T.translate("table.summaryHeaders.name"),
+            score: T.translate("table.summaryHeaders.score")
         };
         this.summaryHeadersAsn = {
-            name: "Name",
-            ipCount: "IP Count",
-            score: "Score",
+            name: T.translate("table.summaryHeaders.name"),
+            ipCount: T.translate("table.summaryHeaders.ipCount"),
+            score: T.translate("table.summaryHeaders.score")
         };
         this.signalHeaders = {
             visibility: "",
-            name: "Name",
-            score: "Score"
+            name: T.translate("table.signalHeaders.name"),
+            score: T.translate("table.signalHeaders.score")
         };
         this.signalHeadersAsn = {
             visibility: "",
-            name: "Name",
-            ipCount: "IP Count",
-            score: "Score"
+            name: T.translate("table.signalHeaders.name"),
+            ipCount: T.translate("table.signalHeaders.ipCount"),
+            score: T.translate("table.signalHeaders.score")
         };
     }
 
@@ -212,6 +212,19 @@ class Table extends Component {
 
     render() {
         const { type } = this.props;
+
+        const unsortedIconAltText = T.translate("table.unsortedIconAltText");
+        const displayCountShowing = T.translate("table.displayCountShowing");
+        const displayCountOf = T.translate("table.displayCountOf");
+        const displayCountEntries = T.translate("table.displayCountEntries");
+        const prevButtonText = T.translate("table.prevButtonText");
+        const nextButtonText = T.translate("table.nextButtonText");
+        const eventNoOutagesMessage = T.translate("table.eventNoOutagesMessage");
+        const alertNoOutagesMessage = T.translate("table.alertNoOutagesMessage");
+        const summaryNoOutagesMessage = T.translate("table.summaryNoOutagesMessage");
+        const signalNoOutagesMessage = T.translate("table.signalNoOutagesMessage");
+
+
         return (
             <div className="table__wrapper">
                 <table className={`table ${type === "alert" ? "table--alert" : type === "event" ? "table--event" : type === "summary" ? "table--summary" : "table--signal"}`}>
@@ -239,7 +252,7 @@ class Table extends Component {
                                         type === "alert"
                                             ? header === this.alertHeaders[this.state.sortedColumn.name]
                                             ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
-                                            : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
+                                            : <img className="table__header-sort" src={iconSortUnsorted} alt={unsortedIconAltText}/>
                                             : null
 
                                     }
@@ -247,7 +260,7 @@ class Table extends Component {
                                         type === "event"
                                             ? header === this.eventHeaders[this.state.sortedColumn.name]
                                             ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
-                                            : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
+                                            : <img className="table__header-sort" src={iconSortUnsorted} alt={unsortedIconAltText}/>
                                             : null
 
                                     }
@@ -255,7 +268,7 @@ class Table extends Component {
                                         type === "summary"
                                             ? header === this.summaryHeaders[this.state.sortedColumn.name]
                                             ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
-                                            : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
+                                            : <img className="table__header-sort" src={iconSortUnsorted} alt={unsortedIconAltText}/>
                                             : null
 
                                     }
@@ -263,7 +276,7 @@ class Table extends Component {
                                         type === "signal"
                                             ? header === this.signalHeaders[this.state.sortedColumn.name]
                                             ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
-                                            : <img className="table__header-sort" src={iconSortUnsorted} alt="Unsorted"/>
+                                            : <img className="table__header-sort" src={iconSortUnsorted} alt={unsortedIconAltText}/>
                                             : null
 
                                     }
@@ -309,9 +322,6 @@ class Table extends Component {
                                     this.state.eventData && this.state.eventData.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(event => {
                                         return <tr key={generateKeys(this.props.type === 'alert' ? 'alert' : 'event')}>
                                             <td>
-                                                {event.age}
-                                            </td>
-                                            <td>
                                                 <p>{event.from.month} {event.from.day}, {event.from.year}</p>
                                                 <p>{event.from.hours}:{event.from.minutes} {event.from.meridian}</p>
                                             </td>
@@ -349,10 +359,10 @@ class Table extends Component {
                             </tbody>
                         : <tbody className="table__empty">
                             {
-                                this.props.type === "event" ? <tr><td colSpan='100%'>No Outage Events Detected</td></tr>
-                                : this.props.type === 'alert' ? <tr><td colSpan='100%'>No Outage Alerts Detected</td></tr>
-                                : this.props.type === "summary" ? <tr><td colSpan='100%'>No Outages Detected</td></tr>
-                                : this.props.type === "signal" ? <tr><td colSpan='100%'>No Raw Signals Returned</td></tr>
+                                this.props.type === "event" ? <tr><td colSpan='100%'>{eventNoOutagesMessage}</td></tr>
+                                : this.props.type === 'alert' ? <tr><td colSpan='100%'>{alertNoOutagesMessage}</td></tr>
+                                : this.props.type === "summary" ? <tr><td colSpan='100%'>{summaryNoOutagesMessage}</td></tr>
+                                : this.props.type === "signal" ? <tr><td colSpan='100%'>{signalNoOutagesMessage}</td></tr>
                                 : null
                             }
                         </tbody>
@@ -363,10 +373,10 @@ class Table extends Component {
                     this.props.type === "summary" && this.props.data.length > 0 ||
                     this.props.type === "signal" && this.props.data.length > 0
                         ? <div className="table__page">
-                            <p className="table__page-text">Showing {this.props.currentDisplayLow + 1} - {this.props.currentDisplayHigh} of {this.props.totalCount} Entries</p>
+                            <p className="table__page-text">{displayCountShowing} {this.props.currentDisplayLow + 1} - {this.props.currentDisplayHigh} {displayCountOf} {this.props.totalCount} {displayCountEntries}</p>
                             <div className="table__page-controls">
-                                <button onClick={() => this.props.prevPage(this.props.type)} className="table__page-button">Prev</button>
-                                <button onClick={() => this.props.nextPage(this.props.type)} className="table__page-button">Next</button>
+                                <button onClick={() => this.props.prevPage(this.props.type)} className="table__page-button">{prevButtonText}</button>
+                                <button onClick={() => this.props.nextPage(this.props.type)} className="table__page-button">{nextButtonText}</button>
                             </div>
                         </div>
                         : null

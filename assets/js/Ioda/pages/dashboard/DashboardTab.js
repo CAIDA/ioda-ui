@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import T from "i18n-react";
+
 
 class DashboardTab extends Component {
     constructor(props) {
@@ -7,6 +9,7 @@ class DashboardTab extends Component {
     }
 
     render() {
+        const viewChangeIconAltText = T.translate("dashboard.viewChangeIconAltText");
         return(
             <div className="tab">
                 <div className="row">
@@ -15,8 +18,8 @@ class DashboardTab extends Component {
                             <button className="tab__config-button"
                                     onClick={() => this.props.handleTabChangeViewButton()}
                                     style={this.props.type === 'asn' ? {display: 'none'} : null}
-                            >View Changer</button>
-                            <button className="tab__config-button">Modal</button>
+                            >{viewChangeIconAltText}</button>
+                            {/*<button className="tab__config-button">Modal</button>*/}
                         </div>
                         {
                             this.props.type !== "asn"

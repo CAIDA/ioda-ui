@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import T from 'i18n-react';
 // Date Picker Dependencies
 import { DateRangePicker } from 'react-date-range';
 import { addDays } from 'date-fns'
@@ -79,19 +80,23 @@ class ControlPanel extends Component {
         // let endTime = this.state.selection.endDate.toLocaleString( 'sv', { timeZoneName: 'short' } );
         // let endTime = this.state.selection.endDate;
 
+        const utc = T.translate("controlPanel.utc");
+        const wholeDay = T.translate("controlPanel.wholeDay");
+        const apply = T.translate("controlPanel.apply");
+
         return(
             <div className="row control-panel">
                 <div className="col-1-of-3">
                     <h2>{this.props.entityName}</h2>
-                    <p>Time Range</p>
+                    <T.p text={"controlPanel.timeRange"}/>
                     <div className="range">
                         <button className="range__input" onClick={() => this.handleRangeDisplay()}>
                             <span className="range__input-start">
-                                {startDate} - {startTime}<sub><sup><sub>UTC</sub></sup></sub>
+                                {startDate} - {startTime}<sub><sup><sub>{utc}</sub></sup></sub>
                             </span>
                             <span className="range__input-dash">—</span>
                             <span className="range__input-end">
-                                {endDate} - {endTime}<sub><sup><sub>UTC</sub></sup></sub>
+                                {endDate} - {endTime}<sub><sup><sub>{utc}</sub></sup></sub>
                             </span>
                         </button>
                     </div>
@@ -108,7 +113,7 @@ class ControlPanel extends Component {
                         />
                         <div className="range__dropdown-checkbox">
                             <input onChange={() => this.handleWholeDaySelection()} type="checkbox" name="checkbox" id="whole-day"/>
-                            <label htmlFor="whole-day">Whole Day</label>
+                            <label htmlFor="whole-day">{wholeDay}</label>
                         </div>
                         <div className={this.state.wholeDayInputSelected ? "range__time" : "range__time range__time--visible"}>
                             <TimeRangePicker
@@ -120,7 +125,7 @@ class ControlPanel extends Component {
                             />
                         </div>
                         <button className="range__button" onClick={() => this.handleRangeUpdate()}>
-                            Apply
+                            {apply}
                         </button>
                     </div>
                 </div>

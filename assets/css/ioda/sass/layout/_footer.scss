@@ -2,14 +2,23 @@
   filter: drop-shadow(.5rem .5rem .5rem #222);
   background-color: $color-primary;
   color: $color-white;
-  height: 10rem;
+  height: auto;
   display: flex;
   align-items: flex-end;
   justify-content: center;
 
+  & .row {
+    width: $grid-width;
+  }
+
   &__copyright {
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+    width: 100%;
     font-size: 1.1rem;
     text-transform: uppercase;
     letter-spacing: 0.6px;
+    margin: 2rem 0;
   }
 }
