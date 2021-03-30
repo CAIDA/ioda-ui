@@ -44,9 +44,9 @@ switch (language) {
     case 'en':
         languageString = 'en';
         break;
-    case 'es':
-        languageString = 'es';
-        break;
+    // case 'es':
+    //     languageString = 'es';
+    //     break;
     default:
         languageString = 'en';
         break;
