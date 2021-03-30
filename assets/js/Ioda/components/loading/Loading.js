@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import {Link} from "react-router-dom";
+import T from 'i18n-react';
 
 
 class Loading extends Component {
@@ -8,7 +9,7 @@ class Loading extends Component {
         return (
             <div className="progress-bar-striped">
                 <div style={{width: "100%"}}>
-                    <strong><p>Loading...</p></strong>
+                    <strong><T.p text="loadingBar.loading"/></strong>
                 </div>
             </div>
         );

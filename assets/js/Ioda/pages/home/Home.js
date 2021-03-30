@@ -201,9 +201,9 @@ class Home extends Component {
         const searchBarDashboardText = T.translate("home.searchBarDashboardText");
         const searchBarDashboardLink = T.translate("home.searchBarDashboardLink");
         const recentOutages = T.translate("home.recentOutages");
-        const latestNews = T.translate("home.latestNews");
+        const twitterWidgetTitle = T.translate("home.twitterWidgetTitle");
         const aboutButtonText = T.translate("home.aboutButtonText");
-        const partners = T.translate("home.partners");
+        const partnersSectionTitle = T.translate("home.partnersSectionTitle");
 
         return (
             <div className='home'>
@@ -232,7 +232,7 @@ class Home extends Component {
                         <h2 className="section-header">
                             {recentOutages}
                         </h2>
-                        <T.p className="map__text" text="home.last24Hours"/>
+                        <T.p className="map__text" text="home.mapTimeFrame"/>
                         {
                             !this.state.topoData
                                 ? <Loading/>
@@ -245,7 +245,7 @@ class Home extends Component {
                     </div>
                     <div className="col-1-of-4">
                         <h2 className="section-header">
-                            {latestNews}
+                            {twitterWidgetTitle}
                         </h2>
                         <div className="map__feed">
                             <TwitterTimelineEmbed
@@ -280,7 +280,7 @@ class Home extends Component {
                 <div className="row partners">
                     <div className="col-1-of-1">
                         <h2 className="section-header">
-                            {partners}
+                            {partnersSectionTitle}
                         </h2>
                     </div>
                     <div className="col-1-of-3">

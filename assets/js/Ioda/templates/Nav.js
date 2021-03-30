@@ -61,7 +61,7 @@ class Nav extends Component {
                                 <span className="header__icon">&nbsp;</span>
                             </label>
                         </div>
-                        <ul className="navigation__list">
+                        <ul className="header__list">
                             <li className="header__item">
                                 <Link to="/dashboard" className="header__link">
                                     {dashboard}

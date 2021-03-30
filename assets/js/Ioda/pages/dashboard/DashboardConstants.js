@@ -1,4 +1,10 @@
-const tabOptions = ["Country View","Region View", "AS/ISP View"];
+import T from "i18n-react";
+
+const countryTabTitle = T.translate("dashboard.countryTabTitle");
+const regionTabTitle = T.translate("dashboard.regionTabTitle");
+const asnTabTitle = T.translate("dashboard.asnTabTitle");
+
+const tabOptions = [countryTabTitle, regionTabTitle, asnTabTitle];
 const country = {
     type: 'country',
     tab: 1,

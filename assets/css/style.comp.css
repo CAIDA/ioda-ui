@@ -1567,11 +1567,7 @@ body {
   .row .col-5-of-6 {
     width: calc( 5 * ((100% - (5 * 2.5rem)) / 6) + (4 * 2.5rem)); }
 
-.navigation {
-  background-color: #2c3e50;
-  height: 7rem; }
-
-.navigation {
+.header {
   width: 100%;
   background-color: #2c3e50;
   box-shadow: 0 1px 2px #9F9D9D;
@@ -1581,29 +1577,29 @@ body {
   align-items: center;
   z-index: 1000;
   height: 5rem; }
-  .navigation__container {
+  .header__container {
     display: flex;
     flex-direction: row;
     justify-content: left;
     max-width: 114rem;
     width: 100%;
     height: auto; }
-  .navigation__logo {
+  .header__logo {
     display: flex;
     align-items: center;
     position: relative;
     z-index: 10;
     overflow: hidden; }
-    .navigation__logo a {
+    .header__logo a {
       display: block; }
-      .navigation__logo a img {
+      .header__logo a img {
         height: 3.5rem; }
-  .navigation__nav {
+  .header__nav {
     position: relative;
     z-index: 10; }
-    .navigation__nav--mobile {
+    .header__nav--mobile {
       display: none; }
-  .navigation__list {
+  .header__list {
     display: flex;
     justify-content: space-between;
     color: #fff;
@@ -1612,13 +1608,13 @@ body {
     text-transform: capitalize;
     height: 100%;
     margin: 0; }
-  .navigation__item {
+  .header__item {
     width: 18rem;
     list-style-type: none;
     height: auto;
     display: flex;
     border-right: 1px solid #1E3E7C; }
-  .navigation__link:link, .navigation__link:visited {
+  .header__link:link, .header__link:visited {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1626,7 +1622,7 @@ body {
     height: auto;
     color: #fff;
     text-decoration: none; }
-    .navigation__link:link:hover, .navigation__link:visited:hover {
+    .header__link:link:hover, .header__link:visited:hover {
       text-decoration: none;
       color: #fff;
       background-color: #2c3e50; }
