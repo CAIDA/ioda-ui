@@ -563,9 +563,19 @@ class Entity extends Component {
                     animationEnabled: true
                 },
                 legend: {
-                    cursor: "default",
+                    cursor: "pointer",
                     fontSize: 14,
-
+                    itemclick: function (e) {
+                        // console.log("legend click: " + e.dataPointIndex);
+                        // console.log(e);
+                        // toggle series visibility
+                        if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                            e.dataSeries.visible = false;
+                        } else {
+                            e.dataSeries.visible = true;
+                        }
+                        e.chart.render();
+                    }
                 },
                 data: this.createXyVizDataObject(networkTelescopeValues, bgpValues, activeProbingValues)
             }
