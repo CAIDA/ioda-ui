@@ -76,10 +76,8 @@ class SignalTableRow extends Component {
 
     render() {
         let overallScore = humanizeNumber(this.props.data.score, 2);
+        console.log(overallScore);
         const entityCode = this.props.data.entityCode;
-
-        const dataSourceHeading = T.translate("table.scoresTable.dataSourceHeading");
-        const scoreHeading = T.translate("table.scoresTable.scoreHeading");
 
         return(
             <tr
@@ -98,6 +96,10 @@ class SignalTableRow extends Component {
                 <td>
                     <Link className="table__cell-link" to={`/${this.props.data.entityType}/${this.props.data.entityCode}`} onClick={() => this.props.handleEntityClick()}>
                         {this.props.data.name}
+                        {
+                            this.props.data.score > 0 ? <sup><sub><sup className="table--signal-score">{overallScore}</sup></sub></sup> : null
+                        }
+
                     </Link>
                 </td>
                 {
@@ -105,33 +107,6 @@ class SignalTableRow extends Component {
                         ? <td>{this.props.data.ipCount}</td>
                         : null
                 }
-                <td
-                    className="table__cell--overallScore"
-                    onClick={() => this.handleRowScoreDisplay()}
-
-                >
-                    {overallScore}
-                    <span className="table__ellipses">⋮</span>
-                    <table
-                        className={this.state.displayScores ? "table__scores table__scores--active" : "table__scores"}
-                        style={{top: `${this.state.y}px`}}
-                    >
-                        <thead>
-                        <tr className="table__scores-headers">
-                            <th className="table__scores-cell">
-                                {dataSourceHeading}
-                            </th>
-                            <th className="table__scores-cell">
-                                {scoreHeading}
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {this.handlePopulateScores(this.props.data.scores)}
-                        </tbody>
-                    </table>
-
-                </td>
             </tr>
         )
     }

@@ -815,6 +815,17 @@ body {
   width: 100%; }
   .table--signal {
     margin: 0; }
+    .table--signal-score {
+      background-color: #E86468;
+      color: #fff;
+      border-radius: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0.2rem;
+      margin-top: -1rem;
+      margin-left: 0.5rem;
+      font-size: 120%; }
   .table--alert-warning {
     background-color: #F18179; }
   .table--alert-normal {

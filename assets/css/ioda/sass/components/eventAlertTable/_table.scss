@@ -11,6 +11,19 @@
 
   &--signal {
     margin: 0;
+
+    &-score {
+      background-color: #E86468;
+      color: $color-white;
+      border-radius: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0.2rem;
+      margin-top: -1rem;
+      margin-left: 0.5rem;
+      font-size: 120%;
+    }
   }
 
   &--alert {
@@ -29,10 +42,6 @@
   }
 
   &--summary {
-    //&-row:hover .table__cell--overallScore .table__scores {
-    //  display: block;
-    //}
-
     & .table__scores--active {
       display: block;
     }

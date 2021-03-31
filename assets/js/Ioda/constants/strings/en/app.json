@@ -88,8 +88,7 @@
     "signalHeaders": {
       "visibility": "",
       "name": "Name",
-      "ipCount": "IP Count",
-      "score": "Score"
+      "ipCount": "IP Count"
     },
     "unsortedIconAltText": "Unsorted",
     "scoresTable": {
