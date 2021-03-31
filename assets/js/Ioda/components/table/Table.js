@@ -48,14 +48,12 @@ class Table extends Component {
         };
         this.signalHeaders = {
             visibility: "",
-            name: T.translate("table.signalHeaders.name"),
-            score: T.translate("table.signalHeaders.score")
+            name: T.translate("table.signalHeaders.name")
         };
         this.signalHeadersAsn = {
             visibility: "",
             name: T.translate("table.signalHeaders.name"),
-            ipCount: T.translate("table.signalHeaders.ipCount"),
-            score: T.translate("table.signalHeaders.score")
+            ipCount: T.translate("table.signalHeaders.ipCount")
         };
     }
 
