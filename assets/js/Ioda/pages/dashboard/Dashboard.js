@@ -21,7 +21,14 @@ import HorizonTSChart from 'horizon-timeseries-chart';
 import {tabOptions, country, region, as} from "./DashboardConstants";
 import {connect} from "react-redux";
 // Helper Functions
-import {convertValuesForSummaryTable, humanizeNumber, sortByKey, nextPage, prevPage} from "../../utils";
+import {
+    convertValuesForSummaryTable,
+    humanizeNumber,
+    sortByKey,
+    nextPage,
+    prevPage,
+    convertTsDataForHtsViz
+} from "../../utils";
 import Loading from "../../components/loading/Loading";
 
 
@@ -60,7 +67,9 @@ class Dashboard extends Component {
             currentDisplayHigh: 10,
             // Event Data for Time Series
             eventDataRaw: [],
-            eventDataProcessed: [],
+            eventSignalsProcessedPingSlash24: [],
+            eventSignalsProcessedBgp: [],
+            eventSignalsProcessedUcsdNt: [],
             eventOrderByAttr: "score",
             eventOrderByOrder: "desc",
             eventEndpointCalled: false,
@@ -136,6 +145,9 @@ class Dashboard extends Component {
                 summaryDataRaw: this.props.summary
             },() => {
                 this.convertValuesForSummaryTable();
+                if (this.state.activeTabType === 'asn') {
+                    this.getDataEvents(this.state.activeTabType);
+                }
 
                 if (!this.state.eventEndpointCalled) {
                     this.setState({
@@ -192,15 +204,18 @@ class Dashboard extends Component {
         // }
 
         if (this.props.eventSignals !== prevProps.eventSignals) {
-            let newEventData = this.props.eventSignals[0];
+            let newEventData = this.props.eventSignals;
             this.setState(prevState => ({
                 eventDataRaw: [...prevState.eventDataRaw, newEventData]
             }), () => {
+                console.log(this.state.eventDataRaw);
+                this.convertValuesForHtsViz();
+
                 // Use summary entities to populate time series chart
-                const result = this.state.eventDataRaw;
-                if (Object.keys(result).length === this.state.summaryDataRaw.length) {
-                    this.convertValuesForHtsViz();
-                }
+                // const result = this.state.eventDataRaw;
+                // if (Object.keys(result).length === this.state.summaryDataRaw.length) {
+                //     this.convertValuesForHtsViz();
+                // }
             });
         }
     }
@@ -396,34 +411,32 @@ class Dashboard extends Component {
         let from = this.state.from;
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
-
-        if (this.state.summaryDataRaw) {
-            this.state.summaryDataRaw.map(entity => {
-                if (entity.entity.code !== "??") {
-                    this.props.getEventSignalsAction(entityType, entity.entity.code, from, until, attr, order)
-                }
-            });
-        }
+        let entities = this.state.summaryDataRaw.slice(0, 50).map(entity => {
+            // some entities don't return a code to be used in an api call, seem to default to '??' in that event
+            if (entity.entity.code !== "??") {
+                return entity.entity.code;
+            }
+        }).toString();
+        console.log(entityType, entities, from, until, attr, order);
+        this.props.getEventSignalsAction(entityType, entities, from, until, attr, order)
     }
     convertValuesForHtsViz() {
-        let tsDataConverted = [];
+        console.log(this.state.eventDataRaw);
+        let eventDataProcessed = [];
+        // Create visualization-friendly data objects
         this.state.eventDataRaw.map(tsData => {
-            // Create visualization-friendly data objects
-            tsData.values.map((value, index) => {
-                const plotPoint = {
-                    entityCode: tsData.entityCode,
-                    ts: new Date(tsData.from * 1000 + tsData.step * 1000 * index),
-                    val: value
-                };
-                tsDataConverted.push(plotPoint);
+            tsData.map(entity => {
+                let series;
+                series = convertTsDataForHtsViz(entity);
+                eventDataProcessed = eventDataProcessed.concat(series);
             });
-            // Add data objects to state for each data source
-            this.setState({
-                eventDataProcessed: tsDataConverted
-            }, () => {
-                this.populateHtsChart(900)
-            });
-        })
+        });
+        // Add data objects to state for each data source
+        this.setState({
+            eventDataProcessed: eventDataProcessed
+        }, () => {
+            this.populateHtsChart(900);
+        });
     }
     populateHtsChart(width) {
         if (this.state.eventDataProcessed) {
