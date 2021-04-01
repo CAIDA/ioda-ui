@@ -251,6 +251,7 @@ export function convertTsDataForHtsViz(tsData) {
     tsData.values.map((value, index) => {
         const plotPoint = {
             entityCode: tsData.entityCode,
+            entityName: tsData.entityName,
             datasource: tsData.datasource,
             ts: new Date(tsData.from * 1000 + tsData.step * 1000 * index),
             val: value

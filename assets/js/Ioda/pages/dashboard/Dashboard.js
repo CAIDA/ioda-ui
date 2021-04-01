@@ -21,7 +21,14 @@ import HorizonTSChart from 'horizon-timeseries-chart';
 import {tabOptions, country, region, as} from "./DashboardConstants";
 import {connect} from "react-redux";
 // Helper Functions
-import {convertValuesForSummaryTable, humanizeNumber, sortByKey, nextPage, prevPage} from "../../utils";
+import {
+    convertValuesForSummaryTable,
+    humanizeNumber,
+    sortByKey,
+    nextPage,
+    prevPage,
+    convertTsDataForHtsViz
+} from "../../utils";
 import Loading from "../../components/loading/Loading";
 
 
@@ -64,7 +71,10 @@ class Dashboard extends Component {
             eventOrderByAttr: "score",
             eventOrderByOrder: "desc",
             eventEndpointCalled: false,
-            totalEventCount: 0
+            totalEventCount: 0,
+            htsVizCurrentDisplayLow: 0,
+            htsVizCurrentDisplayHigh: 50,
+            htsVizCurrentPageNumber: 1
         };
         this.tabs = {
             country: country.tab,
@@ -136,6 +146,9 @@ class Dashboard extends Component {
                 summaryDataRaw: this.props.summary
             },() => {
                 this.convertValuesForSummaryTable();
+                if (this.state.activeTabType === 'asn') {
+                    this.getDataEvents(this.state.activeTabType);
+                }
 
                 if (!this.state.eventEndpointCalled) {
                     this.setState({
@@ -192,15 +205,18 @@ class Dashboard extends Component {
         // }
 
         if (this.props.eventSignals !== prevProps.eventSignals) {
-            let newEventData = this.props.eventSignals[0];
+            let newEventData = this.props.eventSignals;
             this.setState(prevState => ({
                 eventDataRaw: [...prevState.eventDataRaw, newEventData]
             }), () => {
+                console.log(this.state.eventDataRaw);
+                this.convertValuesForHtsViz();
+
                 // Use summary entities to populate time series chart
-                const result = this.state.eventDataRaw;
-                if (Object.keys(result).length === this.state.summaryDataRaw.length) {
-                    this.convertValuesForHtsViz();
-                }
+                // const result = this.state.eventDataRaw;
+                // if (Object.keys(result).length === this.state.summaryDataRaw.length) {
+                //     this.convertValuesForHtsViz();
+                // }
             });
         }
     }
@@ -396,34 +412,31 @@ class Dashboard extends Component {
         let from = this.state.from;
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
-
-        if (this.state.summaryDataRaw) {
-            this.state.summaryDataRaw.map(entity => {
-                if (entity.entity.code !== "??") {
-                    this.props.getEventSignalsAction(entityType, entity.entity.code, from, until, attr, order)
-                }
-            });
-        }
+        let entities = this.state.summaryDataRaw.slice(this.state.htsVizCurrentDisplayLow, this.state.htsVizCurrentDisplayHigh * this.state.htsVizCurrentPageNumber).map(entity => {
+            // some entities don't return a code to be used in an api call, seem to default to '??' in that event
+            if (entity.entity.code !== "??") {
+                return entity.entity.code;
+            }
+        }).toString();
+        this.props.getEventSignalsAction(entityType, entities, from, until, attr, order)
     }
+
     convertValuesForHtsViz() {
-        let tsDataConverted = [];
+        let eventDataProcessed = [];
+        // Create visualization-friendly data objects
         this.state.eventDataRaw.map(tsData => {
-            // Create visualization-friendly data objects
-            tsData.values.map((value, index) => {
-                const plotPoint = {
-                    entityCode: tsData.entityCode,
-                    ts: new Date(tsData.from * 1000 + tsData.step * 1000 * index),
-                    val: value
-                };
-                tsDataConverted.push(plotPoint);
+            tsData.map(entity => {
+                let series;
+                series = convertTsDataForHtsViz(entity);
+                eventDataProcessed = eventDataProcessed.concat(series);
             });
-            // Add data objects to state for each data source
-            this.setState({
-                eventDataProcessed: tsDataConverted
-            }, () => {
-                this.populateHtsChart(900)
-            });
-        })
+        });
+        // Add data objects to state for each data source
+        this.setState({
+            eventDataProcessed: eventDataProcessed
+        }, () => {
+            this.populateHtsChart(900);
+        });
     }
     populateHtsChart(width) {
         if (this.state.eventDataProcessed) {
@@ -574,42 +587,42 @@ class Dashboard extends Component {
                         {
                             tab === this.countryTab
                                 ? this.state.topoData
-                                    ? <DashboardTab
-                                        type={this.state.activeTabType}
-                                        populateGeoJsonMap={() => this.populateGeoJsonMap()}
-                                        genSummaryTable={() => this.genSummaryTable()}
-                                        populateHtsChart={(width) => this.populateHtsChart(width)}
-                                        handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
-                                        tabCurrentView={this.state.tabCurrentView}
-                                        />
-                                    : <Loading/>
+                                ? <DashboardTab
+                                    type={this.state.activeTabType}
+                                    populateGeoJsonMap={() => this.populateGeoJsonMap()}
+                                    genSummaryTable={() => this.genSummaryTable()}
+                                    populateHtsChart={(width) => this.populateHtsChart(width)}
+                                    handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
+                                    tabCurrentView={this.state.tabCurrentView}
+                                />
+                                : <Loading/>
                                 :null
                         }
                         {
                             tab === this.regionTab
                                 ? this.state.topoData
-                                    ? <DashboardTab
-                                        type={this.state.activeTabType}
-                                        populateGeoJsonMap={() => this.populateGeoJsonMap()}
-                                        genSummaryTable={() => this.genSummaryTable()}
-                                        populateHtsChart={(width) => this.populateHtsChart(width)}
-                                        handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
-                                        tabCurrentView={this.state.tabCurrentView}
-                                    />
-                                    : <Loading/>
+                                ? <DashboardTab
+                                    type={this.state.activeTabType}
+                                    populateGeoJsonMap={() => this.populateGeoJsonMap()}
+                                    genSummaryTable={() => this.genSummaryTable()}
+                                    populateHtsChart={(width) => this.populateHtsChart(width)}
+                                    handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
+                                    tabCurrentView={this.state.tabCurrentView}
+                                />
+                                : <Loading/>
                                 :null
                         }
                         {
                             tab === this.asTab
                                 ? this.state.eventDataProcessed
-                                    ? <DashboardTab
-                                        type={this.state.activeTabType}
-                                        genSummaryTable={() => this.genSummaryTable()}
-                                        populateHtsChart={(width) => this.populateHtsChart(width)}
-                                        handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
-                                        tabCurrentView={this.state.tabCurrentView}
-                                    />
-                                    : <Loading/>
+                                ? <DashboardTab
+                                    type={this.state.activeTabType}
+                                    genSummaryTable={() => this.genSummaryTable()}
+                                    populateHtsChart={(width) => this.populateHtsChart(width)}
+                                    handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
+                                    tabCurrentView={this.state.tabCurrentView}
+                                />
+                                : <Loading/>
                                 :null
 
                         }
