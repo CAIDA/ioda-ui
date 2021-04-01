@@ -443,7 +443,7 @@ class Dashboard extends Component {
             const myChart = HorizonTSChart()(document.getElementById(`horizon-chart`));
             myChart
                 .data(this.state.eventDataProcessed)
-                .series('entityCode')
+                .series('entityName')
                 .yNormalize(false)
                 .useUtc(true)
                 .use24h(false)

@@ -1172,7 +1172,7 @@ class Entity extends Component {
                     const myChart = HorizonTSChart()(document.getElementById(`regional-horizon-chart--pingSlash24`));
                     myChart
                         .data(this.state.rawRegionalSignalsProcessedPingSlash24)
-                        .series('entityCode')
+                        .series('entityName')
                         .yNormalize(false)
                         .useUtc(true)
                         .use24h(false)
@@ -1189,7 +1189,7 @@ class Entity extends Component {
                     const myChart = HorizonTSChart()(document.getElementById(`regional-horizon-chart--bgp`));
                     myChart
                         .data(this.state.rawRegionalSignalsProcessedBgp)
-                        .series('entityCode')
+                        .series('entityName')
                         .yNormalize(false)
                         .useUtc(true)
                         .use24h(false)
@@ -1206,7 +1206,7 @@ class Entity extends Component {
                     const myChart = HorizonTSChart()(document.getElementById(`regional-horizon-chart--ucsdNt`));
                     myChart
                         .data(this.state.rawRegionalSignalsProcessedUcsdNt)
-                        .series('entityCode')
+                        .series('entityName')
                         .yNormalize(false)
                         .useUtc(true)
                         .use24h(false)
