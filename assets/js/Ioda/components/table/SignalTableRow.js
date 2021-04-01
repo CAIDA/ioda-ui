@@ -76,7 +76,6 @@ class SignalTableRow extends Component {
 
     render() {
         let overallScore = humanizeNumber(this.props.data.score, 2);
-        console.log(overallScore);
         const entityCode = this.props.data.entityCode;
 
         return(

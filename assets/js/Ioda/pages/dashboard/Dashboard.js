@@ -67,13 +67,14 @@ class Dashboard extends Component {
             currentDisplayHigh: 10,
             // Event Data for Time Series
             eventDataRaw: [],
-            eventSignalsProcessedPingSlash24: [],
-            eventSignalsProcessedBgp: [],
-            eventSignalsProcessedUcsdNt: [],
+            eventDataProcessed: [],
             eventOrderByAttr: "score",
             eventOrderByOrder: "desc",
             eventEndpointCalled: false,
-            totalEventCount: 0
+            totalEventCount: 0,
+            htsVizCurrentDisplayLow: 0,
+            htsVizCurrentDisplayHigh: 50,
+            htsVizCurrentPageNumber: 1
         };
         this.tabs = {
             country: country.tab,
@@ -411,17 +412,16 @@ class Dashboard extends Component {
         let from = this.state.from;
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
-        let entities = this.state.summaryDataRaw.slice(0, 50).map(entity => {
+        let entities = this.state.summaryDataRaw.slice(this.state.htsVizCurrentDisplayLow, this.state.htsVizCurrentDisplayHigh * this.state.htsVizCurrentPageNumber).map(entity => {
             // some entities don't return a code to be used in an api call, seem to default to '??' in that event
             if (entity.entity.code !== "??") {
                 return entity.entity.code;
             }
         }).toString();
-        console.log(entityType, entities, from, until, attr, order);
         this.props.getEventSignalsAction(entityType, entities, from, until, attr, order)
     }
+
     convertValuesForHtsViz() {
-        console.log(this.state.eventDataRaw);
         let eventDataProcessed = [];
         // Create visualization-friendly data objects
         this.state.eventDataRaw.map(tsData => {
@@ -587,42 +587,42 @@ class Dashboard extends Component {
                         {
                             tab === this.countryTab
                                 ? this.state.topoData
-                                    ? <DashboardTab
-                                        type={this.state.activeTabType}
-                                        populateGeoJsonMap={() => this.populateGeoJsonMap()}
-                                        genSummaryTable={() => this.genSummaryTable()}
-                                        populateHtsChart={(width) => this.populateHtsChart(width)}
-                                        handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
-                                        tabCurrentView={this.state.tabCurrentView}
-                                        />
-                                    : <Loading/>
+                                ? <DashboardTab
+                                    type={this.state.activeTabType}
+                                    populateGeoJsonMap={() => this.populateGeoJsonMap()}
+                                    genSummaryTable={() => this.genSummaryTable()}
+                                    populateHtsChart={(width) => this.populateHtsChart(width)}
+                                    handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
+                                    tabCurrentView={this.state.tabCurrentView}
+                                />
+                                : <Loading/>
                                 :null
                         }
                         {
                             tab === this.regionTab
                                 ? this.state.topoData
-                                    ? <DashboardTab
-                                        type={this.state.activeTabType}
-                                        populateGeoJsonMap={() => this.populateGeoJsonMap()}
-                                        genSummaryTable={() => this.genSummaryTable()}
-                                        populateHtsChart={(width) => this.populateHtsChart(width)}
-                                        handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
-                                        tabCurrentView={this.state.tabCurrentView}
-                                    />
-                                    : <Loading/>
+                                ? <DashboardTab
+                                    type={this.state.activeTabType}
+                                    populateGeoJsonMap={() => this.populateGeoJsonMap()}
+                                    genSummaryTable={() => this.genSummaryTable()}
+                                    populateHtsChart={(width) => this.populateHtsChart(width)}
+                                    handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
+                                    tabCurrentView={this.state.tabCurrentView}
+                                />
+                                : <Loading/>
                                 :null
                         }
                         {
                             tab === this.asTab
                                 ? this.state.eventDataProcessed
-                                    ? <DashboardTab
-                                        type={this.state.activeTabType}
-                                        genSummaryTable={() => this.genSummaryTable()}
-                                        populateHtsChart={(width) => this.populateHtsChart(width)}
-                                        handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
-                                        tabCurrentView={this.state.tabCurrentView}
-                                    />
-                                    : <Loading/>
+                                ? <DashboardTab
+                                    type={this.state.activeTabType}
+                                    genSummaryTable={() => this.genSummaryTable()}
+                                    populateHtsChart={(width) => this.populateHtsChart(width)}
+                                    handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
+                                    tabCurrentView={this.state.tabCurrentView}
+                                />
+                                : <Loading/>
                                 :null
 
                         }
