@@ -27,9 +27,11 @@ import {
     sortByKey,
     nextPage,
     prevPage,
-    convertTsDataForHtsViz
+    convertTsDataForHtsViz,
+    htsLine
 } from "../../utils";
 import Loading from "../../components/loading/Loading";
+import * as d3 from 'd3-shape';
 
 
 
@@ -412,6 +414,7 @@ class Dashboard extends Component {
         let from = this.state.from;
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
+        console.log(this.state.summaryDataRaw);
         let entities = this.state.summaryDataRaw.slice(this.state.htsVizCurrentDisplayLow, this.state.htsVizCurrentDisplayHigh * this.state.htsVizCurrentPageNumber).map(entity => {
             // some entities don't return a code to be used in an api call, seem to default to '??' in that event
             if (entity.entity.code !== "??") {
@@ -440,6 +443,7 @@ class Dashboard extends Component {
     }
     populateHtsChart(width) {
         if (this.state.eventDataProcessed) {
+            console.log(this.state.eventDataProcessed);
             const myChart = HorizonTSChart()(document.getElementById(`horizon-chart`));
             myChart
                 .data(this.state.eventDataProcessed)
@@ -449,13 +453,14 @@ class Dashboard extends Component {
                 .use24h(false)
                 // Will need to detect column width to populate height
                 .width(width)
-                .height(400)
-                .enableZoom(true)
-                .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
-                .showRuler(true);
+                .height(487)
+                .enableZoom(false)
+                .showRuler(true)
+                .interpolationCurve(d3.curveStepAfter)
+                .positiveColors(['white', '#6190B5'])
+                // .positiveColorStops([.99])
+                .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
         }
-
-
     }
 
 // Search bar

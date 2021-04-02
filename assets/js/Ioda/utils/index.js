@@ -32,8 +32,6 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-import d3 from "d3";
-
 // Humanize number with rounding, abbreviations, etc.
 export function humanizeNumber(value, precisionDigits) {
     precisionDigits = precisionDigits || 3;
