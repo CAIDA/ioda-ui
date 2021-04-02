@@ -30,6 +30,7 @@ import {
     convertTsDataForHtsViz
 } from "../../utils";
 import Loading from "../../components/loading/Loading";
+import * as d3 from 'd3-shape';
 
 
 
@@ -449,13 +450,14 @@ class Dashboard extends Component {
                 .use24h(false)
                 // Will need to detect column width to populate height
                 .width(width)
-                .height(400)
-                .enableZoom(true)
-                .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
-                .showRuler(true);
+                .height(487)
+                .enableZoom(false)
+                .showRuler(true)
+                .interpolationCurve(d3.curveStepAfter)
+                .positiveColors(['white', '#6190B5'])
+                // .positiveColorStops([.99])
+                .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
         }
-
-
     }
 
 // Search bar
