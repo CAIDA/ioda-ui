@@ -31,6 +31,8 @@
  * IS" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATIONS TO PROVIDE
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
+import d3 from 'd3';
+
 
 // Humanize number with rounding, abbreviations, etc.
 export function humanizeNumber(value, precisionDigits) {
