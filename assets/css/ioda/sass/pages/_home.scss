@@ -85,14 +85,62 @@ button[class*="searchButton"] {
 
     &__text {
       color: $color-white;
-      font-size: 1.6rem;
+      font-size: 1.5rem;
     }
 
     .button {
+      margin-top: 2rem;
+
       & button {
-        @include button;
-        height: 5rem;
-        width: 26rem;
+        cursor: pointer;
+        min-width: 18rem;
+        border: none;
+        display: inline-block;
+        background: transparent;
+        border-radius: 3px;
+        color: $color-secondary;
+        position: relative;
+        z-index: 1;
+        font-size: 1.4rem;
+        padding: 1rem 3rem;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+
+        &:before, &:after {
+          content: ' ';
+          position: absolute;
+          border-radius: 3px;
+        }
+
+        &:before {
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          z-index: -2;
+          background: $color-secondary;
+          background: linear-gradient(to 101deg, $color-secondary-light 0%, $color-secondary-dark 100%);
+          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8FD0E6', endColorstr='#035672',GradientType=1 );
+        }
+
+        &:after {
+          top: 3px;
+          bottom: 3px;
+          left: 3px;
+          right: 3px;
+          background-color: #fff;
+          z-index: -1;
+          opacity: 1;
+          transition: all 0.2s ease-in-out;
+        }
+
+        &:hover {
+          color: $color-white;
+          &:after {
+            opacity: 0;
+          }
+        }
       }
     }
   }

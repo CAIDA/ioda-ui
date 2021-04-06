@@ -13,22 +13,36 @@
     border-top-right-radius: 0.3rem;
     min-height: 65rem;
     box-shadow: $box-shadow;
+    padding: $gutter-vertical-small;
 
     &__config {
       width: 100%;
-      text-align: right;
+      display: flex;
+      justify-content: left;
+      margin-bottom: 1.5rem;
 
       &-button {
         @include button;
         height: 3rem;
-        font-size: 1rem;
-        margin: 1.5rem
+        font-size: 1.2rem;
+        margin: 0;
+        padding: 0 1rem;
       }
     }
 
     &__table {
       height: 46rem;
-      margin-top: 1.5rem;
+
+      &-config {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+      }
+
+      &-title {
+        font-size: 1.8rem;
+      }
 
       & .table {
         margin-bottom: 0;
@@ -47,12 +61,12 @@
       border-top-right-radius: 0.3rem;
       min-height: 45rem;
       box-shadow: $box-shadow;
+      padding: $gutter-vertical-small;
     }
 
     &__title {
       display: flex;
       flex-direction: row;
-      margin: 1.5rem;
       justify-content: space-between;
     }
 

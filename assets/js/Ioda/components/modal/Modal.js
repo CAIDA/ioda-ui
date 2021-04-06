@@ -28,6 +28,8 @@ class Modal extends Component {
         const bgpHtsLabel = T.translate("entityModal.bgpHtsLabel");
         const ucsdNtHtsLabel = T.translate("entityModal.ucsdNtHtsLabel");
 
+        console.log(this.props);
+
         return(
             <div className="modal">
                 <div className="modal__background"></div>
@@ -64,23 +66,24 @@ class Modal extends Component {
                                     </div>
                                     <div className="col-2-of-3">
                                         <h3>{pingSlash24HtsLabel}</h3>
-                                        <div id="regional-horizon-chart--pingSlash24">
+                                        <div id="regional-horizon-chart--pingSlash24" ref={this.configPingSlash24}>
                                             {
-                                                this.props.populateRegionalHtsChart('900', 'ping-slash24')
+                                                this.configPingSlash24.current ?
+                                                this.props.populateRegionalHtsChart(this.configPingSlash24.current.offsetWidth, 'ping-slash24') : null
                                             }
                                         </div>
                                         <h3>{bgpHtsLabel}</h3>
-                                        <div id="regional-horizon-chart--bgp">
-
+                                        <div id="regional-horizon-chart--bgp" ref={this.configBgp}>
                                             {
-                                                this.props.populateRegionalHtsChart('900', 'bgp')
+                                                this.configBgp.current ?
+                                                this.props.populateRegionalHtsChart(this.configBgp.current.offsetWidth, 'bgp') : null
                                             }
                                         </div>
                                         <h3>{ucsdNtHtsLabel}</h3>
-                                        <div id="regional-horizon-chart--ucsdNt">
-
+                                        <div id="regional-horizon-chart--ucsdNt" ref={this.configUcsdNt}>
                                             {
-                                                this.props.populateRegionalHtsChart('900', 'ucsd-nt')
+                                                this.configUcsdNt.current ?
+                                                this.props.populateRegionalHtsChart(this.configUcsdNt.current.offsetWidth, 'ucsd-nt') : null
                                             }
                                         </div>
                                     </div>

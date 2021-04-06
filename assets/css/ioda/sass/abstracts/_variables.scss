@@ -17,9 +17,9 @@ $color-background-white: #fbfbfb;
 $color-primary: #2c3e50;
 $color-primary-light: #617486;
 $color-primary-dark: #0D2032;
-$color-secondary: #6190B5;
-$color-secondary-light: #6AA5D5;
-$color-secondary-dark: #1E3E7C;
+$color-secondary: #5899AE;
+$color-secondary-light: #7FB7CA;
+$color-secondary-dark: #286F86;
 //$color-secondary: #d66a35;
 //$color-secondary-light: #FFB08B;
 //$color-secondary-dark: #B24B18;
@@ -34,6 +34,6 @@ $color-alert-feed-normal: #D4F19D;
 
 // BOX SHADOW
 $box-shadow: 0 1px 2px #9F9D9D;
-$linear-gradient-primary: linear-gradient(2deg, $color-primary-dark, $color-primary-light);
+$linear-gradient-primary: linear-gradient(2deg, $color-primary, $color-primary-light);
 $linear-gradient-secondary: linear-gradient(2deg, $color-secondary-dark, $color-secondary-light);
 $linear-gradient-secondary-reverse: linear-gradient(2deg, $color-secondary-light, $color-secondary-dark);

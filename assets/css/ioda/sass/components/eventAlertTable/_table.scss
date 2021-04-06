@@ -1,6 +1,5 @@
 .table {
   background-color: $color-white;
-  box-shadow: $box-shadow;
   margin: 0 0 5rem;
   padding: 0;
   border: none;
@@ -8,6 +7,7 @@
   z-index: 10;
   border-radius: 3px;
   width: 100%;
+  border-bottom: 1px solid $color-blue-border;
 
   &--signal {
     margin: 0;
@@ -29,10 +29,14 @@
   &--alert {
     &-warning {
       background-color: $color-alert-feed-warning;
+      text-align: center!important;
+      width: 3rem;
     }
 
     &-normal {
       background-color: $color-alert-feed-normal;
+      text-align: center!important;
+      width: 3rem;
     }
 
     &-level-img {
@@ -48,11 +52,13 @@
   }
 
   &__header {
-    background: linear-gradient(2deg, $color-primary-dark, $color-primary-light);
-    color: $color-white;
+    background-color: $color-blue-border!important;
+    color: $color-primary;
     border-radius: 0.3rem 0.3rem 0 0;
 
     &-col {
+      padding-left: 0.5rem;
+
       &:first-child {
         border-top-left-radius: 0.3rem;
       }
@@ -62,7 +68,7 @@
       }
 
       &:not(:last-child) {
-        border-right: 1px solid $color-table-head-border;
+        border-right: 1px solid $color-blue-border;
       }
 
       & button {
@@ -75,10 +81,10 @@
         border: none;
         font-size: 1.2rem;
         font-weight: 700;
-        letter-spacing: -1px;
         display: flex;
-        justify-content: center;
+        justify-content: left;
         align-items: center;
+        cursor: pointer;
       }
     }
 
@@ -117,11 +123,12 @@
   }
 
   & td {
-    border: 1px solid $color-table-cell-border;
+    //border: 1px solid $color-blue-border;
     font-size: 1.1rem;
-    text-align: center;
+    text-align: left;
     position: relative;
     height: inherit;
+    padding-left: 0.5rem;
   }
 
   &__cell {
@@ -129,7 +136,7 @@
     &-link {
       display: flex;
       height: 100%;
-      justify-content: center;
+      justify-content: left;
       align-items: center;
 
       &:link,
@@ -173,8 +180,8 @@
     }
 
     & thead tr {
-      background: linear-gradient(2deg, $color-primary-dark, $color-primary-light);
-      color: $color-white;
+      background-color: $color-blue-border!important;
+      color: $color-primary;
       box-shadow: $box-shadow;
 
       & th {
@@ -199,7 +206,6 @@
         }
 
         & td:first-child {
-          border-right: 1px solid $color-table-cell-border;
           width: 18rem;
         }
 
@@ -210,10 +216,10 @@
     }
 
     &:after {
-      top: -3px;
-      right: -1.5rem;
+      top: 1px;
+      right: -0.2rem;
       content: "";
-      height: 0;
+      height: 3.3rem;
       width: 0;
       position: absolute;
       pointer-events: none;
@@ -221,13 +227,14 @@
       //border-left: 1.5rem solid $color-primary-light;
       border-top: 1.5rem solid transparent;
       border-bottom: 1.5rem solid transparent;
-      z-index: 11;
+      z-index: 101;
+      background-color: $color-blue-border;
     }
 
     &:before {
       content: '';
       position: absolute;
-      background: linear-gradient(-47deg, $color-primary-dark, $color-primary-light);
+      background-color: $color-blue-border;
       transform: rotate(45deg);
       width: 2.4rem;
       height: 2.4rem;

@@ -525,11 +525,6 @@ class Entity extends Component {
                 height: 650,
                 animationEnabled: true,
                 zoomEnabled: true,
-                title: {
-                    text: `IODA Signals for ${this.state.entityName}`,
-                    fontSize: 18,
-                    horizontalAlign: "left",
-                },
                 crosshair: {
                     enabled: true,
                     snapToDataPoint: true
@@ -1169,10 +1164,6 @@ class Entity extends Component {
             rawRegionalSignalsProcessedPingSlash24: rawRegionalSignalsProcessedPingSlash24,
             rawRegionalSignalsProcessedBgp: rawRegionalSignalsProcessedBgp,
             rawRegionalSignalsProcessedUcsdNt: rawRegionalSignalsProcessedUcsdNt
-        }, () => {
-            this.populateRegionalHtsChart(900, 'ping-slash24');
-            this.populateRegionalHtsChart(900, 'bgp');
-            this.populateRegionalHtsChart(900, 'ucsd-nt');
         });
     }
     populateRegionalHtsChart(width, datasource) {
@@ -1456,6 +1447,9 @@ class Entity extends Component {
                 <div className="row overview">
                     <div className="col-3-of-5">
                         <div className="overview__config" ref={this.config}>
+                            <h3 className="overview__table-title">
+                                IODA Signals for {this.state.entityName}
+                            </h3>
                             {/*<button className="overview__config-button">Modal</button>*/}
                         </div>
                         {
@@ -1465,13 +1459,18 @@ class Entity extends Component {
                         }
                     </div>
                     <div className="col-2-of-5">
-                        <button className="overview__config-button"
-                                onClick={() => this.changeCurrentTable()}
-                                style={this.props.type === 'asn' ? {display: 'none'} : null}
-                        >{eventAlertButtonText1}{this.state.currentTable === 'event' ? 'alert' : 'event'}{eventAlertButtonText2}</button>
-                        <h3 className="overview__table-title">
-                            {this.state.currentTable === 'event' ? `${eventFeedTitle} ${this.state.entityName}` : `${alertFeedTitle} ${this.state.entityName}`}
-                        </h3>
+                        <div className="overview__table-config">
+                            <h3 className="overview__table-title">
+                                {this.state.currentTable === 'event' ? `${eventFeedTitle} ${this.state.entityName}` : `${alertFeedTitle} ${this.state.entityName}`}
+                            </h3>
+                            <button className="overview__config-button"
+                                    onClick={() => this.changeCurrentTable()}
+                                    style={this.props.type === 'asn' ? {display: 'none'} : null}
+                            >
+                                {eventAlertButtonText1}{this.state.currentTable === 'event' ? 'Alert' : 'Event'}{eventAlertButtonText2}
+                            </button>
+                        </div>
+
                         <div className="overview__table">
                             <div style={this.state.currentTable === 'event' ? {display: 'block'} : {display: 'none'}}>
                                 {this.genEventTable() }

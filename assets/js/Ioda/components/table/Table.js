@@ -25,7 +25,7 @@ class Table extends Component {
             }
         };
         this.alertHeaders = {
-            level: T.translate("table.alertHeaders.level"),
+            level: "",
             dateStamp: T.translate("table.alertHeaders.dateStamp"),
             dataSource: T.translate("table.alertHeaders.dataSource"),
             actualValue: T.translate("table.alertHeaders.actualValue"),

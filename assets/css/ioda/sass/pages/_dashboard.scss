@@ -66,7 +66,11 @@
       border-bottom-left-radius: 0.3rem;
       border-top-right-radius: 0.3rem;
       box-shadow: $box-shadow;
-      height: 50rem;
+      height: auto;
+
+      & .row {
+        padding: $gutter-vertical-small;
+      }
 
       &__config {
         width: 100%;
@@ -81,8 +85,7 @@
       }
 
       &__table {
-        height: 46rem;
-        margin-top: 1.5rem;
+        margin: 1.5rem 0;
 
         & .table {
           margin-bottom: 0;

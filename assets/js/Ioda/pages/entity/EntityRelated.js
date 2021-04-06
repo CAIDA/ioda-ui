@@ -39,6 +39,7 @@ class EntityRelated extends Component {
                                 populateGeoJsonMap={() => this.props.populateGeoJsonMap()}
                                 genRegionalSignalsTable={this.props.genRegionalSignalsTable}
                                 populateRegionalHtsChart={(width, datasource) => this.props.populateRegionalHtsChart(width, datasource)}
+                                bgpRef={this.props.bgpRef}
                             />
                         </div>
                     </div>
