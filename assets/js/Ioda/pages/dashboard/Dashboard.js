@@ -421,7 +421,6 @@ class Dashboard extends Component {
         }).toString();
         this.props.getEventSignalsAction(entityType, entities, from, until, attr, order)
     }
-
     convertValuesForHtsViz() {
         let eventDataProcessed = [];
         // Create visualization-friendly data objects
