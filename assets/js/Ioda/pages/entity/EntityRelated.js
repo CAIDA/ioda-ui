@@ -18,7 +18,7 @@ class EntityRelated extends Component {
                 {/* Region Panel */}
                 <div className="col-1-of-2">
                     <div className="related__heading">
-                        <h2 className="related__title">
+                        <h3 className="heading-h3">
                             {
                                 this.props.entityType === 'country'
                                     ? `Regional Outages in ${this.props.entityName}`
@@ -29,7 +29,7 @@ class EntityRelated extends Component {
                                         : null
                             }
 
-                        </h2>
+                        </h3>
                         <div className="related__modal--region related__modal">
                             <button className="related__modal-button" onClick={() => this.props.toggleModal("map")}>
                                 {regionalModalButtonText}
@@ -55,7 +55,7 @@ class EntityRelated extends Component {
                 {/* ASN Panel */}
                 <div className="col-1-of-2">
                     <div className="related__heading">
-                        <h2 className="related__title">
+                        <h3 className="heading-h3">
                             {
                                 this.props.entityType === 'country'
                                     ? `ASNs/ISPs affected by ${this.props.entityName} Outages`
@@ -66,7 +66,7 @@ class EntityRelated extends Component {
                                         : null
                             }
 
-                        </h2>
+                        </h3>
                         <div className="related__modal--region related__modal">
                             <button className="related__modal-button" onClick={() => this.props.toggleModal("table")}>
                                 {asnModalButtonText}

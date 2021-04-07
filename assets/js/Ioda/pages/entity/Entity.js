@@ -1445,6 +1445,7 @@ class Entity extends Component {
     }
 
     render() {
+        const xyChartTitle = T.translate("entity.xyChartTitle");
         const eventAlertButtonText1 = T.translate("entity.eventAlertButtonText1");
         const eventAlertButtonText2 = T.translate("entity.eventAlertButtonText2");
         const eventFeedTitle = T.translate("entity.eventFeedTitle");
@@ -1462,8 +1463,9 @@ class Entity extends Component {
                 <div className="row overview">
                     <div className="col-3-of-5">
                         <div className="overview__config" ref={this.config}>
-                            <h3 className="overview__table-title">
-                                IODA Signals for {this.state.entityName}
+                            <h3 className="heading-h2">
+                                {xyChartTitle}
+                                {this.state.entityName}
                             </h3>
                             {/*<button className="overview__config-button">Modal</button>*/}
                         </div>
@@ -1475,7 +1477,7 @@ class Entity extends Component {
                     </div>
                     <div className="col-2-of-5">
                         <div className="overview__table-config">
-                            <h3 className="overview__table-title">
+                            <h3 className="heading-h2">
                                 {this.state.currentTable === 'event' ? `${eventFeedTitle} ${this.state.entityName}` : `${alertFeedTitle} ${this.state.entityName}`}
                             </h3>
                             <button className="overview__config-button"

@@ -168,6 +168,15 @@ body {
   font-weight: 700;
   font-size: 2.6rem; }
 
+.heading-h2 {
+  font-size: 1.8rem;
+  color: #2c3e50; }
+
+.heading-h3 {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  margin-bottom: 1rem; }
+
 .u-full-max-width {
   max-width: 100% !important; }
 
@@ -1475,7 +1484,8 @@ body {
   z-index: 99999;
   overflow-y: auto;
   height: 84vh;
-  padding: 1.5rem; }
+  padding: 1.5rem;
+  border-radius: 3px; }
 
 .modal__heading {
   display: flex;
@@ -1533,10 +1543,6 @@ body {
       filter: blur(10px) brightness(0.95); }
   .modal__button:focus {
     outline: none; }
-
-.modal h3 {
-  font-size: 1.4rem;
-  margin-bottom: 1rem; }
 
 .modal__table {
   margin-bottom: 1.5rem; }
@@ -1657,7 +1663,7 @@ body {
     list-style-type: none;
     height: auto;
     display: flex;
-    border-right: 1px solid #286F86; }
+    border-right: 1px solid #617486; }
   .header__link:link, .header__link:visited {
     display: flex;
     justify-content: center;
@@ -1884,8 +1890,11 @@ button[class*="searchButton"] {
       .dashboard .tabs .tab .row {
         padding: 2.5rem; }
       .dashboard .tabs .tab__config {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
         width: 100%;
-        text-align: right; }
+        margin-bottom: 1.5rem; }
         .dashboard .tabs .tab__config-button {
           background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
           height: 3.5rem;
@@ -1903,7 +1912,7 @@ button[class*="searchButton"] {
           z-index: 10;
           height: 3rem;
           font-size: 1rem;
-          margin: 1.5rem; }
+          margin: 0 !important; }
           .dashboard .tabs .tab__config-button:before {
             content: '';
             display: inline-block;
@@ -2010,8 +2019,6 @@ button[class*="searchButton"] {
       flex-direction: row;
       justify-content: space-between;
       margin-bottom: 1.5rem; }
-    .entity .overview__table-title {
-      font-size: 1.8rem; }
     .entity .overview__table .table {
       margin-bottom: 0;
       height: inherit; }
@@ -2038,8 +2045,6 @@ button[class*="searchButton"] {
       flex-direction: column;
       align-items: center;
       margin-top: 6rem; }
-      .entity .related__no-outages-title {
-        margin-bottom: 1rem; }
     .entity .related__modal-button {
       background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
       height: 3.5rem;

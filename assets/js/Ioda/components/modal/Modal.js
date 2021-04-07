@@ -35,9 +35,9 @@ class Modal extends Component {
                     <div className="modal__heading">
                         {
                             this.props.modalLocation === 'map'
-                                ? <h2>{regionTitle} {this.props.entityName}</h2>
+                                ? <h2 className="heading-h2">{regionTitle} {this.props.entityName}</h2>
                                 : this.props.modalLocation === 'table'
-                                ? <h2>{asnTitle} {this.props.entityName}</h2>
+                                ? <h2 className="heading-h2">{asnTitle} {this.props.entityName}</h2>
                                 : null
                         }
                         <button className="modal__button" onClick={() => this.props.toggleModal(this.props.modalLocation)}>
@@ -49,13 +49,13 @@ class Modal extends Component {
                             ? <div className="modal__content">
                                 <div className="row">
                                     <div className="col-1-of-3">
-                                        <h3>{regionalTableTitle}</h3>
+                                        <h3 className="heading-h3">{regionalTableTitle}</h3>
                                         <div className="modal__table">
                                             {
                                                 this.props.genRegionalSignalsTable()
                                             }
                                         </div>
-                                        <h3>{regionalMapTitle}</h3>
+                                        <h3 className="heading-h3">{regionalMapTitle}</h3>
                                         <div className="modal__map" style={{display: 'block', height: '47.5rem'}}>
                                             {
                                                 this.props.populateGeoJsonMap()
@@ -63,21 +63,21 @@ class Modal extends Component {
                                         </div>
                                     </div>
                                     <div className="col-2-of-3">
-                                        <h3>{pingSlash24HtsLabel}</h3>
+                                        <h3 className="heading-h3">{pingSlash24HtsLabel}</h3>
                                         <div id="regional-horizon-chart--pingSlash24" ref={this.configPingSlash24} className="modal__chart">
                                             {
                                                 this.configPingSlash24.current ?
                                                 this.props.populateRegionalHtsChart(this.configPingSlash24.current.offsetWidth, 'ping-slash24') : null
                                             }
                                         </div>
-                                        <h3>{bgpHtsLabel}</h3>
+                                        <h3 className="heading-h3">{bgpHtsLabel}</h3>
                                         <div id="regional-horizon-chart--bgp" ref={this.configBgp} className="modal__chart">
                                             {
                                                 this.configBgp.current ?
                                                 this.props.populateRegionalHtsChart(this.configBgp.current.offsetWidth, 'bgp') : null
                                             }
                                         </div>
-                                        <h3>{ucsdNtHtsLabel}</h3>
+                                        <h3 className="heading-h3">{ucsdNtHtsLabel}</h3>
                                         <div id="regional-horizon-chart--ucsdNt" ref={this.configUcsdNt} className="modal__chart">
                                             {
                                                 this.configUcsdNt.current ?
@@ -94,7 +94,7 @@ class Modal extends Component {
                             ? <div className="modal__content">
                                 <div className="row">
                                     <div className="col-1-of-3">
-                                        <h3>{asnTableTitle}</h3>
+                                        <h3 className="heading-h3">{asnTableTitle}</h3>
                                         <div className="modal__table">
                                             {
                                                 this.props.genSignalsTable()
@@ -102,21 +102,21 @@ class Modal extends Component {
                                         </div>
                                     </div>
                                     <div className="col-2-of-3">
-                                        <h3>{pingSlash24HtsLabel}</h3>
+                                        <h3 className="heading-h3">{pingSlash24HtsLabel}</h3>
                                         <div id="asn-horizon-chart--pingSlash24" ref={this.configPingSlash24} className="modal__chart">
                                             {
                                                 this.configPingSlash24.current ?
                                                 this.props.populateAsnHtsChart(this.configPingSlash24.current.offsetWidth, 'ping-slash24') : null
                                             }
                                         </div>
-                                        <h3>{bgpHtsLabel}</h3>
+                                        <h3 className="heading-h3">{bgpHtsLabel}</h3>
                                         <div id="asn-horizon-chart--bgp" ref={this.configBgp} className="modal__chart">
                                             {
                                                 this.configBgp.current ?
                                                 this.props.populateAsnHtsChart(this.configBgp.current.offsetWidth, 'bgp') : null
                                             }
                                         </div>
-                                        <h3>{ucsdNtHtsLabel}</h3>
+                                        <h3 className="heading-h3">{ucsdNtHtsLabel}</h3>
                                         <div id="asn-horizon-chart--ucsdNt" ref={this.configUcsdNt} className="modal__chart">
                                             {
                                                 this.configUcsdNt.current ?

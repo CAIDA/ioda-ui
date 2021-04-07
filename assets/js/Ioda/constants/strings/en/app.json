@@ -35,10 +35,14 @@
   "dashboard": {
     "countryTabTitle": "Country View",
     "regionTabTitle": "Region View",
+    "countryOutages": "Country Outages",
+    "regionalOutages": "Regional Outages",
+    "asnOutages": "ASN/ISP Outages",
     "asnTabTitle": "ASN/ISP View",
     "viewChangeIconAltText": "View Changer"
   },
   "entity": {
+    "xyChartTitle": "IODA Signals for ",
     "eventAlertButtonText1": "View ",
     "eventAlertButtonText2": " Table",
     "eventFeedTitle": "Event Feed for ",
