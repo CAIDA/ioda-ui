@@ -808,7 +808,6 @@ body {
 
 .table {
   background-color: #fff;
-  margin: 0 0 5rem;
   padding: 0;
   border: none;
   border-spacing: 0;
@@ -1475,12 +1474,13 @@ body {
   width: calc(100% - 9rem);
   z-index: 99999;
   overflow-y: auto;
-  height: 84vh; }
+  height: 84vh;
+  padding: 1.5rem; }
 
 .modal__heading {
   display: flex;
-  padding: 0.5rem;
-  justify-content: space-between; }
+  justify-content: space-between;
+  margin-bottom: 1.5rem; }
 
 .modal__button {
   background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
@@ -1498,12 +1498,12 @@ body {
   position: relative;
   z-index: 10;
   margin: 0;
-  width: 1.8rem;
-  height: 1.8rem;
+  width: 2.2rem;
+  height: 2.2rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2rem; }
+  font-size: 2.4rem; }
   .modal__button:before {
     content: '';
     display: inline-block;
@@ -1534,6 +1534,16 @@ body {
   .modal__button:focus {
     outline: none; }
 
+.modal h3 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem; }
+
+.modal__table {
+  margin-bottom: 1.5rem; }
+
+.modal__chart {
+  margin-bottom: 1.5rem; }
+
 .footer {
   filter: drop-shadow(0.5rem 0.5rem 0.5rem #222);
   background-color: #2c3e50;
@@ -1561,10 +1571,6 @@ body {
     @media only screen and (max-width: 64em) {
       .row:not(:last-child) {
         margin-bottom: 2.5rem; } }
-  @media only screen and (max-width: 64em) {
-    .row {
-      max-width: 80rem;
-      padding: 0 3rem; } }
   .row::after {
     content: '';
     display: table;
@@ -1999,32 +2005,34 @@ button[class*="searchButton"] {
             filter: blur(10px) brightness(0.95); }
         .entity .overview__config-button:focus {
           outline: none; }
-    .entity .overview__table {
-      height: 46rem; }
-      .entity .overview__table-config {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin-bottom: 1.5rem; }
-      .entity .overview__table-title {
-        font-size: 1.8rem; }
-      .entity .overview__table .table {
-        margin-bottom: 0;
-        height: inherit; }
+    .entity .overview__table-config {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-bottom: 1.5rem; }
+    .entity .overview__table-title {
+      font-size: 1.8rem; }
+    .entity .overview__table .table {
+      margin-bottom: 0;
+      height: inherit; }
   .entity .related {
     margin-bottom: 4.5rem; }
+    @media only screen and (max-width: 64em) {
+      .entity .related {
+        padding: 0; } }
     .entity .related .col-1-of-2 {
       background-color: #fff;
       border-bottom-right-radius: 0.3rem;
       border-bottom-left-radius: 0.3rem;
       border-top-right-radius: 0.3rem;
-      min-height: 45rem;
+      min-height: 48.8rem;
       box-shadow: 0 1px 2px #9F9D9D;
       padding: 2.5rem; }
-    .entity .related__title {
+    .entity .related__heading {
       display: flex;
       flex-direction: row;
-      justify-content: space-between; }
+      justify-content: space-between;
+      margin-bottom: 1.5rem; }
     .entity .related__no-outages {
       display: flex;
       flex-direction: column;

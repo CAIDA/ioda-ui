@@ -28,8 +28,6 @@ class Modal extends Component {
         const bgpHtsLabel = T.translate("entityModal.bgpHtsLabel");
         const ucsdNtHtsLabel = T.translate("entityModal.ucsdNtHtsLabel");
 
-        console.log(this.props);
-
         return(
             <div className="modal">
                 <div className="modal__background"></div>
@@ -58,7 +56,7 @@ class Modal extends Component {
                                             }
                                         </div>
                                         <h3>{regionalMapTitle}</h3>
-                                        <div className="modal__map" style={{display: 'block', height: '400px'}}>
+                                        <div className="modal__map" style={{display: 'block', height: '47.5rem'}}>
                                             {
                                                 this.props.populateGeoJsonMap()
                                             }
@@ -66,21 +64,21 @@ class Modal extends Component {
                                     </div>
                                     <div className="col-2-of-3">
                                         <h3>{pingSlash24HtsLabel}</h3>
-                                        <div id="regional-horizon-chart--pingSlash24" ref={this.configPingSlash24}>
+                                        <div id="regional-horizon-chart--pingSlash24" ref={this.configPingSlash24} className="modal__chart">
                                             {
                                                 this.configPingSlash24.current ?
                                                 this.props.populateRegionalHtsChart(this.configPingSlash24.current.offsetWidth, 'ping-slash24') : null
                                             }
                                         </div>
                                         <h3>{bgpHtsLabel}</h3>
-                                        <div id="regional-horizon-chart--bgp" ref={this.configBgp}>
+                                        <div id="regional-horizon-chart--bgp" ref={this.configBgp} className="modal__chart">
                                             {
                                                 this.configBgp.current ?
                                                 this.props.populateRegionalHtsChart(this.configBgp.current.offsetWidth, 'bgp') : null
                                             }
                                         </div>
                                         <h3>{ucsdNtHtsLabel}</h3>
-                                        <div id="regional-horizon-chart--ucsdNt" ref={this.configUcsdNt}>
+                                        <div id="regional-horizon-chart--ucsdNt" ref={this.configUcsdNt} className="modal__chart">
                                             {
                                                 this.configUcsdNt.current ?
                                                 this.props.populateRegionalHtsChart(this.configUcsdNt.current.offsetWidth, 'ucsd-nt') : null
@@ -105,21 +103,24 @@ class Modal extends Component {
                                     </div>
                                     <div className="col-2-of-3">
                                         <h3>{pingSlash24HtsLabel}</h3>
-                                        <div id="asn-horizon-chart--pingSlash24">
+                                        <div id="asn-horizon-chart--pingSlash24" ref={this.configPingSlash24} className="modal__chart">
                                             {
-                                                this.props.populateAsnHtsChart('900', 'ping-slash24')
+                                                this.configPingSlash24.current ?
+                                                this.props.populateAsnHtsChart(this.configPingSlash24.current.offsetWidth, 'ping-slash24') : null
                                             }
                                         </div>
                                         <h3>{bgpHtsLabel}</h3>
-                                        <div id="asn-horizon-chart--bgp">
+                                        <div id="asn-horizon-chart--bgp" ref={this.configBgp} className="modal__chart">
                                             {
-                                                this.props.populateAsnHtsChart('900', 'bgp')
+                                                this.configBgp.current ?
+                                                this.props.populateAsnHtsChart(this.configBgp.current.offsetWidth, 'bgp') : null
                                             }
                                         </div>
                                         <h3>{ucsdNtHtsLabel}</h3>
-                                        <div id="asn-horizon-chart--ucsdNt">
+                                        <div id="asn-horizon-chart--ucsdNt" ref={this.configUcsdNt} className="modal__chart">
                                             {
-                                                this.props.populateAsnHtsChart('900', 'ucsd-nt')
+                                                this.configUcsdNt.current ?
+                                                this.props.populateAsnHtsChart(this.configUcsdNt.current.offsetWidth, 'ucsd-nt') : null
                                             }
                                         </div>
                                     </div>

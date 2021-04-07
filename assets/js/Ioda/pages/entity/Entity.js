@@ -35,6 +35,7 @@ import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.rea
 
 import TopoMap from "../../components/map/Map";
 import * as topojson from 'topojson';
+import * as d3 from "d3-shape";
 
 
 class Entity extends Component {
@@ -1181,8 +1182,11 @@ class Entity extends Component {
                         .width(width)
                         .height(280)
                         .enableZoom(false)
-                        .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`
-                        .showRuler(true);
+                        .showRuler(true)
+                        .interpolationCurve(d3.curveStepAfter)
+                        .positiveColors(['white', '#6190B5'])
+                        // .positiveColorStops([.99])
+                        .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
                 }
                 break;
             case 'bgp':
@@ -1198,8 +1202,11 @@ class Entity extends Component {
                         .width(width)
                         .height(280)
                         .enableZoom(false)
-                        .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
-                        .showRuler(true);
+                        .showRuler(true)
+                        .interpolationCurve(d3.curveStepAfter)
+                        .positiveColors(['white', '#6190B5'])
+                        // .positiveColorStops([.99])
+                        .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
                 }
                 break;
             case 'ucsd-nt':
@@ -1215,8 +1222,11 @@ class Entity extends Component {
                         .width(width)
                         .height(280)
                         .enableZoom(false)
-                        .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
-                        .showRuler(true);
+                        .showRuler(true)
+                        .interpolationCurve(d3.curveStepAfter)
+                        .positiveColors(['white', '#6190B5'])
+                        // .positiveColorStops([.99])
+                        .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
                 }
                 break;
             default:
@@ -1365,10 +1375,6 @@ class Entity extends Component {
             rawAsnSignalsProcessedPingSlash24: rawAsnSignalsProcessedPingSlash24,
             rawAsnSignalsProcessedBgp: rawAsnSignalsProcessedBgp,
             rawAsnSignalsProcessedUcsdNt: rawAsnSignalsProcessedUcsdNt
-        }, () => {
-            this.populateAsnHtsChart(900, 'ping-slash24');
-            this.populateAsnHtsChart(900, 'bgp');
-            this.populateAsnHtsChart(900, 'ucsd-nt');
         });
     }
     populateAsnHtsChart(width, datasource) {
@@ -1378,16 +1384,19 @@ class Entity extends Component {
                     const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--pingSlash24`));
                     myChart
                         .data(this.state.rawAsnSignalsProcessedPingSlash24)
-                        .series('entityCode')
+                        .series('entityName')
                         .yNormalize(false)
                         .useUtc(true)
                         .use24h(false)
                         // Will need to detect column width to populate height
                         .width(width)
-                        .height(200)
+                        .height(280)
                         .enableZoom(false)
-                        .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
-                        .showRuler(true);
+                        .showRuler(true)
+                        .interpolationCurve(d3.curveStepAfter)
+                        .positiveColors(['white', '#6190B5'])
+                        // .positiveColorStops([.99])
+                        .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
                 }
                 break;
             case 'bgp':
@@ -1395,16 +1404,19 @@ class Entity extends Component {
                     const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--bgp`));
                     myChart
                         .data(this.state.rawAsnSignalsProcessedBgp)
-                        .series('entityCode')
+                        .series('entityName')
                         .yNormalize(false)
                         .useUtc(true)
                         .use24h(false)
                         // Will need to detect column width to populate height
                         .width(width)
-                        .height(400)
+                        .height(280)
                         .enableZoom(false)
-                        .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
-                        .showRuler(true);
+                        .showRuler(true)
+                        .interpolationCurve(d3.curveStepAfter)
+                        .positiveColors(['white', '#6190B5'])
+                        // .positiveColorStops([.99])
+                        .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
                 }
                 break;
             case 'ucsd-nt':
@@ -1412,16 +1424,19 @@ class Entity extends Component {
                     const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--ucsdNt`));
                     myChart
                         .data(this.state.rawAsnSignalsProcessedUcsdNt)
-                        .series('entityCode')
+                        .series('entityName')
                         .yNormalize(false)
                         .useUtc(true)
                         .use24h(false)
                         // Will need to detect column width to populate height
                         .width(width)
-                        .height(400)
+                        .height(280)
                         .enableZoom(false)
-                        .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
-                        .showRuler(true);
+                        .showRuler(true)
+                        .interpolationCurve(d3.curveStepAfter)
+                        .positiveColors(['white', '#6190B5'])
+                        // .positiveColorStops([.99])
+                        .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
                 }
                 break;
             default:

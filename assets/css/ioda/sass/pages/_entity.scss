@@ -31,7 +31,6 @@
     }
 
     &__table {
-      height: 46rem;
 
       &-config {
         display: flex;
@@ -54,20 +53,25 @@
   .related {
     margin-bottom: $gutter-vertical;
 
+    @include respond(tab-port) {
+      padding: 0;
+    }
+
     .col-1-of-2 {
       background-color: $color-white;
       border-bottom-right-radius: 0.3rem;
       border-bottom-left-radius: 0.3rem;
       border-top-right-radius: 0.3rem;
-      min-height: 45rem;
+      min-height: 48.8rem;
       box-shadow: $box-shadow;
       padding: $gutter-vertical-small;
     }
 
-    &__title {
+    &__heading {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      margin-bottom: 1.5rem;
     }
 
     &__no-outages {

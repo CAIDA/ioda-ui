@@ -22,23 +22,36 @@
     z-index: 99999;
     overflow-y: auto;
     height: 84vh;
+    padding: 1.5rem;
   }
 
   &__heading {
     display: flex;
-    padding: 0.5rem;
     justify-content: space-between;
+    margin-bottom: 1.5rem;
   }
 
   &__button {
     @include button;
     margin: 0;
-    width: 1.8rem;
-    height: 1.8rem;
+    width: 2.2rem;
+    height: 2.2rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2rem;
+    font-size: 2.4rem;
   }
 
+  & h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
+
+  &__table {
+    margin-bottom: 1.5rem;
+  }
+
+  &__chart {
+    margin-bottom: 1.5rem;
+  }
 }
