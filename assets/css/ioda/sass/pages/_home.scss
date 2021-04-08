@@ -9,6 +9,10 @@ button[class*="searchButton"] {
 
   .row {
     max-width: $grid-width;
+
+    @include respond(tab-port) {
+      padding: 0 1.5rem;
+    }
   }
 
   & .col-1-of-1 .row {
@@ -47,7 +51,7 @@ button[class*="searchButton"] {
       overflow: hidden;
       box-shadow: $box-shadow;
       width: 100%;
-      height: 40.6rem;
+      height: 48.5rem;
     }
 
     &__text {
@@ -71,6 +75,10 @@ button[class*="searchButton"] {
     display: flex;
     justify-content: center;
 
+    @include respond(tab-port) {
+      padding: 3rem 0 0;
+    }
+
     .row {
       display: flex;
       justify-content: center;
@@ -86,6 +94,10 @@ button[class*="searchButton"] {
     &__text {
       color: $color-white;
       font-size: 1.5rem;
+
+      @include respond(tab-port) {
+        font-size: 1.6rem;
+      }
     }
 
     .button {
@@ -158,6 +170,18 @@ button[class*="searchButton"] {
 
       &:nth-child(3n - 2) {
         margin-right: 0;
+
+        @include respond(tab-port) {
+          margin-right: 2.5rem;
+        }
+      }
+
+      @include respond(tab-port) {
+        width: calc(50% - 2.5rem)!important;
+      }
+
+      @include respond (phone-lg) {
+        width: 100%!important;
       }
     }
 
@@ -191,7 +215,18 @@ button[class*="searchButton"] {
   }
 
   &__text {
-    height: 12rem;
+    height: 14rem;
+    font-size: 1.2rem;
+
+    @include respond(tab-port) {
+      height: 15rem;
+      text-align: center;
+      font-size: 1.3rem;
+    }
+
+    @include respond (phone-lg) {
+      height: auto;
+    }
 
     &-link {
       @include textLink;

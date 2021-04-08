@@ -169,6 +169,7 @@ $breakpoint Argument Choices:
   transition: all .4s ease-in-out;
   position: relative;
   z-index: 10;
+  padding: 0 0.5rem;
 
   &:before {
     content: '';

@@ -434,8 +434,6 @@ class Dashboard extends Component {
         // Add data objects to state for each data source
         this.setState({
             eventDataProcessed: eventDataProcessed
-        }, () => {
-            this.populateHtsChart(900);
         });
     }
     populateHtsChart(width) {

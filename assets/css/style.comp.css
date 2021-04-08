@@ -271,6 +271,7 @@ body {
   transition: all .4s ease-in-out;
   position: relative;
   z-index: 10;
+  padding: 0 0.5rem;
   position: absolute;
   top: 30rem;
   left: 0;
@@ -1042,6 +1043,7 @@ body {
       transition: all .4s ease-in-out;
       position: relative;
       z-index: 10;
+      padding: 0 0.5rem;
       width: 7rem;
       height: 1.2rem;
       border-radius: 1.2rem;
@@ -1543,6 +1545,7 @@ body {
   transition: all .4s ease-in-out;
   position: relative;
   z-index: 10;
+  padding: 0 0.5rem;
   margin: 0;
   width: 2.2rem;
   height: 2.2rem;
@@ -1720,6 +1723,9 @@ button[class*="searchButton"] {
   margin-top: 4rem; }
   .home .row {
     max-width: 114rem; }
+    @media only screen and (max-width: 64em) {
+      .home .row {
+        padding: 0 1.5rem; } }
   .home .col-1-of-1 .row {
     display: flex;
     justify-content: center; }
@@ -1751,7 +1757,7 @@ button[class*="searchButton"] {
     overflow: hidden;
     box-shadow: 0 1px 2px #9F9D9D;
     width: 100%;
-    height: 40.6rem; }
+    height: 48.5rem; }
   .home .map__text {
     font-family: "Lato", sans-serif;
     font-weight: 300;
@@ -1767,6 +1773,9 @@ button[class*="searchButton"] {
     padding-top: 3rem;
     display: flex;
     justify-content: center; }
+    @media only screen and (max-width: 64em) {
+      .home .about {
+        padding: 3rem 0 0; } }
     .home .about .row {
       display: flex;
       justify-content: center;
@@ -1778,6 +1787,9 @@ button[class*="searchButton"] {
     .home .about__text {
       color: #fff;
       font-size: 1.5rem; }
+      @media only screen and (max-width: 64em) {
+        .home .about__text {
+          font-size: 1.6rem; } }
     .home .about .button {
       margin-top: 2rem; }
       .home .about .button button {
@@ -1830,6 +1842,15 @@ button[class*="searchButton"] {
       margin-bottom: 2rem; }
       .home .partners .col-1-of-3:nth-child(3n - 2) {
         margin-right: 0; }
+        @media only screen and (max-width: 64em) {
+          .home .partners .col-1-of-3:nth-child(3n - 2) {
+            margin-right: 2.5rem; } }
+      @media only screen and (max-width: 64em) {
+        .home .partners .col-1-of-3 {
+          width: calc(50% - 2.5rem) !important; } }
+      @media only screen and (max-width: 40em) {
+        .home .partners .col-1-of-3 {
+          width: 100% !important; } }
     .home .partners .section-header {
       margin-bottom: 2rem; }
 
@@ -1850,7 +1871,16 @@ button[class*="searchButton"] {
       max-width: 18rem;
       max-height: 15rem; }
   .card__text {
-    height: 12rem; }
+    height: 14rem;
+    font-size: 1.2rem; }
+    @media only screen and (max-width: 64em) {
+      .card__text {
+        height: 15rem;
+        text-align: center;
+        font-size: 1.3rem; } }
+    @media only screen and (max-width: 40em) {
+      .card__text {
+        height: auto; } }
     .card__text-link:link, .card__text-link:visited {
       color: #5899AE;
       font-weight: 700;
@@ -1864,6 +1894,8 @@ button[class*="searchButton"] {
 .dashboard {
   padding-top: 5rem;
   margin: 4rem 4.5rem 0; }
+  .dashboard .title {
+    margin-bottom: 0; }
   .dashboard .col-1-of-3 {
     position: relative; }
   .dashboard .tabs {
@@ -1945,6 +1977,7 @@ button[class*="searchButton"] {
           transition: all .4s ease-in-out;
           position: relative;
           z-index: 10;
+          padding: 0 0.5rem;
           height: 3rem;
           font-size: 1rem;
           margin: 0 !important; }
@@ -1977,11 +2010,9 @@ button[class*="searchButton"] {
               filter: blur(10px) brightness(0.95); }
           .dashboard .tabs .tab__config-button:focus {
             outline: none; }
-      .dashboard .tabs .tab__table {
-        margin: 1.5rem 0; }
-        .dashboard .tabs .tab__table .table {
-          margin-bottom: 0;
-          height: inherit; }
+      .dashboard .tabs .tab__table .table {
+        margin-bottom: 0;
+        height: inherit; }
 
 .entity {
   padding-top: 5rem;
@@ -2016,6 +2047,7 @@ button[class*="searchButton"] {
         transition: all .4s ease-in-out;
         position: relative;
         z-index: 10;
+        padding: 0 0.5rem;
         height: 3rem;
         font-size: 1.2rem;
         margin: 0;
@@ -2095,6 +2127,7 @@ button[class*="searchButton"] {
       transition: all .4s ease-in-out;
       position: relative;
       z-index: 10;
+      padding: 0 0.5rem;
       height: 3rem;
       font-size: 1rem;
       margin: 0;
