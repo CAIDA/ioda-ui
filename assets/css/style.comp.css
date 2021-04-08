@@ -941,6 +941,12 @@ body {
     .table__scores td, .table__scores th {
       position: relative;
       z-index: 100; }
+      .table__scores td:first-child, .table__scores th:first-child {
+        text-align: left;
+        padding-left: 1rem; }
+      .table__scores td:last-child, .table__scores th:last-child {
+        text-align: center;
+        padding-left: 0; }
     .table__scores thead tr {
       background-color: #DCE4EA !important;
       color: #2c3e50;

@@ -186,6 +186,16 @@
     & td, & th {
       position: relative;
       z-index: 100;
+
+      &:first-child {
+        text-align: left;
+        padding-left: 1rem;
+      }
+
+      &:last-child {
+        text-align: center;
+        padding-left: 0;
+      }
     }
 
     & thead tr {

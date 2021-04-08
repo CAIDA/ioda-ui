@@ -112,7 +112,7 @@ class SignalTableRow extends Component {
 
                 >
                     {overallScore}
-                    <span className="table__ellipses">⋮</span>
+                    {/*<span className="table__ellipses">⋮</span>*/}
                     <table
                         className={this.state.displayScores ? "table__scores table__scores--active" : "table__scores"}
                         style={{top: `${this.state.y}px`}}
