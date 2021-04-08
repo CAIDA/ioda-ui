@@ -564,13 +564,17 @@ class Dashboard extends Component {
 
     render() {
         let { tab, activeTab } = this.state;
+
+        const pageTitle = T.translate("entity.pageTitle");
+        const timeRangeTitle = T.translate("entity.timeRangeTitle");
+
         return(
             <div className="dashboard">
                 <div className="row title">
                     <div className="col-1-of-1">
-                        <h1 className="heading-h1">Outage Severity Overview</h1>
+                        <h1 className="heading-h1">{pageTitle}</h1>
                         {/*ToDo: Update today to be dynamic*/}
-                        <h3 className="heading-h3">Outages Occurring Today</h3>
+                        <h3 className="heading-h3">{timeRangeTitle}</h3>
                     </div>
                 </div>
                 <ControlPanel

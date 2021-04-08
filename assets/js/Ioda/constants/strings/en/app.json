@@ -42,6 +42,8 @@
     "viewChangeIconAltText": "View Changer"
   },
   "entity": {
+    "pageTitle": "Outage Severity Overview",
+    "timeRangeTitle": "Outages Occurring Today",
     "xyChartTitle": "IODA Signals for ",
     "eventAlertButtonText1": "View ",
     "eventAlertButtonText2": " Table",
