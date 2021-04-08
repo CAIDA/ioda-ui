@@ -141,12 +141,28 @@
   width: 27px;
   height: 27px;
 }
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  font: bold 15px 'Lucida Console', Monaco, monospace;
+  text-indent: 1px;
+  text-decoration: none;
+  display: flex!important;
+  justify-content: center;
+  align-items: center;
+}
+
 .leaflet-control-zoom-in {
-  //background-image: url(images/zoom-in.png);
-  margin-bottom: 5px;
+  margin-bottom: 4px;
 }
 .leaflet-control-zoom-out {
-  //background-image: url(images/zoom-out.png);
+  font-size: 20px;
+}
+
+.leaflet-touch .leaflet-control-zoom-in {
+  font-size: 22px;
+}
+.leaflet-touch .leaflet-control-zoom-out {
+  font-size: 24px;
 }
 
 .leaflet-control-layers {

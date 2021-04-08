@@ -83,11 +83,17 @@ export function generateKeys(prefix) {
 
 export function convertValuesForSummaryTable(summaryDataRaw) {
     let summaryData = [];
-    summaryDataRaw.map(summary => {
+    const colorSet = ["#E2EDF6", "#E9DFE4", "#EFD1D3", "#F6C3C1"];
+    // let colScaleLinear = d3.scale.linear()
+    //     .domain([scores[Math.round((scores.length - 1) / 4)], scores[Math.round((scores.length - 1) / 2)], scores[Math.round((scores.length - 1) * .9)], scores[Math.round(scores.length - 1)]])
+    //     .range(colorSet);
+    summaryDataRaw.map((summary, index) => {
         let overallScore = null;
         let summaryScores = [];
+        let color = 'transparent';
 
-        Object.entries(summary["scores"]).map((entry) => {
+        // Map through individual scores
+        Object.entries(summary["scores"]).map(entry => {
             if (entry[0] !== "overall") {
                 const entryItem = {
                     source: entry[0],
@@ -99,6 +105,31 @@ export function convertValuesForSummaryTable(summaryDataRaw) {
             }
         });
 
+        console.log(index < Math.round((summaryDataRaw.length -1) / 4));
+
+        // Select background color for score cell, scores bottom 25%, 25%-50%, 50-90%, 90%-100%
+        switch (index > -1) {
+            // index value is less than or equal to 10% through the array
+            case index <= Math.round((summaryDataRaw.length -1) * .1):
+                color = colorSet[3];
+                break;
+            // index value is under 25% through the array
+            case index < Math.round((summaryDataRaw.length -1) / 4):
+                color = colorSet[2];
+                break;
+            // index value is less than 50% through the array
+            case index < Math.round((summaryDataRaw.length -1) / 2):
+                color = colorSet[1];
+                break;
+            // index value is less than 90% through the array
+            case index >= Math.round((summaryDataRaw.length -1) / 2):
+                color = colorSet[0];
+                break;
+            default:
+                break;
+        }
+        console.log(color);
+
         // If entity type has ip_count/is an ASN
         let summaryItem;
         summary.entity.type === 'asn'
@@ -108,14 +139,16 @@ export function convertValuesForSummaryTable(summaryDataRaw) {
                 name: summary["entity"].name,
                 score: overallScore,
                 scores: summaryScores,
-                ipCount: humanizeNumber(summary["entity"]["attrs"]["ip_count"], 2)
+                ipCount: humanizeNumber(summary["entity"]["attrs"]["ip_count"], 2),
+                color: color
             }
             : summaryItem = {
             entityType: summary["entity"].type,
             entityCode: summary["entity"].code,
             name: summary["entity"].name,
             score: overallScore,
-            scores: summaryScores
+            scores: summaryScores,
+            color: color
         };
         summaryData.push(summaryItem);
     });

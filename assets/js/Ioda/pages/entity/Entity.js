@@ -35,6 +35,7 @@ import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.rea
 
 import TopoMap from "../../components/map/Map";
 import * as topojson from 'topojson';
+import * as d3 from "d3-shape";
 
 
 class Entity extends Component {
@@ -525,11 +526,6 @@ class Entity extends Component {
                 height: 650,
                 animationEnabled: true,
                 zoomEnabled: true,
-                title: {
-                    text: `IODA Signals for ${this.state.entityName}`,
-                    fontSize: 18,
-                    horizontalAlign: "left",
-                },
                 crosshair: {
                     enabled: true,
                     snapToDataPoint: true
@@ -1169,10 +1165,6 @@ class Entity extends Component {
             rawRegionalSignalsProcessedPingSlash24: rawRegionalSignalsProcessedPingSlash24,
             rawRegionalSignalsProcessedBgp: rawRegionalSignalsProcessedBgp,
             rawRegionalSignalsProcessedUcsdNt: rawRegionalSignalsProcessedUcsdNt
-        }, () => {
-            this.populateRegionalHtsChart(900, 'ping-slash24');
-            this.populateRegionalHtsChart(900, 'bgp');
-            this.populateRegionalHtsChart(900, 'ucsd-nt');
         });
     }
     populateRegionalHtsChart(width, datasource) {
@@ -1190,8 +1182,11 @@ class Entity extends Component {
                         .width(width)
                         .height(280)
                         .enableZoom(false)
-                        .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`
-                        .showRuler(true);
+                        .showRuler(true)
+                        .interpolationCurve(d3.curveStepAfter)
+                        .positiveColors(['white', '#6190B5'])
+                        // .positiveColorStops([.99])
+                        .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
                 }
                 break;
             case 'bgp':
@@ -1207,8 +1202,11 @@ class Entity extends Component {
                         .width(width)
                         .height(280)
                         .enableZoom(false)
-                        .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
-                        .showRuler(true);
+                        .showRuler(true)
+                        .interpolationCurve(d3.curveStepAfter)
+                        .positiveColors(['white', '#6190B5'])
+                        // .positiveColorStops([.99])
+                        .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
                 }
                 break;
             case 'ucsd-nt':
@@ -1224,8 +1222,11 @@ class Entity extends Component {
                         .width(width)
                         .height(280)
                         .enableZoom(false)
-                        .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
-                        .showRuler(true);
+                        .showRuler(true)
+                        .interpolationCurve(d3.curveStepAfter)
+                        .positiveColors(['white', '#6190B5'])
+                        // .positiveColorStops([.99])
+                        .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
                 }
                 break;
             default:
@@ -1374,10 +1375,6 @@ class Entity extends Component {
             rawAsnSignalsProcessedPingSlash24: rawAsnSignalsProcessedPingSlash24,
             rawAsnSignalsProcessedBgp: rawAsnSignalsProcessedBgp,
             rawAsnSignalsProcessedUcsdNt: rawAsnSignalsProcessedUcsdNt
-        }, () => {
-            this.populateAsnHtsChart(900, 'ping-slash24');
-            this.populateAsnHtsChart(900, 'bgp');
-            this.populateAsnHtsChart(900, 'ucsd-nt');
         });
     }
     populateAsnHtsChart(width, datasource) {
@@ -1387,16 +1384,19 @@ class Entity extends Component {
                     const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--pingSlash24`));
                     myChart
                         .data(this.state.rawAsnSignalsProcessedPingSlash24)
-                        .series('entityCode')
+                        .series('entityName')
                         .yNormalize(false)
                         .useUtc(true)
                         .use24h(false)
                         // Will need to detect column width to populate height
                         .width(width)
-                        .height(200)
+                        .height(280)
                         .enableZoom(false)
-                        .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
-                        .showRuler(true);
+                        .showRuler(true)
+                        .interpolationCurve(d3.curveStepAfter)
+                        .positiveColors(['white', '#6190B5'])
+                        // .positiveColorStops([.99])
+                        .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
                 }
                 break;
             case 'bgp':
@@ -1404,16 +1404,19 @@ class Entity extends Component {
                     const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--bgp`));
                     myChart
                         .data(this.state.rawAsnSignalsProcessedBgp)
-                        .series('entityCode')
+                        .series('entityName')
                         .yNormalize(false)
                         .useUtc(true)
                         .use24h(false)
                         // Will need to detect column width to populate height
                         .width(width)
-                        .height(400)
+                        .height(280)
                         .enableZoom(false)
-                        .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
-                        .showRuler(true);
+                        .showRuler(true)
+                        .interpolationCurve(d3.curveStepAfter)
+                        .positiveColors(['white', '#6190B5'])
+                        // .positiveColorStops([.99])
+                        .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
                 }
                 break;
             case 'ucsd-nt':
@@ -1421,16 +1424,19 @@ class Entity extends Component {
                     const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--ucsdNt`));
                     myChart
                         .data(this.state.rawAsnSignalsProcessedUcsdNt)
-                        .series('entityCode')
+                        .series('entityName')
                         .yNormalize(false)
                         .useUtc(true)
                         .use24h(false)
                         // Will need to detect column width to populate height
                         .width(width)
-                        .height(400)
+                        .height(280)
                         .enableZoom(false)
-                        .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`
-                        .showRuler(true);
+                        .showRuler(true)
+                        .interpolationCurve(d3.curveStepAfter)
+                        .positiveColors(['white', '#6190B5'])
+                        // .positiveColorStops([.99])
+                        .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
                 }
                 break;
             default:
@@ -1439,6 +1445,7 @@ class Entity extends Component {
     }
 
     render() {
+        const xyChartTitle = T.translate("entity.xyChartTitle");
         const eventAlertButtonText1 = T.translate("entity.eventAlertButtonText1");
         const eventAlertButtonText2 = T.translate("entity.eventAlertButtonText2");
         const eventFeedTitle = T.translate("entity.eventFeedTitle");
@@ -1456,6 +1463,10 @@ class Entity extends Component {
                 <div className="row overview">
                     <div className="col-3-of-5">
                         <div className="overview__config" ref={this.config}>
+                            <h3 className="heading-h2">
+                                {xyChartTitle}
+                                {this.state.entityName}
+                            </h3>
                             {/*<button className="overview__config-button">Modal</button>*/}
                         </div>
                         {
@@ -1465,13 +1476,18 @@ class Entity extends Component {
                         }
                     </div>
                     <div className="col-2-of-5">
-                        <button className="overview__config-button"
-                                onClick={() => this.changeCurrentTable()}
-                                style={this.props.type === 'asn' ? {display: 'none'} : null}
-                        >{eventAlertButtonText1}{this.state.currentTable === 'event' ? 'alert' : 'event'}{eventAlertButtonText2}</button>
-                        <h3 className="overview__table-title">
-                            {this.state.currentTable === 'event' ? `${eventFeedTitle} ${this.state.entityName}` : `${alertFeedTitle} ${this.state.entityName}`}
-                        </h3>
+                        <div className="overview__table-config">
+                            <h3 className="heading-h2">
+                                {this.state.currentTable === 'event' ? `${eventFeedTitle} ${this.state.entityName}` : `${alertFeedTitle} ${this.state.entityName}`}
+                            </h3>
+                            <button className="overview__config-button"
+                                    onClick={() => this.changeCurrentTable()}
+                                    style={this.props.type === 'asn' ? {display: 'none'} : null}
+                            >
+                                {eventAlertButtonText1}{this.state.currentTable === 'event' ? 'Alert' : 'Event'}{eventAlertButtonText2}
+                            </button>
+                        </div>
+
                         <div className="overview__table">
                             <div style={this.state.currentTable === 'event' ? {display: 'block'} : {display: 'none'}}>
                                 {this.genEventTable() }

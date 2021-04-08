@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {humanizeNumber} from "../../utils";
 import {Link} from "react-router-dom";
 import T from 'i18n-react';
+import d3 from "d3";
 
 // Each row of the summary table needs it's own component to manage the
 // hover state, which controls the table that displays score breakdowns.
@@ -19,10 +20,6 @@ class SummaryTableRow extends Component {
     }
 
     componentDidMount() {
-        if (this.props.data) {
-            // console.log(this.props.data);
-        }
-
         document.addEventListener('click', this.handleRowScoreHide, true);
     }
 
@@ -82,6 +79,8 @@ class SummaryTableRow extends Component {
         let overallScore = humanizeNumber(this.props.data.score, 2);
         const dataSourceHeading = T.translate("table.scoresTable.dataSourceHeading");
         const scoreHeading = T.translate("table.scoresTable.scoreHeading");
+
+        console.log(this.props.data);
         return(
             <tr
                 className="table--summary-row"
@@ -103,13 +102,13 @@ class SummaryTableRow extends Component {
                 </td>
                 {
                     this.props.entityType === 'asn'
-                    ? <td>{this.props.data.ipCount}</td>
+                    ? <td className="table__cell--ipCount td--center">{this.props.data.ipCount}</td>
                     : null
                 }
                 <td
-                    className="table__cell--overallScore"
+                    className="table__cell--overallScore td--center"
                     onClick={() => this.handleRowScoreDisplay()}
-
+                    style={{backgroundColor: this.props.data.color}}
                 >
                     {overallScore}
                     <span className="table__ellipses">⋮</span>

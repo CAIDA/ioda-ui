@@ -421,7 +421,6 @@ class Dashboard extends Component {
         }).toString();
         this.props.getEventSignalsAction(entityType, entities, from, until, attr, order)
     }
-
     convertValuesForHtsViz() {
         let eventDataProcessed = [];
         // Create visualization-friendly data objects
@@ -435,8 +434,6 @@ class Dashboard extends Component {
         // Add data objects to state for each data source
         this.setState({
             eventDataProcessed: eventDataProcessed
-        }, () => {
-            this.populateHtsChart(900);
         });
     }
     populateHtsChart(width) {
@@ -565,12 +562,17 @@ class Dashboard extends Component {
 
     render() {
         let { tab, activeTab } = this.state;
+
+        const pageTitle = T.translate("entity.pageTitle");
+        const timeRangeTitle = T.translate("entity.timeRangeTitle");
+
         return(
             <div className="dashboard">
                 <div className="row title">
                     <div className="col-1-of-1">
+                        <h1 className="heading-h1">{pageTitle}</h1>
                         {/*ToDo: Update today to be dynamic*/}
-                        <h2>Outages Occurring Today</h2>
+                        <h3 className="heading-h3">{timeRangeTitle}</h3>
                     </div>
                 </div>
                 <ControlPanel

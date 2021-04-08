@@ -3,15 +3,22 @@ import Modal from '../../components/modal/Modal';
 import T from "i18n-react";
 
 class EntityRelated extends Component {
-    render() {
+    constructor(props) {
+        super(props);
+        this.relatedTableConfig = React.createRef();
+    }
 
+    render() {
         const regionalModalButtonText = T.translate("entity.regionalModalButtonText");
         const asnModalButtonText = T.translate("entity.asnModalButtonText");
+        console.log(this.relatedTableConfig);
         return(
             <div className="row related">
+
+                {/* Region Panel */}
                 <div className="col-1-of-2">
-                    <div className="related__title">
-                        <h2>
+                    <div className="related__heading">
+                        <h3 className="heading-h3">
                             {
                                 this.props.entityType === 'country'
                                     ? `Regional Outages in ${this.props.entityName}`
@@ -22,15 +29,11 @@ class EntityRelated extends Component {
                                         : null
                             }
 
-                        </h2>
+                        </h3>
                         <div className="related__modal--region related__modal">
-                            {
-
-                            }
                             <button className="related__modal-button" onClick={() => this.props.toggleModal("map")}>
                                 {regionalModalButtonText}
                             </button>
-
                             <Modal
                                 modalLocation={"map"}
                                 entityName={this.props.entityName}
@@ -42,15 +45,17 @@ class EntityRelated extends Component {
                             />
                         </div>
                     </div>
-                    <div className="map" style={{display: 'block', height: '400px'}}>
+                    <div className="map" style={{display: 'block', height: '40.5rem'}}>
                         {
                             this.props.populateGeoJsonMap()
                         }
                     </div>
                 </div>
+
+                {/* ASN Panel */}
                 <div className="col-1-of-2">
-                    <div className="related__title">
-                        <h2>
+                    <div className="related__heading">
+                        <h3 className="heading-h3">
                             {
                                 this.props.entityType === 'country'
                                     ? `ASNs/ISPs affected by ${this.props.entityName} Outages`
@@ -61,7 +66,7 @@ class EntityRelated extends Component {
                                         : null
                             }
 
-                        </h2>
+                        </h3>
                         <div className="related__modal--region related__modal">
                             <button className="related__modal-button" onClick={() => this.props.toggleModal("table")}>
                                 {asnModalButtonText}
@@ -72,11 +77,10 @@ class EntityRelated extends Component {
                                 toggleModal={this.props.toggleModal}
                                 genSignalsTable={() => this.props.genAsnSignalsTable()}
                                 populateAsnHtsChart={(width, datasource) => this.props.populateAsnHtsChart(width, datasource)}
-
                             />
                         </div>
                     </div>
-                    <div className="tab__table">
+                    <div className="tab__table" ref={this.relatedTableConfig}>
                         {
                             this.props.genSummaryTable()
                         }

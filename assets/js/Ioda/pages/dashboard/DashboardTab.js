@@ -9,12 +9,22 @@ class DashboardTab extends Component {
     }
 
     render() {
+        const countryOutages = T.translate("dashboard.countryOutages");
+        const regionalOutages = T.translate("dashboard.regionalOutages");
+        const asnOutages = T.translate("dashboard.asnOutages");
         const viewChangeIconAltText = T.translate("dashboard.viewChangeIconAltText");
         return(
             <div className="tab">
                 <div className="row">
                     <div className="col-2-of-3">
                         <div className="tab__config" ref={this.config}>
+                            <h2 className="heading-h2">
+                                {
+                                    this.props.type === 'country' ? countryOutages :
+                                    this.props.type === 'region' ? regionalOutages :
+                                    this.props.type === 'asn' ? asnOutages : null
+                                }
+                            </h2>
                             <button className="tab__config-button"
                                     onClick={() => this.props.handleTabChangeViewButton()}
                                     style={this.props.type === 'asn' ? {display: 'none'} : null}

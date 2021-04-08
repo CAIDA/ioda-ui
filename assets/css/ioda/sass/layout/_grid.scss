@@ -9,11 +9,6 @@
     }
   }
 
-    @include respond(tab-port) {
-      max-width: 80rem;
-      padding: 0 3rem;
-    }
-
     @include clearfix;
 
   // Select any classes that begin with col-
