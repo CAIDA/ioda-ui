@@ -49,14 +49,14 @@ class Footer extends Component {
                 <div className="footer__content">
                     <div className="row">
                         <div className="col-1-of-1">
-                            <div className="footer__copyright">
-                                <p>
-                                    <T.span text="footer.copyright1"/>
-                                    <span>{year}</span>
-                                    <T.span text="footer.copyright2"/>
-                                </p>
-                                <T.p text="footer.copyright3"/>
-                            </div>
+                            {/*<div className="footer__copyright">*/}
+                            {/*    <p>*/}
+                            {/*        <T.span text="footer.copyright1"/>*/}
+                            {/*        <span>{year}</span>*/}
+                            {/*        <T.span text="footer.copyright2"/>*/}
+                            {/*    </p>*/}
+                            {/*    <T.p text="footer.copyright3"/>*/}
+                            {/*</div>*/}
                         </div>
                     </div>
                 </div>
