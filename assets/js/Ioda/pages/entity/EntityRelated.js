@@ -11,7 +11,7 @@ class EntityRelated extends Component {
     render() {
         const regionalModalButtonText = T.translate("entity.regionalModalButtonText");
         const asnModalButtonText = T.translate("entity.asnModalButtonText");
-        console.log(this.relatedTableConfig);
+
         return(
             <div className="row related">
 

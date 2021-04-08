@@ -857,8 +857,11 @@ body {
     margin: 0; }
   .table--event {
     text-align: center; }
-  .table--alert-warning {
+  .table--alert-critical {
     background-color: #F18179;
+    width: 3rem; }
+  .table--alert-warning {
+    background-color: #F2AB79;
     width: 3rem; }
   .table--alert-normal {
     background-color: #D4F19D;

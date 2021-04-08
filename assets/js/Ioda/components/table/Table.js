@@ -234,9 +234,6 @@ class Table extends Component {
         const summaryNoOutagesMessage = T.translate("table.summaryNoOutagesMessage");
         const signalNoOutagesMessage = T.translate("table.signalNoOutagesMessage");
 
-        console.log(this.props);
-
-
         return (
             <div className="table__wrapper">
                 <table className={`table ${type === "alert" ? "table--alert" : type === "event" ? "table--event" : type === "summary" ? "table--summary" : "table--signal"}`}>
@@ -307,11 +304,16 @@ class Table extends Component {
                                 {
                                     this.state.alertData && this.state.alertData.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(alert => {
                                         return <tr key={generateKeys(this.props.type === 'alert' ? 'alert' : 'event')}>
-                                            <td className={alert.level === "warning" ? "table--alert-warning td--center" : "table--alert-normal td--center"}>
+                                            <td className={
+                                                alert.level === "normal" ? "table--alert-normal td--center" :
+                                                alert.level === 'warning' ? "table--alert-warning td--center" :
+                                                alert.level === 'critical' ? "table--alert-critical td--center" :
+                                                    "td--center"
+                                            }>
                                                 {
-                                                    alert.level === "warning"
-                                                        ? <img className="table--alert-level-img" src={iconCancel} alt="✗"/>
-                                                        : <img className="table--alert-level-img" src={iconCheckmark} alt="✓"/>
+                                                    alert.level === "normal"
+                                                        ? <img className="table--alert-level-img" src={iconCheckmark} alt="✗"/>
+                                                        : <img className="table--alert-level-img" src={iconCancel} alt="✓"/>
                                                 }
                                             </td>
                                             <td>

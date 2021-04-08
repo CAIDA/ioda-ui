@@ -46,16 +46,18 @@ export function humanizeNumber(value, precisionDigits) {
 // For event/alert table
 export function convertSecondsToDateValues(s) {
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    const month = months[new Date(s * 1000).getMonth()];
-    const day = new Date(s * 1000).getDate();
+    const month = months[new Date(s * 1000).getUTCMonth()];
+    const day = new Date(s * 1000).getUTCDate();
     const year = new Date(s * 1000).getFullYear();
-    const hourValue = new Date(s * 1000).getHours();
+    const hourValue = new Date(s * 1000).getUTCHours();
     const hours = hourValue > 12
         ? hourValue - 12
-        : hourValue < 10
+        : hourValue > 0
             ? `0${hourValue}`
-            : hourValue;
-    const minuteValue = new Date(s * 1000).getMinutes();
+            : hourValue === 0
+                ? 12
+                : hourValue;
+    const minuteValue = new Date(s * 1000).getUTCMinutes();
     const minutes = minuteValue < 10
         ? `0${minuteValue}`
         : minuteValue;
@@ -105,8 +107,6 @@ export function convertValuesForSummaryTable(summaryDataRaw) {
             }
         });
 
-        console.log(index < Math.round((summaryDataRaw.length -1) / 4));
-
         // Select background color for score cell, scores bottom 25%, 25%-50%, 50-90%, 90%-100%
         switch (index > -1) {
             // index value is less than or equal to 10% through the array
@@ -128,7 +128,6 @@ export function convertValuesForSummaryTable(summaryDataRaw) {
             default:
                 break;
         }
-        console.log(color);
 
         // If entity type has ip_count/is an ASN
         let summaryItem;

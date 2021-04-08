@@ -17,6 +17,11 @@
   }
 
   &--alert {
+    &-critical {
+      background-color: $color-alert-feed-critical;
+      width: 3rem;
+    }
+
     &-warning {
       background-color: $color-alert-feed-warning;
       width: 3rem;
