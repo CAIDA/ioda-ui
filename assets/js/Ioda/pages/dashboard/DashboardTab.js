@@ -12,7 +12,8 @@ class DashboardTab extends Component {
         const countryOutages = T.translate("dashboard.countryOutages");
         const regionalOutages = T.translate("dashboard.regionalOutages");
         const asnOutages = T.translate("dashboard.asnOutages");
-        const viewChangeIconAltText = T.translate("dashboard.viewChangeIconAltText");
+        const viewChangeIconAltTextHts = T.translate("dashboard.viewChangeIconAltTextHts");
+        const viewChangeIconAltTextMap = T.translate("dashboard.viewChangeIconAltTextMap");
         return(
             <div className="tab">
                 <div className="row">
@@ -28,7 +29,11 @@ class DashboardTab extends Component {
                             <button className="tab__config-button"
                                     onClick={() => this.props.handleTabChangeViewButton()}
                                     style={this.props.type === 'asn' ? {display: 'none'} : null}
-                            >{viewChangeIconAltText}</button>
+                            >
+                                {
+                                    this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts
+                                }
+                            </button>
                             {/*<button className="tab__config-button">Modal</button>*/}
                         </div>
                         {

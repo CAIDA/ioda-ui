@@ -234,6 +234,8 @@ class Table extends Component {
         const summaryNoOutagesMessage = T.translate("table.summaryNoOutagesMessage");
         const signalNoOutagesMessage = T.translate("table.signalNoOutagesMessage");
 
+        console.log(this.props);
+
 
         return (
             <div className="table__wrapper">
