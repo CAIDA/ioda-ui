@@ -39,7 +39,8 @@
     "regionalOutages": "Regional Outages",
     "asnOutages": "ASN/ISP Outages",
     "asnTabTitle": "ASN/ISP View",
-    "viewChangeIconAltText": "View Changer"
+    "viewChangeIconAltTextHts": "Stacked Horizon View",
+    "viewChangeIconAltTextMap": "Map View"
   },
   "entity": {
     "pageTitle": "Outage Severity Overview",
@@ -57,7 +58,9 @@
     "utc": "UTC",
     "timeInputCheckbox": "Whole Day",
     "applyButtonText": "Apply",
-    "searchBarPlaceholder": "Search for a Country, Region, or ASN/ISP"
+    "searchBarPlaceholder": "Search for a Country, Region, or ASN/ISP",
+    "wholeDay": "Whole Day",
+    "apply": "Apply"
   },
   "loadingBar": {
     "loading": "Loading..."
