@@ -10,31 +10,20 @@
 
   &--signal {
     margin: 0;
+  }
 
-    &-score {
-      background-color: #E86468;
-      color: $color-white;
-      border-radius: 1rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0.2rem;
-      margin-top: -1rem;
-      margin-left: 0.5rem;
-      font-size: 120%;
-    }
+  &--event {
+    text-align: center;
   }
 
   &--alert {
     &-warning {
       background-color: $color-alert-feed-warning;
-      text-align: center!important;
       width: 3rem;
     }
 
     &-normal {
       background-color: $color-alert-feed-normal;
-      text-align: center!important;
       width: 3rem;
     }
 
@@ -47,6 +36,18 @@
   &--summary {
     & .table__scores--active {
       display: block;
+    }
+
+    & .table__header-col:first-child button {
+      justify-content: left;
+      padding-left: 1rem;
+    }
+  }
+
+  &--signal {
+    & .table__header-col:nth-child(2) button {
+      justify-content: left;
+      padding-left: 1rem;
     }
   }
 
@@ -81,7 +82,7 @@
         font-size: 1.2rem;
         font-weight: 700;
         display: flex;
-        justify-content: left;
+        justify-content: center;
         align-items: center;
         cursor: pointer;
       }
@@ -127,7 +128,12 @@
     text-align: left;
     position: relative;
     height: inherit;
-    padding-left: 0.5rem;
+    padding-left: 1.5rem;
+  }
+
+  & .td--center {
+    text-align: center;
+    padding-left: 0;
   }
 
   &__cell {
@@ -151,6 +157,10 @@
       width: 8rem;
       position: relative;
       cursor: pointer;
+    }
+
+    &--ipCount {
+      width: 10rem;
     }
   }
 
@@ -268,5 +278,10 @@
 
   &__empty {
     font-size: 1.3rem;
+
+    & td {
+      text-align: center;
+    }
+
   }
 }

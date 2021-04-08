@@ -48,12 +48,14 @@ class Table extends Component {
         };
         this.signalHeaders = {
             visibility: "",
-            name: T.translate("table.signalHeaders.name")
+            name: T.translate("table.signalHeaders.name"),
+            score: T.translate("table.signalHeaders.score")
         };
         this.signalHeadersAsn = {
             visibility: "",
             name: T.translate("table.signalHeaders.name"),
-            ipCount: T.translate("table.signalHeaders.ipCount")
+            ipCount: T.translate("table.signalHeaders.ipCount"),
+            score: T.translate("table.signalHeaders.score")
         };
     }
 
@@ -175,13 +177,23 @@ class Table extends Component {
         }
 
         if (type === "summary") {
-            colToSort = Object.keys(this.summaryHeaders).find(key => this.summaryHeaders[key] === event.target.value);
-            position = this.summaryHeaders[colToSort];
+            if (this.props.entityType === 'asn') {
+                colToSort = Object.keys(this.summaryHeadersAsn).find(key => this.summaryHeadersAsn[key] === event.target.value);
+                position = this.summaryHeadersAsn[colToSort];
+            } else {
+                colToSort = Object.keys(this.summaryHeaders).find(key => this.summaryHeaders[key] === event.target.value);
+                position = this.summaryHeaders[colToSort];
+            }
         }
 
         if (type === "signal") {
-            colToSort = Object.keys(this.signalHeaders).find(key => this.signalHeaders[key] === event.target.value);
-            position = this.signalHeaders[colToSort];
+            if (this.props.entityType === 'asn') {
+                colToSort = Object.keys(this.signalHeadersAsn).find(key => this.signalHeadersAsn[key] === event.target.value);
+                position = this.signalHeadersAsn[colToSort];
+            } else {
+                colToSort = Object.keys(this.signalHeaders).find(key => this.signalHeaders[key] === event.target.value);
+                position = this.signalHeaders[colToSort];
+            }
         }
 
         // Update state of table to sort rows and add icon
@@ -293,7 +305,7 @@ class Table extends Component {
                                 {
                                     this.state.alertData && this.state.alertData.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(alert => {
                                         return <tr key={generateKeys(this.props.type === 'alert' ? 'alert' : 'event')}>
-                                            <td className={alert.level === "warning" ? "table--alert-warning" : "table--alert-normal"}>
+                                            <td className={alert.level === "warning" ? "table--alert-warning td--center" : "table--alert-normal td--center"}>
                                                 {
                                                     alert.level === "warning"
                                                         ? <img className="table--alert-level-img" src={iconCancel} alt="✗"/>
@@ -307,10 +319,10 @@ class Table extends Component {
                                             <td>
                                                 {alert.dataSource}
                                             </td>
-                                            <td>
+                                            <td className="td--center">
                                                 {alert.actualValue}
                                             </td>
-                                            <td>
+                                            <td className="td--center">
                                                 {alert.baselineValue}
                                             </td>
                                         </tr>
@@ -327,10 +339,10 @@ class Table extends Component {
                                                 <p>{event.until.month} {event.until.day}, {event.until.year}</p>
                                                 <p>{event.until.hours}:{event.until.minutes} {event.until.meridian}</p>
                                             </td>
-                                            <td>
+                                            <td className="td--center">
                                                 {event.duration}
                                             </td>
-                                            <td>
+                                            <td className="td--center">
                                                 {event.score}
                                             </td>
                                         </tr>

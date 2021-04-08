@@ -184,7 +184,7 @@ body {
   margin-right: 0.5rem !important; }
 
 .u-text-align-center {
-  text-align: center; }
+  text-align: center !important; }
 
 .range__input {
   background-color: #fff;
@@ -826,30 +826,25 @@ body {
   border-bottom: 1px solid #DCE4EA; }
   .table--signal {
     margin: 0; }
-    .table--signal-score {
-      background-color: #E86468;
-      color: #fff;
-      border-radius: 1rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0.2rem;
-      margin-top: -1rem;
-      margin-left: 0.5rem;
-      font-size: 120%; }
+  .table--event {
+    text-align: center; }
   .table--alert-warning {
     background-color: #F18179;
-    text-align: center !important;
     width: 3rem; }
   .table--alert-normal {
     background-color: #D4F19D;
-    text-align: center !important;
     width: 3rem; }
   .table--alert-level-img {
     height: 1.1rem;
     width: 1.1rem; }
   .table--summary .table__scores--active {
     display: block; }
+  .table--summary .table__header-col:first-child button {
+    justify-content: left;
+    padding-left: 1rem; }
+  .table--signal .table__header-col:nth-child(2) button {
+    justify-content: left;
+    padding-left: 1rem; }
   .table__header {
     background-color: #DCE4EA !important;
     color: #2c3e50;
@@ -873,7 +868,7 @@ body {
         font-size: 1.2rem;
         font-weight: 700;
         display: flex;
-        justify-content: left;
+        justify-content: center;
         align-items: center;
         cursor: pointer; }
     .table__header-sort {
@@ -898,7 +893,10 @@ body {
     text-align: left;
     position: relative;
     height: inherit;
-    padding-left: 0.5rem; }
+    padding-left: 1.5rem; }
+  .table .td--center {
+    text-align: center;
+    padding-left: 0; }
   .table__cell-link {
     display: flex;
     height: 100%;
@@ -922,6 +920,8 @@ body {
     width: 8rem;
     position: relative;
     cursor: pointer; }
+  .table__cell--ipCount {
+    width: 10rem; }
   .table__ellipses {
     font-size: 1.8rem;
     line-height: 1.9rem;
@@ -1044,6 +1044,8 @@ body {
         outline: none; }
   .table__empty {
     font-size: 1.3rem; }
+    .table__empty td {
+      text-align: center; }
 
 /* required styles */
 .leaflet-map-pane,
@@ -1662,8 +1664,7 @@ body {
     width: 18rem;
     list-style-type: none;
     height: auto;
-    display: flex;
-    border-right: 1px solid #617486; }
+    display: flex; }
   .header__link:link, .header__link:visited {
     display: flex;
     justify-content: center;
