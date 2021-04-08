@@ -80,7 +80,6 @@ class SummaryTableRow extends Component {
         const dataSourceHeading = T.translate("table.scoresTable.dataSourceHeading");
         const scoreHeading = T.translate("table.scoresTable.scoreHeading");
 
-        console.log(this.props.data);
         return(
             <tr
                 className="table--summary-row"

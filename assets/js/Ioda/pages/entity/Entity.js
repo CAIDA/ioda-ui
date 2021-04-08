@@ -723,7 +723,7 @@ class Entity extends Component {
         });
 
         this.setState({
-            alertDataProcessed: alertData
+            alertDataProcessed: alertData.reverse()
         }, () => {
             this.genAlertTable();
         });
