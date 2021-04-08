@@ -1,66 +1,101 @@
-.range {
+.control-panel {
+  [class^="search-"] {
+    margin: 1.6rem 0 0;
+  }
 
-  &__input {
-    background-color: $color-white;
-    height: 3.75rem;
-    width: 100%;
-    border: 2px solid $color-blue-border;
-    border-radius: 5px;
+  [class^="searchbar-"] {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    color: #757575;
-    padding-top: 0.5rem;
+    flex-direction: column;
+  }
 
-    & span {
-      display: inline-block;
-    }
+  [class^="searchInput-"] {
+    height: 3.75rem;
+    padding-left: 0.8rem;
 
-    &-dash {
-      padding: 0 1.5rem;
+    &:focus ~ label {
+      margin-top: -5.6rem;
+      padding-left: 1rem;
     }
   }
 
-  &__dropdown {
-    display: none;
-    z-index: 10000;
-    position: absolute;
-    left: 0;
-    top: 7.25rem;
-    box-shadow: $box-shadow;
-    border-radius: 3px;
+  [class^="searchLabel-"] {
+    position: relative;
+    margin-top: -5.6rem;
+    padding-left: 1rem;
+    opacity: 1;
+  }
 
-    &-checkbox {
-      position: absolute;
-      top: 29rem;
-      width: 18.3rem;
+  .range {
+    &__label {
+      padding-left: 1rem;
+    }
+
+    &__input {
+      background-color: $color-white;
+      height: 3.75rem;
+      width: 100%;
+      border: 2px solid $color-blue-border;
+      border-radius: 5px;
       display: flex;
-      justify-content: center;
+      flex-direction: row;
+      justify-content: left;
+      align-items: center;
+      color: #757575;
+      padding-top: 0.5rem;
+      padding-left: 0.8rem;
+
+      & span {
+        display: inline-block;
+      }
+
+      &-dash {
+        padding: 0 1.5rem;
+      }
     }
 
-    &--visible {
-      display: inline-block;
+    &__dropdown {
+      display: none;
+      z-index: 10000;
+      position: absolute;
+      left: 0;
+      top: 7.25rem;
+      box-shadow: $box-shadow;
+      border-radius: 3px;
+
+      &-checkbox {
+        position: absolute;
+        top: 29rem;
+        width: 18.3rem;
+        display: flex;
+        justify-content: center;
+      }
+
+      &--visible {
+        display: inline-block;
+      }
     }
-  }
 
-  &__time {
-    display: none;
-    position: absolute;
-    top: 26rem;
-    left: 0.5rem;
+    &__time {
+      display: none;
+      position: absolute;
+      top: 26rem;
+      left: 0.5rem;
 
-    &--visible {
-      display: block;
+      &--visible {
+        display: block;
+      }
     }
-  }
 
-  &__button {
-    @include button;
-    position: absolute;
-    top: 30rem;
-    left: 0;
-    padding: 0 1rem;
-    font-size: 1.1rem;
+    &__button {
+      @include button;
+      position: absolute;
+      top: 30rem;
+      left: 0;
+      padding: 0 1rem;
+      font-size: 1.1rem;
+    }
   }
 }
+
+
+

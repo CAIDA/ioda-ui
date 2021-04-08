@@ -168,6 +168,10 @@ body {
   font-weight: 700;
   font-size: 2.6rem; }
 
+.heading-h1 {
+  color: #2c3e50;
+  font-size: 2.2rem; }
+
 .heading-h2 {
   font-size: 1.8rem;
   color: #2c3e50; }
@@ -186,7 +190,30 @@ body {
 .u-text-align-center {
   text-align: center !important; }
 
-.range__input {
+.control-panel [class^="search-"] {
+  margin: 1.6rem 0 0; }
+
+.control-panel [class^="searchbar-"] {
+  display: flex;
+  flex-direction: column; }
+
+.control-panel [class^="searchInput-"] {
+  height: 3.75rem;
+  padding-left: 0.8rem; }
+  .control-panel [class^="searchInput-"]:focus ~ label {
+    margin-top: -5.6rem;
+    padding-left: 1rem; }
+
+.control-panel [class^="searchLabel-"] {
+  position: relative;
+  margin-top: -5.6rem;
+  padding-left: 1rem;
+  opacity: 1; }
+
+.control-panel .range__label {
+  padding-left: 1rem; }
+
+.control-panel .range__input {
   background-color: #fff;
   height: 3.75rem;
   width: 100%;
@@ -194,16 +221,17 @@ body {
   border-radius: 5px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   color: #757575;
-  padding-top: 0.5rem; }
-  .range__input span {
+  padding-top: 0.5rem;
+  padding-left: 0.8rem; }
+  .control-panel .range__input span {
     display: inline-block; }
-  .range__input-dash {
+  .control-panel .range__input-dash {
     padding: 0 1.5rem; }
 
-.range__dropdown {
+.control-panel .range__dropdown {
   display: none;
   z-index: 10000;
   position: absolute;
@@ -211,24 +239,24 @@ body {
   top: 7.25rem;
   box-shadow: 0 1px 2px #9F9D9D;
   border-radius: 3px; }
-  .range__dropdown-checkbox {
+  .control-panel .range__dropdown-checkbox {
     position: absolute;
     top: 29rem;
     width: 18.3rem;
     display: flex;
     justify-content: center; }
-  .range__dropdown--visible {
+  .control-panel .range__dropdown--visible {
     display: inline-block; }
 
-.range__time {
+.control-panel .range__time {
   display: none;
   position: absolute;
   top: 26rem;
   left: 0.5rem; }
-  .range__time--visible {
+  .control-panel .range__time--visible {
     display: block; }
 
-.range__button {
+.control-panel .range__button {
   background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
   height: 3.5rem;
   border-radius: 0.5rem;
@@ -248,7 +276,7 @@ body {
   left: 0;
   padding: 0 1rem;
   font-size: 1.1rem; }
-  .range__button:before {
+  .control-panel .range__button:before {
     content: '';
     display: inline-block;
     height: 40px;
@@ -261,21 +289,21 @@ body {
     filter: blur(20px) brightness(0.95);
     transform-style: preserve-3d;
     transition: all 0.3s ease-out; }
-    .range__button:before:hover {
+    .control-panel .range__button:before:hover {
       bottom: -7px;
       opacity: 1;
       filter: blur(20px);
       background: linear-gradient(2deg, #C12F2E, #f9ad40, #C12F2E, #f9ad40); }
-  .range__button:hover, .range__button:active {
+  .control-panel .range__button:hover, .control-panel .range__button:active {
     border-radius: 0.5rem;
     transition: all .4s ease-in-out;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
     filter: brightness(1.05) contrast(1.05);
     transform: scale(1.03); }
-    .range__button:hover:before, .range__button:active:before {
+    .control-panel .range__button:hover:before, .control-panel .range__button:active:before {
       bottom: -7px;
       filter: blur(10px) brightness(0.95); }
-  .range__button:focus {
+  .control-panel .range__button:focus {
     outline: none; }
 
 .react-timerange-picker {

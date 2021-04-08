@@ -86,9 +86,11 @@ class ControlPanel extends Component {
 
         return(
             <div className="row control-panel">
+                <div className="col-1-of-1">
+                    <h1 className="heading-h1">{this.props.entityName}</h1>
+                </div>
                 <div className="col-1-of-3">
-                    <h2>{this.props.entityName}</h2>
-                    <T.p text={"controlPanel.timeRange"}/>
+                    <T.p text={"controlPanel.timeRange"} className="range__label"/>
                     <div className="range">
                         <button className="range__input" onClick={() => this.handleRangeDisplay()}>
                             <span className="range__input-start">

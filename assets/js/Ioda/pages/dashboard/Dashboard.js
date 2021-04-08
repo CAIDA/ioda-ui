@@ -568,8 +568,9 @@ class Dashboard extends Component {
             <div className="dashboard">
                 <div className="row title">
                     <div className="col-1-of-1">
+                        <h1 className="heading-h1">Outage Severity Overview</h1>
                         {/*ToDo: Update today to be dynamic*/}
-                        <h2>Outages Occurring Today</h2>
+                        <h3 className="heading-h3">Outages Occurring Today</h3>
                     </div>
                 </div>
                 <ControlPanel

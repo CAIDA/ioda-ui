@@ -2,6 +2,10 @@
   padding-top: $header-height;
   margin: 4rem $gutter-vertical 0;
 
+  .title {
+    margin-bottom: 0;
+  }
+
   .col-1-of-3 {
     position: relative;
   }

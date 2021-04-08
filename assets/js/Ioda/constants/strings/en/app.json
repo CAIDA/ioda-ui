@@ -51,7 +51,7 @@
     "asnModalButtonText": "ASN/ISP Raw Signals"
   },
   "controlPanel": {
-    "timeRange": "Time Range",
+    "timeRange": "Select a Time Range",
     "utc": "UTC",
     "timeInputCheckbox": "Whole Day",
     "applyButtonText": "Apply",
