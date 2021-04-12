@@ -17,14 +17,16 @@ class ControlPanel extends Component {
                 key: 'selection'
             },
             timeRange: [
-                new Date((this.props.from * 1000) - 86400000).toISOString().split("T")[1].split(".")[0],
-                new Date((this.props.until * 1000) - 1000).toISOString().split("T")[1].split(".")[0]
-                // "00:00:00",
-                // "23:59:59"
+                "00:00:00",
+                "23:59:59"
             ],
             rangeInputVisibility: false,
             wholeDayInputSelected: false
         }
+    }
+
+    componentDidMount() {
+        console.log(this.state);
     }
 
     componentDidUpdate(nextProps, nextState) {
@@ -68,17 +70,27 @@ class ControlPanel extends Component {
         this.props.timeFrame(this.state.selection, this.state.timeRange);
     }
 
+    handleDateChange(item) {
+        console.log(item);
+        this.setState(
+            {
+                selection: {
+                    startDate: new Date(this.props.from * 1000),
+                    endDate: new Date(this.props.until * 1000),
+                    key: 'selection'
+                }
+            }
+        )
+    }
+
     render() {
-        let startDate = this.state.selection.startDate.toISOString().split("T")[0];
-        let startTime = this.state.selection.startDate.toISOString().split("T")[1].split(".")[0];
-        // convert for timezone
-        // let startTime = this.state.selection.startDate.toLocaleString( 'sv', { timeZoneName: 'short' } );
-        // let startTime = this.state.selection.startDate.toLocaleString( 'sv', { timeZoneName: 'short' } );
-        let endDate = this.state.selection.endDate.toISOString().split("T")[0];
-        let endTime = this.state.selection.endDate.toISOString().split("T")[1].split(".")[0];
-        // convert for timezone
-        // let endTime = this.state.selection.endDate.toLocaleString( 'sv', { timeZoneName: 'short' } );
-        // let endTime = this.state.selection.endDate;
+        const year = new Date().getUTCFullYear().toString();
+        console.log(this.state.selection.startDate);
+        let startDate = this.state.selection.startDate.toUTCString().split(", ")[1].split(" ").slice(0, 3).join(" ");
+        let startTime = this.state.selection.startDate.toUTCString().split(year)[1].split(".")[0].split("GMT")[0];
+
+        let endDate = this.state.selection.endDate.toUTCString().split(", ")[1].split(" ").slice(0, 3).join(" ");
+        let endTime = this.state.selection.endDate.toUTCString().split(year)[1].split(".")[0].split("GMT")[0];
 
         const utc = T.translate("controlPanel.utc");
         const wholeDay = T.translate("controlPanel.wholeDay");
@@ -104,7 +116,7 @@ class ControlPanel extends Component {
                     </div>
                     <div className={this.state.rangeInputVisibility ? "range__dropdown range__dropdown--visible" : "range__dropdown"}>
                         <DateRangePicker
-                            onChange={item => this.setState({ ...this.state, ...item })}
+                            onChange={item => this.handleDateChange(item)}
                             months={1}
                             minDate={new Date(1970, 0, 1)}
                             maxDate={new Date()}
