@@ -64,7 +64,7 @@
 
       &-checkbox {
         position: absolute;
-        top: 29rem;
+        top: 25rem;
         width: 18.3rem;
         display: flex;
         justify-content: center;
@@ -78,7 +78,7 @@
     &__time {
       display: none;
       position: absolute;
-      top: 26rem;
+      top: 22rem;
       left: 0.5rem;
 
       &--visible {
@@ -89,10 +89,19 @@
     &__button {
       @include button;
       position: absolute;
-      top: 30rem;
+      top: 26rem;
       left: 0;
       padding: 0 1rem;
       font-size: 1.1rem;
+
+      &--secondary {
+        left: 6rem;
+        background: #777879;
+      }
+
+      &--disabled {
+        cursor:not-allowed;
+      }
     }
   }
 }

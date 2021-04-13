@@ -17,13 +17,13 @@ class ControlPanel extends Component {
                 key: 'selection'
             },
             timeRange: [
-                new Date((this.props.from * 1000) - 86400000).toISOString().split("T")[1].split(".")[0],
-                new Date((this.props.until * 1000) - 1000).toISOString().split("T")[1].split(".")[0]
-                // "00:00:00",
-                // "23:59:59"
+                "00:00:00",
+                "23:59:59"
             ],
             rangeInputVisibility: false,
-            wholeDayInputSelected: false
+            wholeDayInputSelected: false,
+            validRange: true,
+            applyButtonActive: true
         }
     }
 
@@ -32,7 +32,7 @@ class ControlPanel extends Component {
             this.setState(prevState => ({
                 selection: {
                     ...prevState.selection,
-                    startDate: new Date(this.props.from * 1000)
+                    startDate: new Date(this.props.from * 1000 + (new Date(this.props.from * 1000).getTimezoneOffset() * 60000))
                 }
             }))
         }
@@ -41,9 +41,36 @@ class ControlPanel extends Component {
             this.setState(prevState => ({
                 selection: {
                     ...prevState.selection,
-                    endDate: new Date(this.props.until * 1000)
+                    endDate: new Date(this.props.until * 1000 + (new Date(this.props.until * 1000).getTimezoneOffset() * 60000))
                 }
             }))
+        }
+
+        // when time or date are changed, check to see if the selected range is valid to enable/disable the apply button
+        if (nextState.timeRange !== this.state.timeRange || nextState.selection !== this.state.selection) {
+            // if the date values are the same and the start time is later than the end time
+            if (this.state.selection.endDate - this.state.selection.startDate === 0) {
+                if (Date.parse(`01/01/2011 ${this.state.timeRange[0]}`) > Date.parse(`01/01/2011 ${this.state.timeRange[1]}`)) {
+                    this.setState({
+                        applyButtonActive: false
+                    })
+                }
+            }
+            // if the date values are the same and the start time is earlier than the end time
+            if (this.state.selection.endDate - this.state.selection.startDate === 0) {
+                if (Date.parse(`01/01/2011 ${this.state.timeRange[0]}`) < Date.parse(`01/01/2011 ${this.state.timeRange[1]}`)) {
+                    this.setState({
+                        applyButtonActive: true
+                    })
+                }
+            }
+
+            // if the end date is more recent than the start date
+            if (this.state.selection.endDate - this.state.selection.startDate > 0) {
+                this.setState({
+                    applyButtonActive: true
+                })
+            }
         }
     }
 
@@ -69,20 +96,15 @@ class ControlPanel extends Component {
     }
 
     render() {
-        let startDate = this.state.selection.startDate.toISOString().split("T")[0];
-        let startTime = this.state.selection.startDate.toISOString().split("T")[1].split(".")[0];
-        // convert for timezone
-        // let startTime = this.state.selection.startDate.toLocaleString( 'sv', { timeZoneName: 'short' } );
-        // let startTime = this.state.selection.startDate.toLocaleString( 'sv', { timeZoneName: 'short' } );
-        let endDate = this.state.selection.endDate.toISOString().split("T")[0];
-        let endTime = this.state.selection.endDate.toISOString().split("T")[1].split(".")[0];
-        // convert for timezone
-        // let endTime = this.state.selection.endDate.toLocaleString( 'sv', { timeZoneName: 'short' } );
-        // let endTime = this.state.selection.endDate;
+        let startDate = new Date((this.props.from * 1000)).toISOString().split("T")[0];
+        let startTime = new Date((this.props.from * 1000)).toISOString().split("T")[1].split(".")[0];
+        let endDate = new Date((this.props.until * 1000)).toISOString().split("T")[0];
+        let endTime = new Date((this.props.until * 1000)).toISOString().split("T")[1].split(".")[0];
 
         const utc = T.translate("controlPanel.utc");
         const wholeDay = T.translate("controlPanel.wholeDay");
         const apply = T.translate("controlPanel.apply");
+        const cancel = T.translate("controlPanel.cancel");
 
         return(
             <div className="row control-panel">
@@ -126,16 +148,25 @@ class ControlPanel extends Component {
                                 clearIcon={null}
                             />
                         </div>
-                        <button className="range__button" onClick={() => this.handleRangeUpdate()}>
-                            {apply}
+                        {
+                            this.state.applyButtonActive
+                            ? <button className={this.state.applyButtonActive ? "range__button" : "range__button range__button--disabled"} onClick={() => this.handleRangeUpdate()}>
+                                    {apply}
+                                </button>
+                                : <button className="range__button range__button--disabled">
+                                    {apply}
+                                </button>
+                        }
+                        <button className="range__button range__button--secondary" onClick={() => this.handleRangeDisplay()}>
+                            {cancel}
                         </button>
                     </div>
                 </div>
                 <div className="col-2-of-3">
                     <div className="searchbar">
-                    {
-                        this.props.searchbar()
-                    }
+                        {
+                            this.props.searchbar()
+                        }
                     </div>
                 </div>
             </div>

@@ -42,7 +42,7 @@ class Dashboard extends Component {
             // Control Panel
             from: window.location.search.split("?")[1]
                 ? window.location.search.split("?")[1].split("&")[0].split("=")[1]
-                : Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000) - 1000) / 1000),
+                : Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000),
             until: window.location.search.split("?")[1]
                 ? window.location.search.split("?")[1].split("&")[1].split("=")[1]
                 : Math.round(new Date().getTime() / 1000),
@@ -230,15 +230,15 @@ class Dashboard extends Component {
         let tStart = timeRange[0].split(":");
         let dEnd = dateRange.endDate;
         let tEnd = timeRange[1].split(":");
-        // set time stamp on date with timezone offset
+        // set time stamp on date
         dStart = dStart.setHours(tStart[0], tStart[1], tStart[2]);
         dEnd = dEnd.setHours(tEnd[0], tEnd[1], tEnd[2]);
+        // account for timezone to ensure selection returns to UTC
+        dStart = dStart - (dateRange.startDate.getTimezoneOffset() * 60000);
+        dEnd = dEnd - (dateRange.endDate.getTimezoneOffset() * 60000);
         // convert to seconds
         dStart = Math.round(dStart / 1000);
         dEnd = Math.round(dEnd / 1000);
-        // // Adjust for timezone?
-        // dStart = new Date(dStart) - new Date(dStart).getTimezoneOffset() * 60;
-        // dEnd = new Date(dStart) - new Date(dStart).getTimezoneOffset() * 60;
 
         const { history } = this.props;
         if (this.state.from !== dStart || this.state.until !== dEnd) {

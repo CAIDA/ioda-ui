@@ -241,7 +241,7 @@ body {
   border-radius: 3px; }
   .control-panel .range__dropdown-checkbox {
     position: absolute;
-    top: 29rem;
+    top: 25rem;
     width: 18.3rem;
     display: flex;
     justify-content: center; }
@@ -251,7 +251,7 @@ body {
 .control-panel .range__time {
   display: none;
   position: absolute;
-  top: 26rem;
+  top: 22rem;
   left: 0.5rem; }
   .control-panel .range__time--visible {
     display: block; }
@@ -273,7 +273,7 @@ body {
   z-index: 10;
   padding: 0 0.5rem;
   position: absolute;
-  top: 30rem;
+  top: 26rem;
   left: 0;
   padding: 0 1rem;
   font-size: 1.1rem; }
@@ -306,6 +306,11 @@ body {
       filter: blur(10px) brightness(0.95); }
   .control-panel .range__button:focus {
     outline: none; }
+  .control-panel .range__button--secondary {
+    left: 6rem;
+    background: #777879; }
+  .control-panel .range__button--disabled {
+    cursor: not-allowed; }
 
 .react-timerange-picker {
   display: inline-flex;
