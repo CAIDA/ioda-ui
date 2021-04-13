@@ -77,6 +77,7 @@ class ControlPanel extends Component {
         const utc = T.translate("controlPanel.utc");
         const wholeDay = T.translate("controlPanel.wholeDay");
         const apply = T.translate("controlPanel.apply");
+        const cancel = T.translate("controlPanel.cancel");
 
         return(
             <div className="row control-panel">
@@ -122,6 +123,9 @@ class ControlPanel extends Component {
                         </div>
                         <button className="range__button" onClick={() => this.handleRangeUpdate()}>
                             {apply}
+                        </button>
+                        <button className="range__button range__button--secondary" onClick={() => this.handleRangeDisplay()}>
+                            {cancel}
                         </button>
                     </div>
                 </div>

@@ -306,6 +306,9 @@ body {
       filter: blur(10px) brightness(0.95); }
   .control-panel .range__button:focus {
     outline: none; }
+  .control-panel .range__button--secondary {
+    left: 7rem;
+    background: #777879; }
 
 .react-timerange-picker {
   display: inline-flex;
