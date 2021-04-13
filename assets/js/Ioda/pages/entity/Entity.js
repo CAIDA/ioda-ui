@@ -52,7 +52,7 @@ class Entity extends Component {
             // Control Panel
             from: window.location.search.split("?")[1]
                 ? window.location.search.split("?")[1].split("&")[0].split("=")[1]
-                : Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000) - 1000) / 1000),
+                : Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000),
             until: window.location.search.split("?")[1]
                 ? window.location.search.split("?")[1].split("&")[1].split("=")[1]
                 : Math.round(new Date().getTime() / 1000),

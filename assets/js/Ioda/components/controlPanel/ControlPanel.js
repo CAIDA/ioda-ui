@@ -17,13 +17,13 @@ class ControlPanel extends Component {
                 key: 'selection'
             },
             timeRange: [
-                // new Date((this.props.from * 1000) - 86400000).toISOString().split("T")[1].split(".")[0],
-                // new Date((this.props.until * 1000) - 1000).toISOString().split("T")[1].split(".")[0]
                 "00:00:00",
                 "23:59:59"
             ],
             rangeInputVisibility: false,
-            wholeDayInputSelected: false
+            wholeDayInputSelected: false,
+            validRange: true,
+            applyButtonActive: true
         }
     }
 
@@ -44,6 +44,33 @@ class ControlPanel extends Component {
                     endDate: new Date(this.props.until * 1000 + (new Date(this.props.until * 1000).getTimezoneOffset() * 60000))
                 }
             }))
+        }
+
+        // when time or date are changed, check to see if the selected range is valid to enable/disable the apply button
+        if (nextState.timeRange !== this.state.timeRange || nextState.selection !== this.state.selection) {
+            // if the date values are the same and the start time is later than the end time
+            if (this.state.selection.endDate - this.state.selection.startDate === 0) {
+                if (Date.parse(`01/01/2011 ${this.state.timeRange[0]}`) > Date.parse(`01/01/2011 ${this.state.timeRange[1]}`)) {
+                    this.setState({
+                        applyButtonActive: false
+                    })
+                }
+            }
+            // if the date values are the same and the start time is earlier than the end time
+            if (this.state.selection.endDate - this.state.selection.startDate === 0) {
+                if (Date.parse(`01/01/2011 ${this.state.timeRange[0]}`) < Date.parse(`01/01/2011 ${this.state.timeRange[1]}`)) {
+                    this.setState({
+                        applyButtonActive: true
+                    })
+                }
+            }
+
+            // if the end date is more recent than the start date
+            if (this.state.selection.endDate - this.state.selection.startDate > 0) {
+                this.setState({
+                    applyButtonActive: true
+                })
+            }
         }
     }
 
@@ -121,9 +148,15 @@ class ControlPanel extends Component {
                                 clearIcon={null}
                             />
                         </div>
-                        <button className="range__button" onClick={() => this.handleRangeUpdate()}>
-                            {apply}
-                        </button>
+                        {
+                            this.state.applyButtonActive
+                            ? <button className={this.state.applyButtonActive ? "range__button" : "range__button range__button--disabled"} onClick={() => this.handleRangeUpdate()}>
+                                    {apply}
+                                </button>
+                                : <button className="range__button range__button--disabled">
+                                    {apply}
+                                </button>
+                        }
                         <button className="range__button range__button--secondary" onClick={() => this.handleRangeDisplay()}>
                             {cancel}
                         </button>
