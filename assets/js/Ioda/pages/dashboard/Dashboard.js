@@ -84,7 +84,7 @@ class Dashboard extends Component {
         };
         this.countryTab = T.translate("dashboard.countryTabTitle");
         this.regionTab = T.translate("dashboard.regionTabTitle");
-        this.asTab = T.translate("dashboard.asnTabTitle";
+        this.asTab = T.translate("dashboard.asnTabTitle");
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.apiQueryLimit = 170;
     }

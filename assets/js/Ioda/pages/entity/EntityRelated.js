@@ -42,6 +42,11 @@ class EntityRelated extends Component {
                                 populateGeoJsonMap={() => this.props.populateGeoJsonMap()}
                                 genRegionalSignalsTable={this.props.genRegionalSignalsTable}
                                 populateRegionalHtsChart={(width, datasource) => this.props.populateRegionalHtsChart(width, datasource)}
+                                prevPageRawRegionalSignalsHts={() => this.props.prevPageRawRegionalSignalsHts()}
+                                nextPageRawRegionalSignalsHts={() => this.props.nextPageRawRegionalSignalsHts()}
+                                rawRegionalSignalsHtsCurrentDisplayLow={this.props.rawRegionalSignalsHtsCurrentDisplayLow}
+                                rawRegionalSignalsHtsCurrentDisplayHigh={this.props.rawRegionalSignalsHtsCurrentDisplayHigh}
+                                rawRegionalSignalsHtsTotalCount={this.props.rawRegionalSignalsHtsTotalCount}
                             />
                         </div>
                     </div>
