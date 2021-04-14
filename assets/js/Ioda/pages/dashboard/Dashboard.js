@@ -82,10 +82,9 @@ class Dashboard extends Component {
             region: region.tab,
             as: as.tab
         };
-        // ToDo: Add to internationalization
-        this.countryTab = "Country View";
-        this.regionTab = "Region View";
-        this.asTab = "AS/ISP View";
+        this.countryTab = T.translate("dashboard.countryTabTitle");
+        this.regionTab = T.translate("dashboard.regionTabTitle");
+        this.asTab = T.translate("dashboard.asnTabTitle";
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.apiQueryLimit = 170;
     }
