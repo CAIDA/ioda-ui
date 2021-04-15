@@ -110,22 +110,15 @@ class Entity extends Component {
             rawRegionalSignalsProcessedBgp: [],
             rawRegionalSignalsProcessedPingSlash24: [],
             rawRegionalSignalsProcessedUcsdNt: [],
-            rawRegionalSignalsHtsPageNumber: 0,
-            rawRegionalSignalsHtsCurrentDisplayLow: 0,
-            rawRegionalSignalsHtsCurrentDisplayHigh: 10,
             // Stacked Horizon Visual on ASN Table Panel
             rawAsnSignals: [],
             rawAsnSignalsProcessedBgp: [],
             rawAsnSignalsProcessedPingSlash24: [],
             rawAsnSignalsProcessedUcsdNt: [],
-            rawAsnSignalsHtsPageNumber: 0,
-            rawAsnSignalsHtsCurrentDisplayLow: 0,
-            rawAsnSignalsHtsCurrentDisplayHigh: 10,
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
         this.apiQueryLimit = 170;
-        this.rawSignalsHtsLimit = 10;
     }
 
     componentDidMount() {
@@ -768,18 +761,6 @@ class Entity extends Component {
             genAsnSignalsTable={() => this.genAsnSignalsTable()}
             populateRegionalHtsChart={(width, datasource) => this.populateRegionalHtsChart(width, datasource)}
             populateAsnHtsChart={(width, datasource) => this.populateAsnHtsChart(width, datasource)}
-            // regional modal hts pagination props
-            prevPageRawRegionalSignalsHts={() => this.prevPageRawRegionalSignalsHts()}
-            nextPageRawRegionalSignalsHts={() => this.nextPageRawRegionalSignalsHts()}
-            rawRegionalSignalsHtsCurrentDisplayLow={this.state.rawRegionalSignalsHtsCurrentDisplayLow}
-            rawRegionalSignalsHtsCurrentDisplayHigh={this.state.rawRegionalSignalsHtsCurrentDisplayHigh}
-            rawRegionalSignalsHtsTotalCount={this.state.regionalSignalsTableSummaryDataProcessed.length}
-            // asn modal hts pagination props
-            prevPageRawAsnSignalsHts={() => this.prevPageRawAsnSignalsHts()}
-            nextPageRawAsnSignalsHts={() => this.nextPageRawAsnSignalsHts()}
-            rawAsnSignalsHtsCurrentDisplayLow={this.state.rawAsnSignalsHtsCurrentDisplayLow}
-            rawAsnSignalsHtsCurrentDisplayHigh={this.state.rawAsnSignalsHtsCurrentDisplayHigh}
-            rawAsnSignalsHtsTotalCount={this.state.asnSignalsTableSummaryDataProcessed.length}
         />;
     }
     // Show/hide modal when button is clicked on either panel
@@ -1145,15 +1126,12 @@ class Entity extends Component {
         let from = this.state.from;
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
-        let entities = this.state.regionalSignalsTableSummaryDataProcessed.slice(
-            this.state.rawRegionalSignalsHtsCurrentDisplayLow,
-            this.state.rawRegionalSignalsHtsCurrentDisplayHigh
-        ).map(entity => {
-                // some entities don't return a code to be used in an api call, seem to default to '??' in that event
-                if (entity.code !== "??") {
-                    return entity.entityCode;
-                }
-            }).toString();
+        let entities = this.state.regionalSignalsTableSummaryDataProcessed.slice(0, 10).map(entity => {
+            // some entities don't return a code to be used in an api call, seem to default to '??' in that event
+            if (entity.code !== "??") {
+                return entity.entityCode;
+            }
+        }).toString();
         this.props.getRawRegionalSignalsAction(entityType, entities, from, until, attr, order);
     }
     convertValuesForRegionalHtsViz() {
@@ -1256,36 +1234,6 @@ class Entity extends Component {
         }
     }
 
-    // pagination on regional Horizon Time Series charts
-    nextPageRawRegionalSignalsHts() {
-        let nextPageValues = nextPage(!!this.state.regionalSignalsTableSummaryDataProcessed, this.state.regionalSignalsTableSummaryDataProcessed.length, this.state.rawRegionalSignalsHtsPageNumber, this.state.rawRegionalSignalsHtsCurrentDisplayHigh, this.state.rawRegionalSignalsHtsCurrentDisplayLow);
-        this.setState({
-            rawRegionalSignalsHtsPageNumber: nextPageValues.newPageNumber,
-            rawRegionalSignalsHtsCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
-            rawRegionalSignalsHtsCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh,
-            rawRegionalSignals: [],
-            rawRegionalSignalsProcessedBgp: [],
-            rawRegionalSignalsProcessedPingSlash24: [],
-            rawRegionalSignalsProcessedUcsdNt: []
-        }, () => {
-            this.getRegionalSignalsHtsDataEvents("region");
-        });
-    }
-    prevPageRawRegionalSignalsHts() {
-        let prevPageValues = prevPage(!!this.state.regionalSignalsTableSummaryDataProcessed, this.state.regionalSignalsTableSummaryDataProcessed.length, this.state.rawRegionalSignalsHtsPageNumber, this.state.rawRegionalSignalsHtsCurrentDisplayHigh, this.state.rawRegionalSignalsHtsCurrentDisplayLow);
-        this.setState({
-            rawRegionalSignalsHtsPageNumber: prevPageValues.newPageNumber,
-            rawRegionalSignalsHtsCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
-            rawRegionalSignalsHtsCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh,
-            rawRegionalSignals: [],
-            rawRegionalSignalsProcessedBgp: [],
-            rawRegionalSignalsProcessedPingSlash24: [],
-            rawRegionalSignalsProcessedUcsdNt: []
-        }, () => {
-            this.getRegionalSignalsHtsDataEvents("region");
-        });
-    }
-
 
 // Table Modal
     // Table displaying all ASes regardless of score
@@ -1386,10 +1334,7 @@ class Entity extends Component {
         let from = this.state.from;
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
-        let entities = this.state.asnSignalsTableSummaryDataProcessed.slice(
-            this.state.rawAsnSignalsHtsCurrentDisplayLow,
-            this.state.rawAsnSignalsHtsCurrentDisplayHigh
-        ).map(entity => {
+        let entities = this.state.asnSignalsTableSummaryDataProcessed.slice(0, 30).map(entity => {
             // some entities don't return a code to be used in an api call, seem to default to '??' in that event
             if (entity.code !== "??") {
                 return entity.entityCode;
@@ -1497,36 +1442,6 @@ class Entity extends Component {
             default:
                 break;
         }
-    }
-    // pagination on regional Horizon Time Series charts
-    nextPageRawAsnSignalsHts() {
-        console.log("here");
-        let nextPageValues = nextPage(!!this.state.asnSignalsTableSummaryDataProcessed, this.state.asnSignalsTableSummaryDataProcessed.length, this.state.rawAsnSignalsHtsPageNumber, this.state.rawAsnSignalsHtsCurrentDisplayHigh, this.state.rawAsnSignalsHtsCurrentDisplayLow);
-        this.setState({
-            rawAsnSignalsHtsPageNumber: nextPageValues.newPageNumber,
-            rawAsnSignalsHtsCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
-            rawAsnSignalsHtsCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh,
-            rawAsnSignals: [],
-            rawAsnSignalsProcessedBgp: [],
-            rawAsnSignalsProcessedPingSlash24: [],
-            rawAsnSignalsProcessedUcsdNt: []
-        }, () => {
-            this.getAsnSignalsHtsDataEvents("asn");
-        });
-    }
-    prevPageRawAsnSignalsHts() {
-        let prevPageValues = prevPage(!!this.state.regionalSignalsTableSummaryDataProcessed, this.state.regionalSignalsTableSummaryDataProcessed.length, this.state.rawRegionalSignalsHtsPageNumber, this.state.rawRegionalSignalsHtsCurrentDisplayHigh, this.state.rawRegionalSignalsHtsCurrentDisplayLow);
-        this.setState({
-            rawRegionalSignalsHtsPageNumber: prevPageValues.newPageNumber,
-            rawRegionalSignalsHtsCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
-            rawRegionalSignalsHtsCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh,
-            rawRegionalSignals: [],
-            rawRegionalSignalsProcessedBgp: [],
-            rawRegionalSignalsProcessedPingSlash24: [],
-            rawRegionalSignalsProcessedUcsdNt: []
-        }, () => {
-            this.getRegionalSignalsHtsDataEvents("region");
-        });
     }
 
     render() {

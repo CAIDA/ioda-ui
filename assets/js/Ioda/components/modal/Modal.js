@@ -28,13 +28,6 @@ class Modal extends Component {
         const bgpHtsLabel = T.translate("entityModal.bgpHtsLabel");
         const ucsdNtHtsLabel = T.translate("entityModal.ucsdNtHtsLabel");
 
-        const displayCountShowing = T.translate("table.displayCountShowing");
-        const displayCountOf = T.translate("table.displayCountOf");
-        const displayCountEntries = T.translate("table.displayCountEntries");
-        const prevButtonText = T.translate("table.prevButtonText");
-        const nextButtonText = T.translate("table.nextButtonText");
-
-        console.log(this.props);
         return(
             <div className="modal">
                 <div className="modal__background"></div>
@@ -91,13 +84,6 @@ class Modal extends Component {
                                                 this.props.populateRegionalHtsChart(this.configUcsdNt.current.offsetWidth, 'ucsd-nt') : null
                                             }
                                         </div>
-                                        <div className="table__page">
-                                            <p className="table__page-text">{displayCountShowing} {this.props.rawRegionalSignalsHtsCurrentDisplayLow + 1} - {this.props.rawRegionalSignalsHtsCurrentDisplayHigh} {displayCountOf} {this.props.rawRegionalSignalsHtsTotalCount} {displayCountEntries}</p>
-                                            <div className="table__page-controls">
-                                                <button onClick={() => this.props.prevPageRawRegionalSignalsHts()} className="table__page-button">{prevButtonText}</button>
-                                                <button onClick={() => this.props.nextPageRawRegionalSignalsHts()} className="table__page-button">{nextButtonText}</button>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -136,13 +122,6 @@ class Modal extends Component {
                                                 this.configUcsdNt.current ?
                                                 this.props.populateAsnHtsChart(this.configUcsdNt.current.offsetWidth, 'ucsd-nt') : null
                                             }
-                                        </div>
-                                        <div className="table__page">
-                                            <p className="table__page-text">{displayCountShowing} {this.props.rawAsnSignalsHtsCurrentDisplayLow + 1} - {this.props.rawAsnSignalsHtsCurrentDisplayHigh} {displayCountOf} {this.props.rawAsnSignalsHtsTotalCount} {displayCountEntries}</p>
-                                            <div className="table__page-controls">
-                                                <button onClick={() => this.props.prevPageRawAsnSignalsHts()} className="table__page-button">{prevButtonText}</button>
-                                                <button onClick={() => this.props.nextPageRawAsnSignalsHts()} className="table__page-button">{nextButtonText}</button>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
