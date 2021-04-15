@@ -1126,7 +1126,7 @@ class Entity extends Component {
         let from = this.state.from;
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
-        let entities = this.state.regionalSignalsTableSummaryDataProcessed.slice(0, 10).map(entity => {
+        let entities = this.state.regionalSignalsTableSummaryDataProcessed.map(entity => {
             // some entities don't return a code to be used in an api call, seem to default to '??' in that event
             if (entity.code !== "??") {
                 return entity.entityCode;
@@ -1334,7 +1334,7 @@ class Entity extends Component {
         let from = this.state.from;
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
-        let entities = this.state.asnSignalsTableSummaryDataProcessed.slice(0, 30).map(entity => {
+        let entities = this.state.asnSignalsTableSummaryDataProcessed.map(entity => {
             // some entities don't return a code to be used in an api call, seem to default to '??' in that event
             if (entity.code !== "??") {
                 return entity.entityCode;
