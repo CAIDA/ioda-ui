@@ -4,7 +4,7 @@ Web application UI for the IODA project (https://ioda.caida.org)
 
 
 ## Install
-1. Ensure PHP 7.2 is running on your machine.
+1. Ensure PHP 7.2 or higher is running on your machine.
 2. Clone repo locally 
 3. run `brew install composer yarn`
 4. run `curl -sS https://get.symfony.com/cli/installer | bash`
