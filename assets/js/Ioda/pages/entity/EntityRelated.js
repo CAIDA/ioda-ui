@@ -42,6 +42,7 @@ class EntityRelated extends Component {
                                 populateGeoJsonMap={() => this.props.populateGeoJsonMap()}
                                 genRegionalSignalsTable={this.props.genRegionalSignalsTable}
                                 populateRegionalHtsChart={(width, datasource) => this.props.populateRegionalHtsChart(width, datasource)}
+                                // regional modal hts pagination props
                                 prevPageRawRegionalSignalsHts={() => this.props.prevPageRawRegionalSignalsHts()}
                                 nextPageRawRegionalSignalsHts={() => this.props.nextPageRawRegionalSignalsHts()}
                                 rawRegionalSignalsHtsCurrentDisplayLow={this.props.rawRegionalSignalsHtsCurrentDisplayLow}
@@ -82,6 +83,12 @@ class EntityRelated extends Component {
                                 toggleModal={this.props.toggleModal}
                                 genSignalsTable={() => this.props.genAsnSignalsTable()}
                                 populateAsnHtsChart={(width, datasource) => this.props.populateAsnHtsChart(width, datasource)}
+                                // asn modal hts pagination props
+                                prevPageRawAsnSignalsHts={() => this.props.prevPageRawAsnSignalsHts()}
+                                nextPageRawAsnSignalsHts={() => this.props.nextPageRawAsnSignalsHts()}
+                                rawAsnSignalsHtsCurrentDisplayLow={this.props.rawAsnSignalsHtsCurrentDisplayLow}
+                                rawAsnSignalsHtsCurrentDisplayHigh={this.props.rawAsnSignalsHtsCurrentDisplayHigh}
+                                rawAsnSignalsHtsTotalCount={this.props.rawAsnSignalsHtsTotalCount}
                             />
                         </div>
                     </div>

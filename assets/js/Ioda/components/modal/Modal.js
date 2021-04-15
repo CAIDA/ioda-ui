@@ -137,6 +137,13 @@ class Modal extends Component {
                                                 this.props.populateAsnHtsChart(this.configUcsdNt.current.offsetWidth, 'ucsd-nt') : null
                                             }
                                         </div>
+                                        <div className="table__page">
+                                            <p className="table__page-text">{displayCountShowing} {this.props.rawAsnSignalsHtsCurrentDisplayLow + 1} - {this.props.rawAsnSignalsHtsCurrentDisplayHigh} {displayCountOf} {this.props.rawAsnSignalsHtsTotalCount} {displayCountEntries}</p>
+                                            <div className="table__page-controls">
+                                                <button onClick={() => this.props.prevPageRawAsnSignalsHts()} className="table__page-button">{prevButtonText}</button>
+                                                <button onClick={() => this.props.nextPageRawAsnSignalsHts()} className="table__page-button">{nextButtonText}</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
