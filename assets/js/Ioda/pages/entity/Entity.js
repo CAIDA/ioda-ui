@@ -291,12 +291,12 @@ class Entity extends Component {
         // set time stamp on date with timezone offset
         dStart = dStart.setHours(tStart[0], tStart[1], tStart[2]);
         dEnd = dEnd.setHours(tEnd[0], tEnd[1], tEnd[2]);
+        // account for timezone to ensure selection returns to UTC
+        dStart = dStart - (dateRange.startDate.getTimezoneOffset() * 60000);
+        dEnd = dEnd - (dateRange.endDate.getTimezoneOffset() * 60000);
         // convert to seconds
         dStart = Math.round(dStart / 1000);
         dEnd = Math.round(dEnd / 1000);
-        // // Adjust for timezone (only needed on entity page)
-        dStart = new Date(dStart) - new Date(dStart).getTimezoneOffset() * 60;
-        dEnd = new Date(dEnd) - new Date(dEnd).getTimezoneOffset() * 60;
 
         const { history } = this.props;
         history.push(`/${this.state.entityType}/${this.state.entityCode}?from=${dStart}&until=${dEnd}`);
