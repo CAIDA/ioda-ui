@@ -27,7 +27,7 @@ import {
     sortByKey,
     nextPage,
     prevPage,
-    convertTsDataForHtsViz
+    convertTsDataForHtsViz, dateRangeToSeconds
 } from "../../utils";
 import Loading from "../../components/loading/Loading";
 import * as d3 from 'd3-shape';
@@ -224,29 +224,15 @@ class Dashboard extends Component {
 // Control Panel
     // manage the date selected in the input
     handleTimeFrame(dateRange, timeRange) {
-        // initialize values from parameters
-        let dStart = dateRange.startDate;
-        let tStart = timeRange[0].split(":");
-        let dEnd = dateRange.endDate;
-        let tEnd = timeRange[1].split(":");
-        // set time stamp on date
-        dStart = dStart.setHours(tStart[0], tStart[1], tStart[2]);
-        dEnd = dEnd.setHours(tEnd[0], tEnd[1], tEnd[2]);
-        // account for timezone to ensure selection returns to UTC
-        dStart = dStart - (dateRange.startDate.getTimezoneOffset() * 60000);
-        dEnd = dEnd - (dateRange.endDate.getTimezoneOffset() * 60000);
-        // convert to seconds
-        dStart = Math.round(dStart / 1000);
-        dEnd = Math.round(dEnd / 1000);
-
+        const range = dateRangeToSeconds(dateRange, timeRange);
         const { history } = this.props;
-        if (this.state.from !== dStart || this.state.until !== dEnd) {
-            history.push(`/dashboard?from=${dStart}&until=${dEnd}`);
+        if (this.state.from !== range[0] || this.state.until !== range[1]) {
+            history.push(`/dashboard?from=${range[0]}&until=${range[1]}`);
         }
 
         this.setState({
-            from: dStart,
-            until: dEnd,
+            from: range[0],
+            until: range[1],
             summaryDataRaw: null,
             topoData: null,
             summaryDataProcessed: [],

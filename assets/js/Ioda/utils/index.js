@@ -330,3 +330,22 @@ export function shadeColor(color, percent) {
 
     return "#"+RR+GG+BB;
 }
+
+// Convert values from control panel range input (date range, time range) into seconds from epoch
+export function dateRangeToSeconds(dateRange, timeRange) {
+    // initialize values from parameters
+    let dStart = dateRange.startDate;
+    let tStart = timeRange[0].split(":");
+    let dEnd = dateRange.endDate;
+    let tEnd = timeRange[1].split(":");
+    // set time stamp on date with timezone offset
+    dStart = dStart.setHours(tStart[0], tStart[1], tStart[2]);
+    dEnd = dEnd.setHours(tEnd[0], tEnd[1], tEnd[2]);
+    // account for timezone to ensure selection returns to UTC
+    dStart = dStart - (dateRange.startDate.getTimezoneOffset() * 60000);
+    dEnd = dEnd - (dateRange.endDate.getTimezoneOffset() * 60000);
+    // convert to seconds
+    dStart = Math.round(dStart / 1000);
+    dEnd = Math.round(dEnd / 1000);
+    return [ dStart, dEnd ];
+}
