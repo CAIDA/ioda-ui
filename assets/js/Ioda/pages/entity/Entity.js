@@ -28,7 +28,8 @@ import {
     nextPage,
     prevPage,
     convertTsDataForHtsViz,
-    getOutageCoords
+    getOutageCoords,
+    dateRangeToSeconds
 } from "../../utils";
 import {as} from "../dashboard/DashboardConstants";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
@@ -283,27 +284,13 @@ class Entity extends Component {
 // Control Panel
     // manage the date selected in the input
     handleTimeFrame(dateRange, timeRange) {
-        // initialize values from parameters
-        let dStart = dateRange.startDate;
-        let tStart = timeRange[0].split(":");
-        let dEnd = dateRange.endDate;
-        let tEnd = timeRange[1].split(":");
-        // set time stamp on date with timezone offset
-        dStart = dStart.setHours(tStart[0], tStart[1], tStart[2]);
-        dEnd = dEnd.setHours(tEnd[0], tEnd[1], tEnd[2]);
-        // account for timezone to ensure selection returns to UTC
-        dStart = dStart - (dateRange.startDate.getTimezoneOffset() * 60000);
-        dEnd = dEnd - (dateRange.endDate.getTimezoneOffset() * 60000);
-        // convert to seconds
-        dStart = Math.round(dStart / 1000);
-        dEnd = Math.round(dEnd / 1000);
-
+        const range = dateRangeToSeconds(dateRange, timeRange);
         const { history } = this.props;
-        history.push(`/${this.state.entityType}/${this.state.entityCode}?from=${dStart}&until=${dEnd}`);
+        history.push(`/${this.state.entityType}/${this.state.entityCode}?from=${range[0]}&until=${range[1]}`);
 
         this.setState({
-            from: dStart,
-            until: dEnd
+            from: range[0],
+            until: range[1]
         }, () => {
             // Get topo and outage data to repopulate map and table
             this.props.searchEventsAction(this.state.from, this.state.until, this.state.entityType, this.state.entityCode);
