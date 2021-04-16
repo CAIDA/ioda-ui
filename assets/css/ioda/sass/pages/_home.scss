@@ -132,7 +132,7 @@ button[class*="searchButton"] {
           right: 0;
           z-index: -2;
           background: $color-secondary;
-          background: linear-gradient(to 101deg, $color-secondary-light 0%, $color-secondary-dark 100%);
+          background: linear-gradient(101deg, $color-secondary-light 0%, $color-secondary-dark 100%);
           filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8FD0E6', endColorstr='#035672',GradientType=1 );
         }
 

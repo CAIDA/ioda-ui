@@ -1826,7 +1826,7 @@ button[class*="searchButton"] {
           right: 0;
           z-index: -2;
           background: #5899AE;
-          background: linear-gradient(to 101deg, #7FB7CA 0%, #286F86 100%);
+          background: linear-gradient(101deg, #7FB7CA 0%, #286F86 100%);
           filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8FD0E6', endColorstr='#035672',GradientType=1 ); }
         .home .about .button button:after {
           top: 3px;
