@@ -29,7 +29,8 @@ import {
     prevPage,
     convertTsDataForHtsViz,
     getOutageCoords,
-    dateRangeToSeconds
+    dateRangeToSeconds,
+    normalize
 } from "../../utils";
 import {as} from "../dashboard/DashboardConstants";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
@@ -61,13 +62,9 @@ class Entity extends Component {
             suggestedSearchResults: null,
             searchTerm: null,
             lastFetched: 0,
-            // Time Series states
+            // XY Plot Time Series
             tsDataRaw: null,
-            tsDataProcessed: {
-                activeProbing: [],
-                bgp: [],
-                darknet: []
-            },
+            tsDataNormalized: true,
             // Table Pagination
             eventTablePageNumber: 0,
             eventTableCurrentDisplayLow: 0,
@@ -333,11 +330,7 @@ class Entity extends Component {
             searchTerm: null,
             // Time Series states
             tsDataRaw: null,
-            tsDataProcessed: {
-                activeProbing: [],
-                bgp: [],
-                darknet: []
-            },
+            tsDataNormalized: true,
             // Table Pagination
             eventTablePageNumber: 0,
             eventTableCurrentDisplayLow: 0,
@@ -420,7 +413,7 @@ class Entity extends Component {
                 markerType: "circle",
                 markerSize: 2,
                 name: "Network Telescope",
-                axisYType: "secondary",
+                axisYType: this.state.tsDataNormalized ? 'primary' : "secondary",
                 showInLegend: true,
                 xValueFormatString: "DDD, MMM DD - HH:MM",
                 yValueFormatString: "##",
@@ -468,28 +461,38 @@ class Entity extends Component {
 
         // Loop through available datasources to collect plot points
         this.state.tsDataRaw[0].map(datasource => {
+            let min, max;
             switch (datasource.datasource) {
                 case "ucsd-nt":
+                    min = Math.min(...datasource.values);
+                    max = Math.max(...datasource.values);
+
                     datasource.values && datasource.values.map((value, index) => {
                         let x, y;
                         x = toDateTime(datasource.from + (datasource.step * index));
-                        y = value;
+                        y = this.state.tsDataNormalized ? normalize(value, min, max) : value;
                         networkTelescopeValues.push({x: x, y: y});
                     });
                     break;
                 case "bgp":
+                    min = Math.min(...datasource.values);
+                    max = Math.max(...datasource.values);
+
                     datasource.values && datasource.values.map((value, index) => {
                         let x, y;
                         x = toDateTime(datasource.from + (datasource.step * index));
-                        y = value;
+                        y = this.state.tsDataNormalized ? normalize(value, min, max) : value;
                         bgpValues.push({x: x, y: y});
                     });
                     break;
                 case "ping-slash24":
+                    min = Math.min(...datasource.values);
+                    max = Math.max(...datasource.values);
+
                     datasource.values && datasource.values.map((value, index) => {
                         let x, y;
                         x = toDateTime(datasource.from + (datasource.step * index));
-                        y = value;
+                        y = this.state.tsDataNormalized ? normalize(value, min, max) : value;
                         activeProbingValues.push({x: x, y: y});
                     });
             }
@@ -531,6 +534,7 @@ class Entity extends Component {
                     labelFontColor: "#666666",
                     tickColor: "#34a02c",
                     labelFontSize: 12,
+                    maximum: this.state.tsDataNormalized ? 100 : null
                 },
                 axisY2: {
                     // title: "Network Telescope",
@@ -575,6 +579,11 @@ class Entity extends Component {
                 {/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
             </div>
         );
+    }
+    changeXyChartNormalization() {
+        this.setState({
+            tsDataNormalized: !this.state.tsDataNormalized
+        }, () => this.convertValuesForXyViz())
     }
 
 
@@ -1437,6 +1446,8 @@ class Entity extends Component {
         const eventAlertButtonText2 = T.translate("entity.eventAlertButtonText2");
         const eventFeedTitle = T.translate("entity.eventFeedTitle");
         const alertFeedTitle = T.translate("entity.alertFeedTitle");
+        const xyChartAbsoluteButtonText = T.translate("entity.xyChartAbsoluteButtonText");
+        const xyChartNormalizeButtonText = T.translate("entity.xyChartNormalizeButtonText");
 
         return(
             <div className="entity">
@@ -1454,6 +1465,11 @@ class Entity extends Component {
                                 {xyChartTitle}
                                 {this.state.entityName}
                             </h3>
+                            <button className="overview__config-button"
+                                    onClick={() => this.changeXyChartNormalization()}
+                            >
+                                {this.state.tsDataNormalized ? xyChartAbsoluteButtonText : xyChartNormalizeButtonText}
+                            </button>
                             {/*<button className="overview__config-button">Modal</button>*/}
                         </div>
                         {

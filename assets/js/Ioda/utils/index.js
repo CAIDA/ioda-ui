@@ -349,3 +349,9 @@ export function dateRangeToSeconds(dateRange, timeRange) {
     dEnd = Math.round(dEnd / 1000);
     return [ dStart, dEnd ];
 }
+
+// Normalize valye in XY plot of time series on entity page
+export function normalize(value, min, max) {
+    const normalizedValue = (value - min) / (max - min) * 100;
+    return normalizedValue;
+}
