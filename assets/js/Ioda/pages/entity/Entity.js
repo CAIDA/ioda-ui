@@ -66,6 +66,7 @@ class Entity extends Component {
             tsDataRaw: null,
             tsDataNormalized: true,
             tsDataDisplayOutageBands: true,
+            tsDataScreenBelow760: false,
             // Table Pagination
             eventTablePageNumber: 0,
             eventTableCurrentDisplayLow: 0,
@@ -121,6 +122,8 @@ class Entity extends Component {
     }
 
     componentDidMount() {
+        // Monitor screen width
+        window.addEventListener("resize", this.resize.bind(this));
         this.setState({
             mounted: true
         },() => {
@@ -134,6 +137,7 @@ class Entity extends Component {
     }
 
     componentWillUnmount() {
+        window.removeEventListener("resize", this.resize.bind(this));
         this.setState({
             mounted: false
         })
@@ -556,6 +560,7 @@ class Entity extends Component {
                 legend: {
                     cursor: "pointer",
                     fontSize: 14,
+                    verticalAlign: this.state.tsDataScreenBelow760 ? "top" : "bottom",
                     itemclick: function (e) {
                         // console.log("legend click: " + e.dataPointIndex);
                         // console.log(e);
@@ -576,7 +581,7 @@ class Entity extends Component {
     }
     genXyChart() {
         return (
-            this.state.xyDataOptions && <div>
+            this.state.xyDataOptions && <div className="overview__xy-wrapper">
                 <CanvasJSChart options={this.state.xyDataOptions}
                                onRef={ref => this.chart = ref}
                 />
@@ -593,6 +598,19 @@ class Entity extends Component {
         this.setState({
             tsDataDisplayOutageBands: !this.state.tsDataDisplayOutageBands
         }, () => this.convertValuesForXyViz())
+    }
+    // Track screen width to shift around legend
+    resize() {
+        let tsDataScreenBelow760 = (window.innerWidth <= 760);
+        if (tsDataScreenBelow760 !== this.state.tsDataScreenBelow760) {
+
+            this.setState({
+                tsDataScreenBelow760: tsDataScreenBelow760
+            }, () => {
+                console.log(this.state.tsDataScreenBelow760)
+                this.convertValuesForXyViz()
+            });
+        }
     }
 
 

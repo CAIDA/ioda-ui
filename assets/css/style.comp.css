@@ -2033,6 +2033,11 @@ button[class*="searchButton"] {
     min-height: 65rem;
     box-shadow: 0 1px 2px #9F9D9D;
     padding: 2.5rem; }
+    @media only screen and (max-width: 80em) {
+      .entity .overview .col-3-of-5 {
+        width: 100%; }
+      .entity .overview .col-2-of-5 {
+        width: 100%; } }
     .entity .overview__config {
       width: 100%;
       display: flex;
@@ -2089,6 +2094,28 @@ button[class*="searchButton"] {
           outline: none; }
         .entity .overview__config-button--alertBands {
           margin-left: 1rem; }
+    .entity .overview__xy-wrapper {
+      position: relative; }
+      .entity .overview__xy-wrapper .canvasjs-chart-credit {
+        display: none; }
+      .entity .overview__xy-wrapper:after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background-color: #fff;
+        height: 1.5rem;
+        width: 14rem; }
+        @media only screen and (min-width: 112.5em) {
+          .entity .overview__xy-wrapper:after {
+            width: 11.5rem; } }
+        @media only screen and (max-width: 80em) {
+          .entity .overview__xy-wrapper:after {
+            width: 15.5rem; } }
+        @media only screen and (max-width: 64em) {
+          .entity .overview__xy-wrapper:after {
+            width: 17.5rem;
+            height: 2rem; } }
     .entity .overview__table-config {
       display: flex;
       flex-direction: row;
