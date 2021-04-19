@@ -65,6 +65,7 @@ class Entity extends Component {
             // XY Plot Time Series
             tsDataRaw: null,
             tsDataNormalized: true,
+            tsDataDisplayOutageBands: true,
             // Table Pagination
             eventTablePageNumber: 0,
             eventTableCurrentDisplayLow: 0,
@@ -331,6 +332,7 @@ class Entity extends Component {
             // Time Series states
             tsDataRaw: null,
             tsDataNormalized: true,
+            tsDataDisplayOutageBands: true,
             // Table Pagination
             eventTablePageNumber: 0,
             eventTableCurrentDisplayLow: 0,
@@ -500,15 +502,17 @@ class Entity extends Component {
 
         // Create Alert band objects
         let stripLines = [];
-        this.state.eventDataRaw && this.state.eventDataRaw.map(event => {
-            const stripLine = {
-                startValue: toDateTime(event.start),
-                endValue: toDateTime(event.start + event.duration),
-                color:"#BE1D2D",
-                opacity: .2
-            };
-            stripLines.push(stripLine);
-        });
+        if (this.state.tsDataDisplayOutageBands) {
+            this.state.eventDataRaw && this.state.eventDataRaw.map(event => {
+                const stripLine = {
+                    startValue: toDateTime(event.start),
+                    endValue: toDateTime(event.start + event.duration),
+                    color:"#BE1D2D",
+                    opacity: .2
+                };
+                stripLines.push(stripLine);
+            });
+        }
 
         this.setState({
             xyDataOptions: {
@@ -583,6 +587,11 @@ class Entity extends Component {
     changeXyChartNormalization() {
         this.setState({
             tsDataNormalized: !this.state.tsDataNormalized
+        }, () => this.convertValuesForXyViz())
+    }
+    handleDisplayAlertBands() {
+        this.setState({
+            tsDataDisplayOutageBands: !this.state.tsDataDisplayOutageBands
         }, () => this.convertValuesForXyViz())
     }
 
@@ -1448,6 +1457,8 @@ class Entity extends Component {
         const alertFeedTitle = T.translate("entity.alertFeedTitle");
         const xyChartAbsoluteButtonText = T.translate("entity.xyChartAbsoluteButtonText");
         const xyChartNormalizeButtonText = T.translate("entity.xyChartNormalizeButtonText");
+        const xyChartToggleBandsOnText = T.translate("entity.xyChartToggleBandsOnText");
+        const xyChartToggleBandsOffText = T.translate("entity.xyChartToggleBandsOffText");
 
         return(
             <div className="entity">
@@ -1465,12 +1476,19 @@ class Entity extends Component {
                                 {xyChartTitle}
                                 {this.state.entityName}
                             </h3>
-                            <button className="overview__config-button"
-                                    onClick={() => this.changeXyChartNormalization()}
-                            >
-                                {this.state.tsDataNormalized ? xyChartAbsoluteButtonText : xyChartNormalizeButtonText}
-                            </button>
-                            {/*<button className="overview__config-button">Modal</button>*/}
+                            <div className="overview__buttons">
+                                <button className="overview__config-button"
+                                        onClick={() => this.changeXyChartNormalization()}
+                                >
+                                    {this.state.tsDataNormalized ? xyChartAbsoluteButtonText : xyChartNormalizeButtonText}
+                                </button>
+                                <button className="overview__config-button overview__config-button--alertBands"
+                                        onClick={() => this.handleDisplayAlertBands()}
+                                >
+                                    {this.state.tsDataDisplayOutageBands ? xyChartToggleBandsOffText : xyChartToggleBandsOnText}
+                                </button>
+                                {/*<button className="overview__config-button">Modal</button>*/}
+                            </div>
                         </div>
                         {
                             this.state.xyDataOptions

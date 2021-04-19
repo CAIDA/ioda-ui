@@ -48,6 +48,8 @@
     "xyChartTitle": "IODA Signals for ",
     "xyChartAbsoluteButtonText": "View Absolute Values",
     "xyChartNormalizeButtonText": "View Normalized Values",
+    "xyChartToggleBandsOnText": "Alert Bands On",
+    "xyChartToggleBandsOffText": "Alert Bands Off",
     "eventAlertButtonText1": "View ",
     "eventAlertButtonText2": " Table",
     "eventFeedTitle": "Event Feed for ",
