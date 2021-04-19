@@ -24,9 +24,13 @@
       &-button {
         @include button;
         height: 3rem;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         margin: 0;
         padding: 0 1rem;
+
+        &--alertBands {
+          margin-left: 1rem;
+        }
       }
     }
 

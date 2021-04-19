@@ -2055,7 +2055,7 @@ button[class*="searchButton"] {
         z-index: 10;
         padding: 0 0.5rem;
         height: 3rem;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         margin: 0;
         padding: 0 1rem; }
         .entity .overview__config-button:before {
@@ -2087,6 +2087,8 @@ button[class*="searchButton"] {
             filter: blur(10px) brightness(0.95); }
         .entity .overview__config-button:focus {
           outline: none; }
+        .entity .overview__config-button--alertBands {
+          margin-left: 1rem; }
     .entity .overview__table-config {
       display: flex;
       flex-direction: row;
