@@ -46,6 +46,8 @@
     "pageTitle": "Outage Severity Overview",
     "timeRangeTitle": "Outages Occurring Today",
     "xyChartTitle": "IODA Signals for ",
+    "xyChartAbsoluteButtonText": "View Absolute Values",
+    "xyChartNormalizeButtonText": "View Normalized Values",
     "eventAlertButtonText1": "View ",
     "eventAlertButtonText2": " Table",
     "eventFeedTitle": "Event Feed for ",

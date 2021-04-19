@@ -459,7 +459,6 @@ class Entity extends Component {
         let bgpValues = [];
         let activeProbingValues = [];
 
-
         // Loop through available datasources to collect plot points
         this.state.tsDataRaw[0].map(datasource => {
             let min, max;
@@ -467,7 +466,6 @@ class Entity extends Component {
                 case "ucsd-nt":
                     min = Math.min(...datasource.values);
                     max = Math.max(...datasource.values);
-                    console.log(min, max);
 
                     datasource.values && datasource.values.map((value, index) => {
                         let x, y;
@@ -479,7 +477,6 @@ class Entity extends Component {
                 case "bgp":
                     min = Math.min(...datasource.values);
                     max = Math.max(...datasource.values);
-                    console.log(min, max);
 
                     datasource.values && datasource.values.map((value, index) => {
                         let x, y;
@@ -491,7 +488,6 @@ class Entity extends Component {
                 case "ping-slash24":
                     min = Math.min(...datasource.values);
                     max = Math.max(...datasource.values);
-                    console.log(min, max);
 
                     datasource.values && datasource.values.map((value, index) => {
                         let x, y;
@@ -1450,6 +1446,8 @@ class Entity extends Component {
         const eventAlertButtonText2 = T.translate("entity.eventAlertButtonText2");
         const eventFeedTitle = T.translate("entity.eventFeedTitle");
         const alertFeedTitle = T.translate("entity.alertFeedTitle");
+        const xyChartAbsoluteButtonText = T.translate("entity.xyChartAbsoluteButtonText");
+        const xyChartNormalizeButtonText = T.translate("entity.xyChartNormalizeButtonText");
 
         return(
             <div className="entity">
@@ -1470,7 +1468,7 @@ class Entity extends Component {
                             <button className="overview__config-button"
                                     onClick={() => this.changeXyChartNormalization()}
                             >
-                                {this.state.tsDataNormalized ? 'View Absolute Values' : 'View Normalized Values'}
+                                {this.state.tsDataNormalized ? xyChartAbsoluteButtonText : xyChartNormalizeButtonText}
                             </button>
                             {/*<button className="overview__config-button">Modal</button>*/}
                         </div>
