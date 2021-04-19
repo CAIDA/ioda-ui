@@ -122,6 +122,7 @@ class Entity extends Component {
     }
 
     componentDidMount() {
+        // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
         this.setState({
             mounted: true
@@ -132,7 +133,6 @@ class Entity extends Component {
             this.props.getSignalsAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], this.state.from, this.state.until, null, null);
             // Get entity name from code provided in url
             this.props.getEntityMetadataAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
-            // Monitor screen width
         });
     }
 
