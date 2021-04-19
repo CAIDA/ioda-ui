@@ -1825,9 +1825,7 @@ button[class*="searchButton"] {
           bottom: 0;
           right: 0;
           z-index: -2;
-          background: #5899AE;
-          background: linear-gradient(101deg, #7FB7CA 0%, #286F86 100%);
-          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8FD0E6', endColorstr='#035672',GradientType=1 ); }
+          background: linear-gradient(101deg, #7FB7CA 0%, #286F86 100%); }
         .home .about .button button:after {
           top: 3px;
           bottom: 3px;
@@ -2038,7 +2036,7 @@ button[class*="searchButton"] {
     .entity .overview__config {
       width: 100%;
       display: flex;
-      justify-content: left;
+      justify-content: space-between;
       margin-bottom: 1.5rem; }
       .entity .overview__config-button {
         background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
