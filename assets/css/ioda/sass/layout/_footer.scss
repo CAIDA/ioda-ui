@@ -11,14 +11,34 @@
     width: $grid-width;
   }
 
-  &__copyright {
+  &__logos {
+    padding: 3.5rem 0;
     display: flex;
-    justify-content: left;
-    flex-direction: column;
-    width: 100%;
-    font-size: 1.1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    margin: 2rem 0;
+    justify-content: center;
+
+    &-item {
+      height: 6rem;
+      width: 15rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &--caida {
+        & img {
+          height: 10rem!important;
+          width: auto!important;
+        }
+      }
+
+      & img {
+        height: auto;
+        width: 100%;
+      }
+
+
+      &:not(:last-child) {
+        margin-right: 7rem;
+      }
+    }
   }
 }

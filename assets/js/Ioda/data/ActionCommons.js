@@ -56,7 +56,7 @@ export const GET_RAW_REGIONAL_SIGNALS = "GET_RAW_REGIONAL_SIGNALS";
 export const GET_RAW_ASN_SIGNALS = "GET_RAW_ASN_SIGNALS";
 
 export const fetchData = (config) => {
-    const baseURL = 'https://api.ioda.caida.org/dev';
+    const baseURL = 'https://api.ioda.caida.org/test';
     // const baseURL = 'https://api.ioda.caida.org/v2';
     let concatURL = `${baseURL}${config.url}`;
     const configHeader = merge({}, config, {
