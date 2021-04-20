@@ -3,11 +3,6 @@
     "dashboard": "Dashboard",
     "iodaLogoAltText": "IODA Logo"
   },
-  "footer": {
-    "copyright1": "Ⓒ Copyright ",
-    "copyright2": " — Regents of the University of California",
-    "copyright3": "All Rights Reserved."
-  },
   "home": {
     "title": "IODA",
     "subheader": "A platform for Applied Network Data Analysis",

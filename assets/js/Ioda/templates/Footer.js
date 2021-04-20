@@ -36,6 +36,11 @@ import React, { Component } from 'react';
 import T from 'i18n-react';
 import { Link } from 'react-router-dom';
 
+import caidaLogo from 'images/logos/caida.png';
+import sdscLogo from 'images/logos/sdsc.jpg';
+import ucsdLogo from 'images/logos/ucsd-logo.png';
+
+
 
 class Footer extends Component {
     constructor(props) {
@@ -49,14 +54,17 @@ class Footer extends Component {
                 <div className="footer__content">
                     <div className="row">
                         <div className="col-1-of-1">
-                            {/*<div className="footer__copyright">*/}
-                            {/*    <p>*/}
-                            {/*        <T.span text="footer.copyright1"/>*/}
-                            {/*        <span>{year}</span>*/}
-                            {/*        <T.span text="footer.copyright2"/>*/}
-                            {/*    </p>*/}
-                            {/*    <T.p text="footer.copyright3"/>*/}
-                            {/*</div>*/}
+                            <div className="footer__logos">
+                                <div className="footer__logos-item footer__logos-item--caida">
+                                    <img src={caidaLogo} alt={`caida logo`} />
+                                </div>
+                                <div className="footer__logos-item">
+                                    <img src={sdscLogo} alt={`sdsc logo`} />
+                                </div>
+                                <div className="footer__logos-item">
+                                    <img src={ucsdLogo} alt={`caida logo`} />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
