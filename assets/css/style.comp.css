@@ -1606,17 +1606,24 @@ body {
   align-items: flex-end;
   justify-content: center; }
   .footer .row {
-    width: 114rem; }
+    max-width: 114rem; }
   .footer__logos {
     padding: 3.5rem 0;
     display: flex;
     justify-content: center; }
+    @media only screen and (max-width: 46em) {
+      .footer__logos {
+        flex-direction: column;
+        padding: 5.5rem 0 1.5rem; } }
     .footer__logos-item {
       height: 6rem;
       width: 15rem;
       display: flex;
       justify-content: center;
       align-items: center; }
+      @media only screen and (max-width: 46em) {
+        .footer__logos-item--caida {
+          margin-bottom: 4rem !important; } }
       .footer__logos-item--caida img {
         height: 10rem !important;
         width: auto !important; }
@@ -1625,6 +1632,10 @@ body {
         width: 100%; }
       .footer__logos-item:not(:last-child) {
         margin-right: 7rem; }
+        @media only screen and (max-width: 46em) {
+          .footer__logos-item:not(:last-child) {
+            margin-right: 0;
+            margin-bottom: 1.5rem; } }
 
 .row {
   margin: 0 auto; }

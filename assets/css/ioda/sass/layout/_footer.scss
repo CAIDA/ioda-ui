@@ -8,13 +8,18 @@
   justify-content: center;
 
   & .row {
-    width: $grid-width;
+    max-width: $grid-width;
   }
 
   &__logos {
     padding: 3.5rem 0;
     display: flex;
     justify-content: center;
+
+    @include respond(phone-md) {
+      flex-direction: column;
+      padding: 5.5rem 0 1.5rem;
+    }
 
     &-item {
       height: 6rem;
@@ -24,6 +29,11 @@
       align-items: center;
 
       &--caida {
+
+        @include respond(phone-md) {
+          margin-bottom: 4rem!important;
+        }
+
         & img {
           height: 10rem!important;
           width: auto!important;
@@ -38,6 +48,11 @@
 
       &:not(:last-child) {
         margin-right: 7rem;
+
+        @include respond(phone-md) {
+          margin-right: 0;
+          margin-bottom: 1.5rem;
+        }
       }
     }
   }
