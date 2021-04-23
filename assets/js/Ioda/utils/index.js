@@ -84,27 +84,11 @@ export function generateKeys(prefix) {
 }
 
 function interpolateColor(color1, color2, min, max, value) {
-
-    let linearScale = d3.scale.linear()
+    const linearScale = d3.scale.linear()
         .domain([min, max])
         .range([color1, color2]);
 
     return linearScale(value);
-
-
-    // const w1 = pct;
-    // let w2 = 1 - w1;
-    // let rgb = [Math.round(color1[0] * w1 + color2[0] * w2),
-    //     Math.round(color1[1] * w1 + color2[1] * w2),
-    //     Math.round(color1[2] * w1 + color2[2] * w2)];
-    // return rgb;
-
-
-
-    // let c0 = color1.match(/.{1,2}/g).map((oct)=>parseInt(oct, 16) * (1-weight));
-    // let c1 = color2.match(/.{1,2}/g).map((oct)=>parseInt(oct, 16) * weight);
-    // let ci = [0,1,2].map(i => Math.min(Math.round(c0[i]+c1[i]), 255));
-    // return ci.reduce((a,v) => ((a << 8) + v), 0).toString(16).padStart(6, "0");
 }
 
 export function convertValuesForSummaryTable(summaryDataRaw) {
