@@ -63,6 +63,7 @@ class Entity extends Component {
             searchTerm: null,
             lastFetched: 0,
             // XY Plot Time Series
+            xyDataOptions: null,
             tsDataRaw: null,
             tsDataNormalized: true,
             tsDataDisplayOutageBands: true,
@@ -83,6 +84,7 @@ class Entity extends Component {
             // relatedTo entity Map
             topoData: null,
             relatedToMapSummary: null,
+            summaryDataMapRaw: null,
             // relatedTo entity Table
             relatedToTableApiPageNumber: 0,
             relatedToTableSummary: null,
@@ -292,12 +294,65 @@ class Entity extends Component {
 
         this.setState({
             from: range[0],
-            until: range[1]
+            until: range[1],
+            // XY Plot Time Series states
+            xyDataOptions: null,
+            // Table Pagination
+            eventTablePageNumber: 0,
+            eventTableCurrentDisplayLow: 0,
+            eventTableCurrentDisplayHigh: 10,
+            alertTablePageNumber: 0,
+            alertTableCurrentDisplayLow: 0,
+            alertTableCurrentDisplayHigh: 10,
+            // Event/Table Data
+            currentTable: 'alert',
+            eventDataRaw: null,
+            eventDataProcessed: [],
+            alertDataRaw: null,
+            alertDataProcessed: [],
+            // relatedTo entity Map
+            relatedToMapSummary: null,
+            summaryDataMapRaw: null,
+            // relatedTo entity Table
+            relatedToTableApiPageNumber: 0,
+            relatedToTableSummary: null,
+            relatedToTableSummaryProcessed: null,
+            relatedToTablePageNumber: 0,
+            relatedToTableCurrentDisplayLow: 0,
+            relatedToTableCurrentDisplayHigh: 10,
+            // Modal window display status
+            showMapModal: false,
+            showTableModal: false,
+            // Signals Modal Table on Map Panel
+            regionalSignalsTableSummaryData: [],
+            regionalSignalsTableSummaryDataProcessed: [],
+            regionalSignalsTablePageNumber: 0,
+            regionalSignalsTableCurrentDisplayLow: 0,
+            regionalSignalsTableCurrentDisplayHigh: 10,
+            // Signals Modal Table on Table Panel
+            asnSignalsTableSummaryData: [],
+            asnSignalsTableSummaryDataProcessed: [],
+            asnSignalsTablePageNumber: 0,
+            asnSignalsTableCurrentDisplayLow: 0,
+            asnSignalsTableCurrentDisplayHigh: 10,
+            // Stacked Horizon Visual on Region Map Panel
+            rawRegionalSignals: [],
+            rawRegionalSignalsProcessedBgp: [],
+            rawRegionalSignalsProcessedPingSlash24: [],
+            rawRegionalSignalsProcessedUcsdNt: [],
+            // Stacked Horizon Visual on ASN Table Panel
+            rawAsnSignals: [],
+            rawAsnSignalsProcessedBgp: [],
+            rawAsnSignalsProcessedPingSlash24: [],
+            rawAsnSignalsProcessedUcsdNt: [],
         }, () => {
             // Get topo and outage data to repopulate map and table
             this.props.searchEventsAction(this.state.from, this.state.until, this.state.entityType, this.state.entityCode);
             this.props.searchAlertsAction(this.state.from, this.state.until, this.state.entityType, this.state.entityCode, null, null, null);
             this.props.getSignalsAction( this.state.entityType, this.state.entityCode, this.state.from, this.state.until, null, null);
+            this.getDataTopo("region");
+            this.getDataRelatedToMapSummary("region");
+            this.getDataRelatedToTableSummary("asn");
         })
     }
 // Search bar
@@ -333,7 +388,8 @@ class Entity extends Component {
             // Search Bar
             suggestedSearchResults: null,
             searchTerm: null,
-            // Time Series states
+            // XY Plot Time Series states
+            xyDataOptions: null,
             tsDataRaw: null,
             tsDataNormalized: true,
             tsDataDisplayOutageBands: true,
@@ -778,6 +834,7 @@ class Entity extends Component {
             toggleModal={this.toggleModal}
             showMapModal={this.state.showMapModal}
             showTableModal={this.state.showTableModal}
+            relatedToTableSummary={this.state.relatedToTableSummary}
             populateGeoJsonMap={() => this.populateGeoJsonMap()}
             genSummaryTable={() => this.genSummaryTable()}
             genRegionalSignalsTable={() => this.genRegionalSignalsTable()}
@@ -992,13 +1049,11 @@ class Entity extends Component {
             suggestedSearchResults: null,
             searchTerm: null,
             lastFetched: 0,
-            // Time Series states
+            // XY Plot Time Series states
+            xyDataOptions: null,
             tsDataRaw: null,
-            tsDataProcessed: {
-                activeProbing: [],
-                bgp: [],
-                darknet: []
-            },
+            tsDataNormalized: true,
+            tsDataDisplayOutageBands: true,
             // Table Pagination
             eventTablePageNumber: 0,
             eventTableCurrentDisplayLow: 0,
@@ -1529,10 +1584,16 @@ class Entity extends Component {
 
                         <div className="overview__table">
                             <div style={this.state.currentTable === 'event' ? {display: 'block'} : {display: 'none'}}>
-                                {this.genEventTable() }
+                                {
+                                    this.state.eventDataRaw ?
+                                        this.genEventTable() : <Loading/>
+                                }
                             </div>
                             <div style={this.state.currentTable === 'alert' ? {display: 'block'} : {display: 'none'}}>
-                                {this.genAlertTable() }
+                                {
+                                    this.state.alertDataRaw ?
+                                    this.genAlertTable() : <Loading/>
+                                }
                             </div>
                         </div>
                     </div>
