@@ -83,12 +83,42 @@ export function generateKeys(prefix) {
     return (key + Math.random().toString(34).slice(2));
 }
 
+function interpolateColor(color1, color2, min, max, value) {
+
+    let linearScale = d3.scale.linear()
+        .domain([min, max])
+        .range([color1, color2]);
+
+    return linearScale(value);
+
+
+    // const w1 = pct;
+    // let w2 = 1 - w1;
+    // let rgb = [Math.round(color1[0] * w1 + color2[0] * w2),
+    //     Math.round(color1[1] * w1 + color2[1] * w2),
+    //     Math.round(color1[2] * w1 + color2[2] * w2)];
+    // return rgb;
+
+
+
+    // let c0 = color1.match(/.{1,2}/g).map((oct)=>parseInt(oct, 16) * (1-weight));
+    // let c1 = color2.match(/.{1,2}/g).map((oct)=>parseInt(oct, 16) * weight);
+    // let ci = [0,1,2].map(i => Math.min(Math.round(c0[i]+c1[i]), 255));
+    // return ci.reduce((a,v) => ((a << 8) + v), 0).toString(16).padStart(6, "0");
+}
+
 export function convertValuesForSummaryTable(summaryDataRaw) {
     let summaryData = [];
-    const colorSet = ["#E2EDF6", "#E9DFE4", "#EFD1D3", "#F6C3C1"];
-    // let colScaleLinear = d3.scale.linear()
-    //     .domain([scores[Math.round((scores.length - 1) / 4)], scores[Math.round((scores.length - 1) / 2)], scores[Math.round((scores.length - 1) * .9)], scores[Math.round(scores.length - 1)]])
-    //     .range(colorSet);
+    let allScores = [];
+    let min, max;
+
+    summaryDataRaw.map(summary => {
+        allScores.push(summary.scores.overall)
+    });
+
+    min = Math.min(...allScores);
+    max = Math.max(...allScores);
+
     summaryDataRaw.map((summary, index) => {
         let overallScore = null;
         let summaryScores = [];
@@ -103,31 +133,12 @@ export function convertValuesForSummaryTable(summaryDataRaw) {
                 };
                 summaryScores.push(entryItem);
             } else {
-                overallScore = entry[1]
+                overallScore = entry[1];
             }
         });
 
-        // Select background color for score cell, scores bottom 25%, 25%-50%, 50-90%, 90%-100%
-        switch (index > -1) {
-            // index value is less than or equal to 10% through the array
-            case index <= Math.round((summaryDataRaw.length -1) * .1):
-                color = colorSet[3];
-                break;
-            // index value is under 25% through the array
-            case index < Math.round((summaryDataRaw.length -1) / 4):
-                color = colorSet[2];
-                break;
-            // index value is less than 50% through the array
-            case index < Math.round((summaryDataRaw.length -1) / 2):
-                color = colorSet[1];
-                break;
-            // index value is less than 90% through the array
-            case index >= Math.round((summaryDataRaw.length -1) / 2):
-                color = colorSet[0];
-                break;
-            default:
-                break;
-        }
+        // get color value from gradient by percentage
+        color = interpolateColor("#E2EDF6", "#F6C3C1", min, max, overallScore);
 
         // If entity type has ip_count/is an ASN
         let summaryItem;
@@ -352,6 +363,7 @@ export function dateRangeToSeconds(dateRange, timeRange) {
 
 // Normalize valye in XY plot of time series on entity page
 export function normalize(value, min, max) {
-    const normalizedValue = (value - min) / (max - min) * 100;
+    let normalizedValue = ((value - min) / (max - min));
+    normalizedValue = normalizedValue === 1 ? normalizedValue : normalizedValue * 100;
     return normalizedValue;
 }
