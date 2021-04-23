@@ -126,6 +126,14 @@ class SummaryTableRow extends Component {
                         </tr>
                         </thead>
                         <tbody>
+                        <tr className="table__scores-row">
+                            <td className="table__scores-cell">
+                                <strong>Overall</strong>
+                            </td>
+                            <td className="table__scores-cell">
+                                <strong>{overallScore}</strong>
+                            </td>
+                        </tr>
                         {this.handlePopulateScores(this.props.data.scores)}
                         </tbody>
                     </table>
