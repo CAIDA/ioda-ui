@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Modal from '../../components/modal/Modal';
 import T from "i18n-react";
+import Loading from "../../components/loading/Loading";
 
 class EntityRelated extends Component {
     constructor(props) {
@@ -82,7 +83,9 @@ class EntityRelated extends Component {
                     </div>
                     <div className="tab__table" ref={this.relatedTableConfig}>
                         {
-                            this.props.genSummaryTable()
+                            this.props.relatedToTableSummary
+                                ? this.props.genSummaryTable()
+                                : <Loading/>
                         }
                     </div>
                 </div>
