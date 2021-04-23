@@ -96,7 +96,14 @@ class SignalTableRow extends Component {
                         : null
                 }
                 <td>
-                    <Link className="table__cell-link" to={`/${this.props.data.entityType}/${this.props.data.entityCode}`} onClick={() => this.props.handleEntityClick()}>
+                    <Link className="table__cell-link"
+                          to={
+                              window.location.search.split("?")[1]
+                                  ? `/${this.props.data.entityType}/${this.props.data.entityCode}?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
+                                  : `/${this.props.data.entityType}/${this.props.data.entityCode}`
+                          }
+                          onClick={() => this.props.handleEntityClick()}
+                    >
                         {this.props.data.name}
                     </Link>
                 </td>
