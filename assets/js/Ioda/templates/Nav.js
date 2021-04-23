@@ -63,9 +63,9 @@ class Nav extends Component {
                         </div>
                         <ul className="header__list">
                             <li className="header__item">
-                                <Link to="/dashboard" className="header__link">
+                                <a href="/dashboard" className="header__link">
                                     {dashboard}
-                                </Link>
+                                </a>
                             </li>
                             {/*<li className="navigation__item">*/}
                             {/*    <Link to="/docs" className="navigation__link">*/}
