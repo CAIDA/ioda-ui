@@ -71,7 +71,8 @@ class Modal extends Component {
                                         <h3 className="heading-h3">{regionalTableTitle}</h3>
                                         <div className="modal__table">
                                             {
-                                                this.props.genRegionalSignalsTable()
+                                                this.props.regionalSignalsTableSummaryDataProcessed.length ?
+                                                this.props.genRegionalSignalsTable() : <Loading/>
                                             }
                                         </div>
                                         <h3 className="heading-h3">{regionalMapTitle}</h3>
@@ -126,7 +127,8 @@ class Modal extends Component {
                                         <h3 className="heading-h3">{asnTableTitle}</h3>
                                         <div className="modal__table">
                                             {
-                                                this.props.genSignalsTable()
+                                                this.props.asnSignalsTableSummaryDataProcessed.length ?
+                                                this.props.genSignalsTable() : <Loading/>
                                             }
                                         </div>
                                     </div>

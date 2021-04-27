@@ -893,6 +893,8 @@ class Entity extends Component {
             populateRegionalHtsChart={(width, datasource) => this.populateRegionalHtsChart(width, datasource)}
             populateAsnHtsChart={(width, datasource) => this.populateAsnHtsChart(width, datasource)}
             // to detect when loading bar should appear in modal
+            regionalSignalsTableSummaryDataProcessed={this.state.regionalSignalsTableSummaryDataProcessed}
+            asnSignalsTableSummaryDataProcessed={this.state.asnSignalsTableSummaryDataProcessed}
             rawRegionalSignalsProcessedPingSlash24={this.state.rawRegionalSignalsProcessedPingSlash24}
             rawRegionalSignalsProcessedBgp={this.state.rawRegionalSignalsProcessedBgp}
             rawRegionalSignalsProcessedUcsdNt={this.state.rawRegionalSignalsProcessedUcsdNt}
