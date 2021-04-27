@@ -38,7 +38,7 @@ BUILDING CONNECTION CONFIGS
 
 import {fetchData, GET_EVENT_SIGNALS, GET_SIGNALS, GET_RAW_REGIONAL_SIGNALS, GET_RAW_ASN_SIGNALS} from "./ActionCommons";
 
-const buildSignalsConfig = (entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
+const buildSignalsConfig = (entityType, entityCode, from, until, datasource, maxPoints=null) => {
     let url = `/signals/raw/${entityType}/${entityCode}?from=${from}&until=${until}`;
     url += datasource!==null ? `&datasource=${datasource}`: "";
     return {
@@ -80,8 +80,8 @@ export const getEventSignalsAction = (dispatch, entityType, entityCode, from, un
     });
 };
 
-export const getRawRegionalSignalsAction = (dispatch, entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
-    let config = buildSignalsConfig(entityType, entityCode, from, until, datasource, maxPoints);
+export const getRawRegionalSignalsAction = (dispatch, entityType, entityCode, from, until, attr=null, order=null, dataSource, maxPoints=null) => {
+    let config = buildSignalsConfig(entityType, entityCode, from, until, dataSource, maxPoints);
     fetchData(config).then(data => {
         dispatch({
             type: GET_RAW_REGIONAL_SIGNALS,
@@ -90,8 +90,8 @@ export const getRawRegionalSignalsAction = (dispatch, entityType, entityCode, fr
     });
 };
 
-export const getRawAsnSignalsAction = (dispatch, entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
-    let config = buildSignalsConfig(entityType, entityCode, from, until, datasource, maxPoints);
+export const getRawAsnSignalsAction = (dispatch, entityType, entityCode, from, until,  attr=null, order=null, dataSource, maxPoints=null) => {
+    let config = buildSignalsConfig(entityType, entityCode, from, until, dataSource, maxPoints);
     fetchData(config).then(data => {
         dispatch({
             type: GET_RAW_ASN_SIGNALS,

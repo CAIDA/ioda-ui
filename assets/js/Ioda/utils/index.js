@@ -38,9 +38,9 @@ import d3 from 'd3';
 export function humanizeNumber(value, precisionDigits) {
     precisionDigits = precisionDigits || 3;
     return d3.format(
-            (isNaN(precisionDigits) ? '' : '.' + precisionDigits)
-            + ((Math.abs(value) < 1) ? 'r' : 's')
-        )(value);
+        (isNaN(precisionDigits) ? '' : '.' + precisionDigits)
+        + ((Math.abs(value) < 1) ? 'r' : 's')
+    )(value);
 }
 
 // For event/alert table
@@ -137,13 +137,13 @@ export function convertValuesForSummaryTable(summaryDataRaw) {
                 color: color
             }
             : summaryItem = {
-            entityType: summary["entity"].type,
-            entityCode: summary["entity"].code,
-            name: summary["entity"].name,
-            score: overallScore,
-            scores: summaryScores,
-            color: color
-        };
+                entityType: summary["entity"].type,
+                entityCode: summary["entity"].code,
+                name: summary["entity"].name,
+                score: overallScore,
+                scores: summaryScores,
+                color: color
+            };
         summaryData.push(summaryItem);
     });
     return summaryData;
@@ -181,14 +181,14 @@ export function combineValuesForSignalsTable(entitiesWithOutages, additionalEnti
                 score: overallScore,
                 scores: summaryScores,
                 ipCount: humanizeNumber(entity["entity"]["attrs"]["ip_count"], 2)
-                }
+            }
             : summaryItem = {
-            visibility: true,
-            entityType: entity["entity"].type,
-            entityCode: entity["entity"].code,
-            name: entity["entity"].name,
-            score: overallScore,
-            scores: summaryScores
+                visibility: true,
+                entityType: entity["entity"].type,
+                entityCode: entity["entity"].code,
+                name: entity["entity"].name,
+                score: overallScore,
+                scores: summaryScores
             };
         summaryData.push(summaryItem);
     });
@@ -205,15 +205,15 @@ export function combineValuesForSignalsTable(entitiesWithOutages, additionalEnti
                 score: 0,
                 scores: [{source: "Overall Score", score: 0}],
                 ipCount: humanizeNumber(entity.attrs.ip_count, 2)
-                }
+            }
             : entityItem = {
-                    visibility: true,
-                    entityType: entity.type,
-                    entityCode: entity.code,
-                    name: entity.name,
-                    score: 0,
-                    scores: [{source: "Overall Score", score: 0}]
-                };
+                visibility: true,
+                entityType: entity.type,
+                entityCode: entity.code,
+                name: entity.name,
+                score: 0,
+                scores: [{source: "Overall Score", score: 0}]
+            };
         summaryData.push(entityItem);
     });
     return summaryData;
@@ -274,18 +274,20 @@ export function prevPage(data, dataLength, pageNumber, currentDisplayHigh, curre
 // Function for raw signals table on entity page
 // Will process time series data and return in a format compatible with the Horizon-time-series visual
 export function convertTsDataForHtsViz(tsData) {
-    let seriesConverted = [];
-    tsData.values.map((value, index) => {
-        const plotPoint = {
-            entityCode: tsData.entityCode,
-            entityName: tsData.entityName,
-            datasource: tsData.datasource,
-            ts: new Date(tsData.from * 1000 + tsData.step * 1000 * index),
-            val: value
-        };
-        seriesConverted.push(plotPoint);
+    let series = [];
+    tsData.map(signal => {
+        signal.values.map((value, index) => {
+            const plotPoint = {
+                entityCode: signal.entityCode,
+                entityName: signal.entityName,
+                datasource: signal.datasource,
+                ts: new Date(signal.from * 1000 + signal.step * 1000 * index),
+                val: value
+            };
+            series.push(plotPoint);
+        });
     });
-    return seriesConverted;
+    return series;
 }
 
 // take a list of outages that will populate on a map and create a bounding box the map will use for zoom location
