@@ -892,6 +892,13 @@ class Entity extends Component {
             genAsnSignalsTable={() => this.genAsnSignalsTable()}
             populateRegionalHtsChart={(width, datasource) => this.populateRegionalHtsChart(width, datasource)}
             populateAsnHtsChart={(width, datasource) => this.populateAsnHtsChart(width, datasource)}
+            // to detect when loading bar should appear in modal
+            rawRegionalSignalsProcessedPingSlash24={this.state.rawRegionalSignalsProcessedPingSlash24}
+            rawRegionalSignalsProcessedBgp={this.state.rawRegionalSignalsProcessedBgp}
+            rawRegionalSignalsProcessedUcsdNt={this.state.rawRegionalSignalsProcessedUcsdNt}
+            rawAsnSignalsProcessedPingSlash24={this.state.rawAsnSignalsProcessedPingSlash24}
+            rawAsnSignalsProcessedBgp={this.state.rawAsnSignalsProcessedBgp}
+            rawAsnSignalsProcessedUcsdNt={this.state.rawAsnSignalsProcessedUcsdNt}
         />;
     }
     // Show/hide modal when button is clicked on either panel
@@ -1307,7 +1314,7 @@ class Entity extends Component {
                 }
                 break;
             case 'bgp':
-                if (this.state.rawRegionalSignalsProcessedBgp) {
+                if (this.state.rawRegionalSignalsProcessedBgp.length) {
                     const myChart = HorizonTSChart()(document.getElementById(`regional-horizon-chart--bgp`));
                     myChart
                         .data(this.state.rawRegionalSignalsProcessedBgp)
@@ -1327,7 +1334,7 @@ class Entity extends Component {
                 }
                 break;
             case 'ucsd-nt':
-                if (this.state.rawRegionalSignalsProcessedUcsdNt) {
+                if (this.state.rawRegionalSignalsProcessedUcsdNt.length) {
                     const myChart = HorizonTSChart()(document.getElementById(`regional-horizon-chart--ucsdNt`));
                     myChart
                         .data(this.state.rawRegionalSignalsProcessedUcsdNt)

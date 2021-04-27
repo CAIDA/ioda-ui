@@ -282,7 +282,7 @@ export function convertTsDataForHtsViz(tsData) {
                 entityName: signal.entityName,
                 datasource: signal.datasource,
                 ts: new Date(signal.from * 1000 + signal.step * 1000 * index),
-                val: value
+                val: value === 0 ? null : value
             };
             series.push(plotPoint);
         });

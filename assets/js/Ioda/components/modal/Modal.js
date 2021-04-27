@@ -11,6 +11,25 @@ class Modal extends Component {
         this.configUcsdNt = React.createRef();
     }
 
+    genRegionalPingSlash24 = () => {
+        this.props.populateRegionalHtsChart(this.configPingSlash24.current.offsetWidth, 'ping-slash24');
+    };
+    genRegionalBgp = () => {
+        this.props.populateRegionalHtsChart(this.configBgp.current.offsetWidth, 'bgp');
+    };
+    genRegionalUcsdNt = () => {
+        this.props.populateRegionalHtsChart(this.configUcsdNt.current.offsetWidth, 'ucsd-nt');
+    };
+    genAsnPingSlash24 = () => {
+        this.props.populateAsnHtsChart(this.configPingSlash24.current.offsetWidth, 'ping-slash24');
+    };
+    genAsnBgp = () => {
+        this.props.populateAsnHtsChart(this.configBgp.current.offsetWidth, 'bgp');
+    };
+    genAsnUcsdNt = () => {
+        this.props.populateAsnHtsChart(this.configUcsdNt.current.offsetWidth, 'ucsd-nt');
+    };
+
     render() {
         if (this.props.modalLocation === 'map' && !this.props.showModal) {
             return null;
@@ -64,24 +83,34 @@ class Modal extends Component {
                                     </div>
                                     <div className="col-2-of-3">
                                         <h3 className="heading-h3">{pingSlash24HtsLabel}</h3>
+                                        {
+                                            this.props.rawRegionalSignalsProcessedPingSlash24.length === 0 ? <Loading/> : null
+                                        }
                                         <div id="regional-horizon-chart--pingSlash24" ref={this.configPingSlash24} className="modal__chart">
                                             {
                                                 this.configPingSlash24.current ?
-                                                this.props.populateRegionalHtsChart(this.configPingSlash24.current.offsetWidth, 'ping-slash24') : null
+                                                this.genRegionalPingSlash24() : null
                                             }
                                         </div>
+
                                         <h3 className="heading-h3">{bgpHtsLabel}</h3>
+                                        {
+                                            this.props.rawRegionalSignalsProcessedBgp.length === 0 ? <Loading/> : null
+                                        }
                                         <div id="regional-horizon-chart--bgp" ref={this.configBgp} className="modal__chart">
                                             {
                                                 this.configBgp.current ?
-                                                this.props.populateRegionalHtsChart(this.configBgp.current.offsetWidth, 'bgp') : null
+                                                this.genRegionalBgp() : null
                                             }
                                         </div>
                                         <h3 className="heading-h3">{ucsdNtHtsLabel}</h3>
+                                        {
+                                            this.props.rawRegionalSignalsProcessedUcsdNt.length === 0 ? <Loading/> : null
+                                        }
                                         <div id="regional-horizon-chart--ucsdNt" ref={this.configUcsdNt} className="modal__chart">
                                             {
                                                 this.configUcsdNt.current ?
-                                                this.props.populateRegionalHtsChart(this.configUcsdNt.current.offsetWidth, 'ucsd-nt') : null
+                                                this.genRegionalUcsdNt() : null
                                             }
                                         </div>
                                     </div>
@@ -103,24 +132,33 @@ class Modal extends Component {
                                     </div>
                                     <div className="col-2-of-3">
                                         <h3 className="heading-h3">{pingSlash24HtsLabel}</h3>
+                                        {
+                                            this.props.rawAsnSignalsProcessedPingSlash24.length === 0 ? <Loading/> : null
+                                        }
                                         <div id="asn-horizon-chart--pingSlash24" ref={this.configPingSlash24} className="modal__chart">
                                             {
                                                 this.configPingSlash24.current ?
-                                                this.props.populateAsnHtsChart(this.configPingSlash24.current.offsetWidth, 'ping-slash24') : null
+                                                this.genAsnPingSlash24() : null
                                             }
                                         </div>
                                         <h3 className="heading-h3">{bgpHtsLabel}</h3>
+                                        {
+                                            this.props.rawAsnSignalsProcessedBgp.length === 0 ? <Loading/> : null
+                                        }
                                         <div id="asn-horizon-chart--bgp" ref={this.configBgp} className="modal__chart">
                                             {
                                                 this.configBgp.current ?
-                                                this.props.populateAsnHtsChart(this.configBgp.current.offsetWidth, 'bgp') : null
+                                                this.genAsnBgp() : null
                                             }
                                         </div>
                                         <h3 className="heading-h3">{ucsdNtHtsLabel}</h3>
+                                        {
+                                            this.props.rawAsnSignalsProcessedUcsdNt.length === 0 ? <Loading/> : null
+                                        }
                                         <div id="asn-horizon-chart--ucsdNt" ref={this.configUcsdNt} className="modal__chart">
                                             {
                                                 this.configUcsdNt.current ?
-                                                this.props.populateAsnHtsChart(this.configUcsdNt.current.offsetWidth, 'ucsd-nt') : null
+                                                this.genAsnUcsdNt() : null
                                             }
                                         </div>
                                     </div>
