@@ -48,6 +48,7 @@ class EntityRelated extends Component {
                                 rawRegionalSignalsProcessedBgp={this.props.rawRegionalSignalsProcessedBgp}
                                 rawRegionalSignalsProcessedUcsdNt={this.props.rawRegionalSignalsProcessedUcsdNt}
                                 regionalSignalsTableSummaryDataProcessed={this.props.regionalSignalsTableSummaryDataProcessed}
+                                summaryDataMapRaw={this.props.summaryDataMapRaw}
                             />
                         </div>
                     </div>

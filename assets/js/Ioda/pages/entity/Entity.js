@@ -901,6 +901,7 @@ class Entity extends Component {
             rawAsnSignalsProcessedPingSlash24={this.state.rawAsnSignalsProcessedPingSlash24}
             rawAsnSignalsProcessedBgp={this.state.rawAsnSignalsProcessedBgp}
             rawAsnSignalsProcessedUcsdNt={this.state.rawAsnSignalsProcessedUcsdNt}
+            summaryDataMapRaw={this.state.summaryDataMapRaw}
         />;
     }
     // Show/hide modal when button is clicked on either panel
