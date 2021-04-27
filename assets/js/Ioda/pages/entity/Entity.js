@@ -1245,7 +1245,9 @@ class Entity extends Component {
             rawRegionalSignals: rawRegionalSignals,
             regionalSignalsTableSummaryDataProcessed: regionalSignalsTableSummaryDataProcessed
         }, () => {
-            // this.convertValuesForRegionalHtsViz();
+            this.convertValuesForRegionalHtsViz("ping-slash24");
+            this.convertValuesForRegionalHtsViz("bgp");
+            this.convertValuesForRegionalHtsViz("ucsd-nt");
         });
     }
 
@@ -1445,7 +1447,9 @@ class Entity extends Component {
             rawAsnSignals: rawAsnSignals,
             asnSignalsTableSummaryDataProcessed: asnSignalsTableSummaryDataProcessed
         }, () => {
-            // this.convertValuesForAsnHtsViz();
+            this.convertValuesForAsnHtsViz("ping-slash24");
+            this.convertValuesForAsnHtsViz("bgp");
+            this.convertValuesForAsnHtsViz("ucsd-nt");
         });
     }
 
