@@ -272,7 +272,7 @@ class Entity extends Component {
             // assign to respective state
             let rawRegionalSignals = [];
             this.props.rawRegionalSignals.map(signal => {
-                //Remove empty items
+                //Remove empty items and assign to proper state. Then call next function
                 signal.length ? rawRegionalSignals.push(signal[0]): null;
                 switch (dataSource) {
                     case "ping-slash24":
@@ -1281,41 +1281,6 @@ class Entity extends Component {
                 });
                 break;
         }
-
-
-
-        // let rawRegionalSignalsProcessedPingSlash24 = [];
-        // let rawRegionalSignalsProcessedBgp = [];
-        // let rawRegionalSignalsProcessedUcsdNt = [];
-        // Create visualization-friendly data objects
-        // this.state.rawRegionalSignals.map(tsData => {
-        //     tsData.map(datasource => {
-        //         let series;
-        //         switch(datasource.datasource) {
-        //             case 'ping-slash24':
-        //                 series = convertTsDataForHtsViz(datasource);
-        //                 rawRegionalSignalsProcessedPingSlash24 = rawRegionalSignalsProcessedPingSlash24.concat(series);
-        //                 console.log(rawRegionalSignalsProcessedPingSlash24);
-        //                 break;
-        //             case 'bgp':
-        //                 series = convertTsDataForHtsViz(datasource);
-        //                 rawRegionalSignalsProcessedBgp = rawRegionalSignalsProcessedBgp.concat(series);
-        //                 break;
-        //             case 'ucsd-nt':
-        //                 series = convertTsDataForHtsViz(datasource);
-        //                 rawRegionalSignalsProcessedUcsdNt = rawRegionalSignalsProcessedUcsdNt.concat(series);
-        //                 break;
-        //             default:
-        //                 break;
-        //         }
-        //     });
-        // });
-        // Add data objects to state for each data source
-        // this.setState({
-        //     rawRegionalSignalsProcessedPingSlash24: rawRegionalSignalsProcessedPingSlash24,
-        //     rawRegionalSignalsProcessedBgp: rawRegionalSignalsProcessedBgp,
-        //     rawRegionalSignalsProcessedUcsdNt: rawRegionalSignalsProcessedUcsdNt
-        // });
     }
     populateRegionalHtsChart(width, datasource) {
         switch(datasource) {
@@ -1729,8 +1694,8 @@ const mapDispatchToProps = (dispatch) => {
         getRawRegionalSignalsAction: (entityType, entities, from, until, attr=null, order=null, dataSource, maxPoints=null) => {
             getRawRegionalSignalsAction(dispatch, entityType, entities, from, until, attr, order, dataSource, maxPoints);
         },
-        getRawAsnSignalsAction: (entityType, entityCode, from, until, attr=null, order=null, dataSource, maxPoints=null) => {
-            getRawAsnSignalsAction(dispatch, entityType, entityCode, from, until, attr, order, dataSource, maxPoints);
+        getRawAsnSignalsAction: (entityType, entities, from, until, attr=null, order=null, dataSource, maxPoints=null) => {
+            getRawAsnSignalsAction(dispatch, entityType, entities, from, until, attr, order, dataSource, maxPoints);
         }
     }
 };
