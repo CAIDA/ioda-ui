@@ -52,7 +52,9 @@ import {
     GET_RAW_REGIONAL_SIGNALS_PINGSLASH24,
     GET_RAW_REGIONAL_SIGNALS_BGP,
     GET_RAW_REGIONAL_SIGNALS_UCSDNT,
-    GET_RAW_ASN_SIGNALS,
+    GET_RAW_ASN_SIGNALS_PINGSLASH24,
+    GET_RAW_ASN_SIGNALS_BGP,
+    GET_RAW_ASN_SIGNALS_UCSDNT
 } from './ActionCommons';
 
 // TODO: make sure the state won't overwrite each other when multiple calls are executed
@@ -77,7 +79,9 @@ const initialState = {
     rawRegionalSignalsUcsdNt: null,
     // Table Modal
     asnSignalsTableSummaryData: null,
-    rawAsnSignals: null
+    rawAsnSignalsPingSlash24: null,
+    rawAsnSignalsBgp: null,
+    rawAsnSignalsUcsdNt: null
 }
 
 export function iodaApiReducer(state = initialState, action) {
@@ -148,9 +152,17 @@ export function iodaApiReducer(state = initialState, action) {
             return Object.assign({}, state, {
                 rawRegionalSignalsUcsdNt: action.payload
             });
-        case GET_RAW_ASN_SIGNALS:
+        case GET_RAW_ASN_SIGNALS_PINGSLASH24:
             return Object.assign({}, state, {
-                rawAsnSignals: action.payload
+                rawAsnSignalsPingSlash24: action.payload
+            });
+        case GET_RAW_ASN_SIGNALS_BGP:
+            return Object.assign({}, state, {
+                rawAsnSignalsBgp: action.payload
+            });
+        case GET_RAW_ASN_SIGNALS_UCSDNT:
+            return Object.assign({}, state, {
+                rawAsnSignalsUcsdNt: action.payload
             });
         case GET_EVENT_SIGNALS:
             return Object.assign({}, state, {

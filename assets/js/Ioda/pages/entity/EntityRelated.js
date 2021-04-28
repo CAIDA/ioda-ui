@@ -86,7 +86,9 @@ class EntityRelated extends Component {
                                 showModal={this.props.showTableModal}
                                 toggleModal={this.props.toggleModal}
                                 genSignalsTable={() => this.props.genAsnSignalsTable()}
-                                populateAsnHtsChart={(width, datasource) => this.props.populateAsnHtsChart(width, datasource)}
+                                populateAsnHtsChartPingSlash24={(width) => this.props.populateAsnHtsChartPingSlash24(width)}
+                                populateAsnHtsChartBgp={(width) => this.props.populateAsnHtsChartBgp(width)}
+                                populateAsnHtsChartUcsdNt={(width) => this.props.populateAsnHtsChartUcsdNt(width)}
                                 rawAsnSignalsProcessedPingSlash24={this.props.rawAsnSignalsProcessedPingSlash24}
                                 rawAsnSignalsProcessedBgp={this.props.rawAsnSignalsProcessedBgp}
                                 rawAsnSignalsProcessedUcsdNt={this.props.rawAsnSignalsProcessedUcsdNt}

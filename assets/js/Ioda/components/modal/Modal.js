@@ -21,14 +21,15 @@ class Modal extends Component {
         this.props.populateRegionalHtsChartUcsdNt(this.configUcsdNt.current.offsetWidth);
     };
 
+
     genAsnPingSlash24 = () => {
-        this.props.populateAsnHtsChart(this.configPingSlash24.current.offsetWidth, 'ping-slash24');
+        this.props.populateAsnHtsChartPingSlash24(this.configPingSlash24.current.offsetWidth);
     };
     genAsnBgp = () => {
-        this.props.populateAsnHtsChart(this.configBgp.current.offsetWidth, 'bgp');
+        this.props.populateAsnHtsChartBgp(this.configBgp.current.offsetWidth);
     };
     genAsnUcsdNt = () => {
-        this.props.populateAsnHtsChart(this.configUcsdNt.current.offsetWidth, 'ucsd-nt');
+        this.props.populateAsnHtsChartUcsdNt(this.configUcsdNt.current.offsetWidth);
     };
 
     render() {
