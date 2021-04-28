@@ -522,6 +522,12 @@ class Entity extends Component {
             rawAsnSignalsProcessedBgp: [],
             rawAsnSignalsProcessedPingSlash24: [],
             rawAsnSignalsProcessedUcsdNt: [],
+            rawAsnSignalsLoadedBgp: true,
+            rawAsnSignalsLoadedPingSlash24: true,
+            rawAsnSignalsLoadedUcsdNt: true,
+            rawRegionalSignalsLoadedBgp: true,
+            rawRegionalSignalsLoadedPingSlash24: true,
+            rawRegionalSignalsLoadedUcsdNt: true
         }, () => {
             this.componentDidMount();
         });
@@ -947,12 +953,28 @@ class Entity extends Component {
             // Get related entities used on table in map modal
             this.setState({
                 showMapModal: !this.state.showMapModal
+            },() => {
+                if (!this.state.showMapModal) {
+                    this.setState({
+                        rawRegionalSignalsLoadedBgp: true,
+                        rawRegionalSignalsLoadedPingSlash24: true,
+                        rawRegionalSignalsLoadedUcsdNt: true
+                    })
+                }
             });
 
         } else if (modalLocation === 'table') {
             this.props.asnSignalsTableSummaryDataAction("asn", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
             this.setState({
                 showTableModal: !this.state.showTableModal
+            },() => {
+                if (!this.state.showTableModal) {
+                    this.setState({
+                        rawAsnSignalsLoadedBgp: true,
+                        rawAsnSignalsLoadedPingSlash24: true,
+                        rawAsnSignalsLoadedUcsdNt: true
+                    })
+                }
             });
         }
     }
@@ -1201,6 +1223,12 @@ class Entity extends Component {
             rawAsnSignalsProcessedBgp: [],
             rawAsnSignalsProcessedPingSlash24: [],
             rawAsnSignalsProcessedUcsdNt: [],
+            rawAsnSignalsLoadedBgp: true,
+            rawAsnSignalsLoadedPingSlash24: true,
+            rawAsnSignalsLoadedUcsdNt: true,
+            rawRegionalSignalsLoadedBgp: true,
+            rawRegionalSignalsLoadedPingSlash24: true,
+            rawRegionalSignalsLoadedUcsdNt: true,
         }, () => {
             this.componentDidMount();
         });
