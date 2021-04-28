@@ -49,7 +49,9 @@ import {
     OUTAGE_TOTAL_COUNT,
     GET_REGIONAL_SIGNALS_TABLE_SUMMARY_DATA,
     GET_ASN_SIGNALS_TABLE_SUMMARY_DATA,
-    GET_RAW_REGIONAL_SIGNALS,
+    GET_RAW_REGIONAL_SIGNALS_PINGSLASH24,
+    GET_RAW_REGIONAL_SIGNALS_BGP,
+    GET_RAW_REGIONAL_SIGNALS_UCSDNT,
     GET_RAW_ASN_SIGNALS,
 } from './ActionCommons';
 
@@ -70,7 +72,9 @@ const initialState = {
     datasources: null,
     // Map Modal
     regionalSignalsTableSummaryData: null,
-    rawRegionalSignals: null,
+    rawRegionalSignalsPingSlash24: null,
+    rawRegionalSignalsBgp: null,
+    rawRegionalSignalsUcsdNt: null,
     // Table Modal
     asnSignalsTableSummaryData: null,
     rawAsnSignals: null
@@ -81,77 +85,85 @@ export function iodaApiReducer(state = initialState, action) {
         case ENTITIES_SEARCH:
             return Object.assign({}, state, {
                 entities: action.payload
-            })
+            });
         case GET_RELATED_ENTITIES:
             return Object.assign({}, state, {
                 relatedEntities: action.payload
-            })
+            });
         case ENTITY_METADATA:
             return Object.assign({}, state, {
                 entityMetadata: action.payload
-            })
+            });
         case OUTAGE_ALERTS_SEARCH:
             return Object.assign({}, state, {
                 alerts: action.payload
-            })
+            });
         case OUTAGE_EVENTS_SEARCH:
             return Object.assign({}, state, {
                 events: action.payload
-            })
+            });
         case OUTAGE_OVERALL_EVENTS_SEARCH:
             return Object.assign({}, state, {
                 overallEvents: action.payload
-            })
+            });
         case OUTAGE_SUMMARY_SEARCH:
             return Object.assign({}, state, {
                 summary: action.payload
-            })
+            });
         case OUTAGE_RELATED_TO_MAP_SUMMARY_SEARCH:
             return Object.assign({}, state, {
                 relatedToMapSummary: action.payload
-            })
+            });
         case OUTAGE_RELATED_TO_TABLE_SUMMARY_SEARCH:
             return Object.assign({}, state, {
                 relatedToTableSummary: action.payload
-            })
+            });
         case OUTAGE_TOTAL_COUNT:
             return Object.assign({}, state, {
                 summaryTotalCount: action.payload
-            })
+            });
         case GET_TOPO_DATA:
             return Object.assign({}, state, {
                 topo: {
                     [action.subtype]: action.payload
                 }
-            })
+            });
         case GET_DATASOURCES:
             return Object.assign({}, state, {
                 datasources: action.payload
-            })
+            });
         case GET_SIGNALS:
             return Object.assign({}, state, {
                 signals: action.payload
-            })
-        case GET_RAW_REGIONAL_SIGNALS:
+            });
+        case GET_RAW_REGIONAL_SIGNALS_PINGSLASH24:
             return Object.assign({}, state, {
-                rawRegionalSignals: action.payload
-            })
+                rawRegionalSignalsPingSlash24: action.payload
+            });
+        case GET_RAW_REGIONAL_SIGNALS_BGP:
+            return Object.assign({}, state, {
+                rawRegionalSignalsBgp: action.payload
+            });
+        case GET_RAW_REGIONAL_SIGNALS_UCSDNT:
+            return Object.assign({}, state, {
+                rawRegionalSignalsUcsdNt: action.payload
+            });
         case GET_RAW_ASN_SIGNALS:
             return Object.assign({}, state, {
                 rawAsnSignals: action.payload
-            })
+            });
         case GET_EVENT_SIGNALS:
             return Object.assign({}, state, {
                 eventSignals: action.payload
-            })
+            });
         case GET_REGIONAL_SIGNALS_TABLE_SUMMARY_DATA:
             return Object.assign({}, state, {
                 regionalSignalsTableSummaryData: action.payload
-            })
+            });
         case GET_ASN_SIGNALS_TABLE_SUMMARY_DATA:
             return Object.assign({}, state, {
                 asnSignalsTableSummaryData: action.payload
-            })
+            });
         default:
             return state;
     }

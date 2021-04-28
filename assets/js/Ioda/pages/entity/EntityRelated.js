@@ -42,7 +42,10 @@ class EntityRelated extends Component {
                                 toggleModal={this.props.toggleModal}
                                 populateGeoJsonMap={() => this.props.populateGeoJsonMap()}
                                 genRegionalSignalsTable={this.props.genRegionalSignalsTable}
-                                populateRegionalHtsChart={(width, datasource) => this.props.populateRegionalHtsChart(width, datasource)}
+                                // populateRegionalHtsChart={(width, datasource) => this.props.populateRegionalHtsChart(width, datasource)}
+                                populateRegionalHtsChartPingSlash24={(width) => this.props.populateRegionalHtsChartPingSlash24(width)}
+                                populateRegionalHtsChartBgp={(width) => this.props.populateRegionalHtsChartBgp(width)}
+                                populateRegionalHtsChartUcsdNt={(width) => this.props.populateRegionalHtsChartUcsdNt(width)}
                                 // to detect when loading bar should appear in modal
                                 rawRegionalSignalsProcessedPingSlash24={this.props.rawRegionalSignalsProcessedPingSlash24}
                                 rawRegionalSignalsProcessedBgp={this.props.rawRegionalSignalsProcessedBgp}

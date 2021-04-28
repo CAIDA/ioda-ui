@@ -36,7 +36,15 @@
 BUILDING CONNECTION CONFIGS
  */
 
-import {fetchData, GET_EVENT_SIGNALS, GET_SIGNALS, GET_RAW_REGIONAL_SIGNALS, GET_RAW_ASN_SIGNALS} from "./ActionCommons";
+import {
+    fetchData,
+    GET_EVENT_SIGNALS,
+    GET_SIGNALS,
+    GET_RAW_REGIONAL_SIGNALS_PINGSLASH24,
+    GET_RAW_REGIONAL_SIGNALS_BGP,
+    GET_RAW_REGIONAL_SIGNALS_UCSDNT,
+    GET_RAW_ASN_SIGNALS
+} from "./ActionCommons";
 
 const buildSignalsConfig = (entityType, entityCode, from, until, datasource, maxPoints=null) => {
     let url = `/signals/raw/${entityType}/${entityCode}?from=${from}&until=${until}`;
@@ -80,11 +88,31 @@ export const getEventSignalsAction = (dispatch, entityType, entityCode, from, un
     });
 };
 
-export const getRawRegionalSignalsAction = (dispatch, entityType, entityCode, from, until, attr=null, order=null, dataSource, maxPoints=null) => {
+export const getRawRegionalSignalsPingSlash24Action = (dispatch, entityType, entityCode, from, until, attr=null, order=null, dataSource, maxPoints=null) => {
     let config = buildSignalsConfig(entityType, entityCode, from, until, dataSource, maxPoints);
     fetchData(config).then(data => {
         dispatch({
-            type: GET_RAW_REGIONAL_SIGNALS,
+            type: GET_RAW_REGIONAL_SIGNALS_PINGSLASH24,
+            payload: data.data.data,
+        })
+    });
+};
+
+export const getRawRegionalSignalsBgpAction = (dispatch, entityType, entityCode, from, until, attr=null, order=null, dataSource, maxPoints=null) => {
+    let config = buildSignalsConfig(entityType, entityCode, from, until, dataSource, maxPoints);
+    fetchData(config).then(data => {
+        dispatch({
+            type: GET_RAW_REGIONAL_SIGNALS_BGP,
+            payload: data.data.data,
+        })
+    });
+};
+
+export const getRawRegionalSignalsUcsdNtAction = (dispatch, entityType, entityCode, from, until, attr=null, order=null, dataSource, maxPoints=null) => {
+    let config = buildSignalsConfig(entityType, entityCode, from, until, dataSource, maxPoints);
+    fetchData(config).then(data => {
+        dispatch({
+            type: GET_RAW_REGIONAL_SIGNALS_UCSDNT,
             payload: data.data.data,
         })
     });
