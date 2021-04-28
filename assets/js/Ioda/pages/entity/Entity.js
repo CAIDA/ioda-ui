@@ -114,6 +114,9 @@ class Entity extends Component {
             rawRegionalSignalsProcessedBgp: [],
             rawRegionalSignalsProcessedPingSlash24: [],
             rawRegionalSignalsProcessedUcsdNt: [],
+            rawRegionalSignalsLoadedBgp: true,
+            rawRegionalSignalsLoadedPingSlash24: true,
+            rawRegionalSignalsLoadedUcsdNt: true,
             // Stacked Horizon Visual on ASN Table Panel
             rawAsnSignalsRawBgp: [],
             rawAsnSignalsRawPingSlash24: [],
@@ -121,6 +124,9 @@ class Entity extends Component {
             rawAsnSignalsProcessedBgp: [],
             rawAsnSignalsProcessedPingSlash24: [],
             rawAsnSignalsProcessedUcsdNt: [],
+            rawAsnSignalsLoadedBgp: true,
+            rawAsnSignalsLoadedPingSlash24: true,
+            rawAsnSignalsLoadedUcsdNt: true
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
@@ -743,7 +749,6 @@ class Entity extends Component {
         }
     }
 
-
 // Event Table
     // Take values from api and format for Event table
     convertValuesForEventTable()  {
@@ -1338,7 +1343,8 @@ class Entity extends Component {
         });
     }
     populateRegionalHtsChartPingSlash24(width) {
-        if (this.state.rawRegionalSignalsProcessedPingSlash24.length) {
+        if (this.state.rawRegionalSignalsProcessedPingSlash24.length && this.state.rawRegionalSignalsLoadedPingSlash24) {
+            this.setState({rawRegionalSignalsLoadedPingSlash24: !this.state.rawRegionalSignalsLoadedPingSlash24});
             const myChart = HorizonTSChart()(document.getElementById(`regional-horizon-chart--pingSlash24`));
             myChart
                 .data(this.state.rawRegionalSignalsProcessedPingSlash24)
@@ -1358,7 +1364,8 @@ class Entity extends Component {
         }
     }
     populateRegionalHtsChartBgp(width) {
-        if (this.state.rawRegionalSignalsProcessedBgp.length) {
+        if (this.state.rawRegionalSignalsProcessedBgp.length && this.state.rawRegionalSignalsLoadedBgp) {
+            this.setState({rawRegionalSignalsLoadedBgp: !this.state.rawRegionalSignalsLoadedBgp});
             const myChart = HorizonTSChart()(document.getElementById(`regional-horizon-chart--bgp`));
             myChart
                 .data(this.state.rawRegionalSignalsProcessedBgp)
@@ -1378,7 +1385,8 @@ class Entity extends Component {
         }
     }
     populateRegionalHtsChartUcsdNt(width) {
-        if (this.state.rawRegionalSignalsProcessedUcsdNt.length) {
+        if (this.state.rawRegionalSignalsProcessedUcsdNt.length && this.state.rawRegionalSignalsLoadedUcsdNt) {
+            this.setState({rawRegionalSignalsLoadedUcsdNt: !this.state.rawRegionalSignalsLoadedUcsdNt});
             const myChart = HorizonTSChart()(document.getElementById(`regional-horizon-chart--ucsdNt`));
             myChart
                 .data(this.state.rawRegionalSignalsProcessedUcsdNt)
@@ -1539,74 +1547,10 @@ class Entity extends Component {
             rawAsnSignalsProcessedUcsdNt: convertTsDataForHtsViz(this.state.rawAsnSignalsRawUcsdNt)
         });
     }
-    populateAsnHtsChart(width, datasource) {
-        switch(datasource) {
-            case 'ping-slash24':
-                if (this.state.rawAsnSignalsProcessedPingSlash24.length) {
-                    const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--pingSlash24`));
-                    myChart
-                        .data(this.state.rawAsnSignalsProcessedPingSlash24)
-                        .series('entityName')
-                        .yNormalize(false)
-                        .useUtc(true)
-                        .use24h(false)
-                        // Will need to detect column width to populate height
-                        .width(width)
-                        .height(280)
-                        .enableZoom(false)
-                        .showRuler(true)
-                        .interpolationCurve(d3.curveStepAfter)
-                        .positiveColors(['white', '#6190B5'])
-                        // .positiveColorStops([.99])
-                        .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
-                }
-                break;
-            case 'bgp':
-                if (this.state.rawAsnSignalsProcessedBgp.length) {
-                    const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--bgp`));
-                    myChart
-                        .data(this.state.rawAsnSignalsProcessedBgp)
-                        .series('entityName')
-                        .yNormalize(false)
-                        .useUtc(true)
-                        .use24h(false)
-                        // Will need to detect column width to populate height
-                        .width(width)
-                        .height(280)
-                        .enableZoom(false)
-                        .showRuler(true)
-                        .interpolationCurve(d3.curveStepAfter)
-                        .positiveColors(['white', '#6190B5'])
-                        // .positiveColorStops([.99])
-                        .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
-                }
-                break;
-            case 'ucsd-nt':
-                if (this.state.rawAsnSignalsProcessedUcsdNt.length) {
-                    const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--ucsdNt`));
-                    myChart
-                        .data(this.state.rawAsnSignalsProcessedUcsdNt)
-                        .series('entityName')
-                        .yNormalize(false)
-                        .useUtc(true)
-                        .use24h(false)
-                        // Will need to detect column width to populate height
-                        .width(width)
-                        .height(280)
-                        .enableZoom(false)
-                        .showRuler(true)
-                        .interpolationCurve(d3.curveStepAfter)
-                        .positiveColors(['white', '#6190B5'])
-                        // .positiveColorStops([.99])
-                        .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
-                }
-                break;
-            default:
-                break;
-        }
-    }
     populateAsnHtsChartPingSlash24(width) {
-        if (this.state.rawAsnSignalsProcessedPingSlash24.length) {
+        if (this.state.rawAsnSignalsProcessedPingSlash24.length && this.state.rawAsnSignalsLoadedPingSlash24) {
+            this.setState({rawAsnSignalsLoadedPingSlash24: !this.state.rawAsnSignalsLoadedPingSlash24});
+            console.log(this.state.rawAsnSignalsProcessedPingSlash24);
             const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--pingSlash24`));
             myChart
                 .data(this.state.rawAsnSignalsProcessedPingSlash24)
@@ -1626,7 +1570,9 @@ class Entity extends Component {
         }
     }
     populateAsnHtsChartBgp(width) {
-        if (this.state.rawAsnSignalsProcessedBgp.length) {
+        if (this.state.rawAsnSignalsProcessedBgp.length && this.state.rawAsnSignalsLoadedBgp) {
+            this.setState({rawAsnSignalsLoadedBgp: !this.state.rawAsnSignalsLoadedBgp});
+            console.log(this.state.rawAsnSignalsProcessedBgp);
             const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--bgp`));
             myChart
                 .data(this.state.rawAsnSignalsProcessedBgp)
@@ -1646,7 +1592,9 @@ class Entity extends Component {
         }
     }
     populateAsnHtsChartUcsdNt(width) {
-        if (this.state.rawAsnSignalsProcessedUcsdNt.length) {
+        if (this.state.rawAsnSignalsProcessedUcsdNt.length && this.state.rawAsnSignalsLoadedUcsdNt) {
+            this.setState({rawAsnSignalsLoadedUcsdNt: !this.state.rawAsnSignalsLoadedUcsdNt});
+            console.log(this.state.rawAsnSignalsProcessedUcsdNt);
             const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--ucsdNt`));
             myChart
                 .data(this.state.rawAsnSignalsProcessedUcsdNt)

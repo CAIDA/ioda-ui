@@ -20,8 +20,6 @@ class Modal extends Component {
     genRegionalUcsdNt = () => {
         this.props.populateRegionalHtsChartUcsdNt(this.configUcsdNt.current.offsetWidth);
     };
-
-
     genAsnPingSlash24 = () => {
         this.props.populateAsnHtsChartPingSlash24(this.configPingSlash24.current.offsetWidth);
     };
