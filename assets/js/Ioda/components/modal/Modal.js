@@ -12,22 +12,24 @@ class Modal extends Component {
     }
 
     genRegionalPingSlash24 = () => {
-        this.props.populateRegionalHtsChart(this.configPingSlash24.current.offsetWidth, 'ping-slash24');
+        this.props.populateRegionalHtsChartPingSlash24(this.configPingSlash24.current.offsetWidth);
     };
     genRegionalBgp = () => {
-        this.props.populateRegionalHtsChart(this.configBgp.current.offsetWidth, 'bgp');
+        this.props.populateRegionalHtsChartBgp(this.configBgp.current.offsetWidth);
     };
     genRegionalUcsdNt = () => {
-        this.props.populateRegionalHtsChart(this.configUcsdNt.current.offsetWidth, 'ucsd-nt');
+        this.props.populateRegionalHtsChartUcsdNt(this.configUcsdNt.current.offsetWidth);
     };
+
+
     genAsnPingSlash24 = () => {
-        this.props.populateAsnHtsChart(this.configPingSlash24.current.offsetWidth, 'ping-slash24');
+        this.props.populateAsnHtsChartPingSlash24(this.configPingSlash24.current.offsetWidth);
     };
     genAsnBgp = () => {
-        this.props.populateAsnHtsChart(this.configBgp.current.offsetWidth, 'bgp');
+        this.props.populateAsnHtsChartBgp(this.configBgp.current.offsetWidth);
     };
     genAsnUcsdNt = () => {
-        this.props.populateAsnHtsChart(this.configUcsdNt.current.offsetWidth, 'ucsd-nt');
+        this.props.populateAsnHtsChartUcsdNt(this.configUcsdNt.current.offsetWidth);
     };
 
     render() {
@@ -78,8 +80,11 @@ class Modal extends Component {
                                         <h3 className="heading-h3">{regionalMapTitle}</h3>
                                         <div className="modal__map" style={{display: 'block', height: '47.5rem'}}>
                                             {
-                                                this.props.summaryDataMapRaw.length ?
-                                                this.props.populateGeoJsonMap() : <Loading/>
+                                                this.props.summaryDataMapRaw
+                                                    ? this.props.summaryDataMapRaw.length > 0
+                                                        ? this.props.populateGeoJsonMap()
+                                                        : "No Outages to display"
+                                                    : <Loading/>
                                             }
                                         </div>
                                     </div>

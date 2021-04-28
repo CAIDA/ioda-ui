@@ -42,7 +42,10 @@ class EntityRelated extends Component {
                                 toggleModal={this.props.toggleModal}
                                 populateGeoJsonMap={() => this.props.populateGeoJsonMap()}
                                 genRegionalSignalsTable={this.props.genRegionalSignalsTable}
-                                populateRegionalHtsChart={(width, datasource) => this.props.populateRegionalHtsChart(width, datasource)}
+                                // populateRegionalHtsChart={(width, datasource) => this.props.populateRegionalHtsChart(width, datasource)}
+                                populateRegionalHtsChartPingSlash24={(width) => this.props.populateRegionalHtsChartPingSlash24(width)}
+                                populateRegionalHtsChartBgp={(width) => this.props.populateRegionalHtsChartBgp(width)}
+                                populateRegionalHtsChartUcsdNt={(width) => this.props.populateRegionalHtsChartUcsdNt(width)}
                                 // to detect when loading bar should appear in modal
                                 rawRegionalSignalsProcessedPingSlash24={this.props.rawRegionalSignalsProcessedPingSlash24}
                                 rawRegionalSignalsProcessedBgp={this.props.rawRegionalSignalsProcessedBgp}
@@ -83,7 +86,9 @@ class EntityRelated extends Component {
                                 showModal={this.props.showTableModal}
                                 toggleModal={this.props.toggleModal}
                                 genSignalsTable={() => this.props.genAsnSignalsTable()}
-                                populateAsnHtsChart={(width, datasource) => this.props.populateAsnHtsChart(width, datasource)}
+                                populateAsnHtsChartPingSlash24={(width) => this.props.populateAsnHtsChartPingSlash24(width)}
+                                populateAsnHtsChartBgp={(width) => this.props.populateAsnHtsChartBgp(width)}
+                                populateAsnHtsChartUcsdNt={(width) => this.props.populateAsnHtsChartUcsdNt(width)}
                                 rawAsnSignalsProcessedPingSlash24={this.props.rawAsnSignalsProcessedPingSlash24}
                                 rawAsnSignalsProcessedBgp={this.props.rawAsnSignalsProcessedBgp}
                                 rawAsnSignalsProcessedUcsdNt={this.props.rawAsnSignalsProcessedUcsdNt}
