@@ -196,14 +196,6 @@ class Dashboard extends Component {
         }
 
         // Make API call for data to populate time series stacked horizon view
-        // if (this.props.overallEvents !== prevProps.overallEvents) {
-        //     this.setState({
-        //         eventDataRaw: this.props.overallEvents
-        //     }, () => {
-        //         this.convertValuesForHtsViz()
-        //     });
-        // }
-
         if (this.props.eventSignals !== prevProps.eventSignals) {
             let newEventData = this.props.eventSignals;
             this.setState(prevState => ({
@@ -409,12 +401,10 @@ class Dashboard extends Component {
     convertValuesForHtsViz() {
         let eventDataProcessed = [];
         // Create visualization-friendly data objects
-        this.state.eventDataRaw.map(tsData => {
-            tsData.map(entity => {
+        this.state.eventDataRaw.map(entity => {
                 let series;
                 series = convertTsDataForHtsViz(entity);
                 eventDataProcessed = eventDataProcessed.concat(series);
-            });
         });
         // Add data objects to state for each data source
         this.setState({
