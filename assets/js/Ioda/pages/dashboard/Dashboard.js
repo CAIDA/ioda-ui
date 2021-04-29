@@ -401,7 +401,6 @@ class Dashboard extends Component {
     convertValuesForHtsViz() {
         let eventDataProcessed = [];
         // Create visualization-friendly data objects
-        // console.log(this.state.eventDataRaw);
         this.state.eventDataRaw.map(entity => {
                 let series;
                 series = convertTsDataForHtsViz(entity);
