@@ -186,20 +186,36 @@ class Table extends Component {
 
         if (type === "summary") {
             if (this.props.entityType === 'asn') {
-                colToSort = Object.keys(this.summaryHeadersAsn).find(key => this.summaryHeadersAsn[key] === event.target.value);
+                if (event.target.value) {
+                    colToSort = Object.keys(this.summaryHeadersAsn).find(key => this.summaryHeadersAsn[key] === event.target.value);
+                } else {
+                    colToSort = Object.keys(this.summaryHeadersAsn).find(key => this.summaryHeadersAsn[key] === event.target.parentNode.value);
+                }
                 position = this.summaryHeadersAsn[colToSort];
             } else {
-                colToSort = Object.keys(this.summaryHeaders).find(key => this.summaryHeaders[key] === event.target.value);
+                if (event.target.value) {
+                    colToSort = Object.keys(this.summaryHeaders).find(key => this.summaryHeaders[key] === event.target.value);
+                } else {
+                    colToSort = Object.keys(this.summaryHeaders).find(key => this.summaryHeaders[key] === event.target.parentNode.value);
+                }
                 position = this.summaryHeaders[colToSort];
             }
         }
 
         if (type === "signal") {
             if (this.props.entityType === 'asn') {
-                colToSort = Object.keys(this.signalHeadersAsn).find(key => this.signalHeadersAsn[key] === event.target.value);
+                if (event.target.value) {
+                    colToSort = Object.keys(this.signalHeadersAsn).find(key => this.signalHeadersAsn[key] === event.target.value);
+                } else {
+                    colToSort = Object.keys(this.signalHeadersAsn).find(key => this.signalHeadersAsn[key] === event.target.parentNode.value);
+                }
                 position = this.signalHeadersAsn[colToSort];
             } else {
-                colToSort = Object.keys(this.signalHeaders).find(key => this.signalHeaders[key] === event.target.value);
+                if (event.target.value) {
+                    colToSort = Object.keys(this.signalHeaders).find(key => this.signalHeaders[key] === event.target.value);
+                } else {
+                    colToSort = Object.keys(this.signalHeaders).find(key => this.signalHeaders[key] === event.target.parentNode.value);
+                }
                 position = this.signalHeaders[colToSort];
             }
         }
