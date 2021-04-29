@@ -167,57 +167,103 @@ class Table extends Component {
 
         // get key from respective object based on header value clicked on
         if (type === "alert") {
-            colToSort = Object.keys(this.alertHeaders).find(key => this.alertHeaders[key] === event.target.value);
+            if (event.target.value) {
+                colToSort = Object.keys(this.alertHeaders).find(key => this.alertHeaders[key] === event.target.value);
+            } else {
+                colToSort = Object.keys(this.alertHeaders).find(key => this.alertHeaders[key] === event.target.parentNode.value);
+            }
             position = this.alertHeaders[colToSort];
         }
 
         if (type === "event") {
-            colToSort = Object.keys(this.eventHeaders).find(key => this.eventHeaders[key] === event.target.value);
+            if (event.target.value) {
+                colToSort = Object.keys(this.eventHeaders).find(key => this.eventHeaders[key] === event.target.value);
+            } else {
+                colToSort = Object.keys(this.eventHeaders).find(key => this.eventHeaders[key] === event.target.parentNode.value);
+            }
             position = this.eventHeaders[colToSort];
         }
 
         if (type === "summary") {
             if (this.props.entityType === 'asn') {
-                colToSort = Object.keys(this.summaryHeadersAsn).find(key => this.summaryHeadersAsn[key] === event.target.value);
+                if (event.target.value) {
+                    colToSort = Object.keys(this.summaryHeadersAsn).find(key => this.summaryHeadersAsn[key] === event.target.value);
+                } else {
+                    colToSort = Object.keys(this.summaryHeadersAsn).find(key => this.summaryHeadersAsn[key] === event.target.parentNode.value);
+                }
                 position = this.summaryHeadersAsn[colToSort];
             } else {
-                colToSort = Object.keys(this.summaryHeaders).find(key => this.summaryHeaders[key] === event.target.value);
+                if (event.target.value) {
+                    colToSort = Object.keys(this.summaryHeaders).find(key => this.summaryHeaders[key] === event.target.value);
+                } else {
+                    colToSort = Object.keys(this.summaryHeaders).find(key => this.summaryHeaders[key] === event.target.parentNode.value);
+                }
                 position = this.summaryHeaders[colToSort];
             }
         }
 
         if (type === "signal") {
             if (this.props.entityType === 'asn') {
-                colToSort = Object.keys(this.signalHeadersAsn).find(key => this.signalHeadersAsn[key] === event.target.value);
+                if (event.target.value) {
+                    colToSort = Object.keys(this.signalHeadersAsn).find(key => this.signalHeadersAsn[key] === event.target.value);
+                } else {
+                    colToSort = Object.keys(this.signalHeadersAsn).find(key => this.signalHeadersAsn[key] === event.target.parentNode.value);
+                }
                 position = this.signalHeadersAsn[colToSort];
             } else {
-                colToSort = Object.keys(this.signalHeaders).find(key => this.signalHeaders[key] === event.target.value);
+                if (event.target.value) {
+                    colToSort = Object.keys(this.signalHeaders).find(key => this.signalHeaders[key] === event.target.value);
+                } else {
+                    colToSort = Object.keys(this.signalHeaders).find(key => this.signalHeaders[key] === event.target.parentNode.value);
+                }
                 position = this.signalHeaders[colToSort];
             }
         }
 
         // Update state of table to sort rows and add icon
-        // ToDo: Replace icon with proper image file
-        this.setState( {
-            sortedColumn: {
-                name: colToSort,
-                position: event.target.value !== position
-                    ? "asc"
-                    : this.state.sortedColumn.position === "asc"
-                        ? "desc"
-                        : "asc",
-                arrow: event.target.value !== position
-                    ? iconSortUnsorted
-                    : this.state.sortedColumn.position === "asc"
-                        ? iconSortDesc
-                        : iconSortAsc
-            }
-        }, () => {
-            data = this.props.data.sort(this.compare(colToSort, this.state.sortedColumn.position));
-            this.setState({
-                data: data
+        if (event.target.value) {
+            this.setState( {
+                sortedColumn: {
+                    name: colToSort,
+                    position: event.target.value !== position
+                        ? "asc"
+                        : this.state.sortedColumn.position === "asc"
+                            ? "desc"
+                            : "asc",
+                    arrow: event.target.value !== position
+                        ? iconSortUnsorted
+                        : this.state.sortedColumn.position === "asc"
+                            ? iconSortDesc
+                            : iconSortAsc
+                }
+            }, () => {
+                data = this.props.data.sort(this.compare(colToSort, this.state.sortedColumn.position));
+                this.setState({
+                    data: data
+                })
             })
-        })
+        } else {
+            this.setState( {
+                sortedColumn: {
+                    name: colToSort,
+                    position: event.target.parentNode.value !== position
+                        ? "asc"
+                        : this.state.sortedColumn.position === "asc"
+                            ? "desc"
+                            : "asc",
+                    arrow: event.target.parentNode.value !== position
+                        ? iconSortUnsorted
+                        : this.state.sortedColumn.position === "asc"
+                            ? iconSortDesc
+                            : iconSortAsc
+                }
+            }, () => {
+                data = this.props.data.sort(this.compare(colToSort, this.state.sortedColumn.position));
+                this.setState({
+                    data: data
+                })
+            })
+        }
     }
 
     render() {
@@ -260,31 +306,28 @@ class Table extends Component {
                                     {
                                         type === "alert"
                                             ? header === this.alertHeaders[this.state.sortedColumn.name]
-                                            ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
+                                            ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow} onClick={(event) => this.sortByColumn(event)}/>
                                             : <img className="table__header-sort" src={iconSortUnsorted} alt={unsortedIconAltText}/>
                                             : null
-
                                     }
                                     {
                                         type === "event"
                                             ? header === this.eventHeaders[this.state.sortedColumn.name]
-                                            ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
+                                            ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow} onClick={(event) => this.sortByColumn(event)}/>
                                             : <img className="table__header-sort" src={iconSortUnsorted} alt={unsortedIconAltText}/>
                                             : null
-
                                     }
                                     {
                                         type === "summary"
                                             ? header === this.summaryHeaders[this.state.sortedColumn.name]
-                                            ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
+                                            ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow} onClick={(event) => this.sortByColumn(event)}/>
                                             : <img className="table__header-sort" src={iconSortUnsorted} alt={unsortedIconAltText}/>
                                             : null
-
                                     }
                                     {
                                         type === "signal"
                                             ? header === this.signalHeaders[this.state.sortedColumn.name]
-                                            ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow}/>
+                                            ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow} onClick={(event) => this.sortByColumn(event)}/>
                                             : <img className="table__header-sort" src={iconSortUnsorted} alt={unsortedIconAltText}/>
                                             : null
 
