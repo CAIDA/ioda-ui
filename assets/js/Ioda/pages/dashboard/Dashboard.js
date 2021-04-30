@@ -25,8 +25,6 @@ import {
     convertValuesForSummaryTable,
     humanizeNumber,
     sortByKey,
-    nextPage,
-    prevPage,
     convertTsDataForHtsViz, dateRangeToSeconds
 } from "../../utils";
 import Loading from "../../components/loading/Loading";
