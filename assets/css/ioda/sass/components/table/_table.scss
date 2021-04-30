@@ -14,6 +14,11 @@
 
   &--event {
     text-align: center;
+
+    & .table__header-col:not(:last-child),
+    & tr td:not(:last-child) {
+      width: 18rem;
+    }
   }
 
   &--alert {
@@ -36,6 +41,22 @@
       height: 1.1rem;
       width: 1.1rem;
     }
+
+    & .table__header-col button {
+      justify-content: left;
+    }
+
+    & .table__header-col:first-child,
+    & tr td:first-child {
+      width: 4rem;
+    }
+
+    & .table__header-col:nth-child(2),
+    & tr td:nth-child(2),
+    & .table__header-col:nth-child(3),
+    & tr td:nth-child(3) {
+      width: 18rem;
+    }
   }
 
   &--summary {
@@ -47,12 +68,29 @@
       justify-content: left;
       padding-left: 1rem;
     }
+
+    &--asn .table__header-col:nth-child(2) {
+      width: 10rem;
+    }
   }
 
   &--signal {
+    & .table__header-col:first-child {
+      width: 4rem;
+    }
+
     & .table__header-col:nth-child(2) button {
       justify-content: left;
       padding-left: 1rem;
+    }
+
+    & tr td:first-child {
+      width: 4rem;
+    }
+
+    &--asn .table__header-col:nth-child(3),
+    &--asn tbody tr td:nth-child(3) {
+      width: 10rem;
     }
   }
 
@@ -64,12 +102,21 @@
     &-col {
       padding-left: 0.5rem;
 
+
       &:first-child {
         border-top-left-radius: 0.3rem;
       }
 
       &:last-child {
         border-top-right-radius: 0.3rem;
+        width: calc(8rem + 15px);
+        padding-left: 0;
+
+        & button {
+          // To account for scroll bar width
+          width: calc(8rem + 15px);
+          padding-right: 20px;
+        }
       }
 
       &:not(:last-child) {
@@ -87,7 +134,7 @@
         font-size: 1.2rem;
         font-weight: 700;
         display: flex;
-        justify-content: center;
+        justify-content: left;
         align-items: center;
         cursor: pointer;
       }
@@ -103,10 +150,14 @@
   & tbody {
     max-height: 28rem;
     overflow-y: scroll;
+    display: block;
+    width: 100%;
   }
 
   & tr {
     height: 3.4rem;
+    display: table;
+    width: 100%;
   }
 
   & tr:nth-child(odd) {

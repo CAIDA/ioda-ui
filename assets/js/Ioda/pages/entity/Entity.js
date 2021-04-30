@@ -25,8 +25,6 @@ import {
     toDateTime,
     convertValuesForSummaryTable,
     combineValuesForSignalsTable,
-    nextPage,
-    prevPage,
     convertTsDataForHtsViz,
     getOutageCoords,
     dateRangeToSeconds,
@@ -70,11 +68,7 @@ class Entity extends Component {
             tsDataScreenBelow760: false,
             // Table Pagination
             eventTablePageNumber: 0,
-            eventTableCurrentDisplayLow: 0,
-            eventTableCurrentDisplayHigh: 10,
             alertTablePageNumber: 0,
-            alertTableCurrentDisplayLow: 0,
-            alertTableCurrentDisplayHigh: 10,
             // Event/Table Data
             currentTable: 'alert',
             eventDataRaw: null,
@@ -90,8 +84,6 @@ class Entity extends Component {
             relatedToTableSummary: null,
             relatedToTableSummaryProcessed: null,
             relatedToTablePageNumber: 0,
-            relatedToTableCurrentDisplayLow: 0,
-            relatedToTableCurrentDisplayHigh: 10,
             // Modal window display status
             showMapModal: false,
             showTableModal: false,
@@ -99,14 +91,10 @@ class Entity extends Component {
             regionalSignalsTableSummaryData: [],
             regionalSignalsTableSummaryDataProcessed: [],
             regionalSignalsTablePageNumber: 0,
-            regionalSignalsTableCurrentDisplayLow: 0,
-            regionalSignalsTableCurrentDisplayHigh: 10,
             // Signals Modal Table on Table Panel
             asnSignalsTableSummaryData: [],
             asnSignalsTableSummaryDataProcessed: [],
             asnSignalsTablePageNumber: 0,
-            asnSignalsTableCurrentDisplayLow: 0,
-            asnSignalsTableCurrentDisplayHigh: 10,
             // Stacked Horizon Visual on Region Map Panel
             rawRegionalSignalsRawBgp: [],
             rawRegionalSignalsRawPingSlash24: [],
@@ -193,12 +181,6 @@ class Entity extends Component {
 
         // Make API call for data to populate event table
         if (this.props.events !== prevProps.events) {
-            if (this.props.events.length < 10) {
-                this.setState({eventTableCurrentDisplayHigh: this.props.events.length});
-            }
-            if (this.props.events.length < 1) {
-                this.setState({eventTableCurrentDisplayLow: -1});
-            }
             this.setState({
                 eventDataRaw: this.props.events,
             }, () => {
@@ -208,12 +190,6 @@ class Entity extends Component {
 
         // After API call for Alert Table data completes, check for lengths to set display counts and then process to populate
         if (this.props.alerts !== prevProps.alerts) {
-            if (this.props.alerts.length < 10) {
-                this.setState({alertTableCurrentDisplayHigh: this.props.alerts.length});
-            }
-            if (this.props.alerts.length < 1) {
-                this.setState({alertTableCurrentDisplayLow: -1});
-            }
             this.setState({
                 alertDataRaw: this.props.alerts
             }, () => {
@@ -240,9 +216,6 @@ class Entity extends Component {
 
         // After API call for outage summary data completes, pass summary data to table component for data merging
         if (this.props.relatedToTableSummary !== prevProps.relatedToTableSummary) {
-            if (this.props.relatedToTableSummary.length < 10) {
-                this.setState({relatedToTableCurrentDisplayHigh: this.props.relatedToTableSummary.length});
-            }
             this.setState({
                 relatedToTableSummary: this.props.relatedToTableSummary
             },() => {
@@ -372,11 +345,7 @@ class Entity extends Component {
             xyDataOptions: null,
             // Table Pagination
             eventTablePageNumber: 0,
-            eventTableCurrentDisplayLow: 0,
-            eventTableCurrentDisplayHigh: 10,
             alertTablePageNumber: 0,
-            alertTableCurrentDisplayLow: 0,
-            alertTableCurrentDisplayHigh: 10,
             // Event/Table Data
             currentTable: 'alert',
             eventDataRaw: null,
@@ -391,8 +360,6 @@ class Entity extends Component {
             relatedToTableSummary: null,
             relatedToTableSummaryProcessed: null,
             relatedToTablePageNumber: 0,
-            relatedToTableCurrentDisplayLow: 0,
-            relatedToTableCurrentDisplayHigh: 10,
             // Modal window display status
             showMapModal: false,
             showTableModal: false,
@@ -400,14 +367,10 @@ class Entity extends Component {
             regionalSignalsTableSummaryData: [],
             regionalSignalsTableSummaryDataProcessed: [],
             regionalSignalsTablePageNumber: 0,
-            regionalSignalsTableCurrentDisplayLow: 0,
-            regionalSignalsTableCurrentDisplayHigh: 10,
             // Signals Modal Table on Table Panel
             asnSignalsTableSummaryData: [],
             asnSignalsTableSummaryDataProcessed: [],
             asnSignalsTablePageNumber: 0,
-            asnSignalsTableCurrentDisplayLow: 0,
-            asnSignalsTableCurrentDisplayHigh: 10,
             // Stacked Horizon Visual on Region Map Panel
             rawRegionalSignalsRawBgp: [],
             rawRegionalSignalsRawPingSlash24: [],
@@ -472,11 +435,7 @@ class Entity extends Component {
             tsDataDisplayOutageBands: true,
             // Table Pagination
             eventTablePageNumber: 0,
-            eventTableCurrentDisplayLow: 0,
-            eventTableCurrentDisplayHigh: 10,
             alertTablePageNumber: 0,
-            alertTableCurrentDisplayLow: 0,
-            alertTableCurrentDisplayHigh: 10,
             // Event/Table Data
             currentTable: 'alert',
             eventDataRaw: null,
@@ -491,8 +450,6 @@ class Entity extends Component {
             relatedToTableSummary: null,
             relatedToTableSummaryProcessed: null,
             relatedToTablePageNumber: 0,
-            relatedToTableCurrentDisplayLow: 0,
-            relatedToTableCurrentDisplayHigh: 10,
             // Modal window display status
             showMapModal: false,
             showTableModal: false,
@@ -500,14 +457,10 @@ class Entity extends Component {
             regionalSignalsTableSummaryData: [],
             regionalSignalsTableSummaryDataProcessed: [],
             regionalSignalsTablePageNumber: 0,
-            regionalSignalsTableCurrentDisplayLow: 0,
-            regionalSignalsTableCurrentDisplayHigh: 10,
             // Signals Modal Table on Table Panel
             asnSignalsTableSummaryData: [],
             asnSignalsTableSummaryDataProcessed: [],
             asnSignalsTablePageNumber: 0,
-            asnSignalsTableCurrentDisplayLow: 0,
-            asnSignalsTableCurrentDisplayHigh: 10,
             // Stacked Horizon Visual on Region Map Panel
             rawRegionalSignalsRawBgp: [],
             rawRegionalSignalsRawPingSlash24: [],
@@ -801,53 +754,9 @@ class Entity extends Component {
             <Table
                 type={"event"}
                 data={this.state.eventDataProcessed}
-                nextPage={(type) => this.nextPage(type)}
-                prevPage={(type) => this.prevPage(type)}
-                currentDisplayLow={this.state.eventTableCurrentDisplayLow}
-                currentDisplayHigh={this.state.eventTableCurrentDisplayHigh}
                 totalCount={this.state.eventDataProcessed.length}
             />
         )
-    }
-    // Table controls used by both alert and event table
-    nextPage(type) {
-        if (type === 'alert') {
-            let nextPageValues = nextPage(!!this.state.alertDataProcessed, this.state.alertDataProcessed.length, this.state.alertTablePageNumber, this.state.alertTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
-            this.setState({
-                alertTablePageNumber: nextPageValues.newPageNumber,
-                alertTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
-                alertTableCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh
-            });
-        }
-
-        if (type === 'event') {
-            let nextPageValues = nextPage(!!this.state.eventDataProcessed, this.state.eventDataProcessed.length, this.state.eventTablePageNumber, this.state.eventTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
-            this.setState({
-                eventTablePageNumber: nextPageValues.newPageNumber,
-                eventTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
-                eventTableCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh
-            });
-        }
-    }
-    prevPage(type) {
-        if (type === 'alert') {
-            let prevPageValues = prevPage(!!this.state.alertDataProcessed, this.state.alertDataProcessed.length, this.state.alertTablePageNumber, this.state.alertTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
-            this.setState({
-                alertTablePageNumber: prevPageValues.newPageNumber,
-                alertTableCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
-                alertTableCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh
-            });
-        }
-
-        if (type === 'event') {
-            let prevPageValues = prevPage(!!this.state.eventDataProcessed, this.state.eventDataProcessed.length, this.state.eventTablePageNumber, this.state.eventTableCurrentDisplayHigh, this.state.alertTableCurrentDisplayLow);
-            this.setState({
-                eventTablePageNumber: prevPageValues.newPageNumber,
-                eventTableCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
-                eventTableCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh
-            });
-        }
-
     }
     // Switching between Events and Alerts
     changeCurrentTable() {
@@ -899,10 +808,6 @@ class Entity extends Component {
             <Table
                 type="alert"
                 data={this.state.alertDataProcessed}
-                nextPage={(type) => this.nextPage(type)}
-                prevPage={(type) => this.prevPage(type)}
-                currentDisplayLow={this.state.alertTableCurrentDisplayLow}
-                currentDisplayHigh={this.state.alertTableCurrentDisplayHigh}
                 totalCount={this.state.alertDataProcessed.length}
             />
         )
@@ -1115,44 +1020,11 @@ class Entity extends Component {
             <Table
                 type="summary"
                 data={this.state.relatedToTableSummaryProcessed}
-                nextPage={() => this.nextPageRelatedToTableSummary()}
-                prevPage={() => this.prevPageRelatedToTableSummary()}
-                currentDisplayLow={this.state.relatedToTableCurrentDisplayLow}
-                currentDisplayHigh={this.state.relatedToTableCurrentDisplayHigh}
                 totalCount={this.state.relatedToTableSummaryProcessed.length}
                 entityType={this.state.entityType === "asn" ? "country" : "asn"}
                 handleEntityClick={() => this.handleEntityClick()}
             />
         )
-    }
-    // Pagination for summary table
-    nextPageRelatedToTableSummary() {
-        let nextPageValues = nextPage(!!this.state.relatedToTableSummaryProcessed, this.state.relatedToTableSummaryProcessed.length, this.state.relatedToTablePageNumber, this.state.relatedToTableCurrentDisplayHigh, this.state.relatedToTableCurrentDisplayLow);
-        this.setState({
-            relatedToTablePageNumber: nextPageValues.newPageNumber,
-            relatedToTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
-            relatedToTableCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh
-        }, () => {
-            // load more entries if user browses beyond initial amount loaded, defined at this.apiQueryLimit
-            if (this.state.relatedToTableCurrentDisplayHigh > (this.state.relatedToTableApiPageNumber + 1) * this.apiQueryLimit) {
-
-                this.setState({
-                    apiPageNumber: this.state.relatedToTableApiPageNumber + 1,
-                }, () => {
-                    this.getDataRelatedToTableSummary("asn");
-                });
-
-            }
-        });
-    }
-    prevPageRelatedToTableSummary() {
-        let prevPageValues = prevPage(!!this.state.relatedToTableSummaryProcessed, this.state.relatedToTableSummaryProcessed.length, this.state.relatedToTablePageNumber, this.state.relatedToTableCurrentDisplayHigh, this.state.relatedToTableCurrentDisplayLow);
-        this.setState({
-            relatedToTablePageNumber: prevPageValues.newPageNumber,
-            relatedToTableCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
-            relatedToTableCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh
-        });
-
     }
     handleEntityClick() {
         this.setState({
@@ -1173,11 +1045,7 @@ class Entity extends Component {
             tsDataDisplayOutageBands: true,
             // Table Pagination
             eventTablePageNumber: 0,
-            eventTableCurrentDisplayLow: 0,
-            eventTableCurrentDisplayHigh: 10,
             alertTablePageNumber: 0,
-            alertTableCurrentDisplayLow: 0,
-            alertTableCurrentDisplayHigh: 10,
             // Event/Table Data
             currentTable: 'alert',
             eventDataRaw: null,
@@ -1192,8 +1060,6 @@ class Entity extends Component {
             relatedToTableSummary: null,
             relatedToTableSummaryProcessed: null,
             relatedToTablePageNumber: 0,
-            relatedToTableCurrentDisplayLow: 0,
-            relatedToTableCurrentDisplayHigh: 10,
             // Modal window display status
             showMapModal: false,
             showTableModal: false,
@@ -1201,14 +1067,10 @@ class Entity extends Component {
             regionalSignalsTableSummaryData: [],
             regionalSignalsTableSummaryDataProcessed: [],
             regionalSignalsTablePageNumber: 0,
-            regionalSignalsTableCurrentDisplayLow: 0,
-            regionalSignalsTableCurrentDisplayHigh: 10,
             // Signals Modal Table on Table Panel
             asnSignalsTableSummaryData: [],
             asnSignalsTableSummaryDataProcessed: [],
             asnSignalsTablePageNumber: 0,
-            asnSignalsTableCurrentDisplayLow: 0,
-            asnSignalsTableCurrentDisplayHigh: 10,
             // Stacked Horizon Visual on Region Map Panel
             rawRegionalSignalsRawBgp: [],
             rawRegionalSignalsRawPingSlash24: [],
@@ -1258,33 +1120,12 @@ class Entity extends Component {
                 this.state.regionalSignalsTableSummaryDataProcessed && <Table
                     type="signal"
                     data={this.state.regionalSignalsTableSummaryDataProcessed}
-                    nextPage={() => this.nextPageRegionalSignalsTableSummary()}
-                    prevPage={() => this.prevPageRegionalSignalsTableSummary()}
-                    currentDisplayLow={this.state.regionalSignalsTableCurrentDisplayLow}
-                    currentDisplayHigh={this.state.regionalSignalsTableCurrentDisplayHigh}
                     totalCount={this.state.regionalSignalsTableSummaryDataProcessed.length}
                     toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInRegionalHtsViz(event)}
                     handleEntityClick={() => this.handleEntityClick()}
                 />
             )
         }
-    }
-    nextPageRegionalSignalsTableSummary() {
-        let nextPageValues = nextPage(!!this.state.regionalSignalsTableSummaryDataProcessed, this.state.regionalSignalsTableSummaryDataProcessed.length, this.state.regionalSignalsTablePageNumber, this.state.regionalSignalsTableCurrentDisplayHigh, this.state.regionalSignalsTableCurrentDisplayLow);
-        this.setState({
-            regionalSignalsTablePageNumber: nextPageValues.newPageNumber,
-            regionalSignalsTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
-            regionalSignalsTableCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh
-        });
-    }
-    prevPageRegionalSignalsTableSummary() {
-        let prevPageValues = prevPage(!!this.state.regionalSignalsTableSummaryDataProcessed, this.state.regionalSignalsTableSummaryDataProcessed.length, this.state.regionalSignalsTablePageNumber, this.state.regionalSignalsTableCurrentDisplayHigh, this.state.regionalSignalsTableCurrentDisplayLow);
-        this.setState({
-            regionalSignalsTablePageNumber: prevPageValues.newPageNumber,
-            regionalSignalsTableCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
-            regionalSignalsTableCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh
-        });
-
     }
     toggleEntityVisibilityInRegionalHtsViz(event) {
         let indexValue;
@@ -1463,33 +1304,12 @@ class Entity extends Component {
             <Table
                 type="signal"
                 data={this.state.asnSignalsTableSummaryDataProcessed}
-                nextPage={() => this.nextPageAsnSignalsTableSummary()}
-                prevPage={() => this.prevPageAsnSignalsTableSummary()}
-                currentDisplayLow={this.state.asnSignalsTableCurrentDisplayLow}
-                currentDisplayHigh={this.state.asnSignalsTableCurrentDisplayHigh}
                 totalCount={this.state.asnSignalsTableSummaryDataProcessed.length}
                 entityType={this.state.entityType === "asn" ? "country" : "asn"}
                 toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInAsnHtsViz(event)}
                 handleEntityClick={() => this.handleEntityClick()}
             />
         )
-    }
-    nextPageAsnSignalsTableSummary() {
-        let nextPageValues = nextPage(!!this.state.asnSignalsTableSummaryDataProcessed, this.state.asnSignalsTableSummaryDataProcessed.length, this.state.asnSignalsTablePageNumber, this.state.asnSignalsTableCurrentDisplayHigh, this.state.asnSignalsTableCurrentDisplayLow);
-        this.setState({
-            asnSignalsTablePageNumber: nextPageValues.newPageNumber,
-            asnSignalsTableCurrentDisplayLow: nextPageValues.newCurrentDisplayLow,
-            asnSignalsTableCurrentDisplayHigh: nextPageValues.newCurrentDisplayHigh
-        });
-    }
-    prevPageAsnSignalsTableSummary() {
-        let prevPageValues = prevPage(!!this.state.asnSignalsTableSummaryDataProcessed, this.state.asnSignalsTableSummaryDataProcessed.length, this.state.asnSignalsTablePageNumber, this.state.asnSignalsTableCurrentDisplayHigh, this.state.asnSignalsTableCurrentDisplayLow);
-        this.setState({
-            asnSignalsTablePageNumber: prevPageValues.newPageNumber,
-            asnSignalsTableCurrentDisplayLow: prevPageValues.newCurrentDisplayLow,
-            asnSignalsTableCurrentDisplayHigh: prevPageValues.newCurrentDisplayHigh
-        });
-
     }
     toggleEntityVisibilityInAsnHtsViz(event) {
         let indexValue;

@@ -308,7 +308,14 @@ class Table extends Component {
 
         return (
             <div className="table__wrapper">
-                <table className={`table ${type === "alert" ? "table--alert" : type === "event" ? "table--event" : type === "summary" ? "table--summary" : "table--signal"}`}>
+                <table className={`table ${
+                    type === "alert" ? "table--alert" : 
+                    type === "event" ? "table--event" : 
+                    type === "summary" && entityType !== "asn" ? "table--summary" : 
+                    type === "summary" && entityType === "asn" ? "table--summary table--summary--asn" :
+                    type === "signal" && entityType === "asn" ? "table--signal table--signal--asn" :
+                    "table--signal"
+                }`}>
                     <thead>
                     <tr className="table__header">
                     {
@@ -384,7 +391,7 @@ class Table extends Component {
                         type === "signal" && this.props.data.length > 0
                         ? <tbody>
                                 {
-                                    this.state.alertData && this.state.alertData.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(alert => {
+                                    this.state.alertData && this.state.alertData.map(alert => {
                                         return <tr key={generateKeys(this.props.type === 'alert' ? 'alert' : 'event')}>
                                             <td className={
                                                 alert.level === "normal" ? "table--alert-normal td--center" :
@@ -415,7 +422,7 @@ class Table extends Component {
                                     })
                                 }
                                 {
-                                    this.state.eventData && this.state.eventData.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(event => {
+                                    this.state.eventData && this.state.eventData.map(event => {
                                         return <tr key={generateKeys(this.props.type === 'alert' ? 'alert' : 'event')}>
                                             <td>
                                                 <p>{event.from.month} {event.from.day}, {event.from.year}</p>
@@ -425,7 +432,7 @@ class Table extends Component {
                                                 <p>{event.until.month} {event.until.day}, {event.until.year}</p>
                                                 <p>{event.until.hours}:{event.until.minutes} {event.until.meridian}</p>
                                             </td>
-                                            <td className="td--center">
+                                            <td>
                                                 {event.duration}
                                             </td>
                                             <td className="td--center">
@@ -435,7 +442,7 @@ class Table extends Component {
                                     })
                                 }
                                 {
-                                    type === "summary" && this.props.data.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(summary => {
+                                    type === "summary" && this.props.data.map(summary => {
                                         return <SummaryTableRow key={generateKeys('summary')}
                                                                 type={this.props.type} entityType={this.props.entityType}
                                                                 data={summary} handleEntityClick={() => this.props.handleEntityClick()}
@@ -443,7 +450,7 @@ class Table extends Component {
                                     })
                                 }
                                 {
-                                    type === "signal" && this.props.data.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(signal => {
+                                    type === "signal" && this.props.data.map(signal => {
                                         return <SignalTableRow key={generateKeys('signal')} type={this.props.type}
                                                                entityType={this.props.entityType} data={signal}
                                                                toggleEntityVisibilityInHtsViz={event => this.props.toggleEntityVisibilityInHtsViz(event)}
@@ -469,11 +476,7 @@ class Table extends Component {
                     type === "summary" && this.props.data.length > 0 ||
                     type === "signal" && this.props.data.length > 0
                         ? <div className="table__page">
-                            <p className="table__page-text">{displayCountShowing} {this.props.currentDisplayLow + 1} - {this.props.currentDisplayHigh} {displayCountOf} {this.props.totalCount} {displayCountEntries}</p>
-                            <div className="table__page-controls">
-                                <button onClick={() => this.props.prevPage(this.props.type)} className="table__page-button">{prevButtonText}</button>
-                                <button onClick={() => this.props.nextPage(this.props.type)} className="table__page-button">{nextButtonText}</button>
-                            </div>
+                            <p className="table__page-text">{displayCountShowing} {this.props.totalCount < 300 ? this.props.totalCount : 300} {displayCountOf} {this.props.totalCount} {displayCountEntries}</p>
                         </div>
                         : null
                 }
