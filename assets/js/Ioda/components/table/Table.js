@@ -59,6 +59,32 @@ class Table extends Component {
         };
     }
 
+    componentDidMount() {
+        if (this.props.type === "summary") {
+            // Summary Table default sort
+            this.setState({
+                summaryData: this.props.data,
+                sortedColumn: {
+                    name: "score",
+                    position: "desc",
+                    arrow: iconSortDesc
+                }
+            });
+        }
+
+        if (this.props.type === "signal") {
+            // Signal Table default sort
+            this.setState({
+                signalData: this.props.data,
+                sortedColumn: {
+                    name: "score",
+                    position: "desc",
+                    arrow: iconSortDesc
+                }
+            });
+        }
+    }
+
     componentDidUpdate(prevProps) {
         if (this.props.data !== prevProps.data) {
             if (this.props.type === "alert") {
@@ -267,7 +293,7 @@ class Table extends Component {
     }
 
     render() {
-        const { type } = this.props;
+        const { type, entityType } = this.props;
 
         const unsortedIconAltText = T.translate("table.unsortedIconAltText");
         const displayCountShowing = T.translate("table.displayCountShowing");
@@ -290,13 +316,13 @@ class Table extends Component {
                             ? this.alertHeaders
                             : type === "event"
                                 ? this.eventHeaders
-                                : type === "summary" && this.props.entityType === 'asn'
+                                : type === "summary" && entityType === 'asn'
                                     ? this.summaryHeadersAsn
-                                    : type === "summary" && this.props.entityType !== 'asn'
+                                    : type === "summary" && entityType !== 'asn'
                                         ? this.summaryHeaders
-                                        : type === "signal" && this.props.entityType === 'asn'
+                                        : type === "signal" && entityType === 'asn'
                                             ? this.signalHeadersAsn
-                                            : type === 'signal' && this.props.entityType !== 'asn'
+                                            : type === 'signal' && entityType !== 'asn'
                                                 ? this.signalHeaders
                                                 : null
                         ).map(header => {
@@ -318,19 +344,32 @@ class Table extends Component {
                                             : null
                                     }
                                     {
-                                        type === "summary"
+                                        type === "summary" && entityType !== 'asn'
                                             ? header === this.summaryHeaders[this.state.sortedColumn.name]
                                             ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow} onClick={(event) => this.sortByColumn(event)}/>
                                             : <img className="table__header-sort" src={iconSortUnsorted} alt={unsortedIconAltText}/>
                                             : null
                                     }
                                     {
-                                        type === "signal"
+                                        type === "summary" && entityType === 'asn'
+                                            ? header === this.summaryHeadersAsn[this.state.sortedColumn.name]
+                                            ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow} onClick={(event) => this.sortByColumn(event)}/>
+                                            : <img className="table__header-sort" src={iconSortUnsorted} alt={unsortedIconAltText}/>
+                                            : null
+                                    }
+                                    {
+                                        type === "signal" && entityType !== 'asn'
                                             ? header === this.signalHeaders[this.state.sortedColumn.name]
                                             ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow} onClick={(event) => this.sortByColumn(event)}/>
                                             : <img className="table__header-sort" src={iconSortUnsorted} alt={unsortedIconAltText}/>
                                             : null
-
+                                    }
+                                    {
+                                        type === "signal" && entityType === 'asn'
+                                            ? header === this.signalHeadersAsn[this.state.sortedColumn.name]
+                                            ? <img className="table__header-sort" src={this.state.sortedColumn.arrow} alt={this.state.sortedColumn.arrow} onClick={(event) => this.sortByColumn(event)}/>
+                                            : <img className="table__header-sort" src={iconSortUnsorted} alt={unsortedIconAltText}/>
+                                            : null
                                     }
                                 </button>
                             </th>;
@@ -341,8 +380,8 @@ class Table extends Component {
 
                     {
                         this.state.eventData.length > 0 || this.state.alertData.length > 0 ||
-                        this.props.type === "summary" && this.props.data.length > 0 ||
-                        this.props.type === "signal" && this.props.data.length > 0
+                        type === "summary" && this.props.data.length > 0 ||
+                        type === "signal" && this.props.data.length > 0
                         ? <tbody>
                                 {
                                     this.state.alertData && this.state.alertData.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(alert => {
@@ -396,7 +435,7 @@ class Table extends Component {
                                     })
                                 }
                                 {
-                                    this.props.type === "summary" && this.props.data.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(summary => {
+                                    type === "summary" && this.props.data.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(summary => {
                                         return <SummaryTableRow key={generateKeys('summary')}
                                                                 type={this.props.type} entityType={this.props.entityType}
                                                                 data={summary} handleEntityClick={() => this.props.handleEntityClick()}
@@ -404,7 +443,7 @@ class Table extends Component {
                                     })
                                 }
                                 {
-                                    this.props.type === "signal" && this.props.data.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(signal => {
+                                    type === "signal" && this.props.data.slice(this.props.currentDisplayLow, this.props.currentDisplayHigh).map(signal => {
                                         return <SignalTableRow key={generateKeys('signal')} type={this.props.type}
                                                                entityType={this.props.entityType} data={signal}
                                                                toggleEntityVisibilityInHtsViz={event => this.props.toggleEntityVisibilityInHtsViz(event)}
@@ -416,10 +455,10 @@ class Table extends Component {
                             </tbody>
                         : <tbody className="table__empty">
                             {
-                                this.props.type === "event" ? <tr><td colSpan='100%'>{eventNoOutagesMessage}</td></tr>
-                                : this.props.type === 'alert' ? <tr><td colSpan='100%'>{alertNoOutagesMessage}</td></tr>
-                                : this.props.type === "summary" ? <tr><td colSpan='100%'>{summaryNoOutagesMessage}</td></tr>
-                                : this.props.type === "signal" ? <tr><td colSpan='100%'>{signalNoOutagesMessage}</td></tr>
+                                type === "event" ? <tr><td colSpan='100%'>{eventNoOutagesMessage}</td></tr>
+                                : type === 'alert' ? <tr><td colSpan='100%'>{alertNoOutagesMessage}</td></tr>
+                                : type === "summary" ? <tr><td colSpan='100%'>{summaryNoOutagesMessage}</td></tr>
+                                : type === "signal" ? <tr><td colSpan='100%'>{signalNoOutagesMessage}</td></tr>
                                 : null
                             }
                         </tbody>
@@ -427,8 +466,8 @@ class Table extends Component {
                 </table>
                 {
                     this.state.eventData.length > 0 || this.state.alertData.length > 0 ||
-                    this.props.type === "summary" && this.props.data.length > 0 ||
-                    this.props.type === "signal" && this.props.data.length > 0
+                    type === "summary" && this.props.data.length > 0 ||
+                    type === "signal" && this.props.data.length > 0
                         ? <div className="table__page">
                             <p className="table__page-text">{displayCountShowing} {this.props.currentDisplayLow + 1} - {this.props.currentDisplayHigh} {displayCountOf} {this.props.totalCount} {displayCountEntries}</p>
                             <div className="table__page-controls">
