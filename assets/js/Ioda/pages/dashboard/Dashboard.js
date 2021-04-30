@@ -25,8 +25,6 @@ import {
     convertValuesForSummaryTable,
     humanizeNumber,
     sortByKey,
-    nextPage,
-    prevPage,
     convertTsDataForHtsViz, dateRangeToSeconds
 } from "../../utils";
 import Loading from "../../components/loading/Loading";
@@ -64,8 +62,6 @@ class Dashboard extends Component {
             // Summary Table Pagination
             pageNumber: 0,
             apiPageNumber: 0,
-            currentDisplayLow: 0,
-            currentDisplayHigh: 10,
             // Event Data for Time Series
             eventDataRaw: [],
             eventDataProcessed: [],
@@ -73,8 +69,6 @@ class Dashboard extends Component {
             eventOrderByOrder: "desc",
             eventEndpointCalled: false,
             totalEventCount: 0,
-            htsVizCurrentDisplayLow: 0,
-            htsVizCurrentDisplayHigh: 50,
             htsVizCurrentPageNumber: 1
         };
         this.tabs = {
@@ -171,9 +165,6 @@ class Dashboard extends Component {
 
         // After API call for total outages summary data completes, pass total count to table to populate in UI
         if (this.props.totalOutages !== prevProps.totalOutages) {
-            if (this.props.totalOutages.length < 10) {
-                this.setState({currentDisplayHigh: this.props.totalOutages.length});
-            }
             this.setState({
                 totalOutages: this.props.totalOutages.length
             })
@@ -233,8 +224,6 @@ class Dashboard extends Component {
             eventDataProcessed: [],
             // Reset table count values
             pageNumber: 0,
-            currentDisplayLow: 0,
-            currentDisplayHigh: 10,
         }, () => {
             // Get topo and outage data to repopulate map and table
             this.getDataTopo(this.state.activeTabType);
@@ -263,9 +252,7 @@ class Dashboard extends Component {
                 totalEventCount: 0,
                 // Reset Table Page Count
                 pageNumber: 0,
-                apiPageNumber: 0,
-                currentDisplayLow: 0,
-                currentDisplayHigh: 10
+                apiPageNumber: 0
             });
             if (history.location.pathname !== as.url) {history.push(as.url);}
         }
@@ -284,9 +271,7 @@ class Dashboard extends Component {
                 totalEventCount: 0,
                 // Reset Table Page Count
                 pageNumber: 0,
-                apiPageNumber: 0,
-                currentDisplayLow: 0,
-                currentDisplayHigh: 10
+                apiPageNumber: 0
             });
             if (history.location.pathname !== region.url) {history.push(region.url);}
         }
@@ -305,9 +290,7 @@ class Dashboard extends Component {
                 totalEventCount: 0,
                 // Reset Table Page Count
                 pageNumber: 0,
-                apiPageNumber: 0,
-                currentDisplayLow: 0,
-                currentDisplayHigh: 10
+                apiPageNumber: 0
             });
             if (history.location.pathname !== country.url) {history.push(country.url);}
         }
@@ -390,7 +373,7 @@ class Dashboard extends Component {
         let from = this.state.from;
         let attr = this.state.eventOrderByAttr;
         let order = this.state.eventOrderByOrder;
-        let entities = this.state.summaryDataRaw.slice(this.state.htsVizCurrentDisplayLow, this.state.htsVizCurrentDisplayHigh * this.state.htsVizCurrentPageNumber).map(entity => {
+        let entities = this.state.summaryDataRaw.map(entity => {
             // some entities don't return a code to be used in an api call, seem to default to '??' in that event
             if (entity.entity.code !== "??") {
                 return entity.entity.code;
@@ -494,45 +477,10 @@ class Dashboard extends Component {
             <Table
                 type={"summary"}
                 data={this.state.summaryDataProcessed}
-                nextPage={() => this.nextPage()}
-                prevPage={() => this.prevPage()}
-                currentDisplayLow={this.state.currentDisplayLow}
-                currentDisplayHigh={this.state.currentDisplayHigh}
                 totalCount={this.state.totalOutages}
                 entityType={this.state.activeTabType}
             />
         )
-    }
-    nextPage() {
-        if (this.state.totalOutages && this.state.totalOutages > this.state.currentDisplayHigh) {
-            let nextPageValues = nextPage(!!this.state.summaryDataProcessed, this.state.totalOutages, this.state.pageNumber, this.state.currentDisplayHigh, this.state.currentDisplayLow);
-            this.setState({
-                pageNumber: nextPageValues.newPageNumber,
-                currentDisplayLow: nextPageValues.newCurrentDisplayLow,
-                currentDisplayHigh: nextPageValues.newCurrentDisplayHigh
-            }, () => {
-                // load more entries if user browses beyond initial amount loaded, defined at this.apiQueryLimit
-                if (this.state.currentDisplayHigh > (this.state.apiPageNumber + 1) * this.apiQueryLimit) {
-
-                    this.setState({
-                        apiPageNumber: this.state.apiPageNumber + 1,
-                    }, () => {
-                        this.getDataOutageSummary(this.state.activeTabType);
-                    });
-
-                }
-            });
-        }
-    }
-    prevPage() {
-        if (this.state.summaryDataProcessed && this.state.pageNumber > 0) {
-            let prevPageValues = prevPage(!!this.state.summaryDataProcessed, this.state.totalOutages, this.state.pageNumber, this.state.currentDisplayHigh, this.state.currentDisplayLow);
-            this.setState({
-                pageNumber: prevPageValues.newPageNumber,
-                currentDisplayLow: prevPageValues.newCurrentDisplayLow,
-                currentDisplayHigh: prevPageValues.newCurrentDisplayHigh
-            });
-        }
     }
 
     render() {

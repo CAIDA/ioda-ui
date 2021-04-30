@@ -243,34 +243,6 @@ export function sortByKey(array, key) {
     });
 }
 
-// Used for table component pagination
-export function nextPage(data, dataLength, pageNumber, currentDisplayHigh, currentDisplayLow) {
-    if (data && dataLength > pageNumber + currentDisplayHigh) {
-        let newPageNumber = pageNumber + 1;
-        let newCurrentDisplayLow = currentDisplayLow + 10;
-        let newCurrentDisplayHigh = currentDisplayHigh + 10 < dataLength
-            ? currentDisplayHigh + 10
-            : dataLength;
-        return {newPageNumber: newPageNumber, newCurrentDisplayLow: newCurrentDisplayLow, newCurrentDisplayHigh: newCurrentDisplayHigh};
-    } else {
-        return {newPageNumber: pageNumber, newCurrentDisplayLow: currentDisplayLow, newCurrentDisplayHigh: currentDisplayHigh};
-    }
-}
-export function prevPage(data, dataLength, pageNumber, currentDisplayHigh, currentDisplayLow) {
-    if (data && pageNumber > 0) {
-        let newPageNumber = pageNumber - 1;
-        let newCurrentDisplayLow = currentDisplayLow + 10 > dataLength
-            ? 10 * pageNumber - 10
-            : currentDisplayLow - 10;
-        let newCurrentDisplayHigh = currentDisplayHigh + 10 > dataLength
-            ? 10 * pageNumber
-            : currentDisplayHigh - 10;
-        return {newPageNumber: newPageNumber, newCurrentDisplayLow: newCurrentDisplayLow, newCurrentDisplayHigh: newCurrentDisplayHigh};
-    } else {
-        return {newPageNumber: pageNumber, newCurrentDisplayLow: currentDisplayLow, newCurrentDisplayHigh: currentDisplayHigh};
-    }
-}
-
 // Function for raw signals table on entity page
 // Will process time series data and return in a format compatible with the Horizon-time-series visual
 export function convertTsDataForHtsViz(tsData) {
