@@ -1382,7 +1382,7 @@ class Entity extends Component {
                 .use24h(false)
                 // Will need to detect column width to populate height
                 .width(width)
-                .height(280)
+                .height(340)
                 .enableZoom(false)
                 .showRuler(true)
                 .interpolationCurve(d3.curveStepAfter)
@@ -1403,7 +1403,7 @@ class Entity extends Component {
                 .use24h(false)
                 // Will need to detect column width to populate height
                 .width(width)
-                .height(280)
+                .height(340)
                 .enableZoom(false)
                 .showRuler(true)
                 .interpolationCurve(d3.curveStepAfter)
@@ -1424,7 +1424,7 @@ class Entity extends Component {
                 .use24h(false)
                 // Will need to detect column width to populate height
                 .width(width)
-                .height(280)
+                .height(340)
                 .enableZoom(false)
                 .showRuler(true)
                 .interpolationCurve(d3.curveStepAfter)
