@@ -94,7 +94,7 @@ class Entity extends Component {
             // Signals Modal Table on Table Panel
             asnSignalsTableSummaryData: [],
             asnSignalsTableSummaryDataProcessed: [],
-            asnSignalsTablePageNumber: 0,
+            asnSignalsTableTotalCount: 0,
             // Stacked Horizon Visual on Region Map Panel
             rawRegionalSignalsRawBgp: [],
             rawRegionalSignalsRawPingSlash24: [],
@@ -118,7 +118,10 @@ class Entity extends Component {
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
-        this.apiQueryLimit = 170;
+        this.initialTableLimit = 300;
+        this.initialHtsLimit = 100;
+        this.maxHtsLimit = 150;
+
     }
 
     componentDidMount() {
@@ -296,7 +299,7 @@ class Entity extends Component {
             this.setState({
                 rawAsnSignalsRawPingSlash24: rawAsnSignals
             }, () => {
-                this.convertValuesForAsnHtsVizPingSlash24();
+                this.convertValuesForAsnHtsViz("ping-slash24");
             });
         }
 
@@ -311,7 +314,7 @@ class Entity extends Component {
             this.setState({
                 rawAsnSignalsRawBgp: rawAsnSignals
             }, () => {
-                this.convertValuesForAsnHtsVizBgp();
+                this.convertValuesForAsnHtsViz("bgp");
             });
         }
 
@@ -323,10 +326,11 @@ class Entity extends Component {
                 //Remove empty items and assign to proper state. Then call next function
                 signal.length ? rawAsnSignals.push(signal[0]): null;
             });
+            console.log(rawAsnSignals);
             this.setState({
                 rawAsnSignalsRawUcsdNt: rawAsnSignals
             }, () => {
-                this.convertValuesForAsnHtsVizUcsdNt();
+                this.convertValuesForAsnHtsViz("ucsd-nt");
             });
         }
     }
@@ -370,7 +374,7 @@ class Entity extends Component {
             // Signals Modal Table on Table Panel
             asnSignalsTableSummaryData: [],
             asnSignalsTableSummaryDataProcessed: [],
-            asnSignalsTablePageNumber: 0,
+            asnSignalsTableTotalCount: 0,
             // Stacked Horizon Visual on Region Map Panel
             rawRegionalSignalsRawBgp: [],
             rawRegionalSignalsRawPingSlash24: [],
@@ -460,7 +464,7 @@ class Entity extends Component {
             // Signals Modal Table on Table Panel
             asnSignalsTableSummaryData: [],
             asnSignalsTableSummaryDataProcessed: [],
-            asnSignalsTablePageNumber: 0,
+            asnSignalsTableTotalCount: 0,
             // Stacked Horizon Visual on Region Map Panel
             rawRegionalSignalsRawBgp: [],
             rawRegionalSignalsRawPingSlash24: [],
@@ -966,7 +970,7 @@ class Entity extends Component {
         if (this.state.mounted) {
             let until = this.state.until;
             let from = this.state.from;
-            const limit = this.apiQueryLimit;
+            const limit = this.initialTableLimit;
             const includeMetadata = true;
             let page = this.state.relatedToTableApiPageNumber;
             const entityCode = null;
@@ -1070,7 +1074,7 @@ class Entity extends Component {
             // Signals Modal Table on Table Panel
             asnSignalsTableSummaryData: [],
             asnSignalsTableSummaryDataProcessed: [],
-            asnSignalsTablePageNumber: 0,
+            asnSignalsTableTotalCount: 0,
             // Stacked Horizon Visual on Region Map Panel
             rawRegionalSignalsRawBgp: [],
             rawRegionalSignalsRawPingSlash24: [],
@@ -1100,7 +1104,7 @@ class Entity extends Component {
     // Table displaying all regions regardless of score
     combineValuesForRegionalSignalsTable() {
         if (this.state.summaryDataMapRaw && this.state.regionalSignalsTableSummaryData) {
-            let signalsTableData = combineValuesForSignalsTable(this.state.summaryDataMapRaw, this.state.regionalSignalsTableSummaryData);
+            let signalsTableData = combineValuesForSignalsTable(this.state.summaryDataMapRaw, this.state.regionalSignalsTableSummaryData, this.initialHtsLimit);
             this.setState({
                 regionalSignalsTableSummaryDataProcessed: signalsTableData
             }, () => {
@@ -1280,9 +1284,10 @@ class Entity extends Component {
     // Table displaying all ASes regardless of score
     combineValuesForAsnSignalsTable() {
         if (this.state.relatedToTableSummary && this.state.asnSignalsTableSummaryData) {
-            let signalsTableData = combineValuesForSignalsTable(this.state.relatedToTableSummary, this.state.asnSignalsTableSummaryData);
+            let signalsTableData = combineValuesForSignalsTable(this.state.relatedToTableSummary, this.state.asnSignalsTableSummaryData, this.initialHtsLimit);
             this.setState({
-                asnSignalsTableSummaryDataProcessed: signalsTableData
+                asnSignalsTableSummaryDataProcessed: signalsTableData.slice(0, this.initialTableLimit),
+                asnSignalsTableTotalCount: signalsTableData.length
             }, () => {
                 this.genAsnSignalsTable();
                 // Populate Stacked horizon graph with all regions
@@ -1304,7 +1309,7 @@ class Entity extends Component {
             <Table
                 type="signal"
                 data={this.state.asnSignalsTableSummaryDataProcessed}
-                totalCount={this.state.asnSignalsTableSummaryDataProcessed.length}
+                totalCount={this.state.asnSignalsTableTotalCount}
                 entityType={this.state.entityType === "asn" ? "country" : "asn"}
                 toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInAsnHtsViz(event)}
                 handleEntityClick={() => this.handleEntityClick()}
@@ -1350,9 +1355,9 @@ class Entity extends Component {
             rawAsnSignals: rawAsnSignals,
             asnSignalsTableSummaryDataProcessed: asnSignalsTableSummaryDataProcessed
         }, () => {
-            this.convertValuesForAsnHtsVizPingSlash24();
-            this.convertValuesForAsnHtsVizBgp();
-            this.convertValuesForAsnHtsVizUcsdNt();
+            this.convertValuesForAsnHtsViz("ping-slash24");
+            this.convertValuesForAsnHtsViz("bgp");
+            this.convertValuesForAsnHtsViz("ucsd-nt");
         });
     }
 
@@ -1380,25 +1385,67 @@ class Entity extends Component {
                 break;
         }
     }
-    convertValuesForAsnHtsVizPingSlash24() {
-        this.setState({
-            rawAsnSignalsProcessedPingSlash24: convertTsDataForHtsViz(this.state.rawAsnSignalsRawPingSlash24)
+    convertValuesForAsnHtsViz(dataSource) {
+        let visibilityChecked = [];
+        let rawAsnSignals = [];
+        // Get list of entities that should be visible
+        this.state.asnSignalsTableSummaryDataProcessed.map(obj => {
+            if (obj.visibility || obj.visibility === true) {
+                visibilityChecked.push(obj.entityCode);
+            }
         });
-    }
-    convertValuesForAsnHtsVizBgp() {
-        this.setState({
-            rawAsnSignalsProcessedBgp: convertTsDataForHtsViz(this.state.rawAsnSignalsRawBgp)
+        // remove other entities from array that shouldn't be displayed
+        visibilityChecked.map(entityCode => {
+            switch (dataSource) {
+                case "ping-slash24":
+                    this.state.rawAsnSignalsRawPingSlash24.filter(obj => {
+                        if (obj.entityCode === entityCode) {
+                            rawAsnSignals.push(obj);
+                        }
+                    });
+                    break;
+                case "bgp":
+                    this.state.rawAsnSignalsRawBgp.filter(obj => {
+                        if (obj.entityCode === entityCode) {
+                            rawAsnSignals.push(obj);
+                        }
+                    });
+                    break;
+                case "ucsd-nt":
+                    this.state.rawAsnSignalsRawUcsdNt.filter(obj => {
+                        if (obj.entityCode === entityCode) {
+                            rawAsnSignals.push(obj);
+                        }
+                    });
+                    break;
+            }
         });
-    }
-    convertValuesForAsnHtsVizUcsdNt() {
-        this.setState({
-            rawAsnSignalsProcessedUcsdNt: convertTsDataForHtsViz(this.state.rawAsnSignalsRawUcsdNt)
-        });
+        // set state with new array that dictates what populates
+        switch (dataSource) {
+            case "ping-slash24":
+                this.setState({
+                    rawAsnSignalsProcessedPingSlash24: convertTsDataForHtsViz(rawAsnSignals),
+                    rawAsnSignalsLoadedPingSlash24: true
+                });
+                break;
+            case "bgp":
+                this.setState({
+                    rawAsnSignalsProcessedBgp: convertTsDataForHtsViz(rawAsnSignals),
+                    rawAsnSignalsLoadedBgp: true
+                });
+                break;
+            case "ucsd-nt":
+                this.setState({
+                    rawAsnSignalsProcessedUcsdNt: convertTsDataForHtsViz(rawAsnSignals),
+                    rawAsnSignalsLoadedUcsdNt: true
+                });
+                break;
+        }
+
     }
     populateAsnHtsChartPingSlash24(width) {
         if (this.state.rawAsnSignalsProcessedPingSlash24.length && this.state.rawAsnSignalsLoadedPingSlash24) {
             this.setState({rawAsnSignalsLoadedPingSlash24: !this.state.rawAsnSignalsLoadedPingSlash24});
-            console.log(this.state.rawAsnSignalsProcessedPingSlash24);
             const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--pingSlash24`));
             myChart
                 .data(this.state.rawAsnSignalsProcessedPingSlash24)
@@ -1420,7 +1467,6 @@ class Entity extends Component {
     populateAsnHtsChartBgp(width) {
         if (this.state.rawAsnSignalsProcessedBgp.length && this.state.rawAsnSignalsLoadedBgp) {
             this.setState({rawAsnSignalsLoadedBgp: !this.state.rawAsnSignalsLoadedBgp});
-            console.log(this.state.rawAsnSignalsProcessedBgp);
             const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--bgp`));
             myChart
                 .data(this.state.rawAsnSignalsProcessedBgp)
@@ -1442,7 +1488,6 @@ class Entity extends Component {
     populateAsnHtsChartUcsdNt(width) {
         if (this.state.rawAsnSignalsProcessedUcsdNt.length && this.state.rawAsnSignalsLoadedUcsdNt) {
             this.setState({rawAsnSignalsLoadedUcsdNt: !this.state.rawAsnSignalsLoadedUcsdNt});
-            console.log(this.state.rawAsnSignalsProcessedUcsdNt);
             const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--ucsdNt`));
             myChart
                 .data(this.state.rawAsnSignalsProcessedUcsdNt)
