@@ -253,7 +253,7 @@ class Entity extends Component {
             this.setState({
                 rawRegionalSignalsRawPingSlash24: rawRegionalSignals
             }, () => {
-                this.convertValuesForRegionalHtsVizPingSlash24();
+                this.convertValuesForRegionalHtsViz("ping-slash24");
             });
         }
 
@@ -268,7 +268,7 @@ class Entity extends Component {
             this.setState({
                 rawRegionalSignalsRawBgp: rawRegionalSignals
             }, () => {
-                this.convertValuesForRegionalHtsVizBgp();
+                this.convertValuesForRegionalHtsViz("bgp");
             });
         }
 
@@ -283,7 +283,7 @@ class Entity extends Component {
             this.setState({
                 rawRegionalSignalsRawUcsdNt: rawRegionalSignals
             }, () => {
-                this.convertValuesForRegionalHtsVizUcsdNt();
+                this.convertValuesForRegionalHtsViz("ucsd-nt");
             });
         }
 
@@ -1134,9 +1134,6 @@ class Entity extends Component {
     toggleEntityVisibilityInRegionalHtsViz(event) {
         let indexValue;
         let regionalSignalsTableSummaryDataProcessed = this.state.regionalSignalsTableSummaryDataProcessed;
-        let rawRegionalSignals = this.props.rawRegionalSignals;
-
-        let visibilityFalseEntities = [];
 
         // Get the index of where the checkmark was that was clicked
         regionalSignalsTableSummaryDataProcessed.filter((entity, index) => {
@@ -1147,27 +1144,8 @@ class Entity extends Component {
         // Update visibility boolean property in copied object to update table
         regionalSignalsTableSummaryDataProcessed[indexValue]["visibility"] = !regionalSignalsTableSummaryDataProcessed[indexValue]["visibility"];
 
-        // Group IDs for items that have visibility set to false, remove items from group that are now set to true
-        regionalSignalsTableSummaryDataProcessed.map((regionalSignalsTableEntity, index) => {
-            if (regionalSignalsTableEntity.visibility === false) {
-                visibilityFalseEntities.push(regionalSignalsTableEntity.entityCode);
-            } else {
-                visibilityFalseEntities.splice(index, index + 1);
-            }
-        });
-
-        // Update rawRegionalSignals state removing selected items with visibility set to false in regionalSignalsTableSummaryDataProcessed
-        if (visibilityFalseEntities.length > 0) {
-            visibilityFalseEntities.map(entityCode => {
-                rawRegionalSignals = rawRegionalSignals.filter(regionalSignal => regionalSignal[0].entityCode !== entityCode)
-            }, this);
-        } else {
-            rawRegionalSignals = this.props.rawRegionalSignals;
-        }
-
-        // Update new state with visibility checked and new hts data that reflects that, then redraw the chart
+        // Update state with freshly updated object list, then redraw the chart with new visibility values
         this.setState({
-            rawRegionalSignals: rawRegionalSignals,
             regionalSignalsTableSummaryDataProcessed: regionalSignalsTableSummaryDataProcessed
         }, () => {
             this.convertValuesForRegionalHtsViz("ping-slash24");
@@ -1200,20 +1178,62 @@ class Entity extends Component {
                 break;
         }
     }
-    convertValuesForRegionalHtsVizPingSlash24() {
-        this.setState({
-            rawRegionalSignalsProcessedPingSlash24: convertTsDataForHtsViz(this.state.rawRegionalSignalsRawPingSlash24)
+    convertValuesForRegionalHtsViz(dataSource) {
+        let visibilityChecked = [];
+        let rawRegionalSignals = [];
+        // Get list of entities that should be visible
+        this.state.regionalSignalsTableSummaryDataProcessed.map(obj => {
+            if (obj.visibility || obj.visibility === true) {
+                visibilityChecked.push(obj.entityCode);
+            }
         });
-    }
-    convertValuesForRegionalHtsVizBgp() {
-        this.setState({
-            rawRegionalSignalsProcessedBgp: convertTsDataForHtsViz(this.state.rawRegionalSignalsRawBgp)
+        // remove other entities from array that shouldn't be displayed
+        visibilityChecked.map(entityCode => {
+            switch (dataSource) {
+                case "ping-slash24":
+                    this.state.rawRegionalSignalsRawPingSlash24.filter(obj => {
+                        if (obj.entityCode === entityCode) {
+                            rawRegionalSignals.push(obj);
+                        }
+                    });
+                    break;
+                case "bgp":
+                    this.state.rawRegionalSignalsRawBgp.filter(obj => {
+                        if (obj.entityCode === entityCode) {
+                            rawRegionalSignals.push(obj);
+                        }
+                    });
+                    break;
+                case "ucsd-nt":
+                    this.state.rawRegionalSignalsRawUcsdNt.filter(obj => {
+                        if (obj.entityCode === entityCode) {
+                            rawRegionalSignals.push(obj);
+                        }
+                    });
+                    break;
+            }
         });
-    }
-    convertValuesForRegionalHtsVizUcsdNt() {
-        this.setState({
-            rawRegionalSignalsProcessedUcsdNt: convertTsDataForHtsViz(this.state.rawRegionalSignalsRawUcsdNt)
-        });
+        // set state with new array that dictates what populates
+        switch (dataSource) {
+            case "ping-slash24":
+                this.setState({
+                    rawRegionalSignalsProcessedPingSlash24: convertTsDataForHtsViz(rawRegionalSignals),
+                    rawRegionalSignalsLoadedPingSlash24: true
+                });
+                break;
+            case "bgp":
+                this.setState({
+                    rawRegionalSignalsProcessedBgp: convertTsDataForHtsViz(rawRegionalSignals),
+                    rawRegionalSignalsLoadedBgp: true
+                });
+                break;
+            case "ucsd-nt":
+                this.setState({
+                    rawRegionalSignalsProcessedUcsdNt: convertTsDataForHtsViz(rawRegionalSignals),
+                    rawRegionalSignalsLoadedUcsdNt: true
+                });
+                break;
+        }
     }
     populateRegionalHtsChartPingSlash24(width) {
         if (this.state.rawRegionalSignalsProcessedPingSlash24.length && this.state.rawRegionalSignalsLoadedPingSlash24) {
@@ -1419,6 +1439,9 @@ class Entity extends Component {
                 });
                 break;
         }
+    }
+    handleAsnSelectionSizeButtons(event) {
+        console.log(event);
     }
     populateAsnHtsChartPingSlash24(width) {
         if (this.state.rawAsnSignalsProcessedPingSlash24.length && this.state.rawAsnSignalsLoadedPingSlash24) {
