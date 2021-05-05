@@ -1319,9 +1319,6 @@ class Entity extends Component {
     toggleEntityVisibilityInAsnHtsViz(event) {
         let indexValue;
         let asnSignalsTableSummaryDataProcessed = this.state.asnSignalsTableSummaryDataProcessed;
-        let rawAsnSignals = this.props.rawAsnSignals;
-
-        let visibilityFalseEntities = [];
 
         // Get the index of where the checkmark was that was clicked
         asnSignalsTableSummaryDataProcessed.filter((entity, index) => {
@@ -1330,29 +1327,10 @@ class Entity extends Component {
             }
         });
         // Update visibility boolean property in copied object to update table
-       asnSignalsTableSummaryDataProcessed[indexValue]["visibility"] = !asnSignalsTableSummaryDataProcessed[indexValue]["visibility"];
+        asnSignalsTableSummaryDataProcessed[indexValue]["visibility"] = !asnSignalsTableSummaryDataProcessed[indexValue]["visibility"];
 
-        // Group IDs for items that have visibility set to false, remove items from group that are now set to true
-        asnSignalsTableSummaryDataProcessed.map((asnSignalsTableEntity, index) => {
-            if (asnSignalsTableEntity.visibility === false || !asnSignalsTableEntity.visibility) {
-                visibilityFalseEntities.push(asnSignalsTableEntity.entityCode);
-            } else {
-                visibilityFalseEntities.splice(index, index + 1);
-            }
-        });
-
-        // Update rawRegionalSignals state removing selected items with visibility set to false in regionalSignalsTableSummaryDataProcessed
-        if (visibilityFalseEntities.length > 0) {
-            visibilityFalseEntities.map(entityCode => {
-                rawAsnSignals = rawAsnSignals.filter(asnSignal => asnSignal[0].entityCode !== entityCode)
-            }, this);
-        } else {
-            rawAsnSignals = this.props.rawAsnSignals;
-        }
-
-        // Update new state with visibility checked and new hts data that reflects that, then redraw the chart
+        // Update state with freshly updated object list, then redraw the chart with new visibility values
         this.setState({
-            rawAsnSignals: rawAsnSignals,
             asnSignalsTableSummaryDataProcessed: asnSignalsTableSummaryDataProcessed
         }, () => {
             this.convertValuesForAsnHtsViz("ping-slash24");
@@ -1441,7 +1419,6 @@ class Entity extends Component {
                 });
                 break;
         }
-
     }
     populateAsnHtsChartPingSlash24(width) {
         if (this.state.rawAsnSignalsProcessedPingSlash24.length && this.state.rawAsnSignalsLoadedPingSlash24) {
