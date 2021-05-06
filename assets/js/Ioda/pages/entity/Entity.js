@@ -1355,6 +1355,7 @@ class Entity extends Component {
     toggleEntityVisibilityInAsnHtsViz(event) {
         let indexValue;
         let asnSignalsTableSummaryDataProcessed = this.state.asnSignalsTableSummaryDataProcessed;
+        let maxEntitiesPopulatedMessage = T.translate("entityModal.maxEntitiesPopulatedMessage")
 
 
         // Get the index of where the checkmark was that was clicked
@@ -1368,7 +1369,6 @@ class Entity extends Component {
         if (asnSignalsTableSummaryDataProcessed[indexValue]["visibility"] === false) {
             // If checkbox is false, determine if adding it will breach the limit
             if (this.maxHtsLimit > asnSignalsTableSummaryDataProcessed.filter(entity => entity.visibility).length) {
-                console.log("here");
 
                 // Update visibility boolean property in copied object to update table
                 asnSignalsTableSummaryDataProcessed[indexValue]["visibility"] = !asnSignalsTableSummaryDataProcessed[indexValue]["visibility"];
@@ -1385,7 +1385,7 @@ class Entity extends Component {
             } else {
                 // Show error message
                 this.setState({
-                    rawSignalsMaxEntitiesHtsError: "Max entities populated. Please uncheck the visibility of some entities before adding more."
+                    rawSignalsMaxEntitiesHtsError: maxEntitiesPopulatedMessage
                 });
             }
         } else {
@@ -1402,9 +1402,6 @@ class Entity extends Component {
                 this.convertValuesForAsnHtsViz("ucsd-nt");
             });
         }
-
-
-
     }
 
     // Time Series for displaying ASN signals
