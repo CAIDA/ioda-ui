@@ -42,6 +42,8 @@ class EntityRelated extends Component {
                                 toggleModal={this.props.toggleModal}
                                 populateGeoJsonMap={() => this.props.populateGeoJsonMap()}
                                 genRegionalSignalsTable={this.props.genRegionalSignalsTable}
+                                handleSelectAndDeselectAllButtons={(event) => this.props.handleSelectAndDeselectAllButtons(event)}
+                                regionalSignalsTableEntitiesChecked={this.props.regionalSignalsTableEntitiesChecked}
                                 // populateRegionalHtsChart={(width, datasource) => this.props.populateRegionalHtsChart(width, datasource)}
                                 populateRegionalHtsChartPingSlash24={(width) => this.props.populateRegionalHtsChartPingSlash24(width)}
                                 populateRegionalHtsChartBgp={(width) => this.props.populateRegionalHtsChartBgp(width)}
@@ -86,6 +88,7 @@ class EntityRelated extends Component {
                                 showModal={this.props.showTableModal}
                                 toggleModal={this.props.toggleModal}
                                 genSignalsTable={() => this.props.genAsnSignalsTable()}
+                                handleSelectAndDeselectAllButtons={(event) => this.props.handleSelectAndDeselectAllButtons(event)}
                                 populateAsnHtsChartPingSlash24={(width) => this.props.populateAsnHtsChartPingSlash24(width)}
                                 populateAsnHtsChartBgp={(width) => this.props.populateAsnHtsChartBgp(width)}
                                 populateAsnHtsChartUcsdNt={(width) => this.props.populateAsnHtsChartUcsdNt(width)}
@@ -93,6 +96,7 @@ class EntityRelated extends Component {
                                 rawAsnSignalsProcessedBgp={this.props.rawAsnSignalsProcessedBgp}
                                 rawAsnSignalsProcessedUcsdNt={this.props.rawAsnSignalsProcessedUcsdNt}
                                 asnSignalsTableSummaryDataProcessed={this.props.asnSignalsTableSummaryDataProcessed}
+                                asnSignalsTableEntitiesChecked={this.props.asnSignalsTableEntitiesChecked}
                             />
                         </div>
                     </div>

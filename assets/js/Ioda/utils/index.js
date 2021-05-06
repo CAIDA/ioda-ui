@@ -149,10 +149,11 @@ export function convertValuesForSummaryTable(summaryDataRaw) {
     return summaryData;
 }
 
-export function combineValuesForSignalsTable(entitiesWithOutages, additionalEntities) {
+export function combineValuesForSignalsTable(entitiesWithOutages, additionalEntities, initialLimit) {
     let summaryData = [];
+    let outageCount = 0;
     let duplicatesRemoved = additionalEntities;
-    entitiesWithOutages.map(entity => {
+    entitiesWithOutages.map((entity, index) => {
         let overallScore = null;
         let summaryScores = [];
         // Get each score value for score table
@@ -174,7 +175,7 @@ export function combineValuesForSignalsTable(entitiesWithOutages, additionalEnti
         let summaryItem;
         entity.entity.type === 'asn'
             ? summaryItem = {
-                visibility: true,
+                visibility: index < initialLimit,
                 entityType: entity["entity"].type,
                 entityCode: entity["entity"].code,
                 name: entity["entity"].name,
@@ -183,7 +184,7 @@ export function combineValuesForSignalsTable(entitiesWithOutages, additionalEnti
                 ipCount: humanizeNumber(entity["entity"]["attrs"]["ip_count"], 2)
             }
             : summaryItem = {
-                visibility: true,
+                visibility: index < initialLimit,
                 entityType: entity["entity"].type,
                 entityCode: entity["entity"].code,
                 name: entity["entity"].name,
@@ -192,13 +193,14 @@ export function combineValuesForSignalsTable(entitiesWithOutages, additionalEnti
             };
         summaryData.push(summaryItem);
     });
+    outageCount = summaryData.length;
 
     // Display scoreless entities on signal table, if asn add ip count property
-    duplicatesRemoved.map(entity => {
+    duplicatesRemoved.map((entity, index) => {
         let entityItem;
         entity.type === 'asn'
             ? entityItem = {
-                visibility: true,
+                visibility: index < initialLimit - outageCount,
                 entityType: entity.type,
                 entityCode: entity.code,
                 name: entity.name,
@@ -207,7 +209,7 @@ export function combineValuesForSignalsTable(entitiesWithOutages, additionalEnti
                 ipCount: humanizeNumber(entity.attrs.ip_count, 2)
             }
             : entityItem = {
-                visibility: true,
+                visibility: index < initialLimit - outageCount,
                 entityType: entity.type,
                 entityCode: entity.code,
                 name: entity.name,
