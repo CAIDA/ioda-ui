@@ -862,12 +862,8 @@ body {
     margin: 0; }
   .table--event {
     text-align: center; }
-    .table--event .table__header-col:nth-child(1),
-    .table--event tr td:nth-child(1),
-    .table--event .table__header-col:nth-child(2),
-    .table--event tr td:nth-child(2),
-    .table--event .table__header-col:nth-child(3),
-    .table--event tr td:nth-child(3) {
+    .table--event .table__header-col:not(:last-child),
+    .table--event tr td:not(:last-child) {
       width: 18rem; }
   .table--alert-critical {
     background-color: #F18179;
@@ -1628,6 +1624,14 @@ body {
 
 .modal__table {
   margin-bottom: 1.5rem; }
+  .modal__table-error {
+    background-color: #E74C3C;
+    padding: 0.75rem;
+    text-align: center;
+    font-weight: 700;
+    border-radius: 3px;
+    color: #fff;
+    margin: 1rem 0; }
 
 .modal__chart {
   margin-bottom: 1.5rem; }

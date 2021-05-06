@@ -45,6 +45,16 @@
 
   &__table {
     margin-bottom: 1.5rem;
+
+    &-error {
+      background-color: $color-error-background;
+      padding: 0.75rem;
+      text-align: center;
+      font-weight: 700;
+      border-radius: 3px;
+      color: $color-white;
+      margin: 1rem 0;
+    }
   }
 
   &__chart {

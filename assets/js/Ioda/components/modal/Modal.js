@@ -75,6 +75,9 @@ class Modal extends Component {
                                         <button className="modal__button--table" name="uncheckAllRegional" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
                                             Uncheck All
                                         </button>
+                                        {
+                                            this.props.rawSignalsMaxEntitiesHtsError ? <p>{this.props.rawSignalsMaxEntitiesHtsError}</p> : null
+                                        }
                                         <div className="modal__table">
                                             {
                                                 this.props.regionalSignalsTableSummaryDataProcessed.length ?
@@ -142,6 +145,9 @@ class Modal extends Component {
                                         <button className="modal__button--table" name="uncheckAllAsn" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
                                             Uncheck All
                                         </button>
+                                        {
+                                            this.props.rawSignalsMaxEntitiesHtsError ? <p className="modal__table-error">{this.props.rawSignalsMaxEntitiesHtsError}</p> : null
+                                        }
                                         <div className="modal__table">
                                             {
                                                 this.props.asnSignalsTableSummaryDataProcessed.length ?
