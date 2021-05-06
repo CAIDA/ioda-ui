@@ -71,7 +71,7 @@
         "graphql": "^14.6.0",
         "graphql-tag": "^2.10.3",
         "has": "^1.0.3",
-        "highcharts": "7.2.2",
+        "highcharts": "9.0.0",
         "history": "^4.10.1",
         "horizon-timeseries-chart": "^1.6.4",
         "i18n-react": "^0.7.0",
