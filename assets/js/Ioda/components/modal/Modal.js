@@ -69,6 +69,12 @@ class Modal extends Component {
                                 <div className="row">
                                     <div className="col-1-of-3">
                                         <h3 className="heading-h3">{regionalTableTitle}</h3>
+                                        <button className="modal__button--table" name="checkMaxRegional" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
+                                            Check Max
+                                        </button>
+                                        <button className="modal__button--table" name="uncheckAllRegional" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
+                                            Uncheck All
+                                        </button>
                                         <div className="modal__table">
                                             {
                                                 this.props.regionalSignalsTableSummaryDataProcessed.length ?
@@ -87,6 +93,7 @@ class Modal extends Component {
                                         </div>
                                     </div>
                                     <div className="col-2-of-3">
+                                        <p>Displaying {this.props.regionalSignalsTableEntitiesChecked} Regions - Use checkboxes on the Regional Raw Signals table to change the selection.</p>
                                         <h3 className="heading-h3">{pingSlash24HtsLabel}</h3>
                                         {
                                             this.props.rawRegionalSignalsProcessedPingSlash24.length === 0 ? <Loading/> : null
@@ -129,6 +136,12 @@ class Modal extends Component {
                                 <div className="row">
                                     <div className="col-1-of-3">
                                         <h3 className="heading-h3">{asnTableTitle}</h3>
+                                        <button className="modal__button--table" name="checkMaxAsn" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
+                                            Check Max
+                                        </button>
+                                        <button className="modal__button--table" name="uncheckAllAsn" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
+                                            Uncheck All
+                                        </button>
                                         <div className="modal__table">
                                             {
                                                 this.props.asnSignalsTableSummaryDataProcessed.length ?
@@ -137,6 +150,7 @@ class Modal extends Component {
                                         </div>
                                     </div>
                                     <div className="col-2-of-3">
+                                        <p>Displaying {this.props.asnSignalsTableEntitiesChecked} ASNs/ISPs - Use checkboxes on the ASN/ISP Raw Signals table to change the selection.</p>
                                         <h3 className="heading-h3">{pingSlash24HtsLabel}</h3>
                                         {
                                             this.props.rawAsnSignalsProcessedPingSlash24.length === 0 ? <Loading/> : null

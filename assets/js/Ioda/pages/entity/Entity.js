@@ -90,11 +90,13 @@ class Entity extends Component {
             // Signals Modal Table on Map Panel
             regionalSignalsTableSummaryData: [],
             regionalSignalsTableSummaryDataProcessed: [],
-            regionalSignalsTablePageNumber: 0,
+            regionalSignalsTableTotalCount: 0,
+            regionalSignalsTableEntitiesChecked: 0,
             // Signals Modal Table on Table Panel
             asnSignalsTableSummaryData: [],
             asnSignalsTableSummaryDataProcessed: [],
             asnSignalsTableTotalCount: 0,
+            asnSignalsTableEntitiesChecked: 0,
             // Stacked Horizon Visual on Region Map Panel
             rawRegionalSignalsRawBgp: [],
             rawRegionalSignalsRawPingSlash24: [],
@@ -326,7 +328,6 @@ class Entity extends Component {
                 //Remove empty items and assign to proper state. Then call next function
                 signal.length ? rawAsnSignals.push(signal[0]): null;
             });
-            console.log(rawAsnSignals);
             this.setState({
                 rawAsnSignalsRawUcsdNt: rawAsnSignals
             }, () => {
@@ -370,7 +371,7 @@ class Entity extends Component {
             // Signals Modal Table on Map Panel
             regionalSignalsTableSummaryData: [],
             regionalSignalsTableSummaryDataProcessed: [],
-            regionalSignalsTablePageNumber: 0,
+            regionalSignalsTableTotalCount: 0,
             // Signals Modal Table on Table Panel
             asnSignalsTableSummaryData: [],
             asnSignalsTableSummaryDataProcessed: [],
@@ -460,7 +461,7 @@ class Entity extends Component {
             // Signals Modal Table on Map Panel
             regionalSignalsTableSummaryData: [],
             regionalSignalsTableSummaryDataProcessed: [],
-            regionalSignalsTablePageNumber: 0,
+            regionalSignalsTableTotalCount: 0,
             // Signals Modal Table on Table Panel
             asnSignalsTableSummaryData: [],
             asnSignalsTableSummaryDataProcessed: [],
@@ -833,11 +834,15 @@ class Entity extends Component {
             genSummaryTable={() => this.genSummaryTable()}
             genRegionalSignalsTable={() => this.genRegionalSignalsTable()}
             genAsnSignalsTable={() => this.genAsnSignalsTable()}
+            handleSelectAndDeselectAllButtons={(event) => this.handleSelectAndDeselectAllButtons(event)}
             // Regional HTS methods
             // populateRegionalHtsChart={(width, datasource) => this.populateRegionalHtsChart(width, datasource)}
             populateRegionalHtsChartPingSlash24={(width) => this.populateRegionalHtsChartPingSlash24(width)}
             populateRegionalHtsChartBgp={(width) => this.populateRegionalHtsChartBgp(width)}
             populateRegionalHtsChartUcsdNt={(width) => this.populateRegionalHtsChartUcsdNt(width)}
+
+            regionalSignalsTableEntitiesChecked={this.state.regionalSignalsTableEntitiesChecked}
+            asnSignalsTableEntitiesChecked={this.state.asnSignalsTableEntitiesChecked}
 
             populateAsnHtsChartPingSlash24={(width) => this.populateAsnHtsChartPingSlash24(width)}
             populateAsnHtsChartBgp={(width) => this.populateAsnHtsChartBgp(width)}
@@ -846,6 +851,7 @@ class Entity extends Component {
             // to detect when loading bar should appear in modal
             regionalSignalsTableSummaryDataProcessed={this.state.regionalSignalsTableSummaryDataProcessed}
             asnSignalsTableSummaryDataProcessed={this.state.asnSignalsTableSummaryDataProcessed}
+
             rawRegionalSignalsProcessedPingSlash24={this.state.rawRegionalSignalsProcessedPingSlash24}
             rawRegionalSignalsProcessedBgp={this.state.rawRegionalSignalsProcessedBgp}
             rawRegionalSignalsProcessedUcsdNt={this.state.rawRegionalSignalsProcessedUcsdNt}
@@ -1070,7 +1076,7 @@ class Entity extends Component {
             // Signals Modal Table on Map Panel
             regionalSignalsTableSummaryData: [],
             regionalSignalsTableSummaryDataProcessed: [],
-            regionalSignalsTablePageNumber: 0,
+            regionalSignalsTableTotalCount: 0,
             // Signals Modal Table on Table Panel
             asnSignalsTableSummaryData: [],
             asnSignalsTableSummaryDataProcessed: [],
@@ -1106,7 +1112,8 @@ class Entity extends Component {
         if (this.state.summaryDataMapRaw && this.state.regionalSignalsTableSummaryData) {
             let signalsTableData = combineValuesForSignalsTable(this.state.summaryDataMapRaw, this.state.regionalSignalsTableSummaryData, this.initialHtsLimit);
             this.setState({
-                regionalSignalsTableSummaryDataProcessed: signalsTableData
+                regionalSignalsTableSummaryDataProcessed: signalsTableData,
+                regionalSignalsTableTotalCount: signalsTableData.length
             }, () => {
                 // Get data for Stacked horizon series raw signals with all regions if data is not yet available
                 this.state.rawRegionalSignalsProcessedPingSlash24.length === 0 ?
@@ -1180,12 +1187,18 @@ class Entity extends Component {
     }
     convertValuesForRegionalHtsViz(dataSource) {
         let visibilityChecked = [];
+        let entitiesChecked = 0;
         let rawRegionalSignals = [];
         // Get list of entities that should be visible
         this.state.regionalSignalsTableSummaryDataProcessed.map(obj => {
             if (obj.visibility || obj.visibility === true) {
                 visibilityChecked.push(obj.entityCode);
+                entitiesChecked = entitiesChecked + 1;
             }
+        });
+        // Set count on current visible items
+        this.setState({
+            regionalSignalsTableEntitiesChecked: entitiesChecked
         });
         // remove other entities from array that shouldn't be displayed
         visibilityChecked.map(entityCode => {
@@ -1385,12 +1398,18 @@ class Entity extends Component {
     }
     convertValuesForAsnHtsViz(dataSource) {
         let visibilityChecked = [];
+        let entitiesChecked = 0;
         let rawAsnSignals = [];
         // Get list of entities that should be visible
         this.state.asnSignalsTableSummaryDataProcessed.map(obj => {
             if (obj.visibility || obj.visibility === true) {
                 visibilityChecked.push(obj.entityCode);
+                entitiesChecked = entitiesChecked + 1;
             }
+        });
+        // Set count on current visible items
+        this.setState({
+            asnSignalsTableEntitiesChecked: entitiesChecked
         });
         // remove other entities from array that shouldn't be displayed
         visibilityChecked.map(entityCode => {
@@ -1440,8 +1459,80 @@ class Entity extends Component {
                 break;
         }
     }
-    handleAsnSelectionSizeButtons(event) {
-        console.log(event);
+    handleSelectAndDeselectAllButtons(event) {
+        if (event.target.name === "checkMaxRegional") {
+            let regionalSignalsTableSummaryDataProcessed = this.state.regionalSignalsTableSummaryDataProcessed;
+            // Count how many entities are currently checked
+            let entitiesCurrentlyChecked = 0;
+            regionalSignalsTableSummaryDataProcessed.map(entity => {
+                if (entity.visibility === true) {
+                    entitiesCurrentlyChecked = entitiesCurrentlyChecked + 1;
+                }
+            });
+            // Check off additional entities to get to max allowed
+            regionalSignalsTableSummaryDataProcessed.map((entity, index) => {
+                entity.visibility = index < this.maxHtsLimit;
+            });
+
+            this.setState({
+                regionalSignalsTableSummaryDataProcessed: regionalSignalsTableSummaryDataProcessed,
+                regionalSignalsTableEntitiesChecked: regionalSignalsTableSummaryDataProcessed.length < this.maxHtsLimit ? regionalSignalsTableSummaryDataProcessed.length : this.maxHtsLimit
+            }, () => {
+                this.convertValuesForRegionalHtsViz("ping-slash24");
+                this.convertValuesForRegionalHtsViz("bgp");
+                this.convertValuesForRegionalHtsViz("ucsd-nt");
+            });
+        }
+        if (event.target.name === "uncheckAllRegional") {
+            let regionalSignalsTableSummaryDataProcessed = this.state.regionalSignalsTableSummaryDataProcessed;
+            regionalSignalsTableSummaryDataProcessed.map(entity => {
+                entity.visibility = false;
+            });
+            this.setState({
+                regionalSignalsTableSummaryDataProcessed: regionalSignalsTableSummaryDataProcessed,
+                regionalSignalsTableEntitiesChecked: 0
+            }, () => {
+                this.convertValuesForRegionalHtsViz("ping-slash24");
+                this.convertValuesForRegionalHtsViz("bgp");
+                this.convertValuesForRegionalHtsViz("ucsd-nt");
+            });
+        }
+        if (event.target.name === "checkMaxAsn") {
+            let asnSignalsTableSummaryDataProcessed = this.state.asnSignalsTableSummaryDataProcessed;
+            // Count how many entities are currently checked
+            let entitiesCurrentlyChecked = 0;
+            asnSignalsTableSummaryDataProcessed.map(entity => {
+                if (entity.visibility === true) {
+                    entitiesCurrentlyChecked = entitiesCurrentlyChecked + 1;
+                }
+            });
+            // Check off additional entities to get to max allowed
+            asnSignalsTableSummaryDataProcessed.map((entity, index) => {
+                entity.visibility = index < this.maxHtsLimit;
+            });
+            this.setState({
+                asnSignalsTableSummaryDataProcessed: asnSignalsTableSummaryDataProcessed,
+                asnSignalsTableEntitiesChecked: asnSignalsTableSummaryDataProcessed.length < this.maxHtsLimit ? asnSignalsTableSummaryDataProcessed.length : this.maxHtsLimit
+            }, () => {
+                this.convertValuesForAsnHtsViz("ping-slash24");
+                this.convertValuesForAsnHtsViz("bgp");
+                this.convertValuesForAsnHtsViz("ucsd-nt");
+            });
+        }
+        if (event.target.name === "uncheckAllAsn") {
+            let asnSignalsTableSummaryDataProcessed = this.state.asnSignalsTableSummaryDataProcessed;
+            asnSignalsTableSummaryDataProcessed.map(entity => {
+                entity.visibility = false;
+            });
+            this.setState({
+                asnSignalsTableSummaryDataProcessed: asnSignalsTableSummaryDataProcessed,
+                asnSignalsTableEntitiesChecked: 0
+            }, () => {
+                this.convertValuesForAsnHtsViz("ping-slash24");
+                this.convertValuesForAsnHtsViz("bgp");
+                this.convertValuesForAsnHtsViz("ucsd-nt");
+            });
+        }
     }
     populateAsnHtsChartPingSlash24(width) {
         if (this.state.rawAsnSignalsProcessedPingSlash24.length && this.state.rawAsnSignalsLoadedPingSlash24) {
