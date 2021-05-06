@@ -55,6 +55,7 @@ class Modal extends Component {
         const currentCountInHtsAsn = T.translate("entityModal.currentCountInHtsAsn");
         const currentCountInHtsAsns = T.translate("entityModal.currentCountInHtsAsns");
         const currentCountInHts2 = T.translate("entityModal.currentCountInHts2");
+        const currentCountInHts3 = T.translate("entityModal.currentCountInHts3");
 
         return(
             <div className="modal">
@@ -108,8 +109,10 @@ class Modal extends Component {
                                         <p className="modal__hts-count">
                                             {currentCountInHts1}
                                             {this.props.regionalSignalsTableEntitiesChecked}
-                                            {this.props.regionalSignalsTableEntitiesChecked === 1 ? currentCountInHtsAsn : currentCountInHtsAsns}
+                                            {this.props.regionalSignalsTableEntitiesChecked === 1 ? currentCountInHtsRegion : currentCountInHtsRegions}
                                             {currentCountInHts2}
+                                            {currentCountInHtsRegion}
+                                            {currentCountInHts3}
                                         </p>
                                         <h3 className="heading-h3">{pingSlash24HtsLabel}</h3>
                                         {
@@ -174,8 +177,10 @@ class Modal extends Component {
                                         <p className="modal__hts-count">
                                             {currentCountInHts1}
                                             {this.props.asnSignalsTableEntitiesChecked}
-                                            {this.props.asnSignalsTableEntitiesChecked === 1 ? currentCountInHtsRegion : currentCountInHtsRegions}
+                                            {this.props.asnSignalsTableEntitiesChecked === 1 ? currentCountInHtsAsn : currentCountInHtsAsns}
                                             {currentCountInHts2}
+                                            {currentCountInHtsAsn}
+                                            {currentCountInHts3}
                                         </p>
 
                                         <h3 className="heading-h3">{pingSlash24HtsLabel}</h3>
