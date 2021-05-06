@@ -116,7 +116,9 @@ class Entity extends Component {
             rawAsnSignalsProcessedUcsdNt: [],
             rawAsnSignalsLoadedBgp: true,
             rawAsnSignalsLoadedPingSlash24: true,
-            rawAsnSignalsLoadedUcsdNt: true
+            rawAsnSignalsLoadedUcsdNt: true,
+            // Shared between Modals
+            rawSignalsMaxEntitiesHtsError: ""
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
@@ -859,6 +861,7 @@ class Entity extends Component {
             rawAsnSignalsProcessedBgp={this.state.rawAsnSignalsProcessedBgp}
             rawAsnSignalsProcessedUcsdNt={this.state.rawAsnSignalsProcessedUcsdNt}
             summaryDataMapRaw={this.state.summaryDataMapRaw}
+            rawSignalsMaxEntitiesHtsError={this.state.rawSignalsMaxEntitiesHtsError}
         />;
     }
     // Show/hide modal when button is clicked on either panel
@@ -1352,6 +1355,8 @@ class Entity extends Component {
     toggleEntityVisibilityInAsnHtsViz(event) {
         let indexValue;
         let asnSignalsTableSummaryDataProcessed = this.state.asnSignalsTableSummaryDataProcessed;
+        let maxEntitiesPopulatedMessage = T.translate("entityModal.maxEntitiesPopulatedMessage")
+
 
         // Get the index of where the checkmark was that was clicked
         asnSignalsTableSummaryDataProcessed.filter((entity, index) => {
@@ -1359,17 +1364,44 @@ class Entity extends Component {
                 indexValue = index;
             }
         });
-        // Update visibility boolean property in copied object to update table
-        asnSignalsTableSummaryDataProcessed[indexValue]["visibility"] = !asnSignalsTableSummaryDataProcessed[indexValue]["visibility"];
 
-        // Update state with freshly updated object list, then redraw the chart with new visibility values
-        this.setState({
-            asnSignalsTableSummaryDataProcessed: asnSignalsTableSummaryDataProcessed
-        }, () => {
-            this.convertValuesForAsnHtsViz("ping-slash24");
-            this.convertValuesForAsnHtsViz("bgp");
-            this.convertValuesForAsnHtsViz("ucsd-nt");
-        });
+        // Determine if max number of checkboxes are checked
+        if (asnSignalsTableSummaryDataProcessed[indexValue]["visibility"] === false) {
+            // If checkbox is false, determine if adding it will breach the limit
+            if (this.maxHtsLimit > asnSignalsTableSummaryDataProcessed.filter(entity => entity.visibility).length) {
+
+                // Update visibility boolean property in copied object to update table
+                asnSignalsTableSummaryDataProcessed[indexValue]["visibility"] = !asnSignalsTableSummaryDataProcessed[indexValue]["visibility"];
+
+                // Update state with freshly updated object list, then redraw the chart with new visibility values
+                this.setState({
+                    asnSignalsTableSummaryDataProcessed: asnSignalsTableSummaryDataProcessed,
+                    rawSignalsMaxEntitiesHtsError: ""
+                }, () => {
+                    this.convertValuesForAsnHtsViz("ping-slash24");
+                    this.convertValuesForAsnHtsViz("bgp");
+                    this.convertValuesForAsnHtsViz("ucsd-nt");
+                });
+            } else {
+                // Show error message
+                this.setState({
+                    rawSignalsMaxEntitiesHtsError: maxEntitiesPopulatedMessage
+                });
+            }
+        } else {
+            // Update visibility boolean property in copied object to update table
+            asnSignalsTableSummaryDataProcessed[indexValue]["visibility"] = !asnSignalsTableSummaryDataProcessed[indexValue]["visibility"];
+
+            // Update state with freshly updated object list, then redraw the chart with new visibility values
+            this.setState({
+                asnSignalsTableSummaryDataProcessed: asnSignalsTableSummaryDataProcessed,
+                rawSignalsMaxEntitiesHtsError: ""
+            }, () => {
+                this.convertValuesForAsnHtsViz("ping-slash24");
+                this.convertValuesForAsnHtsViz("bgp");
+                this.convertValuesForAsnHtsViz("ucsd-nt");
+            });
+        }
     }
 
     // Time Series for displaying ASN signals

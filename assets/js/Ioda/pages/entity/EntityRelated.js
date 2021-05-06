@@ -54,6 +54,7 @@ class EntityRelated extends Component {
                                 rawRegionalSignalsProcessedUcsdNt={this.props.rawRegionalSignalsProcessedUcsdNt}
                                 regionalSignalsTableSummaryDataProcessed={this.props.regionalSignalsTableSummaryDataProcessed}
                                 summaryDataMapRaw={this.props.summaryDataMapRaw}
+                                rawSignalsMaxEntitiesHtsError={this.props.rawSignalsMaxEntitiesHtsError}
                             />
                         </div>
                     </div>
@@ -85,18 +86,30 @@ class EntityRelated extends Component {
                             </button>
                             <Modal
                                 modalLocation={"table"}
+                                // tracking when the modal should be visible
                                 showModal={this.props.showTableModal}
+                                // entity name needed to populate text in headings
+                                entityName={this.props.entityName}
+                                // tracking when the close button is clicked
                                 toggleModal={this.props.toggleModal}
+                                // render function that populates the ui
                                 genSignalsTable={() => this.props.genAsnSignalsTable()}
-                                handleSelectAndDeselectAllButtons={(event) => this.props.handleSelectAndDeselectAllButtons(event)}
+                                // render functions that populate the ui
                                 populateAsnHtsChartPingSlash24={(width) => this.props.populateAsnHtsChartPingSlash24(width)}
                                 populateAsnHtsChartBgp={(width) => this.props.populateAsnHtsChartBgp(width)}
                                 populateAsnHtsChartUcsdNt={(width) => this.props.populateAsnHtsChartUcsdNt(width)}
+                                // data for each horizon time series
                                 rawAsnSignalsProcessedPingSlash24={this.props.rawAsnSignalsProcessedPingSlash24}
                                 rawAsnSignalsProcessedBgp={this.props.rawAsnSignalsProcessedBgp}
                                 rawAsnSignalsProcessedUcsdNt={this.props.rawAsnSignalsProcessedUcsdNt}
+                                // data that populates in table
                                 asnSignalsTableSummaryDataProcessed={this.props.asnSignalsTableSummaryDataProcessed}
+                                // Current number of entities checked in table
                                 asnSignalsTableEntitiesChecked={this.props.asnSignalsTableEntitiesChecked}
+                                // check max and uncheck all button functionality
+                                handleSelectAndDeselectAllButtons={(event) => this.props.handleSelectAndDeselectAllButtons(event)}
+                                // Error message when max entities are checked
+                                rawSignalsMaxEntitiesHtsError={this.props.rawSignalsMaxEntitiesHtsError}
                             />
                         </div>
                     </div>

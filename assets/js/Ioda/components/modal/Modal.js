@@ -43,9 +43,19 @@ class Modal extends Component {
         const regionalTableTitle = T.translate("entityModal.regionalTableTitle");
         const asnTableTitle = T.translate("entityModal.asnTableTitle");
         const regionalMapTitle = T.translate("entityModal.regionalMapTitle");
+        const noOutagesOnMapMessage = T.translate("entityModal.noOutagesOnMapMessage");
         const pingSlash24HtsLabel = T.translate("entityModal.pingSlash24HtsLabel");
         const bgpHtsLabel = T.translate("entityModal.bgpHtsLabel");
         const ucsdNtHtsLabel = T.translate("entityModal.ucsdNtHtsLabel");
+        const checkMaxButton = T.translate("entityModal.checkMaxButton");
+        const uncheckAllButton = T.translate("entityModal.uncheckAllButton");
+        const currentCountInHts1 = T.translate("entityModal.currentCountInHts1");
+        const currentCountInHtsRegion = T.translate("entityModal.currentCountInHtsRegion");
+        const currentCountInHtsRegions = T.translate("entityModal.currentCountInHtsRegions");
+        const currentCountInHtsAsn = T.translate("entityModal.currentCountInHtsAsn");
+        const currentCountInHtsAsns = T.translate("entityModal.currentCountInHtsAsns");
+        const currentCountInHts2 = T.translate("entityModal.currentCountInHts2");
+        const currentCountInHts3 = T.translate("entityModal.currentCountInHts3");
 
         return(
             <div className="modal">
@@ -70,11 +80,14 @@ class Modal extends Component {
                                     <div className="col-1-of-3">
                                         <h3 className="heading-h3">{regionalTableTitle}</h3>
                                         <button className="modal__button--table" name="checkMaxRegional" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
-                                            Check Max
+                                            {checkMaxButton}
                                         </button>
                                         <button className="modal__button--table" name="uncheckAllRegional" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
-                                            Uncheck All
+                                            {uncheckAllButton}
                                         </button>
+                                        {
+                                            this.props.rawSignalsMaxEntitiesHtsError ? <p>{this.props.rawSignalsMaxEntitiesHtsError}</p> : null
+                                        }
                                         <div className="modal__table">
                                             {
                                                 this.props.regionalSignalsTableSummaryDataProcessed.length ?
@@ -87,13 +100,20 @@ class Modal extends Component {
                                                 this.props.summaryDataMapRaw
                                                     ? this.props.summaryDataMapRaw.length > 0
                                                         ? this.props.populateGeoJsonMap()
-                                                        : "No Outages to display"
+                                                        : noOutagesOnMapMessage
                                                     : <Loading/>
                                             }
                                         </div>
                                     </div>
                                     <div className="col-2-of-3">
-                                        <p>Displaying {this.props.regionalSignalsTableEntitiesChecked} Regions - Use checkboxes on the Regional Raw Signals table to change the selection.</p>
+                                        <p className="modal__hts-count">
+                                            {currentCountInHts1}
+                                            {this.props.regionalSignalsTableEntitiesChecked}
+                                            {this.props.regionalSignalsTableEntitiesChecked === 1 ? currentCountInHtsRegion : currentCountInHtsRegions}
+                                            {currentCountInHts2}
+                                            {currentCountInHtsRegion}
+                                            {currentCountInHts3}
+                                        </p>
                                         <h3 className="heading-h3">{pingSlash24HtsLabel}</h3>
                                         {
                                             this.props.rawRegionalSignalsProcessedPingSlash24.length === 0 ? <Loading/> : null
@@ -137,11 +157,14 @@ class Modal extends Component {
                                     <div className="col-1-of-3">
                                         <h3 className="heading-h3">{asnTableTitle}</h3>
                                         <button className="modal__button--table" name="checkMaxAsn" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
-                                            Check Max
+                                            {checkMaxButton}
                                         </button>
                                         <button className="modal__button--table" name="uncheckAllAsn" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
-                                            Uncheck All
+                                            {uncheckAllButton}
                                         </button>
+                                        {
+                                            this.props.rawSignalsMaxEntitiesHtsError ? <p className="modal__table-error">{this.props.rawSignalsMaxEntitiesHtsError}</p> : null
+                                        }
                                         <div className="modal__table">
                                             {
                                                 this.props.asnSignalsTableSummaryDataProcessed.length ?
@@ -150,7 +173,16 @@ class Modal extends Component {
                                         </div>
                                     </div>
                                     <div className="col-2-of-3">
-                                        <p>Displaying {this.props.asnSignalsTableEntitiesChecked} ASNs/ISPs - Use checkboxes on the ASN/ISP Raw Signals table to change the selection.</p>
+
+                                        <p className="modal__hts-count">
+                                            {currentCountInHts1}
+                                            {this.props.asnSignalsTableEntitiesChecked}
+                                            {this.props.asnSignalsTableEntitiesChecked === 1 ? currentCountInHtsAsn : currentCountInHtsAsns}
+                                            {currentCountInHts2}
+                                            {currentCountInHtsAsn}
+                                            {currentCountInHts3}
+                                        </p>
+
                                         <h3 className="heading-h3">{pingSlash24HtsLabel}</h3>
                                         {
                                             this.props.rawAsnSignalsProcessedPingSlash24.length === 0 ? <Loading/> : null
