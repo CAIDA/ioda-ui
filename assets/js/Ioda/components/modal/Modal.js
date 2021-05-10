@@ -116,7 +116,7 @@ class Modal extends Component {
                                         </p>
                                         <h3 className="heading-h3">{pingSlash24HtsLabel}</h3>
                                         {
-                                            this.props.rawRegionalSignalsProcessedPingSlash24.length === 0 ? <Loading/> : null
+                                            this.props.rawRegionalSignalsProcessedPingSlash24 ? null : <Loading/>
                                         }
                                         <div id="regional-horizon-chart--pingSlash24" ref={this.configPingSlash24} className="modal__chart">
                                             {
@@ -127,7 +127,7 @@ class Modal extends Component {
 
                                         <h3 className="heading-h3">{bgpHtsLabel}</h3>
                                         {
-                                            this.props.rawRegionalSignalsProcessedBgp.length === 0 ? <Loading/> : null
+                                            this.props.rawRegionalSignalsProcessedBgp ? null : <Loading/>
                                         }
                                         <div id="regional-horizon-chart--bgp" ref={this.configBgp} className="modal__chart">
                                             {
@@ -137,7 +137,7 @@ class Modal extends Component {
                                         </div>
                                         <h3 className="heading-h3">{ucsdNtHtsLabel}</h3>
                                         {
-                                            this.props.rawRegionalSignalsProcessedUcsdNt.length === 0 ? <Loading/> : null
+                                            this.props.rawRegionalSignalsProcessedUcsdNt ? null : <Loading/>
                                         }
                                         <div id="regional-horizon-chart--ucsdNt" ref={this.configUcsdNt} className="modal__chart">
                                             {
@@ -173,7 +173,6 @@ class Modal extends Component {
                                         </div>
                                     </div>
                                     <div className="col-2-of-3">
-
                                         <p className="modal__hts-count">
                                             {currentCountInHts1}
                                             {this.props.asnSignalsTableEntitiesChecked}
@@ -185,7 +184,7 @@ class Modal extends Component {
 
                                         <h3 className="heading-h3">{pingSlash24HtsLabel}</h3>
                                         {
-                                            this.props.rawAsnSignalsProcessedPingSlash24.length === 0 ? <Loading/> : null
+                                            this.props.rawAsnSignalsProcessedPingSlash24 ? null : <Loading/>
                                         }
                                         <div id="asn-horizon-chart--pingSlash24" ref={this.configPingSlash24} className="modal__chart">
                                             {
@@ -195,7 +194,7 @@ class Modal extends Component {
                                         </div>
                                         <h3 className="heading-h3">{bgpHtsLabel}</h3>
                                         {
-                                            this.props.rawAsnSignalsProcessedBgp.length === 0 ? <Loading/> : null
+                                            this.props.rawAsnSignalsProcessedBgp ? null : <Loading/>
                                         }
                                         <div id="asn-horizon-chart--bgp" ref={this.configBgp} className="modal__chart">
                                             {
@@ -205,7 +204,7 @@ class Modal extends Component {
                                         </div>
                                         <h3 className="heading-h3">{ucsdNtHtsLabel}</h3>
                                         {
-                                            this.props.rawAsnSignalsProcessedUcsdNt.length === 0 ? <Loading/> : null
+                                            this.props.rawAsnSignalsProcessedUcsdNt ? null : <Loading/>
                                         }
                                         <div id="asn-horizon-chart--ucsdNt" ref={this.configUcsdNt} className="modal__chart">
                                             {
