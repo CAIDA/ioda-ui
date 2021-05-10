@@ -37,12 +37,21 @@ class EntityRelated extends Component {
                             </button>
                             <Modal
                                 modalLocation={"map"}
+                                // entity name needed to populate text in headings
                                 entityName={this.props.entityName}
+                                // tracking when the modal should be visible
                                 showModal={this.props.showMapModal}
+                                // tracking when the close button is clicked
                                 toggleModal={this.props.toggleModal}
+                                // render function that populates the ui
                                 populateGeoJsonMap={() => this.props.populateGeoJsonMap()}
+                                // data that draws polygons on map
+                                summaryDataMapRaw={this.props.summaryDataMapRaw}
+                                // render function that populates the ui
                                 genRegionalSignalsTable={this.props.genRegionalSignalsTable}
+                                // check max and uncheck all button functionality
                                 handleSelectAndDeselectAllButtons={(event) => this.props.handleSelectAndDeselectAllButtons(event)}
+                                // Current number of entities checked in table
                                 regionalSignalsTableEntitiesChecked={this.props.regionalSignalsTableEntitiesChecked}
                                 // populateRegionalHtsChart={(width, datasource) => this.props.populateRegionalHtsChart(width, datasource)}
                                 populateRegionalHtsChartPingSlash24={(width) => this.props.populateRegionalHtsChartPingSlash24(width)}
@@ -52,9 +61,17 @@ class EntityRelated extends Component {
                                 rawRegionalSignalsProcessedPingSlash24={this.props.rawRegionalSignalsProcessedPingSlash24}
                                 rawRegionalSignalsProcessedBgp={this.props.rawRegionalSignalsProcessedBgp}
                                 rawRegionalSignalsProcessedUcsdNt={this.props.rawRegionalSignalsProcessedUcsdNt}
+                                // data that populates in table
                                 regionalSignalsTableSummaryDataProcessed={this.props.regionalSignalsTableSummaryDataProcessed}
-                                summaryDataMapRaw={this.props.summaryDataMapRaw}
+                                // Error message when max entities are checked
                                 rawSignalsMaxEntitiesHtsError={this.props.rawSignalsMaxEntitiesHtsError}
+                                // For use in the string that populates when there are more than 300 entities that could load
+                                initialTableLimit={this.props.initialTableLimit}
+                                // count used to determine if text to populate remaining entities beyond the initial Table load limit should display
+                                regionalSignalsTableTotalCount={this.props.regionalSignalsTableTotalCount}
+                                // function used to call api to load remaining entities
+                                handleLoadAllEntitiesButton={event => this.props.handleLoadAllEntitiesButton(event)}
+
                             />
                         </div>
                     </div>
@@ -110,6 +127,12 @@ class EntityRelated extends Component {
                                 handleSelectAndDeselectAllButtons={(event) => this.props.handleSelectAndDeselectAllButtons(event)}
                                 // Error message when max entities are checked
                                 rawSignalsMaxEntitiesHtsError={this.props.rawSignalsMaxEntitiesHtsError}
+                                // For use in the string that populates when there are more than 300 entities that could load
+                                initialTableLimit={this.props.initialTableLimit}
+                                // count used to determine if text to populate remaining entities beyond the initial Table load limit should display
+                                asnSignalsTableTotalCount={this.props.asnSignalsTableTotalCount}
+                                // function used to call api to load remaining entities
+                                handleLoadAllEntitiesButton={event => this.props.handleLoadAllEntitiesButton(event)}
                             />
                         </div>
                     </div>

@@ -845,6 +845,7 @@ class Entity extends Component {
 
             regionalSignalsTableEntitiesChecked={this.state.regionalSignalsTableEntitiesChecked}
             asnSignalsTableEntitiesChecked={this.state.asnSignalsTableEntitiesChecked}
+            initialTableLimit={this.initialTableLimit}
 
             populateAsnHtsChartPingSlash24={(width) => this.populateAsnHtsChartPingSlash24(width)}
             populateAsnHtsChartBgp={(width) => this.populateAsnHtsChartBgp(width)}
@@ -862,6 +863,12 @@ class Entity extends Component {
             rawAsnSignalsProcessedUcsdNt={this.state.rawAsnSignalsProcessedUcsdNt}
             summaryDataMapRaw={this.state.summaryDataMapRaw}
             rawSignalsMaxEntitiesHtsError={this.state.rawSignalsMaxEntitiesHtsError}
+            // count used to determine if text to populate remaining entities beyond the initial Table load limit should display
+            asnSignalsTableTotalCount={this.state.asnSignalsTableTotalCount}
+            regionalSignalsTableTotalCount={this.state.regionalSignalsTableTotalCount}
+            // function used to call api to load remaining entities
+            handleLoadAllEntitiesButton={event => this.handleLoadAllEntitiesButton(event)}
+
         />;
     }
     // Show/hide modal when button is clicked on either panel
@@ -1488,6 +1495,71 @@ class Entity extends Component {
                 break;
         }
     }
+    populateAsnHtsChartPingSlash24(width) {
+        if (this.state.rawAsnSignalsProcessedPingSlash24 && this.state.rawAsnSignalsLoadedPingSlash24) {
+            this.setState({rawAsnSignalsLoadedPingSlash24: !this.state.rawAsnSignalsLoadedPingSlash24});
+            const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--pingSlash24`));
+            myChart
+                .data(this.state.rawAsnSignalsProcessedPingSlash24)
+                .series('entityName')
+                .yNormalize(false)
+                .useUtc(true)
+                .use24h(false)
+                // Will need to detect column width to populate height
+                .width(width)
+                .height(280)
+                .enableZoom(false)
+                .showRuler(true)
+                .interpolationCurve(d3.curveStepAfter)
+                .positiveColors(['white', '#6190B5'])
+                // .positiveColorStops([.99])
+                .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
+        }
+    }
+    populateAsnHtsChartBgp(width) {
+        if (this.state.rawAsnSignalsProcessedBgp && this.state.rawAsnSignalsLoadedBgp) {
+            this.setState({rawAsnSignalsLoadedBgp: !this.state.rawAsnSignalsLoadedBgp});
+            const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--bgp`));
+            myChart
+                .data(this.state.rawAsnSignalsProcessedBgp)
+                .series('entityName')
+                .yNormalize(false)
+                .useUtc(true)
+                .use24h(false)
+                // Will need to detect column width to populate height
+                .width(width)
+                .height(280)
+                .enableZoom(false)
+                .showRuler(true)
+                .interpolationCurve(d3.curveStepAfter)
+                .positiveColors(['white', '#6190B5'])
+                // .positiveColorStops([.99])
+                .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
+        }
+    }
+    populateAsnHtsChartUcsdNt(width) {
+        if (this.state.rawAsnSignalsProcessedUcsdNt && this.state.rawAsnSignalsLoadedUcsdNt) {
+            this.setState({rawAsnSignalsLoadedUcsdNt: !this.state.rawAsnSignalsLoadedUcsdNt});
+            const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--ucsdNt`));
+            myChart
+                .data(this.state.rawAsnSignalsProcessedUcsdNt)
+                .series('entityName')
+                .yNormalize(false)
+                .useUtc(true)
+                .use24h(false)
+                // Will need to detect column width to populate height
+                .width(width)
+                .height(280)
+                .enableZoom(false)
+                .showRuler(true)
+                .interpolationCurve(d3.curveStepAfter)
+                .positiveColors(['white', '#6190B5'])
+                // .positiveColorStops([.99])
+                .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
+        }
+    }
+
+// Modal Shared
     handleSelectAndDeselectAllButtons(event) {
         if (event.target.name === "checkMaxRegional") {
             let regionalSignalsTableSummaryDataProcessed = this.state.regionalSignalsTableSummaryDataProcessed;
@@ -1563,67 +1635,35 @@ class Entity extends Component {
             });
         }
     }
-    populateAsnHtsChartPingSlash24(width) {
-        if (this.state.rawAsnSignalsProcessedPingSlash24 && this.state.rawAsnSignalsLoadedPingSlash24) {
-            this.setState({rawAsnSignalsLoadedPingSlash24: !this.state.rawAsnSignalsLoadedPingSlash24});
-            const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--pingSlash24`));
-            myChart
-                .data(this.state.rawAsnSignalsProcessedPingSlash24)
-                .series('entityName')
-                .yNormalize(false)
-                .useUtc(true)
-                .use24h(false)
-                // Will need to detect column width to populate height
-                .width(width)
-                .height(280)
-                .enableZoom(false)
-                .showRuler(true)
-                .interpolationCurve(d3.curveStepAfter)
-                .positiveColors(['white', '#6190B5'])
-                // .positiveColorStops([.99])
-                .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
+    handleLoadAllEntitiesButton(event) {
+        if (event.target.name === 'regionLoadAllEntities') {
+            console.log(event.target.name);
         }
-    }
-    populateAsnHtsChartBgp(width) {
-        if (this.state.rawAsnSignalsProcessedBgp && this.state.rawAsnSignalsLoadedBgp) {
-            this.setState({rawAsnSignalsLoadedBgp: !this.state.rawAsnSignalsLoadedBgp});
-            const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--bgp`));
-            myChart
-                .data(this.state.rawAsnSignalsProcessedBgp)
-                .series('entityName')
-                .yNormalize(false)
-                .useUtc(true)
-                .use24h(false)
-                // Will need to detect column width to populate height
-                .width(width)
-                .height(280)
-                .enableZoom(false)
-                .showRuler(true)
-                .interpolationCurve(d3.curveStepAfter)
-                .positiveColors(['white', '#6190B5'])
-                // .positiveColorStops([.99])
-                .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
-        }
-    }
-    populateAsnHtsChartUcsdNt(width) {
-        if (this.state.rawAsnSignalsProcessedUcsdNt && this.state.rawAsnSignalsLoadedUcsdNt) {
-            this.setState({rawAsnSignalsLoadedUcsdNt: !this.state.rawAsnSignalsLoadedUcsdNt});
-            const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--ucsdNt`));
-            myChart
-                .data(this.state.rawAsnSignalsProcessedUcsdNt)
-                .series('entityName')
-                .yNormalize(false)
-                .useUtc(true)
-                .use24h(false)
-                // Will need to detect column width to populate height
-                .width(width)
-                .height(280)
-                .enableZoom(false)
-                .showRuler(true)
-                .interpolationCurve(d3.curveStepAfter)
-                .positiveColors(['white', '#6190B5'])
-                // .positiveColorStops([.99])
-                .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
+
+        if (event.target.name === 'asnLoadAllEntities') {
+            console.log(this.state.asnSignalsTableSummaryData);
+            let signalsTableData = combineValuesForSignalsTable(this.state.relatedToTableSummary, this.state.asnSignalsTableSummaryData, 0);
+            console.log(signalsTableData);
+            console.log(this.state.asnSignalsTableSummaryDataProcessed.concat(signalsTableData.slice(this.initialTableLimit)));
+            this.setState({
+                asnSignalsTableSummaryDataProcessed: this.state.asnSignalsTableSummaryDataProcessed.concat(signalsTableData.slice(this.initialTableLimit))
+            }, () => {
+                console.log(this.state.asnSignalsTableSummaryDataProcessed);
+                this.genAsnSignalsTable();
+
+
+
+                // Populate Stacked horizon graph with all regions
+                // if (this.state.entityType !== 'asn') {
+                //     this.getAsnSignalsHtsDataEvents("asn", "ping-slash24");
+                //     this.getAsnSignalsHtsDataEvents("asn", "ucsd-nt");
+                //     this.getAsnSignalsHtsDataEvents("asn", "bgp");
+                // } else {
+                //     this.getAsnSignalsHtsDataEvents("country", "ping-slash24");
+                //     this.getAsnSignalsHtsDataEvents("country", "ucsd-nt");
+                //     this.getAsnSignalsHtsDataEvents("country", "bgp");
+                // }
+            })
         }
     }
 

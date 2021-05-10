@@ -50,12 +50,17 @@ class Modal extends Component {
         const checkMaxButton = T.translate("entityModal.checkMaxButton");
         const uncheckAllButton = T.translate("entityModal.uncheckAllButton");
         const currentCountInHts1 = T.translate("entityModal.currentCountInHts1");
-        const currentCountInHtsRegion = T.translate("entityModal.currentCountInHtsRegion");
-        const currentCountInHtsRegions = T.translate("entityModal.currentCountInHtsRegions");
-        const currentCountInHtsAsn = T.translate("entityModal.currentCountInHtsAsn");
-        const currentCountInHtsAsns = T.translate("entityModal.currentCountInHtsAsns");
+        const regionSingular = T.translate("entityModal.regionSingular");
+        const regionPlural = T.translate("entityModal.regionPlural");
+        const asnSingular = T.translate("entityModal.asnSingular");
+        const asnPlural = T.translate("entityModal.asnPlural");
         const currentCountInHts2 = T.translate("entityModal.currentCountInHts2");
         const currentCountInHts3 = T.translate("entityModal.currentCountInHts3");
+        const loadRemainingEntities1 = T.translate("entityModal.loadRemainingEntities1");
+        const loadRemainingEntities2 = T.translate("entityModal.loadRemainingEntities2");
+        const loadRemainingEntities3 = T.translate("entityModal.loadRemainingEntities3");
+        const loadRemainingEntities4 = T.translate("entityModal.loadRemainingEntities4");
+        const loadRemainingEntities5 = T.translate("entityModal.loadRemainingEntities5");
 
         return(
             <div className="modal">
@@ -79,6 +84,18 @@ class Modal extends Component {
                                 <div className="row">
                                     <div className="col-1-of-3">
                                         <h3 className="heading-h3">{regionalTableTitle}</h3>
+                                        {
+                                            this.props.regionalSignalsTableTotalCount > this.props.initialTableLimit ?
+                                                <p>
+                                                    {loadRemainingEntities1}
+                                                    {regionPlural}
+                                                    {loadRemainingEntities2}
+                                                    <strong>{this.props.initialTableLimit}</strong>
+                                                    {loadRemainingEntities3}
+                                                    <button className="modal__text-link" name="regionLoadAllEntities" onClick={event => this.props.handleLoadAllEntitiesButton(event)}>{loadRemainingEntities4}</button>
+                                                    {loadRemainingEntities5}
+                                                </p> : null
+                                        }
                                         <button className="modal__button--table" name="checkMaxRegional" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
                                             {checkMaxButton}
                                         </button>
@@ -109,9 +126,9 @@ class Modal extends Component {
                                         <p className="modal__hts-count">
                                             {currentCountInHts1}
                                             {this.props.regionalSignalsTableEntitiesChecked}
-                                            {this.props.regionalSignalsTableEntitiesChecked === 1 ? currentCountInHtsRegion : currentCountInHtsRegions}
+                                            {this.props.regionalSignalsTableEntitiesChecked === 1 ? regionSingular : regionPlural}
                                             {currentCountInHts2}
-                                            {currentCountInHtsRegion}
+                                            {regionSingular}
                                             {currentCountInHts3}
                                         </p>
                                         <h3 className="heading-h3">{pingSlash24HtsLabel}</h3>
@@ -156,6 +173,18 @@ class Modal extends Component {
                                 <div className="row">
                                     <div className="col-1-of-3">
                                         <h3 className="heading-h3">{asnTableTitle}</h3>
+                                        {
+                                            this.props.asnSignalsTableTotalCount > this.props.initialTableLimit ?
+                                                <p>
+                                                    {loadRemainingEntities1}
+                                                    {asnPlural}
+                                                    {loadRemainingEntities2}
+                                                    <strong>{this.props.initialTableLimit}</strong>
+                                                    {loadRemainingEntities3}
+                                                    <button className="modal__text-link" name="asnLoadAllEntities" onClick={event => this.props.handleLoadAllEntitiesButton(event)}>{loadRemainingEntities4}</button>
+                                                    {loadRemainingEntities5}
+                                                </p> : null
+                                        }
                                         <button className="modal__button--table" name="checkMaxAsn" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
                                             {checkMaxButton}
                                         </button>
@@ -176,9 +205,9 @@ class Modal extends Component {
                                         <p className="modal__hts-count">
                                             {currentCountInHts1}
                                             {this.props.asnSignalsTableEntitiesChecked}
-                                            {this.props.asnSignalsTableEntitiesChecked === 1 ? currentCountInHtsAsn : currentCountInHtsAsns}
+                                            {this.props.asnSignalsTableEntitiesChecked === 1 ? asnSingular : asnPlural}
                                             {currentCountInHts2}
-                                            {currentCountInHtsAsn}
+                                            {asnSingular}
                                             {currentCountInHts3}
                                         </p>
 

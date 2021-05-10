@@ -476,7 +476,7 @@ class Table extends Component {
                     type === "summary" && this.props.data.length > 0 ||
                     type === "signal" && this.props.data.length > 0
                         ? <div className="table__page">
-                            <p className="table__page-text">{displayCountShowing} {this.props.totalCount < 300 ? this.props.totalCount : 300} {displayCountOf} {this.props.totalCount} {displayCountEntries}</p>
+                            <p className="table__page-text">{displayCountShowing} {this.props.totalCount < 300 ? this.props.totalCount : this.props.data.length} {displayCountOf} {this.props.totalCount} {displayCountEntries}</p>
                         </div>
                         : null
                 }
