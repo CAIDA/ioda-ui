@@ -118,7 +118,9 @@ class Entity extends Component {
             rawAsnSignalsLoadedPingSlash24: true,
             rawAsnSignalsLoadedUcsdNt: true,
             // Shared between Modals
-            rawSignalsMaxEntitiesHtsError: ""
+            rawSignalsMaxEntitiesHtsError: "",
+            regionalRawSignalsLoadAllButtonClicked: false,
+            asnRawSignalsLoadAllButtonClicked: false
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
@@ -385,6 +387,7 @@ class Entity extends Component {
             rawRegionalSignalsProcessedBgp: null,
             rawRegionalSignalsProcessedPingSlash24: null,
             rawRegionalSignalsProcessedUcsdNt: null,
+            rawRegionalSignalsLoadAllButtonClicked: false,
             // Stacked Horizon Visual on ASN Table Panel
             rawAsnSignalsRawBgp: [],
             rawAsnSignalsRawPingSlash24: [],
@@ -392,6 +395,7 @@ class Entity extends Component {
             rawAsnSignalsProcessedBgp: null,
             rawAsnSignalsProcessedPingSlash24: null,
             rawAsnSignalsProcessedUcsdNt: null,
+            rawAsnSignalsLoadAllButtonClicked: false
         }, () => {
             // Get topo and outage data to repopulate map and table
             this.props.searchEventsAction(this.state.from, this.state.until, this.state.entityType, this.state.entityCode);
@@ -485,9 +489,11 @@ class Entity extends Component {
             rawAsnSignalsLoadedBgp: true,
             rawAsnSignalsLoadedPingSlash24: true,
             rawAsnSignalsLoadedUcsdNt: true,
+            rawAsnSignalsLoadAllButtonClicked: false,
             rawRegionalSignalsLoadedBgp: true,
             rawRegionalSignalsLoadedPingSlash24: true,
-            rawRegionalSignalsLoadedUcsdNt: true
+            rawRegionalSignalsLoadedUcsdNt: true,
+            rawRegionalSignalsLoadAllButtonClicked: false,
         }, () => {
             this.componentDidMount();
         });
@@ -1111,6 +1117,8 @@ class Entity extends Component {
             rawRegionalSignalsLoadedBgp: true,
             rawRegionalSignalsLoadedPingSlash24: true,
             rawRegionalSignalsLoadedUcsdNt: true,
+            rawRegionalSignalsLoadAllButtonClicked: false,
+            rawAsnSignalsLoadAllButtonClicked: false,
         }, () => {
             this.componentDidMount();
         });
@@ -1361,7 +1369,6 @@ class Entity extends Component {
         let asnSignalsTableSummaryDataProcessed = this.state.asnSignalsTableSummaryDataProcessed;
         let maxEntitiesPopulatedMessage = T.translate("entityModal.maxEntitiesPopulatedMessage");
 
-
         // Get the index of where the checkmark was that was clicked
         asnSignalsTableSummaryDataProcessed.filter((entity, index) => {
             if (entity.entityCode === event.target.name) {
@@ -1376,6 +1383,16 @@ class Entity extends Component {
 
                 // Update visibility boolean property in copied object to update table
                 asnSignalsTableSummaryDataProcessed[indexValue]["visibility"] = !asnSignalsTableSummaryDataProcessed[indexValue]["visibility"];
+
+                console.log(indexValue);
+                console.log(asnSignalsTableSummaryDataProcessed);
+                console.log(asnSignalsTableSummaryDataProcessed[indexValue]);
+
+                // Check if raw signals data is already loaded for particular entity, get it if not
+                if (this.state.asnRawSignalsLoadAllButtonClicked && asnSignalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"] === false) {
+                    // call api for additional data on entity
+                    
+                }
 
                 // Update state with freshly updated object list, then redraw the chart with new visibility values
                 this.setState({
@@ -1473,6 +1490,7 @@ class Entity extends Component {
                     break;
             }
         });
+
         // set state with new array that dictates what populates
         switch (dataSource) {
             case "ping-slash24":
@@ -1636,33 +1654,24 @@ class Entity extends Component {
         }
     }
     handleLoadAllEntitiesButton(event) {
+
         if (event.target.name === 'regionLoadAllEntities') {
-            console.log(event.target.name);
+            let signalsTableData = combineValuesForSignalsTable(this.state.summaryDataMapRaw, this.state.regionalSignalsTableSummaryData, 0);
+            this.setState({
+                regionalSignalsTableSummaryDataProcessed: this.state.regionalSignalsTableSummaryDataProcessed.concat(signalsTableData.slice(this.initialTableLimit)),
+                regionalRawSignalsLoadAllButtonClicked: true
+            }, () => {
+                this.genRegionalSignalsTable();
+            });
         }
 
         if (event.target.name === 'asnLoadAllEntities') {
-            console.log(this.state.asnSignalsTableSummaryData);
             let signalsTableData = combineValuesForSignalsTable(this.state.relatedToTableSummary, this.state.asnSignalsTableSummaryData, 0);
-            console.log(signalsTableData);
-            console.log(this.state.asnSignalsTableSummaryDataProcessed.concat(signalsTableData.slice(this.initialTableLimit)));
             this.setState({
-                asnSignalsTableSummaryDataProcessed: this.state.asnSignalsTableSummaryDataProcessed.concat(signalsTableData.slice(this.initialTableLimit))
+                asnSignalsTableSummaryDataProcessed: this.state.asnSignalsTableSummaryDataProcessed.concat(signalsTableData.slice(this.initialTableLimit)),
+                asnRawSignalsLoadAllButtonClicked: true
             }, () => {
-                console.log(this.state.asnSignalsTableSummaryDataProcessed);
                 this.genAsnSignalsTable();
-
-
-
-                // Populate Stacked horizon graph with all regions
-                // if (this.state.entityType !== 'asn') {
-                //     this.getAsnSignalsHtsDataEvents("asn", "ping-slash24");
-                //     this.getAsnSignalsHtsDataEvents("asn", "ucsd-nt");
-                //     this.getAsnSignalsHtsDataEvents("asn", "bgp");
-                // } else {
-                //     this.getAsnSignalsHtsDataEvents("country", "ping-slash24");
-                //     this.getAsnSignalsHtsDataEvents("country", "ucsd-nt");
-                //     this.getAsnSignalsHtsDataEvents("country", "bgp");
-                // }
             })
         }
     }

@@ -181,7 +181,8 @@ export function combineValuesForSignalsTable(entitiesWithOutages, additionalEnti
                 name: entity["entity"].name,
                 score: overallScore,
                 scores: summaryScores,
-                ipCount: humanizeNumber(entity["entity"]["attrs"]["ip_count"], 2)
+                ipCount: humanizeNumber(entity["entity"]["attrs"]["ip_count"], 2),
+                initiallyLoaded: index < 300
             }
             : summaryItem = {
                 visibility: index < initialLimit,
@@ -189,7 +190,8 @@ export function combineValuesForSignalsTable(entitiesWithOutages, additionalEnti
                 entityCode: entity["entity"].code,
                 name: entity["entity"].name,
                 score: overallScore,
-                scores: summaryScores
+                scores: summaryScores,
+                initiallyLoaded: index < 300
             };
         summaryData.push(summaryItem);
     });
@@ -206,7 +208,8 @@ export function combineValuesForSignalsTable(entitiesWithOutages, additionalEnti
                 name: entity.name,
                 score: 0,
                 scores: [{source: "Overall Score", score: 0}],
-                ipCount: humanizeNumber(entity.attrs.ip_count, 2)
+                ipCount: humanizeNumber(entity.attrs.ip_count, 2),
+                initiallyLoaded: index < 300
             }
             : entityItem = {
                 visibility: index < initialLimit - outageCount,
@@ -214,7 +217,8 @@ export function combineValuesForSignalsTable(entitiesWithOutages, additionalEnti
                 entityCode: entity.code,
                 name: entity.name,
                 score: 0,
-                scores: [{source: "Overall Score", score: 0}]
+                scores: [{source: "Overall Score", score: 0}],
+                initiallyLoaded: index < 300
             };
         summaryData.push(entityItem);
     });
