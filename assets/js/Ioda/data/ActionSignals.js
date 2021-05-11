@@ -152,9 +152,7 @@ export const getRawAsnSignalsUcsdNtAction = (dispatch, entityType, entityCode, f
 };
 
 export const getAdditionalRawSignalAction = (dispatch, entityType, entityCode, from, until, attr=null, order=null, dataSource, maxPoints=null) => {
-    console.log(entityType, entityCode, from, until, attr=null, order=null, dataSource);
     let config = buildSignalsConfig(entityType, entityCode, from, until, dataSource, maxPoints);
-    console.log(config);
     fetchData(config).then(data => {
         dispatch({
             type: GET_ADDITIONAL_RAW_SIGNAL,

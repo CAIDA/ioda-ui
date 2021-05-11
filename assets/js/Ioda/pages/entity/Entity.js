@@ -207,6 +207,7 @@ class Entity extends Component {
 
         // After API call for Alert Table data completes, check for lengths to set display counts and then process to populate
         if (this.props.alerts !== prevProps.alerts) {
+            console.log("updated3");
             this.setState({
                 alertDataRaw: this.props.alerts
             }, () => {
@@ -233,7 +234,6 @@ class Entity extends Component {
 
         // After API call for outage summary data completes, pass summary data to table component for data merging
         if (this.props.relatedToTableSummary !== prevProps.relatedToTableSummary) {
-            console.log("updated");
             this.setState({
                 relatedToTableSummary: this.props.relatedToTableSummary
             },() => {
@@ -350,24 +350,52 @@ class Entity extends Component {
 
         // data for additional raw feed signals to use after load all button is clicked
         if (this.props.additionalRawSignal !== prevProps.additionalRawSignal) {
-            switch (this.props.additionalRawSignal[0][0]["datasource"]) {
-                case "ping-slash24":
-                    let rawAsnSignalsRawPingSlash24 = this.state.rawAsnSignalsRawPingSlash24.concat(this.props.additionalRawSignal[0]);
-                    this.setState({
-                        rawAsnSignalsRawPingSlash24: rawAsnSignalsRawPingSlash24
-                    }, () => this.convertValuesForHtsViz("ping-slash24", "asn"));
+            console.log(this.props.additionalRawSignal[0][0]);
+
+            switch (this.props.additionalRawSignal[0][0]["entityType"]) {
+                case "region":
+                    switch (this.props.additionalRawSignal[0][0]["datasource"]) {
+                        case "ping-slash24":
+                            let rawRegionalSignalsRawPingSlash24 = this.state.rawRegionalSignalsRawPingSlash24.concat(this.props.additionalRawSignal[0]);
+                            this.setState({
+                                rawRegionalSignalsRawPingSlash24: rawRegionalSignalsRawPingSlash24
+                            }, () => this.convertValuesForHtsViz("ping-slash24", "asn"));
+                            break;
+                        case "bgp":
+                            let rawRegionalSignalsRawBgp = this.state.rawRegionalSignalsRawBgp.concat(this.props.additionalRawSignal[0]);
+                            this.setState({
+                                rawRegionalSignalsRawBgp: rawRegionalSignalsRawBgp
+                            }, () => this.convertValuesForHtsViz("bgp", "asn"));
+                            break;
+                        case "ucsd-nt":
+                            let rawRegionalSignalsRawUcsdNt = this.state.rawRegionalSignalsRawUcsdNt.concat(this.props.additionalRawSignal[0]);
+                            this.setState({
+                                rawRegionalSignalsRawUcsdNt: rawRegionalSignalsRawUcsdNt
+                            }, () => this.convertValuesForHtsViz("ucsd-nt", "asn"));
+                            break;
+                    }
                     break;
-                case "bgp":
-                    let rawAsnSignalsRawBgp = this.state.rawAsnSignalsRawBgp.concat(this.props.additionalRawSignal[0]);
-                    this.setState({
-                        rawAsnSignalsRawBgp: rawAsnSignalsRawBgp
-                    }, () => this.convertValuesForHtsViz("bgp", "asn"));
-                    break;
-                case "ucsd-nt":
-                    let rawAsnSignalsRawUcsdNt = this.state.rawAsnSignalsRawUcsdNt.concat(this.props.additionalRawSignal[0]);
-                    this.setState({
-                        rawAsnSignalsRawUcsdNt: rawAsnSignalsRawUcsdNt
-                    }, () => this.convertValuesForHtsViz("ucsd-nt", "asn"));
+                case "asn":
+                    switch (this.props.additionalRawSignal[0][0]["datasource"]) {
+                        case "ping-slash24":
+                            let rawAsnSignalsRawPingSlash24 = this.state.rawAsnSignalsRawPingSlash24.concat(this.props.additionalRawSignal[0]);
+                            this.setState({
+                                rawAsnSignalsRawPingSlash24: rawAsnSignalsRawPingSlash24
+                            }, () => this.convertValuesForHtsViz("ping-slash24", "asn"));
+                            break;
+                        case "bgp":
+                            let rawAsnSignalsRawBgp = this.state.rawAsnSignalsRawBgp.concat(this.props.additionalRawSignal[0]);
+                            this.setState({
+                                rawAsnSignalsRawBgp: rawAsnSignalsRawBgp
+                            }, () => this.convertValuesForHtsViz("bgp", "asn"));
+                            break;
+                        case "ucsd-nt":
+                            let rawAsnSignalsRawUcsdNt = this.state.rawAsnSignalsRawUcsdNt.concat(this.props.additionalRawSignal[0]);
+                            this.setState({
+                                rawAsnSignalsRawUcsdNt: rawAsnSignalsRawUcsdNt
+                            }, () => this.convertValuesForHtsViz("ucsd-nt", "asn"));
+                            break;
+                    }
                     break;
             }
         }
@@ -1279,6 +1307,9 @@ class Entity extends Component {
             }
         });
 
+        console.log(asnSignalsTableSummaryDataProcessed[indexValue]["visibility"]);
+
+
         // Determine if max number of checkboxes are checked
         if (asnSignalsTableSummaryDataProcessed[indexValue]["visibility"] === false) {
             // If checkbox is false, determine if adding it will breach the limit
@@ -1368,6 +1399,7 @@ class Entity extends Component {
     convertValuesForHtsViz(dataSource, entityType) {
         let visibilityChecked = [];
         let entitiesChecked = 0;
+        let rawSignalsNew = [];
         let signalsTableSummaryDataProcessed, rawSignals;
         switch (entityType) {
             case "region":
@@ -1421,11 +1453,12 @@ class Entity extends Component {
                 });
                 break;
         }
+
         // Remove other entities from array that shouldn't be displayed
         visibilityChecked.map(entityCode => {
             rawSignals.filter(obj => {
                 if (obj.entityCode === entityCode) {
-                    rawSignals.push(obj);
+                    rawSignalsNew.push(obj);
                 }
             });
         });
@@ -1436,19 +1469,19 @@ class Entity extends Component {
                 switch (dataSource) {
                     case "ping-slash24":
                         this.setState({
-                            rawRegionalSignalsProcessedPingSlash24: convertTsDataForHtsViz(rawSignals),
+                            rawRegionalSignalsProcessedPingSlash24: convertTsDataForHtsViz(rawSignalsNew),
                             rawRegionalSignalsLoadedPingSlash24: true
                         });
                         break;
                     case "bgp":
                         this.setState({
-                            rawRegionalSignalsProcessedBgp: convertTsDataForHtsViz(rawSignals),
+                            rawRegionalSignalsProcessedBgp: convertTsDataForHtsViz(rawSignalsNew),
                             rawRegionalSignalsLoadedBgp: true
                         });
                         break;
                     case "ucsd-nt":
                         this.setState({
-                            rawRegionalSignalsProcessedUcsdNt: convertTsDataForHtsViz(rawSignals),
+                            rawRegionalSignalsProcessedUcsdNt: convertTsDataForHtsViz(rawSignalsNew),
                             rawRegionalSignalsLoadedUcsdNt: true
                         });
                         break;
@@ -1458,19 +1491,19 @@ class Entity extends Component {
                 switch (dataSource) {
                     case "ping-slash24":
                         this.setState({
-                            rawAsnSignalsProcessedPingSlash24: convertTsDataForHtsViz(rawSignals),
+                            rawAsnSignalsProcessedPingSlash24: convertTsDataForHtsViz(rawSignalsNew),
                             rawAsnSignalsLoadedPingSlash24: true
                         });
                         break;
                     case "bgp":
                         this.setState({
-                            rawAsnSignalsProcessedBgp: convertTsDataForHtsViz(rawSignals),
+                            rawAsnSignalsProcessedBgp: convertTsDataForHtsViz(rawSignalsNew),
                             rawAsnSignalsLoadedBgp: true
                         });
                         break;
                     case "ucsd-nt":
                         this.setState({
-                            rawAsnSignalsProcessedUcsdNt: convertTsDataForHtsViz(rawSignals),
+                            rawAsnSignalsProcessedUcsdNt: convertTsDataForHtsViz(rawSignalsNew),
                             rawAsnSignalsLoadedUcsdNt: true
                         });
                         break;
