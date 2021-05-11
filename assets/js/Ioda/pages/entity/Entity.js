@@ -233,7 +233,7 @@ class Entity extends Component {
 
         // After API call for outage summary data completes, pass summary data to table component for data merging
         if (this.props.relatedToTableSummary !== prevProps.relatedToTableSummary) {
-            console.log("update1");
+            console.log("updated2");
             this.setState({
                 relatedToTableSummary: this.props.relatedToTableSummary
             },() => {
@@ -268,7 +268,7 @@ class Entity extends Component {
             this.setState({
                 rawRegionalSignalsRawPingSlash24: rawRegionalSignals
             }, () => {
-                this.convertValuesForRegionalHtsViz("ping-slash24");
+                this.convertValuesForHtsViz("ping-slash24", "region");
             });
         }
 
@@ -283,7 +283,7 @@ class Entity extends Component {
             this.setState({
                 rawRegionalSignalsRawBgp: rawRegionalSignals
             }, () => {
-                this.convertValuesForRegionalHtsViz("bgp");
+                this.convertValuesForHtsViz("bgp", "region");
             });
         }
 
@@ -298,7 +298,7 @@ class Entity extends Component {
             this.setState({
                 rawRegionalSignalsRawUcsdNt: rawRegionalSignals
             }, () => {
-                this.convertValuesForRegionalHtsViz("ucsd-nt");
+                this.convertValuesForHtsViz("ucsd-nt", "region");
             });
         }
 
@@ -314,7 +314,7 @@ class Entity extends Component {
             this.setState({
                 rawAsnSignalsRawPingSlash24: rawAsnSignals
             }, () => {
-                this.convertValuesForAsnHtsViz("ping-slash24");
+                this.convertValuesForHtsViz("ping-slash24", "asn");
             });
         }
 
@@ -329,7 +329,7 @@ class Entity extends Component {
             this.setState({
                 rawAsnSignalsRawBgp: rawAsnSignals
             }, () => {
-                this.convertValuesForAsnHtsViz("bgp");
+                this.convertValuesForHtsViz("bgp", "asn");
             });
         }
 
@@ -344,7 +344,7 @@ class Entity extends Component {
             this.setState({
                 rawAsnSignalsRawUcsdNt: rawAsnSignals
             }, () => {
-                this.convertValuesForAsnHtsViz("ucsd-nt");
+                this.convertValuesForHtsViz("ucsd-nt", "asn");
             });
         }
 
@@ -355,19 +355,19 @@ class Entity extends Component {
                     let rawAsnSignalsRawPingSlash24 = this.state.rawAsnSignalsRawPingSlash24.concat(this.props.additionalRawSignal[0]);
                     this.setState({
                         rawAsnSignalsRawPingSlash24: rawAsnSignalsRawPingSlash24
-                    }, () => this.convertValuesForAsnHtsViz("ping-slash24"));
+                    }, () => this.convertValuesForHtsViz("ping-slash24", "asn"));
                     break;
                 case "bgp":
                     let rawAsnSignalsRawBgp = this.state.rawAsnSignalsRawBgp.concat(this.props.additionalRawSignal[0]);
                     this.setState({
                         rawAsnSignalsRawBgp: rawAsnSignalsRawBgp
-                    }, () => this.convertValuesForAsnHtsViz("bgp"));
+                    }, () => this.convertValuesForHtsViz("bgp", "asn"));
                     break;
                 case "ucsd-nt":
                     let rawAsnSignalsRawUcsdNt = this.state.rawAsnSignalsRawUcsdNt.concat(this.props.additionalRawSignal[0]);
                     this.setState({
                         rawAsnSignalsRawUcsdNt: rawAsnSignalsRawUcsdNt
-                    }, () => this.convertValuesForAsnHtsViz("ucsd-nt"));
+                    }, () => this.convertValuesForHtsViz("ucsd-nt", "asn"));
                     break;
             }
         }
@@ -878,17 +878,12 @@ class Entity extends Component {
             handleSelectAndDeselectAllButtons={(event) => this.handleSelectAndDeselectAllButtons(event)}
             // Regional HTS methods
             // populateRegionalHtsChart={(width, datasource) => this.populateRegionalHtsChart(width, datasource)}
-            populateRegionalHtsChartPingSlash24={(width) => this.populateRegionalHtsChartPingSlash24(width)}
-            populateRegionalHtsChartBgp={(width) => this.populateRegionalHtsChartBgp(width)}
-            populateRegionalHtsChartUcsdNt={(width) => this.populateRegionalHtsChartUcsdNt(width)}
 
             regionalSignalsTableEntitiesChecked={this.state.regionalSignalsTableEntitiesChecked}
             asnSignalsTableEntitiesChecked={this.state.asnSignalsTableEntitiesChecked}
             initialTableLimit={this.initialTableLimit}
 
-            populateAsnHtsChartPingSlash24={(width) => this.populateAsnHtsChartPingSlash24(width)}
-            populateAsnHtsChartBgp={(width) => this.populateAsnHtsChartBgp(width)}
-            populateAsnHtsChartUcsdNt={(width) => this.populateAsnHtsChartUcsdNt(width)}
+            populateHtsChart={(width, dataSource, entityType) => this.populateHtsChart(width, dataSource, entityType)}
 
             // to detect when loading bar should appear in modal
             regionalSignalsTableSummaryDataProcessed={this.state.regionalSignalsTableSummaryDataProcessed}
@@ -1203,9 +1198,9 @@ class Entity extends Component {
         this.setState({
             regionalSignalsTableSummaryDataProcessed: regionalSignalsTableSummaryDataProcessed
         }, () => {
-            this.convertValuesForRegionalHtsViz("ping-slash24");
-            this.convertValuesForRegionalHtsViz("bgp");
-            this.convertValuesForRegionalHtsViz("ucsd-nt");
+            this.convertValuesForHtsViz("ping-slash24", "region");
+            this.convertValuesForHtsViz("bgp", "region");
+            this.convertValuesForHtsViz("ucsd-nt", "region");
         });
     }
 
@@ -1231,132 +1226,6 @@ class Entity extends Component {
             case "ucsd-nt":
                 this.props.getRawRegionalSignalsUcsdNtAction(entityType, entities, from, until, attr, order, dataSource);
                 break;
-        }
-    }
-    convertValuesForRegionalHtsViz(dataSource) {
-        let visibilityChecked = [];
-        let entitiesChecked = 0;
-        let rawRegionalSignals = [];
-        // Get list of entities that should be visible
-        this.state.regionalSignalsTableSummaryDataProcessed.map(obj => {
-            if (obj.visibility || obj.visibility === true) {
-                visibilityChecked.push(obj.entityCode);
-                entitiesChecked = entitiesChecked + 1;
-            }
-        });
-        // Set count on current visible items
-        this.setState({
-            regionalSignalsTableEntitiesChecked: entitiesChecked
-        });
-        // remove other entities from array that shouldn't be displayed
-        visibilityChecked.map(entityCode => {
-            switch (dataSource) {
-                case "ping-slash24":
-                    this.state.rawRegionalSignalsRawPingSlash24.filter(obj => {
-                        if (obj.entityCode === entityCode) {
-                            rawRegionalSignals.push(obj);
-                        }
-                    });
-                    break;
-                case "bgp":
-                    this.state.rawRegionalSignalsRawBgp.filter(obj => {
-                        if (obj.entityCode === entityCode) {
-                            rawRegionalSignals.push(obj);
-                        }
-                    });
-                    break;
-                case "ucsd-nt":
-                    this.state.rawRegionalSignalsRawUcsdNt.filter(obj => {
-                        if (obj.entityCode === entityCode) {
-                            rawRegionalSignals.push(obj);
-                        }
-                    });
-                    break;
-            }
-        });
-        // set state with new array that dictates what populates
-        switch (dataSource) {
-            case "ping-slash24":
-                this.setState({
-                    rawRegionalSignalsProcessedPingSlash24: convertTsDataForHtsViz(rawRegionalSignals),
-                    rawRegionalSignalsLoadedPingSlash24: true
-                });
-                break;
-            case "bgp":
-                this.setState({
-                    rawRegionalSignalsProcessedBgp: convertTsDataForHtsViz(rawRegionalSignals),
-                    rawRegionalSignalsLoadedBgp: true
-                });
-                break;
-            case "ucsd-nt":
-                this.setState({
-                    rawRegionalSignalsProcessedUcsdNt: convertTsDataForHtsViz(rawRegionalSignals),
-                    rawRegionalSignalsLoadedUcsdNt: true
-                });
-                break;
-        }
-    }
-    populateRegionalHtsChartPingSlash24(width) {
-        if (this.state.rawRegionalSignalsProcessedPingSlash24 && this.state.rawRegionalSignalsLoadedPingSlash24) {
-            this.setState({rawRegionalSignalsLoadedPingSlash24: !this.state.rawRegionalSignalsLoadedPingSlash24});
-            const myChart = HorizonTSChart()(document.getElementById(`regional-horizon-chart--pingSlash24`));
-            myChart
-                .data(this.state.rawRegionalSignalsProcessedPingSlash24)
-                .series('entityName')
-                .yNormalize(false)
-                .useUtc(true)
-                .use24h(false)
-                // Will need to detect column width to populate height
-                .width(width)
-                .height(340)
-                .enableZoom(false)
-                .showRuler(true)
-                .interpolationCurve(d3.curveStepAfter)
-                .positiveColors(['white', '#6190B5'])
-                // .positiveColorStops([.99])
-                .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
-        }
-    }
-    populateRegionalHtsChartBgp(width) {
-        if (this.state.rawRegionalSignalsProcessedBgp && this.state.rawRegionalSignalsLoadedBgp) {
-            this.setState({rawRegionalSignalsLoadedBgp: !this.state.rawRegionalSignalsLoadedBgp});
-            const myChart = HorizonTSChart()(document.getElementById(`regional-horizon-chart--bgp`));
-            myChart
-                .data(this.state.rawRegionalSignalsProcessedBgp)
-                .series('entityName')
-                .yNormalize(false)
-                .useUtc(true)
-                .use24h(false)
-                // Will need to detect column width to populate height
-                .width(width)
-                .height(340)
-                .enableZoom(false)
-                .showRuler(true)
-                .interpolationCurve(d3.curveStepAfter)
-                .positiveColors(['white', '#6190B5'])
-                // .positiveColorStops([.99])
-                .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
-        }
-    }
-    populateRegionalHtsChartUcsdNt(width) {
-        if (this.state.rawRegionalSignalsProcessedUcsdNt && this.state.rawRegionalSignalsLoadedUcsdNt) {
-            this.setState({rawRegionalSignalsLoadedUcsdNt: !this.state.rawRegionalSignalsLoadedUcsdNt});
-            const myChart = HorizonTSChart()(document.getElementById(`regional-horizon-chart--ucsdNt`));
-            myChart
-                .data(this.state.rawRegionalSignalsProcessedUcsdNt)
-                .series('entityName')
-                .yNormalize(false)
-                .useUtc(true)
-                .use24h(false)
-                // Will need to detect column width to populate height
-                .width(width)
-                .height(340)
-                .enableZoom(false)
-                .showRuler(true)
-                .interpolationCurve(d3.curveStepAfter)
-                .positiveColors(['white', '#6190B5'])
-                // .positiveColorStops([.99])
-                .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
         }
     }
 
@@ -1441,9 +1310,9 @@ class Entity extends Component {
                     asnSignalsTableSummaryDataProcessed: asnSignalsTableSummaryDataProcessed,
                     rawSignalsMaxEntitiesHtsError: ""
                 }, () => {
-                    this.convertValuesForAsnHtsViz("ping-slash24");
-                    this.convertValuesForAsnHtsViz("bgp");
-                    this.convertValuesForAsnHtsViz("ucsd-nt");
+                    this.convertValuesForHtsViz("ping-slash24", "asn");
+                    this.convertValuesForHtsViz("bgp", "asn");
+                    this.convertValuesForHtsViz("ucsd-nt", "asn");
                 });
             } else {
                 // Show error message
@@ -1460,9 +1329,9 @@ class Entity extends Component {
                 asnSignalsTableSummaryDataProcessed: asnSignalsTableSummaryDataProcessed,
                 rawSignalsMaxEntitiesHtsError: ""
             }, () => {
-                this.convertValuesForAsnHtsViz("ping-slash24");
-                this.convertValuesForAsnHtsViz("bgp");
-                this.convertValuesForAsnHtsViz("ucsd-nt");
+                this.convertValuesForHtsViz("ping-slash24", "asn");
+                this.convertValuesForHtsViz("bgp", "asn");
+                this.convertValuesForHtsViz("ucsd-nt", "asn");
             });
         }
     }
@@ -1491,135 +1360,220 @@ class Entity extends Component {
                 break;
         }
     }
-    convertValuesForAsnHtsViz(dataSource) {
+
+
+
+// Modal Shared
+    convertValuesForHtsViz(dataSource, entityType) {
         let visibilityChecked = [];
         let entitiesChecked = 0;
-        let rawAsnSignals = [];
+        let signalsTableSummaryDataProcessed, rawSignals;
+        switch (entityType) {
+            case "region":
+                signalsTableSummaryDataProcessed = this.state.regionalSignalsTableSummaryDataProcessed;
+                switch (dataSource) {
+                    case "ping-slash24":
+                        rawSignals = this.state.rawRegionalSignalsRawPingSlash24;
+                        break;
+                    case "bgp":
+                        rawSignals = this.state.rawRegionalSignalsRawBgp;
+                        break;
+                    case "ucsd-nt":
+                        rawSignals = this.state.rawRegionalSignalsRawUcsdNt;
+                        break;
+                }
+                break;
+            case "asn":
+                signalsTableSummaryDataProcessed = this.state.asnSignalsTableSummaryDataProcessed;
+                switch (dataSource) {
+                    case "ping-slash24":
+                        rawSignals = this.state.rawAsnSignalsRawPingSlash24;
+                        break;
+                    case "bgp":
+                        rawSignals = this.state.rawAsnSignalsRawBgp;
+                        break;
+                    case "ucsd-nt":
+                        rawSignals = this.state.rawAsnSignalsRawUcsdNt;
+                        break;
+                }
+                break;
+        }
+
         // Get list of entities that should be visible
-        this.state.asnSignalsTableSummaryDataProcessed.map(obj => {
+        signalsTableSummaryDataProcessed.map(obj => {
             if (obj.visibility || obj.visibility === true) {
                 visibilityChecked.push(obj.entityCode);
                 entitiesChecked = entitiesChecked + 1;
             }
         });
+
         // Set count on current visible items
-        this.setState({
-            asnSignalsTableEntitiesChecked: entitiesChecked
-        });
+        switch (entityType) {
+            case 'region':
+                this.setState({
+                    regionalSignalsTableEntitiesChecked: entitiesChecked
+                });
+                break;
+            case 'asn':
+                this.setState({
+                    asnSignalsTableEntitiesChecked: entitiesChecked
+                });
+                break;
+        }
         // remove other entities from array that shouldn't be displayed
         visibilityChecked.map(entityCode => {
-            switch (dataSource) {
-                case "ping-slash24":
-                    this.state.rawAsnSignalsRawPingSlash24.filter(obj => {
-                        if (obj.entityCode === entityCode) {
-                            rawAsnSignals.push(obj);
-                        }
-                    });
-                    break;
-                case "bgp":
-                    this.state.rawAsnSignalsRawBgp.filter(obj => {
-                        if (obj.entityCode === entityCode) {
-                            rawAsnSignals.push(obj);
-                        }
-                    });
-                    break;
-                case "ucsd-nt":
-                    this.state.rawAsnSignalsRawUcsdNt.filter(obj => {
-                        if (obj.entityCode === entityCode) {
-                            rawAsnSignals.push(obj);
-                        }
-                    });
-                    break;
-            }
+            rawSignals.filter(obj => {
+                if (obj.entityCode === entityCode) {
+                    rawSignals.push(obj);
+                }
+            });
         });
 
         // set state with new array that dictates what populates
-        switch (dataSource) {
-            case "ping-slash24":
-                this.setState({
-                    rawAsnSignalsProcessedPingSlash24: convertTsDataForHtsViz(rawAsnSignals),
-                    rawAsnSignalsLoadedPingSlash24: true
-                });
+        switch (entityType) {
+            case "region":
+                switch (dataSource) {
+                    case "ping-slash24":
+                        this.setState({
+                            rawRegionalSignalsProcessedPingSlash24: convertTsDataForHtsViz(rawSignals),
+                            rawRegionalSignalsLoadedPingSlash24: true
+                        });
+                        break;
+                    case "bgp":
+                        this.setState({
+                            rawRegionalSignalsProcessedBgp: convertTsDataForHtsViz(rawSignals),
+                            rawRegionalSignalsLoadedBgp: true
+                        });
+                        break;
+                    case "ucsd-nt":
+                        this.setState({
+                            rawRegionalSignalsProcessedUcsdNt: convertTsDataForHtsViz(rawSignals),
+                            rawRegionalSignalsLoadedUcsdNt: true
+                        });
+                        break;
+                }
                 break;
-            case "bgp":
-                this.setState({
-                    rawAsnSignalsProcessedBgp: convertTsDataForHtsViz(rawAsnSignals),
-                    rawAsnSignalsLoadedBgp: true
-                });
+            case "asn":
+                switch (dataSource) {
+                    case "ping-slash24":
+                        this.setState({
+                            rawAsnSignalsProcessedPingSlash24: convertTsDataForHtsViz(rawSignals),
+                            rawAsnSignalsLoadedPingSlash24: true
+                        });
+                        break;
+                    case "bgp":
+                        this.setState({
+                            rawAsnSignalsProcessedBgp: convertTsDataForHtsViz(rawSignals),
+                            rawAsnSignalsLoadedBgp: true
+                        });
+                        break;
+                    case "ucsd-nt":
+                        this.setState({
+                            rawAsnSignalsProcessedUcsdNt: convertTsDataForHtsViz(rawSignals),
+                            rawAsnSignalsLoadedUcsdNt: true
+                        });
+                        break;
+                }
                 break;
-            case "ucsd-nt":
-                this.setState({
-                    rawAsnSignalsProcessedUcsdNt: convertTsDataForHtsViz(rawAsnSignals),
-                    rawAsnSignalsLoadedUcsdNt: true
-                });
-                break;
         }
     }
-    populateAsnHtsChartPingSlash24(width) {
-        if (this.state.rawAsnSignalsProcessedPingSlash24 && this.state.rawAsnSignalsLoadedPingSlash24) {
-            this.setState({rawAsnSignalsLoadedPingSlash24: !this.state.rawAsnSignalsLoadedPingSlash24});
-            const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--pingSlash24`));
-            myChart
-                .data(this.state.rawAsnSignalsProcessedPingSlash24)
-                .series('entityName')
-                .yNormalize(false)
-                .useUtc(true)
-                .use24h(false)
-                // Will need to detect column width to populate height
-                .width(width)
-                .height(280)
-                .enableZoom(false)
-                .showRuler(true)
-                .interpolationCurve(d3.curveStepAfter)
-                .positiveColors(['white', '#6190B5'])
-                // .positiveColorStops([.99])
-                .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
-        }
-    }
-    populateAsnHtsChartBgp(width) {
-        if (this.state.rawAsnSignalsProcessedBgp && this.state.rawAsnSignalsLoadedBgp) {
-            this.setState({rawAsnSignalsLoadedBgp: !this.state.rawAsnSignalsLoadedBgp});
-            const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--bgp`));
-            myChart
-                .data(this.state.rawAsnSignalsProcessedBgp)
-                .series('entityName')
-                .yNormalize(false)
-                .useUtc(true)
-                .use24h(false)
-                // Will need to detect column width to populate height
-                .width(width)
-                .height(280)
-                .enableZoom(false)
-                .showRuler(true)
-                .interpolationCurve(d3.curveStepAfter)
-                .positiveColors(['white', '#6190B5'])
-                // .positiveColorStops([.99])
-                .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
-        }
-    }
-    populateAsnHtsChartUcsdNt(width) {
-        if (this.state.rawAsnSignalsProcessedUcsdNt && this.state.rawAsnSignalsLoadedUcsdNt) {
-            this.setState({rawAsnSignalsLoadedUcsdNt: !this.state.rawAsnSignalsLoadedUcsdNt});
-            const myChart = HorizonTSChart()(document.getElementById(`asn-horizon-chart--ucsdNt`));
-            myChart
-                .data(this.state.rawAsnSignalsProcessedUcsdNt)
-                .series('entityName')
-                .yNormalize(false)
-                .useUtc(true)
-                .use24h(false)
-                // Will need to detect column width to populate height
-                .width(width)
-                .height(280)
-                .enableZoom(false)
-                .showRuler(true)
-                .interpolationCurve(d3.curveStepAfter)
-                .positiveColors(['white', '#6190B5'])
-                // .positiveColorStops([.99])
-                .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
-        }
-    }
+    populateHtsChart(width, dataSource, entityType) {
+        // set variables
+        let dataSourceForCSS, rawSignalsLoadedBoolean, rawSignalsProcessedArray;
 
-// Modal Shared
+        switch (entityType) {
+            case 'region':
+                switch (dataSource) {
+                    case 'ping-slash24':
+                        dataSourceForCSS = "pingSlash24";
+                        rawSignalsLoadedBoolean = this.state.rawRegionalSignalsLoadedPingSlash24;
+                        rawSignalsProcessedArray = this.state.rawRegionalSignalsProcessedPingSlash24;
+                        break;
+                    case 'bgp':
+                        dataSourceForCSS = "bgp";
+                        rawSignalsLoadedBoolean = this.state.rawRegionalSignalsLoadedBgp;
+                        rawSignalsProcessedArray = this.state.rawRegionalSignalsProcessedBgp;
+                        break;
+                    case 'ucsd-nt':
+                        dataSourceForCSS = "ucsdNt";
+                        rawSignalsLoadedBoolean = this.state.rawRegionalSignalsLoadedUcsdNt;
+                        rawSignalsProcessedArray = this.state.rawRegionalSignalsProcessedUcsdNt;
+                        break;
+                }
+                break;
+            case 'asn':
+                switch (dataSource) {
+                    case 'ping-slash24':
+                        dataSourceForCSS = "pingSlash24";
+                        rawSignalsLoadedBoolean = this.state.rawAsnSignalsLoadedPingSlash24;
+                        rawSignalsProcessedArray = this.state.rawAsnSignalsProcessedPingSlash24;
+                        break;
+                    case 'bgp':
+                        dataSourceForCSS = "bgp";
+                        rawSignalsLoadedBoolean = this.state.rawAsnSignalsLoadedBgp;
+                        rawSignalsProcessedArray = this.state.rawAsnSignalsProcessedBgp;
+                        break;
+                    case 'ucsd-nt':
+                        dataSourceForCSS = "ucsdNt";
+                        rawSignalsLoadedBoolean = this.state.rawAsnSignalsLoadedUcsdNt;
+                        rawSignalsProcessedArray = this.state.rawAsnSignalsProcessedUcsdNt;
+                        break;
+                }
+                break;
+        }
+
+
+
+        // set state to track loading status
+        if (rawSignalsProcessedArray && rawSignalsLoadedBoolean) {
+            switch (entityType) {
+                case 'region':
+                    switch (dataSource) {
+                        case 'ping-slash24':
+                            this.setState({rawRegionalSignalsLoadedPingSlash24: !this.state.rawRegionalSignalsLoadedPingSlash24});
+                            break;
+                        case 'bgp':
+                            this.setState({rawRegionalSignalsLoadedBgp: !this.state.rawRegionalSignalsLoadedBgp});
+                            break;
+                        case 'ucsd-nt':
+                            this.setState({rawRegionalSignalsLoadedUcsdNt: !this.state.rawRegionalSignalsLoadedUcsdNt});
+                            break;
+                    }
+                    break;
+                case 'asn':
+                    switch (dataSource) {
+                        case 'ping-slash24':
+                            this.setState({rawAsnSignalsLoadedPingSlash24: !this.state.rawAsnSignalsLoadedPingSlash24});
+                            break;
+                        case 'bgp':
+                            this.setState({rawAsnSignalsLoadedBgp: !this.state.rawAsnSignalsLoadedBgp});
+                            break;
+                        case 'ucsd-nt':
+                            this.setState({rawAsnSignalsLoadedUcsdNt: !this.state.rawAsnSignalsLoadedUcsdNt});
+                            break;
+                    }
+                    break;
+            }
+
+            // draw viz
+            const myChart = HorizonTSChart()(document.getElementById(`${entityType}-horizon-chart--${dataSourceForCSS}`));
+            myChart
+                .data(rawSignalsProcessedArray)
+                .series('entityName')
+                .yNormalize(false)
+                .useUtc(true)
+                .use24h(false)
+                // Will need to detect column width to populate height
+                .width(width)
+                .height(360)
+                .enableZoom(false)
+                .showRuler(true)
+                .interpolationCurve(d3.curveStepAfter)
+                .positiveColors(['white', '#6190B5'])
+                // .positiveColorStops([.99])
+                .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
+        }
+    }
     handleSelectAndDeselectAllButtons(event) {
         if (event.target.name === "checkMaxRegional") {
             let regionalSignalsTableSummaryDataProcessed = this.state.regionalSignalsTableSummaryDataProcessed;
@@ -1639,9 +1593,9 @@ class Entity extends Component {
                 regionalSignalsTableSummaryDataProcessed: regionalSignalsTableSummaryDataProcessed,
                 regionalSignalsTableEntitiesChecked: regionalSignalsTableSummaryDataProcessed.length < this.maxHtsLimit ? regionalSignalsTableSummaryDataProcessed.length : this.maxHtsLimit
             }, () => {
-                this.convertValuesForRegionalHtsViz("ping-slash24");
-                this.convertValuesForRegionalHtsViz("bgp");
-                this.convertValuesForRegionalHtsViz("ucsd-nt");
+                this.convertValuesForHtsViz("ping-slash24", "region");
+                this.convertValuesForHtsViz("bgp", "region");
+                this.convertValuesForHtsViz("ucsd-nt", "region");
             });
         }
         if (event.target.name === "uncheckAllRegional") {
@@ -1653,9 +1607,9 @@ class Entity extends Component {
                 regionalSignalsTableSummaryDataProcessed: regionalSignalsTableSummaryDataProcessed,
                 regionalSignalsTableEntitiesChecked: 0
             }, () => {
-                this.convertValuesForRegionalHtsViz("ping-slash24");
-                this.convertValuesForRegionalHtsViz("bgp");
-                this.convertValuesForRegionalHtsViz("ucsd-nt");
+                this.convertValuesForHtsViz("ping-slash24", "region");
+                this.convertValuesForHtsViz("bgp", "region");
+                this.convertValuesForHtsViz("ucsd-nt", "region");
             });
         }
         if (event.target.name === "checkMaxAsn") {
@@ -1675,9 +1629,9 @@ class Entity extends Component {
                 asnSignalsTableSummaryDataProcessed: asnSignalsTableSummaryDataProcessed,
                 asnSignalsTableEntitiesChecked: asnSignalsTableSummaryDataProcessed.length < this.maxHtsLimit ? asnSignalsTableSummaryDataProcessed.length : this.maxHtsLimit
             }, () => {
-                this.convertValuesForAsnHtsViz("ping-slash24");
-                this.convertValuesForAsnHtsViz("bgp");
-                this.convertValuesForAsnHtsViz("ucsd-nt");
+                this.convertValuesForHtsViz("ping-slash24", "asn");
+                this.convertValuesForHtsViz("bgp", "asn");
+                this.convertValuesForHtsViz("ucsd-nt", "asn");
             });
         }
         if (event.target.name === "uncheckAllAsn") {
@@ -1689,9 +1643,9 @@ class Entity extends Component {
                 asnSignalsTableSummaryDataProcessed: asnSignalsTableSummaryDataProcessed,
                 asnSignalsTableEntitiesChecked: 0
             }, () => {
-                this.convertValuesForAsnHtsViz("ping-slash24");
-                this.convertValuesForAsnHtsViz("bgp");
-                this.convertValuesForAsnHtsViz("ucsd-nt");
+                this.convertValuesForHtsViz("ping-slash24", "asn");
+                this.convertValuesForHtsViz("bgp", "asn");
+                this.convertValuesForHtsViz("ucsd-nt", "asn");
             });
         }
     }

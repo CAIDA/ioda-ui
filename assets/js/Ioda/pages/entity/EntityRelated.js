@@ -53,10 +53,8 @@ class EntityRelated extends Component {
                                 handleSelectAndDeselectAllButtons={(event) => this.props.handleSelectAndDeselectAllButtons(event)}
                                 // Current number of entities checked in table
                                 regionalSignalsTableEntitiesChecked={this.props.regionalSignalsTableEntitiesChecked}
-                                // populateRegionalHtsChart={(width, datasource) => this.props.populateRegionalHtsChart(width, datasource)}
-                                populateRegionalHtsChartPingSlash24={(width) => this.props.populateRegionalHtsChartPingSlash24(width)}
-                                populateRegionalHtsChartBgp={(width) => this.props.populateRegionalHtsChartBgp(width)}
-                                populateRegionalHtsChartUcsdNt={(width) => this.props.populateRegionalHtsChartUcsdNt(width)}
+                                // function to populate horizon time series visual
+                                populateHtsChart={(width, dataSource, entityType) => this.props.populateHtsChart(width, dataSource, entityType)}
                                 // to detect when loading bar should appear in modal
                                 rawRegionalSignalsProcessedPingSlash24={this.props.rawRegionalSignalsProcessedPingSlash24}
                                 rawRegionalSignalsProcessedBgp={this.props.rawRegionalSignalsProcessedBgp}
@@ -111,10 +109,8 @@ class EntityRelated extends Component {
                                 toggleModal={this.props.toggleModal}
                                 // render function that populates the ui
                                 genSignalsTable={() => this.props.genAsnSignalsTable()}
-                                // render functions that populate the ui
-                                populateAsnHtsChartPingSlash24={(width) => this.props.populateAsnHtsChartPingSlash24(width)}
-                                populateAsnHtsChartBgp={(width) => this.props.populateAsnHtsChartBgp(width)}
-                                populateAsnHtsChartUcsdNt={(width) => this.props.populateAsnHtsChartUcsdNt(width)}
+                                // render function that populate the ui
+                                populateHtsChart={(width, dataSource, entityType) => this.props.populateHtsChart(width, dataSource, entityType)}
                                 // data for each horizon time series
                                 rawAsnSignalsProcessedPingSlash24={this.props.rawAsnSignalsProcessedPingSlash24}
                                 rawAsnSignalsProcessedBgp={this.props.rawAsnSignalsProcessedBgp}

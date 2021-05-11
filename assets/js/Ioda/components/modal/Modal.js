@@ -12,22 +12,22 @@ class Modal extends Component {
     }
 
     genRegionalPingSlash24 = () => {
-        this.props.populateRegionalHtsChartPingSlash24(this.configPingSlash24.current.offsetWidth);
+        this.props.populateHtsChart(this.configPingSlash24.current.offsetWidth,"ping-slash24", "region");
     };
     genRegionalBgp = () => {
-        this.props.populateRegionalHtsChartBgp(this.configBgp.current.offsetWidth);
+        this.props.populateHtsChart(this.configBgp.current.offsetWidth, "bgp", "region");
     };
     genRegionalUcsdNt = () => {
-        this.props.populateRegionalHtsChartUcsdNt(this.configUcsdNt.current.offsetWidth);
+        this.props.populateHtsChart(this.configUcsdNt.current.offsetWidth, "ucsd-nt", "region");
     };
     genAsnPingSlash24 = () => {
-        this.props.populateAsnHtsChartPingSlash24(this.configPingSlash24.current.offsetWidth);
+        this.props.populateHtsChart(this.configPingSlash24.current.offsetWidth, "ping-slash24", "asn");
     };
     genAsnBgp = () => {
-        this.props.populateAsnHtsChartBgp(this.configBgp.current.offsetWidth);
+        this.props.populateHtsChart(this.configBgp.current.offsetWidth, "bgp", "asn");
     };
     genAsnUcsdNt = () => {
-        this.props.populateAsnHtsChartUcsdNt(this.configUcsdNt.current.offsetWidth);
+        this.props.populateHtsChart(this.configUcsdNt.current.offsetWidth, "ucsd-nt", "asn");
     };
 
     render() {
@@ -135,7 +135,7 @@ class Modal extends Component {
                                         {
                                             this.props.rawRegionalSignalsProcessedPingSlash24 ? null : <Loading/>
                                         }
-                                        <div id="regional-horizon-chart--pingSlash24" ref={this.configPingSlash24} className="modal__chart">
+                                        <div id="region-horizon-chart--pingSlash24" ref={this.configPingSlash24} className="modal__chart">
                                             {
                                                 this.configPingSlash24.current ?
                                                 this.genRegionalPingSlash24() : null
@@ -146,7 +146,7 @@ class Modal extends Component {
                                         {
                                             this.props.rawRegionalSignalsProcessedBgp ? null : <Loading/>
                                         }
-                                        <div id="regional-horizon-chart--bgp" ref={this.configBgp} className="modal__chart">
+                                        <div id="region-horizon-chart--bgp" ref={this.configBgp} className="modal__chart">
                                             {
                                                 this.configBgp.current ?
                                                 this.genRegionalBgp() : null
@@ -156,7 +156,7 @@ class Modal extends Component {
                                         {
                                             this.props.rawRegionalSignalsProcessedUcsdNt ? null : <Loading/>
                                         }
-                                        <div id="regional-horizon-chart--ucsdNt" ref={this.configUcsdNt} className="modal__chart">
+                                        <div id="region-horizon-chart--ucsdNt" ref={this.configUcsdNt} className="modal__chart">
                                             {
                                                 this.configUcsdNt.current ?
                                                 this.genRegionalUcsdNt() : null
