@@ -207,7 +207,7 @@ class Entity extends Component {
 
         // After API call for Alert Table data completes, check for lengths to set display counts and then process to populate
         if (this.props.alerts !== prevProps.alerts) {
-            console.log("updated3");
+            console.log("updated");
             this.setState({
                 alertDataRaw: this.props.alerts
             }, () => {
@@ -1204,33 +1204,11 @@ class Entity extends Component {
                     type="signal"
                     data={this.state.regionalSignalsTableSummaryDataProcessed}
                     totalCount={this.state.regionalSignalsTableSummaryDataProcessed.length}
-                    toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInRegionalHtsViz(event)}
+                    toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInHtsViz(event, "region")}
                     handleEntityClick={() => this.handleEntityClick()}
                 />
             )
         }
-    }
-    toggleEntityVisibilityInRegionalHtsViz(event) {
-        let indexValue;
-        let regionalSignalsTableSummaryDataProcessed = this.state.regionalSignalsTableSummaryDataProcessed;
-
-        // Get the index of where the checkmark was that was clicked
-        regionalSignalsTableSummaryDataProcessed.filter((entity, index) => {
-            if (entity.entityCode === event.target.name) {
-                indexValue = index;
-            }
-        });
-        // Update visibility boolean property in copied object to update table
-        regionalSignalsTableSummaryDataProcessed[indexValue]["visibility"] = !regionalSignalsTableSummaryDataProcessed[indexValue]["visibility"];
-
-        // Update state with freshly updated object list, then redraw the chart with new visibility values
-        this.setState({
-            regionalSignalsTableSummaryDataProcessed: regionalSignalsTableSummaryDataProcessed
-        }, () => {
-            this.convertValuesForHtsViz("ping-slash24", "region");
-            this.convertValuesForHtsViz("bgp", "region");
-            this.convertValuesForHtsViz("ucsd-nt", "region");
-        });
     }
 
     // Time Series for displaying regional signals
@@ -1290,82 +1268,10 @@ class Entity extends Component {
                 data={this.state.asnSignalsTableSummaryDataProcessed}
                 totalCount={this.state.asnSignalsTableTotalCount}
                 entityType={this.state.entityType === "asn" ? "country" : "asn"}
-                toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInAsnHtsViz(event)}
+                toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInHtsViz(event, "asn")}
                 handleEntityClick={() => this.handleEntityClick()}
             />
         )
-    }
-    toggleEntityVisibilityInAsnHtsViz(event) {
-        let indexValue = 0;
-        let asnSignalsTableSummaryDataProcessed = this.state.asnSignalsTableSummaryDataProcessed;
-        let maxEntitiesPopulatedMessage = T.translate("entityModal.maxEntitiesPopulatedMessage");
-
-        // Get the index of where the checkmark was that was clicked
-        asnSignalsTableSummaryDataProcessed.filter((entity, index) => {
-            if (entity.entityCode === event.target.name) {
-                indexValue = index;
-            }
-        });
-
-        console.log(asnSignalsTableSummaryDataProcessed[indexValue]["visibility"]);
-
-
-        // Determine if max number of checkboxes are checked
-        if (asnSignalsTableSummaryDataProcessed[indexValue]["visibility"] === false) {
-            // If checkbox is false, determine if adding it will breach the limit
-            if (this.maxHtsLimit > asnSignalsTableSummaryDataProcessed.filter(entity => entity.visibility).length) {
-
-                // Update visibility boolean property in copied object to update table
-                asnSignalsTableSummaryDataProcessed[indexValue]["visibility"] = !asnSignalsTableSummaryDataProcessed[indexValue]["visibility"];
-
-                // Check if raw signals data is already loaded for particular entity, get it if not
-                if (this.state.asnRawSignalsLoadAllButtonClicked && asnSignalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"] === false) {
-                    // update property that manages if raw signal data has loaded or not
-                    asnSignalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"] = true;
-                    // call api for additional data on entity
-                    let until = this.state.until;
-                    let from = this.state.from;
-                    let attr = this.state.eventOrderByAttr;
-                    let order = this.state.eventOrderByOrder;
-                    let entity = asnSignalsTableSummaryDataProcessed[indexValue]["entityCode"];
-                    let entityType = asnSignalsTableSummaryDataProcessed[indexValue]["entityType"];
-
-                    if (entityType && entity) {
-                        this.props.getAdditionalRawSignalAction(entityType, entity, from, until, attr, order, "ping-slash24");
-                        this.props.getAdditionalRawSignalAction(entityType, entity, from, until, attr, order, "bgp");
-                        this.props.getAdditionalRawSignalAction(entityType, entity, from, until, attr, order, "ucsd-nt");
-                    }
-                }
-
-                // Update state with freshly updated object list, then redraw the chart with new visibility values
-                this.setState({
-                    asnSignalsTableSummaryDataProcessed: asnSignalsTableSummaryDataProcessed,
-                    rawSignalsMaxEntitiesHtsError: ""
-                }, () => {
-                    this.convertValuesForHtsViz("ping-slash24", "asn");
-                    this.convertValuesForHtsViz("bgp", "asn");
-                    this.convertValuesForHtsViz("ucsd-nt", "asn");
-                });
-            } else {
-                // Show error message
-                this.setState({
-                    rawSignalsMaxEntitiesHtsError: maxEntitiesPopulatedMessage
-                });
-            }
-        } else {
-            // Update visibility boolean property in copied object to update table
-            asnSignalsTableSummaryDataProcessed[indexValue]["visibility"] = !asnSignalsTableSummaryDataProcessed[indexValue]["visibility"];
-
-            // Update state with freshly updated object list, then redraw the chart with new visibility values
-            this.setState({
-                asnSignalsTableSummaryDataProcessed: asnSignalsTableSummaryDataProcessed,
-                rawSignalsMaxEntitiesHtsError: ""
-            }, () => {
-                this.convertValuesForHtsViz("ping-slash24", "asn");
-                this.convertValuesForHtsViz("bgp", "asn");
-                this.convertValuesForHtsViz("ucsd-nt", "asn");
-            });
-        }
     }
 
     // Time Series for displaying ASN signals
@@ -1606,6 +1512,111 @@ class Entity extends Component {
                 .positiveColors(['white', '#6190B5'])
                 // .positiveColorStops([.99])
                 .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
+        }
+    }
+    toggleEntityVisibilityInHtsViz(event, entityType) {
+        let indexValue = 0;
+        let signalsTableSummaryDataProcessed;
+        let maxEntitiesPopulatedMessage = T.translate("entityModal.maxEntitiesPopulatedMessage");
+
+        switch (entityType) {
+            case "region":
+                signalsTableSummaryDataProcessed = this.state.regionalSignalsTableSummaryDataProcessed;
+                break;
+            case "asn":
+                signalsTableSummaryDataProcessed = this.state.asnSignalsTableSummaryDataProcessed;
+                break;
+        }
+
+        // Get the index of where the checkmark was that was clicked
+        signalsTableSummaryDataProcessed.filter((entity, index) => {
+            if (entity.entityCode === event.target.name) {
+                indexValue = index;
+            }
+        });
+
+        // Determine if max number of checkboxes are checked
+        if (signalsTableSummaryDataProcessed[indexValue]["visibility"] === false) {
+            // If checkbox is false, determine if adding it will breach the limit
+            if (this.maxHtsLimit > signalsTableSummaryDataProcessed.filter(entity => entity.visibility).length) {
+
+                // Update visibility boolean property in copied object to update table
+                signalsTableSummaryDataProcessed[indexValue]["visibility"] = !signalsTableSummaryDataProcessed[indexValue]["visibility"];
+
+                // Check if raw signals data is already loaded for particular entity, get it if not
+                if (this.state.asnRawSignalsLoadAllButtonClicked && asnSignalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"] === false) {
+                    // update property that manages if raw signal data has loaded or not
+                    signalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"] = true;
+                    // call api for additional data on entity
+                    let until = this.state.until;
+                    let from = this.state.from;
+                    let attr = this.state.eventOrderByAttr;
+                    let order = this.state.eventOrderByOrder;
+                    let entity = signalsTableSummaryDataProcessed[indexValue]["entityCode"];
+                    let entityType = signalsTableSummaryDataProcessed[indexValue]["entityType"];
+
+                    if (entityType && entity) {
+                        this.props.getAdditionalRawSignalAction(entityType, entity, from, until, attr, order, "ping-slash24");
+                        this.props.getAdditionalRawSignalAction(entityType, entity, from, until, attr, order, "bgp");
+                        this.props.getAdditionalRawSignalAction(entityType, entity, from, until, attr, order, "ucsd-nt");
+                    }
+                }
+
+                // Update state with freshly updated object list, then redraw the chart with new visibility values
+                switch (entityType) {
+                    case "region":
+                        this.setState({
+                            regionalSignalsTableSummaryDataProcessed: signalsTableSummaryDataProcessed,
+                            rawSignalsMaxEntitiesHtsError: ""
+                        }, () => {
+                            this.convertValuesForHtsViz("ping-slash24", "region");
+                            this.convertValuesForHtsViz("bgp", "region");
+                            this.convertValuesForHtsViz("ucsd-nt", "region");
+                        });
+                        break;
+                    case "asn":
+                        this.setState({
+                            asnSignalsTableSummaryDataProcessed: signalsTableSummaryDataProcessed,
+                            rawSignalsMaxEntitiesHtsError: ""
+                        }, () => {
+                            this.convertValuesForHtsViz("ping-slash24", "asn");
+                            this.convertValuesForHtsViz("bgp", "asn");
+                            this.convertValuesForHtsViz("ucsd-nt", "asn");
+                        });
+                        break;
+                }
+            } else {
+                // Show error message
+                this.setState({
+                    rawSignalsMaxEntitiesHtsError: maxEntitiesPopulatedMessage
+                });
+            }
+        } else {
+            // Update visibility boolean property in copied object to update table
+            signalsTableSummaryDataProcessed[indexValue]["visibility"] = !signalsTableSummaryDataProcessed[indexValue]["visibility"];
+
+            switch (entityType) {
+                case "region":
+                    this.setState({
+                        regionalSignalsTableSummaryDataProcessed: signalsTableSummaryDataProcessed,
+                        rawSignalsMaxEntitiesHtsError: ""
+                    }, () => {
+                        this.convertValuesForHtsViz("ping-slash24", "region");
+                        this.convertValuesForHtsViz("bgp", "region");
+                        this.convertValuesForHtsViz("ucsd-nt", "region");
+                    });
+                    break;
+                case "asn":
+                    this.setState({
+                        asnSignalsTableSummaryDataProcessed: signalsTableSummaryDataProcessed,
+                        rawSignalsMaxEntitiesHtsError: ""
+                    }, () => {
+                        this.convertValuesForHtsViz("ping-slash24", "asn");
+                        this.convertValuesForHtsViz("bgp", "asn");
+                        this.convertValuesForHtsViz("ucsd-nt", "asn");
+                    });
+                    break;
+            }
         }
     }
     handleSelectAndDeselectAllButtons(event) {
