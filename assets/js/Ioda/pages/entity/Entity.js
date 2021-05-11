@@ -233,7 +233,7 @@ class Entity extends Component {
 
         // After API call for outage summary data completes, pass summary data to table component for data merging
         if (this.props.relatedToTableSummary !== prevProps.relatedToTableSummary) {
-            console.log("updated2");
+            console.log("updated");
             this.setState({
                 relatedToTableSummary: this.props.relatedToTableSummary
             },() => {
@@ -877,8 +877,6 @@ class Entity extends Component {
             genAsnSignalsTable={() => this.genAsnSignalsTable()}
             handleSelectAndDeselectAllButtons={(event) => this.handleSelectAndDeselectAllButtons(event)}
             // Regional HTS methods
-            // populateRegionalHtsChart={(width, datasource) => this.populateRegionalHtsChart(width, datasource)}
-
             regionalSignalsTableEntitiesChecked={this.state.regionalSignalsTableEntitiesChecked}
             asnSignalsTableEntitiesChecked={this.state.asnSignalsTableEntitiesChecked}
             initialTableLimit={this.initialTableLimit}
@@ -902,6 +900,9 @@ class Entity extends Component {
             regionalSignalsTableTotalCount={this.state.regionalSignalsTableTotalCount}
             // function used to call api to load remaining entities
             handleLoadAllEntitiesButton={event => this.handleLoadAllEntitiesButton(event)}
+            // Used to determine if load all message should display or not
+            regionalRawSignalsLoadAllButtonClicked={this.state.regionalRawSignalsLoadAllButtonClicked}
+            asnRawSignalsLoadAllButtonClicked={this.state.asnRawSignalsLoadAllButtonClicked}
 
         />;
     }
@@ -1362,8 +1363,8 @@ class Entity extends Component {
     }
 
 
-
 // Modal Shared
+    // function that decides what data will populate in the horizon time series
     convertValuesForHtsViz(dataSource, entityType) {
         let visibilityChecked = [];
         let entitiesChecked = 0;
@@ -1420,7 +1421,7 @@ class Entity extends Component {
                 });
                 break;
         }
-        // remove other entities from array that shouldn't be displayed
+        // Remove other entities from array that shouldn't be displayed
         visibilityChecked.map(entityCode => {
             rawSignals.filter(obj => {
                 if (obj.entityCode === entityCode) {
@@ -1429,7 +1430,7 @@ class Entity extends Component {
             });
         });
 
-        // set state with new array that dictates what populates
+        // Set state with new array that dictates what populates
         switch (entityType) {
             case "region":
                 switch (dataSource) {

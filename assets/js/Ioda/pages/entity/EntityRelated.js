@@ -69,6 +69,8 @@ class EntityRelated extends Component {
                                 regionalSignalsTableTotalCount={this.props.regionalSignalsTableTotalCount}
                                 // function used to call api to load remaining entities
                                 handleLoadAllEntitiesButton={event => this.props.handleLoadAllEntitiesButton(event)}
+                                // Used to determine if load all message should display or not
+                                regionalRawSignalsLoadAllButtonClicked={this.props.regionalRawSignalsLoadAllButtonClicked}
 
                             />
                         </div>
@@ -129,6 +131,8 @@ class EntityRelated extends Component {
                                 asnSignalsTableTotalCount={this.props.asnSignalsTableTotalCount}
                                 // function used to call api to load remaining entities
                                 handleLoadAllEntitiesButton={event => this.props.handleLoadAllEntitiesButton(event)}
+                                // Used to determine if load all message should display or not
+                                asnRawSignalsLoadAllButtonClicked={this.props.asnRawSignalsLoadAllButtonClicked}
                             />
                         </div>
                     </div>
