@@ -8,7 +8,15 @@ import T from 'i18n-react';
 import { searchEntities, getEntityMetadata, regionalSignalsTableSummaryDataAction, asnSignalsTableSummaryDataAction } from "../../data/ActionEntities";
 import { getTopoAction } from "../../data/ActionTopo";
 import {searchAlerts, searchEvents, searchRelatedToMapSummary, searchRelatedToTableSummary, totalOutages} from "../../data/ActionOutages";
-import {getSignalsAction, getRawRegionalSignalsPingSlash24Action, getRawRegionalSignalsBgpAction, getRawRegionalSignalsUcsdNtAction, getRawAsnSignalsPingSlash24Action, getRawAsnSignalsBgpAction, getRawAsnSignalsUcsdNtAction} from "../../data/ActionSignals";
+import {getSignalsAction,
+    getRawRegionalSignalsPingSlash24Action,
+    getRawRegionalSignalsBgpAction,
+    getRawRegionalSignalsUcsdNtAction,
+    getRawAsnSignalsPingSlash24Action,
+    getRawAsnSignalsBgpAction,
+    getRawAsnSignalsUcsdNtAction,
+    getAdditionalRawSignalAction
+} from "../../data/ActionSignals";
 // Components
 import ControlPanel from '../../components/controlPanel/ControlPanel';
 import { Searchbar } from 'caida-components-library'
@@ -225,6 +233,7 @@ class Entity extends Component {
 
         // After API call for outage summary data completes, pass summary data to table component for data merging
         if (this.props.relatedToTableSummary !== prevProps.relatedToTableSummary) {
+            console.log("update1");
             this.setState({
                 relatedToTableSummary: this.props.relatedToTableSummary
             },() => {
@@ -337,6 +346,30 @@ class Entity extends Component {
             }, () => {
                 this.convertValuesForAsnHtsViz("ucsd-nt");
             });
+        }
+
+        // data for additional raw feed signals to use after load all button is clicked
+        if (this.props.additionalRawSignal !== prevProps.additionalRawSignal) {
+            switch (this.props.additionalRawSignal[0][0]["datasource"]) {
+                case "ping-slash24":
+                    let rawAsnSignalsRawPingSlash24 = this.state.rawAsnSignalsRawPingSlash24.concat(this.props.additionalRawSignal[0]);
+                    this.setState({
+                        rawAsnSignalsRawPingSlash24: rawAsnSignalsRawPingSlash24
+                    }, () => this.convertValuesForAsnHtsViz("ping-slash24"));
+                    break;
+                case "bgp":
+                    let rawAsnSignalsRawBgp = this.state.rawAsnSignalsRawBgp.concat(this.props.additionalRawSignal[0]);
+                    this.setState({
+                        rawAsnSignalsRawBgp: rawAsnSignalsRawBgp
+                    }, () => this.convertValuesForAsnHtsViz("bgp"));
+                    break;
+                case "ucsd-nt":
+                    let rawAsnSignalsRawUcsdNt = this.state.rawAsnSignalsRawUcsdNt.concat(this.props.additionalRawSignal[0]);
+                    this.setState({
+                        rawAsnSignalsRawUcsdNt: rawAsnSignalsRawUcsdNt
+                    }, () => this.convertValuesForAsnHtsViz("ucsd-nt"));
+                    break;
+            }
         }
     }
 
@@ -1365,7 +1398,7 @@ class Entity extends Component {
         )
     }
     toggleEntityVisibilityInAsnHtsViz(event) {
-        let indexValue;
+        let indexValue = 0;
         let asnSignalsTableSummaryDataProcessed = this.state.asnSignalsTableSummaryDataProcessed;
         let maxEntitiesPopulatedMessage = T.translate("entityModal.maxEntitiesPopulatedMessage");
 
@@ -1384,14 +1417,23 @@ class Entity extends Component {
                 // Update visibility boolean property in copied object to update table
                 asnSignalsTableSummaryDataProcessed[indexValue]["visibility"] = !asnSignalsTableSummaryDataProcessed[indexValue]["visibility"];
 
-                console.log(indexValue);
-                console.log(asnSignalsTableSummaryDataProcessed);
-                console.log(asnSignalsTableSummaryDataProcessed[indexValue]);
-
                 // Check if raw signals data is already loaded for particular entity, get it if not
                 if (this.state.asnRawSignalsLoadAllButtonClicked && asnSignalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"] === false) {
+                    // update property that manages if raw signal data has loaded or not
+                    asnSignalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"] = true;
                     // call api for additional data on entity
-                    
+                    let until = this.state.until;
+                    let from = this.state.from;
+                    let attr = this.state.eventOrderByAttr;
+                    let order = this.state.eventOrderByOrder;
+                    let entity = asnSignalsTableSummaryDataProcessed[indexValue]["entityCode"];
+                    let entityType = asnSignalsTableSummaryDataProcessed[indexValue]["entityType"];
+
+                    if (entityType && entity) {
+                        this.props.getAdditionalRawSignalAction(entityType, entity, from, until, attr, order, "ping-slash24");
+                        this.props.getAdditionalRawSignalAction(entityType, entity, from, until, attr, order, "bgp");
+                        this.props.getAdditionalRawSignalAction(entityType, entity, from, until, attr, order, "ucsd-nt");
+                    }
                 }
 
                 // Update state with freshly updated object list, then redraw the chart with new visibility values
@@ -1781,7 +1823,8 @@ const mapStateToProps = (state) => {
         rawRegionalSignalsUcsdNt: state.iodaApi.rawRegionalSignalsUcsdNt,
         rawAsnSignalsPingSlash24: state.iodaApi.rawRegionalSignalsPingSlash24,
         rawAsnSignalsBgp: state.iodaApi.rawRegionalSignalsBgp,
-        rawAsnSignalsUcsdNt: state.iodaApi.rawRegionalSignalsUcsdNt
+        rawAsnSignalsUcsdNt: state.iodaApi.rawRegionalSignalsUcsdNt,
+        additionalRawSignal: state.iodaApi.additionalRawSignal
     }
 };
 
@@ -1839,6 +1882,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         getRawAsnSignalsUcsdNtAction: (entityType, entities, from, until, attr=null, order=null, dataSource, maxPoints=null) => {
             getRawAsnSignalsUcsdNtAction(dispatch, entityType, entities, from, until, attr, order, dataSource, maxPoints);
+        },
+        getAdditionalRawSignalAction: (entityType, entity, from, until, attr=null, order=null, dataSource, maxPoints=null) => {
+            getAdditionalRawSignalAction(dispatch, entityType, entity, from, until, attr, order, dataSource, maxPoints);
         }
     }
 };
