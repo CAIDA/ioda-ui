@@ -130,6 +130,7 @@ class Entity extends Component {
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
         this.handleEntityShapeClick = this.handleEntityShapeClick.bind(this);
+        this.handleEntityClick = this.handleEntityClick.bind(this);
         this.initialTableLimit = 300;
         this.initialHtsLimit = 100;
         this.maxHtsLimit = 150;
@@ -137,6 +138,7 @@ class Entity extends Component {
     }
 
     componentDidMount() {
+        console.log("update2");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
         this.setState({
@@ -401,12 +403,17 @@ class Entity extends Component {
 // - an entity name is clicked/hit ENTER from the searchbar drop down
 // - the time range input is updated with new values
 // - an entity is clicked on from the map
-    handleStateReset(resetType, range) {
+    handleStateReset(resetType, range, entityType, entityCode) {
         switch (resetType) {
             case "newTimeFrame":
                 this.setState({
                     from: range[0],
                     until: range[1],
+                    entityType: window.location.pathname.split("/")[1],
+                    entityCode: window.location.pathname.split("/")[2],
+                    entityName: "",
+                    parentEntityName: "",
+                    parentEntityCode: "",
                     // XY Plot Time Series states
                     xyDataOptions: null,
                     tsDataRaw: null,
@@ -474,8 +481,8 @@ class Entity extends Component {
             case "newEntity":
                 this.setState({
                     mounted: false,
-                    entityType: window.location.pathname.split("/")[1],
-                    entityCode: window.location.pathname.split("/")[2],
+                    entityType: entityType,
+                    entityCode: entityCode,
                     entityName: "",
                     parentEntityName: "",
                     parentEntityCode: "",
@@ -550,7 +557,7 @@ class Entity extends Component {
         const range = dateRangeToSeconds(dateRange, timeRange);
         const { history } = this.props;
         history.push(`/${this.state.entityType}/${this.state.entityCode}?from=${range[0]}&until=${range[1]}`);
-        this.handleStateReset("newTimeFrame", range);
+        this.handleStateReset("newTimeFrame", range, null, null);
     }
 // Search bar
     // get data for search results that populate in suggested search list
@@ -575,7 +582,7 @@ class Entity extends Component {
             return result.name === query;
         });
         history.push(`/${entity[0].type}/${entity[0].code}`);
-        this.handleStateReset("newEntity", null);
+        this.handleStateReset("newEntity", null, entity[0].type, entity[0].code);
     };
     // Reset search bar with search term value when a selection is made, no customizations needed here.
     handleQueryUpdate = (query) => {
@@ -1067,7 +1074,7 @@ class Entity extends Component {
                 ? `/region/${entity.properties.id}?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
                 : `/region/${entity.properties.id}`
         );
-        this.handleStateReset("newEntity", null);
+        this.handleStateReset("newEntity", null, "region", entity.properties.id);
     }
 
 // Summary Table for related ASNs
@@ -1132,13 +1139,14 @@ class Entity extends Component {
                 data={this.state.relatedToTableSummaryProcessed}
                 totalCount={this.state.relatedToTableSummaryProcessed.length}
                 entityType={this.state.entityType === "asn" ? "country" : "asn"}
-                handleEntityClick={() => this.handleEntityClick()}
+                handleEntityClick={(entityType, entityCode) => this.handleEntityClick(entityType, entityCode)}
             />
         )
     }
-    // function to manage what happens when a linked enity in the table is clicked
-    handleEntityClick() {
-        this.handleStateReset("newEntity", null);
+    // function to manage what happens when a linked entity in the table is clicked
+    handleEntityClick(entityType, entityCode) {
+        console.log(entityType, entityCode);
+        this.handleStateReset("newEntity", null, entityType, entityCode);
     }
 
 
@@ -1154,7 +1162,7 @@ class Entity extends Component {
                         data={this.state.regionalSignalsTableSummaryDataProcessed}
                         totalCount={this.state.regionalSignalsTableSummaryDataProcessed.length}
                         toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInHtsViz(event, "region")}
-                        handleEntityClick={() => this.handleEntityClick()}
+                        handleEntityClick={(entityType, entityCode) => this.handleEntityClick(entityType, entityCode)}
                     />
                 );
             case "asn":
@@ -1166,7 +1174,7 @@ class Entity extends Component {
                         totalCount={this.state.asnSignalsTableTotalCount}
                         entityType={this.state.entityType === "asn" ? "country" : "asn"}
                         toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInHtsViz(event, "asn")}
-                        handleEntityClick={() => this.handleEntityClick()}
+                        handleEntityClick={(entityType, entityCode) => this.handleEntityClick(entityType, entityCode)}
                     />
                 );
         }
