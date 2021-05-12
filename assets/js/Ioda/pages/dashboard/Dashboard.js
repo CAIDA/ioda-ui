@@ -430,7 +430,7 @@ class Dashboard extends Component {
         if (this.state.mounted) {
             // Set searchTerm to the value of nextProps, nextProps refers to the current search string value in the field.
             this.setState({ searchTerm: searchTerm });
-            // // Make api call
+            // Make api call
             this.props.searchEntitiesAction(searchTerm, 11);
         }
     }
