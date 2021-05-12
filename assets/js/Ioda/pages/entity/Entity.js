@@ -74,9 +74,6 @@ class Entity extends Component {
             tsDataNormalized: true,
             tsDataDisplayOutageBands: true,
             tsDataScreenBelow760: false,
-            // Table Pagination
-            eventTablePageNumber: 0,
-            alertTablePageNumber: 0,
             // Event/Table Data
             currentTable: 'alert',
             eventDataRaw: null,
@@ -399,71 +396,161 @@ class Entity extends Component {
         }
     }
 
+// Global reset State function, called whenever a link that's destination also uses the entity page template is used
+// - an entity name is clicked from the summary/signals table
+// - an entity name is clicked/hit ENTER from the searchbar drop down
+// - the time range input is updated with new values
+// - an entity is clicked on from the map
+    handleStateReset(resetType, range) {
+        switch (resetType) {
+            case "newTimeFrame":
+                this.setState({
+                    from: range[0],
+                    until: range[1],
+                    // XY Plot Time Series states
+                    xyDataOptions: null,
+                    tsDataRaw: null,
+                    tsDataNormalized: true,
+                    tsDataDisplayOutageBands: true,
+                    // Search Bar
+                    suggestedSearchResults: null,
+                    searchTerm: null,
+                    lastFetched: 0,
+                    // Event/Table Data
+                    currentTable: 'alert',
+                    eventDataRaw: null,
+                    eventDataProcessed: [],
+                    alertDataRaw: null,
+                    alertDataProcessed: [],
+                    // relatedTo entity Map
+                    summaryDataMapRaw: null,
+                    // relatedTo entity Table
+                    relatedToTableApiPageNumber: 0,
+                    relatedToTableSummary: null,
+                    relatedToTableSummaryProcessed: null,
+                    relatedToTablePageNumber: 0,
+                    // Modal window display status
+                    showMapModal: false,
+                    showTableModal: false,
+                    // Signals Modal Table on Map Panel
+                    regionalSignalsTableSummaryData: [],
+                    regionalSignalsTableSummaryDataProcessed: [],
+                    regionalSignalsTableTotalCount: 0,
+                    regionalSignalsTableEntitiesChecked: 0,
+                    // Signals Modal Table on Table Panel
+                    asnSignalsTableSummaryData: [],
+                    asnSignalsTableSummaryDataProcessed: [],
+                    asnSignalsTableTotalCount: 0,
+                    asnSignalsTableEntitiesChecked: 0,
+                    // Stacked Horizon Visual on Region Map Panel
+                    rawRegionalSignalsRawBgp: [],
+                    rawRegionalSignalsRawPingSlash24: [],
+                    rawRegionalSignalsRawUcsdNt: [],
+                    rawRegionalSignalsProcessedBgp: null,
+                    rawRegionalSignalsProcessedPingSlash24: null,
+                    rawRegionalSignalsProcessedUcsdNt: null,
+                    rawRegionalSignalsLoadedBgp: true,
+                    rawRegionalSignalsLoadedPingSlash24: true,
+                    rawRegionalSignalsLoadedUcsdNt: true,
+                    rawRegionalSignalsLoadAllButtonClicked: false,
+                    // Stacked Horizon Visual on ASN Table Panel
+                    rawAsnSignalsRawBgp: [],
+                    rawAsnSignalsRawPingSlash24: [],
+                    rawAsnSignalsRawUcsdNt: [],
+                    rawAsnSignalsProcessedBgp: null,
+                    rawAsnSignalsProcessedPingSlash24: null,
+                    rawAsnSignalsProcessedUcsdNt: null,
+                    rawAsnSignalsLoadAllButtonClicked: false
+                }, () => {
+                    // Get topo and outage data to repopulate map and table
+                    this.props.searchEventsAction(this.state.from, this.state.until, this.state.entityType, this.state.entityCode);
+                    this.props.searchAlertsAction(this.state.from, this.state.until, this.state.entityType, this.state.entityCode, null, null, null);
+                    this.props.getSignalsAction( this.state.entityType, this.state.entityCode, this.state.from, this.state.until, null, null);
+                    this.getDataTopo("region");
+                    this.getDataRelatedToMapSummary("region");
+                    this.getDataRelatedToTableSummary("asn");
+                });
+                break;
+            case "newEntity":
+                this.setState({
+                    mounted: false,
+                    entityType: window.location.pathname.split("/")[1],
+                    entityCode: window.location.pathname.split("/")[2],
+                    entityName: "",
+                    parentEntityName: "",
+                    parentEntityCode: "",
+                    // Search Bar
+                    suggestedSearchResults: null,
+                    searchTerm: null,
+                    lastFetched: 0,
+                    // XY Plot Time Series states
+                    xyDataOptions: null,
+                    tsDataRaw: null,
+                    tsDataNormalized: true,
+                    tsDataDisplayOutageBands: true,
+                    // Event/Table Data
+                    currentTable: 'alert',
+                    eventDataRaw: null,
+                    eventDataProcessed: [],
+                    alertDataRaw: null,
+                    alertDataProcessed: [],
+                    // relatedTo entity Map
+                    summaryDataMapRaw: null,
+                    // relatedTo entity Table
+                    relatedToTableApiPageNumber: 0,
+                    relatedToTableSummary: null,
+                    relatedToTableSummaryProcessed: null,
+                    relatedToTablePageNumber: 0,
+                    // Modal window display status
+                    showMapModal: false,
+                    showTableModal: false,
+                    // Signals Modal Table on Map Panel
+                    regionalSignalsTableSummaryData: [],
+                    regionalSignalsTableSummaryDataProcessed: [],
+                    regionalSignalsTableTotalCount: 0,
+                    // Signals Modal Table on Table Panel
+                    asnSignalsTableSummaryData: [],
+                    asnSignalsTableSummaryDataProcessed: [],
+                    asnSignalsTableTotalCount: 0,
+                    // Stacked Horizon Visual on Region Map Panel
+                    rawRegionalSignalsRawBgp: [],
+                    rawRegionalSignalsRawPingSlash24: [],
+                    rawRegionalSignalsRawUcsdNt: [],
+                    rawRegionalSignalsProcessedBgp: null,
+                    rawRegionalSignalsProcessedPingSlash24: null,
+                    rawRegionalSignalsProcessedUcsdNt: null,
+                    // Stacked Horizon Visual on ASN Table Panel
+                    rawAsnSignalsRawBgp: [],
+                    rawAsnSignalsRawPingSlash24: [],
+                    rawAsnSignalsRawUcsdNt: [],
+                    rawAsnSignalsProcessedBgp: null,
+                    rawAsnSignalsProcessedPingSlash24: null,
+                    rawAsnSignalsProcessedUcsdNt: null,
+                    rawAsnSignalsLoadedBgp: true,
+                    rawAsnSignalsLoadedPingSlash24: true,
+                    rawAsnSignalsLoadedUcsdNt: true,
+                    rawRegionalSignalsLoadedBgp: true,
+                    rawRegionalSignalsLoadedPingSlash24: true,
+                    rawRegionalSignalsLoadedUcsdNt: true,
+                    rawRegionalSignalsLoadAllButtonClicked: false,
+                    rawAsnSignalsLoadAllButtonClicked: false,
+                    rawSignalsMaxEntitiesHtsError: "",
+                    regionalRawSignalsLoadAllButtonClicked: false,
+                    asnRawSignalsLoadAllButtonClicked: false
+                }, () => {
+                    this.componentDidMount();
+                });
+                break
+        }
+    }
+
 // Control Panel
     // manage the date selected in the input
     handleTimeFrame(dateRange, timeRange) {
         const range = dateRangeToSeconds(dateRange, timeRange);
         const { history } = this.props;
         history.push(`/${this.state.entityType}/${this.state.entityCode}?from=${range[0]}&until=${range[1]}`);
-
-        this.setState({
-            from: range[0],
-            until: range[1],
-            // XY Plot Time Series states
-            xyDataOptions: null,
-            // Table Pagination
-            eventTablePageNumber: 0,
-            alertTablePageNumber: 0,
-            // Event/Table Data
-            currentTable: 'alert',
-            eventDataRaw: null,
-            eventDataProcessed: [],
-            alertDataRaw: null,
-            alertDataProcessed: [],
-            // relatedTo entity Map
-            relatedToMapSummary: null,
-            summaryDataMapRaw: null,
-            // relatedTo entity Table
-            relatedToTableApiPageNumber: 0,
-            relatedToTableSummary: null,
-            relatedToTableSummaryProcessed: null,
-            relatedToTablePageNumber: 0,
-            // Modal window display status
-            showMapModal: false,
-            showTableModal: false,
-            // Signals Modal Table on Map Panel
-            regionalSignalsTableSummaryData: [],
-            regionalSignalsTableSummaryDataProcessed: [],
-            regionalSignalsTableTotalCount: 0,
-            // Signals Modal Table on Table Panel
-            asnSignalsTableSummaryData: [],
-            asnSignalsTableSummaryDataProcessed: [],
-            asnSignalsTableTotalCount: 0,
-            // Stacked Horizon Visual on Region Map Panel
-            rawRegionalSignalsRawBgp: [],
-            rawRegionalSignalsRawPingSlash24: [],
-            rawRegionalSignalsRawUcsdNt: [],
-            rawRegionalSignalsProcessedBgp: null,
-            rawRegionalSignalsProcessedPingSlash24: null,
-            rawRegionalSignalsProcessedUcsdNt: null,
-            rawRegionalSignalsLoadAllButtonClicked: false,
-            // Stacked Horizon Visual on ASN Table Panel
-            rawAsnSignalsRawBgp: [],
-            rawAsnSignalsRawPingSlash24: [],
-            rawAsnSignalsRawUcsdNt: [],
-            rawAsnSignalsProcessedBgp: null,
-            rawAsnSignalsProcessedPingSlash24: null,
-            rawAsnSignalsProcessedUcsdNt: null,
-            rawAsnSignalsLoadAllButtonClicked: false
-        }, () => {
-            // Get topo and outage data to repopulate map and table
-            this.props.searchEventsAction(this.state.from, this.state.until, this.state.entityType, this.state.entityCode);
-            this.props.searchAlertsAction(this.state.from, this.state.until, this.state.entityType, this.state.entityCode, null, null, null);
-            this.props.getSignalsAction( this.state.entityType, this.state.entityCode, this.state.from, this.state.until, null, null);
-            this.getDataTopo("region");
-            this.getDataRelatedToMapSummary("region");
-            this.getDataRelatedToTableSummary("asn");
-        })
+        this.handleStateReset("newTimeFrame", range);
     }
 // Search bar
     // get data for search results that populate in suggested search list
@@ -488,74 +575,7 @@ class Entity extends Component {
             return result.name === query;
         });
         history.push(`/${entity[0].type}/${entity[0].code}`);
-        this.setState({
-            mounted: false,
-            entityType: window.location.pathname.split("/")[1],
-            entityCode: window.location.pathname.split("/")[2],
-            entityName: "",
-            parentEntityName: "",
-            parentEntityCode: "",
-            // Search Bar
-            suggestedSearchResults: null,
-            searchTerm: null,
-            // XY Plot Time Series states
-            xyDataOptions: null,
-            tsDataRaw: null,
-            tsDataNormalized: true,
-            tsDataDisplayOutageBands: true,
-            // Table Pagination
-            eventTablePageNumber: 0,
-            alertTablePageNumber: 0,
-            // Event/Table Data
-            currentTable: 'alert',
-            eventDataRaw: null,
-            eventDataProcessed: [],
-            alertDataRaw: null,
-            alertDataProcessed: [],
-            // relatedTo entity Map
-            topoData: null,
-            relatedToMapSummary: null,
-            // relatedTo entity Table
-            relatedToTableApiPageNumber: 0,
-            relatedToTableSummary: null,
-            relatedToTableSummaryProcessed: null,
-            relatedToTablePageNumber: 0,
-            // Modal window display status
-            showMapModal: false,
-            showTableModal: false,
-            // Signals Modal Table on Map Panel
-            regionalSignalsTableSummaryData: [],
-            regionalSignalsTableSummaryDataProcessed: [],
-            regionalSignalsTableTotalCount: 0,
-            // Signals Modal Table on Table Panel
-            asnSignalsTableSummaryData: [],
-            asnSignalsTableSummaryDataProcessed: [],
-            asnSignalsTableTotalCount: 0,
-            // Stacked Horizon Visual on Region Map Panel
-            rawRegionalSignalsRawBgp: [],
-            rawRegionalSignalsRawPingSlash24: [],
-            rawRegionalSignalsRawUcsdNt: [],
-            rawRegionalSignalsProcessedBgp: null,
-            rawRegionalSignalsProcessedPingSlash24: null,
-            rawRegionalSignalsProcessedUcsdNt: null,
-            // Stacked Horizon Visual on ASN Table Panel
-            rawAsnSignalsRawBgp: [],
-            rawAsnSignalsRawPingSlash24: [],
-            rawAsnSignalsRawUcsdNt: [],
-            rawAsnSignalsProcessedBgp: null,
-            rawAsnSignalsProcessedPingSlash24: null,
-            rawAsnSignalsProcessedUcsdNt: null,
-            rawAsnSignalsLoadedBgp: true,
-            rawAsnSignalsLoadedPingSlash24: true,
-            rawAsnSignalsLoadedUcsdNt: true,
-            rawAsnSignalsLoadAllButtonClicked: false,
-            rawRegionalSignalsLoadedBgp: true,
-            rawRegionalSignalsLoadedPingSlash24: true,
-            rawRegionalSignalsLoadedUcsdNt: true,
-            rawRegionalSignalsLoadAllButtonClicked: false,
-        }, () => {
-            this.componentDidMount();
-        });
+        this.handleStateReset("newEntity", null);
     };
     // Reset search bar with search term value when a selection is made, no customizations needed here.
     handleQueryUpdate = (query) => {
@@ -1047,74 +1067,7 @@ class Entity extends Component {
                 ? `/region/${entity.properties.id}?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
                 : `/region/${entity.properties.id}`
         );
-        this.setState({
-            mounted: false,
-            entityType: window.location.pathname.split("/")[1],
-            entityCode: window.location.pathname.split("/")[2],
-            entityName: "",
-            parentEntityName: "",
-            parentEntityCode: "",
-            // Search Bar
-            suggestedSearchResults: null,
-            searchTerm: null,
-            // XY Plot Time Series states
-            xyDataOptions: null,
-            tsDataRaw: null,
-            tsDataNormalized: true,
-            tsDataDisplayOutageBands: true,
-            // Table Pagination
-            eventTablePageNumber: 0,
-            alertTablePageNumber: 0,
-            // Event/Table Data
-            currentTable: 'alert',
-            eventDataRaw: null,
-            eventDataProcessed: [],
-            alertDataRaw: null,
-            alertDataProcessed: [],
-            // relatedTo entity Map
-            topoData: null,
-            relatedToMapSummary: null,
-            // relatedTo entity Table
-            relatedToTableApiPageNumber: 0,
-            relatedToTableSummary: null,
-            relatedToTableSummaryProcessed: null,
-            relatedToTablePageNumber: 0,
-            // Modal window display status
-            showMapModal: false,
-            showTableModal: false,
-            // Signals Modal Table on Map Panel
-            regionalSignalsTableSummaryData: [],
-            regionalSignalsTableSummaryDataProcessed: [],
-            regionalSignalsTableTotalCount: 0,
-            // Signals Modal Table on Table Panel
-            asnSignalsTableSummaryData: [],
-            asnSignalsTableSummaryDataProcessed: [],
-            asnSignalsTableTotalCount: 0,
-            // Stacked Horizon Visual on Region Map Panel
-            rawRegionalSignalsRawBgp: [],
-            rawRegionalSignalsRawPingSlash24: [],
-            rawRegionalSignalsRawUcsdNt: [],
-            rawRegionalSignalsProcessedBgp: null,
-            rawRegionalSignalsProcessedPingSlash24: null,
-            rawRegionalSignalsProcessedUcsdNt: null,
-            // Stacked Horizon Visual on ASN Table Panel
-            rawAsnSignalsRawBgp: [],
-            rawAsnSignalsRawPingSlash24: [],
-            rawAsnSignalsRawUcsdNt: [],
-            rawAsnSignalsProcessedBgp: null,
-            rawAsnSignalsProcessedPingSlash24: null,
-            rawAsnSignalsProcessedUcsdNt: null,
-            rawAsnSignalsLoadedBgp: true,
-            rawAsnSignalsLoadedPingSlash24: true,
-            rawAsnSignalsLoadedUcsdNt: true,
-            rawAsnSignalsLoadAllButtonClicked: false,
-            rawRegionalSignalsLoadedBgp: true,
-            rawRegionalSignalsLoadedPingSlash24: true,
-            rawRegionalSignalsLoadedUcsdNt: true,
-            rawRegionalSignalsLoadAllButtonClicked: false,
-        }, () => {
-            this.componentDidMount();
-        });
+        this.handleStateReset("newEntity", null);
     }
 
 // Summary Table for related ASNs
@@ -1185,75 +1138,7 @@ class Entity extends Component {
     }
     // function to manage what happens when a linked enity in the table is clicked
     handleEntityClick() {
-        this.setState({
-            mounted: false,
-            entityType: window.location.pathname.split("/")[1],
-            entityCode: window.location.pathname.split("/")[2],
-            entityName: "",
-            parentEntityName: "",
-            parentEntityCode: "",
-            // Search Bar
-            suggestedSearchResults: null,
-            searchTerm: null,
-            lastFetched: 0,
-            // XY Plot Time Series states
-            xyDataOptions: null,
-            tsDataRaw: null,
-            tsDataNormalized: true,
-            tsDataDisplayOutageBands: true,
-            // Table Pagination
-            eventTablePageNumber: 0,
-            alertTablePageNumber: 0,
-            // Event/Table Data
-            currentTable: 'alert',
-            eventDataRaw: null,
-            eventDataProcessed: [],
-            alertDataRaw: null,
-            alertDataProcessed: [],
-            // relatedTo entity Map
-            topoData: null,
-            relatedToMapSummary: null,
-            // relatedTo entity Table
-            relatedToTableApiPageNumber: 0,
-            relatedToTableSummary: null,
-            relatedToTableSummaryProcessed: null,
-            relatedToTablePageNumber: 0,
-            // Modal window display status
-            showMapModal: false,
-            showTableModal: false,
-            // Signals Modal Table on Map Panel
-            regionalSignalsTableSummaryData: [],
-            regionalSignalsTableSummaryDataProcessed: [],
-            regionalSignalsTableTotalCount: 0,
-            // Signals Modal Table on Table Panel
-            asnSignalsTableSummaryData: [],
-            asnSignalsTableSummaryDataProcessed: [],
-            asnSignalsTableTotalCount: 0,
-            // Stacked Horizon Visual on Region Map Panel
-            rawRegionalSignalsRawBgp: [],
-            rawRegionalSignalsRawPingSlash24: [],
-            rawRegionalSignalsRawUcsdNt: [],
-            rawRegionalSignalsProcessedBgp: null,
-            rawRegionalSignalsProcessedPingSlash24: null,
-            rawRegionalSignalsProcessedUcsdNt: null,
-            // Stacked Horizon Visual on ASN Table Panel
-            rawAsnSignalsRawBgp: [],
-            rawAsnSignalsRawPingSlash24: [],
-            rawAsnSignalsRawUcsdNt: [],
-            rawAsnSignalsProcessedBgp: null,
-            rawAsnSignalsProcessedPingSlash24: null,
-            rawAsnSignalsProcessedUcsdNt: null,
-            rawAsnSignalsLoadedBgp: true,
-            rawAsnSignalsLoadedPingSlash24: true,
-            rawAsnSignalsLoadedUcsdNt: true,
-            rawRegionalSignalsLoadedBgp: true,
-            rawRegionalSignalsLoadedPingSlash24: true,
-            rawRegionalSignalsLoadedUcsdNt: true,
-            rawRegionalSignalsLoadAllButtonClicked: false,
-            rawAsnSignalsLoadAllButtonClicked: false,
-        }, () => {
-            this.componentDidMount();
-        });
+        this.handleStateReset("newEntity", null);
     }
 
 
