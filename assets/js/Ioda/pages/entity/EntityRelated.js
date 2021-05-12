@@ -48,7 +48,7 @@ class EntityRelated extends Component {
                                 // data that draws polygons on map
                                 summaryDataMapRaw={this.props.summaryDataMapRaw}
                                 // render function that populates the ui
-                                genRegionalSignalsTable={this.props.genRegionalSignalsTable}
+                                genSignalsTable={(entityType) => this.props.genSignalsTable(entityType)}
                                 // check max and uncheck all button functionality
                                 handleSelectAndDeselectAllButtons={(event) => this.props.handleSelectAndDeselectAllButtons(event)}
                                 // Current number of entities checked in table
@@ -110,7 +110,7 @@ class EntityRelated extends Component {
                                 // tracking when the close button is clicked
                                 toggleModal={this.props.toggleModal}
                                 // render function that populates the ui
-                                genSignalsTable={() => this.props.genAsnSignalsTable()}
+                                genSignalsTable={(entityType) => this.props.genSignalsTable(entityType)}
                                 // render function that populate the ui
                                 populateHtsChart={(width, dataSource, entityType) => this.props.populateHtsChart(width, dataSource, entityType)}
                                 // data for each horizon time series

@@ -109,7 +109,7 @@ class Modal extends Component {
                                         <div className="modal__table">
                                             {
                                                 this.props.regionalSignalsTableSummaryDataProcessed.length ?
-                                                this.props.genRegionalSignalsTable() : <Loading/>
+                                                this.props.genSignalsTable("region") : <Loading/>
                                             }
                                         </div>
                                         <h3 className="heading-h3">{regionalMapTitle}</h3>
@@ -199,7 +199,7 @@ class Modal extends Component {
                                         <div className="modal__table">
                                             {
                                                 this.props.asnSignalsTableSummaryDataProcessed.length ?
-                                                this.props.genSignalsTable() : <Loading/>
+                                                this.props.genSignalsTable("asn") : <Loading/>
                                             }
                                         </div>
                                     </div>

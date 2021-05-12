@@ -207,7 +207,6 @@ class Entity extends Component {
 
         // After API call for Alert Table data completes, check for lengths to set display counts and then process to populate
         if (this.props.alerts !== prevProps.alerts) {
-            console.log("updated");
             this.setState({
                 alertDataRaw: this.props.alerts
             }, () => {
@@ -245,7 +244,7 @@ class Entity extends Component {
             this.setState({
                 regionalSignalsTableSummaryData: this.props.regionalSignalsTableSummaryData
             }, () => {
-                this.combineValuesForRegionalSignalsTable();
+                this.combineValuesForSignalsTable("region");
             })
         }
 
@@ -253,7 +252,7 @@ class Entity extends Component {
             this.setState({
                 asnSignalsTableSummaryData: this.props.asnSignalsTableSummaryData
             }, () => {
-                this.combineValuesForAsnSignalsTable();
+                this.combineValuesForSignalsTable("asn");
             })
         }
 
@@ -901,8 +900,7 @@ class Entity extends Component {
             relatedToTableSummary={this.state.relatedToTableSummary}
             populateGeoJsonMap={() => this.populateGeoJsonMap()}
             genSummaryTable={() => this.genSummaryTable()}
-            genRegionalSignalsTable={() => this.genRegionalSignalsTable()}
-            genAsnSignalsTable={() => this.genAsnSignalsTable()}
+            genSignalsTable={(entityType) => this.genSignalsTable(entityType)}
             handleSelectAndDeselectAllButtons={(event) => this.handleSelectAndDeselectAllButtons(event)}
             // Regional HTS methods
             regionalSignalsTableEntitiesChecked={this.state.regionalSignalsTableEntitiesChecked}
@@ -1181,126 +1179,127 @@ class Entity extends Component {
         });
     }
 
-// Map Modal
-    // Table displaying all regions regardless of score
-    combineValuesForRegionalSignalsTable() {
-        if (this.state.summaryDataMapRaw && this.state.regionalSignalsTableSummaryData) {
-            let signalsTableData = combineValuesForSignalsTable(this.state.summaryDataMapRaw, this.state.regionalSignalsTableSummaryData, this.initialHtsLimit);
-            this.setState({
-                regionalSignalsTableSummaryDataProcessed: signalsTableData,
-                regionalSignalsTableTotalCount: signalsTableData.length
-            }, () => {
-                // Get data for Stacked horizon series raw signals with all regions if data is not yet available
-                this.getRegionalSignalsHtsDataEvents("region", "ping-slash24");
-                this.getRegionalSignalsHtsDataEvents("region", "bgp");
-                this.getRegionalSignalsHtsDataEvents("region", "ucsd-nt");
-            })
-        }
-    }
-    genRegionalSignalsTable() {
-        if (this.state.regionalSignalsTableSummaryDataProcessed) {
-            return (
-                this.state.regionalSignalsTableSummaryDataProcessed && <Table
-                    type="signal"
-                    data={this.state.regionalSignalsTableSummaryDataProcessed}
-                    totalCount={this.state.regionalSignalsTableSummaryDataProcessed.length}
-                    toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInHtsViz(event, "region")}
-                    handleEntityClick={() => this.handleEntityClick()}
-                />
-            )
-        }
-    }
-
-    // Time Series for displaying regional signals
-    getRegionalSignalsHtsDataEvents(entityType, dataSource) {
-        let until = this.state.until;
-        let from = this.state.from;
-        let attr = this.state.eventOrderByAttr;
-        let order = this.state.eventOrderByOrder;
-        let entities = this.state.regionalSignalsTableSummaryDataProcessed.map(entity => {
-            // some entities don't return a code to be used in an api call, seem to default to '??' in that event
-            if (entity.code !== "??") {
-                return entity.entityCode;
-            }
-        }).toString();
-        switch (dataSource) {
-            case "ping-slash24":
-                this.props.getRawRegionalSignalsPingSlash24Action(entityType, entities, from, until, attr, order, dataSource);
-                break;
-            case "bgp":
-                this.props.getRawRegionalSignalsBgpAction(entityType, entities, from, until, attr, order, dataSource);
-                break;
-            case "ucsd-nt":
-                this.props.getRawRegionalSignalsUcsdNtAction(entityType, entities, from, until, attr, order, dataSource);
-                break;
-        }
-    }
-
-
-// Table Modal
-    // Table displaying all ASes regardless of score
-    combineValuesForAsnSignalsTable() {
-        if (this.state.relatedToTableSummary && this.state.asnSignalsTableSummaryData) {
-            let signalsTableData = combineValuesForSignalsTable(this.state.relatedToTableSummary, this.state.asnSignalsTableSummaryData, this.initialHtsLimit);
-            this.setState({
-                asnSignalsTableSummaryDataProcessed: signalsTableData.slice(0, this.initialTableLimit),
-                asnSignalsTableTotalCount: signalsTableData.length
-            }, () => {
-                this.genAsnSignalsTable();
-                // Populate Stacked horizon graph with all regions
-                if (this.state.entityType !== 'asn') {
-                    this.getAsnSignalsHtsDataEvents("asn", "ping-slash24");
-                    this.getAsnSignalsHtsDataEvents("asn", "ucsd-nt");
-                    this.getAsnSignalsHtsDataEvents("asn", "bgp");
-                } else {
-                    this.getAsnSignalsHtsDataEvents("country", "ping-slash24");
-                    this.getAsnSignalsHtsDataEvents("country", "ucsd-nt");
-                    this.getAsnSignalsHtsDataEvents("country", "bgp");
-                }
-            })
-        }
-    }
-    genAsnSignalsTable() {
-        return (
-            this.state.asnSignalsTableSummaryDataProcessed &&
-            <Table
-                type="signal"
-                data={this.state.asnSignalsTableSummaryDataProcessed}
-                totalCount={this.state.asnSignalsTableTotalCount}
-                entityType={this.state.entityType === "asn" ? "country" : "asn"}
-                toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInHtsViz(event, "asn")}
-                handleEntityClick={() => this.handleEntityClick()}
-            />
-        )
-    }
-
-    // Time Series for displaying ASN signals
-    getAsnSignalsHtsDataEvents(entityType, dataSource) {
-        let until = this.state.until;
-        let from = this.state.from;
-        let attr = this.state.eventOrderByAttr;
-        let order = this.state.eventOrderByOrder;
-        let entities = this.state.asnSignalsTableSummaryDataProcessed.map(entity => {
-            // some entities don't return a code to be used in an api call, seem to default to '??' in that event
-            if (entity.code !== "??") {
-                return entity.entityCode;
-            }
-        }).toString();
-        switch (dataSource) {
-            case "ping-slash24":
-                this.props.getRawAsnSignalsPingSlash24Action(entityType, entities, from, until, attr, order, dataSource);
-                break;
-            case "bgp":
-                this.props.getRawAsnSignalsBgpAction(entityType, entities, from, until, attr, order, dataSource);
-                break;
-            case "ucsd-nt":
-                this.props.getRawAsnSignalsUcsdNtAction(entityType, entities, from, until, attr, order, dataSource);
-                break;
-        }
-    }
-
 
 // Modal Shared
+    // Display the table in the UI if the data is available
+    genSignalsTable(entityType) {
+        switch (entityType) {
+            case "region":
+                return (
+                    this.state.regionalSignalsTableSummaryDataProcessed &&
+                    <Table
+                        type="signal"
+                        data={this.state.regionalSignalsTableSummaryDataProcessed}
+                        totalCount={this.state.regionalSignalsTableSummaryDataProcessed.length}
+                        toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInHtsViz(event, "region")}
+                        handleEntityClick={() => this.handleEntityClick()}
+                    />
+                );
+            case "asn":
+                return (
+                    this.state.asnSignalsTableSummaryDataProcessed &&
+                    <Table
+                        type="signal"
+                        data={this.state.asnSignalsTableSummaryDataProcessed}
+                        totalCount={this.state.asnSignalsTableTotalCount}
+                        entityType={this.state.entityType === "asn" ? "country" : "asn"}
+                        toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInHtsViz(event, "asn")}
+                        handleEntityClick={() => this.handleEntityClick()}
+                    />
+                );
+        }
+    }
+    // Make API call that gets raw signals for a group of entities
+    getSignalsHtsDataEvents(entityType, dataSource) {
+        let until = this.state.until;
+        let from = this.state.from;
+        let attr = null;
+        let order = this.state.eventOrderByOrder;
+        let entities;
+
+        switch (entityType) {
+            case "region":
+                entities = this.state.regionalSignalsTableSummaryDataProcessed.map(entity => {
+                    // some entities don't return a code to be used in an api call, seem to default to '??' in that event
+                    if (entity.code !== "??") {
+                        return entity.entityCode;
+                    }
+                }).toString();
+                switch (dataSource) {
+                    case "ping-slash24":
+                        this.props.getRawRegionalSignalsPingSlash24Action(entityType, entities, from, until, attr=null, order, dataSource);
+                        break;
+                    case "bgp":
+                        this.props.getRawRegionalSignalsBgpAction(entityType, entities, from, until, attr, order, dataSource);
+                        break;
+                    case "ucsd-nt":
+                        this.props.getRawRegionalSignalsUcsdNtAction(entityType, entities, from, until, attr, order, dataSource);
+                        break;
+                }
+                break;
+            case "asn":
+            case "country":
+                entities = this.state.asnSignalsTableSummaryDataProcessed.map(entity => {
+                    // some entities don't return a code to be used in an api call, seem to default to '??' in that event
+                    if (entity.code !== "??") {
+                        return entity.entityCode;
+                    }
+                }).toString();
+                switch (dataSource) {
+                    case "ping-slash24":
+                        this.props.getRawAsnSignalsPingSlash24Action(entityType, entities, from, until, attr, order, dataSource);
+                        break;
+                    case "bgp":
+                        this.props.getRawAsnSignalsBgpAction(entityType, entities, from, until, attr, order, dataSource);
+                        break;
+                    case "ucsd-nt":
+                        this.props.getRawAsnSignalsUcsdNtAction(entityType, entities, from, until, attr, order, dataSource);
+                        break;
+                }
+                break;
+        }
+
+
+    }
+    // Combine summary outage data with other raw signal data for populating Raw Signal Table
+    combineValuesForSignalsTable(entityType) {
+        switch (entityType) {
+            case "region":
+                if (this.state.summaryDataMapRaw && this.state.regionalSignalsTableSummaryData) {
+                    let signalsTableData = combineValuesForSignalsTable(this.state.summaryDataMapRaw, this.state.regionalSignalsTableSummaryData, this.initialHtsLimit);
+                    this.setState({
+                        regionalSignalsTableSummaryDataProcessed: signalsTableData,
+                        regionalSignalsTableTotalCount: signalsTableData.length
+                    }, () => {
+                        // Get data for Stacked horizon series raw signals with all regions if data is not yet available
+                        this.getSignalsHtsDataEvents("region", "ping-slash24");
+                        this.getSignalsHtsDataEvents("region", "bgp");
+                        this.getSignalsHtsDataEvents("region", "ucsd-nt");
+                    })
+                }
+                break;
+            case "asn":
+                if (this.state.relatedToTableSummary && this.state.asnSignalsTableSummaryData) {
+                    let signalsTableData = combineValuesForSignalsTable(this.state.relatedToTableSummary, this.state.asnSignalsTableSummaryData, this.initialHtsLimit);
+                    this.setState({
+                        asnSignalsTableSummaryDataProcessed: signalsTableData.slice(0, this.initialTableLimit),
+                        asnSignalsTableTotalCount: signalsTableData.length
+                    }, () => {
+                        // Populate Stacked horizon graph with all regions
+                        if (this.state.entityType !== 'asn') {
+                            this.getSignalsHtsDataEvents("asn", "ping-slash24");
+                            this.getSignalsHtsDataEvents("asn", "ucsd-nt");
+                            this.getSignalsHtsDataEvents("asn", "bgp");
+                        } else {
+                            this.getSignalsHtsDataEvents("country", "ping-slash24");
+                            this.getSignalsHtsDataEvents("country", "ucsd-nt");
+                            this.getSignalsHtsDataEvents("country", "bgp");
+                        }
+                    })
+                }
+                break;
+        }
+    }
     // function that decides what data will populate in the horizon time series
     convertValuesForHtsViz(dataSource, entityType) {
         let visibilityChecked = [];
@@ -1417,6 +1416,7 @@ class Entity extends Component {
                 break;
         }
     }
+    // Display the horizon time series in the UI if the data is available
     populateHtsChart(width, dataSource, entityType) {
         // set variables
         let dataSourceForCSS, rawSignalsLoadedBoolean, rawSignalsProcessedArray;
@@ -1461,8 +1461,6 @@ class Entity extends Component {
                 }
                 break;
         }
-
-
 
         // set state to track loading status
         if (rawSignalsProcessedArray && rawSignalsLoadedBoolean) {
@@ -1514,6 +1512,7 @@ class Entity extends Component {
                 .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
         }
     }
+    // function to manage what happens when a checkbox is changed in the raw signals table
     toggleEntityVisibilityInHtsViz(event, entityType) {
         let indexValue = 0;
         let signalsTableSummaryDataProcessed;
@@ -1619,6 +1618,7 @@ class Entity extends Component {
             }
         }
     }
+    // function to manage what happens when the select max/uncheck all buttons are clicked
     handleSelectAndDeselectAllButtons(event) {
         if (event.target.name === "checkMaxRegional") {
             let regionalSignalsTableSummaryDataProcessed = this.state.regionalSignalsTableSummaryDataProcessed;
@@ -1694,6 +1694,7 @@ class Entity extends Component {
             });
         }
     }
+    // function to manage what happens when the load all entities button is clicked
     handleLoadAllEntitiesButton(event) {
 
         if (event.target.name === 'regionLoadAllEntities') {
@@ -1702,7 +1703,7 @@ class Entity extends Component {
                 regionalSignalsTableSummaryDataProcessed: this.state.regionalSignalsTableSummaryDataProcessed.concat(signalsTableData.slice(this.initialTableLimit)),
                 regionalRawSignalsLoadAllButtonClicked: true
             }, () => {
-                this.genRegionalSignalsTable();
+                this.genSignalsTable("region");
             });
         }
 
@@ -1712,7 +1713,7 @@ class Entity extends Component {
                 asnSignalsTableSummaryDataProcessed: this.state.asnSignalsTableSummaryDataProcessed.concat(signalsTableData.slice(this.initialTableLimit)),
                 asnRawSignalsLoadAllButtonClicked: true
             }, () => {
-                this.genAsnSignalsTable();
+                this.genSignalsTable("asn");
             })
         }
     }
