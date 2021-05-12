@@ -984,7 +984,6 @@ class Entity extends Component {
                 let topoItemIndex = this.state.topoData.features.findIndex(topoItem => topoItem.properties.name === outage.entity.name);
 
                 if (topoItemIndex > 0) {
-                    console.log(outage);
                     let item = topoData.features[topoItemIndex];
                     item.properties.score = outage.scores.overall;
                     topoData.features[topoItemIndex] = item;

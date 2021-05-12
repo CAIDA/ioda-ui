@@ -57,7 +57,6 @@ class TopoMap extends Component {
     };
 
     clickFeature = (feature) => {
-        console.log(feature);
         this.props.handleEntityShapeClick(feature);
     };
 
