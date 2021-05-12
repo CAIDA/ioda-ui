@@ -79,6 +79,8 @@ class SummaryTableRow extends Component {
         let overallScore = humanizeNumber(this.props.data.score, 2);
         const dataSourceHeading = T.translate("table.scoresTable.dataSourceHeading");
         const scoreHeading = T.translate("table.scoresTable.scoreHeading");
+        const entityCode = this.props.data.entityCode;
+        const entityType = this.props.data.entityType;
 
         return(
             <tr
@@ -98,10 +100,10 @@ class SummaryTableRow extends Component {
                     <Link className="table__cell-link"
                           to={
                               window.location.search.split("?")[1]
-                                  ? `/${this.props.data.entityType}/${this.props.data.entityCode}?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
-                                  : `/${this.props.data.entityType}/${this.props.data.entityCode}`
+                                  ? `/${entityType}/${entityCode}?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
+                                  : `/${entityType}/${entityCode}`
                           }
-                          onClick={() => this.props.handleEntityClick()}
+                          onClick={() => this.props.handleEntityClick(this.props.data.entityType, this.props.data.entityCode)}
                     >
                         {this.props.data.name}
                     </Link>

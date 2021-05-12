@@ -445,7 +445,7 @@ class Table extends Component {
                                     type === "summary" && this.props.data.map(summary => {
                                         return <SummaryTableRow key={generateKeys('summary')}
                                                                 type={this.props.type} entityType={this.props.entityType}
-                                                                data={summary} handleEntityClick={() => this.props.handleEntityClick()}
+                                                                data={summary} handleEntityClick={(entityType, entityCode) => this.props.handleEntityClick(entityType, entityCode)}
                                         />
                                     })
                                 }
@@ -454,7 +454,7 @@ class Table extends Component {
                                         return <SignalTableRow key={generateKeys('signal')} type={this.props.type}
                                                                entityType={this.props.entityType} data={signal}
                                                                toggleEntityVisibilityInHtsViz={event => this.props.toggleEntityVisibilityInHtsViz(event)}
-                                                               handleEntityClick={() => this.props.handleEntityClick()}
+                                                               handleEntityClick={(entityType, entityCode) => this.props.handleEntityClick(entityType, entityCode)}
                                         />
 
                                     })
