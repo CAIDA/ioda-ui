@@ -560,7 +560,7 @@ class Entity extends Component {
             // Set searchTerm to the value of nextProps, nextProps refers to the current search string value in the field.
             this.setState({ searchTerm: searchTerm });
             // Make api call
-            if (searchTerm.length >= 2 && (new Date() - new Date(this.state.lastFetched)) > 300) {
+            if (searchTerm.length >= 2 && (new Date() - new Date(this.state.lastFetched)) > 0) {
                 this.setState({
                     lastFetched: Date.now()
                 }, () => {
@@ -1139,7 +1139,6 @@ class Entity extends Component {
     }
     // function to manage what happens when a linked entity in the table is clicked
     handleEntityClick(entityType, entityCode) {
-        console.log(entityType, entityCode);
         this.handleStateReset("newEntity", null, entityType, entityCode);
     }
 
