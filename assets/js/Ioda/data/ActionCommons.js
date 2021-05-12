@@ -73,29 +73,6 @@ export const fetchData = (config) => {
         url: concatURL
     });
 
-    // let token;
-    // return async (configHeader) => {
-    //     // Check if we made a request
-    //     if(token){
-    //         // Cancel the previous request before making a new request
-    //         token.cancel()
-    //     }
-    //     // Create a new CancelToken
-    //     token = axios.CancelToken.source();
-    //     try{
-    //         const res = await axios(configHeader, {cancelToken: cancel.token});
-    //         return res.data.data;
-    //     } catch(error) {
-    //         if(axios.isCancel(error)) {
-    //             // Handle if request was cancelled
-    //             console.log('Request canceled', error.message);
-    //         } else {
-    //             // Handle usual errors
-    //             console.log('Something went wrong: ', error.message)
-    //         }
-    //     }
-    // }
-
     return axios(configHeader)
         .then(response => {
             return Promise.resolve(response);
@@ -106,16 +83,4 @@ export const fetchData = (config) => {
         .catch(error => {
             return Promise.reject(error);
         });
-
-
-    // return axios(configHeader)
-    //     .then(response => {
-    //         return Promise.resolve(response);
-    //     })
-    //     .then(response => {
-    //         return response;
-    //     })
-    //     .catch(error => {
-    //         return Promise.reject(error);
-    //     });
 };
