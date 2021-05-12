@@ -408,11 +408,6 @@ class Entity extends Component {
                 this.setState({
                     from: range[0],
                     until: range[1],
-                    entityType: window.location.pathname.split("/")[1],
-                    entityCode: window.location.pathname.split("/")[2],
-                    entityName: "",
-                    parentEntityName: "",
-                    parentEntityCode: "",
                     // XY Plot Time Series states
                     xyDataOptions: null,
                     tsDataRaw: null,
