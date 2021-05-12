@@ -20,7 +20,7 @@ class TopoMap extends Component {
         layer.on({
             mouseover: (e) => this.mouseOverFeature(e, feature),
             mouseout: (e) => this.mouseOutFeature(e),
-            click: (e) => this.clickFeature(e, feature)
+            click: () => this.clickFeature(feature)
         });
     };
 
@@ -56,11 +56,9 @@ class TopoMap extends Component {
         })
     };
 
-    clickFeature = (e, feature) => {
-      console.log(feature.properties.usercode);
-        this.props.handleEntityClick(feature.properties.usercode);
+    clickFeature = (feature) => {
+        this.props.handleEntityShapeClick(feature.properties.usercode);
     };
-
 
     render() {
         let { scores } = this.props;

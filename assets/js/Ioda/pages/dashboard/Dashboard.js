@@ -80,7 +80,7 @@ class Dashboard extends Component {
         this.regionTab = T.translate("dashboard.regionTabTitle");
         this.asTab = T.translate("dashboard.asnTabTitle");
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
-        this.handleEntityClick = this.handleEntityClick.bind(this);
+        this.handleEntityShapeClick = this.handleEntityShapeClick.bind(this);
         this.apiQueryLimit = 170;
     }
 
@@ -349,7 +349,7 @@ class Dashboard extends Component {
                     });
                 }
             });
-            return <TopoMap topoData={topoData} scores={scores} handleEntityClick={this.handleEntityClick}/>;
+            return <TopoMap topoData={topoData} scores={scores} handleEntityShapeClick={this.handleEntityShapeClick}/>;
         }
 
     }
@@ -360,7 +360,7 @@ class Dashboard extends Component {
         }
     }
     // function to manage when a user clicks a country in the map
-    handleEntityClick(entity) {
+    handleEntityShapeClick(entity) {
         const { history } = this.props;
         history.push(
             window.location.search.split("?")[1]
