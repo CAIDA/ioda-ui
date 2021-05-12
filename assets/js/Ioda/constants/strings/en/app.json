@@ -73,7 +73,7 @@
     "regionTitle": "Regional Raw Signals related to ",
     "regionalTableTitle": "Regional Raw Signals",
     "regionalMapTitle": "Map of Regional Outages",
-    "noOutagesOnMapMessage": "No Outages to display",
+    "noOutagesOnMapMessage": "No Regional Outages Detected",
     "checkMaxButton": "Check Max (150)",
     "uncheckAllButton": "Uncheck All",
     "loadRemainingEntities1": "Number of",

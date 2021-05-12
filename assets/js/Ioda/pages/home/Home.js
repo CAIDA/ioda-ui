@@ -193,8 +193,8 @@ class Home extends Component {
         const { history } = this.props;
         history.push(
             window.location.search.split("?")[1]
-                ? `/country/${entity}?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
-                : `/country/${entity}`
+                ? `/country/${entity.properties.usercode}?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
+                : `/country/${entity.properties.usercode}`
         );
     }
     // Reset searchbar with searchterm value when a selection is made, no customizations needed here.

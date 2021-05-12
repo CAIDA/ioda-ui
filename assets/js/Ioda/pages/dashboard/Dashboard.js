@@ -362,11 +362,17 @@ class Dashboard extends Component {
     // function to manage when a user clicks a country in the map
     handleEntityShapeClick(entity) {
         const { history } = this.props;
-        history.push(
+        this.state.tabCurrentView === 'country'
+            ? history.push(
             window.location.search.split("?")[1]
-                ? `/country/${entity}?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
-                : `/country/${entity}`
-        );
+                ? `/country/${entity.properties.usercode}?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
+                : `/country/${entity.properties.usercode}`
+            ) :
+            history.push(
+                window.location.search.split("?")[1]
+                    ? `/region/${entity.properties.id}?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
+                    : `/region/${entity.properties.id}`
+            )
     }
 
 // Event Time Series
