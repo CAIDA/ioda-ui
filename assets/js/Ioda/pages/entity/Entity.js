@@ -1105,6 +1105,7 @@ class Entity extends Component {
             />
         )
     }
+    // function to manage what happens when a linked enity in the table is clicked
     handleEntityClick() {
         this.setState({
             mounted: false,
@@ -1178,7 +1179,7 @@ class Entity extends Component {
     }
 
 
-// Modal Shared
+// Modal Windows
     // Display the table in the UI if the data is available
     genSignalsTable(entityType) {
         switch (entityType) {
