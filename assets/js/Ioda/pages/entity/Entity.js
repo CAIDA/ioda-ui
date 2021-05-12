@@ -132,6 +132,7 @@ class Entity extends Component {
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
+        this.handleEntityShapeClick = this.handleEntityShapeClick.bind(this);
         this.initialTableLimit = 300;
         this.initialHtsLimit = 100;
         this.maxHtsLimit = 150;
@@ -978,7 +979,6 @@ class Entity extends Component {
             let scores = [];
             let outageCoords;
 
-
             // get Topographic info for a country if it has outages
             this.state.summaryDataMapRaw.map(outage => {
                 let topoItemIndex = this.state.topoData.features.findIndex(topoItem => topoItem.properties.name === outage.entity.name);
@@ -1001,10 +1001,11 @@ class Entity extends Component {
                 outageCoords = getOutageCoords(features);
             }
 
-            return <TopoMap topoData={topoData} bounds={outageCoords} scores={scores}/>;
+            return <TopoMap topoData={topoData} bounds={outageCoords} scores={scores} handleEntityShapeClick={this.handleEntityShapeClick}/>;
         } else if (this.state.summaryDataMapRaw && this.state.summaryDataMapRaw.length === 0) {
+            const noOutagesOnMapMessage = T.translate("entityModal.noOutagesOnMapMessage");
             return <div className="related__no-outages">
-                <h2 className="related__no-outages-title">No Regional Outages Detected</h2>
+                <h2 className="related__no-outages-title">{noOutagesOnMapMessage}</h2>
             </div>
         } else {
             return <Loading/>
@@ -1037,6 +1038,83 @@ class Entity extends Component {
             // console.log(entityType, relatedToEntityType, relatedToEntityCode);
             this.props.searchRelatedToMapSummary(from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetadata);
         }
+    }
+    // function to manage when a user clicks a country in the map
+    handleEntityShapeClick(entity) {
+        const { history } = this.props;
+        history.push(
+            window.location.search.split("?")[1]
+                ? `/region/${entity.properties.id}?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
+                : `/region/${entity.properties.id}`
+        );
+        this.setState({
+            mounted: false,
+            entityType: window.location.pathname.split("/")[1],
+            entityCode: window.location.pathname.split("/")[2],
+            entityName: "",
+            parentEntityName: "",
+            parentEntityCode: "",
+            // Search Bar
+            suggestedSearchResults: null,
+            searchTerm: null,
+            // XY Plot Time Series states
+            xyDataOptions: null,
+            tsDataRaw: null,
+            tsDataNormalized: true,
+            tsDataDisplayOutageBands: true,
+            // Table Pagination
+            eventTablePageNumber: 0,
+            alertTablePageNumber: 0,
+            // Event/Table Data
+            currentTable: 'alert',
+            eventDataRaw: null,
+            eventDataProcessed: [],
+            alertDataRaw: null,
+            alertDataProcessed: [],
+            // relatedTo entity Map
+            topoData: null,
+            relatedToMapSummary: null,
+            // relatedTo entity Table
+            relatedToTableApiPageNumber: 0,
+            relatedToTableSummary: null,
+            relatedToTableSummaryProcessed: null,
+            relatedToTablePageNumber: 0,
+            // Modal window display status
+            showMapModal: false,
+            showTableModal: false,
+            // Signals Modal Table on Map Panel
+            regionalSignalsTableSummaryData: [],
+            regionalSignalsTableSummaryDataProcessed: [],
+            regionalSignalsTableTotalCount: 0,
+            // Signals Modal Table on Table Panel
+            asnSignalsTableSummaryData: [],
+            asnSignalsTableSummaryDataProcessed: [],
+            asnSignalsTableTotalCount: 0,
+            // Stacked Horizon Visual on Region Map Panel
+            rawRegionalSignalsRawBgp: [],
+            rawRegionalSignalsRawPingSlash24: [],
+            rawRegionalSignalsRawUcsdNt: [],
+            rawRegionalSignalsProcessedBgp: null,
+            rawRegionalSignalsProcessedPingSlash24: null,
+            rawRegionalSignalsProcessedUcsdNt: null,
+            // Stacked Horizon Visual on ASN Table Panel
+            rawAsnSignalsRawBgp: [],
+            rawAsnSignalsRawPingSlash24: [],
+            rawAsnSignalsRawUcsdNt: [],
+            rawAsnSignalsProcessedBgp: null,
+            rawAsnSignalsProcessedPingSlash24: null,
+            rawAsnSignalsProcessedUcsdNt: null,
+            rawAsnSignalsLoadedBgp: true,
+            rawAsnSignalsLoadedPingSlash24: true,
+            rawAsnSignalsLoadedUcsdNt: true,
+            rawAsnSignalsLoadAllButtonClicked: false,
+            rawRegionalSignalsLoadedBgp: true,
+            rawRegionalSignalsLoadedPingSlash24: true,
+            rawRegionalSignalsLoadedUcsdNt: true,
+            rawRegionalSignalsLoadAllButtonClicked: false,
+        }, () => {
+            this.componentDidMount();
+        });
     }
 
 // Summary Table for related ASNs
@@ -1105,6 +1183,7 @@ class Entity extends Component {
             />
         )
     }
+    // function to manage what happens when a linked enity in the table is clicked
     handleEntityClick() {
         this.setState({
             mounted: false,
@@ -1178,7 +1257,7 @@ class Entity extends Component {
     }
 
 
-// Modal Shared
+// Modal Windows
     // Display the table in the UI if the data is available
     genSignalsTable(entityType) {
         switch (entityType) {

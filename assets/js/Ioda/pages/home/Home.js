@@ -79,6 +79,7 @@ class Home extends Component {
             topoData: null,
             outageSummaryData: null
         };
+        this.handleEntityShapeClick = this.handleEntityShapeClick.bind(this);
     }
 
     componentDidMount() {
@@ -152,7 +153,7 @@ class Home extends Component {
                 }
             });
 
-            return <TopoMap topoData={topoData} scores={scores}/>;
+            return <TopoMap topoData={topoData} scores={scores} handleEntityShapeClick={this.handleEntityShapeClick}/>;
 
         }
     }
@@ -187,6 +188,15 @@ class Home extends Component {
         });
         history.push(`/${entity[0].type}/${entity[0].code}`);
     };
+    // function to manage when a user clicks a country in the map
+    handleEntityShapeClick(entity) {
+        const { history } = this.props;
+        history.push(
+            window.location.search.split("?")[1]
+                ? `/country/${entity.properties.usercode}?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
+                : `/country/${entity.properties.usercode}`
+        );
+    }
     // Reset searchbar with searchterm value when a selection is made, no customizations needed here.
     handleQueryUpdate = (query) => {
         this.forceUpdate();

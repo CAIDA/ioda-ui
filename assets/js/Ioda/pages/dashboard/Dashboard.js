@@ -80,6 +80,7 @@ class Dashboard extends Component {
         this.regionTab = T.translate("dashboard.regionTabTitle");
         this.asTab = T.translate("dashboard.asnTabTitle");
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
+        this.handleEntityShapeClick = this.handleEntityShapeClick.bind(this);
         this.apiQueryLimit = 170;
     }
 
@@ -192,14 +193,7 @@ class Dashboard extends Component {
             this.setState(prevState => ({
                 eventDataRaw: [...prevState.eventDataRaw, newEventData]
             }), () => {
-                console.log(this.state.eventDataRaw);
                 this.convertValuesForHtsViz();
-
-                // Use summary entities to populate time series chart
-                // const result = this.state.eventDataRaw;
-                // if (Object.keys(result).length === this.state.summaryDataRaw.length) {
-                //     this.convertValuesForHtsViz();
-                // }
             });
         }
     }
@@ -355,7 +349,7 @@ class Dashboard extends Component {
                     });
                 }
             });
-            return <TopoMap topoData={topoData} scores={scores}/>;
+            return <TopoMap topoData={topoData} scores={scores} handleEntityShapeClick={this.handleEntityShapeClick}/>;
         }
 
     }
@@ -364,6 +358,21 @@ class Dashboard extends Component {
         if (this.state.mounted) {
             this.props.getTopoAction(entityType);
         }
+    }
+    // function to manage when a user clicks a country in the map
+    handleEntityShapeClick(entity) {
+        const { history } = this.props;
+        this.state.tabCurrentView === 'country'
+            ? history.push(
+            window.location.search.split("?")[1]
+                ? `/country/${entity.properties.usercode}?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
+                : `/country/${entity.properties.usercode}`
+            ) :
+            history.push(
+                window.location.search.split("?")[1]
+                    ? `/region/${entity.properties.id}?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
+                    : `/region/${entity.properties.id}`
+            )
     }
 
 // Event Time Series

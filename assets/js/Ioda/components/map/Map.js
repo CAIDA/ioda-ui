@@ -19,29 +19,28 @@ class TopoMap extends Component {
     onEachFeature = (feature, layer) => {
         layer.on({
             mouseover: (e) => this.mouseOverFeature(e, feature),
-            mouseout: (e) => this.mouseOutFeature(e)
+            mouseout: (e) => this.mouseOutFeature(e),
+            click: () => this.clickFeature(feature)
         });
     };
 
     mouseOverFeature = (e, feature) => {
-        if (feature.properties.score > 0) {
-            this.setState({
-                hoverName: feature.properties.name,
-                hoverScore: humanizeNumber(feature.properties.score),
-                hoverTooltipDisplay: true
-            }, () => {
-                if (e.target.options && e.target.options.fillColor) {
-                    let hoverColor = shadeColor(e.target.options.fillColor, -10);
-                    e.target.setStyle({
-                        fillColor: hoverColor,
-                        color: '#fff',
-                        fillOpacity: 0.4,
-                        weight: 3,
-                        dashArray: '2'
-                    });
-                }
-            })
-        }
+        this.setState({
+            hoverName: feature.properties.name,
+            hoverScore: humanizeNumber(feature.properties.score),
+            hoverTooltipDisplay: true
+        }, () => {
+            if (e.target.options && e.target.options.fillColor) {
+                let hoverColor = shadeColor(e.target.options.fillColor, -10);
+                e.target.setStyle({
+                    fillColor: hoverColor,
+                    color: '#fff',
+                    fillOpacity: 0.4,
+                    weight: 3,
+                    dashArray: '2'
+                });
+            }
+        })
     };
 
     mouseOutFeature = (e) => {
@@ -55,8 +54,11 @@ class TopoMap extends Component {
             hoverScore: 0,
             hoverTooltipDisplay: false
         })
-    }
+    };
 
+    clickFeature = (feature) => {
+        this.props.handleEntityShapeClick(feature);
+    };
 
     render() {
         let { scores } = this.props;
@@ -70,7 +72,7 @@ class TopoMap extends Component {
         return (
             <div style={{position: 'relative', height: 'inherit', width: '100%'}}>
                 <div className={this.state.hoverTooltipDisplay ? "tooltip tooltip--visible" : "tooltip"}>
-                    <p>{this.state.hoverName} - {this.state.hoverScore}</p>
+                    <p>{this.state.hoverName}{this.state.hoverScore > 0 ? ` - ${this.state.hoverScore}`: null}</p>
                 </div>
                 <Map
                     center={this.props.bounds ? null : position}
