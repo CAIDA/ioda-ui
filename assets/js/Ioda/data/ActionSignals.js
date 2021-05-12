@@ -45,7 +45,8 @@ import {
     GET_RAW_REGIONAL_SIGNALS_UCSDNT,
     GET_RAW_ASN_SIGNALS_PINGSLASH24,
     GET_RAW_ASN_SIGNALS_BGP,
-    GET_RAW_ASN_SIGNALS_UCSDNT
+    GET_RAW_ASN_SIGNALS_UCSDNT,
+    GET_ADDITIONAL_RAW_SIGNAL
 } from "./ActionCommons";
 
 const buildSignalsConfig = (entityType, entityCode, from, until, datasource, maxPoints=null) => {
@@ -145,6 +146,16 @@ export const getRawAsnSignalsUcsdNtAction = (dispatch, entityType, entityCode, f
     fetchData(config).then(data => {
         dispatch({
             type: GET_RAW_ASN_SIGNALS_UCSDNT,
+            payload: data.data.data,
+        })
+    });
+};
+
+export const getAdditionalRawSignalAction = (dispatch, entityType, entityCode, from, until, attr=null, order=null, dataSource, maxPoints=null) => {
+    let config = buildSignalsConfig(entityType, entityCode, from, until, dataSource, maxPoints);
+    fetchData(config).then(data => {
+        dispatch({
+            type: GET_ADDITIONAL_RAW_SIGNAL,
             payload: data.data.data,
         })
     });
