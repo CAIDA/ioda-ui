@@ -165,6 +165,7 @@ class Home extends Component {
             this.props.getTopoAction(entityType);
         }
     }
+
     // get data for search results that populate in suggested search list
     getDataSuggestedSearchResults(searchTerm) {
         if (this.state.mounted) {
@@ -184,7 +185,7 @@ class Home extends Component {
     handleResultClick = (query) => {
         const { history } = this.props;
         const entity = this.state.suggestedSearchResults.filter(result => {
-            return result.name === query;
+            return result.name === query || query.name;
         });
         history.push(`/${entity[0].type}/${entity[0].code}`);
     };

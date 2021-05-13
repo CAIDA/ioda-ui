@@ -438,7 +438,7 @@ class Dashboard extends Component {
     handleResultClick = (query) => {
         const { history } = this.props;
         const entity = this.state.suggestedSearchResults.filter(result => {
-            return result.name === query;
+            return result.name === query || query.name;
         });
         history.push(`/${entity[0].type}/${entity[0].code}`);
     };
