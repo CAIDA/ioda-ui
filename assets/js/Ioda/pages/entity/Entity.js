@@ -1506,7 +1506,7 @@ class Entity extends Component {
                 signalsTableSummaryDataProcessed[indexValue]["visibility"] = !signalsTableSummaryDataProcessed[indexValue]["visibility"];
 
                 // Check if raw signals data is already loaded for particular entity, get it if not
-                if (this.state.asnRawSignalsLoadAllButtonClicked && asnSignalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"] === false) {
+                if (this.state.asnRawSignalsLoadAllButtonClicked && signalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"] === false) {
                     // update property that manages if raw signal data has loaded or not
                     signalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"] = true;
                     // call api for additional data on entity
