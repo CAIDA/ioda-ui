@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import T from 'i18n-react';
 import Loading from "../../components/loading/Loading";
+import LoadingIcon from 'images/icons/icon-loading.png';
 
 class Modal extends Component {
     constructor(props) {
@@ -175,18 +176,27 @@ class Modal extends Component {
                                     <div className="col-1-of-3">
                                         <h3 className="heading-h3">{asnTableTitle}</h3>
                                         {
-                                            this.props.asnRawSignalsLoadAllButtonClicked === false &&
-                                            this.props.asnSignalsTableTotalCount > this.props.initialTableLimit ?
-                                                <p>
+                                            this.props.asnSignalsTableTotalCount > this.props.initialTableLimit && this.props.asnRawSignalsLoadAllButtonClicked === false
+                                                ? <div>
                                                     {loadRemainingEntities1}
                                                     {asnPlural}
                                                     {loadRemainingEntities2}
                                                     <strong>{this.props.initialTableLimit}</strong>
                                                     {loadRemainingEntities3}
-                                                    <button className="modal__text-link" name="asnLoadAllEntities" onClick={event => this.props.handleLoadAllEntitiesButton(event)}>{loadRemainingEntities4}</button>
+                                                    <button className="modal__text-link" name="asnLoadAllEntities" onClick={event => {
+                                                        this.props.handleLoadAllEntitiesButton(event);
+                                                        this.props.handleAdditionalEntitiesLoading();
+                                                    }
+                                                    }>{loadRemainingEntities4}</button>
                                                     {loadRemainingEntities5}
-                                                </p> : null
+                                                </div> : null
                                         }
+                                        <div key={this.props.loadAllButtonEntitiesLoading}>
+                                            {
+                                                this.props.loadAllButtonEntitiesLoading === true ? <Loading/> : "no more loading"
+                                            }
+                                        </div>
+
                                         <button className="modal__button--table" name="checkMaxAsn" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
                                             {checkMaxButton}
                                         </button>

@@ -125,7 +125,8 @@ class Entity extends Component {
             // Shared between Modals
             rawSignalsMaxEntitiesHtsError: "",
             regionalRawSignalsLoadAllButtonClicked: false,
-            asnRawSignalsLoadAllButtonClicked: false
+            asnRawSignalsLoadAllButtonClicked: false,
+            loadAllButtonEntitiesLoading: false
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
@@ -138,6 +139,7 @@ class Entity extends Component {
     }
 
     componentDidMount() {
+        console.log("update5");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
         this.setState({
@@ -949,6 +951,9 @@ class Entity extends Component {
             // Used to determine if load all message should display or not
             regionalRawSignalsLoadAllButtonClicked={this.state.regionalRawSignalsLoadAllButtonClicked}
             asnRawSignalsLoadAllButtonClicked={this.state.asnRawSignalsLoadAllButtonClicked}
+            // modal loading icon for load all button
+            loadAllButtonEntitiesLoading={this.state.loadAllButtonEntitiesLoading}
+            handleAdditionalEntitiesLoading={() => this.handleAdditionalEntitiesLoading()}
 
         />;
     }
@@ -1661,24 +1666,43 @@ class Entity extends Component {
     handleLoadAllEntitiesButton(event) {
 
         if (event.target.name === 'regionLoadAllEntities') {
+            this.setState({
+                loadAllButtonEntitiesLoading: true
+            }, () => {
+                console.log(this.state.loadAllButtonEntitiesLoading)
+            });
             let signalsTableData = combineValuesForSignalsTable(this.state.summaryDataMapRaw, this.state.regionalSignalsTableSummaryData, 0);
             this.setState({
-                regionalSignalsTableSummaryDataProcessed: this.state.regionalSignalsTableSummaryDataProcessed.concat(signalsTableData.slice(this.initialTableLimit)),
-                regionalRawSignalsLoadAllButtonClicked: true
+                regionalSignalsTableSummaryDataProcessed: this.state.regionalSignalsTableSummaryDataProcessed.concat(signalsTableData.slice(this.initialTableLimit))
             }, () => {
                 this.genSignalsTable("region");
+                this.setState({loadAllButtonEntitiesLoading: false, regionalRawSignalsLoadAllButtonClicked: true});
             });
         }
 
         if (event.target.name === 'asnLoadAllEntities') {
-            let signalsTableData = combineValuesForSignalsTable(this.state.relatedToTableSummary, this.state.asnSignalsTableSummaryData, 0);
             this.setState({
-                asnSignalsTableSummaryDataProcessed: this.state.asnSignalsTableSummaryDataProcessed.concat(signalsTableData.slice(this.initialTableLimit)),
                 asnRawSignalsLoadAllButtonClicked: true
             }, () => {
-                this.genSignalsTable("asn");
-            })
+                let signalsTableData = combineValuesForSignalsTable(this.state.relatedToTableSummary, this.state.asnSignalsTableSummaryData, 0);
+                this.setState({
+                    asnSignalsTableSummaryDataProcessed: this.state.asnSignalsTableSummaryDataProcessed.concat(signalsTableData.slice(this.initialTableLimit)),
+                }, () => {
+                    this.genSignalsTable("asn");
+                    this.setState({
+                        loadAllButtonEntitiesLoading: false
+                    });
+
+                })
+            });
         }
+    }
+    handleAdditionalEntitiesLoading() {
+        this.setState({
+            loadAllButtonEntitiesLoading: true
+        }, () => {
+            console.log(this.state.loadAllButtonEntitiesLoading);
+        });
     }
 
     render() {

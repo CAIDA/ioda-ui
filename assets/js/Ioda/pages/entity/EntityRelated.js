@@ -71,7 +71,9 @@ class EntityRelated extends Component {
                                 handleLoadAllEntitiesButton={event => this.props.handleLoadAllEntitiesButton(event)}
                                 // Used to determine if load all message should display or not
                                 regionalRawSignalsLoadAllButtonClicked={this.props.regionalRawSignalsLoadAllButtonClicked}
-
+                                // Used for triggering the load all button loading icon once clicked
+                                loadAllButtonEntitiesLoading={this.props.loadAllButtonEntitiesLoading}
+                                handleAdditionalEntitiesLoading={() => this.props.handleAdditionalEntitiesLoading()}
                             />
                         </div>
                     </div>
@@ -133,6 +135,9 @@ class EntityRelated extends Component {
                                 handleLoadAllEntitiesButton={event => this.props.handleLoadAllEntitiesButton(event)}
                                 // Used to determine if load all message should display or not
                                 asnRawSignalsLoadAllButtonClicked={this.props.asnRawSignalsLoadAllButtonClicked}
+                                // Used for triggering the load all button loading icon once clicked
+                                loadAllButtonEntitiesLoading={this.props.loadAllButtonEntitiesLoading}
+                                handleAdditionalEntitiesLoading={() => this.props.handleAdditionalEntitiesLoading()}
                             />
                         </div>
                     </div>
