@@ -1374,9 +1374,13 @@ class Entity extends Component {
                 switch (dataSource) {
                     case "ping-slash24":
                         this.setState({
-                            rawAsnSignalsProcessedPingSlash24: convertTsDataForHtsViz(rawSignalsNew),
+
                             rawAsnSignalsLoadedPingSlash24: true,
                             additionalRawSignalRequestedPingSlash24: false
+                        }, () => {
+                            this.setState({
+                                rawAsnSignalsProcessedPingSlash24: convertTsDataForHtsViz(rawSignalsNew)
+                            })
                         });
                         break;
                     case "bgp":
@@ -1529,6 +1533,7 @@ class Entity extends Component {
                     setTimeout(() => {
                         // Update visibility boolean property in copied object to update table
                         signalsTableSummaryDataProcessed[indexValue]["visibility"] = !signalsTableSummaryDataProcessed[indexValue]["visibility"];
+
                         // Check if raw signals data is already loaded for particular entity, get it if not
                         if (this.state.asnRawSignalsLoadAllButtonClicked && signalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"] === false) {
                             // update property that manages if raw signal data has loaded or not
@@ -1568,30 +1573,30 @@ class Entity extends Component {
                                         });
                                         break;
                                 }
-                            } else {
-                                // Update state with freshly updated object list, then redraw the chart with new visibility values
-                                switch (entityType) {
-                                    case "region":
-                                        this.setState({
-                                            regionalSignalsTableSummaryDataProcessed: signalsTableSummaryDataProcessed,
-                                            rawSignalsMaxEntitiesHtsError: ""
-                                        }, () => {
-                                            this.convertValuesForHtsViz("ping-slash24", "region");
-                                            this.convertValuesForHtsViz("bgp", "region");
-                                            this.convertValuesForHtsViz("ucsd-nt", "region");
-                                        });
-                                        break;
-                                    case "asn":
-                                        this.setState({
-                                            asnSignalsTableSummaryDataProcessed: signalsTableSummaryDataProcessed,
-                                            rawSignalsMaxEntitiesHtsError: ""
-                                        }, () => {
-                                            this.convertValuesForHtsViz("ping-slash24", "asn");
-                                            this.convertValuesForHtsViz("bgp", "asn");
-                                            this.convertValuesForHtsViz("ucsd-nt", "asn");
-                                        });
-                                        break;
-                                }
+                            }
+                        } else {
+                            // Update state with freshly updated object list, then redraw the chart with new visibility values
+                            switch (entityType) {
+                                case "region":
+                                    this.setState({
+                                        regionalSignalsTableSummaryDataProcessed: signalsTableSummaryDataProcessed,
+                                        rawSignalsMaxEntitiesHtsError: ""
+                                    }, () => {
+                                        this.convertValuesForHtsViz("ping-slash24", "region");
+                                        this.convertValuesForHtsViz("bgp", "region");
+                                        this.convertValuesForHtsViz("ucsd-nt", "region");
+                                    });
+                                    break;
+                                case "asn":
+                                    this.setState({
+                                        asnSignalsTableSummaryDataProcessed: signalsTableSummaryDataProcessed,
+                                        rawSignalsMaxEntitiesHtsError: ""
+                                    }, () => {
+                                        this.convertValuesForHtsViz("ping-slash24", "asn");
+                                        this.convertValuesForHtsViz("bgp", "asn");
+                                        this.convertValuesForHtsViz("ucsd-nt", "asn");
+                                    });
+                                    break;
                             }
                         }
                     }, 1000);
