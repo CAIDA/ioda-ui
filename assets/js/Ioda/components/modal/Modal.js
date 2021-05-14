@@ -160,33 +160,45 @@ class Modal extends Component {
                                         {
                                             this.props.rawRegionalSignalsProcessedPingSlash24 ? null : <Loading/>
                                         }
-                                        <div id="region-horizon-chart--pingSlash24" ref={this.configPingSlash24} className="modal__chart">
-                                            {
-                                                this.configPingSlash24.current ?
-                                                this.genRegionalPingSlash24() : null
-                                            }
-                                        </div>
-
+                                        {
+                                            this.props.additionalRawSignalRequestedPingSlash24 === true ? <Loading/> :
+                                                <div id="region-horizon-chart--pingSlash24" ref={this.configPingSlash24}
+                                                     className="modal__chart">
+                                                    {
+                                                        this.configPingSlash24.current ?
+                                                            this.genRegionalPingSlash24() : null
+                                                    }
+                                                </div>
+                                        }
                                         <h3 className="heading-h3">{bgpHtsLabel}</h3>
                                         {
                                             this.props.rawRegionalSignalsProcessedBgp ? null : <Loading/>
                                         }
-                                        <div id="region-horizon-chart--bgp" ref={this.configBgp} className="modal__chart">
-                                            {
-                                                this.configBgp.current ?
-                                                this.genRegionalBgp() : null
-                                            }
-                                        </div>
+                                        {
+                                            this.props.additionalRawSignalRequestedBgp === true ? <Loading/> :
+                                                <div id="region-horizon-chart--bgp" ref={this.configBgp}
+                                                     className="modal__chart">
+                                                    {
+                                                        this.configBgp.current ?
+                                                            this.genRegionalBgp() : null
+                                                    }
+                                                </div>
+                                        }
                                         <h3 className="heading-h3">{ucsdNtHtsLabel}</h3>
                                         {
                                             this.props.rawRegionalSignalsProcessedUcsdNt ? null : <Loading/>
                                         }
-                                        <div id="region-horizon-chart--ucsdNt" ref={this.configUcsdNt} className="modal__chart">
-                                            {
-                                                this.configUcsdNt.current ?
-                                                this.genRegionalUcsdNt() : null
-                                            }
-                                        </div>
+                                        {
+                                            this.props.additionalRawSignalRequestedUcsdNt === true ? <Loading/> :
+
+                                                <div id="region-horizon-chart--ucsdNt" ref={this.configUcsdNt}
+                                                     className="modal__chart">
+                                                    {
+                                                        this.configUcsdNt.current ?
+                                                            this.genRegionalUcsdNt() : null
+                                                    }
+                                                </div>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -247,32 +259,46 @@ class Modal extends Component {
                                         {
                                             this.props.rawAsnSignalsProcessedPingSlash24 ? null : <Loading/>
                                         }
-                                        <div id="asn-horizon-chart--pingSlash24" ref={this.configPingSlash24} className="modal__chart">
-                                            {
-                                                this.configPingSlash24.current ?
-                                                this.genAsnPingSlash24() : null
-                                            }
-                                        </div>
+                                        {
+                                            this.props.additionalRawSignalRequestedPingSlash24 === true ? <Loading/> :
+                                                <div id="asn-horizon-chart--pingSlash24" ref={this.configPingSlash24}
+                                                     className="modal__chart">
+                                                    {
+                                                        this.configPingSlash24.current ?
+                                                            this.genAsnPingSlash24() : null
+                                                    }
+                                                </div>
+                                        }
                                         <h3 className="heading-h3">{bgpHtsLabel}</h3>
                                         {
                                             this.props.rawAsnSignalsProcessedBgp ? null : <Loading/>
                                         }
-                                        <div id="asn-horizon-chart--bgp" ref={this.configBgp} className="modal__chart">
-                                            {
-                                                this.configBgp.current ?
-                                                this.genAsnBgp() : null
-                                            }
-                                        </div>
+                                        {
+                                            this.props.additionalRawSignalRequestedBgp === true ? <Loading/> :
+
+                                                <div id="asn-horizon-chart--bgp" ref={this.configBgp}
+                                                     className="modal__chart">
+                                                    {
+                                                        this.configBgp.current ?
+                                                            this.genAsnBgp() : null
+                                                    }
+                                                </div>
+                                        }
                                         <h3 className="heading-h3">{ucsdNtHtsLabel}</h3>
                                         {
                                             this.props.rawAsnSignalsProcessedUcsdNt ? null : <Loading/>
                                         }
-                                        <div id="asn-horizon-chart--ucsdNt" ref={this.configUcsdNt} className="modal__chart">
-                                            {
-                                                this.configUcsdNt.current ?
-                                                this.genAsnUcsdNt() : null
-                                            }
-                                        </div>
+                                        {
+                                            this.props.additionalRawSignalRequestedUcsdNt === true ? <Loading/> :
+
+                                                <div id="asn-horizon-chart--ucsdNt" ref={this.configUcsdNt}
+                                                     className="modal__chart">
+                                                    {
+                                                        this.configUcsdNt.current ?
+                                                            this.genAsnUcsdNt() : null
+                                                    }
+                                                </div>
+                                        }
                                     </div>
                                 </div>
                             </div>

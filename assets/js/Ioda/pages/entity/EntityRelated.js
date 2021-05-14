@@ -74,6 +74,11 @@ class EntityRelated extends Component {
                                 // Used for triggering the load all button loading icon once clicked
                                 loadAllButtonEntitiesLoading={this.props.loadAllButtonEntitiesLoading}
                                 handleAdditionalEntitiesLoading={() => this.props.handleAdditionalEntitiesLoading()}
+                                // manage loading bar for when loadAll button is clicked and
+                                // additional raw signals are requested beyond what was initially loaded
+                                additionalRawSignalRequestedPingSlash24={this.props.additionalRawSignalRequestedPingSlash24}
+                                additionalRawSignalRequestedBgp={this.props.additionalRawSignalRequestedBgp}
+                                additionalRawSignalRequestedUcsdNt={this.props.additionalRawSignalRequestedUcsdNt}
                             />
                         </div>
                     </div>
@@ -138,6 +143,11 @@ class EntityRelated extends Component {
                                 // Used for triggering the load all button loading icon once clicked
                                 loadAllButtonEntitiesLoading={this.props.loadAllButtonEntitiesLoading}
                                 handleAdditionalEntitiesLoading={() => this.props.handleAdditionalEntitiesLoading()}
+                                // manage loading bar for when loadAll button is clicked and
+                                // additional raw signals are requested beyond what was initially loaded
+                                additionalRawSignalRequestedPingSlash24={this.props.additionalRawSignalRequestedPingSlash24}
+                                additionalRawSignalRequestedBgp={this.props.additionalRawSignalRequestedBgp}
+                                additionalRawSignalRequestedUcsdNt={this.props.additionalRawSignalRequestedUcsdNt}
                             />
                         </div>
                     </div>
