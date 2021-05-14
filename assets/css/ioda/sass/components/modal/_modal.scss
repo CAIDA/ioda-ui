@@ -43,6 +43,26 @@
     font-size: 2.4rem;
   }
 
+  &__loadAll {
+    display: flex;
+    align-items: center;
+    height: 3rem;
+
+    & strong {
+      padding: 0 0.3rem;
+    }
+
+    &-spinner {
+      height: 2.5rem;
+      animation: loading-spinner 1.2s linear infinite;
+    }
+  }
+
+  &__loading-spinner {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
   &__table {
     margin-bottom: 1.5rem;
 

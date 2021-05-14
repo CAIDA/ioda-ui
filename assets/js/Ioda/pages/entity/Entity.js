@@ -139,7 +139,6 @@ class Entity extends Component {
     }
 
     componentDidMount() {
-        console.log("update5");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
         this.setState({
@@ -1087,7 +1086,6 @@ class Entity extends Component {
             let page = this.state.relatedToTableApiPageNumber;
             const entityCode = null;
             let relatedToEntityType, relatedToEntityCode;
-            // console.log(this.props.entityMetadata[0]["attrs"]);
             switch (this.state.entityType) {
                 case 'country':
                     relatedToEntityType = this.state.entityType;
@@ -1663,9 +1661,9 @@ class Entity extends Component {
         }
     }
     // function to manage what happens when the load all entities button is clicked
-    handleLoadAllEntitiesButton(event) {
+    handleLoadAllEntitiesButton(name) {
 
-        if (event.target.name === 'regionLoadAllEntities') {
+        if (name === 'regionLoadAllEntities') {
             this.setState({
                 loadAllButtonEntitiesLoading: true
             }, () => {
@@ -1680,7 +1678,7 @@ class Entity extends Component {
             });
         }
 
-        if (event.target.name === 'asnLoadAllEntities') {
+        if (name === 'asnLoadAllEntities') {
             this.setState({
                 asnRawSignalsLoadAllButtonClicked: true
             }, () => {

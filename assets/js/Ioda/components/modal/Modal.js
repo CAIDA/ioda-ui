@@ -7,9 +7,13 @@ import LoadingIcon from 'images/icons/icon-loading.png';
 class Modal extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            additionalEntitiesLoading: false
+        };
         this.configPingSlash24 = React.createRef();
         this.configBgp = React.createRef();
         this.configUcsdNt = React.createRef();
+        this.additionalEntitiesLoading = false;
     }
 
     genRegionalPingSlash24 = () => {
@@ -30,6 +34,19 @@ class Modal extends Component {
     genAsnUcsdNt = () => {
         this.props.populateHtsChart(this.configUcsdNt.current.offsetWidth, "ucsd-nt", "asn");
     };
+
+    handleAdditionalEntitiesLoading(event) {
+        let name = event.target.name;
+        this.setState({
+            additionalEntitiesLoading: true
+        }, () => {
+            setTimeout(() => {
+                this.props.handleLoadAllEntitiesButton(name)
+            }, 1000);
+
+
+        });
+    }
 
     render() {
         if (this.props.modalLocation === 'map' && !this.props.showModal) {
@@ -86,17 +103,23 @@ class Modal extends Component {
                                     <div className="col-1-of-3">
                                         <h3 className="heading-h3">{regionalTableTitle}</h3>
                                         {
-                                            this.props.regionalRawSignalsLoadAllButtonClicked === false &&
-                                            this.props.regionalSignalsTableTotalCount > this.props.initialTableLimit ?
-                                                <p>
+                                            this.props.regionalSignalsTableTotalCount > this.props.initialTableLimit && this.props.regionalRawSignalsLoadAllButtonClicked === false
+                                                ? <div className="modal__loadAll">
                                                     {loadRemainingEntities1}
-                                                    {regionPlural}
+                                                    {asnPlural}
                                                     {loadRemainingEntities2}
                                                     <strong>{this.props.initialTableLimit}</strong>
                                                     {loadRemainingEntities3}
-                                                    <button className="modal__text-link" name="regionLoadAllEntities" onClick={event => this.props.handleLoadAllEntitiesButton(event)}>{loadRemainingEntities4}</button>
+                                                    {
+                                                        this.state.additionalEntitiesLoading
+                                                            ? <img className="modal__loadAll-spinner" src={LoadingIcon} alt="Loading"/>
+                                                            : <button className="modal__text-link" name="asnLoadAllEntities" onClick={event => this.handleAdditionalEntitiesLoading(event)}>
+                                                                {loadRemainingEntities4}
+                                                            </button>
+                                                    }
                                                     {loadRemainingEntities5}
-                                                </p> : null
+                                                </div>
+                                                : null
                                         }
                                         <button className="modal__button--table" name="checkMaxRegional" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
                                             {checkMaxButton}
@@ -177,26 +200,23 @@ class Modal extends Component {
                                         <h3 className="heading-h3">{asnTableTitle}</h3>
                                         {
                                             this.props.asnSignalsTableTotalCount > this.props.initialTableLimit && this.props.asnRawSignalsLoadAllButtonClicked === false
-                                                ? <div>
+                                            ? <div className="modal__loadAll">
                                                     {loadRemainingEntities1}
                                                     {asnPlural}
                                                     {loadRemainingEntities2}
                                                     <strong>{this.props.initialTableLimit}</strong>
                                                     {loadRemainingEntities3}
-                                                    <button className="modal__text-link" name="asnLoadAllEntities" onClick={event => {
-                                                        this.props.handleLoadAllEntitiesButton(event);
-                                                        this.props.handleAdditionalEntitiesLoading();
+                                                    {
+                                                        this.state.additionalEntitiesLoading
+                                                            ? <img src={LoadingIcon} className="modal__loadAll-spinner" alt="Loading"/>
+                                                            : <button className="modal__text-link" name="asnLoadAllEntities" onClick={event => this.handleAdditionalEntitiesLoading(event)}>
+                                                                {loadRemainingEntities4}
+                                                            </button>
                                                     }
-                                                    }>{loadRemainingEntities4}</button>
                                                     {loadRemainingEntities5}
-                                                </div> : null
+                                                </div>
+                                            : null
                                         }
-                                        <div key={this.props.loadAllButtonEntitiesLoading}>
-                                            {
-                                                this.props.loadAllButtonEntitiesLoading === true ? <Loading/> : "no more loading"
-                                            }
-                                        </div>
-
                                         <button className="modal__button--table" name="checkMaxAsn" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
                                             {checkMaxButton}
                                         </button>
