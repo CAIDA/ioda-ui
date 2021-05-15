@@ -1653,6 +1653,7 @@ class Entity extends Component {
                 regionalSignalsTableSummaryDataProcessed: regionalSignalsTableSummaryDataProcessed,
                 regionalSignalsTableEntitiesChecked: regionalSignalsTableSummaryDataProcessed.length < this.maxHtsLimit ? regionalSignalsTableSummaryDataProcessed.length : this.maxHtsLimit,
                 currentEntitiesChecked: this.maxHtsLimit
+
             }, () => {
                 this.convertValuesForHtsViz("ping-slash24", "region");
                 this.convertValuesForHtsViz("bgp", "region");
