@@ -43,8 +43,6 @@ class Modal extends Component {
             setTimeout(() => {
                 this.props.handleLoadAllEntitiesButton(name)
             }, 1000);
-
-
         });
     }
 

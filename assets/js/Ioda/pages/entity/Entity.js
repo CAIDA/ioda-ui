@@ -360,7 +360,7 @@ class Entity extends Component {
                         case "ping-slash24":
                             let rawRegionalSignalsRawPingSlash24 = this.state.rawRegionalSignalsRawPingSlash24.concat(this.props.additionalRawSignal[0]);
                             this.setState({
-                                rawRegionalSignalsRawPingSlash24: rawRegionalSignalsRawPingSlash24,
+                                rawRegionalSignalsRawPingSlash24: rawRegionalSignalsRawPingSlash24
                             }, () => this.convertValuesForHtsViz("ping-slash24", "asn"));
                             break;
                         case "bgp":
