@@ -1519,8 +1519,6 @@ class Entity extends Component {
         if (signalsTableSummaryDataProcessed[indexValue]["visibility"] === false) {
             // If checkbox is false, determine if adding it will breach the limit
             if (this.maxHtsLimit > this.state.currentEntitiesChecked) {
-                console.log(this.state.currentEntitiesChecked);
-
                 this.setState({
                     currentEntitiesChecked: this.state.currentEntitiesChecked + 1,
                     additionalRawSignalRequestedPingSlash24: signalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"] === false,
