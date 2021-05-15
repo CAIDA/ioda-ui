@@ -71,7 +71,14 @@ class EntityRelated extends Component {
                                 handleLoadAllEntitiesButton={event => this.props.handleLoadAllEntitiesButton(event)}
                                 // Used to determine if load all message should display or not
                                 regionalRawSignalsLoadAllButtonClicked={this.props.regionalRawSignalsLoadAllButtonClicked}
-
+                                // Used for triggering the load all button loading icon once clicked
+                                loadAllButtonEntitiesLoading={this.props.loadAllButtonEntitiesLoading}
+                                handleAdditionalEntitiesLoading={() => this.props.handleAdditionalEntitiesLoading()}
+                                // manage loading bar for when loadAll button is clicked and
+                                // additional raw signals are requested beyond what was initially loaded
+                                additionalRawSignalRequestedPingSlash24={this.props.additionalRawSignalRequestedPingSlash24}
+                                additionalRawSignalRequestedBgp={this.props.additionalRawSignalRequestedBgp}
+                                additionalRawSignalRequestedUcsdNt={this.props.additionalRawSignalRequestedUcsdNt}
                             />
                         </div>
                     </div>
@@ -133,6 +140,14 @@ class EntityRelated extends Component {
                                 handleLoadAllEntitiesButton={event => this.props.handleLoadAllEntitiesButton(event)}
                                 // Used to determine if load all message should display or not
                                 asnRawSignalsLoadAllButtonClicked={this.props.asnRawSignalsLoadAllButtonClicked}
+                                // Used for triggering the load all button loading icon once clicked
+                                loadAllButtonEntitiesLoading={this.props.loadAllButtonEntitiesLoading}
+                                handleAdditionalEntitiesLoading={() => this.props.handleAdditionalEntitiesLoading()}
+                                // manage loading bar for when loadAll button is clicked and
+                                // additional raw signals are requested beyond what was initially loaded
+                                additionalRawSignalRequestedPingSlash24={this.props.additionalRawSignalRequestedPingSlash24}
+                                additionalRawSignalRequestedBgp={this.props.additionalRawSignalRequestedBgp}
+                                additionalRawSignalRequestedUcsdNt={this.props.additionalRawSignalRequestedUcsdNt}
                             />
                         </div>
                     </div>

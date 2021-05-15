@@ -36,3 +36,13 @@
     background-position: 0 0;
   }
 }
+
+/* Loading Wheel Animation */
+@keyframes loading-spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

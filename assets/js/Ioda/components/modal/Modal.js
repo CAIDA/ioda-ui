@@ -2,13 +2,18 @@ import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import T from 'i18n-react';
 import Loading from "../../components/loading/Loading";
+import LoadingIcon from 'images/icons/icon-loading.png';
 
 class Modal extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            additionalEntitiesLoading: false
+        };
         this.configPingSlash24 = React.createRef();
         this.configBgp = React.createRef();
         this.configUcsdNt = React.createRef();
+        this.additionalEntitiesLoading = false;
     }
 
     genRegionalPingSlash24 = () => {
@@ -29,6 +34,17 @@ class Modal extends Component {
     genAsnUcsdNt = () => {
         this.props.populateHtsChart(this.configUcsdNt.current.offsetWidth, "ucsd-nt", "asn");
     };
+
+    handleAdditionalEntitiesLoading(event) {
+        let name = event.target.name;
+        this.setState({
+            additionalEntitiesLoading: true
+        }, () => {
+            setTimeout(() => {
+                this.props.handleLoadAllEntitiesButton(name)
+            }, 1000);
+        });
+    }
 
     render() {
         if (this.props.modalLocation === 'map' && !this.props.showModal) {
@@ -85,17 +101,23 @@ class Modal extends Component {
                                     <div className="col-1-of-3">
                                         <h3 className="heading-h3">{regionalTableTitle}</h3>
                                         {
-                                            this.props.regionalRawSignalsLoadAllButtonClicked === false &&
-                                            this.props.regionalSignalsTableTotalCount > this.props.initialTableLimit ?
-                                                <p>
+                                            this.props.regionalSignalsTableTotalCount > this.props.initialTableLimit && this.props.regionalRawSignalsLoadAllButtonClicked === false
+                                                ? <div className="modal__loadAll">
                                                     {loadRemainingEntities1}
-                                                    {regionPlural}
+                                                    {asnPlural}
                                                     {loadRemainingEntities2}
                                                     <strong>{this.props.initialTableLimit}</strong>
                                                     {loadRemainingEntities3}
-                                                    <button className="modal__text-link" name="regionLoadAllEntities" onClick={event => this.props.handleLoadAllEntitiesButton(event)}>{loadRemainingEntities4}</button>
+                                                    {
+                                                        this.state.additionalEntitiesLoading
+                                                            ? <img className="modal__loadAll-spinner" src={LoadingIcon} alt="Loading"/>
+                                                            : <button className="modal__text-link" name="asnLoadAllEntities" onClick={event => this.handleAdditionalEntitiesLoading(event)}>
+                                                                {loadRemainingEntities4}
+                                                            </button>
+                                                    }
                                                     {loadRemainingEntities5}
-                                                </p> : null
+                                                </div>
+                                                : null
                                         }
                                         <button className="modal__button--table" name="checkMaxRegional" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
                                             {checkMaxButton}
@@ -136,33 +158,45 @@ class Modal extends Component {
                                         {
                                             this.props.rawRegionalSignalsProcessedPingSlash24 ? null : <Loading/>
                                         }
-                                        <div id="region-horizon-chart--pingSlash24" ref={this.configPingSlash24} className="modal__chart">
-                                            {
-                                                this.configPingSlash24.current ?
-                                                this.genRegionalPingSlash24() : null
-                                            }
-                                        </div>
-
+                                        {
+                                            this.props.additionalRawSignalRequestedPingSlash24 === true ? <Loading/> :
+                                                <div id="region-horizon-chart--pingSlash24" ref={this.configPingSlash24}
+                                                     className="modal__chart">
+                                                    {
+                                                        this.configPingSlash24.current ?
+                                                            this.genRegionalPingSlash24() : null
+                                                    }
+                                                </div>
+                                        }
                                         <h3 className="heading-h3">{bgpHtsLabel}</h3>
                                         {
                                             this.props.rawRegionalSignalsProcessedBgp ? null : <Loading/>
                                         }
-                                        <div id="region-horizon-chart--bgp" ref={this.configBgp} className="modal__chart">
-                                            {
-                                                this.configBgp.current ?
-                                                this.genRegionalBgp() : null
-                                            }
-                                        </div>
+                                        {
+                                            this.props.additionalRawSignalRequestedBgp === true ? <Loading/> :
+                                                <div id="region-horizon-chart--bgp" ref={this.configBgp}
+                                                     className="modal__chart">
+                                                    {
+                                                        this.configBgp.current ?
+                                                            this.genRegionalBgp() : null
+                                                    }
+                                                </div>
+                                        }
                                         <h3 className="heading-h3">{ucsdNtHtsLabel}</h3>
                                         {
                                             this.props.rawRegionalSignalsProcessedUcsdNt ? null : <Loading/>
                                         }
-                                        <div id="region-horizon-chart--ucsdNt" ref={this.configUcsdNt} className="modal__chart">
-                                            {
-                                                this.configUcsdNt.current ?
-                                                this.genRegionalUcsdNt() : null
-                                            }
-                                        </div>
+                                        {
+                                            this.props.additionalRawSignalRequestedUcsdNt === true ? <Loading/> :
+
+                                                <div id="region-horizon-chart--ucsdNt" ref={this.configUcsdNt}
+                                                     className="modal__chart">
+                                                    {
+                                                        this.configUcsdNt.current ?
+                                                            this.genRegionalUcsdNt() : null
+                                                    }
+                                                </div>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -175,17 +209,23 @@ class Modal extends Component {
                                     <div className="col-1-of-3">
                                         <h3 className="heading-h3">{asnTableTitle}</h3>
                                         {
-                                            this.props.asnRawSignalsLoadAllButtonClicked === false &&
-                                            this.props.asnSignalsTableTotalCount > this.props.initialTableLimit ?
-                                                <p>
+                                            this.props.asnSignalsTableTotalCount > this.props.initialTableLimit && this.props.asnRawSignalsLoadAllButtonClicked === false
+                                            ? <div className="modal__loadAll">
                                                     {loadRemainingEntities1}
                                                     {asnPlural}
                                                     {loadRemainingEntities2}
                                                     <strong>{this.props.initialTableLimit}</strong>
                                                     {loadRemainingEntities3}
-                                                    <button className="modal__text-link" name="asnLoadAllEntities" onClick={event => this.props.handleLoadAllEntitiesButton(event)}>{loadRemainingEntities4}</button>
+                                                    {
+                                                        this.state.additionalEntitiesLoading
+                                                            ? <img src={LoadingIcon} className="modal__loadAll-spinner" alt="Loading"/>
+                                                            : <button className="modal__text-link" name="asnLoadAllEntities" onClick={event => this.handleAdditionalEntitiesLoading(event)}>
+                                                                {loadRemainingEntities4}
+                                                            </button>
+                                                    }
                                                     {loadRemainingEntities5}
-                                                </p> : null
+                                                </div>
+                                            : null
                                         }
                                         <button className="modal__button--table" name="checkMaxAsn" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
                                             {checkMaxButton}
@@ -217,32 +257,46 @@ class Modal extends Component {
                                         {
                                             this.props.rawAsnSignalsProcessedPingSlash24 ? null : <Loading/>
                                         }
-                                        <div id="asn-horizon-chart--pingSlash24" ref={this.configPingSlash24} className="modal__chart">
-                                            {
-                                                this.configPingSlash24.current ?
-                                                this.genAsnPingSlash24() : null
-                                            }
-                                        </div>
+                                        {
+                                            this.props.additionalRawSignalRequestedPingSlash24 === true ? <Loading/> :
+                                                <div id="asn-horizon-chart--pingSlash24" ref={this.configPingSlash24}
+                                                     className="modal__chart">
+                                                    {
+                                                        this.configPingSlash24.current ?
+                                                            this.genAsnPingSlash24() : null
+                                                    }
+                                                </div>
+                                        }
                                         <h3 className="heading-h3">{bgpHtsLabel}</h3>
                                         {
                                             this.props.rawAsnSignalsProcessedBgp ? null : <Loading/>
                                         }
-                                        <div id="asn-horizon-chart--bgp" ref={this.configBgp} className="modal__chart">
-                                            {
-                                                this.configBgp.current ?
-                                                this.genAsnBgp() : null
-                                            }
-                                        </div>
+                                        {
+                                            this.props.additionalRawSignalRequestedBgp === true ? <Loading/> :
+
+                                                <div id="asn-horizon-chart--bgp" ref={this.configBgp}
+                                                     className="modal__chart">
+                                                    {
+                                                        this.configBgp.current ?
+                                                            this.genAsnBgp() : null
+                                                    }
+                                                </div>
+                                        }
                                         <h3 className="heading-h3">{ucsdNtHtsLabel}</h3>
                                         {
                                             this.props.rawAsnSignalsProcessedUcsdNt ? null : <Loading/>
                                         }
-                                        <div id="asn-horizon-chart--ucsdNt" ref={this.configUcsdNt} className="modal__chart">
-                                            {
-                                                this.configUcsdNt.current ?
-                                                this.genAsnUcsdNt() : null
-                                            }
-                                        </div>
+                                        {
+                                            this.props.additionalRawSignalRequestedUcsdNt === true ? <Loading/> :
+
+                                                <div id="asn-horizon-chart--ucsdNt" ref={this.configUcsdNt}
+                                                     className="modal__chart">
+                                                    {
+                                                        this.configUcsdNt.current ?
+                                                            this.genAsnUcsdNt() : null
+                                                    }
+                                                </div>
+                                        }
                                     </div>
                                 </div>
                             </div>

@@ -82,6 +82,13 @@ $breakpoint Argument Choices:
   100% {
     background-position: 0 0; } }
 
+/* Loading Wheel Animation */
+@keyframes loading-spinner {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(360deg); } }
+
 /*!
  * This software is Copyright (c) 2013 The Regents of the University of
  * California. All Rights Reserved. Permission to copy, modify, and distribute this
@@ -1621,6 +1628,20 @@ body {
       filter: blur(10px) brightness(0.95); }
   .modal__button:focus {
     outline: none; }
+
+.modal__loadAll {
+  display: flex;
+  align-items: center;
+  height: 3rem; }
+  .modal__loadAll strong {
+    padding: 0 0.3rem; }
+  .modal__loadAll-spinner {
+    height: 2.5rem;
+    animation: loading-spinner 1.2s linear infinite; }
+
+.modal__loading-spinner {
+  width: 2.5rem;
+  height: 2.5rem; }
 
 .modal__table {
   margin-bottom: 1.5rem; }
