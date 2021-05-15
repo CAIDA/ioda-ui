@@ -144,6 +144,7 @@ class Entity extends Component {
     }
 
     componentDidMount() {
+        console.log("update3");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
         this.setState({
@@ -1374,13 +1375,9 @@ class Entity extends Component {
                 switch (dataSource) {
                     case "ping-slash24":
                         this.setState({
-
+                            rawAsnSignalsProcessedPingSlash24: convertTsDataForHtsViz(rawSignalsNew),
                             rawAsnSignalsLoadedPingSlash24: true,
                             additionalRawSignalRequestedPingSlash24: false
-                        }, () => {
-                            this.setState({
-                                rawAsnSignalsProcessedPingSlash24: convertTsDataForHtsViz(rawSignalsNew)
-                            })
                         });
                         break;
                     case "bgp":
@@ -1523,12 +1520,13 @@ class Entity extends Component {
         if (signalsTableSummaryDataProcessed[indexValue]["visibility"] === false) {
             // If checkbox is false, determine if adding it will breach the limit
             if (this.maxHtsLimit > this.state.currentEntitiesChecked) {
-                // Update loading
+                console.log(this.state.currentEntitiesChecked);
+
                 this.setState({
                     currentEntitiesChecked: this.state.currentEntitiesChecked + 1,
-                    additionalRawSignalRequestedPingSlash24: true,
-                    additionalRawSignalRequestedBgp: true,
-                    additionalRawSignalRequestedUcsdNt: true
+                    additionalRawSignalRequestedPingSlash24: signalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"] === false,
+                    additionalRawSignalRequestedBgp: signalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"] === false,
+                    additionalRawSignalRequestedUcsdNt: signalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"] === false
                 }, () => {
                     setTimeout(() => {
                         // Update visibility boolean property in copied object to update table
