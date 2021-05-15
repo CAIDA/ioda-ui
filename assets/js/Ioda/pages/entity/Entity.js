@@ -144,7 +144,6 @@ class Entity extends Component {
     }
 
     componentDidMount() {
-        console.log("update3");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
         this.setState({
@@ -1690,7 +1689,8 @@ class Entity extends Component {
             });
             this.setState({
                 asnSignalsTableSummaryDataProcessed: asnSignalsTableSummaryDataProcessed,
-                asnSignalsTableEntitiesChecked: asnSignalsTableSummaryDataProcessed.length < this.maxHtsLimit ? asnSignalsTableSummaryDataProcessed.length : this.maxHtsLimit
+                asnSignalsTableEntitiesChecked: asnSignalsTableSummaryDataProcessed.length < this.maxHtsLimit ? asnSignalsTableSummaryDataProcessed.length : this.maxHtsLimit,
+                currentEntitiesChecked: this.maxHtsLimit
             }, () => {
                 this.convertValuesForHtsViz("ping-slash24", "asn");
                 this.convertValuesForHtsViz("bgp", "asn");
@@ -1704,7 +1704,8 @@ class Entity extends Component {
             });
             this.setState({
                 asnSignalsTableSummaryDataProcessed: asnSignalsTableSummaryDataProcessed,
-                asnSignalsTableEntitiesChecked: 0
+                asnSignalsTableEntitiesChecked: 0,
+                currentEntitiesChecked: 0
             }, () => {
                 this.convertValuesForHtsViz("ping-slash24", "asn");
                 this.convertValuesForHtsViz("bgp", "asn");
