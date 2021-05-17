@@ -73,7 +73,12 @@ class Entity extends Component {
             tsDataRaw: null,
             tsDataNormalized: true,
             tsDataDisplayOutageBands: true,
+            // Used for responsively styling the xy chart
             tsDataScreenBelow760: false,
+            // Used to track which series have visibility, needed for when switching between normalized/absolute values to maintain state
+            tsDataSeriesVisiblePingSlash24: true,
+            tsDataSeriesVisibleBgp: true,
+            tsDataSeriesVisibleUcsdNt: true,
             // Event/Table Data
             currentTable: 'alert',
             eventDataRaw: null,
@@ -619,6 +624,7 @@ class Entity extends Component {
                 markerType: "circle",
                 markerSize: 2,
                 name: "Network Telescope",
+                visible: this.state.tsDataSeriesVisibleUcsdNt,
                 axisYType: this.state.tsDataNormalized ? 'primary' : "secondary",
                 showInLegend: true,
                 xValueFormatString: "DDD, MMM DD - HH:MM",
@@ -637,6 +643,7 @@ class Entity extends Component {
                 markerType: "circle",
                 markerSize: 2,
                 name: "BGP",
+                visible: this.state.tsDataSeriesVisibleBgp,
                 showInLegend: true,
                 xValueFormatString: "DDD, MMM DD - HH:MM",
                 yValueFormatString: "##",
@@ -655,6 +662,7 @@ class Entity extends Component {
                 markerType: "circle",
                 markerSize: 2,
                 name: "Active Probing",
+                visible: this.state.tsDataSeriesVisiblePingSlash24,
                 showInLegend: true,
                 xValueFormatString: "DDD, MMM DD - HH:MM",
                 yValueFormatString: "##",
@@ -777,16 +785,29 @@ class Entity extends Component {
                     cursor: "pointer",
                     fontSize: 14,
                     verticalAlign: this.state.tsDataScreenBelow760 ? "top" : "bottom",
-                    itemclick: function (e) {
+                    itemclick: (e) => {
                         // console.log("legend click: " + e.dataPointIndex);
                         // console.log(e);
+                        // console.log(e.dataSeries.name);
+
                         // toggle series visibility
                         if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
                             e.dataSeries.visible = false;
                         } else {
                             e.dataSeries.visible = true;
                         }
-                        e.chart.render();
+                        // track state of which series are visible
+                        switch (e.dataSeries.name) {
+                            case "Active Probing":
+                                this.setState({ tsDataSeriesVisiblePingSlash24: e.dataSeries.visible }, e.chart.render());
+                                break;
+                            case "BGP":
+                                this.setState({ tsDataSeriesVisibleBgp: e.dataSeries.visible }, e.chart.render());
+                                break;
+                            case "Network Telescope":
+                                this.setState({ tsDataSeriesVisibleUcsdNt: e.dataSeries.visible }, e.chart.render());
+                                break;
+                        }
                     }
                 },
                 data: this.createXyVizDataObject(networkTelescopeValues, bgpValues, activeProbingValues)
