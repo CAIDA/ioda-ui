@@ -726,6 +726,18 @@ class Entity extends Component {
             });
         }
 
+        // get time span considered, using network telescope first as that data source has the most up to time data, then Ping-slash24, then bgp
+        const timeBegin = networkTelescopeValues[0].x;
+        const timeEnd = networkTelescopeValues[networkTelescopeValues.length -1].x;
+        // Add 5% padding to the right edge of the Chart
+        const extraPadding = (timeEnd - timeBegin) * 0.05;
+        const viewportMaximum = new Date(timeEnd.getTime() + extraPadding);
+
+        activeProbingValues.push({x: viewportMaximum, y: null});
+        bgpValues.push({x: viewportMaximum, y: null});
+        networkTelescopeValues.push({x: viewportMaximum, y: null});
+
+
         this.setState({
             xyDataOptions: {
                 theme: "light2",

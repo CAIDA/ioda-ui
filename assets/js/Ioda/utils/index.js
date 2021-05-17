@@ -327,5 +327,5 @@ export function dateRangeToSeconds(dateRange, timeRange) {
 
 // Normalize valye in XY plot of time series on entity page
 export function normalize(value, min, max) {
-    return (value - min) / (max - min) * 100;
+    return value !== null ? (value - min) / (max - min) * 100 : null;
 }
