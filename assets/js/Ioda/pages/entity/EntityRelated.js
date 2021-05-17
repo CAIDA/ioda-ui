@@ -79,6 +79,9 @@ class EntityRelated extends Component {
                                 additionalRawSignalRequestedPingSlash24={this.props.additionalRawSignalRequestedPingSlash24}
                                 additionalRawSignalRequestedBgp={this.props.additionalRawSignalRequestedBgp}
                                 additionalRawSignalRequestedUcsdNt={this.props.additionalRawSignalRequestedUcsdNt}
+                                // used for tracking when check max/uncheck all loading icon should appear and not
+                                checkMaxButtonLoading={this.props.checkMaxButtonLoading}
+                                uncheckAllButtonLoading={this.props.uncheckAllButtonLoading}
                             />
                         </div>
                     </div>
@@ -148,6 +151,9 @@ class EntityRelated extends Component {
                                 additionalRawSignalRequestedPingSlash24={this.props.additionalRawSignalRequestedPingSlash24}
                                 additionalRawSignalRequestedBgp={this.props.additionalRawSignalRequestedBgp}
                                 additionalRawSignalRequestedUcsdNt={this.props.additionalRawSignalRequestedUcsdNt}
+                                // used for tracking when check max/uncheck all loading icon should appear and not
+                                checkMaxButtonLoading={this.props.checkMaxButtonLoading}
+                                uncheckAllButtonLoading={this.props.uncheckAllButtonLoading}
                             />
                         </div>
                     </div>

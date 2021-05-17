@@ -119,12 +119,18 @@ class Modal extends Component {
                                                 </div>
                                                 : null
                                         }
-                                        <button className="modal__button--table" name="checkMaxRegional" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
-                                            {checkMaxButton}
-                                        </button>
-                                        <button className="modal__button--table" name="uncheckAllRegional" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
-                                            {uncheckAllButton}
-                                        </button>
+                                        {
+                                            this.props.checkMaxButtonLoading ? <img src={LoadingIcon} className="modal__loadAll-spinner" alt="Loading"/>
+                                                : <button className="modal__button--table" name="checkMaxRegional" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
+                                                    {checkMaxButton}
+                                                </button>
+                                        }
+                                        {
+                                            this.props.uncheckAllButtonLoading ? <img src={LoadingIcon} className="modal__loadAll-spinner" alt="Loading"/>
+                                                : <button className="modal__button--table" name="uncheckAllRegional" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
+                                                    {uncheckAllButton}
+                                                </button>
+                                        }
                                         {
                                             this.props.rawSignalsMaxEntitiesHtsError ? <p>{this.props.rawSignalsMaxEntitiesHtsError}</p> : null
                                         }
@@ -227,12 +233,18 @@ class Modal extends Component {
                                                 </div>
                                             : null
                                         }
-                                        <button className="modal__button--table" name="checkMaxAsn" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
-                                            {checkMaxButton}
-                                        </button>
-                                        <button className="modal__button--table" name="uncheckAllAsn" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
-                                            {uncheckAllButton}
-                                        </button>
+                                        {
+                                            this.props.checkMaxButtonLoading ? <img src={LoadingIcon} className="modal__loadAll-spinner" alt="Loading"/>
+                                                : <button className="modal__button--table" name="checkMaxAsn" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
+                                                {checkMaxButton}
+                                            </button>
+                                        }
+                                        {
+                                            this.props.uncheckAllButtonLoading ? <img src={LoadingIcon} className="modal__loadAll-spinner" alt="Loading"/>
+                                                : <button className="modal__button--table" name="uncheckAllAsn" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
+                                                {uncheckAllButton}
+                                            </button>
+                                        }
                                         {
                                             this.props.rawSignalsMaxEntitiesHtsError ? <p className="modal__table-error">{this.props.rawSignalsMaxEntitiesHtsError}</p> : null
                                         }

@@ -127,12 +127,15 @@ class Entity extends Component {
             regionalRawSignalsLoadAllButtonClicked: false,
             asnRawSignalsLoadAllButtonClicked: false,
             loadAllButtonEntitiesLoading: false,
+            checkMaxButtonLoading: false,
+            uncheckAllButtonLoading: false,
             // manage loading bar for when loadAll button is clicked and
             // additional raw signals are requested beyond what was initially loaded
             additionalRawSignalRequestedPingSlash24: false,
             additionalRawSignalRequestedBgp: false,
             additionalRawSignalRequestedUcsdNt: false,
             currentEntitiesChecked: 100
+
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
@@ -961,6 +964,9 @@ class Entity extends Component {
             additionalRawSignalRequestedPingSlash24={this.state.additionalRawSignalRequestedPingSlash24}
             additionalRawSignalRequestedBgp={this.state.additionalRawSignalRequestedBgp}
             additionalRawSignalRequestedUcsdNt={this.state.additionalRawSignalRequestedUcsdNt}
+            // used for tracking when check max/uncheck all loading icon should appear and not
+            checkMaxButtonLoading={this.state.checkMaxButtonLoading}
+            uncheckAllButtonLoading={this.state.uncheckAllButtonLoading}
 
         />;
     }
@@ -1634,81 +1640,111 @@ class Entity extends Component {
     // function to manage what happens when the select max/uncheck all buttons are clicked
     handleSelectAndDeselectAllButtons(event) {
         if (event.target.name === "checkMaxRegional") {
-            let regionalSignalsTableSummaryDataProcessed = this.state.regionalSignalsTableSummaryDataProcessed;
-            // Count how many entities are currently checked
-            let entitiesCurrentlyChecked = 0;
-            regionalSignalsTableSummaryDataProcessed.map(entity => {
-                if (entity.visibility === true) {
-                    entitiesCurrentlyChecked = entitiesCurrentlyChecked + 1;
-                }
-            });
-            // Check off additional entities to get to max allowed
-            regionalSignalsTableSummaryDataProcessed.map((entity, index) => {
-                entity.visibility = index < this.maxHtsLimit;
-            });
-
             this.setState({
-                regionalSignalsTableSummaryDataProcessed: regionalSignalsTableSummaryDataProcessed,
-                regionalSignalsTableEntitiesChecked: regionalSignalsTableSummaryDataProcessed.length < this.maxHtsLimit ? regionalSignalsTableSummaryDataProcessed.length : this.maxHtsLimit,
-                currentEntitiesChecked: this.maxHtsLimit
-
+                checkMaxButtonLoading: true
             }, () => {
-                this.convertValuesForHtsViz("ping-slash24", "region");
-                this.convertValuesForHtsViz("bgp", "region");
-                this.convertValuesForHtsViz("ucsd-nt", "region");
+                setTimeout(() => {
+                    let regionalSignalsTableSummaryDataProcessed = this.state.regionalSignalsTableSummaryDataProcessed;
+                    // Count how many entities are currently checked
+                    let entitiesCurrentlyChecked = 0;
+                    regionalSignalsTableSummaryDataProcessed.map(entity => {
+                        if (entity.visibility === true) {
+                            entitiesCurrentlyChecked = entitiesCurrentlyChecked + 1;
+                        }
+                    });
+                    // Check off additional entities to get to max allowed
+                    regionalSignalsTableSummaryDataProcessed.map((entity, index) => {
+                        entity.visibility = index < this.maxHtsLimit;
+                    });
+
+                    this.setState({
+                        regionalSignalsTableSummaryDataProcessed: regionalSignalsTableSummaryDataProcessed,
+                        regionalSignalsTableEntitiesChecked: regionalSignalsTableSummaryDataProcessed.length < this.maxHtsLimit ? regionalSignalsTableSummaryDataProcessed.length : this.maxHtsLimit,
+                        currentEntitiesChecked: this.maxHtsLimit,
+                        checkMaxButtonLoading: false
+
+                    }, () => {
+                        this.convertValuesForHtsViz("ping-slash24", "region");
+                        this.convertValuesForHtsViz("bgp", "region");
+                        this.convertValuesForHtsViz("ucsd-nt", "region");
+                    });
+                }, 500)
             });
         }
         if (event.target.name === "uncheckAllRegional") {
-            let regionalSignalsTableSummaryDataProcessed = this.state.regionalSignalsTableSummaryDataProcessed;
-            regionalSignalsTableSummaryDataProcessed.map(entity => {
-                entity.visibility = false;
-            });
             this.setState({
-                regionalSignalsTableSummaryDataProcessed: regionalSignalsTableSummaryDataProcessed,
-                regionalSignalsTableEntitiesChecked: 0,
-                currentEntitiesChecked: 0
-            }, () => {
-                this.convertValuesForHtsViz("ping-slash24", "region");
-                this.convertValuesForHtsViz("bgp", "region");
-                this.convertValuesForHtsViz("ucsd-nt", "region");
+                uncheckAllButtonLoading: true
+            },() => {
+                setTimeout(() => {
+                    let regionalSignalsTableSummaryDataProcessed = this.state.regionalSignalsTableSummaryDataProcessed;
+                    regionalSignalsTableSummaryDataProcessed.map(entity => {
+                        entity.visibility = false;
+                    });
+                    this.setState({
+                        regionalSignalsTableSummaryDataProcessed: regionalSignalsTableSummaryDataProcessed,
+                        regionalSignalsTableEntitiesChecked: 0,
+                        currentEntitiesChecked: 0,
+                        uncheckAllButtonLoading: false
+                    }, () => {
+                        this.convertValuesForHtsViz("ping-slash24", "region");
+                        this.convertValuesForHtsViz("bgp", "region");
+                        this.convertValuesForHtsViz("ucsd-nt", "region");
+                    });
+                }, 500)
             });
         }
         if (event.target.name === "checkMaxAsn") {
-            let asnSignalsTableSummaryDataProcessed = this.state.asnSignalsTableSummaryDataProcessed;
-            // Count how many entities are currently checked
-            let entitiesCurrentlyChecked = 0;
-            asnSignalsTableSummaryDataProcessed.map(entity => {
-                if (entity.visibility === true) {
-                    entitiesCurrentlyChecked = entitiesCurrentlyChecked + 1;
-                }
-            });
-            // Check off additional entities to get to max allowed
-            asnSignalsTableSummaryDataProcessed.map((entity, index) => {
-                entity.visibility = index < this.maxHtsLimit;
-            });
-            this.setState({
-                asnSignalsTableSummaryDataProcessed: asnSignalsTableSummaryDataProcessed,
-                asnSignalsTableEntitiesChecked: asnSignalsTableSummaryDataProcessed.length < this.maxHtsLimit ? asnSignalsTableSummaryDataProcessed.length : this.maxHtsLimit,
-                currentEntitiesChecked: this.maxHtsLimit
-            }, () => {
-                this.convertValuesForHtsViz("ping-slash24", "asn");
-                this.convertValuesForHtsViz("bgp", "asn");
-                this.convertValuesForHtsViz("ucsd-nt", "asn");
-            });
+            // Check if all entities are loaded
+            // if (this.state.asnRawSignalsLoadAllButtonClicked) {
+                this.setState({
+                    checkMaxButtonLoading: true
+                }, () => {
+                    setTimeout(() => {
+                        let asnSignalsTableSummaryDataProcessed = this.state.asnSignalsTableSummaryDataProcessed;
+                        // Count how many entities are currently checked
+                        let entitiesCurrentlyChecked = 0;
+                        asnSignalsTableSummaryDataProcessed.map(entity => {
+                            if (entity.visibility === true) {
+                                entitiesCurrentlyChecked = entitiesCurrentlyChecked + 1;
+                            }
+                        });
+                        // Check off additional entities to get to max allowed
+                        asnSignalsTableSummaryDataProcessed.map((entity, index) => {
+                            entity.visibility = index < this.maxHtsLimit;
+                        });
+                        this.setState({
+                            asnSignalsTableSummaryDataProcessed: asnSignalsTableSummaryDataProcessed,
+                            asnSignalsTableEntitiesChecked: asnSignalsTableSummaryDataProcessed.length < this.maxHtsLimit ? asnSignalsTableSummaryDataProcessed.length : this.maxHtsLimit,
+                            currentEntitiesChecked: this.maxHtsLimit,
+                            checkMaxButtonLoading: false
+                        }, () => {
+                            this.convertValuesForHtsViz("ping-slash24", "asn");
+                            this.convertValuesForHtsViz("bgp", "asn");
+                            this.convertValuesForHtsViz("ucsd-nt", "asn");
+                        });
+                    }, 500);
+                });
         }
         if (event.target.name === "uncheckAllAsn") {
-            let asnSignalsTableSummaryDataProcessed = this.state.asnSignalsTableSummaryDataProcessed;
-            asnSignalsTableSummaryDataProcessed.map(entity => {
-                entity.visibility = false;
-            });
             this.setState({
-                asnSignalsTableSummaryDataProcessed: asnSignalsTableSummaryDataProcessed,
-                asnSignalsTableEntitiesChecked: 0,
-                currentEntitiesChecked: 0
-            }, () => {
-                this.convertValuesForHtsViz("ping-slash24", "asn");
-                this.convertValuesForHtsViz("bgp", "asn");
-                this.convertValuesForHtsViz("ucsd-nt", "asn");
+                    uncheckAllButtonLoading: true
+                },() => {
+                    setTimeout(() => {
+                        let asnSignalsTableSummaryDataProcessed = this.state.asnSignalsTableSummaryDataProcessed;
+                        asnSignalsTableSummaryDataProcessed.map(entity => {
+                            entity.visibility = false;
+                        });
+                        this.setState({
+                            asnSignalsTableSummaryDataProcessed: asnSignalsTableSummaryDataProcessed,
+                            asnSignalsTableEntitiesChecked: 0,
+                            currentEntitiesChecked: 0,
+                            uncheckAllButtonLoading: false
+                        }, () => {
+                            this.convertValuesForHtsViz("ping-slash24", "asn");
+                            this.convertValuesForHtsViz("bgp", "asn");
+                            this.convertValuesForHtsViz("ucsd-nt", "asn");
+                        });
+                    }, 500)
             });
         }
     }
