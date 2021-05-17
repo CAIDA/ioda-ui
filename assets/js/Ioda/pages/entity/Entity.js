@@ -614,6 +614,8 @@ class Entity extends Component {
             networkTelescope = {
                 type: "line",
                 lineThickness: 1,
+                color: "#E31A1C",
+                lineColor: "#E31A1C",
                 markerType: "circle",
                 markerSize: 2,
                 name: "Network Telescope",
@@ -622,6 +624,7 @@ class Entity extends Component {
                 xValueFormatString: "DDD, MMM DD - HH:MM",
                 yValueFormatString: "##",
                 dataPoints: networkTelescopeValues,
+                legendMarkerColor: "#E31A1C",
                 toolTipContent: "{x} <br/> Network Telescope (# Unique Source IPs): {y}"
             }
         }
@@ -629,6 +632,8 @@ class Entity extends Component {
             bgp = {
                 type: "line",
                 lineThickness: 1,
+                color: "#33A02C",
+                lineColor: "#33A02C",
                 markerType: "circle",
                 markerSize: 2,
                 name: "BGP",
@@ -636,6 +641,7 @@ class Entity extends Component {
                 xValueFormatString: "DDD, MMM DD - HH:MM",
                 yValueFormatString: "##",
                 dataPoints: bgpValues,
+                legendMarkerColor: "#33A02C",
                 toolTipContent: "{x} <br/> BGP (# Visbile /24s): {y}"
             }
         }
@@ -644,6 +650,8 @@ class Entity extends Component {
             activeProbing = {
                 type: "line",
                 lineThickness: 1,
+                color: "#1F78B4",
+                lineColor: "#1F78B4",
                 markerType: "circle",
                 markerSize: 2,
                 name: "Active Probing",
@@ -651,7 +659,9 @@ class Entity extends Component {
                 xValueFormatString: "DDD, MMM DD - HH:MM",
                 yValueFormatString: "##",
                 dataPoints: activeProbingValues,
-                toolTipContent: "{x} <br/> Active Probing (# /24s Up): {y}"
+                legendMarkerColor: "#1F78B4",
+                toolTipContent: "{x} <br/> Active Probing (# /24s Up): {y}",
+
             }
         }
 
@@ -675,7 +685,7 @@ class Entity extends Component {
                         let x, y;
                         x = toDateTime(datasource.from + (datasource.step * index));
                         y = this.state.tsDataNormalized ? normalize(value, min, max) : value;
-                        networkTelescopeValues.push({x: x, y: y});
+                        networkTelescopeValues.push({x: x, y: y, color: "#E31A1C"});
                     });
                     break;
                 case "bgp":
@@ -686,7 +696,7 @@ class Entity extends Component {
                         let x, y;
                         x = toDateTime(datasource.from + (datasource.step * index));
                         y = this.state.tsDataNormalized ? normalize(value, min, max) : value;
-                        bgpValues.push({x: x, y: y});
+                        bgpValues.push({x: x, y: y, color: "#33A02C"});
                     });
                     break;
                 case "ping-slash24":
@@ -697,7 +707,7 @@ class Entity extends Component {
                         let x, y;
                         x = toDateTime(datasource.from + (datasource.step * index));
                         y = this.state.tsDataNormalized ? normalize(value, min, max) : value;
-                        activeProbingValues.push({x: x, y: y});
+                        activeProbingValues.push({x: x, y: y, color: "#1F78B4"});
                     });
             }
         });
@@ -736,19 +746,15 @@ class Entity extends Component {
                 axisY: {
                     // title: "Active Probing and BGP",
                     titleFontsColor: "#666666",
-                    lineColor: "#34a02c",
                     labelFontColor: "#666666",
-                    tickColor: "#34a02c",
                     labelFontSize: 12,
-                    maximum: this.state.tsDataNormalized ? 100 : null
+                    maximum: this.state.tsDataNormalized ? 105 : null
                 },
                 axisY2: {
                     // title: "Network Telescope",
                     titleFontsColor: "#666666",
-                    lineColor: "#00a9e0",
                     labelFontColor: "#666666",
-                    tickColor: "#00a9e0",
-                    labelFontSize: 12,
+                    labelFontSize: 12
                 },
                 toolTip: {
                     shared: false,
