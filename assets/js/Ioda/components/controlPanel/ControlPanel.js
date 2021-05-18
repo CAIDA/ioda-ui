@@ -1,11 +1,22 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import T from 'i18n-react';
 // Date Picker Dependencies
-import { DateRangePicker } from 'react-date-range';
-import { addDays } from 'date-fns'
+import {createStaticRanges, DateRangePicker} from 'react-date-range';
+import {
+    addDays,
+    addMonths,
+    addYears,
+    endOfDay,
+    endOfMonth,
+    endOfWeek,
+    endOfYear,
+    startOfDay,
+    startOfMonth,
+    startOfWeek,
+    startOfYear
+} from "date-fns";
 // Time Picker Dependencies
 import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
-import {getIsoStringFromDate} from '../../utils/index';
 
 class ControlPanel extends Component {
     constructor(props) {
@@ -25,6 +36,10 @@ class ControlPanel extends Component {
             validRange: true,
             applyButtonActive: true
         }
+    }
+
+    componentDidMount() {
+        console.log("update16");
     }
 
     componentDidUpdate(nextProps, nextState) {
@@ -106,6 +121,103 @@ class ControlPanel extends Component {
         const apply = T.translate("controlPanel.apply");
         const cancel = T.translate("controlPanel.cancel");
 
+        // date functions for predefined static ranges
+        const defineds = {
+            oneHourAgo: new Date(new Date().getTime() - (1000*60*60)),
+            currentTime: new Date(),
+            startOfWeek: startOfWeek(new Date()),
+            endOfWeek: endOfWeek(new Date()),
+            startOfLastWeek: startOfWeek(addDays(new Date(), -7)),
+            endOfLastWeek: endOfWeek(addDays(new Date(), -7)),
+            startOfToday: startOfDay(new Date()),
+            startOfLastSevenDay: startOfDay(addDays(new Date(), -7)),
+            startOfLastThirtyDay: startOfDay(addDays(new Date(), -30)),
+            startOfLastNintyDay: startOfDay(addDays(new Date(), -90)),
+            startOfLastThreeHundredSixtyFiveDay: startOfDay(addDays(new Date(), -365)),
+            endOfToday: endOfDay(new Date()),
+            startOfYesterday: startOfDay(addDays(new Date(), -1)),
+            endOfYesterday: endOfDay(addDays(new Date(), -1)),
+            startOfMonth: startOfMonth(new Date()),
+            endOfMonth: endOfMonth(new Date()),
+            startOfLastMonth: startOfMonth(addMonths(new Date(), -1)),
+            endOfLastMonth: endOfMonth(addMonths(new Date(), -1)),
+            startOfYear: startOfYear(new Date()),
+            endOfYear: endOfYear(new Date()),
+            startOflastYear: startOfYear(addYears(new Date(), -1)),
+            endOflastYear: endOfYear(addYears(new Date(), -1))
+        };
+
+        // set UI for sidebar options on date range
+        const sideBarOptions = () => {
+            return [
+                {
+                    label: "Today",
+                    range: () => ({
+                        startDate: defineds.startOfToday,
+                        endDate: defineds.endOfToday
+                    })
+                },
+                {
+                    label: "- 60 mins",
+                    range: () => ({
+                        startDate: defineds.oneHourAgo,
+                        endDate: defineds.currentTime,
+                        label: "lastHour"
+                    })
+                },
+                {
+                    label: "- 7 days",
+                    range: () => ({
+                        startDate: defineds.startOfLastSevenDay,
+                        endDate: defineds.endOfToday
+                    })
+                },
+                {
+                    label: "- 30 days",
+                    range: () => ({
+                        startDate: defineds.startOfLastThirtyDay,
+                        endDate: defineds.endOfToday
+                    })
+                },
+                {
+                    label: "- 1 year",
+                    range: () => ({
+                        startDate: defineds.startOfLastThreeHundredSixtyFiveDay,
+                        endDate: defineds.endOfToday
+                    })
+                },
+                {
+                    label: "This Month",
+                    range: () => ({
+                        startDate: defineds.startOfMonth,
+                        endDate: defineds.endOfMonth
+                    })
+                },
+                {
+                    label: "This Year",
+                    range: () => ({
+                        startDate: defineds.startOfYear,
+                        endDate: defineds.endOfYear
+                    })
+                },
+                {
+                    label: "Last Year",
+                    range: () => ({
+                        startDate: defineds.startOflastYear,
+                        endDate: defineds.endOflastYear
+                    })
+                }
+            ];
+        };
+
+        // simplify sidebar to a variable, then set it to the static ranges attribute
+        const sideBar = sideBarOptions();
+        const staticRanges = [
+            // ...defaultStaticRanges,
+            ...createStaticRanges(sideBar)
+        ];
+
+
         return(
             <div className="row control-panel">
                 <div className="col-1-of-1">
@@ -126,14 +238,33 @@ class ControlPanel extends Component {
                     </div>
                     <div className={this.state.rangeInputVisibility ? "range__dropdown range__dropdown--visible" : "range__dropdown"}>
                         <DateRangePicker
-                            onChange={item => this.setState({ ...this.state, ...item })}
+                            onChange={item => {
+                                item.selection.label && item.selection.label === 'lastHour'
+                                ? this.setState({
+                                    ...this.state,
+                                    timeRange: [
+                                        `${item.selection.startDate.getUTCHours() < 10 ? `0${item.selection.startDate.getUTCHours()}` : item.selection.startDate.getUTCHours()}:${item.selection.startDate.getUTCMinutes() < 10 ? `0${item.selection.startDate.getUTCMinutes()}` : item.selection.startDate.getUTCMinutes()}:${item.selection.startDate.getUTCSeconds() < 10 ? `0${item.selection.startDate.getUTCSeconds()}` : item.selection.startDate.getUTCSeconds()}`,
+                                        `${item.selection.endDate.getUTCHours() < 10 ? `0${item.selection.endDate.getUTCHours()}` : item.selection.endDate.getUTCHours()}:${item.selection.endDate.getUTCMinutes() < 10 ? `0${item.selection.endDate.getUTCMinutes()}` : item.selection.endDate.getUTCMinutes()}:${item.selection.endDate.getUTCSeconds() < 10 ? `0${item.selection.endDate.getUTCSeconds()}` : item.selection.endDate.getUTCSeconds()}`
+                                    ],
+                                    ...item
+                                }) : this.setState({
+                                        ...this.state,
+                                        timeRange: [
+                                            "00:00:00",
+                                            "23:59:59"
+                                        ],
+                                        ...item
+                                    })
+                            }}
                             months={1}
                             minDate={new Date(1970, 0, 1)}
                             maxDate={new Date()}
                             direction="vertical"
                             scroll={{ enabled: true }}
                             ranges={[this.state.selection]}
+                            staticRanges={staticRanges}
                             inputRanges = {[]}
+
                         />
                         <div className="range__dropdown-checkbox">
                             <input onChange={() => this.handleWholeDaySelection()} type="checkbox" name="checkbox" id="whole-day"/>
