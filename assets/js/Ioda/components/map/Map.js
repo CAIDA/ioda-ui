@@ -30,18 +30,15 @@ class TopoMap extends Component {
             hoverScore: feature.properties.score ? humanizeNumber(feature.properties.score) : 0,
             hoverTooltipDisplay: true
         }, () => {
-            console.log(e.target.options);
-            // if (e.target.options && e.target.options.fillColor) {
-                let hoverColor = e.target.options && e.target.options.fillColor ? shadeColor(e.target.options.fillColor, -10) : shadeColor("#f2f2f0", -10);
-                e.target.setStyle({
-                    fillColor: hoverColor,
-                    color: '#fff',
-                    opacity: 1,
-                    fillOpacity: 0.4,
-                    weight: 3,
-                    dashArray: '2'
-                });
-            // }
+            let hoverColor = e.target.options && e.target.options.fillColor ? shadeColor(e.target.options.fillColor, -10) : shadeColor("#f2f2f0", -10);
+            e.target.setStyle({
+                fillColor: hoverColor,
+                color: '#fff',
+                opacity: 1,
+                fillOpacity: 0.4,
+                weight: 3,
+                dashArray: '2'
+            });
         })
     };
 
