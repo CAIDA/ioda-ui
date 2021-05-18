@@ -25,16 +25,19 @@ class TopoMap extends Component {
     };
 
     mouseOverFeature = (e, feature) => {
+        console.log(feature);
         this.setState({
             hoverName: feature.properties.name,
-            hoverScore: humanizeNumber(feature.properties.score),
+            hoverScore: feature.properties.score ? humanizeNumber(feature.properties.score) : 0,
             hoverTooltipDisplay: true
         }, () => {
+            console.log(this.state.hoverScore);
             if (e.target.options && e.target.options.fillColor) {
                 let hoverColor = shadeColor(e.target.options.fillColor, -10);
                 e.target.setStyle({
                     fillColor: hoverColor,
                     color: '#fff',
+                    opacity: 1,
                     fillOpacity: 0.4,
                     weight: 3,
                     dashArray: '2'
@@ -72,7 +75,7 @@ class TopoMap extends Component {
         return (
             <div style={{position: 'relative', height: 'inherit', width: '100%'}}>
                 <div className={this.state.hoverTooltipDisplay ? "tooltip tooltip--visible" : "tooltip"}>
-                    <p>{this.state.hoverName}{this.state.hoverScore > 0 ? ` - ${this.state.hoverScore}`: null}</p>
+                    <p>{this.state.hoverName}{this.state.hoverScore !== 0 ? ` - ${this.state.hoverScore}`: null}</p>
                 </div>
                 <Map
                     center={this.props.bounds ? null : position}
