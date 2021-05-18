@@ -1,5 +1,6 @@
 // React Imports
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import {connect} from "react-redux";
 import { withRouter } from 'react-router-dom';
 // Internationalization
@@ -552,6 +553,7 @@ class Entity extends Component {
                     regionalRawSignalsLoadAllButtonClicked: false,
                     asnRawSignalsLoadAllButtonClicked: false
                 }, () => {
+                    window.scrollTo(0, 0);
                     this.componentDidMount();
                 });
                 break
