@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Map, TileLayer, GeoJSON } from 'react-leaflet';
-import { humanizeNumber, shadeColor } from "../../utils";
+import { humanizeNumber, shadeColor, interpolateColor } from "../../utils";
 import d3 from "d3";
 
 const mapAccessToken = "pk.eyJ1Ijoid2ViZXIwMjUiLCJhIjoiY2tmNXp5bG0wMDAzaTMxbWQzcXQ1Y3k2eCJ9.NMu5bfrybATuYQ7HdYvq-g";
@@ -27,19 +27,18 @@ class TopoMap extends Component {
     mouseOverFeature = (e, feature) => {
         this.setState({
             hoverName: feature.properties.name,
-            hoverScore: humanizeNumber(feature.properties.score),
+            hoverScore: feature.properties.score ? humanizeNumber(feature.properties.score) : 0,
             hoverTooltipDisplay: true
         }, () => {
-            if (e.target.options && e.target.options.fillColor) {
-                let hoverColor = shadeColor(e.target.options.fillColor, -10);
-                e.target.setStyle({
-                    fillColor: hoverColor,
-                    color: '#fff',
-                    fillOpacity: 0.4,
-                    weight: 3,
-                    dashArray: '2'
-                });
-            }
+            let hoverColor = e.target.options && e.target.options.fillColor ? shadeColor(e.target.options.fillColor, -10) : shadeColor("#f2f2f0", -10);
+            e.target.setStyle({
+                fillColor: hoverColor,
+                color: '#fff',
+                opacity: 1,
+                fillOpacity: 0.4,
+                weight: 3,
+                dashArray: '2'
+            });
         })
     };
 
@@ -64,15 +63,11 @@ class TopoMap extends Component {
         let { scores } = this.props;
         let position = [20, 0];
         let zoom = 2;
-        const colorSet = ["rgb(254, 204, 92)", "rgb(253, 141, 60)", "rgb(227, 26, 28)", "rgb(227, 26, 28)"];
-        let colScaleLinear = d3.scale.linear()
-            .domain([scores[Math.round((scores.length - 1) / 4)], scores[Math.round((scores.length - 1) / 2)], scores[Math.round((scores.length - 1) * .9)], scores[Math.round(scores.length - 1)]])
-            .range(colorSet);
 
         return (
             <div style={{position: 'relative', height: 'inherit', width: '100%'}}>
                 <div className={this.state.hoverTooltipDisplay ? "tooltip tooltip--visible" : "tooltip"}>
-                    <p>{this.state.hoverName}{this.state.hoverScore > 0 ? ` - ${this.state.hoverScore}`: null}</p>
+                    <p>{this.state.hoverName}{this.state.hoverScore !== 0 ? ` - ${this.state.hoverScore}`: null}</p>
                 </div>
                 <Map
                     center={this.props.bounds ? null : position}
@@ -93,10 +88,12 @@ class TopoMap extends Component {
                             weight: 2,
                             fillColor:
                                 !feature.properties.score
-                                    ? "transparent"
-                                    : colScaleLinear(feature.properties.score)
+                                    ? "#f2f2f0"
+                                    : interpolateColor("#1387CB", "#E8080D", scores[0], scores[scores.length -1], feature.properties.score)
                             ,
-                            fillOpacity: 0.7,
+                            fillOpacity: !feature.properties.score
+                                    ? 0.2
+                                    : 0.5,
                             dashArray: '2'
                         })}
                     />

@@ -83,7 +83,7 @@ export function generateKeys(prefix) {
     return (key + Math.random().toString(34).slice(2));
 }
 
-function interpolateColor(color1, color2, min, max, value) {
+export function interpolateColor(color1, color2, min, max, value) {
     const linearScale = d3.scale.linear()
         .domain([min, max])
         .range([color1, color2]);

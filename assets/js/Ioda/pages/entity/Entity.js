@@ -38,7 +38,6 @@ import {
     dateRangeToSeconds,
     normalize
 } from "../../utils";
-import {as} from "../dashboard/DashboardConstants";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
 
 import TopoMap from "../../components/map/Map";
