@@ -85,7 +85,6 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
-        // console.log(window.location.search.split("?")[1].split("&")[0].split("=")[1]);
         let timeEntryInUrl = window.location.pathname.split("?");
         if (timeEntryInUrl[1]){
             this.setState({
@@ -362,7 +361,7 @@ class Dashboard extends Component {
     // function to manage when a user clicks a country in the map
     handleEntityShapeClick(entity) {
         const { history } = this.props;
-        this.state.tabCurrentView === 'country'
+        this.state.activeTabType === 'country'
             ? history.push(
             window.location.search.split("?")[1]
                 ? `/country/${entity.properties.usercode}?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
