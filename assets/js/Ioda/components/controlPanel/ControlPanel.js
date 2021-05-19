@@ -238,6 +238,7 @@ class ControlPanel extends Component {
         return(
             <div className="row control-panel">
                 <Style>{`
+                    /* Styles to force hide/show the calendar dependent on if Custom Range is clicked */ 
                     .rdrDefinedRangesWrapper {
                         padding-bottom: 4rem;
                     }
@@ -250,17 +251,13 @@ class ControlPanel extends Component {
                         ${this.state.customRangeVisible ? "display: flex;" : "display: none"}
                     }
                     
-                    
+                    /* Styles to force issue where both Today and - 60 mins options want to both highlight at the same time */                    
                     .rdrStaticRange:first-child {
                         ${this.state.todaySelected ? "color: rgb(61, 145, 255)important;" : "color: #404040!important; font-weight: 400!important;"}  
                     }
                     .rdrStaticRange:nth-child(2) {
                         ${this.state.lastHourSelected ? "color: rgb(61, 145, 255)important;" : "color: #404040!important; font-weight: 400!important;"}  
                     }
-                    
-                    
-                    
-                    
                 `}</Style>
                 <div className="col-1-of-1">
                     <h1 className="heading-h1">{this.props.entityName}</h1>
@@ -339,8 +336,6 @@ class ControlPanel extends Component {
                             ranges={[this.state.selection]}
                             staticRanges={staticRanges}
                             inputRanges = {[]}
-
-
                         />
                         <div className={this.state.wholeDayInputSelected ? "range__time" : "range__time range__time--visible"}>
                             <TimeRangePicker
