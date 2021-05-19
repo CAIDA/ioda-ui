@@ -41,7 +41,7 @@ class ControlPanel extends Component {
     }
 
     componentDidMount() {
-        console.log("update16");
+        console.log("update");
     }
 
     componentDidUpdate(nextProps, nextState) {
@@ -110,9 +110,7 @@ class ControlPanel extends Component {
     }
 
     handleRangeUpdate() {
-        this.setState({
-            customRangeVisible: false
-        });
+        this.handleRangeDisplay();
         this.props.timeFrame(this.state.selection, this.state.timeRange);
     }
 
