@@ -308,8 +308,6 @@ export function shadeColor(color, percent) {
 
 // Convert values from control panel range input (date range, time range) into seconds from epoch
 export function dateRangeToSeconds(dateRange, timeRange) {
-    console.log(dateRange);
-    console.log(timeRange);
     // initialize values from parameters
     let dStart = dateRange.startDate;
     let tStart = timeRange[0].split(":");

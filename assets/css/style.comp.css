@@ -247,10 +247,7 @@ body {
   box-shadow: 0 1px 2px #9F9D9D;
   border-radius: 3px; }
   .control-panel .range__dropdown-checkbox {
-    position: absolute;
-    top: 25rem;
     width: 18.3rem;
-    display: flex;
     justify-content: center; }
   .control-panel .range__dropdown--visible {
     display: inline-block; }
@@ -258,8 +255,8 @@ body {
 .control-panel .range__time {
   display: none;
   position: absolute;
-  top: 22rem;
-  left: 0.5rem; }
+  top: 33rem;
+  right: 4.75rem; }
   .control-panel .range__time--visible {
     display: block; }
 
@@ -279,8 +276,9 @@ body {
   position: relative;
   z-index: 10;
   padding: 0 0.5rem;
+  margin: 1.5rem;
   position: absolute;
-  top: 26rem;
+  top: 32rem;
   left: 0;
   padding: 0 1rem;
   font-size: 1.1rem; }

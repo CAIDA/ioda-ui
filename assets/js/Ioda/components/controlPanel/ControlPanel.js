@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Style } from "react-style-tag";
 import T from 'i18n-react';
 // Date Picker Dependencies
 import {createStaticRanges, DateRangePicker} from 'react-date-range';
@@ -34,7 +35,8 @@ class ControlPanel extends Component {
             rangeInputVisibility: false,
             wholeDayInputSelected: false,
             validRange: true,
-            applyButtonActive: true
+            applyButtonActive: true,
+            customRangeVisible: false
         }
     }
 
@@ -102,11 +104,15 @@ class ControlPanel extends Component {
 
     handleRangeDisplay() {
         this.setState({
-            rangeInputVisibility: !this.state.rangeInputVisibility
+            rangeInputVisibility: !this.state.rangeInputVisibility,
+            customRangeVisible: false
         })
     }
 
     handleRangeUpdate() {
+        this.setState({
+            customRangeVisible: false
+        });
         this.props.timeFrame(this.state.selection, this.state.timeRange);
     }
 
@@ -124,6 +130,7 @@ class ControlPanel extends Component {
         // date functions for predefined static ranges
         const defineds = {
             oneHourAgo: new Date(new Date().getTime() - (1000*60*60)),
+            twentyFourHoursAgo: new Date(new Date().getTime() - (1000*60*60*24)),
             currentTime: new Date(),
             startOfWeek: startOfWeek(new Date()),
             endOfWeek: endOfWeek(new Date()),
@@ -163,6 +170,13 @@ class ControlPanel extends Component {
                         startDate: defineds.oneHourAgo,
                         endDate: defineds.currentTime,
                         label: "lastHour"
+                    })
+                },
+                {
+                    label: "- 24 hours",
+                    range: () => ({
+                        startDate: defineds.twentyFourHoursAgo,
+                        endDate: defineds.currentTime
                     })
                 },
                 {
@@ -206,6 +220,12 @@ class ControlPanel extends Component {
                         startDate: defineds.startOflastYear,
                         endDate: defineds.endOflastYear
                     })
+                },
+                {
+                    label: "Custom Range",
+                    range: () => ({
+                        label: "customRange"
+                    })
                 }
             ];
         };
@@ -220,6 +240,19 @@ class ControlPanel extends Component {
 
         return(
             <div className="row control-panel">
+                <Style>{`
+                    .rdrDefinedRangesWrapper {
+                        padding-bottom: 4rem;
+                    }
+                    .rdrCalendarWrapper,
+                    .range__time,
+                    .react-timerange-picker {
+                        ${this.state.customRangeVisible ? "display: block;" : "display: none"}
+                    }
+                    .range__dropdown-checkbox {
+                        ${this.state.customRangeVisible ? "display: flex;" : "display: none"}
+                    }
+                `}</Style>
                 <div className="col-1-of-1">
                     <h1 className="heading-h1">{this.props.entityName}</h1>
                 </div>
@@ -239,15 +272,24 @@ class ControlPanel extends Component {
                     <div className={this.state.rangeInputVisibility ? "range__dropdown range__dropdown--visible" : "range__dropdown"}>
                         <DateRangePicker
                             onChange={item => {
-                                item.selection.label && item.selection.label === 'lastHour'
-                                ? this.setState({
-                                    ...this.state,
-                                    timeRange: [
-                                        `${item.selection.startDate.getUTCHours() < 10 ? `0${item.selection.startDate.getUTCHours()}` : item.selection.startDate.getUTCHours()}:${item.selection.startDate.getUTCMinutes() < 10 ? `0${item.selection.startDate.getUTCMinutes()}` : item.selection.startDate.getUTCMinutes()}:${item.selection.startDate.getUTCSeconds() < 10 ? `0${item.selection.startDate.getUTCSeconds()}` : item.selection.startDate.getUTCSeconds()}`,
-                                        `${item.selection.endDate.getUTCHours() < 10 ? `0${item.selection.endDate.getUTCHours()}` : item.selection.endDate.getUTCHours()}:${item.selection.endDate.getUTCMinutes() < 10 ? `0${item.selection.endDate.getUTCMinutes()}` : item.selection.endDate.getUTCMinutes()}:${item.selection.endDate.getUTCSeconds() < 10 ? `0${item.selection.endDate.getUTCSeconds()}` : item.selection.endDate.getUTCSeconds()}`
-                                    ],
-                                    ...item
-                                }) : this.setState({
+                                if (item.selection.label) {
+                                    switch (item.selection.label) {
+                                        case 'lastHour':
+                                            this.setState({
+                                                ...this.state,
+                                                timeRange: [
+                                                    `${item.selection.startDate.getUTCHours() < 10 ? `0${item.selection.startDate.getUTCHours()}` : item.selection.startDate.getUTCHours()}:${item.selection.startDate.getUTCMinutes() < 10 ? `0${item.selection.startDate.getUTCMinutes()}` : item.selection.startDate.getUTCMinutes()}:${item.selection.startDate.getUTCSeconds() < 10 ? `0${item.selection.startDate.getUTCSeconds()}` : item.selection.startDate.getUTCSeconds()}`,
+                                                    `${item.selection.endDate.getUTCHours() < 10 ? `0${item.selection.endDate.getUTCHours()}` : item.selection.endDate.getUTCHours()}:${item.selection.endDate.getUTCMinutes() < 10 ? `0${item.selection.endDate.getUTCMinutes()}` : item.selection.endDate.getUTCMinutes()}:${item.selection.endDate.getUTCSeconds() < 10 ? `0${item.selection.endDate.getUTCSeconds()}` : item.selection.endDate.getUTCSeconds()}`
+                                                ],
+                                                ...item
+                                            });
+                                            break;
+                                        case 'customRange':
+                                            this.setState({customRangeVisible: true});
+                                            break;
+                                    }
+                                } else {
+                                    this.setState({
                                         ...this.state,
                                         timeRange: [
                                             "00:00:00",
@@ -255,21 +297,21 @@ class ControlPanel extends Component {
                                         ],
                                         ...item
                                     })
+                                }
                             }}
                             months={1}
                             minDate={new Date(1970, 0, 1)}
                             maxDate={new Date()}
                             direction="vertical"
-                            scroll={{ enabled: true }}
+                            // setting to true will cause a console error due to length of calendar months loaded (back to minDate value)
+                            scroll={{ enabled: false }}
                             ranges={[this.state.selection]}
                             staticRanges={staticRanges}
                             inputRanges = {[]}
+                            // showMonthAndYearPickers={this.state.customRangeVisible}
+
 
                         />
-                        <div className="range__dropdown-checkbox">
-                            <input onChange={() => this.handleWholeDaySelection()} type="checkbox" name="checkbox" id="whole-day"/>
-                            <label htmlFor="whole-day">{wholeDay}</label>
-                        </div>
                         <div className={this.state.wholeDayInputSelected ? "range__time" : "range__time range__time--visible"}>
                             <TimeRangePicker
                                 onChange={(time) => this.handleTimeChange(time)}
@@ -278,6 +320,10 @@ class ControlPanel extends Component {
                                 maxDetail={"second"}
                                 clearIcon={null}
                             />
+                            <div className="range__dropdown-checkbox">
+                                <input onChange={() => this.handleWholeDaySelection()} type="checkbox" name="checkbox" id="whole-day"/>
+                                <label htmlFor="whole-day">{wholeDay}</label>
+                            </div>
                         </div>
                         {
                             this.state.applyButtonActive

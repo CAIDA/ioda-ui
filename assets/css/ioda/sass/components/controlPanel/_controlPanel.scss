@@ -63,10 +63,8 @@
       border-radius: 3px;
 
       &-checkbox {
-        position: absolute;
-        top: 25rem;
         width: 18.3rem;
-        display: flex;
+        //display: flex; controlled in component file
         justify-content: center;
       }
 
@@ -78,8 +76,8 @@
     &__time {
       display: none;
       position: absolute;
-      top: 22rem;
-      left: 0.5rem;
+      top: 33rem;
+      right: 4.75rem;
 
       &--visible {
         display: block;
@@ -88,8 +86,9 @@
 
     &__button {
       @include button;
+      margin: 1.5rem;
       position: absolute;
-      top: 26rem;
+      top: 32rem;
       left: 0;
       padding: 0 1rem;
       font-size: 1.1rem;
