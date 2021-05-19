@@ -36,12 +36,10 @@ class ControlPanel extends Component {
             wholeDayInputSelected: false,
             validRange: true,
             applyButtonActive: true,
-            customRangeVisible: false
+            customRangeVisible: false,
+            todaySelected: false,
+            lastHourSelected: false
         }
-    }
-
-    componentDidMount() {
-        console.log("update");
     }
 
     componentDidUpdate(nextProps, nextState) {
@@ -134,12 +132,12 @@ class ControlPanel extends Component {
             endOfWeek: endOfWeek(new Date()),
             startOfLastWeek: startOfWeek(addDays(new Date(), -7)),
             endOfLastWeek: endOfWeek(addDays(new Date(), -7)),
-            startOfToday: startOfDay(new Date()),
+            startOfToday: new Date(new Date().setHours(0,0,0,0)),
             startOfLastSevenDay: startOfDay(addDays(new Date(), -7)),
             startOfLastThirtyDay: startOfDay(addDays(new Date(), -30)),
             startOfLastNintyDay: startOfDay(addDays(new Date(), -90)),
             startOfLastThreeHundredSixtyFiveDay: startOfDay(addDays(new Date(), -365)),
-            endOfToday: endOfDay(new Date()),
+            endOfToday: new Date(new Date().setHours(23,59,59,999)),
             startOfYesterday: startOfDay(addDays(new Date(), -1)),
             endOfYesterday: endOfDay(addDays(new Date(), -1)),
             startOfMonth: startOfMonth(new Date()),
@@ -159,7 +157,8 @@ class ControlPanel extends Component {
                     label: "Today",
                     range: () => ({
                         startDate: defineds.startOfToday,
-                        endDate: defineds.endOfToday
+                        endDate: defineds.endOfToday,
+                        label: "today"
                     })
                 },
                 {
@@ -250,6 +249,18 @@ class ControlPanel extends Component {
                     .range__dropdown-checkbox {
                         ${this.state.customRangeVisible ? "display: flex;" : "display: none"}
                     }
+                    
+                    
+                    .rdrStaticRange:first-child {
+                        ${this.state.todaySelected ? "color: rgb(61, 145, 255)important;" : "color: #404040!important; font-weight: 400!important;"}  
+                    }
+                    .rdrStaticRange:nth-child(2) {
+                        ${this.state.lastHourSelected ? "color: rgb(61, 145, 255)important;" : "color: #404040!important; font-weight: 400!important;"}  
+                    }
+                    
+                    
+                    
+                    
                 `}</Style>
                 <div className="col-1-of-1">
                     <h1 className="heading-h1">{this.props.entityName}</h1>
@@ -272,9 +283,23 @@ class ControlPanel extends Component {
                             onChange={item => {
                                 if (item.selection.label) {
                                     switch (item.selection.label) {
+                                        case 'today':
+                                            this.setState({
+                                                ...this.state,
+                                                todaySelected: true,
+                                                lastHourSelected: false,
+                                                timeRange: [
+                                                    "00:00:00",
+                                                    "23:59:59"
+                                                ],
+                                                ...item
+                                            });
+                                            break;
                                         case 'lastHour':
                                             this.setState({
                                                 ...this.state,
+                                                lastHourSelected: true,
+                                                todaySelected: false,
                                                 timeRange: [
                                                     `${item.selection.startDate.getUTCHours() < 10 ? `0${item.selection.startDate.getUTCHours()}` : item.selection.startDate.getUTCHours()}:${item.selection.startDate.getUTCMinutes() < 10 ? `0${item.selection.startDate.getUTCMinutes()}` : item.selection.startDate.getUTCMinutes()}:${item.selection.startDate.getUTCSeconds() < 10 ? `0${item.selection.startDate.getUTCSeconds()}` : item.selection.startDate.getUTCSeconds()}`,
                                                     `${item.selection.endDate.getUTCHours() < 10 ? `0${item.selection.endDate.getUTCHours()}` : item.selection.endDate.getUTCHours()}:${item.selection.endDate.getUTCMinutes() < 10 ? `0${item.selection.endDate.getUTCMinutes()}` : item.selection.endDate.getUTCMinutes()}:${item.selection.endDate.getUTCSeconds() < 10 ? `0${item.selection.endDate.getUTCSeconds()}` : item.selection.endDate.getUTCSeconds()}`
@@ -283,12 +308,20 @@ class ControlPanel extends Component {
                                             });
                                             break;
                                         case 'customRange':
-                                            this.setState({customRangeVisible: true});
+                                            this.setState({
+                                                customRangeVisible: true,
+                                                todaySelected: false,
+                                                lastHourSelected: false
+                                            });
+                                            break;
+                                        default:
                                             break;
                                     }
                                 } else {
                                     this.setState({
                                         ...this.state,
+                                        todaySelected: false,
+                                        lastHourSelected: false,
                                         timeRange: [
                                             "00:00:00",
                                             "23:59:59"
@@ -306,7 +339,6 @@ class ControlPanel extends Component {
                             ranges={[this.state.selection]}
                             staticRanges={staticRanges}
                             inputRanges = {[]}
-                            // showMonthAndYearPickers={this.state.customRangeVisible}
 
 
                         />
