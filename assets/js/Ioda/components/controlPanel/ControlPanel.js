@@ -43,12 +43,8 @@ class ControlPanel extends Component {
             userInputSelected: false,
             userInputRangeInput: null,
             userInputRangeSelect: "days"
-        }
+        };
         this.handleUserInputRange = this.handleUserInputRange.bind(this);
-    }
-
-    componentDidMount() {
-        console.log("update14");
     }
 
     componentDidUpdate(nextProps, nextState) {
@@ -119,13 +115,90 @@ class ControlPanel extends Component {
     }
     // clicking the apply button
     handleRangeUpdate() {
+        let newStartDate, newEndDate;
         if (this.state.userInputSelected) {
-            console.log(this.state.userInputRangeInput);
-            console.log(this.state.userInputRangeSelect);
+
+            // figure out Date unit multiplier (e.g. if it's a day get the seconds value for a day to multiply with input)
+            switch (this.state.userInputRangeSelect) {
+                case "mins":
+                    newStartDate = new Date(new Date() - this.state.userInputRangeInput * 1000 * 60);
+                    newEndDate = new Date();
+                    break;
+                case "hours":
+                    newStartDate = new Date(new Date() - this.state.userInputRangeInput * 1000 * 60 * 60);
+                    newEndDate = new Date();
+                    break;
+                case "days":
+                    newStartDate = new Date(new Date() - this.state.userInputRangeInput * 1000 * 60 * 60 * 24);
+                    newEndDate = new Date();
+                    break;
+                case "weeks":
+                    newStartDate = new Date(new Date() - this.state.userInputRangeInput * 1000 * 60 * 60 * 24 * 7);
+                    newEndDate = new Date();
+                    break;
+                case "months":
+                    newStartDate = new Date(new Date() - this.state.userInputRangeInput * 1000 * 60 * 60 * 24 * 30);
+                    newEndDate = new Date();
+                    break;
+                case "years":
+                    newStartDate = new Date(new Date() - this.state.userInputRangeInput * 1000 * 60 * 60 * 24 * 365);
+                    newEndDate = new Date();
+                    break;
+                default:
+                    console.alert("error with updating range with user input.");
+                    break;
+            }
         } else {
-            this.handleRangeDisplay();
-            this.props.timeFrame(this.state.selection, this.state.timeRange);
+            newStartDate = this.state.selection.startDate;
+            newEndDate = this.state.selection.endDate;
         }
+
+        // Get UTC values for time range state, set them, then make api call
+        let startTimeRangeHours = newStartDate.getUTCHours() < 10 ? `0${newStartDate.getUTCHours()}` : newStartDate.getUTCHours();
+        let startTimeRangeMin = newStartDate.getUTCMinutes() < 10 ? `0${newStartDate.getUTCMinutes()}` : newStartDate.getUTCMinutes();
+        let startTimeRangeSec = newStartDate.getUTCSeconds() < 10 ? `0${newStartDate.getUTCSeconds()}` : newStartDate.getUTCSeconds();
+        let startTimeRange = `${startTimeRangeHours}:${startTimeRangeMin}:${startTimeRangeSec}`;
+
+        let endTimeRangeHours = newEndDate.getUTCHours() < 10 ? `0${newEndDate.getUTCHours()}` : newEndDate.getUTCHours();
+        let endTimeRangeMin = newEndDate.getUTCMinutes() < 10 ? `0${newEndDate.getUTCMinutes()}` : newEndDate.getUTCMinutes();
+        let endTimeRangeSec = newEndDate.getUTCSeconds() < 10 ? `0${newEndDate.getUTCSeconds()}` : newEndDate.getUTCSeconds();
+        let endTimeRange = `${endTimeRangeHours}:${endTimeRangeMin}:${endTimeRangeSec}`;
+
+
+
+        if (this.state.userInputSelected) {
+            if (newStartDate && newEndDate) {
+                this.setState({
+                    selection: {
+                        ...this.state.selection,
+                        startDate: newStartDate,
+                        endDate: newEndDate,
+                    },
+                    timeRange: [
+                        startTimeRange,
+                        endTimeRange
+                    ]
+                }, () => {
+                    this.handleRangeDisplay();
+                    this.props.timeFrame(this.state.selection, this.state.timeRange);
+                })
+            }
+        } else {
+            this.setState({
+                timeRange: [
+                    startTimeRange,
+                    endTimeRange
+                ]
+            }, () => {
+                this.handleRangeDisplay();
+                this.props.timeFrame(this.state.selection, this.state.timeRange);
+            });
+        }
+
+
+
+
+
     }
     // function manage the time unit selected in the dropdown for the user input option in sidebar
     handleUserInputRange(event) {
