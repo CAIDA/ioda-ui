@@ -4,6 +4,7 @@ import T from 'i18n-react';
 // Date Picker Dependencies
 import {createStaticRanges, DateRangePicker} from 'react-date-range';
 import {
+    sub,
     addDays,
     addMonths,
     addYears,
@@ -38,8 +39,12 @@ class ControlPanel extends Component {
             applyButtonActive: true,
             customRangeVisible: false,
             todaySelected: false,
-            lastHourSelected: false
-        }
+            lastHourSelected: false,
+            userInputSelected: false,
+            userInputRangeInput: null,
+            userInputRangeSelect: "days"
+        };
+        this.handleUserInputRange = this.handleUserInputRange.bind(this);
     }
 
     componentDidUpdate(nextProps, nextState) {
@@ -92,24 +97,111 @@ class ControlPanel extends Component {
     handleTimeChange(time) {
         this.setState({timeRange: time})
     }
-
+    // Checkbox in custom range menu to toggle time selected as the entire day
     handleWholeDaySelection() {
         this.setState({
             timeRange: ["00:00:00", "23:59:59"],
+            customRangeVisible: true,
             wholeDayInputSelected: !this.state.wholeDayInputSelected
-        })
+        });
     }
-
     handleRangeDisplay() {
         this.setState({
             rangeInputVisibility: !this.state.rangeInputVisibility,
             customRangeVisible: false
         })
     }
-
+    // clicking the apply button
     handleRangeUpdate() {
-        this.handleRangeDisplay();
-        this.props.timeFrame(this.state.selection, this.state.timeRange);
+        let newStartDate, newEndDate;
+        if (this.state.userInputSelected) {
+
+            // figure out Date unit multiplier (e.g. if it's a day get the seconds value for a day to multiply with input)
+            switch (this.state.userInputRangeSelect) {
+                case "mins":
+                    newStartDate = new Date(new Date() - this.state.userInputRangeInput * 1000 * 60);
+                    newEndDate = new Date();
+                    break;
+                case "hours":
+                    newStartDate = new Date(new Date() - this.state.userInputRangeInput * 1000 * 60 * 60);
+                    newEndDate = new Date();
+                    break;
+                case "days":
+                    newStartDate = new Date(new Date() - this.state.userInputRangeInput * 1000 * 60 * 60 * 24);
+                    newEndDate = new Date();
+                    break;
+                case "weeks":
+                    newStartDate = new Date(new Date() - this.state.userInputRangeInput * 1000 * 60 * 60 * 24 * 7);
+                    newEndDate = new Date();
+                    break;
+                case "months":
+                    newStartDate = new Date(new Date() - this.state.userInputRangeInput * 1000 * 60 * 60 * 24 * 30);
+                    newEndDate = new Date();
+                    break;
+                case "years":
+                    newStartDate = new Date(new Date() - this.state.userInputRangeInput * 1000 * 60 * 60 * 24 * 365);
+                    newEndDate = new Date();
+                    break;
+                default:
+                    console.alert("error with updating range with user input.");
+                    break;
+            }
+        } else {
+            newStartDate = this.state.selection.startDate;
+            newEndDate = this.state.selection.endDate;
+        }
+
+        // Get UTC values for time range state, set them, then make api call
+        let startTimeRangeHours = newStartDate.getUTCHours() < 10 ? `0${newStartDate.getUTCHours()}` : newStartDate.getUTCHours();
+        let startTimeRangeMin = newStartDate.getUTCMinutes() < 10 ? `0${newStartDate.getUTCMinutes()}` : newStartDate.getUTCMinutes();
+        let startTimeRangeSec = newStartDate.getUTCSeconds() < 10 ? `0${newStartDate.getUTCSeconds()}` : newStartDate.getUTCSeconds();
+        let startTimeRange = `${startTimeRangeHours}:${startTimeRangeMin}:${startTimeRangeSec}`;
+
+        let endTimeRangeHours = newEndDate.getUTCHours() < 10 ? `0${newEndDate.getUTCHours()}` : newEndDate.getUTCHours();
+        let endTimeRangeMin = newEndDate.getUTCMinutes() < 10 ? `0${newEndDate.getUTCMinutes()}` : newEndDate.getUTCMinutes();
+        let endTimeRangeSec = newEndDate.getUTCSeconds() < 10 ? `0${newEndDate.getUTCSeconds()}` : newEndDate.getUTCSeconds();
+        let endTimeRange = `${endTimeRangeHours}:${endTimeRangeMin}:${endTimeRangeSec}`;
+
+
+
+        if (this.state.userInputSelected) {
+            if (newStartDate && newEndDate) {
+                this.setState({
+                    selection: {
+                        ...this.state.selection,
+                        startDate: newStartDate,
+                        endDate: newEndDate,
+                    },
+                    timeRange: [
+                        startTimeRange,
+                        endTimeRange
+                    ]
+                }, () => {
+                    this.handleRangeDisplay();
+                    this.props.timeFrame(this.state.selection, this.state.timeRange);
+                })
+            }
+        } else {
+            this.setState({
+                timeRange: [
+                    startTimeRange,
+                    endTimeRange
+                ]
+            }, () => {
+                this.handleRangeDisplay();
+                this.props.timeFrame(this.state.selection, this.state.timeRange);
+            });
+        }
+    }
+    // function manage the time unit selected in the dropdown for the user input option in sidebar
+    handleUserInputRange(event) {
+        if (event.currentTarget.className === "range__dropdown-userInputRangeSelect") {
+            this.setState({userInputRangeSelect: event.target.value});
+        }
+
+        if (event.currentTarget.className === "range__dropdown-userInputRangeInput") {
+            this.setState({ userInputRangeInput: event.target.value});
+        }
     }
 
     render() {
@@ -152,6 +244,26 @@ class ControlPanel extends Component {
 
         // set UI for sidebar options on date range
         const sideBarOptions = () => {
+            const selectOptions = {
+                min: "mins",
+                hr: "hours",
+                day: "days",
+                wk: "weeks",
+                mon: "months",
+                yr: "years"
+            };
+            let customInputHTML = <div className="range__dropdown-userInputRange">
+                Last
+                <input type="number" placeholder="number" onChange={this.handleUserInputRange} className="range__dropdown-userInputRangeInput"/>
+                <select value={this.state.userInputRangeSelect} onChange={this.handleUserInputRange} className="range__dropdown-userInputRangeSelect">
+                    <option value={selectOptions.min}>{selectOptions.min}</option>
+                    <option value={selectOptions.hr}>{selectOptions.hr}</option>
+                    <option value={selectOptions.day}>{selectOptions.day}</option>
+                    <option value={selectOptions.wk}>{selectOptions.wk}</option>
+                    <option value={selectOptions.mon}>{selectOptions.mon}</option>
+                    <option value={selectOptions.yr}>{selectOptions.yr}</option>
+                </select>
+            </div>;
             return [
                 {
                     label: "Today",
@@ -219,6 +331,14 @@ class ControlPanel extends Component {
                     })
                 },
                 {
+                    label: customInputHTML,
+                    range: () => ({
+                        label: "userInputRange",
+                        inputValue: this.state.userInputRangeInput,
+                        selectValue: this.state.userInputRangeSelect
+                    })
+                },
+                {
                     label: "Custom Range",
                     range: () => ({
                         label: "customRange"
@@ -233,6 +353,9 @@ class ControlPanel extends Component {
             // ...defaultStaticRanges,
             ...createStaticRanges(sideBar)
         ];
+
+        const activeCSS = "color: rgb(61, 145, 255)!important; font-weight: 700!important;";
+        const inactiveCSS = "color: #404040!important; font-weight: 400!important;"
 
 
         return(
@@ -251,13 +374,25 @@ class ControlPanel extends Component {
                         ${this.state.customRangeVisible ? "display: flex;" : "display: none"}
                     }
                     
-                    /* Styles to force issue where both Today and - 60 mins options want to both highlight at the same time */                    
+                    /* Styles to force issue where active custom inputs styling needs to be controlled */                    
                     .rdrStaticRange:first-child {
-                        ${this.state.todaySelected ? "color: rgb(61, 145, 255)important;" : "color: #404040!important; font-weight: 400!important;"}  
+                        ${this.state.todaySelected ? activeCSS : inactiveCSS}  
                     }
                     .rdrStaticRange:nth-child(2) {
-                        ${this.state.lastHourSelected ? "color: rgb(61, 145, 255)important;" : "color: #404040!important; font-weight: 400!important;"}  
+                        ${this.state.lastHourSelected ? activeCSS : inactiveCSS}  
                     }
+                    .rdrStaticRange:nth-child(10) {
+                        ${this.state.userInputSelected ? activeCSS : inactiveCSS}
+                    }
+                    .rdrStaticRange:nth-child(11) {
+                        ${this.state.customRangeSelected ? activeCSS : inactiveCSS}
+                    }
+                    .rdrStaticRangeSelected {
+                        ${this.state.todaySelected || this.state.lastHourSelected || this.state.userInputSelected || this.state.customRangeSelected ? inactiveCSS : activeCSS}
+                    }
+                   
+
+                    
                 `}</Style>
                 <div className="col-1-of-1">
                     <h1 className="heading-h1">{this.props.entityName}</h1>
@@ -285,6 +420,8 @@ class ControlPanel extends Component {
                                                 ...this.state,
                                                 todaySelected: true,
                                                 lastHourSelected: false,
+                                                customRangeSelected: false,
+                                                userInputSelected: false,
                                                 timeRange: [
                                                     "00:00:00",
                                                     "23:59:59"
@@ -297,6 +434,8 @@ class ControlPanel extends Component {
                                                 ...this.state,
                                                 lastHourSelected: true,
                                                 todaySelected: false,
+                                                userInputSelected: false,
+                                                customRangeSelected: false,
                                                 timeRange: [
                                                     `${item.selection.startDate.getUTCHours() < 10 ? `0${item.selection.startDate.getUTCHours()}` : item.selection.startDate.getUTCHours()}:${item.selection.startDate.getUTCMinutes() < 10 ? `0${item.selection.startDate.getUTCMinutes()}` : item.selection.startDate.getUTCMinutes()}:${item.selection.startDate.getUTCSeconds() < 10 ? `0${item.selection.startDate.getUTCSeconds()}` : item.selection.startDate.getUTCSeconds()}`,
                                                     `${item.selection.endDate.getUTCHours() < 10 ? `0${item.selection.endDate.getUTCHours()}` : item.selection.endDate.getUTCHours()}:${item.selection.endDate.getUTCMinutes() < 10 ? `0${item.selection.endDate.getUTCMinutes()}` : item.selection.endDate.getUTCMinutes()}:${item.selection.endDate.getUTCSeconds() < 10 ? `0${item.selection.endDate.getUTCSeconds()}` : item.selection.endDate.getUTCSeconds()}`
@@ -304,11 +443,22 @@ class ControlPanel extends Component {
                                                 ...item
                                             });
                                             break;
+                                        case 'userInputRange':
+                                            // set state here to control what is highlighted in css, use state in apply button to set time parameters
+                                            this.setState({
+                                                todaySelected: false,
+                                                lastHourSelected: false,
+                                                userInputSelected: true,
+                                                customRangeSelected: false
+                                            });
+                                            break;
                                         case 'customRange':
                                             this.setState({
                                                 customRangeVisible: true,
+                                                customRangeSelected: true,
                                                 todaySelected: false,
-                                                lastHourSelected: false
+                                                lastHourSelected: false,
+                                                userInputSelected: false
                                             });
                                             break;
                                         default:
@@ -319,6 +469,7 @@ class ControlPanel extends Component {
                                         ...this.state,
                                         todaySelected: false,
                                         lastHourSelected: false,
+                                        userInputSelected: false,
                                         timeRange: [
                                             "00:00:00",
                                             "23:59:59"

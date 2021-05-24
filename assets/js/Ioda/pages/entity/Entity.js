@@ -139,7 +139,6 @@ class Entity extends Component {
             additionalRawSignalRequestedBgp: false,
             additionalRawSignalRequestedUcsdNt: false,
             currentEntitiesChecked: 100
-
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
