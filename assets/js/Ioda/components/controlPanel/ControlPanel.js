@@ -103,9 +103,7 @@ class ControlPanel extends Component {
             timeRange: ["00:00:00", "23:59:59"],
             customRangeVisible: true,
             wholeDayInputSelected: !this.state.wholeDayInputSelected
-        }, () => {
-            console.log(this.state);
-        })
+        });
     }
     handleRangeDisplay() {
         this.setState({
@@ -194,11 +192,6 @@ class ControlPanel extends Component {
                 this.props.timeFrame(this.state.selection, this.state.timeRange);
             });
         }
-
-
-
-
-
     }
     // function manage the time unit selected in the dropdown for the user input option in sidebar
     handleUserInputRange(event) {
