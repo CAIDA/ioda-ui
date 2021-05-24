@@ -479,7 +479,7 @@ class ControlPanel extends Component {
                                 }
                             }}
                             months={1}
-                            minDate={new Date(1970, 0, 1)}
+                            minDate={new Date(2016, 0, 1)}
                             maxDate={new Date()}
                             direction="vertical"
                             // setting to true will cause a console error due to length of calendar months loaded (back to minDate value)
