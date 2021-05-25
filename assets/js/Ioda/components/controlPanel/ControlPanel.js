@@ -101,8 +101,14 @@ class ControlPanel extends Component {
     handleWholeDaySelection() {
         this.setState({
             timeRange: ["00:00:00", "23:59:59"],
-            customRangeVisible: true,
+            selection: {
+                ...this.state.selection,
+                startDate: new Date(new Date(this.state.selection.startDate).setUTCHours(0,0,0,0)),
+                endDate: new Date(new Date(this.state.selection.endDate).setUTCHours(23,59,59,0))
+            },
             wholeDayInputSelected: !this.state.wholeDayInputSelected
+        }, () => {
+            console.log(this.state.selection);
         });
     }
     handleRangeDisplay() {
@@ -115,7 +121,6 @@ class ControlPanel extends Component {
     handleRangeUpdate() {
         let newStartDate, newEndDate;
         if (this.state.userInputSelected) {
-
             // figure out Date unit multiplier (e.g. if it's a day get the seconds value for a day to multiply with input)
             switch (this.state.userInputRangeSelect) {
                 case "mins":
@@ -161,8 +166,6 @@ class ControlPanel extends Component {
         let endTimeRangeMin = newEndDate.getUTCMinutes() < 10 ? `0${newEndDate.getUTCMinutes()}` : newEndDate.getUTCMinutes();
         let endTimeRangeSec = newEndDate.getUTCSeconds() < 10 ? `0${newEndDate.getUTCSeconds()}` : newEndDate.getUTCSeconds();
         let endTimeRange = `${endTimeRangeHours}:${endTimeRangeMin}:${endTimeRangeSec}`;
-
-
 
         if (this.state.userInputSelected) {
             if (newStartDate && newEndDate) {
@@ -488,7 +491,7 @@ class ControlPanel extends Component {
                             staticRanges={staticRanges}
                             inputRanges = {[]}
                         />
-                        <div className={this.state.wholeDayInputSelected ? "range__time" : "range__time range__time--visible"}>
+                        <div className={this.state.customRangeVisible ? "range__time range__time--visible" : "range__time"}>
                             <TimeRangePicker
                                 onChange={(time) => this.handleTimeChange(time)}
                                 value={this.state.timeRange}
