@@ -1532,9 +1532,9 @@ class Entity extends Component {
                 .enableZoom(false)
                 .showRuler(true)
                 .interpolationCurve(d3.curveStepAfter)
-                .positiveColors(['white', '#6190B5'])
-                // .positiveColorStops([.99])
-                .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
+                .positiveColors(['white', '#006D2D'])
+                // .positiveColorStops([.01])
+                .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}:&nbsp;${humanizeNumber(val)}`;
         }
     }
     // function to manage what happens when a checkbox is changed in the raw signals table

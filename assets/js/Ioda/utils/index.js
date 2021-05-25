@@ -254,7 +254,9 @@ export function sortByKey(array, key) {
 export function convertTsDataForHtsViz(tsData) {
     let series = [];
     tsData.map(signal => {
+        let values = [];
         signal.values.map((value, index) => {
+            values.push(value);
             const plotPoint = {
                 entityCode: signal.entityCode,
                 entityName: signal.entityName,
@@ -262,7 +264,10 @@ export function convertTsDataForHtsViz(tsData) {
                 ts: new Date(signal.from * 1000 + signal.step * 1000 * index),
                 val: value
             };
-            series.push(plotPoint);
+            const max = Math.max( ...values );
+            if (max !== 0) {
+                series.push(plotPoint);
+            }
         });
     });
     return series;
