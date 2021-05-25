@@ -748,7 +748,7 @@ class Entity extends Component {
         this.setState({
             xyDataOptions: {
                 theme: "light2",
-                height: 650,
+                height: 620,
                 animationEnabled: true,
                 zoomEnabled: true,
                 crosshair: {
@@ -767,7 +767,9 @@ class Entity extends Component {
                     titleFontsColor: "#666666",
                     labelFontColor: "#666666",
                     labelFontSize: 12,
-                    maximum: this.state.tsDataNormalized ? 105 : null
+                    maximum: this.state.tsDataNormalized ? 100 : null,
+                    gridDashType: "dash",
+                    gridColor: "#E6E6E6"
                 },
                 axisY2: {
                     // title: "Network Telescope",

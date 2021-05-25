@@ -2186,7 +2186,22 @@ button[class*="searchButton"] {
         .entity .overview__config-button--alertBands {
           margin-left: 1rem; }
     .entity .overview__xy-wrapper {
-      position: relative; }
+      position: relative;
+      padding-top: 3.5rem; }
+      .entity .overview__xy-wrapper:before {
+        content: "";
+        top: 0;
+        position: absolute;
+        width: calc(100% - 2rem);
+        height: 1px;
+        border-top: 1px dashed #e6e6e6;
+        margin-left: 50%;
+        transform: translate(-50%); }
+      .entity .overview__xy-wrapper .canvasjs-chart-toolbar {
+        margin-top: -2.6rem; }
+        @media only screen and (max-width: 64em) {
+          .entity .overview__xy-wrapper .canvasjs-chart-toolbar {
+            margin-top: -3.5rem; } }
       .entity .overview__xy-wrapper .canvasjs-chart-credit {
         display: none; }
       .entity .overview__xy-wrapper:after {
