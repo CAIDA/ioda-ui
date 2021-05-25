@@ -107,8 +107,6 @@ class ControlPanel extends Component {
                 endDate: new Date(new Date(this.state.selection.endDate).setUTCHours(23,59,59,0))
             },
             wholeDayInputSelected: !this.state.wholeDayInputSelected
-        }, () => {
-            console.log(this.state.selection);
         });
     }
     handleRangeDisplay() {
