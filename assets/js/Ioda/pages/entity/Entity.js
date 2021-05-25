@@ -1534,7 +1534,7 @@ class Entity extends Component {
                 .interpolationCurve(d3.curveStepAfter)
                 .positiveColors(['white', '#006D2D'])
                 // .positiveColorStops([.01])
-                .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}:&nbsp;${val !== 0 ? humanizeNumber(val) : "n/a"}`;
+                .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}:&nbsp;${humanizeNumber(val)}`;
         }
     }
     // function to manage what happens when a checkbox is changed in the raw signals table
