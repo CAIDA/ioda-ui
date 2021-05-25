@@ -62,6 +62,10 @@
 
       .canvasjs-chart-toolbar {
         margin-top: -2.6rem;
+
+        @include respond(tab-port) {
+          margin-top: -3.5rem;
+        }
       }
 
       .canvasjs-chart-credit {

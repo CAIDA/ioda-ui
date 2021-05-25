@@ -2198,7 +2198,10 @@ button[class*="searchButton"] {
         margin-left: 50%;
         transform: translate(-50%); }
       .entity .overview__xy-wrapper .canvasjs-chart-toolbar {
-        margin-top: -2.1rem; }
+        margin-top: -2.6rem; }
+        @media only screen and (max-width: 64em) {
+          .entity .overview__xy-wrapper .canvasjs-chart-toolbar {
+            margin-top: -3.5rem; } }
       .entity .overview__xy-wrapper .canvasjs-chart-credit {
         display: none; }
       .entity .overview__xy-wrapper:after {
