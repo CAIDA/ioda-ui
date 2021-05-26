@@ -907,6 +907,8 @@ body {
     width: 18rem; }
   .table--summary .table__scores--active {
     display: block; }
+    .table--summary .table__scores--active thead {
+      display: block; }
   .table--summary .table__header-col:first-child button {
     justify-content: left;
     padding-left: 1rem; }

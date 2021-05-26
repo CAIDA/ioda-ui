@@ -62,6 +62,10 @@
   &--summary {
     & .table__scores--active {
       display: block;
+
+      & thead {
+        display: block;
+      }
     }
 
     & .table__header-col:first-child button {
