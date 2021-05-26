@@ -962,8 +962,9 @@ body {
       width: 2rem;
       margin-left: 0.5rem; }
   .table tbody {
-    max-height: 28rem;
-    overflow-y: scroll;
+    max-height: 32rem;
+    /* managed in component */
+    /* overflow-y: scroll; */
     display: block;
     width: 100%; }
   .table tr {
@@ -1038,7 +1039,8 @@ body {
       border-radius: 3px;
       height: 90%;
       display: flex;
-      flex-direction: column; }
+      flex-direction: column;
+      overflow: hidden; }
       .table__scores-sourceCount-unit {
         height: 33%; }
         .table__scores-sourceCount-unit--ping-slash24 {
