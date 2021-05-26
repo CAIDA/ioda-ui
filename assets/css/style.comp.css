@@ -962,7 +962,7 @@ body {
       width: 2rem;
       margin-left: 0.5rem; }
   .table tbody {
-    max-height: 32rem;
+    max-height: 28rem;
     /* managed in component */
     /* overflow-y: scroll; */
     display: block;

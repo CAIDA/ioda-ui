@@ -389,7 +389,7 @@ class Table extends Component {
                         this.state.eventData.length > 0 || this.state.alertData.length > 0 ||
                         type === "summary" && this.props.data.length > 0 ||
                         type === "signal" && this.props.data.length > 0
-                        ? <tbody style={type === "summary" && this.props.data.length > 10 ? {overflowY: "scroll"} : {overflowY: "inherit"}}>
+                        ? <tbody style={this.props.data.length > 10 ? {overflowY: "scroll"} : {overflowY: "inherit"}}>
                                 {
                                     this.state.alertData && this.state.alertData.map(alert => {
                                         return <tr key={generateKeys(this.props.type === 'alert' ? 'alert' : 'event')}>
