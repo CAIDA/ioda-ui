@@ -918,8 +918,7 @@ body {
     width: 4rem; }
   .table--signal .table__header-col:nth-child(2) button {
     justify-content: left;
-    padding-left: 1rem;
-    margin: 3p; }
+    padding-left: 1rem; }
   .table--signal tr td:first-child {
     width: 4rem; }
   .table--signal--asn .table__header-col:nth-child(3),
