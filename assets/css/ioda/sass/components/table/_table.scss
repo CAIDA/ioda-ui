@@ -156,8 +156,9 @@
   }
 
   & tbody {
-    max-height: 28rem;
-    overflow-y: scroll;
+    max-height: 32rem;
+    /* managed in component */
+    /* overflow-y: scroll; */
     display: block;
     width: 100%;
   }
@@ -258,6 +259,7 @@
       height: 90%;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
 
       &-unit {
         height: 33%;

@@ -23,6 +23,7 @@ class SummaryTableRow extends Component {
     }
 
     componentDidMount() {
+        document.addEventListener('click', this.handleRowScoreHide, true);
         // set states for outage source indicator in score cell
         this.props.data.scores.map(score => {
             switch (score.source) {
@@ -63,8 +64,8 @@ class SummaryTableRow extends Component {
 
     handleRowScoreHide() {
         const domNode = ReactDOM.findDOMNode(this);
-
         if (!domNode || !domNode.contains(event.target)) {
+
             this.setState({
                 displayScores: false
             });
@@ -72,6 +73,7 @@ class SummaryTableRow extends Component {
     }
 
     handleRowScoreDisplay() {
+
         this.setState({
             displayScores: !this.state.displayScores
         })
