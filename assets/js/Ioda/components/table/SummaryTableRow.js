@@ -14,13 +14,29 @@ class SummaryTableRow extends Component {
         this.state = {
             x: 0,
             y: 0,
-            displayScores: false
+            displayScores: false,
+            pingSlash24ScoreAvailable: false,
+            bgpScoreAvailable: false,
+            ucsdNtScoreAvailable: false
         };
         this.handleRowScoreHide = this.handleRowScoreHide.bind(this);
     }
 
     componentDidMount() {
-        document.addEventListener('click', this.handleRowScoreHide, true);
+        // set states for outage source indicator in score cell
+        this.props.data.scores.map(score => {
+            switch (score.source) {
+                case "ping-slash24":
+                    this.setState({pingSlash24ScoreAvailable: true});
+                    break;
+                case "bgp":
+                    this.setState({bgpScoreAvailable: true});
+                    break;
+                case "ucsd-nt":
+                    this.setState({ucsdNtScoreAvailable: true});
+                    break;
+            }
+        });
     }
 
     componentWillUnmount() {
@@ -82,6 +98,7 @@ class SummaryTableRow extends Component {
         const entityCode = this.props.data.entityCode;
         const entityType = this.props.data.entityType;
 
+
         return(
             <tr
                 className="table--summary-row"
@@ -118,6 +135,23 @@ class SummaryTableRow extends Component {
                     onClick={() => this.handleRowScoreDisplay()}
                     style={{backgroundColor: this.props.data.color}}
                 >
+                    <div className="table__scores-sourceCount">
+                        {
+                            this.state.pingSlash24ScoreAvailable
+                                ? <div className={`table__scores-sourceCount-unit table__scores-sourceCount-unit--ping-slash24`}>&nbsp;</div>
+                                : <div className="table__scores-sourceCount-unit table__scores-sourceCount-unit--empty">&nbsp;</div>
+                        }
+                        {
+                            this.state.bgpScoreAvailable
+                                ? <div className={`table__scores-sourceCount-unit table__scores-sourceCount-unit--bgp`}>&nbsp;</div>
+                                : <div className="table__scores-sourceCount-unit table__scores-sourceCount-unit--empty">&nbsp;</div>
+                        }
+                        {
+                            this.state.ucsdNtScoreAvailable
+                                ? <div className={`table__scores-sourceCount-unit table__scores-sourceCount-unit--ucsd-nt`}>&nbsp;</div>
+                                : <div className="table__scores-sourceCount-unit table__scores-sourceCount-unit--empty">&nbsp;</div>
+                        }
+                    </div>
                     {overallScore}
                     <span className="table__ellipses">⋮</span>
                     <table

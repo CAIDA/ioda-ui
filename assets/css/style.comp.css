@@ -907,6 +907,8 @@ body {
     width: 18rem; }
   .table--summary .table__scores--active {
     display: block; }
+    .table--summary .table__scores--active thead {
+      display: block; }
   .table--summary .table__header-col:first-child button {
     justify-content: left;
     padding-left: 1rem; }
@@ -922,6 +924,8 @@ body {
   .table--signal--asn .table__header-col:nth-child(3),
   .table--signal--asn tbody tr td:nth-child(3) {
     width: 10rem; }
+  .table--signal .table__scores-sourceCount {
+    display: none; }
   .table__header {
     background-color: #DCE4EA !important;
     color: #2c3e50;
@@ -1003,7 +1007,7 @@ body {
         background-size: 100% 2px;
         /* controls underline thickness */ }
   .table__cell--overallScore {
-    width: 8rem;
+    width: 10rem;
     position: relative;
     cursor: pointer; }
   .table__cell--ipCount {
@@ -1023,7 +1027,28 @@ body {
     border-spacing: 0;
     z-index: 100;
     right: 2.5rem;
-    width: 24rem; }
+    width: 24rem;
+    /* div that displays how many datasources are reporting scores */ }
+    .table__scores-sourceCount {
+      position: absolute;
+      width: 1rem;
+      top: 5%;
+      left: .5rem;
+      border: 2px solid #fff;
+      border-radius: 3px;
+      height: 90%;
+      display: flex;
+      flex-direction: column; }
+      .table__scores-sourceCount-unit {
+        height: 33%; }
+        .table__scores-sourceCount-unit--ping-slash24 {
+          background-color: #1F78B4; }
+        .table__scores-sourceCount-unit--bgp {
+          background-color: #33A02C; }
+        .table__scores-sourceCount-unit--ucsd-nt {
+          background-color: #BE1D2D; }
+      .table__scores-sourceCount-unit:not(:last-child) {
+        border-bottom: 2px solid #fff; }
     .table__scores td, .table__scores th {
       position: relative;
       z-index: 100; }
