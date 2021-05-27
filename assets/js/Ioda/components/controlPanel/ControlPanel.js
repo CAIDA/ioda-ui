@@ -103,8 +103,8 @@ class ControlPanel extends Component {
             timeRange: ["00:00:00", "23:59:59"],
             selection: {
                 ...this.state.selection,
-                startDate: new Date(new Date(this.state.selection.startDate).setUTCHours(0,0,0,0)),
-                endDate: new Date(new Date(this.state.selection.endDate).setUTCHours(23,59,59,0))
+                startDate: new Date(new Date().setHours(0,0,0,0)),
+                endDate: new Date(new Date().setHours(23,59,59,0))
             },
             wholeDayInputSelected: !this.state.wholeDayInputSelected
         });
