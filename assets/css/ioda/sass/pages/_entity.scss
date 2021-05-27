@@ -150,5 +150,9 @@
       margin: 0;
       padding: 0 1rem;
     }
+
+    .table tbody {
+      max-height: 32rem;
+    }
   }
 }

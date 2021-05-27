@@ -1162,6 +1162,30 @@ body {
           filter: blur(10px) brightness(0.95); }
       .table__page-button:focus {
         outline: none; }
+    .table__page-legend {
+      display: flex;
+      flex-direction: row; }
+      .table__page-legend-item {
+        position: relative;
+        display: flex;
+        align-items: center; }
+        .table__page-legend-item:not(:last-child) {
+          margin-right: 1rem; }
+        .table__page-legend-item:before {
+          content: "";
+          display: inline-block;
+          position: relative;
+          height: 1.2rem;
+          width: 1.2rem;
+          border-radius: 3px;
+          border: 1px solid #f7f7f7;
+          margin-right: 0.25rem; }
+        .table__page-legend-item--ping-slash24:before {
+          background-color: #1F78B4; }
+        .table__page-legend-item--bgp:before {
+          background-color: #33A02C; }
+        .table__page-legend-item--ucsd-nt:before {
+          background-color: #BE1D2D; }
   .table__empty {
     font-size: 1.3rem; }
     .table__empty td {
@@ -2329,3 +2353,5 @@ button[class*="searchButton"] {
           filter: blur(10px) brightness(0.95); }
       .entity .related__modal-button:focus {
         outline: none; }
+    .entity .related .table tbody {
+      max-height: 32rem; }

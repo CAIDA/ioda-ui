@@ -477,9 +477,20 @@ class Table extends Component {
                     type === "signal" && this.props.data.length > 0
                         ? <div className="table__page">
                             <p className="table__page-text">{displayCountShowing} {this.props.totalCount < 300 ? this.props.totalCount : this.props.data.length} {displayCountOf} {this.props.totalCount} {displayCountEntries}</p>
-                        </div>
+                            {
+                                type === "summary"
+                                    ? <div className="table__page-legend">
+                                        <span className="table__page-legend-item table__page-legend-item--ping-slash24">Active Probing</span>
+                                        <span className="table__page-legend-item table__page-legend-item--bgp">BGP</span>
+                                        <span className="table__page-legend-item table__page-legend-item--ucsd-nt">Network Telescope</span>
+                                    </div>
+                                    : null
+
+                            }
+                    </div>
                         : null
                 }
+
             </div>
         )
     }
