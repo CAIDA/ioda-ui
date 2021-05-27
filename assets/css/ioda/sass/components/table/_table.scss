@@ -386,6 +386,8 @@
     &-legend {
       display: flex;
       flex-direction: row;
+      font-size: 1rem;
+
 
       &-item {
         position: relative;
@@ -400,8 +402,8 @@
           content: "";
           display: inline-block;
           position: relative;
-          height: 1.2rem;
-          width: 1.2rem;
+          height: 0.9rem;
+          width: 0.9rem;
           border-radius: 3px;
           border: 1px solid $color-table-row-odd;
           margin-right: 0.25rem;
