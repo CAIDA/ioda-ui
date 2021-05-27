@@ -412,7 +412,7 @@ class Table extends Component {
                                             <td>
                                                 {alert.dataSource}
                                             </td>
-                                            <td className="td--center">
+                                            <td className="table--alert-actualValue td--center">
                                                 {alert.actualValue}
                                             </td>
                                             <td className="td--center">

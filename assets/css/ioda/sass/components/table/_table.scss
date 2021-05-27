@@ -57,6 +57,10 @@
     & tr td:nth-child(3) {
       width: 18rem;
     }
+    & .table__header-col:nth-child(4),
+    & tr td:nth-child(4) {
+      width: 20%;
+    }
   }
 
   &--summary {
