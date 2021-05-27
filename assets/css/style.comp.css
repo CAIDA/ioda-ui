@@ -1035,7 +1035,6 @@ body {
       width: 1rem;
       top: 5%;
       left: .5rem;
-      border: 2px solid #fff;
       border-radius: 3px;
       height: 90%;
       display: flex;
@@ -1049,8 +1048,11 @@ body {
           background-color: #33A02C; }
         .table__scores-sourceCount-unit--ucsd-nt {
           background-color: #BE1D2D; }
+        .table__scores-sourceCount-unit--empty {
+          background-color: #000;
+          opacity: 0.1; }
       .table__scores-sourceCount-unit:not(:last-child) {
-        border-bottom: 2px solid #fff; }
+        border-bottom: 1px solid #aaa; }
     .table__scores td, .table__scores th {
       position: relative;
       z-index: 100; }
