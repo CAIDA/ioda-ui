@@ -381,7 +381,44 @@
       border-radius: 1.2rem;
       margin: 0.25rem 0.5rem;
       font-size: 1rem;
+    }
 
+    &-legend {
+      display: flex;
+      flex-direction: row;
+
+      &-item {
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        &:not(:last-child) {
+          margin-right: 1rem;
+        }
+
+        &:before {
+          content: "";
+          display: inline-block;
+          position: relative;
+          height: 1.2rem;
+          width: 1.2rem;
+          border-radius: 3px;
+          border: 1px solid $color-table-row-odd;
+          margin-right: 0.25rem;
+        }
+
+        &--ping-slash24:before {
+          background-color: $color-ping-slash-24;
+        }
+
+        &--bgp:before {
+          background-color: $color-bgp;
+        }
+
+        &--ucsd-nt:before {
+          background-color: $color-ucsd-nt;
+        }
+      }
     }
   }
 
