@@ -254,7 +254,7 @@
       width: 1rem;
       top: 5%;
       left: .5rem;
-      border: 2px solid #fff;
+      //border: 1px solid $color-white;
       border-radius: 3px;
       height: 90%;
       display: flex;
@@ -275,10 +275,16 @@
         &--ucsd-nt {
           background-color: $color-ucsd-nt
         }
+
+        &--empty {
+          background-color: $color-black;
+          opacity: 0.1;
+
+        }
       }
 
       &-unit:not(:last-child) {
-        border-bottom: 2px solid #fff;
+        border-bottom: 1px solid $color-table-datasource-bottom-border;
       }
     }
 
