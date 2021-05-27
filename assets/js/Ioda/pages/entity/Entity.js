@@ -681,7 +681,7 @@ class Entity extends Component {
         let activeProbingValues = [];
 
         // Loop through available datasources to collect plot points
-        this.state.tsDataRaw[0].map(datasource => {
+        this.state.tsDataRaw && this.state.tsDataRaw[0].map(datasource => {
             let min, max;
             switch (datasource.datasource) {
                 case "ucsd-nt":
