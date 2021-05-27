@@ -47,10 +47,6 @@ class ControlPanel extends Component {
         this.handleUserInputRange = this.handleUserInputRange.bind(this);
     }
 
-    componentDidMount() {
-        console.log("update13");
-    }
-
     componentDidUpdate(nextProps, nextState) {
         if (nextProps.from !== this.props.from) {
             this.setState(prevState => ({
@@ -108,7 +104,7 @@ class ControlPanel extends Component {
             selection: {
                 ...this.state.selection,
                 startDate: new Date(new Date(this.state.selection.startDate).setUTCHours(0,0,0,0)),
-                endDate: new Date(new Date(this.state.selection.endDate).setUTCHours(23,59,59,0)
+                endDate: new Date(new Date(this.state.selection.endDate).setUTCHours(23,59,59,0))
             },
             wholeDayInputSelected: !this.state.wholeDayInputSelected
         });
