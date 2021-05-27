@@ -66,14 +66,14 @@
         display: flex;
         justify-content: left;
 
-        & input, & select {
-          height: 1.5rem;
+        & input {
+          height: 1.9rem;
         }
 
         & input {
           width: 5rem;
           margin: 0 0.75rem;
-          padding: 0.25rem;
+          padding: 0.25rem 0;
           -moz-appearance: textfield;
 
           &::-webkit-outer-spin-button,
@@ -98,8 +98,8 @@
     &__time {
       display: none;
       position: absolute;
-      top: 33rem;
-      right: 4.75rem;
+      bottom: 6rem;
+      right: 7rem;
 
       &--visible {
         display: block;
