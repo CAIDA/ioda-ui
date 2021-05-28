@@ -17,7 +17,9 @@ class SummaryTableRow extends Component {
             displayScores: false,
             pingSlash24ScoreAvailable: false,
             bgpScoreAvailable: false,
-            ucsdNtScoreAvailable: false
+            ucsdNtScoreAvailable: false,
+            hoverTime: 600,
+            t: null
         };
         this.handleRowScoreHide = this.handleRowScoreHide.bind(this);
     }
@@ -72,27 +74,19 @@ class SummaryTableRow extends Component {
         }
     }
 
-    handleRowScoreDisplay(event) {
-        if (event.target) {
-            this.setState({
-                displayScores: !this.state.displayScores
-            })
-        } else {
-            if (event === true) {
+    showScoreTooltipHover() {
+        this.setState({ t: setTimeout(() => {
                 this.setState({ displayScores: true })
-            }
+            }, this.state.hoverTime) })
+    }
 
-            if (event === false) {
-                this.setState({ displayScores: false })
-            }
-        }
+    hideScoreTooltipHover() {
+        clearTimeout(this.state.t);
+        this.setState({ displayScores: false })
     }
 
     handleRowHover(event) {
         event.persist();
-        // console.log(event);
-        // console.log(event.nativeEvent.offsetY);
-        // Keep the hover table aligned with the corresponding ellipses
         this.setState({
             y: event.nativeEvent.offsetY < 8
                 ? -2
@@ -143,9 +137,9 @@ class SummaryTableRow extends Component {
                 }
                 <td
                     className="table__cell--overallScore td--center"
-                    onClick={() => this.handleRowScoreDisplay(event)}
-                    onMouseEnter={() => this.handleRowScoreDisplay(true)}
-                    onMouseLeave={() => this.handleRowScoreDisplay(false)}
+                    onTouchStart={() => this.handleRowScoreDisplay(event)}
+                    onMouseEnter={() => this.showScoreTooltipHover()}
+                    onMouseLeave={() => this.hideScoreTooltipHover()}
                     style={{backgroundColor: this.props.data.color}}
                 >
                     <div className="table__scores-sourceCount">
