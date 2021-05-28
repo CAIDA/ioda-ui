@@ -135,6 +135,8 @@ class SummaryTableRow extends Component {
                 <td
                     className="table__cell--overallScore td--center"
                     onClick={() => this.handleRowScoreDisplay()}
+                    onMouseEnter={() => this.handleRowScoreDisplay()}
+                    onMouseLeave={() => this.handleRowScoreDisplay()}
                     style={{backgroundColor: this.props.data.color}}
                 >
                     <div className="table__scores-sourceCount">
