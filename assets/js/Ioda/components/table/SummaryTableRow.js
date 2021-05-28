@@ -17,7 +17,8 @@ class SummaryTableRow extends Component {
             displayScores: false,
             pingSlash24ScoreAvailable: false,
             bgpScoreAvailable: false,
-            ucsdNtScoreAvailable: false
+            ucsdNtScoreAvailable: false,
+            scoreCellClicked: false
         };
         this.handleRowScoreHide = this.handleRowScoreHide.bind(this);
     }
@@ -25,7 +26,9 @@ class SummaryTableRow extends Component {
     componentDidMount() {
         document.addEventListener('click', this.handleRowScoreHide, true);
         // set states for outage source indicator in score cell
+
         this.props.data.scores.map(score => {
+            console.log(score.source);
             switch (score.source) {
                 case "ping-slash24":
                     this.setState({pingSlash24ScoreAvailable: true});
@@ -39,6 +42,7 @@ class SummaryTableRow extends Component {
             }
         });
     }
+
 
     componentWillUnmount() {
         document.removeEventListener('click', this.handleRowScoreHide, true);
@@ -65,21 +69,27 @@ class SummaryTableRow extends Component {
     handleRowScoreHide() {
         const domNode = ReactDOM.findDOMNode(this);
         if (!domNode || !domNode.contains(event.target)) {
-
             this.setState({
                 displayScores: false
             });
         }
     }
 
-    handleRowScoreClickDisplay() {
-        this.setState({
-            displayScores: !this.state.displayScores
-        })
-    }
+    handleRowScoreDisplay(event) {
+        console.log(event);
+        if (event.target) {
+            this.setState({
+                displayScores: !this.state.displayScores
+            })
+        } else {
+            if (event === true) {
+                this.setState({ displayScores: true })
+            }
 
-    handleRowScoreHoverDisplay() {
-         this.setState({ displayScores: !this.state.displayScores })
+            if (event === false) {
+                this.setState({ displayScores: false })
+            }
+        }
     }
 
     handleRowHover(event) {
@@ -137,9 +147,9 @@ class SummaryTableRow extends Component {
                 }
                 <td
                     className="table__cell--overallScore td--center"
-                    onClick={() => this.handleRowScoreClickDisplay()}
-                    onMouseEnter={() => this.handleRowScoreHoverDisplay()}
-                    onMouseLeave={() => this.handleRowScoreHoverDisplay()}
+                    onClick={() => this.handleRowScoreDisplay(event)}
+                    onMouseEnter={() => this.handleRowScoreDisplay(true)}
+                    onMouseLeave={() => this.handleRowScoreDisplay(false)}
                     style={{backgroundColor: this.props.data.color}}
                 >
                     <div className="table__scores-sourceCount">
