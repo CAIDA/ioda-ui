@@ -72,11 +72,14 @@ class SummaryTableRow extends Component {
         }
     }
 
-    handleRowScoreDisplay() {
-
+    handleRowScoreClickDisplay() {
         this.setState({
             displayScores: !this.state.displayScores
         })
+    }
+
+    handleRowScoreHoverDisplay() {
+         this.setState({ displayScores: !this.state.displayScores })
     }
 
     handleRowHover(event) {
@@ -134,9 +137,9 @@ class SummaryTableRow extends Component {
                 }
                 <td
                     className="table__cell--overallScore td--center"
-                    onClick={() => this.handleRowScoreDisplay()}
-                    onMouseEnter={() => this.handleRowScoreDisplay()}
-                    onMouseLeave={() => this.handleRowScoreDisplay()}
+                    onClick={() => this.handleRowScoreClickDisplay()}
+                    onMouseEnter={() => this.handleRowScoreHoverDisplay()}
+                    onMouseLeave={() => this.handleRowScoreHoverDisplay()}
                     style={{backgroundColor: this.props.data.color}}
                 >
                     <div className="table__scores-sourceCount">
