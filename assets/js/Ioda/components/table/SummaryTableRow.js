@@ -17,8 +17,7 @@ class SummaryTableRow extends Component {
             displayScores: false,
             pingSlash24ScoreAvailable: false,
             bgpScoreAvailable: false,
-            ucsdNtScoreAvailable: false,
-            scoreCellClicked: false
+            ucsdNtScoreAvailable: false
         };
         this.handleRowScoreHide = this.handleRowScoreHide.bind(this);
     }
@@ -28,7 +27,6 @@ class SummaryTableRow extends Component {
         // set states for outage source indicator in score cell
 
         this.props.data.scores.map(score => {
-            console.log(score.source);
             switch (score.source) {
                 case "ping-slash24":
                     this.setState({pingSlash24ScoreAvailable: true});
@@ -42,7 +40,6 @@ class SummaryTableRow extends Component {
             }
         });
     }
-
 
     componentWillUnmount() {
         document.removeEventListener('click', this.handleRowScoreHide, true);
@@ -76,7 +73,6 @@ class SummaryTableRow extends Component {
     }
 
     handleRowScoreDisplay(event) {
-        console.log(event);
         if (event.target) {
             this.setState({
                 displayScores: !this.state.displayScores
