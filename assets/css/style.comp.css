@@ -875,39 +875,68 @@ body {
   z-index: 10;
   border-radius: 3px;
   width: 100%;
-  border-bottom: 1px solid #DCE4EA; }
-  .table--signal {
-    margin: 0; }
-  .table--event {
+  border-bottom: 1px solid #111; }
+  .table--event .table__header-col:nth-child(1),
+  .table--event tr td:nth-child(1),
+  .table--event .table__header-col:nth-child(2),
+  .table--event tr td:nth-child(2) {
+    width: 20%;
+    min-width: 11rem; }
+  .table--event .table__header-col:nth-child(3),
+  .table--event .table__header-col:nth-child(4) {
+    justify-content: center; }
+    .table--event .table__header-col:nth-child(3) button,
+    .table--event .table__header-col:nth-child(4) button {
+      justify-content: center; }
+  .table--event .table__header-col:nth-child(3),
+  .table--event tr td:nth-child(3) {
+    width: 10rem;
     text-align: center; }
-    .table--event .table__header-col:not(:last-child),
-    .table--event tr td:not(:last-child) {
-      width: 18rem; }
-  .table--alert-critical {
-    background-color: #F18179;
-    width: 3rem; }
-  .table--alert-warning {
-    background-color: #F2AB79;
-    width: 3rem; }
-  .table--alert-normal {
-    background-color: #D4F19D;
-    width: 3rem; }
-  .table--alert-level-img {
-    height: 1.1rem;
-    width: 1.1rem; }
-  .table--alert .table__header-col button {
-    justify-content: left; }
-  .table--alert .table__header-col:first-child,
-  .table--alert tr td:first-child {
-    width: 4rem; }
-  .table--alert .table__header-col:nth-child(2),
-  .table--alert tr td:nth-child(2),
-  .table--alert .table__header-col:nth-child(3),
-  .table--alert tr td:nth-child(3) {
-    width: 18rem; }
-  .table--alert .table__header-col:nth-child(4),
-  .table--alert tr td:nth-child(4) {
-    width: 20%; }
+  .table--event .table__header-col:nth-child(4),
+  .table--event tr td:nth-child(4) {
+    width: calc(10rem + 15px); }
+  .table--alert {
+    /* first col */ }
+    .table--alert-critical {
+      background-color: #F18179;
+      width: 3rem; }
+    .table--alert-warning {
+      background-color: #F2AB79;
+      width: 3rem; }
+    .table--alert-normal {
+      background-color: #D4F19D;
+      width: 3rem; }
+    .table--alert-level-img {
+      height: 1.1rem;
+      width: 1.1rem; }
+    .table--alert .table__header-col:first-child,
+    .table--alert tr td:first-child {
+      width: 4rem; }
+    @media only screen and (max-width: 80em) {
+      .table--alert .table__header-col:nth-child(1) {
+        padding-left: 0; } }
+    @media only screen and (max-width: 80em) {
+      .table--alert .table__header-col:nth-child(1) button {
+        justify-content: center; } }
+    .table--alert .table__header-col:nth-child(2),
+    .table--alert tr td:nth-child(2),
+    .table--alert .table__header-col:nth-child(3),
+    .table--alert tr td:nth-child(3) {
+      width: 20%;
+      min-width: 11rem; }
+    .table--alert .table__header-col:nth-child(4),
+    .table--alert .table__header-col:nth-child(5) {
+      justify-content: center; }
+      @media only screen and (max-width: 80em) {
+        .table--alert .table__header-col:nth-child(4) button,
+        .table--alert .table__header-col:nth-child(5) button {
+          justify-content: center; } }
+    .table--alert .table__header-col:nth-child(4),
+    .table--alert tr td:nth-child(4) {
+      width: 10rem; }
+    .table--alert .table__header-col:nth-child(5),
+    .table--alert tr td:nth-child(5) {
+      width: calc(10rem + 15px); }
   .table--summary .table__scores--active {
     display: block; }
     .table--summary .table__scores--active thead {
@@ -915,37 +944,28 @@ body {
   .table--summary .table__header-col:first-child button {
     justify-content: left;
     padding-left: 1rem; }
-  .table--summary--asn .table__header-col:nth-child(2) {
+  .table--summary .table__header-col:nth-child(2),
+  .table--summary--asn .table__header-col:nth-child(3) {
     width: 10rem; }
-  .table--signal .table__header-col:first-child {
-    width: 4rem; }
-  .table--signal .table__header-col:nth-child(2) button {
-    justify-content: left;
-    padding-left: 1rem; }
-  .table--signal tr td:first-child {
-    width: 4rem; }
-  .table--signal--asn .table__header-col:nth-child(3),
-  .table--signal--asn tbody tr td:nth-child(3) {
-    width: 10rem; }
-  .table--signal .table__scores-sourceCount {
-    display: none; }
+  .table--signal {
+    margin: 0; }
+    .table--signal .table__header-col:first-child,
+    .table--signal tr td:first-child {
+      width: 4rem; }
+    .table--signal .table__header-col:nth-child(2) button {
+      justify-content: left;
+      padding-left: 1rem; }
+    .table--signal .table__header-col:nth-child(3),
+    .table--signal--asn .table__header-col:nth-child(4),
+    .table--signal--asn tbody tr td:nth-child(4) {
+      width: 10rem; }
+    .table--signal .table__scores-sourceCount {
+      display: none; }
   .table__header {
-    background-color: #DCE4EA !important;
     color: #2c3e50;
-    border-radius: 0.3rem 0.3rem 0 0; }
+    border-bottom: 1px solid #111; }
     .table__header-col {
       padding-left: 0.5rem; }
-      .table__header-col:first-child {
-        border-top-left-radius: 0.3rem; }
-      .table__header-col:last-child {
-        border-top-right-radius: 0.3rem;
-        width: calc(8rem + 15px);
-        padding-left: 0; }
-        .table__header-col:last-child button {
-          width: calc(8rem + 15px);
-          padding-right: 20px; }
-      .table__header-col:not(:last-child) {
-        border-right: 1px solid #DCE4EA; }
       .table__header-col button {
         background: transparent;
         color: inherit;
@@ -964,6 +984,8 @@ body {
       height: 2rem;
       width: 2rem;
       margin-left: 0.5rem; }
+  .table thead tr:nth-child(odd) {
+    background-color: #fff; }
   .table tbody {
     max-height: 28rem;
     /* managed in component */
@@ -978,10 +1000,6 @@ body {
     background-color: #f7f7f7; }
   .table tr:nth-child(even) {
     background-color: #fff; }
-  .table tr:last-child td:first-child {
-    border-bottom-left-radius: 0.3rem; }
-  .table tr:last-child td:last-child {
-    border-bottom-right-radius: 0.3rem; }
   .table td {
     font-size: 1.1rem;
     text-align: left;
@@ -1114,7 +1132,9 @@ body {
     justify-content: space-between;
     align-items: center;
     font-size: 1.2rem;
-    margin-top: 1rem; }
+    margin-top: 1rem;
+    color: #333;
+    font-style: italic; }
     .table__page-text {
       font-size: 1rem; }
     .table__page-button {

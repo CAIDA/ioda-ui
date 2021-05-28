@@ -6,63 +6,101 @@
   z-index: 10;
   border-radius: 3px;
   width: 100%;
-  border-bottom: 1px solid $color-blue-border;
+  border-bottom: 1px solid #111;
 
-  &--signal {
-    margin: 0;
-  }
 
+//type-specific column widths and alignment
   &--event {
-    text-align: center;
+    & .table__header-col:nth-child(1),
+    & tr td:nth-child(1),
+    & .table__header-col:nth-child(2),
+    & tr td:nth-child(2) {
+      width: 20%;
+      min-width: 11rem;
+    }
+    & .table__header-col:nth-child(3),
+    & .table__header-col:nth-child(4) {
+      justify-content: center;
 
-    & .table__header-col:not(:last-child),
-    & tr td:not(:last-child) {
-      width: 18rem;
+      & button {
+        justify-content: center;
+      }
+    }
+
+    & .table__header-col:nth-child(3),
+    & tr td:nth-child(3) {
+      width: 10rem;
+      text-align: center;
+    }
+
+    & .table__header-col:nth-child(4),
+    & tr td:nth-child(4) {
+      width: calc(10rem + 15px);
     }
   }
-
   &--alert {
+    /* first col */
     &-critical {
       background-color: $color-alert-feed-critical;
       width: 3rem;
     }
-
     &-warning {
       background-color: $color-alert-feed-warning;
       width: 3rem;
     }
-
     &-normal {
       background-color: $color-alert-feed-normal;
       width: 3rem;
     }
-
     &-level-img {
       height: 1.1rem;
       width: 1.1rem;
     }
-
-    & .table__header-col button {
-      justify-content: left;
-    }
-
     & .table__header-col:first-child,
     & tr td:first-child {
       width: 4rem;
     }
 
+    & .table__header-col:nth-child(1) {
+      @include respond(tab-land) {
+        padding-left: 0;
+      }
+
+      & button {
+        @include respond(tab-land) {
+          justify-content: center;
+        }
+      }
+
+    }
     & .table__header-col:nth-child(2),
     & tr td:nth-child(2),
     & .table__header-col:nth-child(3),
     & tr td:nth-child(3) {
-      width: 18rem;
+      width: 20%;
+      min-width: 11rem;
     }
     & .table__header-col:nth-child(4),
+    & .table__header-col:nth-child(5) {
+      justify-content: center;
+
+      & button {
+        @include respond(tab-land) {
+          justify-content: center;
+        }
+      }
+    }
+
+    & .table__header-col:nth-child(4),
     & tr td:nth-child(4) {
-      width: 20%;
+      width: 10rem;
+    }
+
+    & .table__header-col:nth-child(5),
+    & tr td:nth-child(5) {
+      width: calc(10rem + 15px);
     }
   }
-
   &--summary {
     & .table__scores--active {
       display: block;
@@ -76,14 +114,16 @@
       justify-content: left;
       padding-left: 1rem;
     }
-
-    &--asn .table__header-col:nth-child(2) {
+    & .table__header-col:nth-child(2),
+    &--asn .table__header-col:nth-child(3) {
       width: 10rem;
     }
   }
-
   &--signal {
-    & .table__header-col:first-child {
+    margin: 0;
+
+    & .table__header-col:first-child,
+    & tr td:first-child {
       width: 4rem;
     }
 
@@ -92,12 +132,10 @@
       padding-left: 1rem;
     }
 
-    & tr td:first-child {
-      width: 4rem;
-    }
 
-    &--asn .table__header-col:nth-child(3),
-    &--asn tbody tr td:nth-child(3) {
+    & .table__header-col:nth-child(3),
+    &--asn .table__header-col:nth-child(4),
+    &--asn tbody tr td:nth-child(4) {
       width: 10rem;
     }
 
@@ -106,34 +144,13 @@
     }
   }
 
+// general table styles
   &__header {
-    background-color: $color-blue-border!important;
     color: $color-primary;
-    border-radius: 0.3rem 0.3rem 0 0;
+    border-bottom: 1px solid #111;
 
     &-col {
       padding-left: 0.5rem;
-
-
-      &:first-child {
-        border-top-left-radius: 0.3rem;
-      }
-
-      &:last-child {
-        border-top-right-radius: 0.3rem;
-        width: calc(8rem + 15px);
-        padding-left: 0;
-
-        & button {
-          // To account for scroll bar width
-          width: calc(8rem + 15px);
-          padding-right: 20px;
-        }
-      }
-
-      &:not(:last-child) {
-        border-right: 1px solid $color-blue-border;
-      }
 
       & button {
         background: transparent;
@@ -159,6 +176,10 @@
     }
   }
 
+  & thead tr:nth-child(odd) {
+    background-color: $color-white;
+  }
+
   & tbody {
     max-height: 28rem;
     /* managed in component */
@@ -181,18 +202,7 @@
     background-color: $color-white;
   }
 
-  & tr:last-child {
-    & td:first-child {
-      border-bottom-left-radius: 0.3rem;
-    }
-
-    & td:last-child {
-      border-bottom-right-radius: 0.3rem;
-    }
-  }
-
   & td {
-    //border: 1px solid $color-blue-border;
     font-size: 1.1rem;
     text-align: left;
     position: relative;
@@ -206,7 +216,6 @@
   }
 
   &__cell {
-
     &-link {
       display: flex;
       height: 100%;
@@ -377,6 +386,8 @@
     align-items: center;
     font-size: 1.2rem;
     margin-top: 1rem;
+    color: #333;
+    font-style: italic;
 
     &-text {
       font-size: 1rem;
