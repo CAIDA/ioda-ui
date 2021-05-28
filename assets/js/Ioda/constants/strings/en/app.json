@@ -95,7 +95,7 @@
     "alertHeaders": {
       "level": "Alert",
       "dateStamp": "Time (UTC)",
-      "dataSource": "Data Source",
+      "dataSource": "Type",
       "actualValue": "Actual Value",
       "baselineValue": "Baseline Value"
     },
@@ -126,9 +126,9 @@
     "displayCountEntries": " Entries",
     "prevButtonText": "prev",
     "nextButtonText": "next",
-    "eventNoOutagesMessage": "No Outage Events Detected",
-    "alertNoOutagesMessage": "No Outage Alerts Detected",
-    "summaryNoOutagesMessage": "No Outage Events Detected",
-    "signalNoOutagesMessage": "No Raw Signals Returned"
+    "eventNoOutagesMessage": "No data available in table",
+    "alertNoOutagesMessage": "No data available in table",
+    "summaryNoOutagesMessage": "No data available in table",
+    "signalNoOutagesMessage": "No data available in table"
   }
 }

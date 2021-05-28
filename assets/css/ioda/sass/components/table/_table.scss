@@ -260,6 +260,8 @@
     z-index: 100;
     right: 2.5rem;
     width: 24rem;
+    border-bottom: 1px solid #111;
+    border-radius: 3px;
 
     /* div that displays how many datasources are reporting scores */
     &-sourceCount {
@@ -299,6 +301,7 @@
       }
     }
 
+    /* styles for additional score table */
     & td, & th {
       position: relative;
       z-index: 100;
@@ -314,10 +317,13 @@
       }
     }
 
-    & thead tr {
-      background-color: $color-blue-border!important;
+    &-headers {
+      background-color: $color-white;
       color: $color-primary;
       box-shadow: $box-shadow;
+      font-size: 1.1rem;
+      border-bottom: 1px solid #111;
+      border-top-left-radius: 3px;
 
       & th {
         padding: 0.5rem;
@@ -347,6 +353,11 @@
         & td:last-child {
           width: 6rem;
         }
+
+        &:last-child {
+          border-bottom-left-radius: 3px;
+          border-bottom-right-radius: 3px;
+        }
       }
     }
 
@@ -354,7 +365,7 @@
       top: 1px;
       right: -0.2rem;
       content: "";
-      height: 3.3rem;
+      height: 3.2rem;
       width: 0;
       position: absolute;
       pointer-events: none;
@@ -363,13 +374,13 @@
       border-top: 1.5rem solid transparent;
       border-bottom: 1.5rem solid transparent;
       z-index: 101;
-      background-color: $color-blue-border;
+      background-color: $color-white;
     }
 
     &:before {
       content: '';
       position: absolute;
-      background-color: $color-blue-border;
+      background-color: $color-white;
       transform: rotate(45deg);
       width: 2.4rem;
       height: 2.4rem;

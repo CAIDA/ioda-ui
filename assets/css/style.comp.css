@@ -1050,7 +1050,10 @@ body {
     z-index: 100;
     right: 2.5rem;
     width: 24rem;
-    /* div that displays how many datasources are reporting scores */ }
+    border-bottom: 1px solid #111;
+    border-radius: 3px;
+    /* div that displays how many datasources are reporting scores */
+    /* styles for additional score table */ }
     .table__scores-sourceCount {
       position: absolute;
       width: 1rem;
@@ -1083,13 +1086,16 @@ body {
       .table__scores td:last-child, .table__scores th:last-child {
         text-align: center;
         padding-left: 0; }
-    .table__scores thead tr {
-      background-color: #DCE4EA !important;
+    .table__scores-headers {
+      background-color: #fff;
       color: #2c3e50;
-      box-shadow: 0 1px 2px #9F9D9D; }
-      .table__scores thead tr th {
+      box-shadow: 0 1px 2px #9F9D9D;
+      font-size: 1.1rem;
+      border-bottom: 1px solid #111;
+      border-top-left-radius: 3px; }
+      .table__scores-headers th {
         padding: 0.5rem; }
-        .table__scores thead tr th:first-child {
+        .table__scores-headers th:first-child {
           border-top-left-radius: 0.3rem; }
     .table__scores tbody {
       box-shadow: 0 1px 2px #9F9D9D;
@@ -1103,11 +1109,14 @@ body {
         width: 18rem; }
       .table__scores tbody tr td:last-child {
         width: 6rem; }
+      .table__scores tbody tr:last-child {
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px; }
     .table__scores:after {
       top: 1px;
       right: -0.2rem;
       content: "";
-      height: 3.3rem;
+      height: 3.2rem;
       width: 0;
       position: absolute;
       pointer-events: none;
@@ -1115,11 +1124,11 @@ body {
       border-top: 1.5rem solid transparent;
       border-bottom: 1.5rem solid transparent;
       z-index: 101;
-      background-color: #DCE4EA; }
+      background-color: #fff; }
     .table__scores:before {
       content: '';
       position: absolute;
-      background-color: #DCE4EA;
+      background-color: #fff;
       transform: rotate(45deg);
       width: 2.4rem;
       height: 2.4rem;
