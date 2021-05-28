@@ -875,9 +875,7 @@ body {
   z-index: 10;
   border-radius: 3px;
   width: 100%;
-  border-bottom: 1px solid #DCE4EA; }
-  .table--signal {
-    margin: 0; }
+  border-bottom: 1px solid #111; }
   .table--event .table__header-col:nth-child(1),
   .table--event tr td:nth-child(1),
   .table--event .table__header-col:nth-child(2),
@@ -946,28 +944,28 @@ body {
   .table--summary .table__header-col:first-child button {
     justify-content: left;
     padding-left: 1rem; }
-  .table--summary--asn .table__header-col:nth-child(2) {
+  .table--summary .table__header-col:nth-child(2),
+  .table--summary--asn .table__header-col:nth-child(3) {
     width: 10rem; }
-  .table--signal .table__header-col:first-child {
-    width: 4rem; }
-  .table--signal .table__header-col:nth-child(2) button {
-    justify-content: left;
-    padding-left: 1rem; }
-  .table--signal tr td:first-child {
-    width: 4rem; }
-  .table--signal--asn .table__header-col:nth-child(3),
-  .table--signal--asn tbody tr td:nth-child(3) {
-    width: 10rem; }
-  .table--signal .table__scores-sourceCount {
-    display: none; }
+  .table--signal {
+    margin: 0; }
+    .table--signal .table__header-col:first-child,
+    .table--signal tr td:first-child {
+      width: 4rem; }
+    .table--signal .table__header-col:nth-child(2) button {
+      justify-content: left;
+      padding-left: 1rem; }
+    .table--signal .table__header-col:nth-child(3),
+    .table--signal--asn .table__header-col:nth-child(4),
+    .table--signal--asn tbody tr td:nth-child(4) {
+      width: 10rem; }
+    .table--signal .table__scores-sourceCount {
+      display: none; }
   .table__header {
     color: #2c3e50;
     border-bottom: 1px solid #111; }
     .table__header-col {
       padding-left: 0.5rem; }
-      .table__header-col:last-child {
-        width: calc(10rem + 20px);
-        padding-left: 0; }
       .table__header-col button {
         background: transparent;
         color: inherit;
@@ -1002,10 +1000,6 @@ body {
     background-color: #f7f7f7; }
   .table tr:nth-child(even) {
     background-color: #fff; }
-  .table tr:last-child td:first-child {
-    border-bottom-left-radius: 0.3rem; }
-  .table tr:last-child td:last-child {
-    border-bottom-right-radius: 0.3rem; }
   .table td {
     font-size: 1.1rem;
     text-align: left;
@@ -1138,7 +1132,9 @@ body {
     justify-content: space-between;
     align-items: center;
     font-size: 1.2rem;
-    margin-top: 1rem; }
+    margin-top: 1rem;
+    color: #333;
+    font-style: italic; }
     .table__page-text {
       font-size: 1rem; }
     .table__page-button {

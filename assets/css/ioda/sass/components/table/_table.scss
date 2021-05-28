@@ -6,12 +6,10 @@
   z-index: 10;
   border-radius: 3px;
   width: 100%;
-  border-bottom: 1px solid $color-blue-border;
+  border-bottom: 1px solid #111;
 
-  &--signal {
-    margin: 0;
-  }
 
+//type-specific column widths and alignment
   &--event {
     & .table__header-col:nth-child(1),
     & tr td:nth-child(1),
@@ -40,7 +38,6 @@
       width: calc(10rem + 15px);
     }
   }
-
   &--alert {
     /* first col */
     &-critical {
@@ -104,7 +101,6 @@
       width: calc(10rem + 15px);
     }
   }
-
   &--summary {
     & .table__scores--active {
       display: block;
@@ -118,14 +114,16 @@
       justify-content: left;
       padding-left: 1rem;
     }
-
-    &--asn .table__header-col:nth-child(2) {
+    & .table__header-col:nth-child(2),
+    &--asn .table__header-col:nth-child(3) {
       width: 10rem;
     }
   }
-
   &--signal {
-    & .table__header-col:first-child {
+    margin: 0;
+
+    & .table__header-col:first-child,
+    & tr td:first-child {
       width: 4rem;
     }
 
@@ -134,12 +132,10 @@
       padding-left: 1rem;
     }
 
-    & tr td:first-child {
-      width: 4rem;
-    }
 
-    &--asn .table__header-col:nth-child(3),
-    &--asn tbody tr td:nth-child(3) {
+    & .table__header-col:nth-child(3),
+    &--asn .table__header-col:nth-child(4),
+    &--asn tbody tr td:nth-child(4) {
       width: 10rem;
     }
 
@@ -148,23 +144,13 @@
     }
   }
 
+// general table styles
   &__header {
     color: $color-primary;
     border-bottom: 1px solid #111;
 
     &-col {
       padding-left: 0.5rem;
-
-      &:last-child {
-         width: calc(10rem + 20px);
-         padding-left: 0;
-
-         & button {
-           // To account for scroll bar width
-           //width: calc(10rem + 20px);
-           //padding-right: 20px;
-         }
-       }
 
       & button {
         background: transparent;
@@ -214,16 +200,6 @@
 
   & tr:nth-child(even) {
     background-color: $color-white;
-  }
-
-  & tr:last-child {
-    & td:first-child {
-      border-bottom-left-radius: 0.3rem;
-    }
-
-    & td:last-child {
-      border-bottom-right-radius: 0.3rem;
-    }
   }
 
   & td {
@@ -410,6 +386,8 @@
     align-items: center;
     font-size: 1.2rem;
     margin-top: 1rem;
+    color: #333;
+    font-style: italic;
 
     &-text {
       font-size: 1rem;
