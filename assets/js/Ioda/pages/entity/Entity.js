@@ -150,6 +150,7 @@ class Entity extends Component {
     }
 
     componentDidMount() {
+        console.log("update19");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
         this.setState({
@@ -1540,7 +1541,63 @@ class Entity extends Component {
         }
     }
     // function to manage what happens when a checkbox is changed in the raw signals table
-    toggleEntityVisibilityInHtsViz(event, entityType) {
+    toggleEntityVisibilityInHtsViz(entity, entityType) {
+        // // define state as local variable based on the entity type
+        // let signalsTableSummaryDataProcessed;
+        // let maxEntitiesPopulatedMessage = T.translate("entityModal.maxEntitiesPopulatedMessage");
+        // let indexValue = 0;
+        //
+        // switch (entityType) {
+        //     case "region":
+        //         signalsTableSummaryDataProcessed = this.state.regionalSignalsTableSummaryDataProcessed;
+        //         break;
+        //     case "asn":
+        //         signalsTableSummaryDataProcessed = this.state.asnSignalsTableSummaryDataProcessed;
+        //         break;
+        // }
+        //
+        // // Check that the number of boxes checked is not more than the limit allowed
+        // if (this.maxHtsLimit > this.state.currentEntitiesChecked) {
+        //     // find the entity selected and change visibility in local object
+        //     signalsTableSummaryDataProcessed.map((obj, index) => {
+        //         if (obj.entityCode === entity.entityCode) {
+        //             entity.visibility = !entity.visibility;
+        //             indexValue = index;
+        //         }
+        //     });
+        //
+        //     // Change display count
+        //     entity.visibility
+        //         ? this.setState({currentEntitiesChecked: this.state.currentEntitiesChecked + 1})
+        //         : this.setState({currentEntitiesChecked: this.state.currentEntitiesChecked - 1});
+        //
+        //
+        //     // set new data object, loading, and error messaging in state,
+        //     switch (entityType) {
+        //         case "region":
+        //             this.setState({
+        //                 regionalSignalsTableSummaryDataProcessed: signalsTableSummaryDataProcessed,
+        //                 rawSignalsMaxEntitiesHtsError: "",
+        //                 additionalRawSignalRequestedPingSlash24: true,
+        //                 additionalRawSignalRequestedBgp: true,
+        //                 additionalRawSignalRequestedUcsdNt: true
+        //             }, () => this.genRawTimeSeriesConfig(entityType));
+        //
+        //
+        //             break;
+        //
+        //         case "asn":
+        //             this.setState({
+        //                 asnSignalsTableSummaryDataProcessed: signalsTableSummaryDataProcessed,
+        //                 rawSignalsMaxEntitiesHtsError: "",
+        //                 additionalRawSignalRequestedPingSlash24: true,
+        //                 additionalRawSignalRequestedBgp: true,
+        //                 additionalRawSignalRequestedUcsdNt: true
+        //             }, () => this.genRawTimeSeriesConfig(entityType));
+        //             break;
+        //     }
+        // }
+
         let indexValue = 0;
         let signalsTableSummaryDataProcessed;
         let maxEntitiesPopulatedMessage = T.translate("entityModal.maxEntitiesPopulatedMessage");
@@ -1555,8 +1612,8 @@ class Entity extends Component {
         }
 
         // Get the index of where the checkmark was that was clicked
-        signalsTableSummaryDataProcessed.filter((entity, index) => {
-            if (entity.entityCode === event.target.name) {
+        signalsTableSummaryDataProcessed.filter((obj, index) => {
+            if (obj.entityCode === entity.entityCode) {
                 indexValue = index;
             }
         });
@@ -1566,12 +1623,8 @@ class Entity extends Component {
             // If checkbox is false, determine if adding it will breach the limit
             if (this.maxHtsLimit > this.state.currentEntitiesChecked) {
                 this.setState({
-                    currentEntitiesChecked: this.state.currentEntitiesChecked + 1,
-                    additionalRawSignalRequestedPingSlash24: signalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"] === false,
-                    additionalRawSignalRequestedBgp: signalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"] === false,
-                    additionalRawSignalRequestedUcsdNt: signalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"] === false
+                    currentEntitiesChecked: this.state.currentEntitiesChecked + 1
                 }, () => {
-                    setTimeout(() => {
                         // Update visibility boolean property in copied object to update table
                         signalsTableSummaryDataProcessed[indexValue]["visibility"] = !signalsTableSummaryDataProcessed[indexValue]["visibility"];
 
@@ -1640,7 +1693,6 @@ class Entity extends Component {
                                     break;
                             }
                         }
-                    }, 1000);
                 });
             } else {
                 // Show error message

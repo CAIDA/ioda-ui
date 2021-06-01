@@ -13,13 +13,20 @@ class SignalTableRow extends Component {
         this.state = {
             x: 0,
             y: 0,
-            displayScores: false
+            displayScores: false,
+            visibility: this.props.data.visibility
         };
         this.handleRowScoreHide = this.handleRowScoreHide.bind(this);
     }
 
     componentDidMount() {
         document.addEventListener('click', this.handleRowScoreHide, true);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.data !==prevProps.data) {
+            this.setState({ visibility: this.props.data.visibility});
+        }
     }
 
     componentWillUnmount() {
@@ -74,12 +81,25 @@ class SignalTableRow extends Component {
         });
     }
 
+    // controls checkbox visibility UI, having it wait on props is taking too long
+    handleVisibilityState(item) {
+        // update checkbox and call props function
+        this.setState({
+            visibility: !this.state.visibility
+        }, () =>
+            setTimeout(() => {
+                this.props.toggleEntityVisibilityInHtsViz(item)
+            }, 1000)
+        );
+    }
+
     render() {
         let overallScore = humanizeNumber(this.props.data.score, 2);
 
         const dataSourceHeading = T.translate("table.scoresTable.dataSourceHeading");
         const scoreHeading = T.translate("table.scoresTable.scoreHeading");
 
+        const item = this.props.data;
         const entityCode = this.props.data.entityCode;
         const entityType = this.props.data.entityType;
 
@@ -93,7 +113,10 @@ class SignalTableRow extends Component {
                 {
                     this.props.type === "signal"
                         ? <td>
-                            <input className="table__cell-checkbox" type="checkbox" name={entityCode} checked={this.props.data.visibility} onChange={(event) => this.props.toggleEntityVisibilityInHtsViz(event)}/>
+                            <input className="table__cell-checkbox" type="checkbox" name={entityCode}
+                                   checked={this.state.visibility}
+                                   onChange={() => this.handleVisibilityState(item)}
+                            />
                         </td>
                         : null
                 }
