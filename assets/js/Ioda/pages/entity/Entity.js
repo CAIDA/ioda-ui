@@ -360,51 +360,53 @@ class Entity extends Component {
 
         // data for additional raw feed signals to use after load all button is clicked
         if (this.props.additionalRawSignal !== prevProps.additionalRawSignal) {
-            switch (this.props.additionalRawSignal[0][0]["entityType"]) {
-                case "region":
-                    switch (this.props.additionalRawSignal[0][0]["datasource"]) {
-                        case "ping-slash24":
-                            let rawRegionalSignalsRawPingSlash24 = this.state.rawRegionalSignalsRawPingSlash24.concat(this.props.additionalRawSignal[0]);
-                            this.setState({
-                                rawRegionalSignalsRawPingSlash24: rawRegionalSignalsRawPingSlash24
-                            }, () => this.convertValuesForHtsViz("ping-slash24", "asn"));
-                            break;
-                        case "bgp":
-                            let rawRegionalSignalsRawBgp = this.state.rawRegionalSignalsRawBgp.concat(this.props.additionalRawSignal[0]);
-                            this.setState({
-                                rawRegionalSignalsRawBgp: rawRegionalSignalsRawBgp
-                            }, () => this.convertValuesForHtsViz("bgp", "asn"));
-                            break;
-                        case "ucsd-nt":
-                            let rawRegionalSignalsRawUcsdNt = this.state.rawRegionalSignalsRawUcsdNt.concat(this.props.additionalRawSignal[0]);
-                            this.setState({
-                                rawRegionalSignalsRawUcsdNt: rawRegionalSignalsRawUcsdNt
-                            }, () => this.convertValuesForHtsViz("ucsd-nt", "asn"));
-                            break;
-                    }
-                    break;
-                case "asn":
-                    switch (this.props.additionalRawSignal[0][0]["datasource"]) {
-                        case "ping-slash24":
-                            let rawAsnSignalsRawPingSlash24 = this.state.rawAsnSignalsRawPingSlash24.concat(this.props.additionalRawSignal[0]);
-                            this.setState({
-                                rawAsnSignalsRawPingSlash24: rawAsnSignalsRawPingSlash24
-                            }, () => this.convertValuesForHtsViz("ping-slash24", "asn"));
-                            break;
-                        case "bgp":
-                            let rawAsnSignalsRawBgp = this.state.rawAsnSignalsRawBgp.concat(this.props.additionalRawSignal[0]);
-                            this.setState({
-                                rawAsnSignalsRawBgp: rawAsnSignalsRawBgp
-                            }, () => this.convertValuesForHtsViz("bgp", "asn"));
-                            break;
-                        case "ucsd-nt":
-                            let rawAsnSignalsRawUcsdNt = this.state.rawAsnSignalsRawUcsdNt.concat(this.props.additionalRawSignal[0]);
-                            this.setState({
-                                rawAsnSignalsRawUcsdNt: rawAsnSignalsRawUcsdNt
-                            }, () => this.convertValuesForHtsViz("ucsd-nt", "asn"));
-                            break;
-                    }
-                    break;
+            if (this.props.additionalRawSignal[0][0] !== undefined) {
+                switch (this.props.additionalRawSignal[0][0]["entityType"]) {
+                    case "region":
+                        switch (this.props.additionalRawSignal[0][0]["datasource"]) {
+                            case "ping-slash24":
+                                let rawRegionalSignalsRawPingSlash24 = this.state.rawRegionalSignalsRawPingSlash24.concat(this.props.additionalRawSignal[0]);
+                                this.setState({
+                                    rawRegionalSignalsRawPingSlash24: rawRegionalSignalsRawPingSlash24
+                                }, () => this.convertValuesForHtsViz("ping-slash24", "asn"));
+                                break;
+                            case "bgp":
+                                let rawRegionalSignalsRawBgp = this.state.rawRegionalSignalsRawBgp.concat(this.props.additionalRawSignal[0]);
+                                this.setState({
+                                    rawRegionalSignalsRawBgp: rawRegionalSignalsRawBgp
+                                }, () => this.convertValuesForHtsViz("bgp", "asn"));
+                                break;
+                            case "ucsd-nt":
+                                let rawRegionalSignalsRawUcsdNt = this.state.rawRegionalSignalsRawUcsdNt.concat(this.props.additionalRawSignal[0]);
+                                this.setState({
+                                    rawRegionalSignalsRawUcsdNt: rawRegionalSignalsRawUcsdNt
+                                }, () => this.convertValuesForHtsViz("ucsd-nt", "asn"));
+                                break;
+                        }
+                        break;
+                    case "asn":
+                        switch (this.props.additionalRawSignal[0][0]["datasource"]) {
+                            case "ping-slash24":
+                                let rawAsnSignalsRawPingSlash24 = this.state.rawAsnSignalsRawPingSlash24.concat(this.props.additionalRawSignal[0]);
+                                this.setState({
+                                    rawAsnSignalsRawPingSlash24: rawAsnSignalsRawPingSlash24
+                                }, () => this.convertValuesForHtsViz("ping-slash24", "asn"));
+                                break;
+                            case "bgp":
+                                let rawAsnSignalsRawBgp = this.state.rawAsnSignalsRawBgp.concat(this.props.additionalRawSignal[0]);
+                                this.setState({
+                                    rawAsnSignalsRawBgp: rawAsnSignalsRawBgp
+                                }, () => this.convertValuesForHtsViz("bgp", "asn"));
+                                break;
+                            case "ucsd-nt":
+                                let rawAsnSignalsRawUcsdNt = this.state.rawAsnSignalsRawUcsdNt.concat(this.props.additionalRawSignal[0]);
+                                this.setState({
+                                    rawAsnSignalsRawUcsdNt: rawAsnSignalsRawUcsdNt
+                                }, () => this.convertValuesForHtsViz("ucsd-nt", "asn"));
+                                break;
+                        }
+                        break;
+                }
             }
         }
     }
@@ -1540,7 +1542,7 @@ class Entity extends Component {
         }
     }
     // function to manage what happens when a checkbox is changed in the raw signals table
-    toggleEntityVisibilityInHtsViz(event, entityType) {
+    toggleEntityVisibilityInHtsViz(entity, entityType) {
         let indexValue = 0;
         let signalsTableSummaryDataProcessed;
         let maxEntitiesPopulatedMessage = T.translate("entityModal.maxEntitiesPopulatedMessage");
@@ -1555,8 +1557,8 @@ class Entity extends Component {
         }
 
         // Get the index of where the checkmark was that was clicked
-        signalsTableSummaryDataProcessed.filter((entity, index) => {
-            if (entity.entityCode === event.target.name) {
+        signalsTableSummaryDataProcessed.filter((obj, index) => {
+            if (obj.entityCode === entity.entityCode) {
                 indexValue = index;
             }
         });
@@ -1566,12 +1568,8 @@ class Entity extends Component {
             // If checkbox is false, determine if adding it will breach the limit
             if (this.maxHtsLimit > this.state.currentEntitiesChecked) {
                 this.setState({
-                    currentEntitiesChecked: this.state.currentEntitiesChecked + 1,
-                    additionalRawSignalRequestedPingSlash24: signalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"] === false,
-                    additionalRawSignalRequestedBgp: signalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"] === false,
-                    additionalRawSignalRequestedUcsdNt: signalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"] === false
+                    currentEntitiesChecked: this.state.currentEntitiesChecked + 1
                 }, () => {
-                    setTimeout(() => {
                         // Update visibility boolean property in copied object to update table
                         signalsTableSummaryDataProcessed[indexValue]["visibility"] = !signalsTableSummaryDataProcessed[indexValue]["visibility"];
 
@@ -1640,7 +1638,6 @@ class Entity extends Component {
                                     break;
                             }
                         }
-                    }, 1000);
                 });
             } else {
                 // Show error message
