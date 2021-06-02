@@ -150,7 +150,7 @@ class Entity extends Component {
     }
 
     componentDidMount() {
-        console.log("update19");
+        console.log("update24");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
         this.setState({
@@ -361,51 +361,57 @@ class Entity extends Component {
 
         // data for additional raw feed signals to use after load all button is clicked
         if (this.props.additionalRawSignal !== prevProps.additionalRawSignal) {
-            switch (this.props.additionalRawSignal[0][0]["entityType"]) {
-                case "region":
-                    switch (this.props.additionalRawSignal[0][0]["datasource"]) {
-                        case "ping-slash24":
-                            let rawRegionalSignalsRawPingSlash24 = this.state.rawRegionalSignalsRawPingSlash24.concat(this.props.additionalRawSignal[0]);
-                            this.setState({
-                                rawRegionalSignalsRawPingSlash24: rawRegionalSignalsRawPingSlash24
-                            }, () => this.convertValuesForHtsViz("ping-slash24", "asn"));
-                            break;
-                        case "bgp":
-                            let rawRegionalSignalsRawBgp = this.state.rawRegionalSignalsRawBgp.concat(this.props.additionalRawSignal[0]);
-                            this.setState({
-                                rawRegionalSignalsRawBgp: rawRegionalSignalsRawBgp
-                            }, () => this.convertValuesForHtsViz("bgp", "asn"));
-                            break;
-                        case "ucsd-nt":
-                            let rawRegionalSignalsRawUcsdNt = this.state.rawRegionalSignalsRawUcsdNt.concat(this.props.additionalRawSignal[0]);
-                            this.setState({
-                                rawRegionalSignalsRawUcsdNt: rawRegionalSignalsRawUcsdNt
-                            }, () => this.convertValuesForHtsViz("ucsd-nt", "asn"));
-                            break;
-                    }
-                    break;
-                case "asn":
-                    switch (this.props.additionalRawSignal[0][0]["datasource"]) {
-                        case "ping-slash24":
-                            let rawAsnSignalsRawPingSlash24 = this.state.rawAsnSignalsRawPingSlash24.concat(this.props.additionalRawSignal[0]);
-                            this.setState({
-                                rawAsnSignalsRawPingSlash24: rawAsnSignalsRawPingSlash24
-                            }, () => this.convertValuesForHtsViz("ping-slash24", "asn"));
-                            break;
-                        case "bgp":
-                            let rawAsnSignalsRawBgp = this.state.rawAsnSignalsRawBgp.concat(this.props.additionalRawSignal[0]);
-                            this.setState({
-                                rawAsnSignalsRawBgp: rawAsnSignalsRawBgp
-                            }, () => this.convertValuesForHtsViz("bgp", "asn"));
-                            break;
-                        case "ucsd-nt":
-                            let rawAsnSignalsRawUcsdNt = this.state.rawAsnSignalsRawUcsdNt.concat(this.props.additionalRawSignal[0]);
-                            this.setState({
-                                rawAsnSignalsRawUcsdNt: rawAsnSignalsRawUcsdNt
-                            }, () => this.convertValuesForHtsViz("ucsd-nt", "asn"));
-                            break;
-                    }
-                    break;
+            // console.log(this.props.additionalRawSignal);
+            // console.log(this.props.additionalRawSignal[0]);
+            // console.log(this.props.additionalRawSignal[0][0]);
+            // console.log(this.props.additionalRawSignal[0][0]["entityType"]);
+            if (this.props.additionalRawSignal[0][0] !== undefined) {
+                switch (this.props.additionalRawSignal[0][0]["entityType"]) {
+                    case "region":
+                        switch (this.props.additionalRawSignal[0][0]["datasource"]) {
+                            case "ping-slash24":
+                                let rawRegionalSignalsRawPingSlash24 = this.state.rawRegionalSignalsRawPingSlash24.concat(this.props.additionalRawSignal[0]);
+                                this.setState({
+                                    rawRegionalSignalsRawPingSlash24: rawRegionalSignalsRawPingSlash24
+                                }, () => this.convertValuesForHtsViz("ping-slash24", "asn"));
+                                break;
+                            case "bgp":
+                                let rawRegionalSignalsRawBgp = this.state.rawRegionalSignalsRawBgp.concat(this.props.additionalRawSignal[0]);
+                                this.setState({
+                                    rawRegionalSignalsRawBgp: rawRegionalSignalsRawBgp
+                                }, () => this.convertValuesForHtsViz("bgp", "asn"));
+                                break;
+                            case "ucsd-nt":
+                                let rawRegionalSignalsRawUcsdNt = this.state.rawRegionalSignalsRawUcsdNt.concat(this.props.additionalRawSignal[0]);
+                                this.setState({
+                                    rawRegionalSignalsRawUcsdNt: rawRegionalSignalsRawUcsdNt
+                                }, () => this.convertValuesForHtsViz("ucsd-nt", "asn"));
+                                break;
+                        }
+                        break;
+                    case "asn":
+                        switch (this.props.additionalRawSignal[0][0]["datasource"]) {
+                            case "ping-slash24":
+                                let rawAsnSignalsRawPingSlash24 = this.state.rawAsnSignalsRawPingSlash24.concat(this.props.additionalRawSignal[0]);
+                                this.setState({
+                                    rawAsnSignalsRawPingSlash24: rawAsnSignalsRawPingSlash24
+                                }, () => this.convertValuesForHtsViz("ping-slash24", "asn"));
+                                break;
+                            case "bgp":
+                                let rawAsnSignalsRawBgp = this.state.rawAsnSignalsRawBgp.concat(this.props.additionalRawSignal[0]);
+                                this.setState({
+                                    rawAsnSignalsRawBgp: rawAsnSignalsRawBgp
+                                }, () => this.convertValuesForHtsViz("bgp", "asn"));
+                                break;
+                            case "ucsd-nt":
+                                let rawAsnSignalsRawUcsdNt = this.state.rawAsnSignalsRawUcsdNt.concat(this.props.additionalRawSignal[0]);
+                                this.setState({
+                                    rawAsnSignalsRawUcsdNt: rawAsnSignalsRawUcsdNt
+                                }, () => this.convertValuesForHtsViz("ucsd-nt", "asn"));
+                                break;
+                        }
+                        break;
+                }
             }
         }
     }
@@ -1542,62 +1548,6 @@ class Entity extends Component {
     }
     // function to manage what happens when a checkbox is changed in the raw signals table
     toggleEntityVisibilityInHtsViz(entity, entityType) {
-        // // define state as local variable based on the entity type
-        // let signalsTableSummaryDataProcessed;
-        // let maxEntitiesPopulatedMessage = T.translate("entityModal.maxEntitiesPopulatedMessage");
-        // let indexValue = 0;
-        //
-        // switch (entityType) {
-        //     case "region":
-        //         signalsTableSummaryDataProcessed = this.state.regionalSignalsTableSummaryDataProcessed;
-        //         break;
-        //     case "asn":
-        //         signalsTableSummaryDataProcessed = this.state.asnSignalsTableSummaryDataProcessed;
-        //         break;
-        // }
-        //
-        // // Check that the number of boxes checked is not more than the limit allowed
-        // if (this.maxHtsLimit > this.state.currentEntitiesChecked) {
-        //     // find the entity selected and change visibility in local object
-        //     signalsTableSummaryDataProcessed.map((obj, index) => {
-        //         if (obj.entityCode === entity.entityCode) {
-        //             entity.visibility = !entity.visibility;
-        //             indexValue = index;
-        //         }
-        //     });
-        //
-        //     // Change display count
-        //     entity.visibility
-        //         ? this.setState({currentEntitiesChecked: this.state.currentEntitiesChecked + 1})
-        //         : this.setState({currentEntitiesChecked: this.state.currentEntitiesChecked - 1});
-        //
-        //
-        //     // set new data object, loading, and error messaging in state,
-        //     switch (entityType) {
-        //         case "region":
-        //             this.setState({
-        //                 regionalSignalsTableSummaryDataProcessed: signalsTableSummaryDataProcessed,
-        //                 rawSignalsMaxEntitiesHtsError: "",
-        //                 additionalRawSignalRequestedPingSlash24: true,
-        //                 additionalRawSignalRequestedBgp: true,
-        //                 additionalRawSignalRequestedUcsdNt: true
-        //             }, () => this.genRawTimeSeriesConfig(entityType));
-        //
-        //
-        //             break;
-        //
-        //         case "asn":
-        //             this.setState({
-        //                 asnSignalsTableSummaryDataProcessed: signalsTableSummaryDataProcessed,
-        //                 rawSignalsMaxEntitiesHtsError: "",
-        //                 additionalRawSignalRequestedPingSlash24: true,
-        //                 additionalRawSignalRequestedBgp: true,
-        //                 additionalRawSignalRequestedUcsdNt: true
-        //             }, () => this.genRawTimeSeriesConfig(entityType));
-        //             break;
-        //     }
-        // }
-
         let indexValue = 0;
         let signalsTableSummaryDataProcessed;
         let maxEntitiesPopulatedMessage = T.translate("entityModal.maxEntitiesPopulatedMessage");
