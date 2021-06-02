@@ -360,10 +360,6 @@ class Entity extends Component {
 
         // data for additional raw feed signals to use after load all button is clicked
         if (this.props.additionalRawSignal !== prevProps.additionalRawSignal) {
-            // console.log(this.props.additionalRawSignal);
-            // console.log(this.props.additionalRawSignal[0]);
-            // console.log(this.props.additionalRawSignal[0][0]);
-            // console.log(this.props.additionalRawSignal[0][0]["entityType"]);
             if (this.props.additionalRawSignal[0][0] !== undefined) {
                 switch (this.props.additionalRawSignal[0][0]["entityType"]) {
                     case "region":
