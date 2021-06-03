@@ -86,11 +86,11 @@ class SignalTableRow extends Component {
         // update checkbox and call props function
         this.setState({
             visibility: !this.state.visibility
-        }, () =>
+        }, () => {
             setTimeout(() => {
-                this.props.toggleEntityVisibilityInHtsViz(item)
-            }, 1000)
-        );
+                this.props.handleCheckboxEventLoading(item);
+            }, 1000);
+        });
     }
 
     render() {
