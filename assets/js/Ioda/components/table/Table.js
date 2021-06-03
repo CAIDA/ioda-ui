@@ -455,6 +455,7 @@ class Table extends Component {
                                                                entityType={this.props.entityType} data={signal}
                                                                toggleEntityVisibilityInHtsViz={event => this.props.toggleEntityVisibilityInHtsViz(event)}
                                                                handleEntityClick={(entityType, entityCode) => this.props.handleEntityClick(entityType, entityCode)}
+                                                               handleCheckboxEventLoading={(item) => this.props.handleCheckboxEventLoading(item)}
                                         />
 
                                     })
