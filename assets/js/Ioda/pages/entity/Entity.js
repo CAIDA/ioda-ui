@@ -151,6 +151,7 @@ class Entity extends Component {
     }
 
     componentDidMount() {
+        console.log("update");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
         this.setState({
@@ -768,31 +769,24 @@ class Entity extends Component {
             }
         ];
 
-
-        const absoluteStripline = [
-            {
-                value: Math.max(...absoluteMax),
-                color:"#E6E6E6",
-                lineDashType: "dash"
-            }
-        ];
-
         this.setState({
             xyDataOptions: {
                 theme: "light2",
                 height: 620,
                 animationEnabled: true,
                 zoomEnabled: true,
-                crosshair: {
-                    enabled: true,
-                    snapToDataPoint: true
-                },
                 axisX: {
                     title: "Time (UTC)",
                     stripLines: stripLines,
                     titleFontSize: 12,
                     labelFontSize: 10,
-                    margin: 2
+                    margin: 2,
+                    crosshair: {
+                        enabled: true,
+                        snapToDataPoint: true,
+                        lineDashType: "solid",
+                        color: "#c5c5c5"
+                    }
                 },
                 axisY: {
                     // title: "Active Probing and BGP",
