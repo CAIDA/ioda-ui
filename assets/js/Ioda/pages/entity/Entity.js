@@ -688,14 +688,18 @@ class Entity extends Component {
         let networkTelescopeValues = [];
         let bgpValues = [];
         let activeProbingValues = [];
+        let absoluteMax = [];
+        let absoluteMaxY2 = 0;
 
         // Loop through available datasources to collect plot points
-        this.state.tsDataRaw && this.state.tsDataRaw[0].map(datasource => {
+        this.state.tsDataRaw[0].map(datasource => {
             let min, max;
             switch (datasource.datasource) {
                 case "ucsd-nt":
                     min = Math.min(...datasource.values);
                     max = Math.max(...datasource.values);
+                    absoluteMax.push(max);
+                    absoluteMaxY2 = max;
 
                     datasource.values && datasource.values.map((value, index) => {
                         let x, y;
@@ -707,6 +711,7 @@ class Entity extends Component {
                 case "bgp":
                     min = Math.min(...datasource.values);
                     max = Math.max(...datasource.values);
+                    absoluteMax.push(max);
 
                     datasource.values && datasource.values.map((value, index) => {
                         let x, y;
@@ -718,6 +723,7 @@ class Entity extends Component {
                 case "ping-slash24":
                     min = Math.min(...datasource.values);
                     max = Math.max(...datasource.values);
+                    absoluteMax.push(max);
 
                     datasource.values && datasource.values.map((value, index) => {
                         let x, y;
@@ -746,13 +752,30 @@ class Entity extends Component {
         const timeBegin = networkTelescopeValues[0].x;
         const timeEnd = networkTelescopeValues[networkTelescopeValues.length -1].x;
         // Add 5% padding to the right edge of the Chart
-        const extraPadding = (timeEnd - timeBegin) * 0.01;
+        const extraPadding = (timeEnd - timeBegin) * 0.05;
         const viewportMaximum = new Date(timeEnd.getTime() + extraPadding);
 
         activeProbingValues.push({x: viewportMaximum, y: null});
         bgpValues.push({x: viewportMaximum, y: null});
         networkTelescopeValues.push({x: viewportMaximum, y: null});
 
+        // create top padding in chart area for normalized/absolute views
+        const normalizedStripline = [
+            {
+                value: 110,
+                color:"#E6E6E6",
+                lineDashType: "dash"
+            }
+        ];
+
+
+        const absoluteStripline = [
+            {
+                value: Math.max(...absoluteMax),
+                color:"#E6E6E6",
+                lineDashType: "dash"
+            }
+        ];
 
         this.setState({
             xyDataOptions: {
@@ -776,15 +799,24 @@ class Entity extends Component {
                     titleFontsColor: "#666666",
                     labelFontColor: "#666666",
                     labelFontSize: 12,
-                    maximum: this.state.tsDataNormalized ? 100 : null,
+                    maximum: this.state.tsDataNormalized ? 110 : Math.max(...absoluteMax) * 1.1,
                     gridDashType: "dash",
-                    gridColor: "#E6E6E6"
+                    gridColor: "#E6E6E6",
+                    stripLines: this.state.tsDataNormalized ? normalizedStripline : null,
+                    labelFormatter: (event) => {
+                        if (this.state.tsDataNormalized) {
+                            return event.value <= 100 ? event.value : ""
+                        } else {
+                            return event.value;
+                        }
+                    }
                 },
                 axisY2: {
                     // title: "Network Telescope",
                     titleFontsColor: "#666666",
                     labelFontColor: "#666666",
-                    labelFontSize: 12
+                    labelFontSize: 12,
+                    maximum: this.state.tsDataNormalized ? 110 : absoluteMaxY2 * 1.1,
                 },
                 toolTip: {
                     shared: false,
