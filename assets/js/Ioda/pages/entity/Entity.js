@@ -1619,6 +1619,8 @@ class Entity extends Component {
                                 }
                                 break;
                             case true:
+                                // update property that manages if raw signal data has loaded or not
+                                signalsTableSummaryDataProcessed[indexValue]["visibility"] = true;
                                 // Update state with freshly updated object list, then redraw the chart with new visibility values
                                 switch (entityType) {
                                     case "region":
@@ -1626,9 +1628,12 @@ class Entity extends Component {
                                             regionalSignalsTableSummaryDataProcessed: signalsTableSummaryDataProcessed,
                                             rawSignalsMaxEntitiesHtsError: ""
                                         }, () => {
-                                            this.convertValuesForHtsViz("ping-slash24", "region");
-                                            this.convertValuesForHtsViz("bgp", "region");
-                                            this.convertValuesForHtsViz("ucsd-nt", "region");
+                                            setTimeout(() => {
+                                                this.convertValuesForHtsViz("ping-slash24", "region");
+                                                this.convertValuesForHtsViz("bgp", "region");
+                                                this.convertValuesForHtsViz("ucsd-nt", "region");
+                                            }, 1000);
+
                                         });
                                         break;
                                     case "asn":
@@ -1636,9 +1641,11 @@ class Entity extends Component {
                                             asnSignalsTableSummaryDataProcessed: signalsTableSummaryDataProcessed,
                                             rawSignalsMaxEntitiesHtsError: ""
                                         }, () => {
-                                            this.convertValuesForHtsViz("ping-slash24", "asn");
-                                            this.convertValuesForHtsViz("bgp", "asn");
-                                            this.convertValuesForHtsViz("ucsd-nt", "asn");
+                                            setTimeout(() => {
+                                                this.convertValuesForHtsViz("ping-slash24", "asn");
+                                                this.convertValuesForHtsViz("bgp", "asn");
+                                                this.convertValuesForHtsViz("ucsd-nt", "asn");
+                                            }, 1000);
                                         });
                                         break;
                                 }
