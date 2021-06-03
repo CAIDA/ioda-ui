@@ -100,6 +100,10 @@
     & tr td:nth-child(5) {
       width: calc(10rem + 15px);
     }
+
+    & tbody {
+      max-height: 48rem;
+    }
   }
   &--summary {
     & .table__scores--active {
@@ -134,6 +138,7 @@
 
 
     & .table__header-col:nth-child(3),
+    &--asn tbody tr td:nth-child(3),
     &--asn .table__header-col:nth-child(4),
     &--asn tbody tr td:nth-child(4) {
       width: 10rem;
@@ -181,7 +186,6 @@
   }
 
   & tbody {
-    max-height: 28rem;
     /* managed in component */
     /* overflow-y: scroll; */
     display: block;
