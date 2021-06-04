@@ -490,13 +490,17 @@ class ControlPanel extends Component {
                             inputRanges = {[]}
                         />
                         <div className={this.state.customRangeVisible ? "range__time range__time--visible" : "range__time"}>
-                            <TimeRangePicker
-                                onChange={(time) => this.handleTimeChange(time)}
-                                value={this.state.timeRange}
-                                disableClock={true}
-                                maxDetail={"second"}
-                                clearIcon={null}
-                            />
+                            {
+                                !this.state.wholeDayInputSelected
+                                    ? <TimeRangePicker
+                                        onChange={(time) => this.handleTimeChange(time)}
+                                        value={this.state.timeRange}
+                                        disableClock={true}
+                                        maxDetail={"second"}
+                                        clearIcon={null}
+                                    />
+                                    : null
+                            }
                             <div className="range__dropdown-checkbox">
                                 <input onChange={() => this.handleWholeDaySelection()} type="checkbox" name="checkbox" id="whole-day"/>
                                 <label htmlFor="whole-day">{wholeDay}</label>
