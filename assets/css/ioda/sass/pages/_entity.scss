@@ -46,26 +46,10 @@
 
     &__xy-wrapper {
       position: relative;
-      //border-top: 1px dashed #E6E6E6;
-      padding-top: 3.5rem;
-
-      &:before {
-        content: "";
-        top: 0;
-        position: absolute;
-        width: calc(100% - 2rem);
-        height: 1px;
-        border-top: 1px dashed #e6e6e6;
-        margin-left: 50%;
-        transform: translate(-50%);
-      }
 
       .canvasjs-chart-toolbar {
-        margin-top: -2.6rem;
-
-        @include respond(tab-port) {
-          margin-top: -3.5rem;
-        }
+        margin-top: 1.8rem;
+        margin-right: 1.9rem;
       }
 
       .canvasjs-chart-credit {
@@ -149,10 +133,6 @@
       font-size: 1rem;
       margin: 0;
       padding: 0 1rem;
-    }
-
-    .table tbody {
-      max-height: 32rem;
     }
   }
 }
