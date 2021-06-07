@@ -530,10 +530,12 @@ class Entity extends Component {
                     regionalSignalsTableSummaryData: [],
                     regionalSignalsTableSummaryDataProcessed: [],
                     regionalSignalsTableTotalCount: 0,
+                    regionalSignalsTableEntitiesChecked: 0,
                     // Signals Modal Table on Table Panel
                     asnSignalsTableSummaryData: [],
                     asnSignalsTableSummaryDataProcessed: [],
                     asnSignalsTableTotalCount: 0,
+                    asnSignalsTableEntitiesChecked: 0,
                     // Stacked Horizon Visual on Region Map Panel
                     rawRegionalSignalsRawBgp: [],
                     rawRegionalSignalsRawPingSlash24: [],
