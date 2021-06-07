@@ -23,12 +23,6 @@ class SignalTableRow extends Component {
         document.addEventListener('click', this.handleRowScoreHide, true);
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.data !==prevProps.data) {
-            this.setState({ visibility: this.props.data.visibility});
-        }
-    }
-
     componentWillUnmount() {
         document.removeEventListener('click', this.handleRowScoreHide, true);
     }
@@ -82,10 +76,11 @@ class SignalTableRow extends Component {
     }
 
     // controls checkbox visibility UI, having it wait on props is taking too long
-    handleVisibilityState(item) {
+    handleVisibilityState(event, item) {
         // update checkbox and call props function
+
         this.setState({
-            visibility: !this.state.visibility
+            visibility: event.target.checked
         }, () => {
             setTimeout(() => {
                 this.props.handleCheckboxEventLoading(item);
@@ -115,7 +110,7 @@ class SignalTableRow extends Component {
                         ? <td>
                             <input className="table__cell-checkbox" type="checkbox" name={entityCode}
                                    checked={this.state.visibility}
-                                   onChange={() => this.handleVisibilityState(item)}
+                                   onChange={(event) => this.handleVisibilityState(event, item)}
                             />
                         </td>
                         : null
