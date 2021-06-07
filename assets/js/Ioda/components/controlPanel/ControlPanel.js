@@ -103,8 +103,8 @@ class ControlPanel extends Component {
             timeRange: ["00:00:00", "23:59:59"],
             selection: {
                 ...this.state.selection,
-                startDate: new Date(new Date(this.state.selection.startDate).setHours(0,0,0,0)),
-                endDate: new Date (new Date(this.state.selection.endDate).setHours(23,59,59,0))
+                startDate: new Date(new Date(this.state.selection.startDate).setUTCHours(0,0,0,0)),
+                endDate: new Date(new Date(this.state.selection.endDate).setUTCHours(23,59,59,0))
             },
             wholeDayInputSelected: !this.state.wholeDayInputSelected
         });
@@ -149,20 +149,24 @@ class ControlPanel extends Component {
                     console.alert("error with updating range with user input.");
                     break;
             }
-        } else {
+        } else if (!this.state.wholeDayInputSelected) {
             newStartDate = this.state.selection.startDate;
             newEndDate = this.state.selection.endDate;
+        } else {
+            newStartDate = new Date(new Date(this.state.selection.startDate).setUTCHours(0,0,0,0));
+            newEndDate = new Date(new Date(this.state.selection.endDate).setUTCHours(23,59,59,0));
         }
 
+
         // Get UTC values for time range state, set them, then make api call
-        let startTimeRangeHours = newStartDate.getHours() < 10 ? `0${newStartDate.getHours()}` : newStartDate.getHours();
-        let startTimeRangeMin = newStartDate.getMinutes() < 10 ? `0${newStartDate.getMinutes()}` : newStartDate.getMinutes();
-        let startTimeRangeSec = newStartDate.getSeconds() < 10 ? `0${newStartDate.getSeconds()}` : newStartDate.getSeconds();
+        let startTimeRangeHours = newStartDate.getUTCHours() < 10 ? `0${newStartDate.getUTCHours()}` : newStartDate.getUTCHours();
+        let startTimeRangeMin = newStartDate.getUTCMinutes() < 10 ? `0${newStartDate.getUTCMinutes()}` : newStartDate.getUTCMinutes();
+        let startTimeRangeSec = newStartDate.getUTCSeconds() < 10 ? `0${newStartDate.getUTCSeconds()}` : newStartDate.getUTCSeconds();
         let startTimeRange = `${startTimeRangeHours}:${startTimeRangeMin}:${startTimeRangeSec}`;
 
-        let endTimeRangeHours = newEndDate.getHours() < 10 ? `0${newEndDate.getHours()}` : newEndDate.getHours();
-        let endTimeRangeMin = newEndDate.getMinutes() < 10 ? `0${newEndDate.getMinutes()}` : newEndDate.getMinutes();
-        let endTimeRangeSec = newEndDate.getSeconds() < 10 ? `0${newEndDate.getSeconds()}` : newEndDate.getSeconds();
+        let endTimeRangeHours = newEndDate.getUTCHours() < 10 ? `0${newEndDate.getUTCHours()}` : newEndDate.getUTCHours();
+        let endTimeRangeMin = newEndDate.getUTCMinutes() < 10 ? `0${newEndDate.getUTCMinutes()}` : newEndDate.getUTCMinutes();
+        let endTimeRangeSec = newEndDate.getUTCSeconds() < 10 ? `0${newEndDate.getUTCSeconds()}` : newEndDate.getUTCSeconds();
         let endTimeRange = `${endTimeRangeHours}:${endTimeRangeMin}:${endTimeRangeSec}`;
 
         if (this.state.userInputSelected) {
@@ -356,7 +360,7 @@ class ControlPanel extends Component {
         ];
 
         const activeCSS = "color: rgb(61, 145, 255)!important; font-weight: 700!important;";
-        const inactiveCSS = "color: #404040!important; font-weight: 400!important;"
+        const inactiveCSS = "color: #404040!important; font-weight: 400!important;";
 
 
         return(
@@ -391,9 +395,6 @@ class ControlPanel extends Component {
                     .rdrStaticRangeSelected {
                         ${this.state.todaySelected || this.state.lastHourSelected || this.state.userInputSelected || this.state.customRangeSelected ? inactiveCSS : activeCSS}
                     }
-                   
-
-                    
                 `}</Style>
                 <div className="col-1-of-1">
                     <h1 className="heading-h1">{this.props.entityName}</h1>
@@ -427,6 +428,7 @@ class ControlPanel extends Component {
                                                     "00:00:00",
                                                     "23:59:59"
                                                 ],
+
                                                 ...item
                                             });
                                             break;
@@ -450,7 +452,8 @@ class ControlPanel extends Component {
                                                 todaySelected: false,
                                                 lastHourSelected: false,
                                                 userInputSelected: true,
-                                                customRangeSelected: false
+                                                customRangeSelected: false,
+                                                ...item
                                             });
                                             break;
                                         case 'customRange':
@@ -459,7 +462,8 @@ class ControlPanel extends Component {
                                                 customRangeSelected: true,
                                                 todaySelected: false,
                                                 lastHourSelected: false,
-                                                userInputSelected: false
+                                                userInputSelected: false,
+                                                ...item
                                             });
                                             break;
                                         default:
