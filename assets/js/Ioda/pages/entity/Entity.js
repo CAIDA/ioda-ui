@@ -1603,6 +1603,7 @@ class Entity extends Component {
                     this.setState({
                         currentEntitiesChecked: this.state.currentEntitiesChecked + 1
                     }, () => {
+                        // check if entity data is already available
                         switch (signalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"]) {
                             case false:
                                 // Update visibility boolean property in copied object to update table
@@ -1642,9 +1643,7 @@ class Entity extends Component {
                                 }
                                 break;
                             case true:
-                                // // update property that manages if raw signal data has loaded or not
-                                // signalsTableSummaryDataProcessed[indexValue]["visibility"] = true;
-                                // Update state with freshly updated object list, then redraw the chart with new visibility values
+                                // set new data
                                 switch (entityType) {
                                     case "region":
                                         this.setState({
@@ -1686,8 +1685,7 @@ class Entity extends Component {
                 }
                 break;
             case false:
-                // // Update visibility boolean property in copied object to match updated table
-                // signalsTableSummaryDataProcessed[indexValue]["visibility"] = !signalsTableSummaryDataProcessed[indexValue]["visibility"];
+                // // Update currently checked item count and set new data to populate
                 this.setState({ currentEntitiesChecked: this.state.currentEntitiesChecked - 1});
                 switch (entityType) {
                     case "region":
@@ -1915,7 +1913,7 @@ class Entity extends Component {
                         asnSignalsTableSummaryDataProcessed: signalsTableSummaryDataProcessed
                     }, () => {
                         setTimeout(() => {
-                            this.toggleEntityVisibilityInHtsViz(item, item["entityType"], signalsTableSummaryDataProcessed, indexValue);
+                            this.toggleEntityVisibilityInHtsViz(item, item["entityType"]);
                         }, 1000)
                     });
                     break;
