@@ -1171,7 +1171,6 @@ class Entity extends Component {
         if (this.state.mounted) {
             let until = this.state.until;
             let from = this.state.from;
-            const limit = this.initialTableLimit;
             const includeMetadata = true;
             let page = this.state.relatedToTableApiPageNumber;
             const entityCode = null;
@@ -1192,7 +1191,7 @@ class Entity extends Component {
                     break;
             }
             // console.log(entityType, relatedToEntityType, relatedToEntityCode);
-            this.props.searchRelatedToTableSummary(from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, limit, page, includeMetadata);
+            this.props.searchRelatedToTableSummary(from, until, entityType, relatedToEntityType, relatedToEntityCode, entityCode, null, page, includeMetadata);
         }
     }
     // Make raw values from api compatible with table component

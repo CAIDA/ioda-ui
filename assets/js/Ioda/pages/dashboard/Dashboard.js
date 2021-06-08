@@ -81,7 +81,6 @@ class Dashboard extends Component {
         this.asTab = T.translate("dashboard.asnTabTitle");
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.handleEntityShapeClick = this.handleEntityShapeClick.bind(this);
-        this.apiQueryLimit = 170;
     }
 
     componentDidMount() {
@@ -304,12 +303,11 @@ class Dashboard extends Component {
         if (this.state.mounted) {
             let until = this.state.until;
             let from = this.state.from;
-            const limit = this.apiQueryLimit;
             const includeMetadata = true;
             let page = this.state.apiPageNumber;
             // let page = null;
             const entityCode = null;
-            this.props.searchSummaryAction(from, until, entityType, entityCode, limit, page, includeMetadata);
+            this.props.searchSummaryAction(from, until, entityType, entityCode, null, page, includeMetadata);
         }
     }
     getTotalOutages(entityType) {
