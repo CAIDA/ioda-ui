@@ -1579,10 +1579,8 @@ class Entity extends Component {
     }
     // function to manage what happens when a checkbox is changed in the raw signals table
     toggleEntityVisibilityInHtsViz(entity, entityType) {
-        let indexValue = 0;
-        let signalsTableSummaryDataProcessed;
         let maxEntitiesPopulatedMessage = T.translate("entityModal.maxEntitiesPopulatedMessage");
-
+        let signalsTableSummaryDataProcessed, indexValue;
         switch (entityType) {
             case "region":
                 signalsTableSummaryDataProcessed = this.state.regionalSignalsTableSummaryDataProcessed;
@@ -1592,21 +1590,20 @@ class Entity extends Component {
                 break;
         }
 
-        // Get the index of where the checkmark was that was clicked
         signalsTableSummaryDataProcessed.filter((obj, index) => {
             if (obj.entityCode === entity.entityCode) {
                 indexValue = index;
             }
         });
 
-        // Determine if max number of checkboxes are checked
         switch (signalsTableSummaryDataProcessed[indexValue]["visibility"]) {
-            case false:
-                // If checkbox was initially false, determine if adding it will breach the limit
+            case true:
+                // If checkbox is now set to true, determine if adding it will breach the limit
                 if (this.maxHtsLimit > this.state.currentEntitiesChecked) {
                     this.setState({
                         currentEntitiesChecked: this.state.currentEntitiesChecked + 1
                     }, () => {
+                        // check if entity data is already available
                         switch (signalsTableSummaryDataProcessed[indexValue]["initiallyLoaded"]) {
                             case false:
                                 // Update visibility boolean property in copied object to update table
@@ -1646,9 +1643,7 @@ class Entity extends Component {
                                 }
                                 break;
                             case true:
-                                // update property that manages if raw signal data has loaded or not
-                                signalsTableSummaryDataProcessed[indexValue]["visibility"] = true;
-                                // Update state with freshly updated object list, then redraw the chart with new visibility values
+                                // set new data
                                 switch (entityType) {
                                     case "region":
                                         this.setState({
@@ -1682,13 +1677,15 @@ class Entity extends Component {
                 } else {
                     // Show error message
                     this.setState({
-                        rawSignalsMaxEntitiesHtsError: maxEntitiesPopulatedMessage
+                        rawSignalsMaxEntitiesHtsError: maxEntitiesPopulatedMessage,
+                        additionalRawSignalRequestedPingSlash24: false,
+                        additionalRawSignalRequestedBgp: false,
+                        additionalRawSignalRequestedUcsdNt: false
                     });
                 }
                 break;
-            case true:
-                // Update visibility boolean property in copied object to update table
-                signalsTableSummaryDataProcessed[indexValue]["visibility"] = !signalsTableSummaryDataProcessed[indexValue]["visibility"];
+            case false:
+                // // Update currently checked item count and set new data to populate
                 this.setState({ currentEntitiesChecked: this.state.currentEntitiesChecked - 1});
                 switch (entityType) {
                     case "region":
@@ -1872,15 +1869,60 @@ class Entity extends Component {
     }
     // to trigger loading bars on raw signals horizon time series when a checkbox event occurs in the signals table
     handleCheckboxEventLoading(item) {
-        this.setState({
-            additionalRawSignalRequestedPingSlash24: true,
-            additionalRawSignalRequestedBgp: true,
-            additionalRawSignalRequestedUcsdNt: true,
-        }, () => {
-            setTimeout(() => {
-                this.toggleEntityVisibilityInHtsViz(item, item["entityType"]);
-            }, 1000)
-        })
+        let maxEntitiesPopulatedMessage = T.translate("entityModal.maxEntitiesPopulatedMessage");
+        // Set checkbox visibility
+        let signalsTableSummaryDataProcessed, indexValue;
+        switch (item.entityType) {
+            case "region":
+                signalsTableSummaryDataProcessed = this.state.regionalSignalsTableSummaryDataProcessed;
+                break;
+            case "asn":
+                signalsTableSummaryDataProcessed = this.state.asnSignalsTableSummaryDataProcessed;
+                break;
+        }
+
+        signalsTableSummaryDataProcessed.filter((obj, index) => {
+            if (obj.entityCode === item.entityCode) {
+                indexValue = index;
+            }
+        });
+
+        // Update visibility boolean property in copied object to match updated table
+        if ((signalsTableSummaryDataProcessed[indexValue]["visibility"] === false && this.maxHtsLimit > this.state.currentEntitiesChecked) || signalsTableSummaryDataProcessed[indexValue]["visibility"] === true) {
+            signalsTableSummaryDataProcessed[indexValue]["visibility"] = !signalsTableSummaryDataProcessed[indexValue]["visibility"];
+
+            // set loading bars and updated table data
+            switch (item.entityType) {
+                case "region":
+                    this.setState({
+                        additionalRawSignalRequestedPingSlash24: true,
+                        additionalRawSignalRequestedBgp: true,
+                        additionalRawSignalRequestedUcsdNt: true,
+                        regionalSignalsTableSummaryDataProcessed: signalsTableSummaryDataProcessed
+                    }, () => {
+                        setTimeout(() => {
+                            this.toggleEntityVisibilityInHtsViz(item, item["entityType"]);
+                        }, 1000)
+                    });
+                    break;
+                case "asn":
+                    this.setState({
+                        additionalRawSignalRequestedPingSlash24: true,
+                        additionalRawSignalRequestedBgp: true,
+                        additionalRawSignalRequestedUcsdNt: true,
+                        asnSignalsTableSummaryDataProcessed: signalsTableSummaryDataProcessed
+                    }, () => {
+                        setTimeout(() => {
+                            this.toggleEntityVisibilityInHtsViz(item, item["entityType"]);
+                        }, 1000)
+                    });
+                    break;
+            }
+        } else {
+            this.setState({
+                rawSignalsMaxEntitiesHtsError: maxEntitiesPopulatedMessage
+            });
+        }
     }
 
     render() {
