@@ -346,9 +346,29 @@ body {
       background: #777879; }
     .control-panel .range__button--disabled {
       cursor: not-allowed; }
-  .control-panel .heading-h1 {
+  .control-panel__title {
     display: flex;
     justify-content: flex-end; }
+    .control-panel__title .heading-h1 {
+      display: flex;
+      justify-content: flex-end; }
+  .control-panel__button {
+    background-color: #ECF0F1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 5rem;
+    width: 5rem;
+    border: 2px solid #DCE4EA;
+    font-size: 2rem;
+    font-weight: 700;
+    border-radius: 0.3rem;
+    margin-left: 2rem;
+    font-size: 3rem;
+    color: #2c3e50;
+    cursor: pointer; }
+    .control-panel__button:hover {
+      background-color: #DCE4EA; }
 
 .react-timerange-picker {
   display: inline-flex;

@@ -490,6 +490,7 @@ class Dashboard extends Component {
                     from={this.state.from}
                     until={this.state.until}
                     title={title}
+                    history={this.props.history}
                 />
                 <div className="row tabs">
                     <div className="col-1-of-1">

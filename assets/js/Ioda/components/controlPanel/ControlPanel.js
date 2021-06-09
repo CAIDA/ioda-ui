@@ -209,6 +209,15 @@ class ControlPanel extends Component {
             this.setState({ userInputRangeInput: event.target.value});
         }
     }
+    // function to handle clicking the close button when on an entity page
+    handleCloseButton() {
+        const { history } = this.props;
+        history.push(
+            window.location.search.split("?")[1]
+                ? `/dashboard?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
+                : `/dashboard/`
+        );
+    }
 
     render() {
         let startDate = new Date((this.props.from * 1000)).toISOString().split("T")[0];
@@ -533,7 +542,16 @@ class ControlPanel extends Component {
                     </div>
                 </div>
                 <div className="col-2-of-3">
-                    <h1 className="heading-h1">{this.props.title}</h1>
+                    <div className="control-panel__title">
+                        <h1 className="heading-h1">{this.props.title}</h1>
+                        {
+                            this.props.title !== T.translate("entity.pageTitle")
+                                ? <button className="control-panel__button" onClick={() => this.handleCloseButton()}>
+                                    ×
+                                </button>
+                                : null
+                        }
+                    </div>
                 </div>
             </div>
         );

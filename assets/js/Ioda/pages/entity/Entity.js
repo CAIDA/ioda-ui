@@ -754,7 +754,7 @@ class Entity extends Component {
         const timeBegin = networkTelescopeValues[0].x;
         const timeEnd = networkTelescopeValues[networkTelescopeValues.length -1].x;
         // Add 5% padding to the right edge of the Chart
-        const extraPadding = (timeEnd - timeBegin) * 0.05;
+        const extraPadding = (timeEnd - timeBegin) * 0.01;
         const viewportMaximum = new Date(timeEnd.getTime() + extraPadding);
 
         activeProbingValues.push({x: viewportMaximum, y: null});
@@ -1944,6 +1944,7 @@ class Entity extends Component {
                     timeFrame={this.handleTimeFrame}
                     searchbar={() => this.populateSearchBar()}
                     title={this.state.entityName}
+                    history={this.props.history}
                 />
                 <div className="row overview">
                     <div className="col-3-of-5">

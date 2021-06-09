@@ -160,10 +160,38 @@
     }
   }
 
-  .heading-h1 {
+  &__title {
     display: flex;
     justify-content: flex-end;
+
+    .heading-h1 {
+      display: flex;
+      justify-content: flex-end;
+    }
   }
+
+  &__button {
+    background-color: $control-panel-input-calendar-icon-background;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 5rem;
+    width: 5rem;
+    border: 2px solid $color-blue-border;
+    font-size: 2rem;
+    font-weight: 700;
+    border-radius: 0.3rem;
+    margin-left: 2rem;
+    font-size: 3rem;
+    color: $color-primary;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $color-blue-border;
+    }
+  }
+
+
 }
 
 
