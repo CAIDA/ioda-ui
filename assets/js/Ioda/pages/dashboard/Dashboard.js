@@ -59,17 +59,13 @@ class Dashboard extends Component {
             summaryDataRaw: null,
             summaryDataProcessed: [],
             totalOutages: 0,
-            // Summary Table Pagination
-            pageNumber: 0,
-            apiPageNumber: 0,
             // Event Data for Time Series
             eventDataRaw: [],
             eventDataProcessed: [],
             eventOrderByAttr: "score",
             eventOrderByOrder: "desc",
             eventEndpointCalled: false,
-            totalEventCount: 0,
-            htsVizCurrentPageNumber: 1
+            totalEventCount: 0
         };
         this.tabs = {
             country: country.tab,
@@ -214,8 +210,6 @@ class Dashboard extends Component {
             tabCurrentView: "map",
             eventDataRaw: [],
             eventDataProcessed: [],
-            // Reset table count values
-            pageNumber: 0,
         }, () => {
             // Get topo and outage data to repopulate map and table
             this.getDataTopo(this.state.activeTabType);
@@ -241,10 +235,7 @@ class Dashboard extends Component {
                 eventDataRaw: [],
                 eventDataProcessed: null,
                 eventEndpointCalled: false,
-                totalEventCount: 0,
-                // Reset Table Page Count
-                pageNumber: 0,
-                apiPageNumber: 0
+                totalEventCount: 0
             });
             if (history.location.pathname !== as.url) {history.push(as.url);}
         }
@@ -260,10 +251,7 @@ class Dashboard extends Component {
                 eventDataRaw: [],
                 eventDataProcessed: null,
                 eventEndpointCalled: false,
-                totalEventCount: 0,
-                // Reset Table Page Count
-                pageNumber: 0,
-                apiPageNumber: 0
+                totalEventCount: 0
             });
             if (history.location.pathname !== region.url) {history.push(region.url);}
         }
@@ -279,10 +267,7 @@ class Dashboard extends Component {
                 eventDataRaw: [],
                 eventDataProcessed: null,
                 eventEndpointCalled: false,
-                totalEventCount: 0,
-                // Reset Table Page Count
-                pageNumber: 0,
-                apiPageNumber: 0
+                totalEventCount: 0
             });
             if (history.location.pathname !== country.url) {history.push(country.url);}
         }
@@ -304,10 +289,9 @@ class Dashboard extends Component {
             let until = this.state.until;
             let from = this.state.from;
             const includeMetadata = true;
-            let page = this.state.apiPageNumber;
             // let page = null;
             const entityCode = null;
-            this.props.searchSummaryAction(from, until, entityType, entityCode, null, page, includeMetadata);
+            this.props.searchSummaryAction(from, until, entityType, entityCode, null, null, includeMetadata);
         }
     }
     getTotalOutages(entityType) {
@@ -460,22 +444,12 @@ class Dashboard extends Component {
 // Summary Table
     convertValuesForSummaryTable() {
         let summaryData = convertValuesForSummaryTable(this.state.summaryDataRaw);
+        this.setState({
+            summaryDataProcessed: summaryData
+        }, () => {
+            this.genSummaryTable();
+        })
 
-        if (this.state.apiPageNumber === 0) {
-            this.setState({
-                summaryDataProcessed: summaryData
-            }, () => {
-                this.genSummaryTable();
-            })
-        }
-
-        if (this.state.apiPageNumber > 0) {
-            this.setState({
-                summaryDataProcessed: this.state.summaryDataProcessed.concat(summaryData)
-            }, () => {
-                this.genSummaryTable();
-            })
-        }
 
     }
     genSummaryTable() {
