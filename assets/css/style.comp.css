@@ -177,7 +177,7 @@ body {
 
 .heading-h1 {
   color: #2c3e50;
-  font-size: 2.2rem; }
+  font-size: 3rem; }
 
 .heading-h2 {
   font-size: 1.8rem;
@@ -197,138 +197,158 @@ body {
 .u-text-align-center {
   text-align: center !important; }
 
-.control-panel [class^="search-"] {
-  margin: 1.6rem 0 0; }
-
-.control-panel [class^="searchbar-"] {
-  display: flex;
-  flex-direction: column; }
-
-.control-panel [class^="searchInput-"] {
-  height: 3.75rem;
-  padding-left: 0.8rem; }
-  .control-panel [class^="searchInput-"]:focus ~ label {
-    margin-top: -5.6rem;
-    padding-left: 1rem; }
-
-.control-panel [class^="searchLabel-"] {
-  position: relative;
-  margin-top: -5.6rem;
-  padding-left: 1rem;
-  opacity: 1; }
-
-.control-panel .range__label {
-  padding-left: 1rem; }
-
-.control-panel .range__input {
+.control-panel {
   background-color: #fff;
-  height: 3.75rem;
-  width: 100%;
-  border: 2px solid #DCE4EA;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: row;
-  justify-content: left;
-  align-items: center;
-  color: #757575;
-  padding-top: 0.5rem;
-  padding-left: 0.8rem; }
-  .control-panel .range__input span {
-    display: inline-block; }
-  .control-panel .range__input-dash {
-    padding: 0 1.5rem; }
-
-.control-panel .range__dropdown {
-  display: none;
-  z-index: 10000;
-  position: absolute;
-  left: 0;
-  top: 7.25rem;
+  border-radius: 0.3rem;
   box-shadow: 0 1px 2px #9F9D9D;
-  border-radius: 3px; }
-  .control-panel .range__dropdown-userInputRange {
+  padding: 2.5rem; }
+  .control-panel .searchbar {
+    height: 5rem; }
+  .control-panel [class^="search-"] {
+    margin: 1.6rem 0 0; }
+  .control-panel [class^="searchbar-"] {
     display: flex;
-    justify-content: left; }
-    .control-panel .range__dropdown-userInputRange input {
-      height: 1.9rem; }
-    .control-panel .range__dropdown-userInputRange input {
-      width: 5rem;
-      margin: 0 0.75rem;
-      padding: 0.25rem 0;
-      -moz-appearance: textfield; }
-      .control-panel .range__dropdown-userInputRange input::-webkit-outer-spin-button, .control-panel .range__dropdown-userInputRange input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0; }
-  .control-panel .range__dropdown-checkbox {
-    width: 18.3rem;
-    justify-content: center; }
-  .control-panel .range__dropdown--visible {
-    display: inline-block; }
-
-.control-panel .range__time {
-  display: none;
-  position: absolute;
-  bottom: 6rem;
-  right: 7rem; }
-  .control-panel .range__time--visible {
-    display: block; }
-
-.control-panel .range__button {
-  background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
-  height: 3.5rem;
-  border-radius: 0.5rem;
-  color: #fff;
-  font-weight: 700;
-  font-size: 16px;
-  cursor: pointer;
-  margin: 2rem;
-  text-align: center;
-  border: none;
-  background-size: 100% 300%;
-  transition: all .4s ease-in-out;
-  position: relative;
-  z-index: 10;
-  padding: 0 0.5rem;
-  margin: 1.5rem;
-  position: absolute;
-  bottom: -0.5rem;
-  left: 0;
-  padding: 0 1rem;
-  font-size: 1.1rem; }
-  .control-panel .range__button:before {
-    content: '';
-    display: inline-block;
-    height: 40px;
+    flex-direction: column; }
+  .control-panel [class^="searchInput-"] {
+    height: 3.75rem;
+    padding-left: 0.8rem; }
+    .control-panel [class^="searchInput-"]:focus ~ label {
+      margin-top: -5.6rem;
+      padding-left: 1rem; }
+  .control-panel [class^="searchLabel-"] {
+    position: relative;
+    margin-top: -5.6rem;
+    padding-left: 1rem;
+    opacity: 1;
+    font-style: italic;
+    font-size: 1.1rem; }
+  .control-panel .range__label {
+    padding-left: 1rem;
+    font-style: italic;
+    font-size: 1.1rem; }
+  .control-panel .range__calendar {
+    background-color: #ECF0F1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -0.5rem;
+    margin-left: -0.8rem;
+    height: 3.4rem;
+    padding: 0 0.3rem;
+    border-right: 2px solid #DCE4EA; }
+    .control-panel .range__calendar img {
+      height: 2rem; }
+  .control-panel .range__input {
+    background-color: #fff;
+    height: 3.75rem;
+    width: 100%;
+    border: 2px solid #DCE4EA;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    color: #757575;
+    padding-top: 0.5rem;
+    padding-left: 0.8rem; }
+    .control-panel .range__input-start {
+      margin-left: 0.5rem; }
+    .control-panel .range__input span {
+      display: inline-block; }
+    .control-panel .range__input-dash {
+      padding: 0 1.5rem; }
+  .control-panel .range__dropdown {
+    display: none;
+    z-index: 10000;
     position: absolute;
-    bottom: -5px;
-    left: 30px;
-    right: 30px;
-    z-index: -1;
-    border-radius: 30em;
-    filter: blur(20px) brightness(0.95);
-    transform-style: preserve-3d;
-    transition: all 0.3s ease-out; }
-    .control-panel .range__button:before:hover {
-      bottom: -7px;
-      opacity: 1;
-      filter: blur(20px);
-      background: linear-gradient(2deg, #C12F2E, #f9ad40, #C12F2E, #f9ad40); }
-  .control-panel .range__button:hover, .control-panel .range__button:active {
+    left: 0;
+    top: 7.25rem;
+    box-shadow: 0 1px 2px #9F9D9D;
+    border-radius: 3px; }
+    .control-panel .range__dropdown-userInputRange {
+      display: flex;
+      justify-content: left; }
+      .control-panel .range__dropdown-userInputRange input {
+        height: 1.9rem; }
+      .control-panel .range__dropdown-userInputRange input {
+        width: 5rem;
+        margin: 0 0.75rem;
+        padding: 0.25rem 0;
+        -moz-appearance: textfield; }
+        .control-panel .range__dropdown-userInputRange input::-webkit-outer-spin-button, .control-panel .range__dropdown-userInputRange input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0; }
+    .control-panel .range__dropdown-checkbox {
+      width: 18.3rem;
+      justify-content: center; }
+    .control-panel .range__dropdown--visible {
+      display: inline-block; }
+  .control-panel .range__time {
+    display: none;
+    position: absolute;
+    bottom: 6rem;
+    right: 7rem; }
+    .control-panel .range__time--visible {
+      display: block; }
+  .control-panel .range__button {
+    background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
+    height: 3.5rem;
     border-radius: 0.5rem;
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 2rem;
+    text-align: center;
+    border: none;
+    background-size: 100% 300%;
     transition: all .4s ease-in-out;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-    filter: brightness(1.05) contrast(1.05);
-    transform: scale(1.03); }
-    .control-panel .range__button:hover:before, .control-panel .range__button:active:before {
-      bottom: -7px;
-      filter: blur(10px) brightness(0.95); }
-  .control-panel .range__button:focus {
-    outline: none; }
-  .control-panel .range__button--secondary {
-    left: 6rem;
-    background: #777879; }
-  .control-panel .range__button--disabled {
-    cursor: not-allowed; }
+    position: relative;
+    z-index: 10;
+    padding: 0 0.5rem;
+    margin: 1.5rem;
+    position: absolute;
+    bottom: -0.5rem;
+    left: 0;
+    padding: 0 1rem;
+    font-size: 1.1rem; }
+    .control-panel .range__button:before {
+      content: '';
+      display: inline-block;
+      height: 40px;
+      position: absolute;
+      bottom: -5px;
+      left: 30px;
+      right: 30px;
+      z-index: -1;
+      border-radius: 30em;
+      filter: blur(20px) brightness(0.95);
+      transform-style: preserve-3d;
+      transition: all 0.3s ease-out; }
+      .control-panel .range__button:before:hover {
+        bottom: -7px;
+        opacity: 1;
+        filter: blur(20px);
+        background: linear-gradient(2deg, #C12F2E, #f9ad40, #C12F2E, #f9ad40); }
+    .control-panel .range__button:hover, .control-panel .range__button:active {
+      border-radius: 0.5rem;
+      transition: all .4s ease-in-out;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+      filter: brightness(1.05) contrast(1.05);
+      transform: scale(1.03); }
+      .control-panel .range__button:hover:before, .control-panel .range__button:active:before {
+        bottom: -7px;
+        filter: blur(10px) brightness(0.95); }
+    .control-panel .range__button:focus {
+      outline: none; }
+    .control-panel .range__button--secondary {
+      left: 6rem;
+      background: #777879; }
+    .control-panel .range__button--disabled {
+      cursor: not-allowed; }
+  .control-panel .heading-h1 {
+    display: flex;
+    justify-content: flex-end; }
 
 .react-timerange-picker {
   display: inline-flex;

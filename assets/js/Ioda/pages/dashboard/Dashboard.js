@@ -437,7 +437,7 @@ class Dashboard extends Component {
     }
     // Function that returns search bar passed into control panel
     populateSearchBar() {
-        return <Searchbar placeholder={'Search for a Country, Region, or AS/ISP'}
+        return <Searchbar placeholder={T.translate("controlPanel.searchBarPlaceholder")}
                           getData={this.getDataSuggestedSearchResults.bind(this)}
                           itemPropertyName={'name'}
                           handleResultClick={(event) => this.handleResultClick(event)}
@@ -480,24 +480,16 @@ class Dashboard extends Component {
 
     render() {
         let { tab, activeTab } = this.state;
-
-        const pageTitle = T.translate("entity.pageTitle");
-        const timeRangeTitle = T.translate("entity.timeRangeTitle");
+        const title = T.translate("entity.pageTitle");
 
         return(
             <div className="dashboard">
-                <div className="row title">
-                    <div className="col-1-of-1">
-                        <h1 className="heading-h1">{pageTitle}</h1>
-                        {/*ToDo: Update today to be dynamic*/}
-                        <h3 className="heading-h3">{timeRangeTitle}</h3>
-                    </div>
-                </div>
                 <ControlPanel
                     timeFrame={this.handleTimeFrame}
                     searchbar={() => this.populateSearchBar()}
                     from={this.state.from}
                     until={this.state.until}
+                    title={title}
                 />
                 <div className="row tabs">
                     <div className="col-1-of-1">

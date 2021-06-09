@@ -60,7 +60,8 @@
     "searchBarPlaceholder": "Search for a Country, Region, or ASN/ISP",
     "wholeDay": "Whole Day",
     "apply": "Apply",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "calendarIconAltText": "calendar icon"
   },
   "loadingBar": {
     "loading": "Loading..."

@@ -1,4 +1,14 @@
 .control-panel {
+  background-color: $color-white;
+  border-radius: 0.3rem;
+  box-shadow: $box-shadow;
+  padding: $gutter-vertical-small;
+
+  .searchbar {
+    height: 5rem;
+  }
+
+  // Search bar
   [class^="search-"] {
     margin: 1.6rem 0 0;
   }
@@ -23,11 +33,31 @@
     margin-top: -5.6rem;
     padding-left: 1rem;
     opacity: 1;
+    font-style: italic;
+    font-size: $control-panel-input-label-font-size;
   }
 
   .range {
     &__label {
       padding-left: 1rem;
+      font-style: italic;
+      font-size: $control-panel-input-label-font-size;
+    }
+
+    &__calendar {
+      background-color: $control-panel-input-calendar-icon-background;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: -0.5rem;
+      margin-left: -0.8rem;
+      height: 3.4rem;
+      padding: 0 0.3rem;
+      border-right: 2px solid $color-blue-border;
+
+      & img {
+        height: 2rem;
+      }
     }
 
     &__input {
@@ -43,6 +73,10 @@
       color: #757575;
       padding-top: 0.5rem;
       padding-left: 0.8rem;
+
+      &-start {
+        margin-left: 0.5rem;
+      }
 
       & span {
         display: inline-block;
@@ -124,6 +158,11 @@
         cursor:not-allowed;
       }
     }
+  }
+
+  .heading-h1 {
+    display: flex;
+    justify-content: flex-end;
   }
 }
 

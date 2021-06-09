@@ -1943,7 +1943,7 @@ class Entity extends Component {
                     until={this.state.until}
                     timeFrame={this.handleTimeFrame}
                     searchbar={() => this.populateSearchBar()}
-                    entityName={this.state.entityName}
+                    title={this.state.entityName}
                 />
                 <div className="row overview">
                     <div className="col-3-of-5">
