@@ -83,7 +83,6 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
-        console.log("update");
         let timeEntryInUrl = window.location.pathname.split("?");
         if (timeEntryInUrl[1]){
             this.setState({
