@@ -59,6 +59,8 @@ class Dashboard extends Component {
             summaryDataRaw: null,
             summaryDataProcessed: [],
             totalOutages: 0,
+            // Summary Table Pagination
+            apiPageNumber: 0,
             // Event Data for Time Series
             eventDataRaw: [],
             eventDataProcessed: [],
@@ -77,9 +79,11 @@ class Dashboard extends Component {
         this.asTab = T.translate("dashboard.asnTabTitle");
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.handleEntityShapeClick = this.handleEntityShapeClick.bind(this);
+        this.apiQueryLimit = 170;
     }
 
     componentDidMount() {
+        console.log("update");
         let timeEntryInUrl = window.location.pathname.split("?");
         if (timeEntryInUrl[1]){
             this.setState({
@@ -288,10 +292,12 @@ class Dashboard extends Component {
         if (this.state.mounted) {
             let until = this.state.until;
             let from = this.state.from;
+            let page = this.state.apiPageNumber;
+            let limit = this.apiQueryLimit;
             const includeMetadata = true;
             // let page = null;
             const entityCode = null;
-            this.props.searchSummaryAction(from, until, entityType, entityCode, null, null, includeMetadata);
+            this.props.searchSummaryAction(from, until, entityType, entityCode, limit, page, includeMetadata);
         }
     }
     getTotalOutages(entityType) {
@@ -444,11 +450,21 @@ class Dashboard extends Component {
 // Summary Table
     convertValuesForSummaryTable() {
         let summaryData = convertValuesForSummaryTable(this.state.summaryDataRaw);
-        this.setState({
-            summaryDataProcessed: summaryData
-        }, () => {
-            this.genSummaryTable();
-        })
+        if (this.state.apiPageNumber === 0) {
+            this.setState({
+                summaryDataProcessed: summaryData
+            }, () => {
+                this.genSummaryTable();
+            })
+        }
+
+        if (this.state.apiPageNumber > 0) {
+            this.setState({
+                summaryDataProcessed: this.state.summaryDataProcessed.concat(summaryData)
+            }, () => {
+                this.genSummaryTable();
+            })
+        }
 
 
     }
