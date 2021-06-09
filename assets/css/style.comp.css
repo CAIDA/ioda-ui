@@ -1796,6 +1796,48 @@ body {
 .modal__chart {
   margin-bottom: 1.5rem; }
 
+.toggle {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center; }
+  .toggle__label {
+    font-style: italic; }
+  .toggle__container {
+    margin-left: 1rem;
+    width: 3.5rem;
+    background-color: #ECF0F1;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 0.3rem;
+    padding: 2px;
+    height: 1.6rem;
+    position: relative; }
+
+.dialog-button {
+  font-size: 0.7rem;
+  line-height: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  background: linear-gradient(2deg, #286F86, #7FB7CA);
+  color: #fff;
+  padding: 0.4rem 0.6rem;
+  box-shadow: 0 1px 2px #9F9D9D;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.9rem;
+  border-radius: 3px;
+  box-sizing: border-box;
+  position: absolute;
+  left: 1.7rem;
+  transition: all 0.3s ease; }
+
+.disabled {
+  background: #707070;
+  color: #fff;
+  left: 2px; }
+
 .footer {
   filter: drop-shadow(0.5rem 0.5rem 0.5rem #222);
   background-color: #2c3e50;
@@ -2315,6 +2357,8 @@ button[class*="searchButton"] {
           outline: none; }
         .entity .overview__config-button--alertBands {
           margin-left: 1rem; }
+      .entity .overview__config .toggle:first-child {
+        margin-bottom: 1rem; }
     .entity .overview__xy-wrapper {
       position: relative; }
       .entity .overview__xy-wrapper .canvasjs-chart-toolbar {

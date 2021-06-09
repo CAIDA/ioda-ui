@@ -41,11 +41,14 @@
     "pageTitle": "Outage Severity Overview",
     "timeRangeTitle": "Outages Occurring Today",
     "xyChartTitle": "IODA Signals for ",
-    "xyChartAbsoluteButtonText": "View Absolute Values",
-    "xyChartNormalizeButtonText": "View Normalized Values",
-    "xyChartToggleBandsOnText": "Alert Bands On",
-    "xyChartToggleBandsOffText": "Alert Bands Off",
+    "toggleOn": "ON",
+    "toggleOff": "OFF",
+    "xyChartAlertToggleLabel": "Alert Bands",
+    "xyChartNormalizedToggleLabel": "Normalized Values",
+
     "eventAlertButtonText1": "View ",
+    "eventAlertButtonOption1": "Alert",
+    "eventAlertButtonOption2": "Event",
     "eventAlertButtonText2": " Table",
     "eventFeedTitle": "Event Feed for ",
     "alertFeedTitle": "Alert Feed for ",
@@ -61,7 +64,7 @@
     "wholeDay": "Whole Day",
     "apply": "Apply",
     "cancel": "Cancel",
-    "calendarIconAltText": "calendar icon"
+    "calendarIconAltText": "calendar icon",
   },
   "loadingBar": {
     "loading": "Loading..."

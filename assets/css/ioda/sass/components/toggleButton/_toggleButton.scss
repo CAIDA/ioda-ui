@@ -1,0 +1,48 @@
+.toggle {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+
+  &__label {
+    font-style: italic;
+  }
+
+  &__container {
+    margin-left: 1rem;
+    width: 3.5rem;
+    background-color: $control-panel-input-calendar-icon-background;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 0.3rem;
+    padding: 2px;
+    height: 1.6rem;
+    position: relative;
+  }
+}
+
+.dialog-button {
+  font-size: 0.7rem;
+  line-height: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  background: linear-gradient(2deg, #286F86, #7FB7CA);
+  color: $color-white;
+  padding: 0.4rem 0.6rem;
+  box-shadow: $box-shadow;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.9rem;
+  border-radius: 3px;
+  box-sizing: border-box;
+  position: absolute;
+  left: 1.7rem;
+  transition: all 0.3s ease;
+}
+
+.disabled {
+  background: #707070;
+  color: $color-white;
+  left: 2px;
+}
