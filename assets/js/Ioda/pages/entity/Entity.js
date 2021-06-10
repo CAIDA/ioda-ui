@@ -24,6 +24,7 @@ import Table from "../../components/table/Table";
 import EntityRelated from "./EntityRelated";
 import HorizonTSChart from 'horizon-timeseries-chart';
 import Loading from "../../components/loading/Loading";
+import ToggleButton from "../../components/toggleButton/ToggleButton";
 // Event Table Dependencies
 import * as sd from 'simple-duration'
 // Helper Functions
@@ -754,7 +755,7 @@ class Entity extends Component {
         const timeBegin = networkTelescopeValues[0].x;
         const timeEnd = networkTelescopeValues[networkTelescopeValues.length -1].x;
         // Add 5% padding to the right edge of the Chart
-        const extraPadding = (timeEnd - timeBegin) * 0.05;
+        const extraPadding = (timeEnd - timeBegin) * 0.01;
         const viewportMaximum = new Date(timeEnd.getTime() + extraPadding);
 
         activeProbingValues.push({x: viewportMaximum, y: null});
@@ -1929,12 +1930,12 @@ class Entity extends Component {
         const xyChartTitle = T.translate("entity.xyChartTitle");
         const eventAlertButtonText1 = T.translate("entity.eventAlertButtonText1");
         const eventAlertButtonText2 = T.translate("entity.eventAlertButtonText2");
+        const eventAlertButtonOption1 = T.translate("entity.eventAlertButtonOption1");
+        const eventAlertButtonOption2 = T.translate("entity.eventAlertButtonOption2");
         const eventFeedTitle = T.translate("entity.eventFeedTitle");
         const alertFeedTitle = T.translate("entity.alertFeedTitle");
-        const xyChartAbsoluteButtonText = T.translate("entity.xyChartAbsoluteButtonText");
-        const xyChartNormalizeButtonText = T.translate("entity.xyChartNormalizeButtonText");
-        const xyChartToggleBandsOnText = T.translate("entity.xyChartToggleBandsOnText");
-        const xyChartToggleBandsOffText = T.translate("entity.xyChartToggleBandsOffText");
+        const xyChartAlertToggleLabel = T.translate("entity.xyChartAlertToggleLabel");
+        const xyChartNormalizedToggleLabel = T.translate("entity.xyChartNormalizedToggleLabel");
 
         return(
             <div className="entity">
@@ -1943,7 +1944,8 @@ class Entity extends Component {
                     until={this.state.until}
                     timeFrame={this.handleTimeFrame}
                     searchbar={() => this.populateSearchBar()}
-                    entityName={this.state.entityName}
+                    title={this.state.entityName}
+                    history={this.props.history}
                 />
                 <div className="row overview">
                     <div className="col-3-of-5">
@@ -1953,16 +1955,16 @@ class Entity extends Component {
                                 {this.state.entityName}
                             </h3>
                             <div className="overview__buttons">
-                                <button className="overview__config-button"
-                                        onClick={() => this.changeXyChartNormalization()}
-                                >
-                                    {this.state.tsDataNormalized ? xyChartAbsoluteButtonText : xyChartNormalizeButtonText}
-                                </button>
-                                <button className="overview__config-button overview__config-button--alertBands"
-                                        onClick={() => this.handleDisplayAlertBands()}
-                                >
-                                    {this.state.tsDataDisplayOutageBands ? xyChartToggleBandsOffText : xyChartToggleBandsOnText}
-                                </button>
+                                <ToggleButton
+                                    selected={this.state.tsDataDisplayOutageBands}
+                                    toggleSelected={() => this.handleDisplayAlertBands()}
+                                    label={xyChartAlertToggleLabel}
+                                />
+                                <ToggleButton
+                                    selected={this.state.tsDataNormalized}
+                                    toggleSelected={() => this.changeXyChartNormalization()}
+                                    label={xyChartNormalizedToggleLabel}
+                                />
                                 {/*<button className="overview__config-button">Modal</button>*/}
                             </div>
                         </div>
@@ -1981,7 +1983,7 @@ class Entity extends Component {
                                     onClick={() => this.changeCurrentTable()}
                                     style={this.props.type === 'asn' ? {display: 'none'} : null}
                             >
-                                {eventAlertButtonText1}{this.state.currentTable === 'event' ? 'Alert' : 'Event'}{eventAlertButtonText2}
+                                {eventAlertButtonText1}{this.state.currentTable === 'event' ? eventAlertButtonOption1 : eventAlertButtonOption2}{eventAlertButtonText2}
                             </button>
                         </div>
 

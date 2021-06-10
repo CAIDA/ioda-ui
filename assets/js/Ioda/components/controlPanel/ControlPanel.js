@@ -19,6 +19,7 @@ import {
 } from "date-fns";
 // Time Picker Dependencies
 import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
+import iconCalendar from 'images/icons/icon-calendar.png';
 
 class ControlPanel extends Component {
     constructor(props) {
@@ -208,6 +209,15 @@ class ControlPanel extends Component {
             this.setState({ userInputRangeInput: event.target.value});
         }
     }
+    // function to handle clicking the close button when on an entity page
+    handleCloseButton() {
+        const { history } = this.props;
+        history.push(
+            window.location.search.split("?")[1]
+                ? `/dashboard?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
+                : `/dashboard/`
+        );
+    }
 
     render() {
         let startDate = new Date((this.props.from * 1000)).toISOString().split("T")[0];
@@ -396,138 +406,150 @@ class ControlPanel extends Component {
                         ${this.state.todaySelected || this.state.lastHourSelected || this.state.userInputSelected || this.state.customRangeSelected ? inactiveCSS : activeCSS}
                     }
                 `}</Style>
-                <div className="col-1-of-1">
-                    <h1 className="heading-h1">{this.props.entityName}</h1>
-                </div>
                 <div className="col-1-of-3">
-                    <T.p text={"controlPanel.timeRange"} className="range__label"/>
-                    <div className="range">
-                        <button className="range__input" onClick={() => this.handleRangeDisplay()}>
-                            <span className="range__input-start">
-                                {startDate} - {startTime}<sub><sup><sub>{utc}</sub></sup></sub>
-                            </span>
-                            <span className="range__input-dash">—</span>
-                            <span className="range__input-end">
-                                {endDate} - {endTime}<sub><sup><sub>{utc}</sub></sup></sub>
-                            </span>
-                        </button>
-                    </div>
-                    <div className={this.state.rangeInputVisibility ? "range__dropdown range__dropdown--visible" : "range__dropdown"}>
-                        <DateRangePicker
-                            onChange={item => {
-                                if (item.selection.label) {
-                                    switch (item.selection.label) {
-                                        case 'today':
-                                            this.setState({
-                                                ...this.state,
-                                                todaySelected: true,
-                                                lastHourSelected: false,
-                                                customRangeSelected: false,
-                                                userInputSelected: false,
-                                                timeRange: [
-                                                    "00:00:00",
-                                                    "23:59:59"
-                                                ],
-
-                                                ...item
-                                            });
-                                            break;
-                                        case 'lastHour':
-                                            this.setState({
-                                                ...this.state,
-                                                lastHourSelected: true,
-                                                todaySelected: false,
-                                                userInputSelected: false,
-                                                customRangeSelected: false,
-                                                timeRange: [
-                                                    `${item.selection.startDate.getUTCHours() < 10 ? `0${item.selection.startDate.getUTCHours()}` : item.selection.startDate.getUTCHours()}:${item.selection.startDate.getUTCMinutes() < 10 ? `0${item.selection.startDate.getUTCMinutes()}` : item.selection.startDate.getUTCMinutes()}:${item.selection.startDate.getUTCSeconds() < 10 ? `0${item.selection.startDate.getUTCSeconds()}` : item.selection.startDate.getUTCSeconds()}`,
-                                                    `${item.selection.endDate.getUTCHours() < 10 ? `0${item.selection.endDate.getUTCHours()}` : item.selection.endDate.getUTCHours()}:${item.selection.endDate.getUTCMinutes() < 10 ? `0${item.selection.endDate.getUTCMinutes()}` : item.selection.endDate.getUTCMinutes()}:${item.selection.endDate.getUTCSeconds() < 10 ? `0${item.selection.endDate.getUTCSeconds()}` : item.selection.endDate.getUTCSeconds()}`
-                                                ],
-                                                ...item
-                                            });
-                                            break;
-                                        case 'userInputRange':
-                                            // set state here to control what is highlighted in css, use state in apply button to set time parameters
-                                            this.setState({
-                                                todaySelected: false,
-                                                lastHourSelected: false,
-                                                userInputSelected: true,
-                                                customRangeSelected: false,
-                                                ...item
-                                            });
-                                            break;
-                                        case 'customRange':
-                                            this.setState({
-                                                customRangeVisible: true,
-                                                customRangeSelected: true,
-                                                todaySelected: false,
-                                                lastHourSelected: false,
-                                                userInputSelected: false,
-                                                ...item
-                                            });
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                } else {
-                                    this.setState({
-                                        ...this.state,
-                                        todaySelected: false,
-                                        lastHourSelected: false,
-                                        userInputSelected: false,
-                                        timeRange: [
-                                            "00:00:00",
-                                            "23:59:59"
-                                        ],
-                                        ...item
-                                    })
-                                }
-                            }}
-                            months={1}
-                            minDate={new Date(2016, 0, 1)}
-                            maxDate={new Date()}
-                            direction="vertical"
-                            // setting to true will cause a console error due to length of calendar months loaded (back to minDate value)
-                            scroll={{ enabled: false }}
-                            ranges={[this.state.selection]}
-                            staticRanges={staticRanges}
-                            inputRanges = {[]}
-                        />
-                        <div className={this.state.customRangeVisible ? "range__time range__time--visible" : "range__time"}>
-                            {
-                                !this.state.wholeDayInputSelected
-                                    ? <TimeRangePicker
-                                        onChange={(time) => this.handleTimeChange(time)}
-                                        value={this.state.timeRange}
-                                        disableClock={true}
-                                        maxDetail={"second"}
-                                        clearIcon={null}
-                                    />
-                                    : null
-                            }
-                            <div className="range__dropdown-checkbox">
-                                <input onChange={() => this.handleWholeDaySelection()} type="checkbox" name="checkbox" id="whole-day"/>
-                                <label htmlFor="whole-day">{wholeDay}</label>
-                            </div>
-                        </div>
-                        {
-                            this.state.applyButtonActive
-                            ? <button className={this.state.applyButtonActive ? "range__button" : "range__button range__button--disabled"} onClick={() => this.handleRangeUpdate()}>
-                                    {apply}
-                                </button>
-                                : <button className="range__button range__button--disabled">
-                                    {apply}
-                                </button>
-                        }
-                        <button className="range__button range__button--secondary" onClick={() => this.handleRangeDisplay()}>
-                            {cancel}
-                        </button>
-                    </div>
-                </div>
-                <div className="col-2-of-3">
                     <div className="searchbar">
                         {
                             this.props.searchbar()
+                        }
+                    </div>
+                    <div className="range__container">
+                        <T.p text={"controlPanel.timeRange"} className="range__label"/>
+                        <div className="range">
+                            <button className="range__input" onClick={() => this.handleRangeDisplay()}>
+                                <div className="range__calendar">
+                                    <img src={iconCalendar} alt={T.translate("controlPanel.calendarIconAltText")}/>
+                                </div>
+                            <span className="range__input-start">
+                                {startDate} - {startTime}<sub><sup><sub>{utc}</sub></sup></sub>
+                            </span>
+                                <span className="range__input-dash">—</span>
+                                <span className="range__input-end">
+                                {endDate} - {endTime}<sub><sup><sub>{utc}</sub></sup></sub>
+                            </span>
+                            </button>
+                        </div>
+                        <div className={this.state.rangeInputVisibility ? "range__dropdown range__dropdown--visible" : "range__dropdown"}>
+                            <DateRangePicker
+                                onChange={item => {
+                                    if (item.selection.label) {
+                                        switch (item.selection.label) {
+                                            case 'today':
+                                                this.setState({
+                                                    ...this.state,
+                                                    todaySelected: true,
+                                                    lastHourSelected: false,
+                                                    customRangeSelected: false,
+                                                    userInputSelected: false,
+                                                    timeRange: [
+                                                        "00:00:00",
+                                                        "23:59:59"
+                                                    ],
+
+                                                    ...item
+                                                });
+                                                break;
+                                            case 'lastHour':
+                                                this.setState({
+                                                    ...this.state,
+                                                    lastHourSelected: true,
+                                                    todaySelected: false,
+                                                    userInputSelected: false,
+                                                    customRangeSelected: false,
+                                                    timeRange: [
+                                                        `${item.selection.startDate.getUTCHours() < 10 ? `0${item.selection.startDate.getUTCHours()}` : item.selection.startDate.getUTCHours()}:${item.selection.startDate.getUTCMinutes() < 10 ? `0${item.selection.startDate.getUTCMinutes()}` : item.selection.startDate.getUTCMinutes()}:${item.selection.startDate.getUTCSeconds() < 10 ? `0${item.selection.startDate.getUTCSeconds()}` : item.selection.startDate.getUTCSeconds()}`,
+                                                        `${item.selection.endDate.getUTCHours() < 10 ? `0${item.selection.endDate.getUTCHours()}` : item.selection.endDate.getUTCHours()}:${item.selection.endDate.getUTCMinutes() < 10 ? `0${item.selection.endDate.getUTCMinutes()}` : item.selection.endDate.getUTCMinutes()}:${item.selection.endDate.getUTCSeconds() < 10 ? `0${item.selection.endDate.getUTCSeconds()}` : item.selection.endDate.getUTCSeconds()}`
+                                                    ],
+                                                    ...item
+                                                });
+                                                break;
+                                            case 'userInputRange':
+                                                // set state here to control what is highlighted in css, use state in apply button to set time parameters
+                                                this.setState({
+                                                    todaySelected: false,
+                                                    lastHourSelected: false,
+                                                    userInputSelected: true,
+                                                    customRangeSelected: false,
+                                                    ...item
+                                                });
+                                                break;
+                                            case 'customRange':
+                                                this.setState({
+                                                    customRangeVisible: true,
+                                                    customRangeSelected: true,
+                                                    todaySelected: false,
+                                                    lastHourSelected: false,
+                                                    userInputSelected: false,
+                                                    ...item
+                                                });
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                    } else {
+                                        this.setState({
+                                            ...this.state,
+                                            todaySelected: false,
+                                            lastHourSelected: false,
+                                            userInputSelected: false,
+                                            timeRange: [
+                                                "00:00:00",
+                                                "23:59:59"
+                                            ],
+                                            ...item
+                                        })
+                                    }
+                                }}
+                                months={1}
+                                minDate={new Date(2016, 0, 1)}
+                                maxDate={new Date()}
+                                direction="vertical"
+                                // setting to true will cause a console error due to length of calendar months loaded (back to minDate value)
+                                scroll={{ enabled: false }}
+                                ranges={[this.state.selection]}
+                                staticRanges={staticRanges}
+                                inputRanges = {[]}
+                            />
+                            <div className={this.state.customRangeVisible ? "range__time range__time--visible" : "range__time"}>
+                                {
+                                    !this.state.wholeDayInputSelected
+                                        ? <TimeRangePicker
+                                            onChange={(time) => this.handleTimeChange(time)}
+                                            value={this.state.timeRange}
+                                            disableClock={true}
+                                            maxDetail={"second"}
+                                            clearIcon={null}
+                                        />
+                                        : null
+                                }
+                                <div className="range__dropdown-checkbox">
+                                    <input onChange={() => this.handleWholeDaySelection()} type="checkbox" name="checkbox" id="whole-day"/>
+                                    <label htmlFor="whole-day">{wholeDay}</label>
+                                </div>
+                            </div>
+                            {
+                                this.state.applyButtonActive
+                                    ? <button className={this.state.applyButtonActive ? "range__button" : "range__button range__button--disabled"} onClick={() => this.handleRangeUpdate()}>
+                                        {apply}
+                                    </button>
+                                    : <button className="range__button range__button--disabled">
+                                        {apply}
+                                    </button>
+                            }
+                            <button className="range__button range__button--secondary" onClick={() => this.handleRangeDisplay()}>
+                                {cancel}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-2-of-3">
+                    <div className="control-panel__title">
+                        <h1 className="heading-h1">{this.props.title}</h1>
+                        {
+                            this.props.title !== T.translate("entity.pageTitle")
+                                ? <button className="control-panel__button" onClick={() => this.handleCloseButton()}>
+                                    ×
+                                </button>
+                                : null
                         }
                     </div>
                 </div>
