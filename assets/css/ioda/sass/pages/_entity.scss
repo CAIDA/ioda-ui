@@ -7,13 +7,17 @@
   }
 
   .overview {
-    background-color: $color-white;
-    border-bottom-right-radius: 0.3rem;
-    border-bottom-left-radius: 0.3rem;
-    border-top-right-radius: 0.3rem;
-    min-height: 65rem;
-    box-shadow: $box-shadow;
-    padding: $gutter-vertical-small;
+
+
+    .col-3-of-5, .col-2-of-5 {
+      background-color: $color-white;
+      border-bottom-right-radius: 0.3rem;
+      border-bottom-left-radius: 0.3rem;
+      border-top-right-radius: 0.3rem;
+      min-height: 65rem;
+      box-shadow: $box-shadow;
+      padding: $gutter-vertical-small;
+    }
 
     @include respond(tab-land) {
       .col-3-of-5 {
