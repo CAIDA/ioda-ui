@@ -2288,7 +2288,7 @@ button[class*="searchButton"] {
   margin: 4rem 4.5rem 0; }
   .entity .col-1-of-3 {
     position: relative; }
-  .entity .overview {
+  .entity .overview .col-3-of-5, .entity .overview .col-2-of-5 {
     background-color: #fff;
     border-bottom-right-radius: 0.3rem;
     border-bottom-left-radius: 0.3rem;
@@ -2296,102 +2296,102 @@ button[class*="searchButton"] {
     min-height: 65rem;
     box-shadow: 0 1px 2px #9F9D9D;
     padding: 2.5rem; }
-    @media only screen and (max-width: 80em) {
-      .entity .overview .col-3-of-5 {
-        width: 100%; }
-      .entity .overview .col-2-of-5 {
-        width: 100%; } }
-    .entity .overview__config {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 1.5rem; }
-      .entity .overview__config-button {
-        background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
-        height: 3.5rem;
-        border-radius: 0.5rem;
-        color: #fff;
-        font-weight: 700;
-        font-size: 16px;
-        cursor: pointer;
-        margin: 2rem;
-        text-align: center;
-        border: none;
-        background-size: 100% 300%;
-        transition: all .4s ease-in-out;
-        position: relative;
-        z-index: 10;
-        padding: 0 0.5rem;
-        height: 3rem;
-        font-size: 1.1rem;
-        margin: 0;
-        padding: 0 1rem; }
-        .entity .overview__config-button:before {
-          content: '';
-          display: inline-block;
-          height: 40px;
-          position: absolute;
-          bottom: -5px;
-          left: 30px;
-          right: 30px;
-          z-index: -1;
-          border-radius: 30em;
-          filter: blur(20px) brightness(0.95);
-          transform-style: preserve-3d;
-          transition: all 0.3s ease-out; }
-          .entity .overview__config-button:before:hover {
-            bottom: -7px;
-            opacity: 1;
-            filter: blur(20px);
-            background: linear-gradient(2deg, #C12F2E, #f9ad40, #C12F2E, #f9ad40); }
-        .entity .overview__config-button:hover, .entity .overview__config-button:active {
-          border-radius: 0.5rem;
-          transition: all .4s ease-in-out;
-          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-          filter: brightness(1.05) contrast(1.05);
-          transform: scale(1.03); }
-          .entity .overview__config-button:hover:before, .entity .overview__config-button:active:before {
-            bottom: -7px;
-            filter: blur(10px) brightness(0.95); }
-        .entity .overview__config-button:focus {
-          outline: none; }
-        .entity .overview__config-button--alertBands {
-          margin-left: 1rem; }
-      .entity .overview__config .toggle:first-child {
-        margin-bottom: 1rem; }
-    .entity .overview__xy-wrapper {
-      position: relative; }
-      .entity .overview__xy-wrapper .canvasjs-chart-toolbar {
-        margin-top: 1.8rem;
-        margin-right: 1.9rem; }
-      .entity .overview__xy-wrapper .canvasjs-chart-credit {
-        display: none; }
-      .entity .overview__xy-wrapper:after {
-        content: "";
+  @media only screen and (max-width: 80em) {
+    .entity .overview .col-3-of-5 {
+      width: 100%; }
+    .entity .overview .col-2-of-5 {
+      width: 100%; } }
+  .entity .overview__config {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem; }
+    .entity .overview__config-button {
+      background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
+      height: 3.5rem;
+      border-radius: 0.5rem;
+      color: #fff;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 2rem;
+      text-align: center;
+      border: none;
+      background-size: 100% 300%;
+      transition: all .4s ease-in-out;
+      position: relative;
+      z-index: 10;
+      padding: 0 0.5rem;
+      height: 3rem;
+      font-size: 1.1rem;
+      margin: 0;
+      padding: 0 1rem; }
+      .entity .overview__config-button:before {
+        content: '';
+        display: inline-block;
+        height: 40px;
         position: absolute;
-        bottom: 0;
-        left: 0;
-        background-color: #fff;
-        height: 1.5rem;
-        width: 14rem; }
-        @media only screen and (min-width: 112.5em) {
-          .entity .overview__xy-wrapper:after {
-            width: 11.5rem; } }
-        @media only screen and (max-width: 80em) {
-          .entity .overview__xy-wrapper:after {
-            width: 15.5rem; } }
-        @media only screen and (max-width: 64em) {
-          .entity .overview__xy-wrapper:after {
-            width: 17.5rem;
-            height: 2rem; } }
-    .entity .overview__table-config {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      margin-bottom: 1.5rem; }
-    .entity .overview__table .table {
-      margin-bottom: 0;
-      height: inherit; }
+        bottom: -5px;
+        left: 30px;
+        right: 30px;
+        z-index: -1;
+        border-radius: 30em;
+        filter: blur(20px) brightness(0.95);
+        transform-style: preserve-3d;
+        transition: all 0.3s ease-out; }
+        .entity .overview__config-button:before:hover {
+          bottom: -7px;
+          opacity: 1;
+          filter: blur(20px);
+          background: linear-gradient(2deg, #C12F2E, #f9ad40, #C12F2E, #f9ad40); }
+      .entity .overview__config-button:hover, .entity .overview__config-button:active {
+        border-radius: 0.5rem;
+        transition: all .4s ease-in-out;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+        filter: brightness(1.05) contrast(1.05);
+        transform: scale(1.03); }
+        .entity .overview__config-button:hover:before, .entity .overview__config-button:active:before {
+          bottom: -7px;
+          filter: blur(10px) brightness(0.95); }
+      .entity .overview__config-button:focus {
+        outline: none; }
+      .entity .overview__config-button--alertBands {
+        margin-left: 1rem; }
+    .entity .overview__config .toggle:first-child {
+      margin-bottom: 1rem; }
+  .entity .overview__xy-wrapper {
+    position: relative; }
+    .entity .overview__xy-wrapper .canvasjs-chart-toolbar {
+      margin-top: 1.8rem;
+      margin-right: 1.9rem; }
+    .entity .overview__xy-wrapper .canvasjs-chart-credit {
+      display: none; }
+    .entity .overview__xy-wrapper:after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background-color: #fff;
+      height: 1.5rem;
+      width: 14rem; }
+      @media only screen and (min-width: 112.5em) {
+        .entity .overview__xy-wrapper:after {
+          width: 11.5rem; } }
+      @media only screen and (max-width: 80em) {
+        .entity .overview__xy-wrapper:after {
+          width: 15.5rem; } }
+      @media only screen and (max-width: 64em) {
+        .entity .overview__xy-wrapper:after {
+          width: 17.5rem;
+          height: 2rem; } }
+  .entity .overview__table-config {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1.5rem; }
+  .entity .overview__table .table {
+    margin-bottom: 0;
+    height: inherit; }
   .entity .related {
     margin-bottom: 4.5rem; }
     @media only screen and (max-width: 64em) {

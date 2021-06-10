@@ -404,7 +404,7 @@ class Dashboard extends Component {
                 .enableZoom(false)
                 .showRuler(true)
                 .interpolationCurve(d3.curveStepAfter)
-                .positiveColors(['white', '#6190B5'])
+                .positiveColors(['white', '#006D2D'])
                 // .positiveColorStops([.99])
                 .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
         }
