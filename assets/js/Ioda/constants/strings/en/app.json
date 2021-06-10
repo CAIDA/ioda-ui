@@ -45,7 +45,6 @@
     "toggleOff": "OFF",
     "xyChartAlertToggleLabel": "Alert Bands",
     "xyChartNormalizedToggleLabel": "Normalized Values",
-
     "eventAlertButtonText1": "View ",
     "eventAlertButtonOption1": "Alert",
     "eventAlertButtonOption2": "Event",
@@ -64,7 +63,7 @@
     "wholeDay": "Whole Day",
     "apply": "Apply",
     "cancel": "Cancel",
-    "calendarIconAltText": "calendar icon",
+    "calendarIconAltText": "calendar icon"
   },
   "loadingBar": {
     "loading": "Loading..."
