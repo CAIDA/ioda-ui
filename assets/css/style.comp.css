@@ -263,22 +263,35 @@ body {
     z-index: 10000;
     position: absolute;
     left: 0;
-    top: 7.25rem;
+    top: 12.5rem;
     box-shadow: 0 1px 2px #9F9D9D;
     border-radius: 3px; }
+    .control-panel .range__dropdown .rdrStaticRange {
+      background-color: #fbfbfb;
+      border-radius: 0.5rem;
+      margin: 0.25rem;
+      height: 3.5rem;
+      color: #5899AE; }
+      .control-panel .range__dropdown .rdrStaticRange:hover {
+        background: linear-gradient(2deg, #286F86, #7FB7CA) !important;
+        font-weight: 700 !important;
+        color: #fff !important; }
     .control-panel .range__dropdown-userInputRange {
       display: flex;
       justify-content: left; }
       .control-panel .range__dropdown-userInputRange input {
-        height: 1.9rem; }
-      .control-panel .range__dropdown-userInputRange input {
-        width: 5rem;
-        margin: 0 0.75rem;
-        padding: 0.25rem 0;
-        -moz-appearance: textfield; }
+        width: 5.5rem;
+        margin: -0.1rem 0.75rem 0;
+        padding: 0.25rem;
+        -moz-appearance: textfield;
+        height: 1.9rem;
+        border: 1px solid #DCE4EA; }
         .control-panel .range__dropdown-userInputRange input::-webkit-outer-spin-button, .control-panel .range__dropdown-userInputRange input::-webkit-inner-spin-button {
           -webkit-appearance: none;
           margin: 0; }
+      .control-panel .range__dropdown-userInputRangeSelect {
+        border: 1px solid #DCE4EA;
+        margin-top: -0.1rem; }
     .control-panel .range__dropdown-checkbox {
       width: 18.3rem;
       justify-content: center; }
@@ -678,9 +691,6 @@ body {
   border-bottom: 1px solid #eff2f7;
   padding: 0;
   background: #fff; }
-
-.rdrStaticRange:hover .rdrStaticRangeLabel, .rdrStaticRange:focus .rdrStaticRangeLabel {
-  background: #eff2f7; }
 
 .rdrStaticRangeLabel {
   display: block;

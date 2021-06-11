@@ -48,10 +48,6 @@ class ControlPanel extends Component {
         this.handleUserInputRange = this.handleUserInputRange.bind(this);
     }
 
-    componentDidMount() {
-        console.log("update");
-    }
-
     componentDidUpdate(nextProps, nextState) {
         if (nextProps.from !== this.props.from) {
             this.setState(prevState => ({
@@ -373,8 +369,8 @@ class ControlPanel extends Component {
             ...createStaticRanges(sideBar)
         ];
 
-        const activeCSS = "color: rgb(61, 145, 255)!important; font-weight: 700!important;";
-        const inactiveCSS = "color: #404040!important; font-weight: 400!important;";
+        const activeCSS = "background: linear-gradient(2deg, #286F86, #7FB7CA)!important; font-weight: 700!important; color: #fff!important;";
+        const inactiveCSS = "color: #5899AE!important; font-weight: 400!important;";
 
 
         return(
