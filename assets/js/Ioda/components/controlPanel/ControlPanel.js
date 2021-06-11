@@ -48,6 +48,10 @@ class ControlPanel extends Component {
         this.handleUserInputRange = this.handleUserInputRange.bind(this);
     }
 
+    componentDidMount() {
+        console.log("update");
+    }
+
     componentDidUpdate(nextProps, nextState) {
         if (nextProps.from !== this.props.from) {
             this.setState(prevState => ({
@@ -446,7 +450,7 @@ class ControlPanel extends Component {
                                                     ],
 
                                                     ...item
-                                                });
+                                                }, this.handleRangeUpdate);
                                                 break;
                                             case 'lastHour':
                                                 this.setState({
@@ -460,7 +464,7 @@ class ControlPanel extends Component {
                                                         `${item.selection.endDate.getUTCHours() < 10 ? `0${item.selection.endDate.getUTCHours()}` : item.selection.endDate.getUTCHours()}:${item.selection.endDate.getUTCMinutes() < 10 ? `0${item.selection.endDate.getUTCMinutes()}` : item.selection.endDate.getUTCMinutes()}:${item.selection.endDate.getUTCSeconds() < 10 ? `0${item.selection.endDate.getUTCSeconds()}` : item.selection.endDate.getUTCSeconds()}`
                                                     ],
                                                     ...item
-                                                });
+                                                }, this.handleRangeUpdate);
                                                 break;
                                             case 'userInputRange':
                                                 // set state here to control what is highlighted in css, use state in apply button to set time parameters
@@ -496,7 +500,7 @@ class ControlPanel extends Component {
                                                 "23:59:59"
                                             ],
                                             ...item
-                                        })
+                                        }, this.handleRangeUpdate)
                                     }
                                 }}
                                 months={1}

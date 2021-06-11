@@ -239,6 +239,7 @@ body {
     .control-panel .range__calendar img {
       height: 2rem; }
   .control-panel .range__input {
+    cursor: pointer;
     background-color: #fff;
     height: 3.75rem;
     width: 100%;

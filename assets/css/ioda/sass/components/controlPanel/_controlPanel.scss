@@ -38,6 +38,7 @@
   }
 
   .range {
+
     &__label {
       padding-left: 1rem;
       font-style: italic;
@@ -61,6 +62,7 @@
     }
 
     &__input {
+      cursor: pointer;
       background-color: $color-white;
       height: 3.75rem;
       width: 100%;
