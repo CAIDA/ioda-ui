@@ -15,10 +15,10 @@ const region = {
     tab: 2,
     url: '/dashboard/region'
 };
-const as = {
+const asn = {
     type: 'asn',
     tab: 3,
-    url: '/dashboard/as'
+    url: '/dashboard/asn'
 };
 
-export {tabOptions, country, region, as};
+export {tabOptions, country, region, asn};

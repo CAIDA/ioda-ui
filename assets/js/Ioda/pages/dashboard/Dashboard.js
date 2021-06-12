@@ -18,7 +18,7 @@ import * as topojson from 'topojson';
 import Table from "../../components/table/Table";
 import HorizonTSChart from 'horizon-timeseries-chart';
 // Constants
-import {tabOptions, country, region, as} from "./DashboardConstants";
+import {tabOptions, country, region, asn} from "./DashboardConstants";
 import {connect} from "react-redux";
 // Helper Functions
 import {
@@ -45,11 +45,14 @@ class Dashboard extends Component {
                 ? window.location.search.split("?")[1].split("&")[1].split("=")[1]
                 : Math.round(new Date().getTime() / 1000),
             // Tabs
-            activeTab: country.tab,
-            activeTabType: country.type,
-            tab: "Country View",
+            activeTab: window.location.pathname.split("/")[2].split("?")[0] === region.type ? region.tab :
+                window.location.pathname.split("/")[2].split("?")[0] === asn.type ? asn.tab : country.tab,
+            activeTabType: window.location.pathname.split("/")[2].split("?")[0] === region.type ? region.type :
+                window.location.pathname.split("/")[2].split("?")[0] === asn.type ? asn.type : country.type,
+            tab: window.location.pathname.split("/")[2].split("?")[0] === "region" ? "Region View" :
+                window.location.pathname.split("/")[2].split("?")[0] === "asn" ? "ASN View" : "Country View",
             //Tab View Changer Button
-            tabCurrentView: "map",
+            tabCurrentView: window.location.pathname.split("/")[2].split("?")[0] === asn.type ? 'timeSeries' : "map",
             // Search Bar
             suggestedSearchResults: null,
             searchTerm: null,
@@ -72,17 +75,22 @@ class Dashboard extends Component {
         this.tabs = {
             country: country.tab,
             region: region.tab,
-            as: as.tab
+            asn: asn.tab
         };
         this.countryTab = T.translate("dashboard.countryTabTitle");
         this.regionTab = T.translate("dashboard.regionTabTitle");
-        this.asTab = T.translate("dashboard.asnTabTitle");
+        this.asnTab = T.translate("dashboard.asnTabTitle");
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.handleEntityShapeClick = this.handleEntityShapeClick.bind(this);
         this.apiQueryLimit = 170;
     }
 
     componentDidMount() {
+        console.log("update24");
+        console.log(window.location.pathname.split("/")[2].split("?")[0]);
+
+
+        // Check if time parameters are provided
         let timeEntryInUrl = window.location.pathname.split("?");
         if (timeEntryInUrl[1]){
             this.setState({
@@ -92,15 +100,17 @@ class Dashboard extends Component {
         }
 
         this.setState({
-            mounted: true
+            mounted: true,
         },() => {
             // Set initial tab to load
             this.handleSelectTab(this.tabs[this.props.match.params.tab]);
             // Get topo and outage data to populate map and table
-            this.getDataTopo(this.state.activeTabType);
+            window.location.pathname.split("/")[2].split("?")[0] !== "asn" ? this.getDataTopo(this.state.activeTabType) : null;
             this.getDataOutageSummary(this.state.activeTabType);
             this.getTotalOutages(this.state.activeTabType);
         });
+
+
     }
 
     componentWillUnmount() {
@@ -118,7 +128,7 @@ class Dashboard extends Component {
         // Update visualizations when tabs are changed
         if (this.state.activeTabType && this.state.activeTabType !== prevState.activeTabType) {
             // Get updated topo and outage data to populate map, no topo for asns
-            this.state.activeTabType !== as.type
+            this.state.activeTabType !== asn.type
                 ? this.getDataTopo(this.state.activeTabType)
                 : null;
             this.getDataOutageSummary(this.state.activeTabType);
@@ -226,11 +236,11 @@ class Dashboard extends Component {
     handleSelectTab = selectedKey => {
         const { history } = this.props;
 
-        if (selectedKey === as.tab) {
+        if (selectedKey === asn.tab) {
             this.setState({
                 activeTab: selectedKey,
-                tab: this.asTab,
-                activeTabType: as.type,
+                tab: this.asnTab,
+                activeTabType: asn.type,
                 // Trigger Data Update for new tab
                 tabCurrentView: "map",
                 topoData: null,
@@ -240,7 +250,13 @@ class Dashboard extends Component {
                 eventEndpointCalled: false,
                 totalEventCount: 0
             });
-            if (history.location.pathname !== as.url) {history.push(as.url);}
+            if (history.location.pathname !== asn.url) {
+                if (window.location.search) {
+                    history.push(`${asn.url}/?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`);
+                } else {
+                    history.push(asn.url);
+                }
+            }
         }
         else if (selectedKey === region.tab) {
             this.setState({
@@ -256,9 +272,16 @@ class Dashboard extends Component {
                 eventEndpointCalled: false,
                 totalEventCount: 0
             });
-            if (history.location.pathname !== region.url) {history.push(region.url);}
+            if (window.location.search) {
+                console.log(window.location.search);
+                history.push(`${region.url}/?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`);
+            } else {
+                console.log(window.location);
+                history.push(region.url);
+            }
+
         }
-        else if (selectedKey === country.tab || !selectedKey) {
+        else if (selectedKey === country.tab) {
             this.setState({
                 activeTab: country.tab,
                 tab: this.countryTab,
@@ -272,7 +295,13 @@ class Dashboard extends Component {
                 eventEndpointCalled: false,
                 totalEventCount: 0
             });
-            if (history.location.pathname !== country.url) {history.push(country.url);}
+            if (history.location.pathname !== country.url) {
+                if (window.location.search) {
+                    history.push(`${country.url}/?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`);
+                } else {
+                    history.push(country.url);
+                }
+            }
         }
     }
     handleTabChangeViewButton() {
@@ -528,7 +557,7 @@ class Dashboard extends Component {
                                 :null
                         }
                         {
-                            tab === this.asTab
+                            tab === this.asnTab
                                 ? this.state.eventDataProcessed
                                 ? <DashboardTab
                                     type={this.state.activeTabType}

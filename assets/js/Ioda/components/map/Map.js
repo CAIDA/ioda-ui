@@ -74,6 +74,7 @@ class TopoMap extends Component {
                     zoom={this.props.bounds ? null : zoom}
                     bounds={this.props.bounds ? this.props.bounds : null}
                     minZoom={1}
+                    scrollWheelZoom={false}
                     style={{width: 'inherit', height: 'inherit', overflow: 'hidden'}}
                 >
                     <TileLayer
