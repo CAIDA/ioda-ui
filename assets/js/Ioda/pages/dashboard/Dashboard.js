@@ -49,8 +49,8 @@ class Dashboard extends Component {
                 window.location.pathname.split("/")[2].split("?")[0] === asn.type ? asn.tab : country.tab,
             activeTabType: window.location.pathname.split("/")[2].split("?")[0] === region.type ? region.type :
                 window.location.pathname.split("/")[2].split("?")[0] === asn.type ? asn.type : country.type,
-            tab: window.location.pathname.split("/")[2].split("?")[0] === "region" ? "Region View" :
-                window.location.pathname.split("/")[2].split("?")[0] === "asn" ? "ASN View" : "Country View",
+            tab: window.location.pathname.split("/")[2].split("?")[0] === "region" ? T.translate("dashboard.regionTabTitle") :
+                window.location.pathname.split("/")[2].split("?")[0] === "asn" ? T.translate("dashboard.asnTabTitle") : T.translate("dashboard.countryTabTitle"),
             //Tab View Changer Button
             tabCurrentView: window.location.pathname.split("/")[2].split("?")[0] === asn.type ? 'timeSeries' : "map",
             // Search Bar
@@ -86,10 +86,6 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
-        console.log("update24");
-        console.log(window.location.pathname.split("/")[2].split("?")[0]);
-
-
         // Check if time parameters are provided
         let timeEntryInUrl = window.location.pathname.split("?");
         if (timeEntryInUrl[1]){
