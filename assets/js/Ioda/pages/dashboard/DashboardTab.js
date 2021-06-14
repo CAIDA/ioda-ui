@@ -15,9 +15,6 @@ class DashboardTab extends Component {
         const viewChangeIconAltTextHts = T.translate("dashboard.viewChangeIconAltTextHts");
         const viewChangeIconAltTextMap = T.translate("dashboard.viewChangeIconAltTextMap");
 
-        console.log(this.props.from);
-        console.log(this.props.until);
-
         return(
             <div className="tab">
                 <div className="row">
