@@ -269,10 +269,8 @@ class Dashboard extends Component {
                 totalEventCount: 0
             });
             if (window.location.search) {
-                console.log(window.location.search);
                 history.push(`${region.url}/?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`);
             } else {
-                console.log(window.location);
                 history.push(region.url);
             }
 
