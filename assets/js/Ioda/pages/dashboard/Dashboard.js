@@ -45,14 +45,14 @@ class Dashboard extends Component {
                 ? window.location.search.split("?")[1].split("&")[1].split("=")[1]
                 : Math.round(new Date().getTime() / 1000),
             // Tabs
-            activeTab: window.location.pathname.split("/")[2].split("?")[0] === region.type ? region.tab :
-                window.location.pathname.split("/")[2].split("?")[0] === asn.type ? asn.tab : country.tab,
-            activeTabType: window.location.pathname.split("/")[2].split("?")[0] === region.type ? region.type :
-                window.location.pathname.split("/")[2].split("?")[0] === asn.type ? asn.type : country.type,
-            tab: window.location.pathname.split("/")[2].split("?")[0] === "region" ? T.translate("dashboard.regionTabTitle") :
-                window.location.pathname.split("/")[2].split("?")[0] === "asn" ? T.translate("dashboard.asnTabTitle") : T.translate("dashboard.countryTabTitle"),
+            activeTab: typeof window.location.pathname.split("/")[2] !== 'undefined' && window.location.pathname.split("/")[2].split("?")[0] === region.type ? region.tab :
+                typeof window.location.pathname.split("/")[2] !== 'undefined' && window.location.pathname.split("/")[2].split("?")[0] === asn.type ? asn.tab : country.tab,
+            activeTabType: typeof window.location.pathname.split("/")[2] !== 'undefined' && window.location.pathname.split("/")[2].split("?")[0] === region.type ? region.type :
+                typeof window.location.pathname.split("/")[2] !== 'undefined' && window.location.pathname.split("/")[2].split("?")[0] === asn.type ? asn.type : country.type,
+            tab: typeof window.location.pathname.split("/")[2] !== 'undefined' && window.location.pathname.split("/")[2].split("?")[0] === "region" ? T.translate("dashboard.regionTabTitle") :
+                typeof window.location.pathname.split("/")[2] !== 'undefined' && window.location.pathname.split("/")[2].split("?")[0] === "asn" ? T.translate("dashboard.asnTabTitle") : T.translate("dashboard.countryTabTitle"),
             //Tab View Changer Button
-            tabCurrentView: window.location.pathname.split("/")[2].split("?")[0] === asn.type ? 'timeSeries' : "map",
+            tabCurrentView: typeof window.location.pathname.split("/")[2] !== 'undefined' && window.location.pathname.split("/").length === 2 && window.location.pathname.split("/")[2].split("?")[0] === asn.type ? 'timeSeries' : "map",
             // Search Bar
             suggestedSearchResults: null,
             searchTerm: null,
