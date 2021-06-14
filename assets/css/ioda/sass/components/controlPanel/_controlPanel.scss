@@ -138,9 +138,18 @@
       }
 
       &-checkbox {
-        width: 18.3rem;
+        width: 100%;
+        margin-top: 1rem;
         //display: flex; controlled in component file
         justify-content: center;
+        align-items: center;
+        font-style: italic;
+        font-size: 1.1rem;
+
+        & input {
+          margin-right: 0.5rem;
+          border: 1px solid $color-blue-border;
+        }
       }
 
       &--visible {
@@ -151,8 +160,8 @@
     &__time {
       display: none;
       position: absolute;
-      bottom: 6rem;
-      right: 7rem;
+      bottom: 16rem;
+      right: 1rem;
 
       &--visible {
         display: block;
@@ -197,7 +206,6 @@
     height: 5rem;
     width: 5rem;
     border: 2px solid $color-blue-border;
-    font-size: 2rem;
     font-weight: 700;
     border-radius: 0.3rem;
     margin-left: 2rem;

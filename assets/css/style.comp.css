@@ -293,15 +293,22 @@ body {
         border: 1px solid #DCE4EA;
         margin-top: -0.1rem; }
     .control-panel .range__dropdown-checkbox {
-      width: 18.3rem;
-      justify-content: center; }
+      width: 100%;
+      margin-top: 1rem;
+      justify-content: center;
+      align-items: center;
+      font-style: italic;
+      font-size: 1.1rem; }
+      .control-panel .range__dropdown-checkbox input {
+        margin-right: 0.5rem;
+        border: 1px solid #DCE4EA; }
     .control-panel .range__dropdown--visible {
       display: inline-block; }
   .control-panel .range__time {
     display: none;
     position: absolute;
-    bottom: 6rem;
-    right: 7rem; }
+    bottom: 16rem;
+    right: 1rem; }
     .control-panel .range__time--visible {
       display: block; }
   .control-panel .range__button {
@@ -374,7 +381,6 @@ body {
     height: 5rem;
     width: 5rem;
     border: 2px solid #DCE4EA;
-    font-size: 2rem;
     font-weight: 700;
     border-radius: 0.3rem;
     margin-left: 2rem;
@@ -394,14 +400,18 @@ body {
     display: flex;
     flex-grow: 1;
     flex-shrink: 0;
-    border: thin solid gray; }
+    border: 2px solid #DCE4EA !important;
+    font-size: 1.2rem;
+    border-radius: 3px;
+    width: 25.6rem; }
   .react-timerange-picker__inputGroup {
-    min-width: calc((4px * 3) + 3.24em + 0.434em);
+    min-width: calc((0.4rem * 3) + 3.24rem + 0.434rem);
     flex-grow: 1;
     padding: 0 2px;
-    box-sizing: content-box; }
+    box-sizing: content-box;
+    text-align: center; }
     .react-timerange-picker__inputGroup__input {
-      min-width: .54em;
+      min-width: .75rem;
       height: 100%;
       position: relative;
       padding: 0 1px;
@@ -416,16 +426,18 @@ body {
       .react-timerange-picker__inputGroup__input:invalid {
         background: rgba(255, 0, 0, 0.1); }
       .react-timerange-picker__inputGroup__input--hasLeadingZero {
-        margin-left: -0.54em;
-        padding-left: calc(1px + .54em); }
+        margin-left: -0.75rem;
+        padding-left: calc(0.1rem + .75rem); }
     .react-timerange-picker__inputGroup__leadingZero {
       margin-top: 1px; }
     .react-timerange-picker__inputGroup__amPm {
       font: inherit;
       -moz-appearance: menulist; }
+  .react-timerange-picker__range-divider {
+    padding: 0 0.25rem; }
 
 .react-time-picker__inputGroup__divider {
-  padding: 1px 0;
+  padding: 0.25rem 0;
   white-space: pre; }
 
 .react-timerange-picker,

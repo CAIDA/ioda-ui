@@ -86,6 +86,7 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
+        console.log("update4");
         // Check if time parameters are provided
         let timeEntryInUrl = window.location.pathname.split("?");
         if (timeEntryInUrl[1]){
