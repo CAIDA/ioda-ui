@@ -2311,11 +2311,13 @@ button[class*="searchButton"] {
               filter: blur(10px) brightness(0.95); }
           .dashboard .tabs .tab__config-button:focus {
             outline: none; }
+      .dashboard .tabs .tab__map {
+        height: 45.1rem; }
       .dashboard .tabs .tab__table .table {
         margin-bottom: 0;
         height: inherit; }
         .dashboard .tabs .tab__table .table tbody {
-          max-height: 35rem; }
+          max-height: 46.1rem; }
 
 .entity {
   padding-top: 5rem;

@@ -91,13 +91,17 @@
         }
       }
 
+      &__map {
+        height: 45.1rem;
+      }
+
       &__table {
         & .table {
           margin-bottom: 0;
           height: inherit;
 
           & tbody {
-            max-height: 35rem;
+            max-height: 46.1rem;
           }
         }
       }

@@ -38,7 +38,7 @@ class DashboardTab extends Component {
                         </div>
                         {
                             this.props.type !== "asn"
-                                ? <div className="tab__map" style={this.props.tabCurrentView === 'map' ? {display: 'block', height: '400px'} : {display: 'none'}}>
+                                ? <div className="tab__map" style={this.props.tabCurrentView === 'map' ? {display: 'block'} : {display: 'none'}}>
                                         {
                                             this.props.populateGeoJsonMap()
                                         }
