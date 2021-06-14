@@ -974,7 +974,7 @@ body {
       width: 1.1rem; }
     .table--alert .table__header-col:first-child,
     .table--alert tr td:first-child {
-      width: 4rem; }
+      width: 3rem; }
     @media only screen and (max-width: 80em) {
       .table--alert .table__header-col:nth-child(1) {
         padding-left: 0; } }
@@ -982,7 +982,18 @@ body {
       .table--alert .table__header-col:nth-child(1) button {
         justify-content: center; } }
     .table--alert .table__header-col:nth-child(2),
-    .table--alert tr td:nth-child(2),
+    .table--alert tr td:nth-child(2) {
+      width: 20%;
+      min-width: 18rem;
+      display: flex;
+      align-items: center; }
+      .table--alert .table__header-col:nth-child(2) p,
+      .table--alert tr td:nth-child(2) p {
+        display: flex;
+        align-items: center; }
+        .table--alert .table__header-col:nth-child(2) p:first-child,
+        .table--alert tr td:nth-child(2) p:first-child {
+          margin-right: 0.5rem; }
     .table--alert .table__header-col:nth-child(3),
     .table--alert tr td:nth-child(3) {
       width: 20%;
@@ -1040,7 +1051,7 @@ body {
         height: 100%;
         padding: 0.25rem;
         border: none;
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         font-weight: 700;
         display: flex;
         justify-content: left;
@@ -1066,7 +1077,7 @@ body {
   .table tr:nth-child(even) {
     background-color: #fff; }
   .table td {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     text-align: left;
     position: relative;
     height: inherit;
@@ -2300,11 +2311,20 @@ button[class*="searchButton"] {
               filter: blur(10px) brightness(0.95); }
           .dashboard .tabs .tab__config-button:focus {
             outline: none; }
+      .dashboard .tabs .tab__map {
+        height: 45.1rem; }
+      .dashboard .tabs .tab__timestamp {
+        font-style: italic;
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1rem;
+        font-size: 1rem;
+        color: #2c3e50; }
       .dashboard .tabs .tab__table .table {
         margin-bottom: 0;
         height: inherit; }
         .dashboard .tabs .tab__table .table tbody {
-          max-height: 35rem; }
+          max-height: 46.1rem; }
 
 .entity {
   padding-top: 5rem;
