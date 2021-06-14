@@ -24,8 +24,9 @@ import {connect} from "react-redux";
 import {
     convertValuesForSummaryTable,
     humanizeNumber,
-    sortByKey,
-    convertTsDataForHtsViz, dateRangeToSeconds
+    convertTsDataForHtsViz,
+    dateRangeToSeconds,
+    convertSecondsToDateValues
 } from "../../utils";
 import Loading from "../../components/loading/Loading";
 import * as d3 from 'd3-shape';
@@ -532,6 +533,8 @@ class Dashboard extends Component {
                                     populateHtsChart={(width) => this.populateHtsChart(width)}
                                     handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
                                     tabCurrentView={this.state.tabCurrentView}
+                                    from={convertSecondsToDateValues(this.state.from)}
+                                    until={convertSecondsToDateValues(this.state.until)}
                                 />
                                 : <Loading/>
                                 :null
@@ -546,6 +549,8 @@ class Dashboard extends Component {
                                     populateHtsChart={(width) => this.populateHtsChart(width)}
                                     handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
                                     tabCurrentView={this.state.tabCurrentView}
+                                    from={convertSecondsToDateValues(this.state.from)}
+                                    until={convertSecondsToDateValues(this.state.until)}
                                 />
                                 : <Loading/>
                                 :null
@@ -559,6 +564,8 @@ class Dashboard extends Component {
                                     populateHtsChart={(width) => this.populateHtsChart(width)}
                                     handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
                                     tabCurrentView={this.state.tabCurrentView}
+                                    from={convertSecondsToDateValues(this.state.from)}
+                                    until={convertSecondsToDateValues(this.state.until)}
                                 />
                                 : <Loading/>
                                 :null

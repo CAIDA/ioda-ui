@@ -2313,6 +2313,13 @@ button[class*="searchButton"] {
             outline: none; }
       .dashboard .tabs .tab__map {
         height: 45.1rem; }
+      .dashboard .tabs .tab__timestamp {
+        font-style: italic;
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1rem;
+        font-size: 1rem;
+        color: #2c3e50; }
       .dashboard .tabs .tab__table .table {
         margin-bottom: 0;
         height: inherit; }
