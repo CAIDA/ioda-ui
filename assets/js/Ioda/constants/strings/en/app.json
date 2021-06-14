@@ -45,6 +45,9 @@
     "toggleOff": "OFF",
     "xyChartAlertToggleLabel": "Alert Bands",
     "xyChartNormalizedToggleLabel": "Normalized Values",
+    "activeProbingLegendText": "Active Probing (#/24s Up)",
+    "bgpLegendText": "BGP (#Visible /24s)",
+    "darknetLegendText": "Darknet (# Unique Source IPs)",
     "eventAlertButtonText1": "View ",
     "eventAlertButtonOption1": "Alert",
     "eventAlertButtonOption2": "Event",
@@ -101,6 +104,11 @@
       "dataSource": "Type",
       "actualValue": "Actual Value",
       "baselineValue": "Baseline Value"
+    },
+    "alertLabels": {
+      "activeProbing": "Active Probing",
+      "bgp": "BGP",
+      "darknet": "Darknet"
     },
     "eventHeaders": {
       "fromDate": "From",

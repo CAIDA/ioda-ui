@@ -410,7 +410,11 @@ class Table extends Component {
                                                 <p>{alert.date.hours}:{alert.date.minutes} {alert.date.meridian}</p>
                                             </td>
                                             <td>
-                                                {alert.dataSource}
+                                                {
+                                                    alert.dataSource === "ping-slash24" ? T.translate("table.alertLabels.activeProbing") :
+                                                    alert.dataSource === "bgp" ? T.translate("table.alertLabels.bgp") :
+                                                    alert.dataSource === "ucsd-nt" ? T.translate("table.alertLabels.darknet") : null
+                                                }
                                             </td>
                                             <td className="table--alert-actualValue td--center">
                                                 {alert.actualValue}
