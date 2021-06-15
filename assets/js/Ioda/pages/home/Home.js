@@ -184,10 +184,16 @@ class Home extends Component {
     // Define what happens when user clicks suggested search result entry
     handleResultClick = (query) => {
         const { history } = this.props;
-        const entity = this.state.suggestedSearchResults.filter(result => {
-            return result.name === query || query.name;
-        });
-        history.push(`/${entity[0].type}/${entity[0].code}`);
+        let entity;
+        typeof query === 'object' && query !== null
+            ? entity = this.state.suggestedSearchResults.filter(result => {
+                return result.name === query.name
+            })
+            : entity = this.state.suggestedSearchResults.filter(result => {
+                return result.name === query
+            });
+        entity = entity[0];
+        history.push(`/${entity.type}/${entity.code}`);
     };
     // function to manage when a user clicks a country in the map
     handleEntityShapeClick(entity) {

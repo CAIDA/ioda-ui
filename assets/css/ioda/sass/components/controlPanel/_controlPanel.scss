@@ -37,6 +37,10 @@
     font-size: $control-panel-input-label-font-size;
   }
 
+  [class^="searchResultsVisible-"] {
+    z-index: 1001;
+  }
+
   .range {
 
     &__label {
