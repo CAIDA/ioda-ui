@@ -66,7 +66,7 @@ class Entity extends Component {
                 : Math.round(new Date().getTime() / 1000),
             // Search Bar
             suggestedSearchResults: null,
-            searchTerm: null,
+            searchTerm: "",
             lastFetched: 0,
             // XY Plot Time Series
             xyDataOptions: null,
@@ -437,7 +437,7 @@ class Entity extends Component {
                     tsDataDisplayOutageBands: true,
                     // Search Bar
                     suggestedSearchResults: null,
-                    searchTerm: null,
+                    searchTerm: "",
                     lastFetched: 0,
                     // Event/Table Data
                     currentTable: 'alert',
@@ -504,7 +504,7 @@ class Entity extends Component {
                     parentEntityCode: "",
                     // Search Bar
                     suggestedSearchResults: null,
-                    searchTerm: null,
+                    searchTerm: "",
                     lastFetched: 0,
                     // XY Plot Time Series states
                     xyDataOptions: null,
@@ -597,11 +597,17 @@ class Entity extends Component {
     // Define what happens when user clicks suggested search result entry
     handleResultClick = (query) => {
         const { history } = this.props;
-        const entity = this.state.suggestedSearchResults.filter(result => {
-            return result.name === query || query.name;
-        });
-        history.push(`/${entity[0].type}/${entity[0].code}`);
-        this.handleStateReset("newEntity", null, entity[0].type, entity[0].code);
+        let entity;
+        typeof query === 'object' && query !== null
+            ? entity = this.state.suggestedSearchResults.filter(result => {
+                return result.name === query.name
+                })
+            : entity = this.state.suggestedSearchResults.filter(result => {
+                return result.name === query
+            });
+        entity = entity[0];
+        history.push(`/${entity.type}/${entity.code}`);
+        this.handleStateReset("newEntity", null, entity.type, entity.code);
     };
     // Reset search bar with search term value when a selection is made, no customizations needed here.
     handleQueryUpdate = (query) => {
@@ -618,6 +624,7 @@ class Entity extends Component {
                           handleResultClick={(event) => this.handleResultClick(event)}
                           searchResults={this.state.suggestedSearchResults}
                           handleQueryUpdate={this.handleQueryUpdate}
+                          searchTerm={this.state.searchTerm}
         />
     }
 
@@ -626,43 +633,9 @@ class Entity extends Component {
     // XY Plot Graph Functions
     createXyVizDataObject(networkTelescopeValues, bgpValues, activeProbingValues) {
         let networkTelescope, bgp, activeProbing;
-        if (networkTelescopeValues) {
-            networkTelescope = {
-                type: "line",
-                lineThickness: 1,
-                color: "#E31A1C",
-                lineColor: "#E31A1C",
-                markerType: "circle",
-                markerSize: 2,
-                name: T.translate("entity.alertLabels.darknetLegendText"),
-                visible: this.state.tsDataSeriesVisibleUcsdNt,
-                axisYType: this.state.tsDataNormalized ? 'primary' : "secondary",
-                showInLegend: true,
-                xValueFormatString: "DDD, MMM DD - HH:MM",
-                yValueFormatString: "##",
-                dataPoints: networkTelescopeValues,
-                legendMarkerColor: "#E31A1C",
-                toolTipContent: "{x} <br/> Network Telescope (# Unique Source IPs): {y}"
-            }
-        }
-        if (bgpValues) {
-            bgp = {
-                type: "line",
-                lineThickness: 1,
-                color: "#33A02C",
-                lineColor: "#33A02C",
-                markerType: "circle",
-                markerSize: 2,
-                name: T.translate("entity.alertLabels.bgpLegendText"),
-                visible: this.state.tsDataSeriesVisibleBgp,
-                showInLegend: true,
-                xValueFormatString: "DDD, MMM DD - HH:MM",
-                yValueFormatString: "##",
-                dataPoints: bgpValues,
-                legendMarkerColor: "#33A02C",
-                toolTipContent: "{x} <br/> BGP (# Visbile /24s): {y}"
-            }
-        }
+        const activeProbingLegendText = T.translate("entity.activeProbingLegendText");
+        const bgpLegendText = T.translate("entity.bgpLegendText");
+        const darknetLegendText = T.translate("entity.darknetLegendText");
 
         if (activeProbingValues) {
             activeProbing = {
@@ -672,7 +645,7 @@ class Entity extends Component {
                 lineColor: "#1F78B4",
                 markerType: "circle",
                 markerSize: 2,
-                name: T.translate("entity.alertLabels.activeProbingLegendText"),
+                name: activeProbingLegendText,
                 visible: this.state.tsDataSeriesVisiblePingSlash24,
                 showInLegend: true,
                 xValueFormatString: "DDD, MMM DD - HH:MM",
@@ -683,8 +656,45 @@ class Entity extends Component {
 
             }
         }
+        if (bgpValues) {
+            bgp = {
+                type: "line",
+                lineThickness: 1,
+                color: "#33A02C",
+                lineColor: "#33A02C",
+                markerType: "circle",
+                markerSize: 2,
+                name: bgpLegendText,
+                visible: this.state.tsDataSeriesVisibleBgp,
+                showInLegend: true,
+                xValueFormatString: "DDD, MMM DD - HH:MM",
+                yValueFormatString: "##",
+                dataPoints: bgpValues,
+                legendMarkerColor: "#33A02C",
+                toolTipContent: "{x} <br/> BGP (# Visbile /24s): {y}"
+            }
+        }
+        if (networkTelescopeValues) {
+            networkTelescope = {
+                type: "line",
+                lineThickness: 1,
+                color: "#E31A1C",
+                lineColor: "#E31A1C",
+                markerType: "circle",
+                markerSize: 2,
+                name: darknetLegendText,
+                visible: this.state.tsDataSeriesVisibleUcsdNt,
+                axisYType: this.state.tsDataNormalized ? 'primary' : "secondary",
+                showInLegend: true,
+                xValueFormatString: "DDD, MMM DD - HH:MM",
+                yValueFormatString: "##",
+                dataPoints: networkTelescopeValues,
+                legendMarkerColor: "#E31A1C",
+                toolTipContent: "{x} <br/> Network Telescope (# Unique Source IPs): {y}"
+            }
+        }
 
-        return [networkTelescope, bgp, activeProbing]
+        return [activeProbing, bgp, networkTelescope]
     }
     convertValuesForXyViz() {
         // ToDo: Set x values to local time zone initially

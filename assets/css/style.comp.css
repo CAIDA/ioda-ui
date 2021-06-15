@@ -222,6 +222,8 @@ body {
     opacity: 1;
     font-style: italic;
     font-size: 1.1rem; }
+  .control-panel [class^="searchResultsVisible-"] {
+    z-index: 1001; }
   .control-panel .range__label {
     padding-left: 1rem;
     font-style: italic;
