@@ -25,6 +25,7 @@ import EntityRelated from "./EntityRelated";
 import HorizonTSChart from 'horizon-timeseries-chart';
 import Loading from "../../components/loading/Loading";
 import ToggleButton from "../../components/toggleButton/ToggleButton";
+import TimeStamp from "../../components/timeStamp/TimeStamp";
 // Event Table Dependencies
 import * as sd from 'simple-duration'
 // Helper Functions
@@ -44,6 +45,7 @@ import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.rea
 import TopoMap from "../../components/map/Map";
 import * as topojson from 'topojson';
 import * as d3 from "d3-shape";
+import DashboardTab from "../dashboard/DashboardTab";
 
 
 class Entity extends Component {
@@ -1987,6 +1989,11 @@ class Entity extends Component {
                                 ? this.genXyChart()
                                 : <Loading/>
                         }
+                        <div className="overview__timestamp">
+                            <TimeStamp from={convertSecondsToDateValues(this.state.from)}
+                                       until={convertSecondsToDateValues(this.state.until)} />
+                        </div>
+
                     </div>
                     <div className="col-2-of-5">
                         <div className="overview__table-config">

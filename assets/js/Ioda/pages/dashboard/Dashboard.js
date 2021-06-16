@@ -539,8 +539,8 @@ class Dashboard extends Component {
                                     populateHtsChart={(width) => this.populateHtsChart(width)}
                                     handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
                                     tabCurrentView={this.state.tabCurrentView}
-                                    from={convertSecondsToDateValues(this.state.from)}
-                                    until={convertSecondsToDateValues(this.state.until)}
+                                    from={this.state.from}
+                                    until={this.state.until}
                                 />
                                 : <Loading/>
                                 :null
@@ -555,8 +555,8 @@ class Dashboard extends Component {
                                     populateHtsChart={(width) => this.populateHtsChart(width)}
                                     handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
                                     tabCurrentView={this.state.tabCurrentView}
-                                    from={convertSecondsToDateValues(this.state.from)}
-                                    until={convertSecondsToDateValues(this.state.until)}
+                                    from={this.state.from}
+                                    until={this.state.until}
                                 />
                                 : <Loading/>
                                 :null

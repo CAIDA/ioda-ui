@@ -1832,6 +1832,14 @@ body {
 .modal__chart {
   margin-bottom: 1.5rem; }
 
+.timestamp {
+  font-style: italic;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #2c3e50; }
+
 .toggle {
   display: flex;
   flex-direction: row;
@@ -2315,13 +2323,6 @@ button[class*="searchButton"] {
             outline: none; }
       .dashboard .tabs .tab__map {
         height: 45.1rem; }
-      .dashboard .tabs .tab__timestamp {
-        font-style: italic;
-        display: flex;
-        justify-content: flex-end;
-        margin-top: 1rem;
-        font-size: 1rem;
-        color: #2c3e50; }
       .dashboard .tabs .tab__table .table {
         margin-bottom: 0;
         height: inherit; }
@@ -2404,7 +2405,7 @@ button[class*="searchButton"] {
         margin-left: 1rem; }
     .entity .overview__config .toggle__label {
       cursor: pointer; }
-    .entity .overview__config .toggle :first-child {
+    .entity .overview__config .toggle:first-child {
       margin-bottom: 1rem; }
   .entity .overview__xy-wrapper {
     position: relative; }
