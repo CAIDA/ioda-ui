@@ -1130,8 +1130,12 @@ class Entity extends Component {
             return <TopoMap topoData={topoData} bounds={outageCoords} scores={scores} handleEntityShapeClick={this.handleEntityShapeClick}/>;
         } else if (this.state.summaryDataMapRaw && this.state.summaryDataMapRaw.length === 0) {
             const noOutagesOnMapMessage = T.translate("entityModal.noOutagesOnMapMessage");
+            const regionalModalButtonText = T.translate("entity.regionalModalButtonText");
             return <div className="related__no-outages">
                 <h2 className="related__no-outages-title">{noOutagesOnMapMessage}</h2>
+                <button style={{marginTop: "2rem", transform: "scale(1.5)"}} className="related__modal-button" onClick={() => this.toggleModal("map")}>
+                    {regionalModalButtonText}
+                </button>
             </div>
         } else {
             return <Loading/>
