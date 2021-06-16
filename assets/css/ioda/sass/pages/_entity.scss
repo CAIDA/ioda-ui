@@ -126,6 +126,10 @@
       height: 50rem;
       box-shadow: $box-shadow;
       padding: $gutter-vertical-small;
+
+      & .table--summary tbody {
+        max-height: 34rem;
+      }
     }
 
     &__heading {
