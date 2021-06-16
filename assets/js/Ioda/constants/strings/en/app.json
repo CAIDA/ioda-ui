@@ -100,7 +100,7 @@
   "table": {
     "alertHeaders": {
       "level": "Alert",
-      "dateStamp": "Time (UTC)",
+      "timeStamp": "Time (UTC)",
       "dataSource": "Type",
       "actualValue": "Actual Value",
       "baselineValue": "Baseline Value"

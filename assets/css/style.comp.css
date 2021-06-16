@@ -988,7 +988,8 @@ body {
       width: 20%;
       min-width: 18rem;
       display: flex;
-      align-items: center; }
+      align-items: center;
+      height: 100%; }
       .table--alert .table__header-col:nth-child(2) p,
       .table--alert tr td:nth-child(2) p {
         display: flex;
@@ -1009,12 +1010,12 @@ body {
           justify-content: center; } }
     .table--alert .table__header-col:nth-child(4),
     .table--alert tr td:nth-child(4) {
-      width: 10rem; }
+      width: 11rem; }
     .table--alert .table__header-col:nth-child(5),
     .table--alert tr td:nth-child(5) {
-      width: calc(10rem + 15px); }
+      width: calc(11rem + 15px); }
     .table--alert tbody {
-      max-height: 48rem; }
+      max-height: 49rem; }
   .table--summary .table__scores--active {
     display: block; }
     .table--summary .table__scores--active thead {
@@ -1053,7 +1054,7 @@ body {
         height: 100%;
         padding: 0.25rem;
         border: none;
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         font-weight: 700;
         display: flex;
         justify-content: left;
@@ -1079,7 +1080,7 @@ body {
   .table tr:nth-child(even) {
     background-color: #fff; }
   .table td {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     text-align: left;
     position: relative;
     height: inherit;
@@ -2351,7 +2352,8 @@ button[class*="searchButton"] {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 1.5rem; }
+    margin-bottom: 1.5rem;
+    align-items: center; }
     .entity .overview__config-button {
       background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
       height: 3.5rem;

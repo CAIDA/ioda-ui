@@ -1966,7 +1966,7 @@ class Entity extends Component {
                 <div className="row overview">
                     <div className="col-3-of-5">
                         <div className="overview__config" ref={this.config}>
-                            <h3 className="heading-h2">
+                            <h3 className="heading-h3">
                                 {xyChartTitle}
                                 {this.state.entityName}
                             </h3>
@@ -1997,7 +1997,7 @@ class Entity extends Component {
                     </div>
                     <div className="col-2-of-5">
                         <div className="overview__table-config">
-                            <h3 className="heading-h2">
+                            <h3 className="heading-h3">
                                 {this.state.currentTable === 'event' ? `${eventFeedTitle} ${this.state.entityName}` : `${alertFeedTitle} ${this.state.entityName}`}
                             </h3>
                             <button className="overview__config-button"

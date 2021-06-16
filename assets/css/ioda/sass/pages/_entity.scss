@@ -7,8 +7,6 @@
   }
 
   .overview {
-
-
     .col-3-of-5, .col-2-of-5 {
       background-color: $color-white;
       border-bottom-right-radius: 0.3rem;
@@ -34,6 +32,7 @@
       display: flex;
       justify-content: space-between;
       margin-bottom: 1.5rem;
+      align-items: center;
 
       &-button {
         @include button;
