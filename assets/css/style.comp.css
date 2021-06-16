@@ -2402,7 +2402,9 @@ button[class*="searchButton"] {
         outline: none; }
       .entity .overview__config-button--alertBands {
         margin-left: 1rem; }
-    .entity .overview__config .toggle:first-child {
+    .entity .overview__config .toggle__label {
+      cursor: pointer; }
+    .entity .overview__config .toggle :first-child {
       margin-bottom: 1rem; }
   .entity .overview__xy-wrapper {
     position: relative; }

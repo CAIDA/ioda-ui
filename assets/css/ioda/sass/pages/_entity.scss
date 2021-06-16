@@ -47,9 +47,17 @@
         }
       }
 
-      .toggle:first-child {
-        margin-bottom: 1rem;
+      .toggle {
+        &__label {
+          cursor: pointer;
+        }
+
+        & :first-child {
+          margin-bottom: 1rem;
+        }
       }
+
+
     }
 
     &__xy-wrapper {
