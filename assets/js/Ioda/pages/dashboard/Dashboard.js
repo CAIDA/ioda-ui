@@ -102,7 +102,7 @@ class Dashboard extends Component {
             // Set initial tab to load
             this.handleSelectTab(this.tabs[this.props.match.params.tab]);
             // Get topo and outage data to populate map and table
-            window.location.pathname.split("/")[2].split("?")[0] !== "asn" ? this.getDataTopo(this.state.activeTabType) : null;
+            window.location.pathname.split("/")[2] && window.location.pathname.split("/")[2].split("?")[0] !== "asn" ? this.getDataTopo(this.state.activeTabType) : window.location.pathname.split("/").length === 2 ? this.getDataTopo(this.state.activeTabType) : null;
             this.getDataOutageSummary(this.state.activeTabType);
             this.getTotalOutages(this.state.activeTabType);
         });
