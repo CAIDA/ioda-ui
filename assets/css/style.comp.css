@@ -960,6 +960,8 @@ body {
   .table--event .table__header-col:nth-child(4),
   .table--event tr td:nth-child(4) {
     width: calc(10rem + 15px); }
+  .table--event tbody {
+    max-height: 49rem; }
   .table--alert {
     /* first col */ }
     .table--alert-critical {

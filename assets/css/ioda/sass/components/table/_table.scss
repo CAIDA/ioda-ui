@@ -37,7 +37,12 @@
     & tr td:nth-child(4) {
       width: calc(10rem + 15px);
     }
+
+    & tbody {
+      max-height: 49rem;
+    }
   }
+
   &--alert {
     /* first col */
     &-critical {
