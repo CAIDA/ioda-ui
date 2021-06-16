@@ -37,7 +37,12 @@
     & tr td:nth-child(4) {
       width: calc(10rem + 15px);
     }
+
+    & tbody {
+      max-height: 49rem;
+    }
   }
+
   &--alert {
     /* first col */
     &-critical {
@@ -79,6 +84,7 @@
       min-width: 18rem;
       display: flex;
       align-items: center;
+      height: 100%;
 
       & p {
         display: flex;
@@ -107,18 +113,19 @@
 
     & .table__header-col:nth-child(4),
     & tr td:nth-child(4) {
-      width: 10rem;
+      width: 11rem;
     }
 
     & .table__header-col:nth-child(5),
     & tr td:nth-child(5) {
-      width: calc(10rem + 15px);
+      width: calc(11rem + 15px);
     }
 
     & tbody {
-      max-height: 48rem;
+      max-height: 49rem;
     }
   }
+
   &--summary {
     & .table__scores--active {
       display: block;
@@ -179,7 +186,7 @@
         height: 100%;
         padding: 0.25rem;
         border: none;
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         font-weight: 700;
         display: flex;
         justify-content: left;
@@ -221,7 +228,7 @@
   }
 
   & td {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     text-align: left;
     position: relative;
     height: inherit;

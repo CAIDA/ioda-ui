@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import T from "i18n-react";
+import {convertSecondsToDateValues} from "../../utils";
+import TimeStamp from "../../components/timeStamp/TimeStamp";
 
 
 class DashboardTab extends Component {
@@ -53,10 +55,8 @@ class DashboardTab extends Component {
                                     : null
                             }
                         </div>
-                        <div className="tab__timestamp">
-                            {this.props.from.month} {this.props.from.day}, {this.props.from.year} {this.props.from.hours}:{this.props.from.minutes}{this.props.from.meridian} —
-                            {this.props.until.month} {this.props.until.day}, {this.props.until.year} {this.props.until.hours}:{this.props.until.minutes}{this.props.until.meridian}
-                        </div>
+                        <TimeStamp from={convertSecondsToDateValues(this.props.from)}
+                                   until={convertSecondsToDateValues(this.props.until)} />
                     </div>
                     <div className="col-1-of-3">
                         <div className="tab__table">
