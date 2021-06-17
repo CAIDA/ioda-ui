@@ -639,10 +639,6 @@ class Entity extends Component {
         const bgpLegendText = T.translate("entity.bgpLegendText");
         const darknetLegendText = T.translate("entity.darknetLegendText");
 
-        console.log(activeProbingValues);
-        console.log(bgpValues);
-        console.log(networkTelescopeValues);
-
         if (activeProbingValues) {
             activeProbing = {
                 type: "line",
@@ -732,6 +728,8 @@ class Entity extends Component {
                     min = Math.min(...datasource.values);
                     max = Math.max(...datasource.values);
                     absoluteMax.push(max);
+
+                    console.log(min, max);
 
                     datasource.values && datasource.values.map((value, index) => {
                         let x, y;
