@@ -639,6 +639,10 @@ class Entity extends Component {
         const bgpLegendText = T.translate("entity.bgpLegendText");
         const darknetLegendText = T.translate("entity.darknetLegendText");
 
+        console.log(activeProbingValues);
+        console.log(bgpValues);
+        console.log(networkTelescopeValues);
+
         if (activeProbingValues) {
             activeProbing = {
                 type: "line",
@@ -707,6 +711,7 @@ class Entity extends Component {
         let absoluteMaxY2 = 0;
 
         // Loop through available datasources to collect plot points
+        console.log()
         this.state.tsDataRaw[0].map(datasource => {
             let min, max;
             switch (datasource.datasource) {
@@ -764,9 +769,10 @@ class Entity extends Component {
         }
 
         // get time span considered, using network telescope first as that data source has the most up to time data, then Ping-slash24, then bgp
-        const timeBegin = networkTelescopeValues[0].x;
-        const timeEnd = networkTelescopeValues[networkTelescopeValues.length -1].x;
-        // Add 5% padding to the right edge of the Chart
+        const timeBegin = networkTelescopeValues[0] ? networkTelescopeValues[0].x : activeProbingValues[0] ? activeProbingValues[0].x : bgpValues[0].x;
+        const timeEnd = networkTelescopeValues[networkTelescopeValues.length -1] ? networkTelescopeValues[networkTelescopeValues.length -1].x :
+            activeProbingValues[activeProbingValues.length -1] ? activeProbingValues[activeProbingValues.length -1].x : bgpValues[activeProbingValues.length -1].x;
+        // Add 1% padding to the right edge of the Chart
         const extraPadding = (timeEnd - timeBegin) * 0.01;
         const viewportMaximum = new Date(timeEnd.getTime() + extraPadding);
 
@@ -847,20 +853,23 @@ class Entity extends Component {
                             e.dataSeries.visible = true;
                         }
                         // track state of which series are visible
+                        const activeProbingLegendText = T.translate("entity.activeProbingLegendText");
+                        const bgpLegendText = T.translate("entity.bgpLegendText");
+                        const darknetLegendText = T.translate("entity.darknetLegendText");
                         switch (e.dataSeries.name) {
-                            case "Active Probing":
+                            case activeProbingLegendText:
                                 this.setState({ tsDataSeriesVisiblePingSlash24: e.dataSeries.visible }, e.chart.render());
                                 break;
-                            case "BGP":
+                            case bgpLegendText:
                                 this.setState({ tsDataSeriesVisibleBgp: e.dataSeries.visible }, e.chart.render());
                                 break;
-                            case "Network Telescope":
+                            case darknetLegendText:
                                 this.setState({ tsDataSeriesVisibleUcsdNt: e.dataSeries.visible }, e.chart.render());
                                 break;
                         }
                     }
                 },
-                data: this.createXyVizDataObject(networkTelescopeValues, bgpValues, activeProbingValues)
+                data: this.createXyVizDataObject(networkTelescopeValues.length > 1 ? networkTelescopeValues : [], bgpValues.length > 1 ? bgpValues : [], activeProbingValues.length > 1 ? activeProbingValues : [])
             }
         }, () => {
             this.genXyChart();
