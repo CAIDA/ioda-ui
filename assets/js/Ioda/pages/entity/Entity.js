@@ -729,8 +729,6 @@ class Entity extends Component {
                     max = Math.max(...datasource.values);
                     absoluteMax.push(max);
 
-                    console.log(min, max);
-
                     datasource.values && datasource.values.map((value, index) => {
                         let x, y;
                         x = toDateTime(datasource.from + (datasource.step * index));
