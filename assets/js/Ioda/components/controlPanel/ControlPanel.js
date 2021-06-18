@@ -20,6 +20,8 @@ import {
 // Time Picker Dependencies
 import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
 import iconCalendar from 'images/icons/icon-calendar.png';
+// Tooltip Component
+import Tooltip from "../../components/tooltip/Tooltip";
 
 class ControlPanel extends Component {
     constructor(props) {
@@ -414,6 +416,10 @@ class ControlPanel extends Component {
                     </div>
                     <div className="range__container">
                         <T.p text={"controlPanel.timeRange"} className="range__label"/>
+                        <Tooltip
+                            title="Time Range"
+                            text="This dropdown menu allows you to pick the time range for the data you want to inspect. Note that the dashboard limits the data to one month."
+                        />
                         <div className="range">
                             <button className="range__input" onClick={() => this.handleRangeDisplay()}>
                                 <div className="range__calendar">
