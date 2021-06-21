@@ -34,6 +34,18 @@
       margin-bottom: 1.5rem;
       align-items: center;
 
+      &-heading {
+        display: flex;
+
+        & .heading-h3 {
+          margin-right: 0.5rem;
+        }
+
+        & .help {
+          height: 2.3rem;
+        }
+      }
+
       &-button {
         @include button;
         height: 3rem;
@@ -137,6 +149,18 @@
       flex-direction: row;
       justify-content: space-between;
       margin-bottom: 1.5rem;
+
+      &-title {
+        display: flex;
+
+        & .heading-h3 {
+          margin-right: 0.5rem;
+        }
+
+        & .help {
+          height: 2.6rem;
+        }
+      }
     }
 
     &__no-outages {

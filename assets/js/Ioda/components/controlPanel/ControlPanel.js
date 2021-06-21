@@ -232,6 +232,11 @@ class ControlPanel extends Component {
         const apply = T.translate("controlPanel.apply");
         const cancel = T.translate("controlPanel.cancel");
 
+        const tooltipSearchBarTitle = T.translate("tooltip.searchBar.title");
+        const tooltipSearchBarText = T.translate("tooltip.searchBar.text");
+        const tooltipTimeRangeTitle = T.translate("tooltip.timeRange.title");
+        const tooltipTimeRangeText = T.translate("tooltip.timeRange.text");
+
         // date functions for predefined static ranges
         const defineds = {
             oneHourAgo: new Date(new Date().getTime() - (1000*60*60)),
@@ -410,16 +415,25 @@ class ControlPanel extends Component {
                 `}</Style>
                 <div className="col-1-of-3">
                     <div className="searchbar">
+                        <div className="searchbar__heading">
+                            <T.p text={"controlPanel.searchBarPlaceholder"} className="searchbar__label"/>
+                            <Tooltip
+                                title={tooltipSearchBarTitle}
+                                text={tooltipSearchBarText}
+                            />
+                        </div>
                         {
                             this.props.searchbar()
                         }
                     </div>
                     <div className="range__container">
-                        <T.p text={"controlPanel.timeRange"} className="range__label"/>
-                        <Tooltip
-                            title="Time Range"
-                            text="This dropdown menu allows you to pick the time range for the data you want to inspect. Note that the dashboard limits the data to one month."
-                        />
+                        <div className="range__heading">
+                            <T.p text={"controlPanel.timeRange"} className="range__label"/>
+                            <Tooltip
+                                title={tooltipTimeRangeTitle}
+                                text={tooltipTimeRangeText}
+                            />
+                        </div>
                         <div className="range">
                             <button className="range__input" onClick={() => this.handleRangeDisplay()}>
                                 <div className="range__calendar">

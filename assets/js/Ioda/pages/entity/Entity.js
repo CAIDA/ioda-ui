@@ -46,6 +46,7 @@ import TopoMap from "../../components/map/Map";
 import * as topojson from 'topojson';
 import * as d3 from "d3-shape";
 import DashboardTab from "../dashboard/DashboardTab";
+import Tooltip from "../../components/tooltip/Tooltip";
 
 
 class Entity extends Component {
@@ -1958,6 +1959,11 @@ class Entity extends Component {
         const xyChartAlertToggleLabel = T.translate("entity.xyChartAlertToggleLabel");
         const xyChartNormalizedToggleLabel = T.translate("entity.xyChartNormalizedToggleLabel");
 
+        const tooltipXyPlotTimeSeriesTitle = T.translate("tooltip.xyPlotTimeSeriesTitle.title");
+        const tooltipXyPlotTimeSeriesText = T.translate("tooltip.xyPlotTimeSeriesTitle.text");
+        const tooltipAlertFeedTitle = T.translate("tooltip.alertFeed.title");
+        const tooltipAlertFeedText = T.translate("tooltip.alertFeed.text");
+
         return(
             <div className="entity">
                 <ControlPanel
@@ -1971,10 +1977,16 @@ class Entity extends Component {
                 <div className="row overview">
                     <div className="col-3-of-5">
                         <div className="overview__config" ref={this.config}>
-                            <h3 className="heading-h3">
-                                {xyChartTitle}
-                                {this.state.entityName}
-                            </h3>
+                            <div className="overview__config-heading">
+                                <h3 className="heading-h3">
+                                    {xyChartTitle}
+                                    {this.state.entityName}
+                                </h3>
+                                <Tooltip
+                                    title={tooltipXyPlotTimeSeriesTitle}
+                                    text={tooltipXyPlotTimeSeriesText}
+                                />
+                            </div>
                             <div className="overview__buttons">
                                 <ToggleButton
                                     selected={this.state.tsDataDisplayOutageBands}
@@ -1998,13 +2010,18 @@ class Entity extends Component {
                             <TimeStamp from={convertSecondsToDateValues(this.state.from)}
                                        until={convertSecondsToDateValues(this.state.until)} />
                         </div>
-
                     </div>
                     <div className="col-2-of-5">
                         <div className="overview__table-config">
-                            <h3 className="heading-h3">
-                                {this.state.currentTable === 'event' ? `${eventFeedTitle} ${this.state.entityName}` : `${alertFeedTitle} ${this.state.entityName}`}
-                            </h3>
+                            <div className="overview__config-heading">
+                                <h3 className="heading-h3">
+                                    {this.state.currentTable === 'event' ? `${eventFeedTitle} ${this.state.entityName}` : `${alertFeedTitle} ${this.state.entityName}`}
+                                </h3>
+                                <Tooltip
+                                    title={tooltipAlertFeedTitle}
+                                    text={tooltipAlertFeedText}
+                                />
+                            </div>
                             <button className="overview__config-button"
                                     onClick={() => this.changeCurrentTable()}
                                     style={this.props.type === 'asn' ? {display: 'none'} : null}

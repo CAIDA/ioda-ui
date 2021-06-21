@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import T from "i18n-react";
 import {convertSecondsToDateValues} from "../../utils";
 import TimeStamp from "../../components/timeStamp/TimeStamp";
+import Tooltip from "../../components/tooltip/Tooltip";
 
 
 class DashboardTab extends Component {
@@ -17,18 +18,27 @@ class DashboardTab extends Component {
         const viewChangeIconAltTextHts = T.translate("dashboard.viewChangeIconAltTextHts");
         const viewChangeIconAltTextMap = T.translate("dashboard.viewChangeIconAltTextMap");
 
+        const tooltipDashboardHeadingTitle = T.translate("tooltip.dashboardHeading.title");
+        const tooltipDashboardHeadingText = T.translate("tooltip.dashboardHeading.text");
+
         return(
             <div className="tab">
                 <div className="row">
                     <div className="col-2-of-3">
                         <div className="tab__config" ref={this.config}>
-                            <h2 className="heading-h2">
-                                {
-                                    this.props.type === 'country' ? countryOutages :
-                                    this.props.type === 'region' ? regionalOutages :
-                                    this.props.type === 'asn' ? asnOutages : null
-                                }
-                            </h2>
+                            <div className="tab__heading">
+                                <h2 className="heading-h2">
+                                    {
+                                        this.props.type === 'country' ? countryOutages :
+                                            this.props.type === 'region' ? regionalOutages :
+                                                this.props.type === 'asn' ? asnOutages : null
+                                    }
+                                </h2>
+                                <Tooltip
+                                    title={tooltipDashboardHeadingTitle}
+                                    text={tooltipDashboardHeadingText}
+                                />
+                            </div>
                             <button className="tab__config-button"
                                     onClick={() => this.props.handleTabChangeViewButton()}
                                     style={this.props.type === 'asn' ? {display: 'none'} : null}
@@ -37,7 +47,6 @@ class DashboardTab extends Component {
                                     this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts
                                 }
                             </button>
-                            {/*<button className="tab__config-button">Modal</button>*/}
                         </div>
                         {
                             this.props.type !== "asn"

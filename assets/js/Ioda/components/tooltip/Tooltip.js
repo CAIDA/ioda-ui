@@ -64,7 +64,7 @@ class Tooltip extends Component {
 export default Tooltip;
 
 Tooltip.propTypes = {
-    title: PropTypes.string.required,
+    title: PropTypes.string,
     text: PropTypes.string,
     customCode: PropTypes.element
 };

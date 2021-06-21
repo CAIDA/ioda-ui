@@ -1,12 +1,14 @@
 .help {
   position: relative;
+  display: flex;
+  align-items: center;
 
   &__button {
     @include button;
     border-radius: 3rem;
-    font-size: 1.1rem;
-    padding: 0 0.5rem;
-    height: 1.5rem;
+    font-size: 1rem;
+    padding: 0 0.4rem;
+    height: 1.3rem;
     margin: 0;
 
     &:hover {
@@ -16,16 +18,16 @@
 
   &__modal {
     position: absolute;
-    z-index: 10002;
+    z-index: 9999;
     background: $color-white;
     border-radius: 0.3rem;
     box-shadow: $box-shadow;
     flex-direction: column;
-    max-width: 24rem;
+    width: 24rem;
     font-size: 1.2rem;
     color: $color-primary;
     border: 0.1rem solid #b3b3b3;
-    transform: translateY(-50%) translateY(-0.75rem);
+    //transform: translateY(-50%) translateY(-0.75rem);
     left: 3rem;
 
     &-content {
