@@ -91,6 +91,14 @@
         }
       }
 
+      &__heading {
+        display: flex;
+
+        & .heading-h2 {
+          margin-right: 1rem;
+        }
+      }
+
       &__map {
         height: 45.1rem;
       }

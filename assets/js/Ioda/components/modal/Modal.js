@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import T from 'i18n-react';
 import Loading from "../../components/loading/Loading";
 import LoadingIcon from 'images/icons/icon-loading.png';
+import Tooltip from "../tooltip/Tooltip";
 
 class Modal extends Component {
     constructor(props) {
@@ -77,19 +78,27 @@ class Modal extends Component {
         const loadRemainingEntities3 = T.translate("entityModal.loadRemainingEntities3");
         const loadRemainingEntities4 = T.translate("entityModal.loadRemainingEntities4");
         const loadRemainingEntities5 = T.translate("entityModal.loadRemainingEntities5");
+        const tooltipEntityRawSignalsHeadingTitle = T.translate("tooltip.entityRawSignalsHeading.title");
+        const tooltipEntityRawSignalsHeadingText = T.translate("tooltip.entityRawSignalsHeading.text");
 
         return(
             <div className="modal">
                 <div className="modal__background"></div>
                 <div className="modal__window">
                     <div className="modal__heading">
-                        {
-                            this.props.modalLocation === 'map'
-                                ? <h2 className="heading-h2">{regionTitle} {this.props.entityName}</h2>
-                                : this.props.modalLocation === 'table'
-                                ? <h2 className="heading-h2">{asnTitle} {this.props.entityName}</h2>
-                                : null
-                        }
+                        <div className="modal__heading-title">
+                            {
+                                this.props.modalLocation === 'map'
+                                    ? <h2 className="heading-h2">{regionTitle} {this.props.entityName}</h2>
+                                    : this.props.modalLocation === 'table'
+                                    ? <h2 className="heading-h2">{asnTitle} {this.props.entityName}</h2>
+                                    : null
+                            }
+                            <Tooltip
+                                title={tooltipEntityRawSignalsHeadingTitle}
+                                text={tooltipEntityRawSignalsHeadingText}
+                            />
+                        </div>
                         <button className="modal__button" onClick={() => this.props.toggleModal(this.props.modalLocation)}>
                             ×
                         </button>

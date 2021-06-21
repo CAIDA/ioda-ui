@@ -30,6 +30,32 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 1.5rem;
+
+    &-title {
+      display: flex;
+
+      & .heading-h2 {
+        margin-right: 0.5rem;
+      }
+
+      & .help__modal {
+        top: 0;
+
+        &-content {
+
+          &:before {
+            top: 1.3rem;
+            background: $color-table-row-odd;
+          }
+
+          &:after {
+            top: 0;
+            background: $color-table-row-odd;
+            transform: translateY(0);
+          }
+        }
+      }
+    }
   }
 
   &__button {

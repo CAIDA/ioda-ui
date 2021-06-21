@@ -141,5 +141,39 @@
     "alertNoOutagesMessage": "No data available in table",
     "summaryNoOutagesMessage": "No data available in table",
     "signalNoOutagesMessage": "No data available in table"
+  },
+  "tooltip": {
+    "timeRange": {
+      "title": "Time Range",
+      "text": "This dropdown menu allows you to pick the time range for the data you want to inspect. Note that the dashboard limits the data to one month."
+      },
+    "searchBar": {
+      "title": "Search",
+      "text": "This search bar allows for a quick navigation to a specific country, region, or ASN/ISP."
+    },
+    "dashboardHeading": {
+      "title": "Granularity Levels",
+      "text": "IODA can detect outages at three levels of granularity: countries, regions, and ASNs/ISPs"
+    },
+    "xyPlotTimeSeriesTitle": {
+      "title": "IODA Signals",
+      "text": "This panel allows you to inspect the time series of IODA's three signals: active probing, BGP, and the darknet."
+    },
+    "alertFeed": {
+      "title": "Alert Feed",
+      "text": "This table contains potential outages that IODA discovered. The cause of an outage can be manifold and includes misconfiguration, natural disasters, and shutdowns."
+    },
+    "entityRegionalSummaryMap": {
+      "title": "Outage Severity Levels",
+      "text": "This map shows potential regional outages by their relative severity. The more severe the outage, the more red the respective region overlay."
+    },
+    "entityAsnSummaryTable": {
+      "title": "Outage Severity Levels",
+      "text": "This table shows potential ASN/ISP outages by their relative severity. The more severe the outage, the more red the respective table cell."
+    },
+    "entityRawSignalsHeading": {
+      "title": "Raw IODA Signals",
+      "text": "This visualization shows IODA's signals over time. The \"Stacked Horizon Graph\" turns from dark green to white as a signal decreases."
+    }
   }
 }
