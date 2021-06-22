@@ -123,7 +123,6 @@ class ControlPanel extends Component {
         });
     }
     handleRangeDisplay() {
-        console.log("here");
         this.setState({
             rangeInputVisibility: !this.state.rangeInputVisibility,
             customRangeVisible: false
