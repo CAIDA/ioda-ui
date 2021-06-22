@@ -270,9 +270,9 @@ class ControlPanel extends Component {
                 min: "mins",
                 hr: "hours",
                 day: "days",
-                wk: "weeks",
-                mon: "months",
-                yr: "years"
+                wk: "weeks"
+                // mon: "months",
+                // yr: "years"
             };
             let customInputHTML = <div className="range__dropdown-userInputRange">
                 Last
@@ -282,8 +282,8 @@ class ControlPanel extends Component {
                     <option value={selectOptions.hr}>{selectOptions.hr}</option>
                     <option value={selectOptions.day}>{selectOptions.day}</option>
                     <option value={selectOptions.wk}>{selectOptions.wk}</option>
-                    <option value={selectOptions.mon}>{selectOptions.mon}</option>
-                    <option value={selectOptions.yr}>{selectOptions.yr}</option>
+                    {/*<option value={selectOptions.mon}>{selectOptions.mon}</option>*/}
+                    {/*<option value={selectOptions.yr}>{selectOptions.yr}</option>*/}
                 </select>
             </div>;
             return [
@@ -324,13 +324,13 @@ class ControlPanel extends Component {
                         endDate: defineds.endOfToday
                     })
                 },
-                {
-                    label: "- 1 year",
-                    range: () => ({
-                        startDate: defineds.startOfLastThreeHundredSixtyFiveDay,
-                        endDate: defineds.endOfToday
-                    })
-                },
+                // {
+                //     label: "- 1 year",
+                //     range: () => ({
+                //         startDate: defineds.startOfLastThreeHundredSixtyFiveDay,
+                //         endDate: defineds.endOfToday
+                //     })
+                // },
                 {
                     label: "This Month",
                     range: () => ({
@@ -338,20 +338,20 @@ class ControlPanel extends Component {
                         endDate: defineds.endOfMonth
                     })
                 },
-                {
-                    label: "This Year",
-                    range: () => ({
-                        startDate: defineds.startOfYear,
-                        endDate: defineds.endOfYear
-                    })
-                },
-                {
-                    label: "Last Year",
-                    range: () => ({
-                        startDate: defineds.startOflastYear,
-                        endDate: defineds.endOflastYear
-                    })
-                },
+                // {
+                //     label: "This Year",
+                //     range: () => ({
+                //         startDate: defineds.startOfYear,
+                //         endDate: defineds.endOfYear
+                //     })
+                // },
+                // {
+                //     label: "Last Year",
+                //     range: () => ({
+                //         startDate: defineds.startOflastYear,
+                //         endDate: defineds.endOflastYear
+                //     })
+                // },
                 {
                     label: customInputHTML,
                     range: () => ({

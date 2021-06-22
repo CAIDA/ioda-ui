@@ -315,7 +315,7 @@ body {
   .control-panel .range__time {
     display: none;
     position: absolute;
-    bottom: 16rem;
+    bottom: 1rem;
     right: 1rem; }
     .control-panel .range__time--visible {
       display: block; }

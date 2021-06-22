@@ -149,7 +149,7 @@
   "tooltip": {
     "timeRange": {
       "title": "Time Range",
-      "text": "This dropdown menu allows you to pick the time range for the data you want to inspect. Note that the dashboard limits the data to one month."
+      "text": "This dropdown menu allows you to pick the time range for the data you want to inspect. Note that the dashboard limits the data to 35 days."
       },
     "searchBar": {
       "title": "Search",
