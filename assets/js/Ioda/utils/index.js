@@ -335,6 +335,7 @@ export function normalize(value, min, max) {
     return value !== null && (!isNaN((value - min) / (max - min))) ? (value - min) / (max - min) * 100 : 100;
 }
 
+// Used in the error message displaying current time request when time range limit is exceeded
 export function secondsToDhms(seconds) {
     seconds = Number(seconds);
     var d = Math.floor(seconds / (3600*24));
