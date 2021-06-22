@@ -2391,6 +2391,8 @@ button[class*="searchButton"] {
       height: auto; }
       .dashboard .tabs .tab .row {
         padding: 2.5rem; }
+      .dashboard .tabs .tab__error {
+        font-size: 1.3rem; }
       .dashboard .tabs .tab__config {
         display: flex;
         flex-direction: row;
@@ -2462,7 +2464,7 @@ button[class*="searchButton"] {
   margin: 4rem 4.5rem 0; }
   .entity .col-1-of-3 {
     position: relative; }
-  .entity .overview .col-3-of-5, .entity .overview .col-2-of-5 {
+  .entity .overview .col-3-of-5, .entity .overview .col-2-of-5, .entity .overview__time-range-error {
     background-color: #fff;
     border-bottom-right-radius: 0.3rem;
     border-bottom-left-radius: 0.3rem;
@@ -2470,6 +2472,10 @@ button[class*="searchButton"] {
     min-height: 65rem;
     box-shadow: 0 1px 2px #9F9D9D;
     padding: 2.5rem; }
+  .entity .overview__time-range-error {
+    min-height: 6rem;
+    margin-bottom: 4.5rem;
+    font-size: 1.3rem; }
   @media only screen and (max-width: 80em) {
     .entity .overview .col-3-of-5 {
       width: 100%; }

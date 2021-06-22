@@ -76,6 +76,10 @@
         padding: $gutter-vertical-small;
       }
 
+      &__error {
+        font-size: 1.3rem;
+      }
+
       &__config {
         display: flex;
         flex-direction: row;

@@ -35,7 +35,8 @@
     "asnOutages": "ASN/ISP Outages",
     "asnTabTitle": "ASN/ISP View",
     "viewChangeIconAltTextHts": "Stacked Horizon View",
-    "viewChangeIconAltTextMap": "Map View"
+    "viewChangeIconAltTextMap": "Map View",
+    "timeDurationTooHighErrorMessage": "Time duration must be less than 35 days on the dashboard. Current request is for "
   },
   "entity": {
     "pageTitle": "Outage Severity Overview",
@@ -55,7 +56,10 @@
     "eventFeedTitle": "Event Feed for ",
     "alertFeedTitle": "Alert Feed for ",
     "regionalModalButtonText": "Regional Raw Signals",
-    "asnModalButtonText": "ASN/ISP Raw Signals"
+    "asnModalButtonText": "ASN/ISP Raw Signals",
+    "regionalSectionTitleCountryType": "Regional Outages in ",
+    "regionalSectionTitleRegionType": "Other Regions Affected in ",
+    "regionalSectionTitleAsnType": "Regional Outages related to "
   },
   "controlPanel": {
     "timeRange": "Select a Time Range",

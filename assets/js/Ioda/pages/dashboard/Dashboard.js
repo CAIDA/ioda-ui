@@ -26,7 +26,7 @@ import {
     humanizeNumber,
     convertTsDataForHtsViz,
     dateRangeToSeconds,
-    convertSecondsToDateValues
+    convertSecondsToDateValues, secondsToDhms
 } from "../../utils";
 import Loading from "../../components/loading/Loading";
 import * as d3 from 'd3-shape';
@@ -84,6 +84,7 @@ class Dashboard extends Component {
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.handleEntityShapeClick = this.handleEntityShapeClick.bind(this);
         this.apiQueryLimit = 170;
+        this.timeRangeLimit = 3024001;
     }
 
     componentDidMount() {
@@ -99,18 +100,19 @@ class Dashboard extends Component {
         this.setState({
             mounted: true,
         },() => {
-            // Set initial tab to load
-            this.handleSelectTab(this.tabs[this.props.match.params.tab]);
+            if (this.state.until - this.state.from < this.timeRangeLimit) {
+                // Set initial tab to load
+                this.handleSelectTab(this.tabs[this.props.match.params.tab]);
+                // Get topo and outage data to populate map and table
+                window.location.pathname.split("/")[2] && window.location.pathname.split("/")[2].split("?")[0] !== "asn" ?
+                    this.getDataTopo(this.state.activeTabType) :
+                    window.location.pathname.split("/").length === 2 ? this.getDataTopo(this.state.activeTabType) :
+                        window.location.pathname.split("/").length === 3 && window.location.pathname.split("/")[2] === "" ? this.getDataTopo(this.state.activeTabType) :
+                            null;
 
-            // Get topo and outage data to populate map and table
-            window.location.pathname.split("/")[2] && window.location.pathname.split("/")[2].split("?")[0] !== "asn" ?
-                this.getDataTopo(this.state.activeTabType) :
-                window.location.pathname.split("/").length === 2 ? this.getDataTopo(this.state.activeTabType) :
-                    window.location.pathname.split("/").length === 3 && window.location.pathname.split("/")[2] === "" ? this.getDataTopo(this.state.activeTabType) :
-                    null;
-
-            this.getDataOutageSummary(this.state.activeTabType);
-            this.getTotalOutages(this.state.activeTabType);
+                this.getDataOutageSummary(this.state.activeTabType);
+                this.getTotalOutages(this.state.activeTabType);
+            }
         });
 
 
@@ -326,7 +328,9 @@ class Dashboard extends Component {
             const includeMetadata = true;
             // let page = null;
             const entityCode = null;
-            this.props.searchSummaryAction(from, until, entityType, entityCode, limit, page, includeMetadata);
+            if (until - from < this.timeRangeLimit) {
+                this.props.searchSummaryAction(from, until, entityType, entityCode, limit, page, includeMetadata);
+            }
         }
     }
     getTotalOutages(entityType) {
@@ -517,7 +521,6 @@ class Dashboard extends Component {
     render() {
         let { tab, activeTab } = this.state;
         const title = T.translate("entity.pageTitle");
-
         return(
             <div className="dashboard">
                 <ControlPanel
@@ -529,6 +532,7 @@ class Dashboard extends Component {
                     history={this.props.history}
                 />
                 <div className="row tabs">
+
                     <div className="col-1-of-1">
                         <Tabs
                             tabOptions={tabOptions}
@@ -537,7 +541,7 @@ class Dashboard extends Component {
                         />
                         {
                             tab === this.countryTab
-                                ? this.state.topoData
+                                ? this.state.topoData || this.state.until - this.state.from > this.timeRangeLimit
                                 ? <DashboardTab
                                     type={this.state.activeTabType}
                                     populateGeoJsonMap={() => this.populateGeoJsonMap()}
@@ -549,11 +553,11 @@ class Dashboard extends Component {
                                     until={this.state.until}
                                 />
                                 : <Loading/>
-                                :null
+                                : null
                         }
                         {
                             tab === this.regionTab
-                                ? this.state.topoData
+                                ? this.state.topoData || this.state.until - this.state.from > this.timeRangeLimit
                                 ? <DashboardTab
                                     type={this.state.activeTabType}
                                     populateGeoJsonMap={() => this.populateGeoJsonMap()}
@@ -565,23 +569,22 @@ class Dashboard extends Component {
                                     until={this.state.until}
                                 />
                                 : <Loading/>
-                                :null
+                                : null
                         }
                         {
                             tab === this.asnTab
-                                ? this.state.eventDataProcessed
+                                ? this.state.eventDataProcessed || this.state.until - this.state.from > this.timeRangeLimit
                                 ? <DashboardTab
                                     type={this.state.activeTabType}
                                     genSummaryTable={() => this.genSummaryTable()}
                                     populateHtsChart={(width) => this.populateHtsChart(width)}
                                     handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
                                     tabCurrentView={this.state.tabCurrentView}
-                                    from={convertSecondsToDateValues(this.state.from)}
-                                    until={convertSecondsToDateValues(this.state.until)}
+                                    from={this.state.from}
+                                    until={this.state.until}
                                 />
                                 : <Loading/>
-                                :null
-
+                                : null
                         }
                     </div>
                 </div>
