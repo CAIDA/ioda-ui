@@ -217,7 +217,7 @@ class ControlPanel extends Component {
         history.push(
             window.location.search.split("?")[1]
                 ? `/dashboard?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
-                : `/dashboard/`
+                : `/dashboard`
         );
     }
 
