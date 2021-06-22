@@ -88,7 +88,6 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
-        console.log("update5");
         // Check if time parameters are provided
         let timeEntryInUrl = window.location.pathname.split("?");
         if (timeEntryInUrl[1]){
@@ -522,7 +521,6 @@ class Dashboard extends Component {
     render() {
         let { tab, activeTab } = this.state;
         const title = T.translate("entity.pageTitle");
-        const timeDurationTooHighErrorMessage = T.translate("dashboard.timeDurationTooHighErrorMessage");
         return(
             <div className="dashboard">
                 <ControlPanel

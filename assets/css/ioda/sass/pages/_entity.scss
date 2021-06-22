@@ -7,7 +7,7 @@
   }
 
   .overview {
-    .col-3-of-5, .col-2-of-5 {
+    .col-3-of-5, .col-2-of-5, &__time-range-error {
       background-color: $color-white;
       border-bottom-right-radius: 0.3rem;
       border-bottom-left-radius: 0.3rem;
@@ -15,6 +15,12 @@
       min-height: 65rem;
       box-shadow: $box-shadow;
       padding: $gutter-vertical-small;
+    }
+
+    &__time-range-error {
+      min-height: 6rem;
+      margin-bottom: $gutter-vertical;
+      font-size: 1.3rem;
     }
 
     @include respond(tab-land) {
