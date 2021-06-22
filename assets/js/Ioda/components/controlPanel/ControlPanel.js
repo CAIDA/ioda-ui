@@ -22,6 +22,7 @@ import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
 import iconCalendar from 'images/icons/icon-calendar.png';
 // Tooltip Component
 import Tooltip from "../../components/tooltip/Tooltip";
+import ReactDOM from "react-dom";
 
 class ControlPanel extends Component {
     constructor(props) {
@@ -48,6 +49,15 @@ class ControlPanel extends Component {
             userInputRangeSelect: "days"
         };
         this.handleUserInputRange = this.handleUserInputRange.bind(this);
+        this.timeRangeContainer = React.createRef();
+    }
+
+    componentDidMount() {
+        document.addEventListener('click', event => this.handleClickOffTimeRange(event));
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('click', event => this.handleClickOffTimeRange(event));
     }
 
     componentDidUpdate(nextProps, nextState) {
@@ -113,8 +123,17 @@ class ControlPanel extends Component {
         });
     }
     handleRangeDisplay() {
+        console.log("here");
         this.setState({
             rangeInputVisibility: !this.state.rangeInputVisibility,
+            customRangeVisible: false
+        })
+    }
+    // detect when a click occurs outside of the time range to close it
+    handleClickOffTimeRange(event) {
+        if (this.timeRangeContainer && !this.timeRangeContainer.current.contains(event.target))
+        this.setState({
+            rangeInputVisibility: false,
             customRangeVisible: false
         })
     }
@@ -426,7 +445,7 @@ class ControlPanel extends Component {
                             this.props.searchbar()
                         }
                     </div>
-                    <div className="range__container">
+                    <div className="range__container" ref={this.timeRangeContainer}>
                         <div className="range__heading">
                             <T.p text={"controlPanel.timeRange"} className="range__label"/>
                             <Tooltip
