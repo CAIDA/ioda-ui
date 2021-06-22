@@ -13,6 +13,9 @@ class EntityRelated extends Component {
     render() {
         const regionalModalButtonText = T.translate("entity.regionalModalButtonText");
         const asnModalButtonText = T.translate("entity.asnModalButtonText");
+        const regionalSectionTitleCountryType = T.translate("entity.regionalSectionTitleCountryType");
+        const regionalSectionTitleRegionType = T.translate("entity.regionalSectionTitleRegionType");
+        const regionalSectionTitleAsnType = T.translate("entity.regionalSectionTitleAsnType");
 
         const tooltipEntityRegionalSummaryMapTitle = T.translate("tooltip.entityRegionalSummaryMap.title");
         const tooltipEntityRegionalSummaryMapText = T.translate("tooltip.entityRegionalSummaryMap.text");
@@ -21,7 +24,6 @@ class EntityRelated extends Component {
 
         return(
             <div className="row related">
-
                 {/* Region Panel */}
                 <div className="col-1-of-2">
                     <div className="related__heading">
@@ -29,11 +31,11 @@ class EntityRelated extends Component {
                             <h3 className="heading-h3">
                                 {
                                     this.props.entityType === 'country'
-                                        ? `Regional Outages in ${this.props.entityName}`
+                                        ? `${regionalSectionTitleCountryType} ${this.props.entityName}`
                                         : this.props.entityType === 'region'
-                                        ? `Other Regions Affected in ${this.props.parentEntityName}`
+                                        ? `${regionalSectionTitleRegionType} ${this.props.parentEntityName}`
                                         : this.props.entityType === 'asn'
-                                            ? `Regional Outages Related to ${this.props.entityName}`
+                                            ? `${regionalSectionTitleAsnType} ${this.props.entityName}`
                                             : null
                                 }
                             </h3>
@@ -42,10 +44,6 @@ class EntityRelated extends Component {
                                 text={tooltipEntityRegionalSummaryMapText}
                             />
                         </div>
-
-
-
-
                         <div className="related__modal--region related__modal">
                             <button className="related__modal-button" onClick={() => this.props.toggleModal("map")}>
                                 {regionalModalButtonText}
