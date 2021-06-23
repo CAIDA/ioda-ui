@@ -77,6 +77,17 @@
     justify-content: center;
     align-items: center;
     font-size: 2.4rem;
+
+    &--table {
+      @include button;
+      height: 2.2rem;
+      font-size: 1rem;
+      margin: 0;
+
+      &:first-child {
+        margin-right: 1rem;
+      }
+    }
   }
 
   &__loadAll {
@@ -102,8 +113,17 @@
   &__table {
     margin-bottom: 1.5rem;
 
+    &-heading {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &-buttons {
+      display: flex;
+    }
+
     & tbody {
-      max-height: 41rem;
+      max-height: 35rem;
     }
 
     &-container {
