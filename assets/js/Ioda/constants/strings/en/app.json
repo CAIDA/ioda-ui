@@ -127,9 +127,11 @@
     },
     "signalHeaders": {
       "visibility": "",
-      "name": "Name",
+      "nameCountry": "Country",
+      "nameRegion": "Region",
+      "nameAsn": "Asn",
       "ipCount": "IP Count",
-      "score": "Score"
+      "score": "Outage Score"
     },
     "unsortedIconAltText": "Unsorted",
     "scoresTable": {

@@ -48,12 +48,12 @@ class Table extends Component {
         };
         this.signalHeaders = {
             visibility: "",
-            name: T.translate("table.signalHeaders.name"),
+            name: T.translate("table.signalHeaders.nameRegion"),
             score: T.translate("table.signalHeaders.score")
         };
         this.signalHeadersAsn = {
             visibility: "",
-            name: T.translate("table.signalHeaders.name"),
+            name: this.props.entityType === "asn" ? T.translate("table.signalHeaders.nameAsn") : T.translate("table.signalHeaders.nameCountry"),
             ipCount: T.translate("table.signalHeaders.ipCount"),
             score: T.translate("table.signalHeaders.score")
         };
