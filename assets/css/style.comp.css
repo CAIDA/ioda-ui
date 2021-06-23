@@ -1995,7 +1995,19 @@ body {
 .modal__loadAll {
   display: flex;
   align-items: center;
-  height: 3rem; }
+  height: 3rem;
+  margin-top: -1.5rem; }
+  .modal__loadAll-button {
+    border: none;
+    color: #5899AE;
+    font-weight: 700;
+    text-decoration: none;
+    padding-bottom: 2px;
+    margin-bottom: 1px;
+    background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+    background-size: 100% 2px;
+    /* controls underline thickness */
+    cursor: pointer; }
   .modal__loadAll strong {
     padding: 0 0.3rem; }
   .modal__loadAll-spinner {
@@ -2015,6 +2027,8 @@ body {
     display: flex; }
   .modal__table tbody {
     max-height: 35rem; }
+  .modal__table--asn tbody {
+    max-height: 88rem; }
   .modal__table-container {
     background-color: #fff;
     border-radius: 0.3rem;

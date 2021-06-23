@@ -80,7 +80,7 @@ class Modal extends Component {
         const loadRemainingEntities5 = T.translate("entityModal.loadRemainingEntities5");
         const tooltipEntityRawSignalsHeadingTitle = T.translate("tooltip.entityRawSignalsHeading.title");
         const tooltipEntityRawSignalsHeadingText = T.translate("tooltip.entityRawSignalsHeading.text");
-
+        
         return(
             <div className="modal">
                 <div className="modal__background"></div>
@@ -104,14 +104,25 @@ class Modal extends Component {
                                 ×
                             </button>
                         </div>
-                        <p className="modal__hts-count">
-                            {currentCountInHts1}
-                            {this.props.regionalSignalsTableEntitiesChecked}
-                            {this.props.regionalSignalsTableEntitiesChecked === 1 ? regionSingular : regionPlural}
-                            {currentCountInHts2}
-                            {regionSingular}
-                            {currentCountInHts3}
-                        </p>
+                        {
+                            this.props.modalLocation === "map" ? <p className="modal__hts-count">
+                                    {currentCountInHts1}
+                                    {this.props.regionalSignalsTableEntitiesChecked}
+                                    {this.props.regionalSignalsTableEntitiesChecked === 1 ? regionSingular : regionPlural}
+                                    {currentCountInHts2}
+                                    {regionSingular}
+                                    {currentCountInHts3}
+                                </p> :
+                                <p className="modal__hts-count">
+                                    {currentCountInHts1}
+                                    {this.props.asnSignalsTableEntitiesChecked}
+                                    {this.props.asnSignalsTableEntitiesChecked === 1 ? asnSingular : asnPlural}
+                                    {currentCountInHts2}
+                                    {asnSingular}
+                                    {currentCountInHts3}
+                                </p>
+                        }
+
                     </div>
                     {
                         this.props.modalLocation === 'map'
@@ -167,7 +178,7 @@ class Modal extends Component {
                                         </div>
                                         <div className="modal__map-container">
                                             <h3 className="heading-h3">{regionalMapTitle}</h3>
-                                            <div className="modal__map" style={{display: 'block', height: '47.5rem'}}>
+                                            <div className="modal__map" style={{display: 'block', height: '38rem'}}>
                                                 {
                                                     this.props.summaryDataMapRaw
                                                         ? this.props.summaryDataMapRaw.length > 0
@@ -232,58 +243,55 @@ class Modal extends Component {
                             ? <div className="modal__content">
                                 <div className="row">
                                     <div className="col-1-of-3">
-                                        <h3 className="heading-h3">{asnTableTitle}</h3>
-                                        {
-                                            this.props.asnSignalsTableTotalCount > this.props.initialTableLimit && this.props.asnRawSignalsLoadAllButtonClicked === false
-                                            ? <div className="modal__loadAll">
-                                                    {loadRemainingEntities1}
-                                                    {asnPlural}
-                                                    {loadRemainingEntities2}
-                                                    <strong>{this.props.initialTableLimit}</strong>
-                                                    {loadRemainingEntities3}
+                                        <div className="modal__table-container">
+                                            <div className="modal__table-heading">
+                                                <h3 className="heading-h3">{asnTableTitle}</h3>
+                                                <div className="modal__table-buttons">
                                                     {
-                                                        this.state.additionalEntitiesLoading
-                                                            ? <img src={LoadingIcon} className="modal__loadAll-spinner" alt="Loading"/>
-                                                            : <button className="modal__text-link" name="asnLoadAllEntities" onClick={event => this.handleAdditionalEntitiesLoading(event)}>
-                                                                {loadRemainingEntities4}
+                                                        this.props.checkMaxButtonLoading ? <img src={LoadingIcon} className="modal__loadAll-spinner" alt="Loading"/>
+                                                            : <button className="modal__button--table" name="checkMaxAsn" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
+                                                                {checkMaxButton}
                                                             </button>
                                                     }
-                                                    {loadRemainingEntities5}
+                                                    {
+                                                        this.props.uncheckAllButtonLoading ? <img src={LoadingIcon} className="modal__loadAll-spinner" alt="Loading"/>
+                                                            : <button className="modal__button--table" name="uncheckAllAsn" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
+                                                                {uncheckAllButton}
+                                                            </button>
+                                                    }
                                                 </div>
-                                            : null
-                                        }
-                                        {
-                                            this.props.checkMaxButtonLoading ? <img src={LoadingIcon} className="modal__loadAll-spinner" alt="Loading"/>
-                                                : <button className="modal__button--table" name="checkMaxAsn" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
-                                                {checkMaxButton}
-                                            </button>
-                                        }
-                                        {
-                                            this.props.uncheckAllButtonLoading ? <img src={LoadingIcon} className="modal__loadAll-spinner" alt="Loading"/>
-                                                : <button className="modal__button--table" name="uncheckAllAsn" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
-                                                {uncheckAllButton}
-                                            </button>
-                                        }
-                                        {
-                                            this.props.rawSignalsMaxEntitiesHtsError ? <p className="modal__table-error">{this.props.rawSignalsMaxEntitiesHtsError}</p> : null
-                                        }
-                                        <div className="modal__table">
+                                            </div>
                                             {
-                                                this.props.asnSignalsTableSummaryDataProcessed.length ?
-                                                this.props.genSignalsTable("asn") : <Loading/>
+                                                this.props.asnSignalsTableTotalCount > this.props.initialTableLimit && this.props.asnRawSignalsLoadAllButtonClicked === false
+                                                    ? <div className="modal__loadAll">
+                                                        {loadRemainingEntities1}
+                                                        {asnPlural}
+                                                        {loadRemainingEntities2}
+                                                        <strong>{this.props.initialTableLimit}</strong>
+                                                        {loadRemainingEntities3}
+                                                        {
+                                                            this.state.additionalEntitiesLoading
+                                                                ? <img src={LoadingIcon} className="modal__loadAll-spinner" alt="Loading"/>
+                                                                : <button className="modal__loadAll-button" name="asnLoadAllEntities" onClick={event => this.handleAdditionalEntitiesLoading(event)}>
+                                                                    {loadRemainingEntities4}
+                                                                </button>
+                                                        }
+                                                        {loadRemainingEntities5}
+                                                    </div>
+                                                    : null
                                             }
+                                            {
+                                                this.props.rawSignalsMaxEntitiesHtsError ? <p className="modal__table-error">{this.props.rawSignalsMaxEntitiesHtsError}</p> : null
+                                            }
+                                            <div className="modal__table modal__table--asn">
+                                                {
+                                                    this.props.asnSignalsTableSummaryDataProcessed.length ?
+                                                        this.props.genSignalsTable("asn") : <Loading/>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="col-2-of-3">
-                                        <p className="modal__hts-count">
-                                            {currentCountInHts1}
-                                            {this.props.asnSignalsTableEntitiesChecked}
-                                            {this.props.asnSignalsTableEntitiesChecked === 1 ? asnSingular : asnPlural}
-                                            {currentCountInHts2}
-                                            {asnSingular}
-                                            {currentCountInHts3}
-                                        </p>
-
                                         <h3 className="heading-h3">{pingSlash24HtsLabel}</h3>
                                         {
                                             this.props.rawAsnSignalsProcessedPingSlash24 ? null : <Loading/>
