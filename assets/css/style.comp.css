@@ -318,7 +318,11 @@ body {
     bottom: 1rem;
     right: 1rem; }
     .control-panel .range__time--visible {
-      display: block; }
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-width: 25.6rem; }
   .control-panel .range__button {
     background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
     height: 3.5rem;
@@ -585,7 +589,7 @@ body {
   position: absolute;
   left: 0;
   right: 0;
-  top: 5px;
+  top: 1px;
   bottom: 5px;
   display: -webkit-box;
   display: flex;

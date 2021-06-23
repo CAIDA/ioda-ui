@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import T from "i18n-react";
-import {convertSecondsToDateValues, secondsToDhms} from "../../utils";
+import {convertSecondsToDateValues, secondsToDhms, controlPanelTimeRangeLimit} from "../../utils";
 import TimeStamp from "../../components/timeStamp/TimeStamp";
 import Tooltip from "../../components/tooltip/Tooltip";
 
@@ -9,7 +9,6 @@ class DashboardTab extends Component {
     constructor(props) {
         super(props);
         this.config = React.createRef();
-        this.timeRangeLimit = 3024001;
     }
 
     render() {
@@ -26,7 +25,7 @@ class DashboardTab extends Component {
         return(
             <div className="tab">
                 {
-                    this.props.until - this.props.from < this.timeRangeLimit ?
+                    this.props.until - this.props.from < controlPanelTimeRangeLimit ?
                         <div className="row">
                             <div className="col-2-of-3">
                                 <div className="tab__config" ref={this.config}>

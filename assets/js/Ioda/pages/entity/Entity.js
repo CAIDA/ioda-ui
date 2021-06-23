@@ -38,7 +38,8 @@ import {
     convertTsDataForHtsViz,
     getOutageCoords,
     dateRangeToSeconds,
-    normalize, secondsToDhms
+    normalize, secondsToDhms,
+    controlPanelTimeRangeLimit
 } from "../../utils";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
 
@@ -152,7 +153,6 @@ class Entity extends Component {
         this.initialTableLimit = 300;
         this.initialHtsLimit = 100;
         this.maxHtsLimit = 150;
-        this.timeRangeLimit = 3024001;
     }
 
     componentDidMount() {
@@ -161,7 +161,7 @@ class Entity extends Component {
         this.setState({
             mounted: true
         },() => {
-            if (this.state.until - this.state.from < this.timeRangeLimit) {
+            if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
                 // Overview Panel
                 this.props.searchEventsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
                 this.props.searchAlertsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], null, null, null);
@@ -1980,7 +1980,7 @@ class Entity extends Component {
                     history={this.props.history}
                 />
                 {
-                    this.state.until - this.state.from < this.timeRangeLimit ?
+                    this.state.until - this.state.from < controlPanelTimeRangeLimit ?
                     <React.Fragment>
                         <div className="row overview">
                             <div className="col-3-of-5">

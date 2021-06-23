@@ -546,6 +546,7 @@ class ControlPanel extends Component {
                                 ranges={[this.state.selection]}
                                 staticRanges={staticRanges}
                                 inputRanges = {[]}
+                                rangeColors={["#5899AE"]}
                             />
                             <div className={this.state.customRangeVisible ? "range__time range__time--visible" : "range__time"}>
                                 {

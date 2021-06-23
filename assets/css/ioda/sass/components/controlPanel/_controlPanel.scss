@@ -180,7 +180,11 @@
       right: 1rem;
 
       &--visible {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-width: 25.6rem;
       }
     }
 
