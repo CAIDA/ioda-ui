@@ -1889,6 +1889,9 @@ body {
         background: #f7f7f7;
         transform: translateY(0); }
 
+.modal__hts-count {
+  font-size: 1.1rem; }
+
 .modal__button {
   background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
   height: 3.5rem;
@@ -2026,7 +2029,7 @@ body {
   .modal__table-buttons {
     display: flex; }
   .modal__table tbody {
-    max-height: 35rem; }
+    max-height: 42.5rem; }
   .modal__table--asn tbody {
     max-height: 88rem; }
   .modal__table-container {

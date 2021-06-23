@@ -80,7 +80,7 @@ class Modal extends Component {
         const loadRemainingEntities5 = T.translate("entityModal.loadRemainingEntities5");
         const tooltipEntityRawSignalsHeadingTitle = T.translate("tooltip.entityRawSignalsHeading.title");
         const tooltipEntityRawSignalsHeadingText = T.translate("tooltip.entityRawSignalsHeading.text");
-        
+
         return(
             <div className="modal">
                 <div className="modal__background"></div>

@@ -68,6 +68,10 @@
     }
   }
 
+  &__hts-count {
+    font-size: 1.1rem;
+  }
+
   &__button {
     @include button;
     margin: 0;
@@ -152,7 +156,7 @@
     }
 
     & tbody {
-      max-height: 35rem;
+      max-height: 42.5rem;
     }
 
     &--asn {
