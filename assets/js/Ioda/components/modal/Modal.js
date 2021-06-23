@@ -85,90 +85,96 @@ class Modal extends Component {
             <div className="modal">
                 <div className="modal__background"></div>
                 <div className="modal__window">
-                    <div className="modal__heading">
-                        <div className="modal__heading-title">
-                            {
-                                this.props.modalLocation === 'map'
-                                    ? <h2 className="heading-h2">{regionTitle} {this.props.entityName}</h2>
-                                    : this.props.modalLocation === 'table'
-                                    ? <h2 className="heading-h2">{asnTitle} {this.props.entityName}</h2>
-                                    : null
-                            }
-                            <Tooltip
-                                title={tooltipEntityRawSignalsHeadingTitle}
-                                text={tooltipEntityRawSignalsHeadingText}
-                            />
+                    <div className="modal__row">
+                        <div className="modal__heading">
+                            <div className="modal__heading-title">
+                                {
+                                    this.props.modalLocation === 'map'
+                                        ? <h2 className="heading-h2">{regionTitle} {this.props.entityName}</h2>
+                                        : this.props.modalLocation === 'table'
+                                        ? <h2 className="heading-h2">{asnTitle} {this.props.entityName}</h2>
+                                        : null
+                                }
+                                <Tooltip
+                                    title={tooltipEntityRawSignalsHeadingTitle}
+                                    text={tooltipEntityRawSignalsHeadingText}
+                                />
+                            </div>
+                            <button className="modal__button" onClick={() => this.props.toggleModal(this.props.modalLocation)}>
+                                ×
+                            </button>
                         </div>
-                        <button className="modal__button" onClick={() => this.props.toggleModal(this.props.modalLocation)}>
-                            ×
-                        </button>
+                        <p className="modal__hts-count">
+                            {currentCountInHts1}
+                            {this.props.regionalSignalsTableEntitiesChecked}
+                            {this.props.regionalSignalsTableEntitiesChecked === 1 ? regionSingular : regionPlural}
+                            {currentCountInHts2}
+                            {regionSingular}
+                            {currentCountInHts3}
+                        </p>
                     </div>
                     {
                         this.props.modalLocation === 'map'
                             ? <div className="modal__content">
                                 <div className="row">
                                     <div className="col-1-of-3">
-                                        <h3 className="heading-h3">{regionalTableTitle}</h3>
-                                        {
-                                            this.props.regionalSignalsTableTotalCount > this.props.initialTableLimit && this.props.regionalRawSignalsLoadAllButtonClicked === false
-                                                ? <div className="modal__loadAll">
-                                                    {loadRemainingEntities1}
-                                                    {asnPlural}
-                                                    {loadRemainingEntities2}
-                                                    <strong>{this.props.initialTableLimit}</strong>
-                                                    {loadRemainingEntities3}
-                                                    {
-                                                        this.state.additionalEntitiesLoading
-                                                            ? <img className="modal__loadAll-spinner" src={LoadingIcon} alt="Loading"/>
-                                                            : <button className="modal__text-link" name="asnLoadAllEntities" onClick={event => this.handleAdditionalEntitiesLoading(event)}>
-                                                                {loadRemainingEntities4}
-                                                            </button>
-                                                    }
-                                                    {loadRemainingEntities5}
-                                                </div>
-                                                : null
-                                        }
-                                        {
-                                            this.props.checkMaxButtonLoading ? <img src={LoadingIcon} className="modal__loadAll-spinner" alt="Loading"/>
-                                                : <button className="modal__button--table" name="checkMaxRegional" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
-                                                    {checkMaxButton}
-                                                </button>
-                                        }
-                                        {
-                                            this.props.uncheckAllButtonLoading ? <img src={LoadingIcon} className="modal__loadAll-spinner" alt="Loading"/>
-                                                : <button className="modal__button--table" name="uncheckAllRegional" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
-                                                    {uncheckAllButton}
-                                                </button>
-                                        }
-                                        {
-                                            this.props.rawSignalsMaxEntitiesHtsError ? <p>{this.props.rawSignalsMaxEntitiesHtsError}</p> : null
-                                        }
-                                        <div className="modal__table">
+                                        <div className="modal__table-container">
+                                            <h3 className="heading-h3">{regionalTableTitle}</h3>
                                             {
-                                                this.props.regionalSignalsTableSummaryDataProcessed.length ?
-                                                this.props.genSignalsTable("region") : <Loading/>
+                                                this.props.regionalSignalsTableTotalCount > this.props.initialTableLimit && this.props.regionalRawSignalsLoadAllButtonClicked === false
+                                                    ? <div className="modal__loadAll">
+                                                        {loadRemainingEntities1}
+                                                        {asnPlural}
+                                                        {loadRemainingEntities2}
+                                                        <strong>{this.props.initialTableLimit}</strong>
+                                                        {loadRemainingEntities3}
+                                                        {
+                                                            this.state.additionalEntitiesLoading
+                                                                ? <img className="modal__loadAll-spinner" src={LoadingIcon} alt="Loading"/>
+                                                                : <button className="modal__text-link" name="asnLoadAllEntities" onClick={event => this.handleAdditionalEntitiesLoading(event)}>
+                                                                    {loadRemainingEntities4}
+                                                                </button>
+                                                        }
+                                                        {loadRemainingEntities5}
+                                                    </div>
+                                                    : null
                                             }
-                                        </div>
-                                        <h3 className="heading-h3">{regionalMapTitle}</h3>
-                                        <div className="modal__map" style={{display: 'block', height: '47.5rem'}}>
                                             {
-                                                this.props.summaryDataMapRaw
-                                                    ? this.props.summaryDataMapRaw.length > 0
+                                                this.props.checkMaxButtonLoading ? <img src={LoadingIcon} className="modal__loadAll-spinner" alt="Loading"/>
+                                                    : <button className="modal__button--table" name="checkMaxRegional" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
+                                                        {checkMaxButton}
+                                                    </button>
+                                            }
+                                            {
+                                                this.props.uncheckAllButtonLoading ? <img src={LoadingIcon} className="modal__loadAll-spinner" alt="Loading"/>
+                                                    : <button className="modal__button--table" name="uncheckAllRegional" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
+                                                        {uncheckAllButton}
+                                                    </button>
+                                            }
+                                            {
+                                                this.props.rawSignalsMaxEntitiesHtsError ? <p>{this.props.rawSignalsMaxEntitiesHtsError}</p> : null
+                                            }
+                                            <div className="modal__table">
+                                                {
+                                                    this.props.regionalSignalsTableSummaryDataProcessed.length ?
+                                                        this.props.genSignalsTable("region") : <Loading/>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div className="modal__map-container">
+                                            <h3 className="heading-h3">{regionalMapTitle}</h3>
+                                            <div className="modal__map" style={{display: 'block', height: '47.5rem'}}>
+                                                {
+                                                    this.props.summaryDataMapRaw
+                                                        ? this.props.summaryDataMapRaw.length > 0
                                                         ? this.props.populateGeoJsonMap()
                                                         : noOutagesOnMapMessage
-                                                    : <Loading/>
-                                            }
+                                                        : <Loading/>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="col-2-of-3">
-                                        <p className="modal__hts-count">
-                                            {currentCountInHts1}
-                                            {this.props.regionalSignalsTableEntitiesChecked}
-                                            {this.props.regionalSignalsTableEntitiesChecked === 1 ? regionSingular : regionPlural}
-                                            {currentCountInHts2}
-                                            {regionSingular}
-                                            {currentCountInHts3}
-                                        </p>
                                         <h3 className="heading-h3">{pingSlash24HtsLabel}</h3>
                                         {
                                             this.props.rawRegionalSignalsProcessedPingSlash24 ? null : <Loading/>

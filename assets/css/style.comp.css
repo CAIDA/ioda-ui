@@ -1857,6 +1857,20 @@ body {
   padding: 1.5rem;
   border-radius: 3px; }
 
+.modal__row {
+  background-color: #fff;
+  border-radius: 0.3rem;
+  box-shadow: 0 1px 2px #9F9D9D;
+  padding: 2.5rem;
+  margin-bottom: 2.5rem; }
+
+.modal__content .col-2-of-3 {
+  background-color: #fff;
+  border-radius: 0.3rem;
+  box-shadow: 0 1px 2px #9F9D9D;
+  padding: 2.5rem;
+  margin-bottom: 2.5rem; }
+
 .modal__heading {
   display: flex;
   justify-content: space-between;
@@ -1944,6 +1958,15 @@ body {
 
 .modal__table {
   margin-bottom: 1.5rem; }
+  .modal__table tbody {
+    max-height: 41rem; }
+  .modal__table-container {
+    background-color: #fff;
+    border-radius: 0.3rem;
+    box-shadow: 0 1px 2px #9F9D9D;
+    padding: 2.5rem;
+    margin-bottom: 2.5rem;
+    margin-bottom: 2.5rem; }
   .modal__table-error {
     background-color: #E74C3C;
     padding: 0.75rem;
@@ -1952,6 +1975,13 @@ body {
     border-radius: 3px;
     color: #fff;
     margin: 1rem 0; }
+
+.modal__map-container {
+  background-color: #fff;
+  border-radius: 0.3rem;
+  box-shadow: 0 1px 2px #9F9D9D;
+  padding: 2.5rem;
+  margin-bottom: 2.5rem; }
 
 .modal__chart {
   margin-bottom: 1.5rem; }
@@ -2450,7 +2480,7 @@ button[class*="searchButton"] {
       .dashboard .tabs .tab__heading {
         display: flex; }
         .dashboard .tabs .tab__heading .heading-h2 {
-          margin-right: 1rem; }
+          margin-right: 0.5rem; }
       .dashboard .tabs .tab__map {
         height: 45.1rem; }
       .dashboard .tabs .tab__table .table {
