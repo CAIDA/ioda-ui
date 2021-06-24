@@ -87,6 +87,7 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
+        console.log("update");
         // Check if time parameters are provided
         let timeEntryInUrl = window.location.pathname.split("?");
         if (timeEntryInUrl[1]){
@@ -113,8 +114,6 @@ class Dashboard extends Component {
                 this.getTotalOutages(this.state.activeTabType);
             }
         });
-
-
     }
 
     componentWillUnmount() {
@@ -433,7 +432,7 @@ class Dashboard extends Component {
                 .use24h(false)
                 // Will need to detect column width to populate height
                 .width(width)
-                .height(487)
+                .height(541)
                 .enableZoom(false)
                 .showRuler(true)
                 .interpolationCurve(d3.curveStepAfter)
