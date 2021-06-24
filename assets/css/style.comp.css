@@ -1211,7 +1211,8 @@ body {
       padding-bottom: 0 !important;
       margin-bottom: 0 !important;
       background-size: 100% 0 !important;
-      /* controls underline thickness */ }
+      /* controls underline thickness */
+      transition: ease-in 0.2s; }
       .table__cell-link:link:link, .table__cell-link:link:visited, .table__cell-link:visited:link, .table__cell-link:visited:visited {
         color: #5899AE;
         font-weight: 700;
@@ -1219,8 +1220,14 @@ body {
         padding-bottom: 2px;
         margin-bottom: 1px;
         background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
-        background-size: 100% 2px;
-        /* controls underline thickness */ }
+        background-size: 100% 0;
+        /* controls underline thickness */
+        transition: ease-in-out 0.3s; }
+        .table__cell-link:link:link:hover, .table__cell-link:link:visited:hover, .table__cell-link:visited:link:hover, .table__cell-link:visited:visited:hover {
+          background-size: 100% 2px; }
+      .table__cell-link:link:hover span, .table__cell-link:visited:hover span {
+        background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+        background-size: 100% 2px; }
   .table__cell--overallScore {
     width: 10rem;
     position: relative;
@@ -1874,6 +1881,11 @@ body {
   box-shadow: 0 1px 2px #9F9D9D;
   padding: 2.5rem;
   margin-bottom: 2.5rem; }
+  .modal__content .col-2-of-3 .horizon-series .label {
+    background-color: rgba(255, 255, 255, 0.4);
+    padding: 0 0.4rem;
+    border-radius: 0.3rem;
+    max-height: 100%; }
 
 .modal__heading {
   display: flex;
@@ -2293,8 +2305,11 @@ button[class*="searchButton"] {
         padding-bottom: 2px;
         margin-bottom: 1px;
         background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
-        background-size: 100% 2px;
-        /* controls underline thickness */ }
+        background-size: 100% 0;
+        /* controls underline thickness */
+        transition: ease-in-out 0.3s; }
+        .home .search__link:link:hover, .home .search__link:visited:hover {
+          background-size: 100% 2px; }
   .home .map__content {
     border-radius: 0.5rem;
     overflow: hidden;
@@ -2429,8 +2444,11 @@ button[class*="searchButton"] {
       padding-bottom: 2px;
       margin-bottom: 1px;
       background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
-      background-size: 100% 2px;
-      /* controls underline thickness */ }
+      background-size: 100% 0;
+      /* controls underline thickness */
+      transition: ease-in-out 0.3s; }
+      .card__text-link:link:hover, .card__text-link:visited:hover {
+        background-size: 100% 2px; }
 
 .dashboard {
   padding-top: 5rem;
@@ -2461,13 +2479,17 @@ button[class*="searchButton"] {
           padding-bottom: 2px;
           margin-bottom: 1px;
           font-size: 1.2rem; }
+          .dashboard .tabs .nav-tabs li a:hover span {
+            transition: all .4s ease-in-out;
+            filter: brightness(1.05) contrast(1.05);
+            transform: scale(1.03); }
       .dashboard .tabs .nav-tabs li.active {
         background-color: #fff; }
         .dashboard .tabs .nav-tabs li.active a {
           border-top-left-radius: 3px;
           border-top-right-radius: 3px;
           border: 1px solid #eeeeee;
-          background-size: 100% 2px;
+          background-size: 100% 2px !important;
           box-shadow: 0 1px 2px #9F9D9D;
           z-index: 100;
           position: relative; }
@@ -2478,8 +2500,11 @@ button[class*="searchButton"] {
             padding-bottom: 2px;
             margin-bottom: 1px;
             background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
-            background-size: 100% 2px;
-            /* controls underline thickness */ }
+            background-size: 100% 0;
+            /* controls underline thickness */
+            transition: ease-in-out 0.3s; }
+            .dashboard .tabs .nav-tabs li.active a:link:hover, .dashboard .tabs .nav-tabs li.active a:visited:hover {
+              background-size: 100% 2px; }
           .dashboard .tabs .nav-tabs li.active a:after {
             content: '';
             height: 1rem;
@@ -2559,6 +2584,11 @@ button[class*="searchButton"] {
           margin-right: 0.5rem; }
       .dashboard .tabs .tab__map {
         height: 45.1rem; }
+      .dashboard .tabs .tab .horizon-series .label {
+        background-color: rgba(255, 255, 255, 0.4);
+        padding: 0 0.4rem;
+        border-radius: 0.3rem;
+        max-height: 100%; }
       .dashboard .tabs .tab__table .table {
         margin-bottom: 0;
         height: inherit; }

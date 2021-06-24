@@ -10,7 +10,7 @@ class Tabs extends Component {
             <Nav bsStyle="tabs" activeKey={this.props.activeTab} onSelect={this.props.handleSelectTab}>
                 {
                     tabOptions.map((tabItem, index) => (
-                        <NavItem key={generateKeys('tabOption')} eventKey={index+1}>{tabItem}</NavItem>
+                        <NavItem key={generateKeys('tabOption')} eventKey={index+1}><span>{tabItem}</span></NavItem>
                     ))
                 }
             </Nav>

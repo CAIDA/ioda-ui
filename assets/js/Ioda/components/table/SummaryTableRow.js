@@ -127,7 +127,7 @@ class SummaryTableRow extends Component {
                           }
                           onClick={() => this.props.handleEntityClick(this.props.data.entityType, this.props.data.entityCode)}
                     >
-                        {this.props.data.name}
+                        <span>{this.props.data.name}</span>
                     </Link>
                 </td>
                 {

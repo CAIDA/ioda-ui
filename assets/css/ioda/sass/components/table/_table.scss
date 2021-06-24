@@ -253,6 +253,26 @@
         padding-bottom: 0!important;
         margin-bottom: 0!important;
         background-size: 100% 0!important; /* controls underline thickness */
+        transition: ease-in 0.2s;
+
+        &:hover {
+
+          & span {
+            background:
+                    linear-gradient(
+                                    175deg,
+                                    $color-secondary-light 0%,
+                                    $color-secondary-light 33.3%,
+                                    $color-secondary 83.5%,
+                                    $color-secondary-dark 100%
+                    )
+                    left
+                    bottom
+                    transparent
+                    no-repeat;
+            background-size: 100% 2px;
+          }
+        }
       }
     }
 
