@@ -33,6 +33,8 @@
  */
 import d3 from 'd3';
 
+// Time limit max that a user can select in the calendar -- currently set for 35 days
+export const controlPanelTimeRangeLimit = 3024001;
 
 // Humanize number with rounding, abbreviations, etc.
 export function humanizeNumber(value, precisionDigits) {

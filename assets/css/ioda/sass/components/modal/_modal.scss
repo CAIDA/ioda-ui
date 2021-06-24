@@ -26,6 +26,16 @@
     border-radius: 3px;
   }
 
+  &__row {
+    @include panel;
+  }
+
+  &__content {
+    .col-2-of-3 {
+      @include panel;
+    }
+  }
+
   &__heading {
     display: flex;
     justify-content: space-between;
@@ -58,6 +68,10 @@
     }
   }
 
+  &__hts-count {
+    font-size: 1.1rem;
+  }
+
   &__button {
     @include button;
     margin: 0;
@@ -67,12 +81,51 @@
     justify-content: center;
     align-items: center;
     font-size: 2.4rem;
+
+    &--table {
+      @include button;
+      height: 2.2rem;
+      font-size: 1rem;
+      margin: 0;
+
+      &:first-child {
+        margin-right: 1rem;
+      }
+    }
   }
 
   &__loadAll {
     display: flex;
     align-items: center;
     height: 3rem;
+    margin-top: -1.5rem;
+
+    &-button {
+      border: none;
+      color: $color-secondary;
+      font-weight: 700;
+      text-decoration: none;
+      padding-bottom: 2px;
+      margin-bottom: 1px;
+      background:
+              linear-gradient(
+                              175deg,
+                              $color-secondary-light 0%,
+                              $color-secondary-light 33.3%,
+                              $color-secondary 83.5%,
+                              $color-secondary-dark 100%
+              )
+              left
+              bottom
+              transparent
+              no-repeat;
+      background-size: 100% 2px; /* controls underline thickness */
+      cursor: pointer;
+
+      &:hover {
+
+      }
+    }
 
     & strong {
       padding: 0 0.3rem;
@@ -92,6 +145,31 @@
   &__table {
     margin-bottom: 1.5rem;
 
+
+    &-heading {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &-buttons {
+      display: flex;
+    }
+
+    & tbody {
+      max-height: 42.5rem;
+    }
+
+    &--asn {
+      tbody {
+        max-height: 88rem;
+      }
+    }
+
+    &-container {
+      @include panel;
+      margin-bottom: $gutter-vertical-small;
+    }
+
     &-error {
       background-color: $color-error-background;
       padding: 0.75rem;
@@ -100,6 +178,12 @@
       border-radius: 3px;
       color: $color-white;
       margin: 1rem 0;
+    }
+  }
+
+  &__map {
+    &-container {
+      @include panel;
     }
   }
 

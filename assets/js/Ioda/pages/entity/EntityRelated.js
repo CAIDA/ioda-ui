@@ -52,6 +52,8 @@ class EntityRelated extends Component {
                                 modalLocation={"map"}
                                 // entity name needed to populate text in headings
                                 entityName={this.props.entityName}
+                                // entity type needed to determine which time series count text to use
+                                entityType={this.props.entityType}
                                 // tracking when the modal should be visible
                                 showModal={this.props.showMapModal}
                                 // tracking when the close button is clicked
@@ -135,6 +137,8 @@ class EntityRelated extends Component {
                                 showModal={this.props.showTableModal}
                                 // entity name needed to populate text in headings
                                 entityName={this.props.entityName}
+                                // entity type needed to determine which time series count text to use
+                                entityType={this.props.entityType}
                                 // tracking when the close button is clicked
                                 toggleModal={this.props.toggleModal}
                                 // render function that populates the ui

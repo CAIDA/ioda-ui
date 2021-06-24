@@ -213,3 +213,12 @@ $breakpoint Argument Choices:
     outline: none;
   }
 }
+
+// background panel that seperates columns
+@mixin panel {
+  background-color: $color-white;
+  border-radius: 0.3rem;
+  box-shadow: $box-shadow;
+  padding: $gutter-vertical-small;
+  margin-bottom: $gutter-vertical-small;
+}
