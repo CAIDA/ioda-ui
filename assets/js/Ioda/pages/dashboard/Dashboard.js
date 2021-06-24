@@ -26,7 +26,7 @@ import {
     humanizeNumber,
     convertTsDataForHtsViz,
     dateRangeToSeconds,
-    convertSecondsToDateValues, secondsToDhms
+    controlPanelTimeRangeLimit
 } from "../../utils";
 import Loading from "../../components/loading/Loading";
 import * as d3 from 'd3-shape';
@@ -84,7 +84,6 @@ class Dashboard extends Component {
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.handleEntityShapeClick = this.handleEntityShapeClick.bind(this);
         this.apiQueryLimit = 170;
-        this.timeRangeLimit = 3024001;
     }
 
     componentDidMount() {
@@ -100,7 +99,7 @@ class Dashboard extends Component {
         this.setState({
             mounted: true,
         },() => {
-            if (this.state.until - this.state.from < this.timeRangeLimit) {
+            if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
                 // Set initial tab to load
                 this.handleSelectTab(this.tabs[this.props.match.params.tab]);
                 // Get topo and outage data to populate map and table
@@ -328,7 +327,7 @@ class Dashboard extends Component {
             const includeMetadata = true;
             // let page = null;
             const entityCode = null;
-            if (until - from < this.timeRangeLimit) {
+            if (until - from < controlPanelTimeRangeLimit) {
                 this.props.searchSummaryAction(from, until, entityType, entityCode, limit, page, includeMetadata);
             }
         }
@@ -541,7 +540,7 @@ class Dashboard extends Component {
                         />
                         {
                             tab === this.countryTab
-                                ? this.state.topoData || this.state.until - this.state.from > this.timeRangeLimit
+                                ? this.state.topoData || this.state.until - this.state.from > controlPanelTimeRangeLimit
                                 ? <DashboardTab
                                     type={this.state.activeTabType}
                                     populateGeoJsonMap={() => this.populateGeoJsonMap()}
@@ -557,7 +556,7 @@ class Dashboard extends Component {
                         }
                         {
                             tab === this.regionTab
-                                ? this.state.topoData || this.state.until - this.state.from > this.timeRangeLimit
+                                ? this.state.topoData || this.state.until - this.state.from > controlPanelTimeRangeLimit
                                 ? <DashboardTab
                                     type={this.state.activeTabType}
                                     populateGeoJsonMap={() => this.populateGeoJsonMap()}
@@ -573,7 +572,7 @@ class Dashboard extends Component {
                         }
                         {
                             tab === this.asnTab
-                                ? this.state.eventDataProcessed || this.state.until - this.state.from > this.timeRangeLimit
+                                ? this.state.eventDataProcessed || this.state.until - this.state.from > controlPanelTimeRangeLimit
                                 ? <DashboardTab
                                     type={this.state.activeTabType}
                                     genSummaryTable={() => this.genSummaryTable()}
