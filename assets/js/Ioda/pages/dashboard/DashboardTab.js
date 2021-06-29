@@ -3,6 +3,8 @@ import T from "i18n-react";
 import {convertSecondsToDateValues, secondsToDhms, controlPanelTimeRangeLimit} from "../../utils";
 import TimeStamp from "../../components/timeStamp/TimeStamp";
 import Tooltip from "../../components/tooltip/Tooltip";
+import iconGlobe from 'images/icons/icon-globe.png';
+import iconStackedHorizon from 'images/icons/icon-stackedHorizon.png';
 
 
 class DashboardTab extends Component {
@@ -47,7 +49,11 @@ class DashboardTab extends Component {
                                             style={this.props.type === 'asn' ? {display: 'none'} : null}
                                     >
                                         {
-                                            this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts
+                                            <img className="tab__config-button-img"
+                                                 src={this.props.tabCurrentView === 'timeSeries' ? iconGlobe : iconStackedHorizon}
+                                                 alt={this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts}
+                                                 title={this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts}
+                                            />
                                         }
                                     </button>
                                 </div>

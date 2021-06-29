@@ -97,9 +97,14 @@
 
         &-button {
           @include button;
+          padding: 0.2rem;
           height: 3rem;
           font-size: 1rem;
           margin: 0!important;
+
+          &-img {
+            height: 100%;
+          }
         }
       }
 
@@ -112,7 +117,7 @@
       }
 
       &__map {
-        height: 45.1rem;
+        height: 53.3rem;
       }
 
       & .horizon-series .label {
@@ -128,7 +133,7 @@
           height: inherit;
 
           & tbody {
-            max-height: 46.1rem;
+            max-height: 54.3rem;
           }
         }
       }
