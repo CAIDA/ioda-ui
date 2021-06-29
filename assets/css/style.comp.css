@@ -2546,6 +2546,7 @@ button[class*="searchButton"] {
           position: relative;
           z-index: 10;
           padding: 0 0.5rem;
+          padding: 0.2rem;
           height: 3rem;
           font-size: 1rem;
           margin: 0 !important; }
@@ -2578,12 +2579,14 @@ button[class*="searchButton"] {
               filter: blur(10px) brightness(0.95); }
           .dashboard .tabs .tab__config-button:focus {
             outline: none; }
+          .dashboard .tabs .tab__config-button-img {
+            height: 100%; }
       .dashboard .tabs .tab__heading {
         display: flex; }
         .dashboard .tabs .tab__heading .heading-h2 {
           margin-right: 0.5rem; }
       .dashboard .tabs .tab__map {
-        height: 45.1rem; }
+        height: 53.3rem; }
       .dashboard .tabs .tab .horizon-series .label {
         background-color: rgba(255, 255, 255, 0.4);
         padding: 0 0.4rem;
@@ -2593,7 +2596,7 @@ button[class*="searchButton"] {
         margin-bottom: 0;
         height: inherit; }
         .dashboard .tabs .tab__table .table tbody {
-          max-height: 46.1rem; }
+          max-height: 54.3rem; }
 
 .entity {
   padding-top: 5rem;
