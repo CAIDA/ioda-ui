@@ -1,7 +1,6 @@
 // React Imports
 import React, { Component } from 'react';
 import {connect} from "react-redux";
-import { withRouter } from 'react-router-dom';
 // Internationalization
 import T from 'i18n-react';
 // Data Hooks
@@ -27,6 +26,10 @@ import HorizonTSChart from 'horizon-timeseries-chart';
 import Loading from "../../components/loading/Loading";
 import ToggleButton from "../../components/toggleButton/ToggleButton";
 import TimeStamp from "../../components/timeStamp/TimeStamp";
+import TopoMap from "../../components/map/Map";
+import * as topojson from 'topojson';
+import * as d3 from "d3-shape";
+import Tooltip from "../../components/tooltip/Tooltip";
 // Event Table Dependencies
 import * as sd from 'simple-duration'
 // Helper Functions
@@ -43,12 +46,6 @@ import {
     controlPanelTimeRangeLimit
 } from "../../utils";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
-
-import TopoMap from "../../components/map/Map";
-import * as topojson from 'topojson';
-import * as d3 from "d3-shape";
-import DashboardTab from "../dashboard/DashboardTab";
-import Tooltip from "../../components/tooltip/Tooltip";
 
 
 class Entity extends Component {
@@ -166,7 +163,7 @@ class Entity extends Component {
         },() => {
             if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
                 // Get all datasources
-                this.props.getDatasourcesAction();
+                // this.props.getDatasourcesAction();
                 // Overview Panel
                 this.props.searchEventsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
                 this.props.searchAlertsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], null, null, null);
