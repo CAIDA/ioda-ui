@@ -7,6 +7,7 @@ import T from 'i18n-react';
 // Data Hooks
 import { searchEntities, getEntityMetadata, regionalSignalsTableSummaryDataAction, asnSignalsTableSummaryDataAction } from "../../data/ActionEntities";
 import { getTopoAction } from "../../data/ActionTopo";
+import { getDatasourcesAction } from "../../data/ActionDatasources";
 import {searchAlerts, searchEvents, searchRelatedToMapSummary, searchRelatedToTableSummary, totalOutages} from "../../data/ActionOutages";
 import {getSignalsAction,
     getRawRegionalSignalsPingSlash24Action,
@@ -61,6 +62,8 @@ class Entity extends Component {
             entityName: "",
             parentEntityName: "",
             parentEntityCode: "",
+            // Data Sources Available
+            dataSources: null,
             // Control Panel
             from: window.location.search.split("?")[1]
                 ? window.location.search.split("?")[1].split("&")[0].split("=")[1]
@@ -162,6 +165,8 @@ class Entity extends Component {
             mounted: true
         },() => {
             if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
+                // Get all datasources
+                this.props.getDatasourcesAction();
                 // Overview Panel
                 this.props.searchEventsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
                 this.props.searchAlertsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], null, null, null);
@@ -180,6 +185,13 @@ class Entity extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+        // After API call for available data sources completes, update dataSources state with fresh data
+        if (this.props.datasources !== prevProps.datasources) {
+            this.setState({
+                dataSources: this.props.datasources
+            });
+        }
+
         // After API call for getting entity name from url
         if (this.props.entityMetadata !== prevProps.entityMetadata) {
             this.setState({
@@ -711,7 +723,6 @@ class Entity extends Component {
         let absoluteMaxY2 = 0;
 
         // Loop through available datasources to collect plot points
-        console.log()
         this.state.tsDataRaw[0].map(datasource => {
             let min, max;
             switch (datasource.datasource) {
@@ -1342,8 +1353,6 @@ class Entity extends Component {
                 }
                 break;
         }
-
-
     }
     // Combine summary outage data with other raw signal data for populating Raw Signal Table
     combineValuesForSignalsTable(entityType) {
@@ -2073,7 +2082,9 @@ class Entity extends Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log(state);
     return {
+        datasources: state.iodaApi.datasources,
         suggestedSearchResults: state.iodaApi.entities,
         relatedEntities: state.iodaApi.relatedEntities,
         entityMetadata: state.iodaApi.entityMetadata,
@@ -2100,13 +2111,15 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        getDatasourcesAction: () => {
+            getDatasourcesAction(dispatch);
+        },
         searchEntitiesAction: (searchQuery, limit=15) => {
             searchEntities(dispatch, searchQuery, limit);
         },
         getEntityMetadataAction: (entityType, entityCode) => {
             getEntityMetadata(dispatch, entityType, entityCode);
         },
-
         searchEventsAction: (from, until, entityType, entityCode, datasource=null, includeAlerts=null, format=null, limit=null, page=null) => {
             searchEvents(dispatch, from, until, entityType, entityCode, datasource, includeAlerts, format, limit, page);
         },
