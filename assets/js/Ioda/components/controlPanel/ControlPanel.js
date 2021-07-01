@@ -38,7 +38,7 @@ class ControlPanel extends Component {
                 "23:59:59"
             ],
             rangeInputVisibility: false,
-            wholeDayInputSelected: false,
+            wholeDayInputSelected: true,
             validRange: true,
             applyButtonActive: true,
             customRangeVisible: false,

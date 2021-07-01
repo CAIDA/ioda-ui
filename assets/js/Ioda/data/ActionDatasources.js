@@ -39,8 +39,8 @@ BUILDING CONNECTION CONFIGS
  */
 
 const buildDatasourcesConfig = (datasource=null) => {
-    let url = "/datasources";
-    url += datasource!==null ? `/${datasource}` : "";
+    let url = "/datasources/";
+    url += datasource!==null ? `${datasource}` : "";
     return {
         method: "get",
         url: url
@@ -53,6 +53,7 @@ PUBLIC ACTION FUNCTIONS
 
 export const getDatasourcesAction = (dispatch, datasource=null) => {
     let config = buildDatasourcesConfig(datasource);
+    console.log(config);
     fetchData(config).then(data => {
         dispatch({
             type: GET_DATASOURCES,
