@@ -53,7 +53,6 @@ PUBLIC ACTION FUNCTIONS
 
 export const getDatasourcesAction = (dispatch, datasource=null) => {
     let config = buildDatasourcesConfig(datasource);
-    console.log(config);
     fetchData(config).then(data => {
         dispatch({
             type: GET_DATASOURCES,
