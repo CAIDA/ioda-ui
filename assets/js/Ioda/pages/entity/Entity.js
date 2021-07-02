@@ -1,6 +1,5 @@
 // React Imports
 import React, { Component } from 'react';
-import ReactDOM from "react-dom";
 import {connect} from "react-redux";
 // Internationalization
 import T from 'i18n-react';
@@ -48,7 +47,6 @@ import {
     controlPanelTimeRangeLimit
 } from "../../utils";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
-
 
 
 class Entity extends Component {
@@ -156,7 +154,6 @@ class Entity extends Component {
         this.initialTableLimit = 300;
         this.initialHtsLimit = 100;
         this.maxHtsLimit = 150;
-        this.canvasJS = React.createRef();
     }
 
     componentDidMount() {
@@ -892,7 +889,6 @@ class Entity extends Component {
             this.state.xyDataOptions && <div className="overview__xy-wrapper">
                 <CanvasJSChart options={this.state.xyDataOptions}
                                onRef={ref => this.chart = ref}
-                               ref={this.canvasJS}
                 />
                 {/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
             </div>
