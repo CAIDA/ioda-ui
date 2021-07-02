@@ -4,7 +4,8 @@ import {convertSecondsToDateValues, secondsToDhms, controlPanelTimeRangeLimit} f
 import TimeStamp from "../../components/timeStamp/TimeStamp";
 import Tooltip from "../../components/tooltip/Tooltip";
 import iconGlobe from 'images/icons/icon-globe.png';
-import iconStackedHorizon from 'images/icons/icon-stackedHorizon.png';
+import iconChart from 'images/icons/icon-chart.png';
+import { Style } from "react-style-tag";
 
 
 class DashboardTab extends Component {
@@ -19,6 +20,8 @@ class DashboardTab extends Component {
         const asnOutages = T.translate("dashboard.asnOutages");
         const viewChangeIconAltTextHts = T.translate("dashboard.viewChangeIconAltTextHts");
         const viewChangeIconAltTextMap = T.translate("dashboard.viewChangeIconAltTextMap");
+        const viewTitleMap = T.translate("dashboard.viewTitleMap");
+        const viewTitleChart = T.translate("dashboard.viewTitleChart");
         const timeDurationTooHighErrorMessage = T.translate("dashboard.timeDurationTooHighErrorMessage");
 
         const tooltipDashboardHeadingTitle = T.translate("tooltip.dashboardHeading.title");
@@ -26,6 +29,19 @@ class DashboardTab extends Component {
 
         return(
             <div className="tab">
+                <Style>{`
+                    /* Styles to update label for button depending on which view is current */                 
+                    .tab__config-button:after {
+                        ${this.props.tabCurrentView === 'timeSeries' ? `content: "${viewTitleChart}"` : `content: "${viewTitleMap}"`};
+                        font-size: 1rem;
+                        font-style: italic;
+                        position: absolute;
+                        top: 1rem;
+                        left: -5.5rem;
+                        color: #2c3e50;
+                        font-weight: 400;
+                    }
+                `}</Style>
                 {
                     this.props.until - this.props.from < controlPanelTimeRangeLimit ?
                         <div className="row">
@@ -44,18 +60,20 @@ class DashboardTab extends Component {
                                             text={tooltipDashboardHeadingText}
                                         />
                                     </div>
-                                    <button className="tab__config-button"
-                                            onClick={() => this.props.handleTabChangeViewButton()}
-                                            style={this.props.type === 'asn' ? {display: 'none'} : null}
-                                    >
-                                        {
-                                            <img className="tab__config-button-img"
-                                                 src={this.props.tabCurrentView === 'timeSeries' ? iconGlobe : iconStackedHorizon}
-                                                 alt={this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts}
-                                                 title={this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts}
-                                            />
-                                        }
-                                    </button>
+                                    <div className="tab__config-button-container">
+                                        <button className="tab__config-button"
+                                                onClick={() => this.props.handleTabChangeViewButton()}
+                                                style={this.props.type === 'asn' ? {display: 'none'} : null}
+                                        >
+                                            {
+                                                <img className="tab__config-button-img"
+                                                     src={this.props.tabCurrentView === 'timeSeries' ? iconChart : iconGlobe}
+                                                     alt={this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts}
+                                                     title={this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts}
+                                                />
+                                            }
+                                        </button>
+                                    </div>
                                 </div>
                                 {
                                     this.props.type !== "asn"

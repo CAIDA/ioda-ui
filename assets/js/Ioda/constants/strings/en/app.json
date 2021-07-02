@@ -34,7 +34,9 @@
     "regionalOutages": "Regional Outages",
     "asnOutages": "ASN/ISP Outages",
     "asnTabTitle": "ASN/ISP View",
-    "viewChangeIconAltTextHts": "Change to Stacked Horizon View",
+    "viewTitleMap": "Map View",
+    "viewTitleChart": "Chart View",
+    "viewChangeIconAltTextHts": "Change to Chart View",
     "viewChangeIconAltTextMap": "Change to Map View",
     "timeDurationTooHighErrorMessage": "Time duration must be less than 35 days on the dashboard. Current request is for "
   },
