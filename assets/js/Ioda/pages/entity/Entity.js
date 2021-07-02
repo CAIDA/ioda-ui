@@ -764,7 +764,6 @@ class Entity extends Component {
                     });
                     // the last two values populating are the min value, and the max value. Removing these from the coordinates.
                     activeProbingValues.length > 2 ? activeProbingValues.splice(-1,2) : activeProbingValues;
-                    console.log(datasource.values);
             }
         });
 
