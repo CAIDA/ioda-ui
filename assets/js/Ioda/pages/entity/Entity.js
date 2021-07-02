@@ -728,13 +728,14 @@ class Entity extends Component {
                     max = Math.max(...datasource.values);
                     absoluteMax.push(max);
                     absoluteMaxY2 = max;
-
                     datasource.values && datasource.values.map((value, index) => {
                         let x, y;
                         x = toDateTime(datasource.from + (datasource.step * index));
                         y = this.state.tsDataNormalized ? normalize(value, min, max) : value;
                         networkTelescopeValues.push({x: x, y: y, color: "#E31A1C"});
                     });
+                    // the last two values populating are the min value, and the max value. Removing these from the coordinates.
+                    networkTelescopeValues.length > 2 ? networkTelescopeValues.splice(-1,2) : networkTelescopeValues;
                     break;
                 case "bgp":
                     min = Math.min(...datasource.values);
@@ -747,6 +748,8 @@ class Entity extends Component {
                         y = this.state.tsDataNormalized ? normalize(value, min, max) : value;
                         bgpValues.push({x: x, y: y, color: "#33A02C"});
                     });
+                    // the last two values populating are the min value, and the max value. Removing these from the coordinates.
+                    bgpValues.length > 2 ? bgpValues.splice(-1,2) : bgpValues;
                     break;
                 case "ping-slash24":
                     min = Math.min(...datasource.values);
@@ -759,6 +762,8 @@ class Entity extends Component {
                         y = this.state.tsDataNormalized ? normalize(value, min, max) : value;
                         activeProbingValues.push({x: x, y: y, color: "#1F78B4"});
                     });
+                    // the last two values populating are the min value, and the max value. Removing these from the coordinates.
+                    activeProbingValues.length > 2 ? activeProbingValues.splice(-1,2) : activeProbingValues;
             }
         });
 

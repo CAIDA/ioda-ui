@@ -130,7 +130,7 @@ class ControlPanel extends Component {
     }
     // detect when a click occurs outside of the time range to close it
     handleClickOffTimeRange(event) {
-        if (this.timeRangeContainer && !this.timeRangeContainer.current.contains(event.target))
+        if (this.timeRangeContainer && this.timeRangeContainer.current && !this.timeRangeContainer.current.contains(event.target))
         this.setState({
             rangeInputVisibility: false,
             customRangeVisible: false
