@@ -2688,10 +2688,108 @@ button[class*="searchButton"] {
     .entity .overview__config .toggle:first-child {
       margin-bottom: 1rem; }
   .entity .overview__xy-wrapper {
-    position: relative; }
+    position: relative;
+    /***************/
+    /* styles to replace the default reset zoom image with text */
+    /***************/ }
     .entity .overview__xy-wrapper .canvasjs-chart-toolbar {
-      margin-top: 1.8rem;
-      margin-right: 1.9rem; }
+      border: none !important; }
+    .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Reset"] {
+      background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
+      border-radius: 0.5rem;
+      color: #fff !important;
+      font-weight: 700;
+      font-size: 1.2rem;
+      cursor: pointer;
+      text-align: center;
+      border: none;
+      background-size: 100% 300%;
+      transition: all .4s ease-in-out;
+      position: relative;
+      z-index: 10;
+      padding: 0 0.5rem;
+      width: 6rem !important;
+      height: 3rem !important; }
+      .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Reset"]:hover, .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Reset"]:active {
+        border-radius: 0.5rem;
+        transition: all .4s ease-in-out;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+        filter: brightness(1.05) contrast(1.05);
+        transform: scale(1.03); }
+        .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Reset"]:hover:before, .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Reset"]:active:before {
+          bottom: -7px;
+          filter: blur(10px) brightness(0.95); }
+    .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Pan"],
+    .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Zoom"] {
+      height: 1.6rem !important;
+      padding: 0.2rem !important;
+      width: 4.2rem !important;
+      position: relative;
+      border-right: none !important;
+      margin-right: 2rem;
+      background-color: #ECF0F1 !important;
+      cursor: pointer;
+      border-radius: 0.3rem;
+      margin-top: 0.5rem; }
+    .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Reset"] img,
+    .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Pan"] img,
+    .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Zoom"] img {
+      display: none; }
+    .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Reset"]:after,
+    .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Pan"]:after,
+    .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Zoom"]:after {
+      font-size: 1rem;
+      height: 1rem;
+      width: 100%;
+      position: absolute;
+      font-family: 'Lato'; }
+    .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Reset"]:after {
+      content: "Reset Zoom";
+      top: 1.5rem;
+      left: 0; }
+    .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Pan"]:after,
+    .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Zoom"]:after {
+      top: 0.2rem;
+      font-size: 0.7rem;
+      line-height: 0.8rem;
+      font-weight: bold;
+      cursor: pointer;
+      background: linear-gradient(2deg, #286F86, #7FB7CA);
+      color: #fff;
+      padding: 0.4rem 0.6rem;
+      box-shadow: 0 1px 2px #9f9d9d;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 2.7rem;
+      height: 1.6rem;
+      border-radius: 0.3rem;
+      box-sizing: border-box;
+      position: absolute;
+      left: 1.7rem;
+      transition: all 0.3s ease; }
+    .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Pan"]:after {
+      content: "ZOOM"; }
+    .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Zoom"]:after {
+      content: "PAN";
+      left: 0.2rem; }
+    .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Pan"]::before,
+    .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Zoom"]::before {
+      content: "Toggle Pan/Zoom";
+      position: absolute;
+      top: 0;
+      left: -8rem;
+      font-style: italic;
+      color: black;
+      font-size: 0.9rem;
+      background-color: #ECF0F1 !important;
+      height: 1.6rem;
+      border-top-left-radius: 0.3rem;
+      border-bottom-left-radius: 0.3rem;
+      border-right: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      padding: 0 0.5rem; }
     .entity .overview__xy-wrapper .canvasjs-chart-credit {
       display: none; }
     .entity .overview__xy-wrapper:after {

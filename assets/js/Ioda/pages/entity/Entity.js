@@ -30,7 +30,6 @@ import TopoMap from "../../components/map/Map";
 import * as topojson from 'topojson';
 import * as d3 from "d3-shape";
 import Tooltip from "../../components/tooltip/Tooltip";
-import {Style} from "react-style-tag";
 // Event Table Dependencies
 import * as sd from 'simple-duration'
 // Helper Functions
@@ -1978,65 +1977,6 @@ class Entity extends Component {
 
         return(
             <div className="entity">
-                <Style>{`
-                    /***************/
-                    /* styles to replace the default reset zoom image with text */
-                    /***************/
-                    .canvasjs-chart-toolbar {
-                        border: 1px solid #5899AE!important;
-                        border-radius: 3px;
-                        right: -25px!important;
-                        top: -20px!important;
-                    }
-                    .canvasjs-chart-toolbar button[title="Reset"],
-                    .canvasjs-chart-toolbar button[title="Zoom"] {
-                        width: 6rem!important;
-                        height: 3rem!important;
-                        position: relative;
-                    }
-                    .canvasjs-chart-toolbar button[title="Pan"],
-                    .canvasjs-chart-toolbar button[title="Zoom"] {
-                        height: 3rem!important;
-                        width: 3.5rem!important;
-                        position: relative;
-                        border-right: 1px solid #5899AE!important;
-                    }
-                    .canvasjs-chart-toolbar button[title="Reset"]:hover,
-                    .canvasjs-chart-toolbar button[title="Pan"]:hover,
-                     .canvasjs-chart-toolbar button[title="Zoom"]:hover {
-                        background-color: #5899AE!important;
-                        color: #fff!important;
-                    }
-                    .canvasjs-chart-toolbar button[title="Reset"] img,
-                    .canvasjs-chart-toolbar button[title="Pan"] img,
-                    .canvasjs-chart-toolbar button[title="Zoom"] img {
-                        display: none;
-                    }
-                    .canvasjs-chart-toolbar button[title="Reset"]:after,
-                    .canvasjs-chart-toolbar button[title="Pan"]:after,
-                    .canvasjs-chart-toolbar button[title="Zoom"]:after {
-                        font-size: 1rem;
-                        height: 1rem;
-                        width: 100%;
-                        position: absolute;
-                        font-family: 'Lato';
-                    }
-                    .canvasjs-chart-toolbar button[title="Reset"]:after {
-                        content: "Reset Zoom";
-                        top: 1.5rem;
-                        left: 0;
-                    }
-                    .canvasjs-chart-toolbar button[title="Pan"]:after {
-                        content: "Pan";
-                        top: 1.5rem;
-                        left: 0;
-                    }
-                    .canvasjs-chart-toolbar button[title="Zoom"]:after {
-                        content: "Zoom";
-                        top: 1.5rem;
-                        left: 0;
-                    }
-                `}</Style>
                 <ControlPanel
                     from={this.state.from}
                     until={this.state.until}

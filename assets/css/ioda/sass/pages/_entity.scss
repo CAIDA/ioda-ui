@@ -80,9 +80,124 @@
     &__xy-wrapper {
       position: relative;
 
+      /***************/
+      /* styles to replace the default reset zoom image with text */
+      /***************/
       .canvasjs-chart-toolbar {
-        margin-top: 1.8rem;
-        margin-right: 1.9rem;
+        border: none!important;
+      }
+      .canvasjs-chart-toolbar button[title="Reset"] {
+        background: linear-gradient(2deg, $color-secondary-dark, $color-secondary-light, $color-secondary-dark, $color-secondary-light);
+        border-radius: 0.5rem;
+        color: $color-white!important;
+        font-weight: 700;
+        font-size: 1.2rem;
+        cursor: pointer;
+        text-align: center;
+        border: none;
+        background-size: 100% 300%;
+        transition: all .4s ease-in-out;
+        position: relative;
+        z-index: 10;
+        padding: 0 0.5rem;
+        width: 6rem!important;
+        height: 3rem!important;
+
+        &:hover,
+        &:active {
+          border-radius: 0.5rem;
+          //background-position: 0 100%;
+          transition: all .4s ease-in-out;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+          filter: brightness(1.05) contrast(1.05);
+          transform: scale(1.03);
+
+          &:before {
+            bottom: -7px;
+            filter: blur(10px) brightness(0.95);
+          }
+        }
+      }
+      .canvasjs-chart-toolbar button[title="Pan"],
+      .canvasjs-chart-toolbar button[title="Zoom"] {
+        height: 1.6rem!important;
+        padding: 0.2rem!important;
+        width: 4.2rem!important;
+        position: relative;
+        border-right: none!important;
+        margin-right: 2rem;
+        background-color: #ECF0F1!important;
+        cursor: pointer;
+        border-radius: 0.3rem;
+        margin-top: 0.5rem;
+      }
+      .canvasjs-chart-toolbar button[title="Reset"] img,
+      .canvasjs-chart-toolbar button[title="Pan"] img,
+      .canvasjs-chart-toolbar button[title="Zoom"] img {
+        display: none;
+      }
+      .canvasjs-chart-toolbar button[title="Reset"]:after,
+      .canvasjs-chart-toolbar button[title="Pan"]:after,
+      .canvasjs-chart-toolbar button[title="Zoom"]:after {
+        font-size: 1rem;
+        height: 1rem;
+        width: 100%;
+        position: absolute;
+        font-family: 'Lato';
+      }
+      .canvasjs-chart-toolbar button[title="Reset"]:after {
+        content: "Reset Zoom";
+        top: 1.5rem;
+        left: 0;
+      }
+      .canvasjs-chart-toolbar button[title="Pan"]:after,
+      .canvasjs-chart-toolbar button[title="Zoom"]:after {
+        top: 0.2rem;
+        font-size: 0.7rem;
+        line-height: 0.8rem;
+        font-weight: bold;
+        cursor: pointer;
+        background: linear-gradient(
+                        2deg
+                , #286F86, #7FB7CA);
+        color: #fff;
+        padding: 0.4rem 0.6rem;
+        box-shadow: 0 1px 2px #9f9d9d;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 2.7rem;
+        height: 1.6rem;
+        border-radius: 0.3rem;
+        box-sizing: border-box;
+        position: absolute;
+        left: 1.7rem;
+        transition: all 0.3s ease;
+      }
+      .canvasjs-chart-toolbar button[title="Pan"]:after {
+        content: "ZOOM";
+      }
+      .canvasjs-chart-toolbar button[title="Zoom"]:after {
+        content: "PAN";
+        left: 0.2rem;
+      }
+      .canvasjs-chart-toolbar button[title="Pan"]::before,
+      .canvasjs-chart-toolbar button[title="Zoom"]::before {
+        content: "Toggle Pan/Zoom";
+        position: absolute;
+        top: 0;
+        left: -8rem;
+        font-style: italic;
+        color: black;
+        font-size: 0.9rem;
+        background-color: #ECF0F1 !important;
+        height: 1.6rem;
+        border-top-left-radius: 0.3rem;
+        border-bottom-left-radius: 0.3rem;
+        border-right: 1px solid #ccc;
+        display: flex;
+        align-items: center;
+        padding: 0 0.5rem;
       }
 
       .canvasjs-chart-credit {
