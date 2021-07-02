@@ -30,7 +30,6 @@ import TopoMap from "../../components/map/Map";
 import * as topojson from 'topojson';
 import * as d3 from "d3-shape";
 import Tooltip from "../../components/tooltip/Tooltip";
-import {Style} from "react-style-tag";
 // Event Table Dependencies
 import * as sd from 'simple-duration'
 // Helper Functions
@@ -1976,103 +1975,8 @@ class Entity extends Component {
 
         const timeDurationTooHighErrorMessage = T.translate("dashboard.timeDurationTooHighErrorMessage");
 
-        console.log("update19");
-
         return(
             <div className="entity">
-                <Style>{`
-                    /***************/
-                    /* styles to replace the default reset zoom image with text */
-                    /***************/
-                    .canvasjs-chart-toolbar {
-                        border: none!important;
-                        border-radius: 3px;
-                        right: -25px!important;
-                        top: -20px!important;
-                    }
-                    .canvasjs-chart-toolbar button[title="Reset"] {
-                        width: 6rem!important;
-                        height: 3rem!important;
-                        position: relative;
-                    }
-                    .canvasjs-chart-toolbar button[title="Pan"],
-                    .canvasjs-chart-toolbar button[title="Zoom"] {
-                        height: 1.6rem!important;
-                        padding: 0.2rem!important;
-                        width: 4.2rem!important;
-                        position: relative;
-                        border-right: none!important;
-                        margin-right: 1rem;
-                        background-color: #ECF0F1!important;
-                        cursor: pointer;
-                        border-radius: 0.3rem;
-                    }
-                    .canvasjs-chart-toolbar button[title="Reset"]:hover {
-                        background-color: #5899AE!important;
-                        color: #fff!important;
-                    }
-                    .canvasjs-chart-toolbar button[title="Reset"] img,
-                    .canvasjs-chart-toolbar button[title="Pan"] img,
-                    .canvasjs-chart-toolbar button[title="Zoom"] img {
-                        display: none;
-                    }
-                    .canvasjs-chart-toolbar button[title="Reset"]:after,
-                    .canvasjs-chart-toolbar button[title="Pan"]:after,
-                    .canvasjs-chart-toolbar button[title="Zoom"]:after {
-                        font-size: 1rem;
-                        height: 1rem;
-                        width: 100%;
-                        position: absolute;
-                        font-family: 'Lato';
-                    }
-                    .canvasjs-chart-toolbar button[title="Reset"]:after {
-                        content: "Reset Zoom";
-                        top: 1.5rem;
-                        left: 0;
-                    }
-                    .canvasjs-chart-toolbar button[title="Pan"]:after,
-                    .canvasjs-chart-toolbar button[title="Zoom"]:after {
-                        top: 0.2rem;
-                        font-size: 0.7rem;
-                        line-height: 0.8rem;
-                        font-weight: bold;
-                        cursor: pointer;
-                        background: linear-gradient(
-                            2deg
-                            , #286F86, #7FB7CA);
-                        color: #fff;
-                        padding: 0.4rem 0.6rem;
-                        box-shadow: 0 1px 2px #9f9d9d;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        width: 2.7rem;
-                        height: 1.6rem;
-                        border-radius: 0.3rem;
-                        box-sizing: border-box;
-                        position: absolute;
-                        left: 1.7rem;
-                        transition: all 0.3s ease;
-                    }
-                    .canvasjs-chart-toolbar button[title="Pan"]:after {
-                        content: "ZOOM";
-                    }                    
-                    .canvasjs-chart-toolbar button[title="Zoom"]:after {
-                        content: "PAN";
-                        left: 0.2rem; 
-                    }
-                    .canvasjs-chart-toolbar button[title="Pan"]::before,
-                    .canvasjs-chart-toolbar button[title="Zoom"]::before {
-                        content: "Toggle Pan/Zoom";
-                        position: absolute;
-                        top: 1rem;
-                        left: -8.5rem;
-                        font-style: italic;
-                        color: black;
-                        display: block;
-                        font-size: 1rem;
-                    }
-                `}</Style>
                 <ControlPanel
                     from={this.state.from}
                     until={this.state.until}
