@@ -294,7 +294,7 @@
     justify-content: flex-end;
 
     @include respond(phone-lg) {
-      justify-content: center;
+      justify-content: space-between;
     }
 
     .heading-h1 {

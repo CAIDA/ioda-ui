@@ -78,7 +78,8 @@ class Entity extends Component {
             tsDataNormalized: true,
             tsDataDisplayOutageBands: true,
             // Used for responsively styling the xy chart
-            tsDataScreenBelow760: false,
+            tsDataScreenBelow970: window.innerWidth <= 970,
+            tsDataScreenBelow640: window.innerWidth <= 640,
             // Used to track which series have visibility, needed for when switching between normalized/absolute values to maintain state
             tsDataSeriesVisiblePingSlash24: true,
             tsDataSeriesVisibleBgp: true,
@@ -156,6 +157,7 @@ class Entity extends Component {
     }
 
     componentDidMount() {
+        console.log("update1");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
         this.setState({
@@ -805,7 +807,7 @@ class Entity extends Component {
         this.setState({
             xyDataOptions: {
                 theme: "light2",
-                height: 514,
+                height: this.state.tsDataScreenBelow640 ? 360 : 514,
                 animationEnabled: true,
                 zoomEnabled: true,
                 axisX: {
@@ -852,8 +854,8 @@ class Entity extends Component {
                 },
                 legend: {
                     cursor: "pointer",
-                    fontSize: 14,
-                    verticalAlign: this.state.tsDataScreenBelow760 ? "top" : "bottom",
+                    fontSize: this.state.tsDataScreenBelow640 ? 11 : 14,
+                    verticalAlign: this.state.tsDataScreenBelow970 ? "top" : "bottom",
                     itemclick: (e) => {
                         // console.log("legend click: " + e.dataPointIndex);
                         // console.log(e);
@@ -908,17 +910,27 @@ class Entity extends Component {
             tsDataDisplayOutageBands: !this.state.tsDataDisplayOutageBands
         }, () => this.convertValuesForXyViz())
     }
-    // Track screen width to shift around legend
+    // Track screen width to shift around legend, adjust height of xy chart
     resize() {
-        let tsDataScreenBelow760 = (window.innerWidth <= 760);
-        if (tsDataScreenBelow760 !== this.state.tsDataScreenBelow760) {
+        let tsDataScreenBelow970 = (window.innerWidth <= 970);
+        if (tsDataScreenBelow970 !== this.state.tsDataScreenBelow970) {
 
             this.setState({
-                tsDataScreenBelow760: tsDataScreenBelow760
+                tsDataScreenBelow970: tsDataScreenBelow970
             }, () => {
-                this.convertValuesForXyViz();
+                let tsDataScreenBelow640 = (window.innerWidth <= 640);
+                if (tsDataScreenBelow640 !== this.state.tsDataScreenBelow640) {
+
+                    this.setState({
+                        tsDataScreenBelow640: tsDataScreenBelow640
+                    }, () => {
+                        this.convertValuesForXyViz();
+                    });
+                }
             });
         }
+
+
     }
 
 // Event Table

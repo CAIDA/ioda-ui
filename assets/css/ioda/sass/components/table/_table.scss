@@ -86,6 +86,10 @@
       align-items: center;
       height: 100%;
 
+      @include respond(tab-land) {
+        min-width: 12rem;
+      }
+
       & p {
         display: flex;
         align-items: center;
@@ -99,6 +103,10 @@
     & tr td:nth-child(3) {
       width: 20%;
       min-width: 11rem;
+
+      @include respond(tab-land) {
+        min-width: 9rem;
+      }
     }
     & .table__header-col:nth-child(4),
     & .table__header-col:nth-child(5) {

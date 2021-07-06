@@ -443,7 +443,7 @@ body {
     justify-content: flex-end; }
     @media only screen and (max-width: 40em) {
       .control-panel__title {
-        justify-content: center; } }
+        justify-content: space-between; } }
     .control-panel__title .heading-h1 {
       display: flex;
       justify-content: flex-end; }
@@ -1166,6 +1166,10 @@ body {
       display: flex;
       align-items: center;
       height: 100%; }
+      @media only screen and (max-width: 80em) {
+        .table--alert .table__header-col:nth-child(2),
+        .table--alert tr td:nth-child(2) {
+          min-width: 12rem; } }
       .table--alert .table__header-col:nth-child(2) p,
       .table--alert tr td:nth-child(2) p {
         display: flex;
@@ -1177,6 +1181,10 @@ body {
     .table--alert tr td:nth-child(3) {
       width: 20%;
       min-width: 11rem; }
+      @media only screen and (max-width: 80em) {
+        .table--alert .table__header-col:nth-child(3),
+        .table--alert tr td:nth-child(3) {
+          min-width: 9rem; } }
     .table--alert .table__header-col:nth-child(4),
     .table--alert .table__header-col:nth-child(5) {
       justify-content: center; }
@@ -2680,8 +2688,14 @@ button[class*="searchButton"] {
 .entity {
   padding-top: 5rem;
   margin: 4rem 4.5rem 0; }
+  @media only screen and (max-width: 27.5em) {
+    .entity {
+      margin: 3rem 0.5rem 0; } }
   .entity .col-1-of-3 {
     position: relative; }
+  @media only screen and (max-width: 64em) {
+    .entity .overview {
+      margin-bottom: 0; } }
   .entity .overview .col-3-of-5, .entity .overview .col-2-of-5, .entity .overview__time-range-error {
     background-color: #fff;
     border-bottom-right-radius: 0.3rem;
@@ -2690,13 +2704,20 @@ button[class*="searchButton"] {
     min-height: 65rem;
     box-shadow: 0 1px 2px #9F9D9D;
     padding: 2.5rem; }
+    @media only screen and (max-width: 80em) {
+      .entity .overview .col-3-of-5, .entity .overview .col-2-of-5, .entity .overview__time-range-error {
+        min-height: unset; } }
+  @media only screen and (max-width: 64em) {
+    .entity .overview .col-3-of-5 {
+      margin-bottom: 2.5rem !important; } }
   .entity .overview__time-range-error {
     min-height: 6rem;
     margin-bottom: 4.5rem;
     font-size: 1.3rem; }
   @media only screen and (max-width: 80em) {
     .entity .overview .col-3-of-5 {
-      width: 100%; }
+      width: 100%;
+      margin-bottom: 4.5rem; }
     .entity .overview .col-2-of-5 {
       width: 100%; } }
   .entity .overview__config {
@@ -2871,6 +2892,16 @@ button[class*="searchButton"] {
       padding: 0 0.5rem; }
     .entity .overview__xy-wrapper .canvasjs-chart-credit {
       display: none; }
+    @media only screen and (max-width: 30em) {
+      .entity .overview__xy-wrapper:before {
+        content: "";
+        position: absolute;
+        bottom: 0.5rem;
+        left: 0;
+        background-color: #fff;
+        width: 17.5rem;
+        height: 1.6rem;
+        z-index: 10; } }
     .entity .overview__xy-wrapper:after {
       content: "";
       position: absolute;
@@ -2889,6 +2920,10 @@ button[class*="searchButton"] {
         .entity .overview__xy-wrapper:after {
           width: 17.5rem;
           height: 2rem; } }
+      @media only screen and (max-width: 30em) {
+        .entity .overview__xy-wrapper:after {
+          width: 19.5rem;
+          height: 1.6rem; } }
   .entity .overview__table-config {
     display: flex;
     flex-direction: row;
@@ -2910,6 +2945,11 @@ button[class*="searchButton"] {
       height: 50rem;
       box-shadow: 0 1px 2px #9F9D9D;
       padding: 2.5rem; }
+      @media only screen and (max-width: 64em) {
+        .entity .related .col-1-of-2 {
+          height: unset; }
+          .entity .related .col-1-of-2 .map {
+            height: unset !important; } }
       .entity .related .col-1-of-2 .table--summary tbody {
         max-height: 34rem; }
     .entity .related__heading {
@@ -2928,6 +2968,11 @@ button[class*="searchButton"] {
       flex-direction: column;
       align-items: center;
       margin-top: 6rem; }
+      .entity .related__no-outages .related__modal-button {
+        margin-bottom: 1.5rem; }
+        @media only screen and (max-width: 64em) {
+          .entity .related__no-outages .related__modal-button {
+            margin-left: 0; } }
     .entity .related__modal-button {
       background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
       height: 3.5rem;
@@ -2977,3 +3022,6 @@ button[class*="searchButton"] {
           filter: blur(10px) brightness(0.95); }
       .entity .related__modal-button:focus {
         outline: none; }
+      @media only screen and (max-width: 64em) {
+        .entity .related__modal-button {
+          margin-left: 3rem; } }
