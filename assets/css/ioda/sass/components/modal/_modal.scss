@@ -24,6 +24,10 @@
     height: 84vh;
     padding: 1.5rem;
     border-radius: 3px;
+
+    @include respond(phone-440) {
+      width: calc(100% - 2rem);
+    }
   }
 
   &__row {
@@ -102,10 +106,7 @@
   }
 
   &__loadAll {
-    display: flex;
-    align-items: center;
-    height: 3rem;
-    margin-top: -1.5rem;
+    margin: 0.5rem 0 1rem;
 
     &-button {
       border: none;
@@ -128,6 +129,7 @@
               no-repeat;
       background-size: 100% 2px; /* controls underline thickness */
       cursor: pointer;
+      font-size: 1.1rem;
 
       &:hover {
 

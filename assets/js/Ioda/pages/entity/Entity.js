@@ -157,7 +157,7 @@ class Entity extends Component {
     }
 
     componentDidMount() {
-        console.log("update1");
+        console.log("update4");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
         this.setState({
@@ -929,8 +929,6 @@ class Entity extends Component {
                 }
             });
         }
-
-
     }
 
 // Event Table
@@ -1301,6 +1299,7 @@ class Entity extends Component {
                         toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInHtsViz(event, "region")}
                         handleEntityClick={(entityType, entityCode) => this.handleEntityClick(entityType, entityCode)}
                         handleCheckboxEventLoading={(item) => this.handleCheckboxEventLoading(item)}
+                        summaryDataMapRaw={this.props.summaryDataMapRaw}
                     />
                 );
             case "asn":

@@ -178,12 +178,12 @@ class Modal extends Component {
                                         </div>
                                         <div className="modal__map-container">
                                             <h3 className="heading-h3">{regionalMapTitle}</h3>
-                                            <div className="modal__map" style={{display: 'block', height: '38rem'}}>
+                                            <div className="modal__map">
                                                 {
                                                     this.props.summaryDataMapRaw
                                                         ? this.props.summaryDataMapRaw.length > 0
-                                                        ? this.props.populateGeoJsonMap()
-                                                        : noOutagesOnMapMessage
+                                                            ? this.props.populateGeoJsonMap()
+                                                            : noOutagesOnMapMessage
                                                         : <Loading/>
                                                 }
                                             </div>

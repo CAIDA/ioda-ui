@@ -1937,6 +1937,9 @@ body {
   height: 84vh;
   padding: 1.5rem;
   border-radius: 3px; }
+  @media only screen and (max-width: 27.5em) {
+    .modal__window {
+      width: calc(100% - 2rem); } }
 
 .modal__row {
   background-color: #fff;
@@ -2082,10 +2085,7 @@ body {
       margin-right: 1rem; }
 
 .modal__loadAll {
-  display: flex;
-  align-items: center;
-  height: 3rem;
-  margin-top: -1.5rem; }
+  margin: 0.5rem 0 1rem; }
   .modal__loadAll-button {
     border: none;
     color: #5899AE;
@@ -2096,7 +2096,8 @@ body {
     background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
     background-size: 100% 2px;
     /* controls underline thickness */
-    cursor: pointer; }
+    cursor: pointer;
+    font-size: 1.1rem; }
   .modal__loadAll strong {
     padding: 0 0.3rem; }
   .modal__loadAll-spinner {
