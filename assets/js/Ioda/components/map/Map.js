@@ -12,7 +12,22 @@ class TopoMap extends Component {
         this.state = {
             hoverName: "",
             hoverScore: 0,
-            hoverTooltipDisplay: false
+            hoverTooltipDisplay: false,
+            screenWidthBelow680 : false
+        }
+    }
+
+    componentDidMount() {
+        window.addEventListener("resize", this.resize.bind(this));
+    }
+
+    resize() {
+        let screenWidthBelow680 = (window.innerWidth <= 680);
+        if (screenWidthBelow680 !== this.state.screenWidthBelow680) {
+
+            this.setState({
+                screenWidthBelow680: screenWidthBelow680
+            });
         }
     }
 
@@ -62,7 +77,7 @@ class TopoMap extends Component {
     render() {
         let { scores } = this.props;
         let position = [20, 0];
-        let zoom = 2;
+        let zoom = this.state.screenWidthBelow680 ? 1 : 2;
 
         return (
             <div style={{position: 'relative', height: 'inherit', width: '100%'}}>

@@ -2,11 +2,19 @@
   padding-top: $header-height;
   margin: 4rem $gutter-vertical 0;
 
+  @include respond(phone-440) {
+    margin: 3rem 0.5rem 0;
+  }
+
   .col-1-of-3 {
     position: relative;
   }
 
   .overview {
+    @include respond(tab-port) {
+      margin-bottom: 0;
+    }
+
     .col-3-of-5, .col-2-of-5, &__time-range-error {
       background-color: $color-white;
       border-bottom-right-radius: 0.3rem;
@@ -15,6 +23,16 @@
       min-height: 65rem;
       box-shadow: $box-shadow;
       padding: $gutter-vertical-small;
+
+      @include respond(tab-land) {
+        min-height: unset;
+      }
+    }
+
+    .col-3-of-5 {
+      @include respond(tab-port) {
+        margin-bottom: 2.5rem!important;
+      }
     }
 
     &__time-range-error {
@@ -26,6 +44,7 @@
     @include respond(tab-land) {
       .col-3-of-5 {
         width: 100%;
+        margin-bottom: $gutter-vertical;
       }
 
       .col-2-of-5 {
@@ -204,6 +223,19 @@
         display: none;
       }
 
+      &:before {
+        @include respond(phone) {
+          content: "";
+          position: absolute;
+          bottom: 0.5rem;
+          left: 0;
+          background-color: $color-white;
+          width: 17.5rem;
+          height: 1.6rem;
+          z-index: 10;
+        }
+      }
+
       &:after {
         content: "";
         position: absolute;
@@ -224,6 +256,11 @@
         @include respond(tab-port) {
           width: 17.5rem;
           height: 2rem;
+        }
+
+        @include respond(phone) {
+          width: 19.5rem;
+          height: 1.6rem;
         }
       }
     }
@@ -260,6 +297,14 @@
       box-shadow: $box-shadow;
       padding: $gutter-vertical-small;
 
+      @include respond(tab-port) {
+        height: unset;
+
+        & .map {
+          height: unset!important;
+        }
+      }
+
       & .table--summary tbody {
         max-height: 34rem;
       }
@@ -289,6 +334,14 @@
       flex-direction: column;
       align-items: center;
       margin-top: 6rem;
+
+      & .related__modal-button {
+        margin-bottom: 1.5rem;
+
+        @include respond(tab-port) {
+          margin-left: 0;
+        }
+      }
     }
 
     &__modal-button {
@@ -297,6 +350,10 @@
       font-size: 1rem;
       margin: 0;
       padding: 0 1rem;
+
+      @include respond(tab-port) {
+        margin-left: 3rem;
+      }
     }
   }
 }
