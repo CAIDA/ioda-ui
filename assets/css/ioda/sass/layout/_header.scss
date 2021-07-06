@@ -8,6 +8,7 @@
   align-items: center;
   z-index: 1000;
   height: $header-height;
+  padding: 0 4.5rem;
 
   &__container {
     display: flex;
@@ -16,6 +17,11 @@
     max-width: $grid-width;
     width: 100%;
     height: auto;
+
+    @include respond(phone-lg) {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 
   &__logo {
@@ -70,6 +76,11 @@
     height: auto;
     color: $color-white;
     text-decoration: none;
+
+    @include respond(phone-lg) {
+      padding-right: 4.5rem;
+      justify-content: flex-end;
+    }
 
     &:hover {
       text-decoration: none;

@@ -2,6 +2,10 @@
   padding-top: $header-height;
   margin: 4rem $gutter-vertical 0;
 
+  @include respond(phone-440) {
+    margin: 3rem 0.5rem 0;
+  }
+
   .title {
     margin-bottom: 0;
   }
@@ -58,6 +62,13 @@
           box-shadow: $box-shadow;
           z-index: 100;
           position: relative;
+
+          &:hover {
+            background-size: 100% 2px!important;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            color: $color-secondary;
+          }
 
           &:after {
             content: '';

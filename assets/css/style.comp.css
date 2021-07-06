@@ -201,7 +201,16 @@ body {
   background-color: #fff;
   border-radius: 0.3rem;
   box-shadow: 0 1px 2px #9F9D9D;
-  padding: 2.5rem; }
+  padding: 2.5rem;
+  display: flex; }
+  @media only screen and (max-width: 40em) {
+    .control-panel {
+      flex-direction: column-reverse; } }
+  .control-panel .col-1-of-3 {
+    min-width: 46rem; }
+    @media only screen and (max-width: 30em) {
+      .control-panel .col-1-of-3 {
+        min-width: unset; } }
   .control-panel .searchbar {
     margin-bottom: 1rem; }
     .control-panel .searchbar__heading {
@@ -220,6 +229,9 @@ body {
   .control-panel [class^="searchInput-"] {
     height: 3.75rem;
     padding-left: 0.8rem; }
+    @media only screen and (max-width: 30em) {
+      .control-panel [class^="searchInput-"] {
+        font-size: 1.3rem; } }
     .control-panel [class^="searchInput-"]:focus ~ label {
       margin-top: -5.6rem;
       padding-left: 1rem; }
@@ -260,6 +272,9 @@ body {
     color: #757575;
     padding-top: 0.5rem;
     padding-left: 0.8rem; }
+    @media only screen and (max-width: 30em) {
+      .control-panel .range__input {
+        font-size: 1.3rem; } }
     .control-panel .range__input-start {
       margin-left: 0.5rem; }
     .control-panel .range__input span {
@@ -274,19 +289,51 @@ body {
     top: 12.5rem;
     box-shadow: 0 1px 2px #9F9D9D;
     border-radius: 3px; }
+    @media only screen and (max-width: 27.5em) {
+      .control-panel .range__dropdown {
+        left: -3rem;
+        overflow: hidden; } }
+    @media only screen and (max-width: 40em) {
+      .control-panel .range__dropdown .rdrDateRangePickerWrapper {
+        display: flex;
+        flex-direction: column; } }
+    .control-panel .range__dropdown .rdrDateRangePickerWrapper .rdrDefinedRangesWrapper {
+      width: 100%; }
+    @media only screen and (max-width: 40em) {
+      .control-panel .range__dropdown .rdrDateRangePickerWrapper .rdrCalendarWrapper {
+        margin-top: -5rem;
+        padding-bottom: 5rem; } }
+    @media only screen and (max-width: 27.5em) {
+      .control-panel .range__dropdown .rdrDateRangePickerWrapper .rdrCalendarWrapper {
+        font-size: 1.5rem; } }
     .control-panel .range__dropdown .rdrStaticRange {
       background-color: #fbfbfb;
       border-radius: 0.5rem;
       margin: 0.25rem;
       height: 3.5rem;
-      color: #5899AE; }
+      color: #5899AE;
+      display: flex;
+      align-items: center; }
+      @media only screen and (max-width: 80em) {
+        .control-panel .range__dropdown .rdrStaticRange {
+          height: 4rem; } }
+      @media only screen and (max-width: 64em) {
+        .control-panel .range__dropdown .rdrStaticRange {
+          height: 4.5rem; } }
+      @media only screen and (max-width: 30em) {
+        .control-panel .range__dropdown .rdrStaticRange {
+          font-size: 1.3rem;
+          display: flex;
+          justify-content: center;
+          align-items: center; } }
       .control-panel .range__dropdown .rdrStaticRange:hover {
         background: linear-gradient(2deg, #286F86, #7FB7CA) !important;
         font-weight: 700 !important;
         color: #fff !important; }
     .control-panel .range__dropdown-userInputRange {
       display: flex;
-      justify-content: left; }
+      justify-content: left;
+      align-items: center; }
       .control-panel .range__dropdown-userInputRange input {
         width: 5.5rem;
         margin: -0.1rem 0.75rem 0;
@@ -294,15 +341,23 @@ body {
         -moz-appearance: textfield;
         height: 1.9rem;
         border: 1px solid #DCE4EA; }
+        @media only screen and (max-width: 80em) {
+          .control-panel .range__dropdown-userInputRange input {
+            margin: 0 0.75rem;
+            height: 100%;
+            font-size: 1.3rem; } }
         .control-panel .range__dropdown-userInputRange input::-webkit-outer-spin-button, .control-panel .range__dropdown-userInputRange input::-webkit-inner-spin-button {
           -webkit-appearance: none;
           margin: 0; }
       .control-panel .range__dropdown-userInputRangeSelect {
         border: 1px solid #DCE4EA;
         margin-top: -0.1rem; }
+        @media only screen and (max-width: 30em) {
+          .control-panel .range__dropdown-userInputRangeSelect {
+            font-size: 1.3rem; } }
     .control-panel .range__dropdown-checkbox {
       width: 100%;
-      margin-top: 1rem;
+      margin-top: 0.5rem;
       justify-content: center;
       align-items: center;
       font-style: italic;
@@ -315,8 +370,12 @@ body {
   .control-panel .range__time {
     display: none;
     position: absolute;
-    bottom: 1rem;
-    right: 1rem; }
+    bottom: 0.25rem;
+    right: 3.8rem; }
+    @media only screen and (max-width: 40em) {
+      .control-panel .range__time {
+        bottom: 1rem;
+        right: 1.5rem; } }
     .control-panel .range__time--visible {
       display: flex;
       flex-direction: column;
@@ -382,6 +441,9 @@ body {
   .control-panel__title {
     display: flex;
     justify-content: flex-end; }
+    @media only screen and (max-width: 40em) {
+      .control-panel__title {
+        justify-content: center; } }
     .control-panel__title .heading-h1 {
       display: flex;
       justify-content: flex-end; }
@@ -2220,7 +2282,8 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  height: 5rem; }
+  height: 5rem;
+  padding: 0 4.5rem; }
   .header__container {
     display: flex;
     flex-direction: row;
@@ -2228,6 +2291,10 @@ body {
     max-width: 114rem;
     width: 100%;
     height: auto; }
+    @media only screen and (max-width: 40em) {
+      .header__container {
+        display: flex;
+        justify-content: space-between; } }
   .header__logo {
     display: flex;
     align-items: center;
@@ -2265,6 +2332,10 @@ body {
     height: auto;
     color: #fff;
     text-decoration: none; }
+    @media only screen and (max-width: 40em) {
+      .header__link:link, .header__link:visited {
+        padding-right: 4.5rem;
+        justify-content: flex-end; } }
     .header__link:link:hover, .header__link:visited:hover {
       text-decoration: none;
       color: #fff;
@@ -2453,6 +2524,9 @@ button[class*="searchButton"] {
 .dashboard {
   padding-top: 5rem;
   margin: 4rem 4.5rem 0; }
+  @media only screen and (max-width: 27.5em) {
+    .dashboard {
+      margin: 3rem 0.5rem 0; } }
   .dashboard .title {
     margin-bottom: 0; }
   .dashboard .col-1-of-3 {
@@ -2505,6 +2579,11 @@ button[class*="searchButton"] {
             transition: ease-in-out 0.3s; }
             .dashboard .tabs .nav-tabs li.active a:link:hover, .dashboard .tabs .nav-tabs li.active a:visited:hover {
               background-size: 100% 2px; }
+          .dashboard .tabs .nav-tabs li.active a:hover {
+            background-size: 100% 2px !important;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            color: #5899AE; }
           .dashboard .tabs .nav-tabs li.active a:after {
             content: '';
             height: 1rem;
