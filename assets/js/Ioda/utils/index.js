@@ -334,7 +334,11 @@ export function dateRangeToSeconds(dateRange, timeRange) {
 
 // Normalize valye in XY plot of time series on entity page
 export function normalize(value, min, max) {
-    return value !== null && (!isNaN((value - min) / (max - min))) ? (value - min) / (max - min) * 100 : 100;
+    if (value !== 0) {
+        return value !== null && (!isNaN((value - min) / (max - min))) ? (value - min) / (max - min) * 100 : 100;
+    } else {
+        return 0;
+    }
 }
 
 // Used in the error message displaying current time request when time range limit is exceeded

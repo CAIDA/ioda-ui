@@ -665,7 +665,7 @@ class Entity extends Component {
                 visible: this.state.tsDataSeriesVisiblePingSlash24,
                 showInLegend: true,
                 xValueFormatString: "DDD, MMM DD - HH:MM",
-                yValueFormatString: "##",
+                yValueFormatString: "0",
                 dataPoints: activeProbingValues,
                 legendMarkerColor: "#1F78B4",
                 toolTipContent: "{x} <br/> Active Probing (# /24s Up): {y}",
@@ -684,7 +684,7 @@ class Entity extends Component {
                 visible: this.state.tsDataSeriesVisibleBgp,
                 showInLegend: true,
                 xValueFormatString: "DDD, MMM DD - HH:MM",
-                yValueFormatString: "##",
+                yValueFormatString: "0",
                 dataPoints: bgpValues,
                 legendMarkerColor: "#33A02C",
                 toolTipContent: "{x} <br/> BGP (# Visbile /24s): {y}"
@@ -703,7 +703,7 @@ class Entity extends Component {
                 axisYType: this.state.tsDataNormalized ? 'primary' : "secondary",
                 showInLegend: true,
                 xValueFormatString: "DDD, MMM DD - HH:MM",
-                yValueFormatString: "##",
+                yValueFormatString: "0",
                 dataPoints: networkTelescopeValues,
                 legendMarkerColor: "#E31A1C",
                 toolTipContent: "{x} <br/> Network Telescope (# Unique Source IPs): {y}"
