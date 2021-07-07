@@ -281,6 +281,13 @@ body {
       display: inline-block; }
     .control-panel .range__input-dash {
       padding: 0 1.5rem; }
+    .control-panel .range__input-field {
+      width: 100%;
+      height: 3.5rem;
+      border: none;
+      margin-top: -0.5rem;
+      padding-left: 1rem;
+      color: #2c3e50; }
   .control-panel .range__dropdown {
     display: none;
     z-index: 10000;

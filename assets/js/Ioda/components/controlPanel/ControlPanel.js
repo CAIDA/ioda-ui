@@ -53,6 +53,7 @@ class ControlPanel extends Component {
     }
 
     componentDidMount() {
+        console.log("update");
         document.addEventListener('click', event => this.handleClickOffTimeRange(event));
     }
 
@@ -240,11 +241,6 @@ class ControlPanel extends Component {
     }
 
     render() {
-        let startDate = new Date((this.props.from * 1000)).toISOString().split("T")[0];
-        let startTime = new Date((this.props.from * 1000)).toISOString().split("T")[1].split(".")[0];
-        let endDate = new Date((this.props.until * 1000)).toISOString().split("T")[0];
-        let endTime = new Date((this.props.until * 1000)).toISOString().split("T")[1].split(".")[0];
-
         const utc = T.translate("controlPanel.utc");
         const wholeDay = T.translate("controlPanel.wholeDay");
         const apply = T.translate("controlPanel.apply");
@@ -457,13 +453,9 @@ class ControlPanel extends Component {
                                 <div className="range__calendar">
                                     <img src={iconCalendar} alt={T.translate("controlPanel.calendarIconAltText")}/>
                                 </div>
-                            <span className="range__input-start">
-                                {startDate} - {startTime}<sub><sup><sub>{utc}</sub></sup></sub>
-                            </span>
-                                <span className="range__input-dash">—</span>
-                                <span className="range__input-end">
-                                {endDate} - {endTime}<sub><sup><sub>{utc}</sub></sup></sub>
-                            </span>
+                                <input className="range__input-field"
+                                       value={`${this.state.selection.startDate.toISOString().split("T")[0]} - ${this.state.selection.startDate.toISOString().split("T")[1].split(".")[0]} —  ${this.state.selection.endDate.toISOString().split("T")[0]} - ${this.state.selection.endDate.toISOString().split("T")[1].split(".")[0]}`}
+                                />
                             </button>
                         </div>
                         <div className={this.state.rangeInputVisibility ? "range__dropdown range__dropdown--visible" : "range__dropdown"}>
