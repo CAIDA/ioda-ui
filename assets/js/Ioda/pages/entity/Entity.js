@@ -653,8 +653,6 @@ class Entity extends Component {
         const bgpLegendText = T.translate("entity.bgpLegendText");
         const darknetLegendText = T.translate("entity.darknetLegendText");
 
-        console.log(activeProbingValues);
-
         if (activeProbingValues) {
             activeProbing = {
                 type: "line",
