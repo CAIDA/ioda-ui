@@ -77,6 +77,12 @@ class Entity extends Component {
             tsDataRaw: null,
             tsDataNormalized: true,
             tsDataDisplayOutageBands: true,
+            tsDataLegendRangeFrom: window.location.search.split("?")[1]
+                ? window.location.search.split("?")[1].split("&")[0].split("=")[1]
+                : Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000),
+            tsDataLegendRangeUntil: window.location.search.split("?")[1]
+                ? window.location.search.split("?")[1].split("&")[1].split("=")[1]
+                : Math.round(new Date().getTime() / 1000),
             // Used for responsively styling the xy chart
             tsDataScreenBelow970: window.innerWidth <= 970,
             tsDataScreenBelow640: window.innerWidth <= 640,
@@ -157,6 +163,7 @@ class Entity extends Component {
     }
 
     componentDidMount() {
+        console.log("update7");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
         this.setState({
@@ -451,6 +458,8 @@ class Entity extends Component {
                     tsDataRaw: null,
                     tsDataNormalized: true,
                     tsDataDisplayOutageBands: true,
+                    tsDataLegendRangeFrom: range[0],
+                    tsDataLegendRangeUntil: range[1],
                     // Search Bar
                     suggestedSearchResults: null,
                     searchTerm: "",
@@ -712,6 +721,30 @@ class Entity extends Component {
 
         return [activeProbing, bgp, networkTelescope]
     }
+    // function for when zoom/pan
+    xyPlotRangeChanged(e) {
+        let beginningRangeDate = Math.floor(e.axisX[0].viewportMinimum / 1000);
+        let endRangeDate = Math.floor(e.axisX[0].viewportMaximum / 1000);
+
+        if (Math.floor(e.axisX[0].viewportMinimum / 1000) !== 0 || Math.floor(e.axisX[0].viewportMaximum / 1000) !== 0) {
+            this.setState({
+                tsDataLegendRangeFrom: Math.floor(e.axisX[0].viewportMinimum / 1000),
+                tsDataLegendRangeUntil: Math.floor(e.axisX[0].viewportMaximum / 1000)
+            });
+        } else {
+            // case when hitting reset zoom, both values return 0 from event.
+            this.setState({
+                tsDataLegendRangeFrom: window.location.search.split("?")[1]
+                    ? window.location.search.split("?")[1].split("&")[0].split("=")[1]
+                    : Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000),
+                tsDataLegendRangeUntil: window.location.search.split("?")[1]
+                    ? window.location.search.split("?")[1].split("&")[1].split("=")[1]
+                    : Math.round(new Date().getTime() / 1000)
+            });
+        }
+        console.log(beginningRangeDate);
+        console.log(endRangeDate);
+    }
     convertValuesForXyViz() {
         // ToDo: Set x values to local time zone initially
         let networkTelescopeValues = [];
@@ -809,6 +842,7 @@ class Entity extends Component {
                 height: this.state.tsDataScreenBelow640 ? 360 : 514,
                 animationEnabled: true,
                 zoomEnabled: true,
+                rangeChanged: (e) => this.xyPlotRangeChanged(e),
                 axisX: {
                     title: "Time (UTC)",
                     stripLines: stripLines,
@@ -2035,8 +2069,8 @@ class Entity extends Component {
                                         : <Loading/>
                                 }
                                 <div className="overview__timestamp">
-                                    <TimeStamp from={convertSecondsToDateValues(this.state.from)}
-                                               until={convertSecondsToDateValues(this.state.until)} />
+                                    <TimeStamp from={convertSecondsToDateValues(this.state.tsDataLegendRangeFrom)}
+                                               until={convertSecondsToDateValues(this.state.tsDataLegendRangeUntil)} />
                                 </div>
                             </div>
                             <div className="col-2-of-5">
