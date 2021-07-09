@@ -35,6 +35,7 @@ import d3 from 'd3';
 
 // Time limit max that a user can select in the calendar -- currently set for 35 days
 export const controlPanelTimeRangeLimit = 3024001;
+export const monthStrings = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 // Humanize number with rounding, abbreviations, etc.
 export function humanizeNumber(value, precisionDigits) {
@@ -47,8 +48,7 @@ export function humanizeNumber(value, precisionDigits) {
 
 // For event/alert table
 export function convertSecondsToDateValues(s) {
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    const month = months[new Date(s * 1000).getUTCMonth()];
+    const month = monthStrings[new Date(s * 1000).getUTCMonth()];
     const day = new Date(s * 1000).getUTCDate();
     const year = new Date(s * 1000).getFullYear();
     const hourValue = new Date(s * 1000).getUTCHours();
@@ -63,6 +63,10 @@ export function convertSecondsToDateValues(s) {
     const minutes = minuteValue < 10
         ? `0${minuteValue}`
         : minuteValue;
+    const secondsValue = new Date(s * 1000).getUTCSeconds();
+    const seconds = secondsValue < 10
+        ? `0${secondsValue}`
+        : secondsValue;
     const meridian = hourValue > 12 ? "pm" : "am";
     return {
         month: month,
@@ -70,8 +74,23 @@ export function convertSecondsToDateValues(s) {
         year: year,
         hours: hours,
         minutes: minutes,
+        seconds: seconds,
         meridian: meridian
     }
+}
+
+// Used in control panel when directly editing time range input
+export function convertDateValuesToSeconds(d) {
+    // seperate date values
+    let mon = d.split(" ")[0];
+    let day = d.split(" ")[1].slice(0, -1);
+    let yr = d.split(" ")[2];
+    let hr = d.split(" ")[3].split(":")[0];
+    let min = d.split(" ")[3].split(":")[1].match(/[a-z]+|[^a-z]+/gi)[0];
+    let meridian = d.split(" ")[3].split(":")[1].match(/[a-z]+|[^a-z]+/gi)[1];
+    // config and return utc date time since epoch
+    const newDate = new Date(`${mon} ${day}, ${yr} ${meridian === "pm" ? parseInt(hr) + 12 : hr}:${min}:00 `);
+    return Math.floor(newDate.getTime() + (newDate.getTimezoneOffset() * 60000) / 1000);
 }
 
 export function toDateTime(s) {
