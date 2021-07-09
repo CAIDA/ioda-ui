@@ -23,6 +23,7 @@ import iconCalendar from 'images/icons/icon-calendar.png';
 // Tooltip Component
 import Tooltip from "../../components/tooltip/Tooltip";
 import ReactDOM from "react-dom";
+import {convertDateValuesToSeconds, convertSecondsToDateValues} from "../../utils";
 
 class ControlPanel extends Component {
     constructor(props) {
@@ -37,6 +38,10 @@ class ControlPanel extends Component {
                 "00:00:00",
                 "23:59:59"
             ],
+            readableTimeRangeInputSelection: {
+              startDate: "",
+              endDate: ""
+            },
             rangeInputVisibility: false,
             wholeDayInputSelected: false,
             validRange: true,
@@ -53,11 +58,29 @@ class ControlPanel extends Component {
     }
 
     componentDidMount() {
+        let readableDates = this.setDateInLegend(this.props.from, this.props.until);
+
+        this.setState({
+            readableTimeRangeInputSelection: {
+                startDate: readableDates[0],
+                endDate: readableDates[1]
+            }
+        });
+
         document.addEventListener('click', event => this.handleClickOffTimeRange(event));
     }
 
     componentWillUnmount() {
         document.removeEventListener('click', event => this.handleClickOffTimeRange(event));
+    }
+
+    setDateInLegend(from, until) {
+        let readableStartDate = convertSecondsToDateValues(from);
+        let readableEndDate = convertSecondsToDateValues(until);
+        readableStartDate = `${readableStartDate.month} ${readableStartDate.day}, ${readableStartDate.year} ${readableStartDate.hours}:${readableStartDate.minutes}${readableStartDate.meridian} UTC`;
+        readableEndDate = `${readableEndDate.month} ${readableEndDate.day}, ${readableEndDate.year} ${readableEndDate.hours}:${readableEndDate.minutes}${readableEndDate.meridian} UTC`;
+
+        return [ readableStartDate, readableEndDate ];
     }
 
     componentDidUpdate(nextProps, nextState) {
@@ -238,13 +261,33 @@ class ControlPanel extends Component {
                 : `/dashboard`
         );
     }
+    // function to handle editing the input range directly
+    handleRangeInputKeyChange(e) {
+        const startDateTime = convertDateValuesToSeconds(e.target.value.split(" - ")[0]);
+        const endDateTime = convertDateValuesToSeconds(e.target.value.split(" — ")[1]);
+        const readableTimes = this.setDateInLegend(Math.floor(startDateTime / 1000), Math.floor(endDateTime / 1000));
+
+        this.setState({
+            selection: {
+                startDate: new Date(startDateTime),
+                endDate: new Date(endDateTime),
+                key: 'selection'
+            },
+            timeRange: [
+                `${new Date(startDateTime).getUTCHours() < 10 ? `0${new Date(startDateTime).getUTCHours()}` : new Date(startDateTime).getUTCHours()}:${new Date(startDateTime).getUTCMinutes() < 10 ? `0${new Date(startDateTime).getUTCMinutes()}` : new Date(startDateTime).getUTCMinutes()}:${new Date(startDateTime).getUTCSeconds() < 10 ? `0${new Date(startDateTime).getUTCSeconds()}` : new Date(startDateTime).getUTCSeconds()}`,
+                `${new Date(endDateTime).getUTCHours() < 10 ? `0${new Date(endDateTime).getUTCHours()}` : new Date(endDateTime).getUTCHours()}:${new Date(endDateTime).getUTCMinutes() < 10 ? `0${new Date(endDateTime).getUTCMinutes()}` : new Date(endDateTime).getUTCMinutes()}:${new Date(endDateTime).getUTCSeconds() < 10 ? `0${new Date(endDateTime).getUTCSeconds()}` : new Date(endDateTime).getUTCSeconds()}`
+            ],
+            readableTimeRangeInputSelection: {
+                startDate: readableTimes[0],
+                endDate: readableTimes[1]
+            }
+        }, () => {
+            this.handleRangeDisplay();
+            this.props.timeFrame(this.state.selection, this.state.timeRange);
+        });
+    }
 
     render() {
-        let startDate = new Date((this.props.from * 1000)).toISOString().split("T")[0];
-        let startTime = new Date((this.props.from * 1000)).toISOString().split("T")[1].split(".")[0];
-        let endDate = new Date((this.props.until * 1000)).toISOString().split("T")[0];
-        let endTime = new Date((this.props.until * 1000)).toISOString().split("T")[1].split(".")[0];
-
         const utc = T.translate("controlPanel.utc");
         const wholeDay = T.translate("controlPanel.wholeDay");
         const apply = T.translate("controlPanel.apply");
@@ -457,13 +500,9 @@ class ControlPanel extends Component {
                                 <div className="range__calendar">
                                     <img src={iconCalendar} alt={T.translate("controlPanel.calendarIconAltText")}/>
                                 </div>
-                            <span className="range__input-start">
-                                {startDate} - {startTime}<sub><sup><sub>{utc}</sub></sup></sub>
-                            </span>
-                                <span className="range__input-dash">—</span>
-                                <span className="range__input-end">
-                                {endDate} - {endTime}<sub><sup><sub>{utc}</sub></sup></sub>
-                            </span>
+                                <input className="range__input-field" onChange={(e) => this.handleRangeInputKeyChange(e)}
+                                    value={`${this.state.readableTimeRangeInputSelection.startDate} — ${this.state.readableTimeRangeInputSelection.endDate}`}
+                                />
                             </button>
                         </div>
                         <div className={this.state.rangeInputVisibility ? "range__dropdown range__dropdown--visible" : "range__dropdown"}>

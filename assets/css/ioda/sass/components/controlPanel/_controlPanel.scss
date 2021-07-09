@@ -123,6 +123,15 @@
       &-dash {
         padding: 0 1.5rem;
       }
+
+      &-field {
+        width: 100%;
+        height: 3.5rem;
+        border: none;
+        margin-top: -0.5rem;
+        padding-left: 1rem;
+        color: $color-primary;
+      }
     }
 
     &__dropdown {
