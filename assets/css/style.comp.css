@@ -2709,6 +2709,8 @@ button[class*="searchButton"] {
             outline: none; }
           .dashboard .tabs .tab__config-button-img {
             height: 100%; }
+      .dashboard .tabs .tab .horizon-series {
+        border-bottom: 1px solid #ccc; }
       .dashboard .tabs .tab__heading {
         display: flex; }
         .dashboard .tabs .tab__heading .heading-h2 {
