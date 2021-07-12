@@ -741,8 +741,6 @@ class Entity extends Component {
                     : Math.round(new Date().getTime() / 1000)
             });
         }
-        console.log(beginningRangeDate);
-        console.log(endRangeDate);
     }
     convertValuesForXyViz() {
         // ToDo: Set x values to local time zone initially

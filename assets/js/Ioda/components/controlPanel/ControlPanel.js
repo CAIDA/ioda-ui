@@ -263,11 +263,8 @@ class ControlPanel extends Component {
     }
     // function to handle editing the input range directly
     handleRangeInputKeyChange(e) {
-        console.log(e.target.value);
         const startDateTime = convertDateValuesToSeconds(e.target.value.split(" - ")[0]);
         const endDateTime = convertDateValuesToSeconds(e.target.value.split(" — ")[1]);
-        console.log(startDateTime / 1000);
-        console.log(endDateTime / 1000);
         const readableTimes = this.setDateInLegend(Math.floor(startDateTime / 1000), Math.floor(endDateTime / 1000));
 
         this.setState({
