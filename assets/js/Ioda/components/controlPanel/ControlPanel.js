@@ -159,7 +159,7 @@ class ControlPanel extends Component {
             customRangeVisible: false
         })
     }
-    // clicking the apply button July 12, 2021 02:22am — July 12, 2021 09:37am
+    // clicking the apply button
     handleRangeUpdate() {
         let newStartDate, newEndDate;
         if (this.state.userInputSelected) {
