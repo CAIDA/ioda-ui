@@ -6,3 +6,31 @@
   font-size: 1rem;
   color: $color-primary;
 }
+
+.clipboard {
+  display: flex;
+  justify-content: flex-end;
+
+  & button {
+    @include buttonAsTextLink;
+    position: relative;
+
+    &:after {
+      content: "date range copied";
+      background-color: $color-secondary;
+      height: 1rem;
+      width: 3rem;
+      position: absolute;
+      opacity: 0;
+      animation: fade-out 2s ease-out;
+      animation-fill-mode: forwards;
+    }
+
+    &:active {
+
+      &:after {
+
+      }
+    }
+  }
+}

@@ -46,3 +46,13 @@
     transform: rotate(360deg);
   }
 }
+
+/*copy button fade in/out */
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

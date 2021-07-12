@@ -89,6 +89,13 @@ $breakpoint Argument Choices:
   100% {
     transform: rotate(360deg); } }
 
+/*copy button fade in/out */
+@keyframes fade-out {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
 /*!
  * This software is Copyright (c) 2013 The Regents of the University of
  * California. All Rights Reserved. Permission to copy, modify, and distribute this
@@ -2159,6 +2166,32 @@ body {
   margin-top: 1rem;
   font-size: 1rem;
   color: #2c3e50; }
+
+.clipboard {
+  display: flex;
+  justify-content: flex-end; }
+  .clipboard button {
+    border: none;
+    color: #5899AE;
+    font-weight: 700;
+    text-decoration: none;
+    padding-bottom: 2px;
+    margin-bottom: 1px;
+    background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+    background-size: 100% 2px;
+    /* controls underline thickness */
+    cursor: pointer;
+    font-size: 1.1rem;
+    position: relative; }
+    .clipboard button:after {
+      content: "date range copied";
+      background-color: #5899AE;
+      height: 1rem;
+      width: 3rem;
+      position: absolute;
+      opacity: 0;
+      animation: fade-out 2s ease-out;
+      animation-fill-mode: forwards; }
 
 .toggle {
   display: flex;

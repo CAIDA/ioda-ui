@@ -235,3 +235,27 @@ $breakpoint Argument Choices:
   padding: $gutter-vertical-small;
   margin-bottom: $gutter-vertical-small;
 }
+
+@mixin buttonAsTextLink {
+  border: none;
+  color: $color-secondary;
+  font-weight: 700;
+  text-decoration: none;
+  padding-bottom: 2px;
+  margin-bottom: 1px;
+  background:
+          linear-gradient(
+                          175deg,
+                          $color-secondary-light 0%,
+                          $color-secondary-light 33.3%,
+                          $color-secondary 83.5%,
+                          $color-secondary-dark 100%
+          )
+          left
+          bottom
+          transparent
+          no-repeat;
+  background-size: 100% 2px; /* controls underline thickness */
+  cursor: pointer;
+  font-size: 1.1rem;
+}
