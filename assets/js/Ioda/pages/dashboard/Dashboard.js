@@ -431,7 +431,7 @@ class Dashboard extends Component {
                 .use24h(false)
                 // Will need to detect column width to populate height
                 .width(width)
-                .height(541)
+                .height(570)
                 .enableZoom(false)
                 .showRuler(true)
                 .interpolationCurve(d3.curveStepAfter)
