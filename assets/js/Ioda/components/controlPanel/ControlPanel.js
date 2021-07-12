@@ -159,7 +159,7 @@ class ControlPanel extends Component {
             customRangeVisible: false
         })
     }
-    // clicking the apply button
+    // clicking the apply button July 12, 2021 02:22am — July 12, 2021 09:37am
     handleRangeUpdate() {
         let newStartDate, newEndDate;
         if (this.state.userInputSelected) {
@@ -263,8 +263,11 @@ class ControlPanel extends Component {
     }
     // function to handle editing the input range directly
     handleRangeInputKeyChange(e) {
+        console.log(e.target.value);
         const startDateTime = convertDateValuesToSeconds(e.target.value.split(" - ")[0]);
         const endDateTime = convertDateValuesToSeconds(e.target.value.split(" — ")[1]);
+        console.log(startDateTime / 1000);
+        console.log(endDateTime / 1000);
         const readableTimes = this.setDateInLegend(Math.floor(startDateTime / 1000), Math.floor(endDateTime / 1000));
 
         this.setState({
