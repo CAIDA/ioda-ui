@@ -750,6 +750,8 @@ class Entity extends Component {
         let absoluteMax = [];
         let absoluteMaxY2 = 0;
 
+        console.log(this.state.tsDataRaw);
+
         // Loop through available datasources to collect plot points
         this.state.tsDataRaw[0].map(datasource => {
             let min, max;
