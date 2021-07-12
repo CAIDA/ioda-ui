@@ -50,7 +50,7 @@
     "xyChartNormalizedToggleLabel": "Normalized Values",
     "activeProbingLegendText": "Active Probing (#/24s Up)",
     "bgpLegendText": "BGP (#Visible /24s)",
-    "darknetLegendText": "Darknet (# Unique Source IPs)",
+    "darknetLegendText": "Telescope (# Unique Source IPs)",
     "eventAlertButtonText1": "View ",
     "eventAlertButtonOption1": "Alert",
     "eventAlertButtonOption2": "Event",
@@ -114,7 +114,7 @@
     "alertLabels": {
       "activeProbing": "Active Probing",
       "bgp": "BGP",
-      "darknet": "Darknet"
+      "darknet": "Telescope"
     },
     "eventHeaders": {
       "fromDate": "From",
@@ -165,7 +165,7 @@
     },
     "xyPlotTimeSeriesTitle": {
       "title": "IODA Signals",
-      "text": "This panel allows you to inspect the time series of IODA's three signals: active probing, BGP, and the darknet."
+      "text": "This panel allows you to inspect the time series of IODA's three signals: active probing, BGP, and Telescope."
     },
     "alertFeed": {
       "title": "Alert Feed",
