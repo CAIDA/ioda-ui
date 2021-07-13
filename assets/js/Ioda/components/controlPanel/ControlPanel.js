@@ -74,15 +74,6 @@ class ControlPanel extends Component {
         document.removeEventListener('click', event => this.handleClickOffTimeRange(event));
     }
 
-    setDateInLegend(from, until) {
-        let readableStartDate = convertSecondsToDateValues(from);
-        let readableEndDate = convertSecondsToDateValues(until);
-        readableStartDate = `${readableStartDate.month} ${readableStartDate.day}, ${readableStartDate.year} ${readableStartDate.hours}:${readableStartDate.minutes}${readableStartDate.meridian} UTC`;
-        readableEndDate = `${readableEndDate.month} ${readableEndDate.day}, ${readableEndDate.year} ${readableEndDate.hours}:${readableEndDate.minutes}${readableEndDate.meridian} UTC`;
-
-        return [ readableStartDate, readableEndDate ];
-    }
-
     componentDidUpdate(nextProps, nextState) {
         if (nextProps.from !== this.props.from) {
             this.setState(prevState => ({
@@ -130,6 +121,14 @@ class ControlPanel extends Component {
         }
     }
 
+    // set text that renders in bottom right hand corner depicting the start and end date of the currently viewable range
+    setDateInLegend(from, until) {
+        let readableStartDate = convertSecondsToDateValues(from);
+        let readableEndDate = convertSecondsToDateValues(until);
+        readableStartDate = `${readableStartDate.month} ${readableStartDate.day}, ${readableStartDate.year} ${readableStartDate.hours}:${readableStartDate.minutes}${readableStartDate.meridian} UTC`;
+        readableEndDate = `${readableEndDate.month} ${readableEndDate.day}, ${readableEndDate.year} ${readableEndDate.hours}:${readableEndDate.minutes}${readableEndDate.meridian} UTC`;
+        return [ readableStartDate, readableEndDate ];
+    }
     handleTimeChange(time) {
         this.setState({timeRange: time})
     }
