@@ -38,12 +38,16 @@
     "viewTitleChart": "Chart View",
     "viewChangeIconAltTextHts": "Change to Chart View",
     "viewChangeIconAltTextMap": "Change to Map View",
-    "timeDurationTooHighErrorMessage": "Time duration must be less than 35 days on the dashboard. Current request is for "
+    "timeDurationTooHighErrorMessage": "Time duration must be less than 35 days on the dashboard. Current request is for ",
+    "summaryLegendTelescope": "Telescope",
+    "summaryLegendActiveProbing": "Active Probing",
+    "summaryLegendBgp": "BGP"
   },
   "entity": {
     "pageTitle": "Outage Severity Overview",
     "timeRangeTitle": "Outages Occurring Today",
     "xyChartTitle": "IODA Signals for ",
+    "xyChartXAxisTitle": "Time (UTC)",
     "toggleOn": "ON",
     "toggleOff": "OFF",
     "xyChartAlertToggleLabel": "Alert Bands",

@@ -1355,7 +1355,7 @@ body {
         .table__scores-sourceCount-unit--bgp {
           background-color: #33A02C; }
         .table__scores-sourceCount-unit--ucsd-nt {
-          background-color: #BE1D2D; }
+          background-color: #ED9B40; }
         .table__scores-sourceCount-unit--empty {
           background-color: #000;
           opacity: 0.1; }
@@ -1504,7 +1504,7 @@ body {
         .table__page-legend-item--bgp:before {
           background-color: #33A02C; }
         .table__page-legend-item--ucsd-nt:before {
-          background-color: #BE1D2D; }
+          background-color: #ED9B40; }
   .table__empty {
     font-size: 1.3rem; }
     .table__empty td {

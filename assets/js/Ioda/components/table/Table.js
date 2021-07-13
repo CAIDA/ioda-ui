@@ -485,9 +485,9 @@ class Table extends Component {
                             {
                                 type === "summary"
                                     ? <div className="table__page-legend">
-                                        <span className="table__page-legend-item table__page-legend-item--ping-slash24">Active Probing</span>
-                                        <span className="table__page-legend-item table__page-legend-item--bgp">BGP</span>
-                                        <span className="table__page-legend-item table__page-legend-item--ucsd-nt">Network Telescope</span>
+                                        <T.span className="table__page-legend-item table__page-legend-item--ping-slash24" text="dashboard.summaryLegendActiveProbing"/>
+                                        <T.span className="table__page-legend-item table__page-legend-item--bgp" text="dashboard.summaryLegendBgp"/>
+                                        <T.span className="table__page-legend-item table__page-legend-item--ucsd-nt" text="dashboard.summaryLegendTelescope"/>
                                     </div>
                                     : null
 
