@@ -58,7 +58,7 @@ class ControlPanel extends Component {
     }
 
     componentDidMount() {
-        console.log("update9");
+        console.log("update22");
         let readableDates = this.setDateInLegend(this.props.from, this.props.until);
 
         this.setState({
@@ -74,7 +74,6 @@ class ControlPanel extends Component {
     componentWillUnmount() {
         document.removeEventListener('click', event => this.handleClickOffTimeRange(event));
     }
-
     componentDidUpdate(nextProps, nextState) {
         if (nextProps.from !== this.props.from) {
             this.setState(prevState => ({
@@ -119,16 +118,6 @@ class ControlPanel extends Component {
                     applyButtonActive: true
                 })
             }
-
-            if (nextState.selection.startDate !== this.state.selection.startDate) {
-                console.log(nextState.selection.startDate);
-                console.log(this.state.selection.startDate);
-            }
-
-            // if (nextState.selection.endDate !== this.state.selection.endDate) {
-            //     console.log(nextState.selection.endDate);
-            //     console.log(this.state.selection.endDate);
-            // }
         }
     }
 
@@ -204,22 +193,16 @@ class ControlPanel extends Component {
                     console.alert("error with updating range with user input.");
                     break;
             }
-        } else if (!this.state.wholeDayInputSelected) {
+        } else {
             newStartDate = this.state.selection.startDate;
             newEndDate = this.state.selection.endDate;
-
-            // console.log("newStartDate");
-            // console.log(newStartDate);
-            // console.log(newEndDate);
-        } else {
-            newStartDate = new Date(new Date(this.state.selection.startDate).setUTCHours(0,0,0,0));
-            newEndDate = new Date(new Date(this.state.selection.endDate).setUTCHours(23,59,59,0));
+            console.log(newStartDate);
+            console.log(newEndDate);
         }
-
 
         let startTimeRangeHours, startTimeRangeMin, startTimeRangeSec, startTimeRange, endTimeRangeHours, endTimeRangeMin, endTimeRangeSec , endTimeRange;
 
-        console.log(this.state.selection.label);
+        console.log(this.state.selection);
         if (this.state.selection.label === "lastHour" || this.state.selection.label === "last24Hours" || this.state.selection.label === "userInputRange") {
             // Get UTC values for time range state, set them, then make api call
             startTimeRangeHours = newStartDate.getUTCHours() < 10 ? `0${newStartDate.getUTCHours()}` : newStartDate.getUTCHours();
@@ -554,6 +537,10 @@ class ControlPanel extends Component {
                             <DateRangePicker
                                 onChange={item => {
                                     if (item.selection.label) {
+                                        console.log(item);
+                                        console.log(this.state.timeRange);
+                                        console.log(this.state.timeRange[0]);
+                                        console.log(this.state.timeRange[0].split());
                                         switch (item.selection.label) {
                                             case 'today':
                                                 this.setState({
@@ -594,14 +581,22 @@ class ControlPanel extends Component {
                                                     ...item
                                                 });
                                                 break;
-                                            case 'customRange':
+                                            case "customRange":
                                                 this.setState({
                                                     customRangeVisible: true,
                                                     customRangeSelected: true,
                                                     todaySelected: false,
                                                     lastHourSelected: false,
                                                     userInputSelected: false,
-                                                    ...item
+                                                    selection: {
+                                                        startDate: this.state.wholeDayInputSelected
+                                                            ? new Date(item.selection.startDate.setHours(this.state.timeRange[0].split(":")[0], this.state.timeRange[0].split(":")[1], this.state.timeRange[0].split(":")[2]))
+                                                            : new Date(item.selection.startDate.setHours(0, 0, 0)),
+                                                        endDate: this.state.wholeDayInputSelected
+                                                            ? new Date(item.selection.endDate.setHours(this.state.timeRange[1].split(":")[0], this.state.timeRange[1].split(":")[1], this.state.timeRange[1].split(":")[2]))
+                                                            : new Date(item.selection.endDate.setHours(23, 59, 59)),
+                                                        ...item.selection
+                                                    }
                                                 });
                                                 break;
                                             default:
