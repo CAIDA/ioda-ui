@@ -63,7 +63,6 @@ class ControlPanel extends Component {
     }
 
     componentDidMount() {
-        console.log("update21");
         let readableDates = this.setDateInLegend(this.props.from, this.props.until);
 
         this.setState({
@@ -237,10 +236,21 @@ class ControlPanel extends Component {
                 })
             }
         } else {
-            let readableDates = this.setDateInLegend(
-                Math.floor(this.state.selection.startDate.getTime() / 1000),
-                Math.floor(this.state.selection.endDate.getTime() / 1000)
-            );
+
+            // Add conditional to check states for delivering utc time vs normal time.
+            let readableDates;
+            if (this.state.lastHourSelected || this.state.userInputSelected) {
+                readableDates = this.setDateInLegend(
+                    Math.floor(this.state.selection.startDate.getTime() / 1000),
+                    Math.floor(this.state.selection.endDate.getTime() / 1000)
+                );
+            } else {
+                readableDates = this.setDateInLegend(
+                    Math.floor((this.state.selection.startDate.getTime() / 1000) - (this.state.selection.startDate.getTimezoneOffset() * 60000) / 1000),
+                    Math.floor((this.state.selection.endDate.getTime() / 1000) - (this.state.selection.endDate.getTimezoneOffset() * 60000) / 1000)
+                );
+            }
+
 
             this.setState({
                 timeRange: [
