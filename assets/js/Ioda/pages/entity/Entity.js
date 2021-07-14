@@ -43,7 +43,7 @@ import {
     getOutageCoords,
     dateRangeToSeconds,
     normalize, secondsToDhms,
-    controlPanelTimeRangeLimit
+    controlPanelTimeRangeLimit, alertBandColor, xyChartBackgroundLineColor, bgpColor, activeProbingColor, ucsdNtColor
 } from "../../utils";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
 
@@ -665,8 +665,8 @@ class Entity extends Component {
             activeProbing = {
                 type: "line",
                 lineThickness: 1,
-                color: "#1F78B4",
-                lineColor: "#1F78B4",
+                color: activeProbingColor,
+                lineColor: activeProbingColor,
                 markerType: "circle",
                 markerSize: 2,
                 name: activeProbingLegendText,
@@ -675,7 +675,7 @@ class Entity extends Component {
                 xValueFormatString: "DDD, MMM DD - HH:MM",
                 yValueFormatString: "0",
                 dataPoints: activeProbingValues,
-                legendMarkerColor: "#1F78B4",
+                legendMarkerColor: activeProbingColor,
                 toolTipContent: "{x} <br/> Active Probing (# /24s Up): {y}",
 
             }
@@ -684,8 +684,8 @@ class Entity extends Component {
             bgp = {
                 type: "line",
                 lineThickness: 1,
-                color: "#33A02C",
-                lineColor: "#33A02C",
+                color: bgpColor,
+                lineColor: bgpColor,
                 markerType: "circle",
                 markerSize: 2,
                 name: bgpLegendText,
@@ -694,7 +694,7 @@ class Entity extends Component {
                 xValueFormatString: "DDD, MMM DD - HH:MM",
                 yValueFormatString: "0",
                 dataPoints: bgpValues,
-                legendMarkerColor: "#33A02C",
+                legendMarkerColor: bgpColor,
                 toolTipContent: "{x} <br/> BGP (# Visbile /24s): {y}"
             }
         }
@@ -702,8 +702,8 @@ class Entity extends Component {
             networkTelescope = {
                 type: "line",
                 lineThickness: 1,
-                color: "#E31A1C",
-                lineColor: "#E31A1C",
+                color: ucsdNtColor,
+                lineColor: ucsdNtColor,
                 markerType: "circle",
                 markerSize: 2,
                 name: darknetLegendText,
@@ -713,7 +713,7 @@ class Entity extends Component {
                 xValueFormatString: "DDD, MMM DD - HH:MM",
                 yValueFormatString: "0",
                 dataPoints: networkTelescopeValues,
-                legendMarkerColor: "#E31A1C",
+                legendMarkerColor: ucsdNtColor,
                 toolTipContent: "{x} <br/> Network Telescope (# Unique Source IPs): {y}"
             }
         }
@@ -743,14 +743,12 @@ class Entity extends Component {
         }
     }
     convertValuesForXyViz() {
-        // ToDo: Set x values to local time zone initially
         let networkTelescopeValues = [];
         let bgpValues = [];
         let activeProbingValues = [];
         let absoluteMax = [];
         let absoluteMaxY2 = 0;
-
-        console.log(this.state.tsDataRaw);
+        const xyChartXAxisTitle = T.translate("entity.xyChartXAxisTitle");
 
         // Loop through available datasources to collect plot points
         this.state.tsDataRaw[0].map(datasource => {
@@ -765,7 +763,7 @@ class Entity extends Component {
                         let x, y;
                         x = toDateTime(datasource.from + (datasource.step * index));
                         y = this.state.tsDataNormalized ? normalize(value, min, max) : value;
-                        networkTelescopeValues.push({x: x, y: y, color: "#E31A1C"});
+                        networkTelescopeValues.push({x: x, y: y, color: ucsdNtColor});
                     });
                     // the last two values populating are the min value, and the max value. Removing these from the coordinates.
                     networkTelescopeValues.length > 2 ? networkTelescopeValues.splice(-1,2) : networkTelescopeValues;
@@ -779,7 +777,7 @@ class Entity extends Component {
                         let x, y;
                         x = toDateTime(datasource.from + (datasource.step * index));
                         y = this.state.tsDataNormalized ? normalize(value, min, max) : value;
-                        bgpValues.push({x: x, y: y, color: "#33A02C"});
+                        bgpValues.push({x: x, y: y, color: bgpColor});
                     });
                     // the last two values populating are the min value, and the max value. Removing these from the coordinates.
                     bgpValues.length > 2 ? bgpValues.splice(-1,2) : bgpValues;
@@ -793,7 +791,7 @@ class Entity extends Component {
                         let x, y;
                         x = toDateTime(datasource.from + (datasource.step * index));
                         y = this.state.tsDataNormalized ? normalize(value, min, max) : value;
-                        activeProbingValues.push({x: x, y: y, color: "#1F78B4"});
+                        activeProbingValues.push({x: x, y: y, color: activeProbingColor});
                     });
                     // the last two values populating are the min value, and the max value. Removing these from the coordinates.
                     activeProbingValues.length > 2 ? activeProbingValues.splice(-1,2) : activeProbingValues;
@@ -807,7 +805,7 @@ class Entity extends Component {
                 const stripLine = {
                     startValue: toDateTime(event.start),
                     endValue: toDateTime(event.start + event.duration),
-                    color:"#BE1D2D",
+                    color: alertBandColor,
                     opacity: .2
                 };
                 stripLines.push(stripLine);
@@ -830,7 +828,7 @@ class Entity extends Component {
         const normalizedStripline = [
             {
                 value: 110,
-                color:"#E6E6E6",
+                color: xyChartBackgroundLineColor,
                 lineDashType: "dash"
             }
         ];
@@ -843,7 +841,7 @@ class Entity extends Component {
                 zoomEnabled: true,
                 rangeChanged: (e) => this.xyPlotRangeChanged(e),
                 axisX: {
-                    title: "Time (UTC)",
+                    title: xyChartXAxisTitle,
                     stripLines: stripLines,
                     titleFontSize: 12,
                     labelFontSize: 10,

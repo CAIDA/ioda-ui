@@ -36,6 +36,12 @@ import d3 from 'd3';
 // Time limit max that a user can select in the calendar -- currently set for 35 days
 export const controlPanelTimeRangeLimit = 3024001;
 export const monthStrings = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+export const alertBandColor = "#BE1D2D";
+export const xyChartBackgroundLineColor = "#E6E6E6";
+
+export const bgpColor = "#33A02C";
+export const activeProbingColor = "#1F78B4";
+export const ucsdNtColor = "#ED9B40";
 
 // Humanize number with rounding, abbreviations, etc.
 export function humanizeNumber(value, precisionDigits) {
@@ -380,4 +386,20 @@ export function secondsToDhms(seconds) {
     var mDisplay = m > 0 ? m + (m === 1 ? " minute, " : " minutes, ") : "";
     var sDisplay = s > 0 ? s + (s === 1 ? " second" : " seconds") : "";
     return (dDisplay + hDisplay + mDisplay + sDisplay).replace(/,\s*$/, "");
+}
+
+// used for extracting time values from dates and returns a human readable time stamp ( 00:00:00 )
+export function getUTCTimeStringFromDate(d) {
+    const hours = d.getUTCHours() < 10 ? `0${d.getUTCHours()}` : d.getUTCHours();
+    const min = d.getUTCMinutes() < 10 ? `0${d.getUTCMinutes()}` : d.getUTCMinutes();
+    const sec = d.getUTCSeconds() < 10 ? `0${d.getUTCSeconds()}` : d.getUTCSeconds();
+    return `${hours}:${min}:${sec}`;
+}
+
+// used for extracting time values from dates and returns a human readable time stamp ( 00:00:00 )
+export function getTimeStringFromDate(d) {
+    const hours = d.getHours() < 10 ? `0${d.getHours()}` : d.getHours();
+    const min = d.getMinutes() < 10 ? `0${d.getMinutes()}` : d.getMinutes();
+    const sec = d.getSeconds() < 10 ? `0${d.getSeconds()}` : d.getSeconds();
+    return `${hours}:${min}:${sec}`;
 }
