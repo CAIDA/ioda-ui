@@ -23,7 +23,12 @@ import iconCalendar from 'images/icons/icon-calendar.png';
 // Tooltip Component
 import Tooltip from "../../components/tooltip/Tooltip";
 import ReactDOM from "react-dom";
-import {convertDateValuesToSeconds, convertSecondsToDateValues} from "../../utils";
+import {
+    convertDateValuesToSeconds,
+    convertSecondsToDateValues,
+    getTimeStringFromDate,
+    getUTCTimeStringFromDate
+} from "../../utils";
 
 class ControlPanel extends Component {
     constructor(props) {
@@ -39,8 +44,8 @@ class ControlPanel extends Component {
                 "23:59:59"
             ],
             readableTimeRangeInputSelection: {
-              startDate: "",
-              endDate: ""
+                startDate: "",
+                endDate: ""
             },
             rangeInputVisibility: false,
             wholeDayInputSelected: false,
@@ -58,7 +63,7 @@ class ControlPanel extends Component {
     }
 
     componentDidMount() {
-        console.log("update22");
+        console.log("update21");
         let readableDates = this.setDateInLegend(this.props.from, this.props.until);
 
         this.setState({
@@ -154,10 +159,10 @@ class ControlPanel extends Component {
     // detect when a click occurs outside of the time range to close it
     handleClickOffTimeRange(event) {
         if (this.timeRangeContainer && this.timeRangeContainer.current && !this.timeRangeContainer.current.contains(event.target))
-        this.setState({
-            rangeInputVisibility: false,
-            customRangeVisible: false
-        })
+            this.setState({
+                rangeInputVisibility: false,
+                customRangeVisible: false
+            })
     }
     // clicking the apply button
     handleRangeUpdate() {
@@ -196,42 +201,22 @@ class ControlPanel extends Component {
         } else {
             newStartDate = this.state.selection.startDate;
             newEndDate = this.state.selection.endDate;
-            console.log(newStartDate);
-            console.log(newEndDate);
         }
 
-        let startTimeRangeHours, startTimeRangeMin, startTimeRangeSec, startTimeRange, endTimeRangeHours, endTimeRangeMin, endTimeRangeSec , endTimeRange;
-
-        console.log(this.state.selection);
+        // get time ranges from dates
+        let startTimeRange, endTimeRange;
         if (this.state.selection.label === "lastHour" || this.state.selection.label === "last24Hours" || this.state.selection.label === "userInputRange") {
             // Get UTC values for time range state, set them, then make api call
-            startTimeRangeHours = newStartDate.getUTCHours() < 10 ? `0${newStartDate.getUTCHours()}` : newStartDate.getUTCHours();
-            startTimeRangeMin = newStartDate.getUTCMinutes() < 10 ? `0${newStartDate.getUTCMinutes()}` : newStartDate.getUTCMinutes();
-            startTimeRangeSec = newStartDate.getUTCSeconds() < 10 ? `0${newStartDate.getUTCSeconds()}` : newStartDate.getUTCSeconds();
-            startTimeRange = `${startTimeRangeHours}:${startTimeRangeMin}:${startTimeRangeSec}`;
-
-            endTimeRangeHours = newEndDate.getUTCHours() < 10 ? `0${newEndDate.getUTCHours()}` : newEndDate.getUTCHours();
-            endTimeRangeMin = newEndDate.getUTCMinutes() < 10 ? `0${newEndDate.getUTCMinutes()}` : newEndDate.getUTCMinutes();
-            endTimeRangeSec = newEndDate.getUTCSeconds() < 10 ? `0${newEndDate.getUTCSeconds()}` : newEndDate.getUTCSeconds();
-            endTimeRange = `${endTimeRangeHours}:${endTimeRangeMin}:${endTimeRangeSec}`;
+            startTimeRange = getUTCTimeStringFromDate(newStartDate);
+            endTimeRange = getUTCTimeStringFromDate(newEndDate);
         } else {
-            startTimeRangeHours = newStartDate.getHours() < 10 ? `0${newStartDate.getHours()}` : newStartDate.getHours();
-            startTimeRangeMin = newStartDate.getMinutes() < 10 ? `0${newStartDate.getMinutes()}` : newStartDate.getMinutes();
-            startTimeRangeSec = newStartDate.getSeconds() < 10 ? `0${newStartDate.getSeconds()}` : newStartDate.getSeconds();
-            startTimeRange = `${startTimeRangeHours}:${startTimeRangeMin}:${startTimeRangeSec}`;
-
-            endTimeRangeHours = newEndDate.getHours() < 10 ? `0${newEndDate.getHours()}` : newEndDate.getHours();
-            endTimeRangeMin = newEndDate.getMinutes() < 10 ? `0${newEndDate.getMinutes()}` : newEndDate.getMinutes();
-            endTimeRangeSec = newEndDate.getSeconds() < 10 ? `0${newEndDate.getSeconds()}` : newEndDate.getSeconds();
-            endTimeRange = `${endTimeRangeHours}:${endTimeRangeMin}:${endTimeRangeSec}`;
+            startTimeRange = getTimeStringFromDate(newStartDate);
+            endTimeRange = getTimeStringFromDate(newEndDate);
         }
-
-        console.log("newEndDate");
-        console.log(newEndDate);
-        console.log(endTimeRange);
 
         if (this.state.userInputSelected) {
             if (newStartDate && newEndDate) {
+                let readableDates = this.setDateInLegend(Math.floor(newStartDate / 1000) , Math.floor(newEndDate / 1000));
                 this.setState({
                     selection: {
                         ...this.state.selection,
@@ -241,25 +226,32 @@ class ControlPanel extends Component {
                     timeRange: [
                         startTimeRange,
                         endTimeRange
-                    ]
+                    ],
+                    readableTimeRangeInputSelection: {
+                        startDate: readableDates[0],
+                        endDate: readableDates[1]
+                    }
                 }, () => {
-                    console.log(this.state.selection);
-                    console.log(this.state.timeRange);
-
                     this.handleRangeDisplay();
                     this.props.timeFrame(this.state.selection, this.state.timeRange);
                 })
             }
         } else {
+            let readableDates = this.setDateInLegend(
+                Math.floor(this.state.selection.startDate.getTime() / 1000),
+                Math.floor(this.state.selection.endDate.getTime() / 1000)
+            );
+
             this.setState({
                 timeRange: [
                     startTimeRange,
                     endTimeRange
-                ]
+                ],
+                readableTimeRangeInputSelection: {
+                    startDate: readableDates[0],
+                    endDate: readableDates[1]
+                }
             }, () => {
-                console.log(this.state.selection);
-                console.log(this.state.timeRange);
-
                 this.handleRangeDisplay();
                 this.props.timeFrame(this.state.selection, this.state.timeRange);
             });
@@ -529,7 +521,7 @@ class ControlPanel extends Component {
                                     <img src={iconCalendar} alt={T.translate("controlPanel.calendarIconAltText")}/>
                                 </div>
                                 <input className="range__input-field" onChange={(e) => this.handleRangeInputKeyChange(e)}
-                                    value={`${this.state.readableTimeRangeInputSelection.startDate} — ${this.state.readableTimeRangeInputSelection.endDate}`}
+                                       value={`${this.state.readableTimeRangeInputSelection.startDate} — ${this.state.readableTimeRangeInputSelection.endDate}`}
                                 />
                             </button>
                         </div>
@@ -537,10 +529,6 @@ class ControlPanel extends Component {
                             <DateRangePicker
                                 onChange={item => {
                                     if (item.selection.label) {
-                                        console.log(item);
-                                        console.log(this.state.timeRange);
-                                        console.log(this.state.timeRange[0]);
-                                        console.log(this.state.timeRange[0].split());
                                         switch (item.selection.label) {
                                             case 'today':
                                                 this.setState({

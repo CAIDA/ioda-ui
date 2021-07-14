@@ -387,3 +387,19 @@ export function secondsToDhms(seconds) {
     var sDisplay = s > 0 ? s + (s === 1 ? " second" : " seconds") : "";
     return (dDisplay + hDisplay + mDisplay + sDisplay).replace(/,\s*$/, "");
 }
+
+// used for extracting time values from dates and returns a human readable time stamp ( 00:00:00 )
+export function getUTCTimeStringFromDate(d) {
+    const hours = d.getUTCHours() < 10 ? `0${d.getUTCHours()}` : d.getUTCHours();
+    const min = d.getUTCMinutes() < 10 ? `0${d.getUTCMinutes()}` : d.getUTCMinutes();
+    const sec = d.getUTCSeconds() < 10 ? `0${d.getUTCSeconds()}` : d.getUTCSeconds();
+    return `${hours}:${min}:${sec}`;
+}
+
+// used for extracting time values from dates and returns a human readable time stamp ( 00:00:00 )
+export function getTimeStringFromDate(d) {
+    const hours = d.getHours() < 10 ? `0${d.getHours()}` : d.getHours();
+    const min = d.getMinutes() < 10 ? `0${d.getMinutes()}` : d.getMinutes();
+    const sec = d.getSeconds() < 10 ? `0${d.getSeconds()}` : d.getSeconds();
+    return `${hours}:${min}:${sec}`;
+}
