@@ -155,6 +155,114 @@ button[class*="searchButton"] {
     }
   }
 
+  .examples {
+    margin-top: 4rem;
+
+    & .row {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-bottom: $gutter-vertical-small;
+
+      @include respond(tab-port) {
+        flex-direction: column;
+      }
+
+
+      & .col-1-of-1 {
+        display: flex;
+        justify-content: center;
+      }
+
+      & .col-1-of-3 {
+        @include respond(tab-port) {
+          width: 100%!important;
+        }
+      }
+
+      & .thumbnail {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: $color-white;
+        box-shadow: $box-shadow;
+        border-radius: 0.5rem;
+        padding: 0 2rem 2rem;
+
+        @include respond(tab-port) {
+          flex-direction: row;
+          align-items: flex-start;
+          padding-top: 2rem;
+        }
+
+        @include respond(phone-md) {
+          flex-direction: column;
+          padding-top: 0;
+          align-items: center;
+        }
+
+        &__img {
+          height: 18rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          & img {
+            height: auto;
+            max-width: 35rem;
+            margin-top: 1.5rem;
+          }
+        }
+
+        &__text {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          @include respond(tab-port) {
+            margin-left: 2rem;
+            justify-content: left;
+          }
+
+          @include respond(phone-md) {
+            margin-left: 0;
+            justify-content: center;
+          }
+        }
+
+        & h4 {
+          margin-bottom: 1rem;
+          text-align: center;
+
+          @include respond(tab-port) {
+            text-align: left;
+          }
+
+          @include respond(phone-md) {
+            margin-top: 1rem;
+            text-align: center;
+          }
+        }
+
+        &__title {
+          @include textLink;
+          font-size: 1.4rem;
+        }
+
+        & p {
+          font-size: 1.1rem;
+          text-align: justify;
+
+          & a {
+            @include textLink;
+          }
+        }
+      }
+    }
+  }
+
   .partners {
     margin-top: 4rem;
 

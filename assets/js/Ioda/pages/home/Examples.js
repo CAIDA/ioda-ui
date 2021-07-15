@@ -128,216 +128,259 @@ class Examples extends PureComponent {
         const gabonText6 = T.translate("home.examples.gabon.text6");
 
         return(
-            <div className="row examples">
-                <h3>Example Outages</h3>
+            <div className="examples">
+                <div className="row">
+                    <div className="col-1-of-1">
+                        <h2 className="section-header">Example Outages</h2>
+                    </div>
+                </div>
 
-                <div className="examples__row">
+
+                <div className="row">
+
 {/*             */}
 {/* Row 1 Col 1 - Syria June 2020 */}
 {/*             */}
-                    <div className="thumbnail">
-                        <div className="thumbnail-img">
-                            <Link to="/country/SY?from=1592693703&until=1593557703">
-                                <img
-                                    src={syria} alt={syriaAltText}/>
-                            </Link>
-                        </div>
-                        <div className="caption text-center">
-                            <Link to="/country/SY?from=1592693703&until=1593557703">
-                                <h4>{syriaTitle}</h4>
-                            </Link>
-                            <p>
-                                {syriaText1}
-                                <a href="https://blogs.oracle.com/internetintelligence/syria-goes-to-extremes-to-foil-cheaters-v3">
-                                    {syriaText2}
-                                </a>
-                                {syriaText3}
-                            </p>
+                    <div className="col-1-of-3">
+                        <div className="thumbnail">
+                            <div className="thumbnail__img">
+                                <Link to="/country/SY?from=1592693703&until=1593557703">
+                                    <img
+                                        src={syria} alt={syriaAltText}/>
+                                </Link>
+                            </div>
+                            <div className="thumbnail__text">
+                                <h4>
+                                    <Link className="thumbnail__title" to="/country/SY?from=1592693703&until=1593557703">
+                                        {syriaTitle}
+                                    </Link>
+                                </h4>
+                                <p>
+                                    {syriaText1}
+                                    <a href="https://blogs.oracle.com/internetintelligence/syria-goes-to-extremes-to-foil-cheaters-v3">
+                                        {syriaText2}
+                                    </a>
+                                    {syriaText3}
+                                </p>
+                            </div>
                         </div>
                     </div>
 {/*             */}
 {/* Row 1 Col 2 -  Africa Jan 2020 */}
 {/*             */}
-                    <div className="thumbnail">
-                        <div className="thumbnail-img">
-                            <Link to="/dashboard?from=1579108680&until=1579192320">
-                                <img
-                                    src={africa} alt={africaAltText}/>
-                            </Link>
-                        </div>
-                        <div className="caption text-center">
-                            <Link to="/dashboard?from=1579108680&until=1579192320">
-                                <h4>{africaTitle}</h4>
-                            </Link>
-                            <p>
-                                {africaText1}<a href="https://www.africanews.com/2020/01/17/africa-internet-outage-after-cable-issue/">{africaText2}</a>{africaText3}
-                                <Link to="/country/CG?from=1579100400&until=1579377960">{africaText4}</Link>{africaText5}
-                                <Link to="/country/NA?from=1579100400&until=1579377960">{africaText6}</Link>{africaText5}
-                                <Link to="/country/CD?from=1579100400&until=1579377960">{africaText7}</Link>{africaText8}
-                                <Link to="/country/AO?from=1579100400&until=1579377960">{africaText9}</Link>{africaText10}
-                            </p>
+                    <div className="col-1-of-3">
+                        <div className="thumbnail">
+                            <div className="thumbnail__img">
+                                <Link to="/dashboard?from=1579108680&until=1579192320">
+                                    <img
+                                        src={africa} alt={africaAltText}/>
+                                </Link>
+                            </div>
+                            <div className="thumbnail__text">
+                                <h4>
+                                    <Link className="thumbnail__title" to="/dashboard?from=1579108680&until=1579192320">
+                                        {africaTitle}
+                                    </Link>
+                                </h4>
+                                <p>
+                                    {africaText1}<a href="https://www.africanews.com/2020/01/17/africa-internet-outage-after-cable-issue/">{africaText2}</a>{africaText3}
+                                    <Link to="/country/CG?from=1579100400&until=1579377960">{africaText4}</Link>{africaText5}
+                                    <Link to="/country/NA?from=1579100400&until=1579377960">{africaText6}</Link>{africaText5}
+                                    <Link to="/country/CD?from=1579100400&until=1579377960">{africaText7}</Link>{africaText8}
+                                    <Link to="/country/AO?from=1579100400&until=1579377960">{africaText9}</Link>{africaText10}
+                                </p>
+                            </div>
                         </div>
                     </div>
 {/*             */}
 {/* Row 1 Col 3 - Iran Nov 2019 */}
 {/*             */}
-                    <div className="thumbnail">
-                        <div className="thumbnail-img">
-                            <Link to="/country/IR?from=1573862400&until=1574035200">
-                                <img src={iran} alt={iranAltText}/>
-                            </Link>
-                        </div>
-                        <div className="caption text-center">
-                            <Link to="/country/IR?from=1573862400&until=1574035200">
-                                <h4>{iranTitle}</h4>
-                            </Link>
-                            <p>
-                                {iranText1}
-                                <a href="https://www.aljazeera.com/news/2019/11/iran-protests-600-words-191118060831036.html">{iranText2}</a>
-                                {iranText3}
-                                <a href="https://www.wired.com/story/iran-internet-shutoff/">{iranText4}</a>
-                                {iranText5}
-                                <a href="https://ooni.org/post/2019-iran-internet-blackout/">{iranText6}</a>
-                                {iranText7}
-                                <a href="https://iran-shutdown.amnesty.org">{iranText8}</a>
-                                {iranText9}
-                            </p>
+                    <div className="col-1-of-3">
+                        <div className="thumbnail">
+                            <div className="thumbnail__img">
+                                <Link to="/country/IR?from=1573862400&until=1574035200">
+                                    <img src={iran} alt={iranAltText}/>
+                                </Link>
+                            </div>
+                            <div className="thumbnail__text">
+                                <h4>
+                                <Link className="thumbnail__title" to="/country/IR?from=1573862400&until=1574035200">
+                                    {iranTitle}
+                                </Link>
+                                </h4>
+                                <p>
+                                    {iranText1}
+                                    <a href="https://www.aljazeera.com/news/2019/11/iran-protests-600-words-191118060831036.html">{iranText2}</a>
+                                    {iranText3}
+                                    <a href="https://www.wired.com/story/iran-internet-shutoff/">{iranText4}</a>
+                                    {iranText5}
+                                    <a href="https://ooni.org/post/2019-iran-internet-blackout/">{iranText6}</a>
+                                    {iranText7}
+                                    <a href="https://iran-shutdown.amnesty.org">{iranText8}</a>
+                                    {iranText9}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div className="examples__row">
+                <div className="row">
 {/*             */}
 {/* Row 2 Col 1 - AS37680 Sept 2019 */}
 {/*             */}
-                    <div className="thumbnail">
-                        <div className="thumbnail-img">
-                            <Link to="/asn/37680?from=1569024000&until=1569153600">
-                                <img
-                                    src={as37680} alt={as37680AltText}/>
-                            </Link>
-                        </div>
-                        <div className="caption text-center">
-                            <Link to="/asn/37680?from=1569024000&until=1569153600">
-                                <h4>{as37680Title}</h4>
-                            </Link>
-                            <p>
-                                {as37680Text1}
-                                <a href="https://www.zdnet.com/article/carpet-bombing-ddos-attack-takes-down-south-african-isp-for-an-entire-day/">{as37680Text2}</a>
-                                {as37680Text3}
-                                <a href="https://coolzone.cisp.co.za/announcements.php?announcement=2038-international-traffic-ddos-cool-ideas">{as37680Text4}</a>
-                                {as37680Text5}
-                            </p>
+                    <div className="col-1-of-3">
+                        <div className="thumbnail">
+                            <div className="thumbnail__img">
+                                <Link to="/asn/37680?from=1569024000&until=1569153600">
+                                    <img
+                                        src={as37680} alt={as37680AltText}/>
+                                </Link>
+                            </div>
+                            <div className="thumbnail__text">
+                                <h4>
+                                <Link className="thumbnail__title" to="/asn/37680?from=1569024000&until=1569153600">
+                                    {as37680Title}
+                                </Link>
+                                </h4>
+                                <p>
+                                    {as37680Text1}
+                                    <a href="https://www.zdnet.com/article/carpet-bombing-ddos-attack-takes-down-south-african-isp-for-an-entire-day/">{as37680Text2}</a>
+                                    {as37680Text3}
+                                    <a href="https://coolzone.cisp.co.za/announcements.php?announcement=2038-international-traffic-ddos-cool-ideas">{as37680Text4}</a>
+                                    {as37680Text5}
+                                </p>
+                            </div>
                         </div>
                     </div>
 {/*             */}
 {/* Row 2 Col 2 - China May 2019 #}*/}
 {/*             */}
-                    <div className="thumbnail">
-                        <div className="thumbnail-img">
-                            <Link to="/country/CN?from=1557724024&until=1557810424">
-                                <img src={china} alt={chinaAltText}/>
-                            </Link>
-                        </div>
-                        <div className="caption text-center">
-                            <Link to="/country/CN?from=1557724024&until=1557810424">
-                                <h4>{chinaTitle}</h4>
-                            </Link>
-                            <p>
-                                {chinaText1}
-                                <a href="https://blog.thousandeyes.com/internet-outage-reveals-reach-of-chinas-connectivity/">{chinaText2}</a>
-                                {chinaText3}
-                                <a href="https://twitter.com/InternetIntel/status/1128102233810382850?s=20">{chinaText4}</a>
-                                {chinaText5}
-                            </p>
+                    <div className="col-1-of-3">
+                        <div className="thumbnail">
+                            <div className="thumbnail__img">
+                                <Link to="/country/CN?from=1557724024&until=1557810424">
+                                    <img src={china} alt={chinaAltText}/>
+                                </Link>
+                            </div>
+                            <div className="thumbnail__text">
+                                <h4>
+                                    <Link className="thumbnail__title" to="/country/CN?from=1557724024&until=1557810424">
+                                        {chinaTitle}
+                                    </Link>
+                                </h4>
+                                <p>
+                                    {chinaText1}
+                                    <a href="https://blog.thousandeyes.com/internet-outage-reveals-reach-of-chinas-connectivity/">{chinaText2}</a>
+                                    {chinaText3}
+                                    <a href="https://twitter.com/InternetIntel/status/1128102233810382850?s=20">{chinaText4}</a>
+                                    {chinaText5}
+                                </p>
+                            </div>
                         </div>
                     </div>
 {/*             */}
 {/* Row 2 Col 3 - Venezuela Mar 2019 */}
 {/*             */}
-                    <div className="thumbnail">
-                        <div className="thumbnail-img">
-                            <Link to="/country/VE?from=1551946200&until=1552528800">
-                                <img
-                                    src={venezuela} alt={venezuelaAltText}/>
-                            </Link>
-                        </div>
-                        <div className="caption text-center">
-                            <Link to="/country/VE?from=1551946200&until=1552528800">
-                                <h4>{venezuelaTitle}</h4>
-                            </Link>
-                            <p>
-                                {venezuelaText1}
-                                <a href="https://www.npr.org/2019/03/11/702179263/this-is-going-to-end-ugly-venezuela-s-power-outages-drag-on">{{venezuelaText2}}</a>
-                                {venezuelaText3}
-                            </p>
+                    <div className="col-1-of-3">
+                        <div className="thumbnail">
+                            <div className="thumbnail__img">
+                                <Link to="/country/VE?from=1551946200&until=1552528800">
+                                    <img
+                                        src={venezuela} alt={venezuelaAltText}/>
+                                </Link>
+                            </div>
+                            <div className="thumbnail__text">
+                                <h4>
+                                    <Link className="thumbnail__title" to="/country/VE?from=1551946200&until=1552528800">
+                                        {venezuelaTitle}
+                                    </Link>
+                                </h4>
+                                <p>
+                                    {venezuelaText1}
+                                    <a href="https://www.npr.org/2019/03/11/702179263/this-is-going-to-end-ugly-venezuela-s-power-outages-drag-on">{venezuelaText2}</a>
+                                    {venezuelaText3}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div className="examples__row">
+                <div className="row">
 {/*             */}
 {/* Row 3 Col 1 -- AS209 Dec 2018 #}*/}
 {/*             */}
-                    <div className="thumbnail">
-                        <div className="thumbnail-img">
-                            <Link to="/asn/209?from=1545820620&until=1546047120">
-                                <img
-                                    src={as209} alt={as209AltText}/>
-                            </Link>
-                        </div>
-                        <div className="caption text-center">
-                            <Link to="/asn/209?from=1545820620&until=1546047120">
-                                <h4>{as209Title}</h4>
-                            </Link>
-                            <p>
-                                {as209Text1}
-                                <a href="https://arstechnica.com/information-technology/2019/08/centurylinks-37-hour-outage-blocked-911-service-for-17-million-people/#:~:text=CenturyLink's%20nationwide%2C%2037%2Dhour%20outage,Federal%20Communications%20Commission%20report%20said.&text=The%20outage%20resulted%20in%20extensive,broadband%20service%2C%20including%20911%20calling.">
-                                    {as209Text2}
-                                </a>
-                                {as209Text3}
-                                <a href="https://docs.fcc.gov/public/attachments/DOC-359134A1.pdf">{as209Text4}</a>
-                                {as209Text5}
-                            </p>
+                    <div className="col-1-of-3">
+                        <div className="thumbnail">
+                            <div className="thumbnail__img">
+                                <Link to="/asn/209?from=1545820620&until=1546047120">
+                                    <img
+                                        src={as209} alt={as209AltText}/>
+                                </Link>
+                            </div>
+                            <div className="thumbnail__text">
+                                <h4>
+                                    <Link className="thumbnail__title" to="/asn/209?from=1545820620&until=1546047120">
+                                        {as209Title}
+                                    </Link>
+                                </h4>
+                                <p>
+                                    {as209Text1}
+                                    <a href="https://arstechnica.com/information-technology/2019/08/centurylinks-37-hour-outage-blocked-911-service-for-17-million-people/#:~:text=CenturyLink's%20nationwide%2C%2037%2Dhour%20outage,Federal%20Communications%20Commission%20report%20said.&text=The%20outage%20resulted%20in%20extensive,broadband%20service%2C%20including%20911%20calling.">
+                                        {as209Text2}
+                                    </a>
+                                    {as209Text3}
+                                    <a href="https://docs.fcc.gov/public/attachments/DOC-359134A1.pdf">{as209Text4}</a>
+                                    {as209Text5}
+                                </p>
+                            </div>
                         </div>
                     </div>
 {/*             */}
 {/* Row 3 Col 2 -- Iraq Oct 2016 */}
 {/*             */}
-                    <div className="thumbnail">
-                        <div className="thumbnail-img">
-                            <Link to="/country/IQ?from=1475280000&until=1475884800">
-                                <img
-                                    src={iraq} alt={iraqAltText}/>
-                            </Link>
-                        </div>
-                        <div className="caption text-center">
-                            <Link to="/country/IQ?from=1475280000&until=1475884800">
-                                <h4>{iraqTitle}</h4>
-                            </Link>
-                            <p>
-                                {iraqText1}
-                            </p>
+                    <div className="col-1-of-3">
+                        <div className="thumbnail">
+                            <div className="thumbnail__img">
+                                <Link to="/country/IQ?from=1475280000&until=1475884800">
+                                    <img
+                                        src={iraq} alt={iraqAltText}/>
+                                </Link>
+                            </div>
+                            <div className="thumbnail__text">
+                                <h4>
+                                    <Link className="thumbnail__title" to="/country/IQ?from=1475280000&until=1475884800">
+                                        {iraqTitle}
+                                    </Link>
+                                </h4>
+                                <p>
+                                    {iraqText1}
+                                </p>
+                            </div>
                         </div>
                     </div>
 {/*             */}
 {/* Row 3 Col 3 -- Gabon Sept 2016 */}
 {/*             */}
-                    <div className="thumbnail">
-                        <div className="thumbnail-img">
-                            <Link to="/country/GA?from=1473033600&until=1473638400">
-                                <img src={gabon} alt={gabonAltText}/>
-                            </Link>
-                        </div>
-                        <div className="caption text-center">
-                            <Link to="/country/GA?from=1473033600&until=1473638400">
-                                <h4>{gabonTitle}</h4>
-                            </Link>
-                            <p>
-                                {gabonText1}
-                                <a href="http://money.cnn.com/2016/09/16/technology/internet-censorship-blackouts-gabon/">{gabonText2}</a>{gabonText5}
-                                <a href="https://blog.cloudflare.com/unrest-in-gabon-leads-to-internet-shutdown/">{gabonText3}</a>{gabonText5}
-                                <a href="https://blogs.akamai.com/2016/09/national-internet-outages-the-new-normal.html">{gabonText4}</a>{gabonText5}
-                                {gabonText6}
-                            </p>
+                    <div className="col-1-of-3">
+                        <div className="thumbnail">
+                            <div className="thumbnail__img">
+                                <Link to="/country/GA?from=1473033600&until=1473638400">
+                                    <img src={gabon} alt={gabonAltText}/>
+                                </Link>
+
+                            </div>
+                            <div className="thumbnail__text">
+                                <h4>
+                                    <Link className="thumbnail__title" to="/country/GA?from=1473033600&until=1473638400">
+                                        {gabonTitle}
+                                    </Link>
+                                </h4>
+                                <p>
+                                    {gabonText1}
+                                    <a href="http://money.cnn.com/2016/09/16/technology/internet-censorship-blackouts-gabon/">{gabonText2}</a>{gabonText5}
+                                    <a href="https://blog.cloudflare.com/unrest-in-gabon-leads-to-internet-shutdown/">{gabonText3}</a>{gabonText5}
+                                    <a href="https://blogs.akamai.com/2016/09/national-internet-outages-the-new-normal.html">{gabonText4}</a>{gabonText5}
+                                    {gabonText6}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -59,7 +59,7 @@
         "text6": "detailed analysis",
         "text7": " shows how most Iranian users were affected for nearly a week. Amnesty International used IODA's data in an ",
         "text8": "investigation",
-        "text9": "correlating this Internet shutdown with the killing of hundreds of Iranians."
+        "text9": " correlating this Internet shutdown with the killing of hundreds of Iranians."
       },
       "as37680": {
         "altText": "AS37680-Sept2019",
@@ -76,7 +76,7 @@
         "text1": "On May 13 2019, IODA detected a significant Internet outage affecting China that began at 7:30 PM UTC and continued for several hours. The outage was reported by several sources, including ",
         "text2": "ThousandEyes",
         "text3": " and ",
-        "text4": "InternetIntelligence",
+        "text4": "Internet Intelligence",
         "text5": " but its cause remains unclear."
       },
       "venezuela": {
@@ -86,7 +86,7 @@
         "text2": "several power outages",
         "text3": ". IODA's data also shows the cascading failures affecting the power grid as repeated efforts at restoration obtained temporary success."
       },
-      "AS209": {
+      "as209": {
         "altText": "AS209-Dec2018",
         "title": "CenturyLink (AS209), Dec 2018 (Network misconfiguration)",
         "text1": "In late December 2018, IODA detected a large-scale Internet outage affecting CenturyLink, a major residential Internet Service Provider (ISP) in the U.S. The outage lasted for more than a day and reportedly affected ",
@@ -107,7 +107,7 @@
         "text2": "CNN",
         "text3": "Cloudflare",
         "text4": "Akamai",
-        "text5": ",",
+        "text5": ", ",
         "text6": "etc.) and were \"initially imposed amid clashes between opposition protesters and security forces following the announcement that incumbent President Ali Bongo had won reelection by a slim margin\"."
       }
     }
