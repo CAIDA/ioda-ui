@@ -2509,6 +2509,102 @@ button[class*="searchButton"] {
           color: #fff; }
           .home .about .button button:hover:after {
             opacity: 0; }
+  .home .examples {
+    margin-top: 4rem; }
+    .home .examples .row {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-bottom: 2.5rem; }
+      @media only screen and (max-width: 64em) {
+        .home .examples .row {
+          flex-direction: column; } }
+      .home .examples .row .col-1-of-1 {
+        display: flex;
+        justify-content: center; }
+      @media only screen and (max-width: 64em) {
+        .home .examples .row .col-1-of-3 {
+          width: 100% !important; } }
+      .home .examples .row .thumbnail {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #fff;
+        box-shadow: 0 1px 2px #9F9D9D;
+        border-radius: 0.5rem;
+        padding: 0 2rem 2rem; }
+        @media only screen and (max-width: 64em) {
+          .home .examples .row .thumbnail {
+            flex-direction: row;
+            align-items: flex-start;
+            padding-top: 2rem; } }
+        @media only screen and (max-width: 46em) {
+          .home .examples .row .thumbnail {
+            flex-direction: column;
+            padding-top: 0;
+            align-items: center; } }
+        .home .examples .row .thumbnail__img {
+          height: 18rem;
+          display: flex;
+          justify-content: center;
+          align-items: center; }
+          .home .examples .row .thumbnail__img img {
+            height: auto;
+            max-width: 35rem;
+            margin-top: 1.5rem; }
+        .home .examples .row .thumbnail__text {
+          display: flex;
+          flex-direction: column;
+          justify-content: center; }
+          @media only screen and (max-width: 64em) {
+            .home .examples .row .thumbnail__text {
+              margin-left: 2rem;
+              justify-content: left; } }
+          @media only screen and (max-width: 46em) {
+            .home .examples .row .thumbnail__text {
+              margin-left: 0;
+              justify-content: center; } }
+        .home .examples .row .thumbnail h4 {
+          margin-bottom: 1rem;
+          text-align: center; }
+          @media only screen and (max-width: 64em) {
+            .home .examples .row .thumbnail h4 {
+              text-align: left; } }
+          @media only screen and (max-width: 46em) {
+            .home .examples .row .thumbnail h4 {
+              margin-top: 1rem;
+              text-align: center; } }
+        .home .examples .row .thumbnail__title {
+          font-size: 1.4rem; }
+          .home .examples .row .thumbnail__title:link, .home .examples .row .thumbnail__title:visited {
+            color: #5899AE;
+            font-weight: 700;
+            text-decoration: none;
+            padding-bottom: 2px;
+            margin-bottom: 1px;
+            background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+            background-size: 100% 0;
+            /* controls underline thickness */
+            transition: ease-in-out 0.3s; }
+            .home .examples .row .thumbnail__title:link:hover, .home .examples .row .thumbnail__title:visited:hover {
+              background-size: 100% 2px; }
+        .home .examples .row .thumbnail p {
+          font-size: 1.1rem;
+          text-align: justify; }
+          .home .examples .row .thumbnail p a:link, .home .examples .row .thumbnail p a:visited {
+            color: #5899AE;
+            font-weight: 700;
+            text-decoration: none;
+            padding-bottom: 2px;
+            margin-bottom: 1px;
+            background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+            background-size: 100% 0;
+            /* controls underline thickness */
+            transition: ease-in-out 0.3s; }
+            .home .examples .row .thumbnail p a:link:hover, .home .examples .row .thumbnail p a:visited:hover {
+              background-size: 100% 2px; }
   .home .partners {
     margin-top: 4rem; }
     .home .partners .col-1-of-1 {
