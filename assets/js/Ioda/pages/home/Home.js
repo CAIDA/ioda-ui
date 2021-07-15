@@ -48,6 +48,7 @@ import { TwitterTimelineEmbed } from 'react-twitter-embed';
 import TopoMap from "../../components/map/Map";
 import * as topojson from 'topojson';
 import Card from "./Card";
+import Examples from "./Examples";
 // Images
 import otfLogo from 'images/logos/otf.png';
 import dhsLogo from 'images/logos/dhs.svg';
@@ -286,13 +287,7 @@ class Home extends Component {
                         </div>
                     </div>
                 </div>
-                {/*<div className="row examples">*/}
-                {/*    <div className="col-1-of-1">*/}
-                {/*        <Example country="iran"/>*/}
-                {/*    </div>*/}
-                {/*    <div className="col-1-of-1">*/}
-                {/*        <Example country="gabon"/>*/}
-                {/*    </div>*/}
+                <Examples />
                 {/*</div>*/}
                 <div className="row partners">
                     <div className="col-1-of-1">

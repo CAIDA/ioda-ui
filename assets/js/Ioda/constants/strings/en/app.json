@@ -25,7 +25,92 @@
     "dos2": "U.S. Department of State, Bureau of Democracy, Human Rights, and Labor",
     "dos3": " and ",
     "dos4": "Bureau of Near Eastern Affairs",
-    "dos5": "."
+    "dos5": ".",
+    "examples": {
+      "syria": {
+        "altText": "Syria-June2020",
+        "title": "Syria, Jun 2020 (Exam-related)",
+        "text1": "Government-ordered Internet shutdowns in conjunction with national exams have been occurring in Syria for ",
+        "text2": "several years",
+        "text3": ". These shutdowns disconnect most of the country from the rest of the Internet. In this example from June 2020, IODA's data and visualizations clearly show the pattern of these outages."
+      },
+      "africa": {
+        "altText": "Africa-Jan2020",
+        "title": "West Africa, Jan 2020 (Cable cut)",
+        "text1": "On January 16 2020, ",
+        "text2": "undersea cable infrastructure problems",
+        "text3": " severely disrupted Internet connectivity in several West African countries. IODA detected significant outages affecting ",
+        "text4": "the Republic of Congo",
+        "text5": ", ",
+        "text6": "Namibia",
+        "text7": "the Democratic Republic of Congo",
+        "text8": ", and ",
+        "text9": "Angola",
+        "text10": " during this time."
+      },
+      "iran": {
+        "altText": "Iran-Nov2019",
+        "title": "Iran, Nov 2019 (Government-mandated)",
+        "text1": "Amid ",
+        "text2": "widespread protests",
+        "text3": " against the government, on November 16 2019, Iran experienced one of the most severe government-ordered ",
+        "text4": "Internet outages",
+        "text5": ". This ",
+        "text6": "detailed analysis",
+        "text7": " shows how most Iranian users were affected for nearly a week. Amnesty International used IODA's data in an ",
+        "text8": "investigation",
+        "text9": "correlating this Internet shutdown with the killing of hundreds of Iranians."
+      },
+      "as37680": {
+        "altText": "AS37680-Sept2019",
+        "title": "COOL-IDEAS (AS 37680), Sep 2019 (DDoS attack)",
+        "text1": "A distributed denial-of-service (DDoS) amplification attack leveraging the DNS and CLDAP protocols and ",
+        "text2": "using the \"carpet bombing\" approach",
+        "text3": " resulted in a ",
+        "text4": "multi-hour Internet outage",
+        "text5": " for South Africa's largest Internet service provider on September 21, 2019."
+      },
+      "china": {
+        "altText": "China-May2019",
+        "title": "China, May 2019",
+        "text1": "On May 13 2019, IODA detected a significant Internet outage affecting China that began at 7:30 PM UTC and continued for several hours. The outage was reported by several sources, including ",
+        "text2": "ThousandEyes",
+        "text3": " and ",
+        "text4": "InternetIntelligence",
+        "text5": " but its cause remains unclear."
+      },
+      "venezuela": {
+        "altText": "Venezuela-Mar2019",
+        "title": "Venezuela, Mar 2019 (Power outage)",
+        "text1": "In March 2019, Venezuela was affected by ",
+        "text2": "several power outages",
+        "text3": ". IODA's data also shows the cascading failures affecting the power grid as repeated efforts at restoration obtained temporary success."
+      },
+      "AS209": {
+        "altText": "AS209-Dec2018",
+        "title": "CenturyLink (AS209), Dec 2018 (Network misconfiguration)",
+        "text1": "In late December 2018, IODA detected a large-scale Internet outage affecting CenturyLink, a major residential Internet Service Provider (ISP) in the U.S. The outage lasted for more than a day and reportedly affected ",
+        "text2": "millions of users",
+        "text3": " and was caused by \"malformed management packets\", according to an ",
+        "text4": "FCC report",
+        "text5": "."
+      },
+      "iraq": {
+        "altText": "Iraq-Oct2016",
+        "title": "Iraq, Oct 2016 (Exam-related)",
+        "text1": "In the first week of October 2016, IODA detected nearly daily outages that significantly affected Iraqi Internet connectivity."
+      },
+      "gabon": {
+        "altText": "Gabon-Sept2016",
+        "title": "Gabon, Sep 2016 (Government-mandated)",
+        "text1": "In early September 2016, IODA detected daily outages in Gabon that significantly affected Internet connectivity. These outages were widely reported (e.g., by ",
+        "text2": "CNN",
+        "text3": "Cloudflare",
+        "text4": "Akamai",
+        "text5": ",",
+        "text6": "etc.) and were \"initially imposed amid clashes between opposition protesters and security forces following the announcement that incumbent President Ali Bongo had won reelection by a slim margin\"."
+      }
+    }
   },
   "dashboard": {
     "countryTabTitle": "Country View",
