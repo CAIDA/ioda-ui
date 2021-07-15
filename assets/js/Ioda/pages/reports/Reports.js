@@ -32,53 +32,65 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-import React, { Component } from 'react';
+// React Imports
+import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
+// Internationalization
 import T from 'i18n-react';
-import iodaLogo from 'images/logos/ioda-logo.svg';
 
-class Nav extends Component {
-    constructor(props) {
-        super(props);
-    }
+
+
+
+class Reports extends PureComponent {
 
     render() {
-        const dashboard = T.translate("header.dashboard");
-        const reports = T.translate("header.reports");
-        const iodaLogoAltText = T.translate("header.iodaLogoAltText");
+        const title = T.translate("reports.title");
+        const text = T.translate("reports.text");
+        const link1 = T.translate("reports.link1");
+        const link2 = T.translate("reports.link2");
+        const link3 = T.translate("reports.link3");
+        const link4 = T.translate("reports.link4");
+        const link5 = T.translate("reports.link5");
 
-        return(
-            <div className="header">
-                <div className="header__container">
-                    <div className="header__logo">
-                        <Link to="/">
-                            <img src={iodaLogo} alt={iodaLogoAltText} />
-                        </Link>
-                    </div>
-                    <nav className="header__nav">
-                        <div className="header__nav--mobile">
-                            <input type="checkbox" className="header__checkbox" ref={this.checkbox} id="nav-toggle" />
-                            <label htmlFor="nav-toggle" className="header__button">
-                                <span className="header__icon">&nbsp;</span>
-                            </label>
-                        </div>
-                        <ul className="header__list">
-                            <li className="header__item">
-                                <a href="/dashboard" className="header__link">
-                                    {dashboard}
+        return (
+            <div className="reports">
+                <div className="row list">
+                    <div className="col-1-of-1">
+                        <h1 className="section-header">{title}</h1>
+                        <p className="reports__text">{text}</p>
+                        <ul className="reports__list">
+                            <li className="reports__list-item">
+                                <a href="https://ooni.org/post/2021-uganda-general-election-blocks-and-outage/" target="_blank">
+                                    {link1}
                                 </a>
                             </li>
-                            <li className="header__item">
-                                <Link to="/reports" className="header__link">
-                                    {reports}
+                            <li className="reports__list-item">
+                                <Link to="https://ooni.org/post/2021-uganda-general-election-blocks-and-outage/">
+                                    {link2}
                                 </Link>
                             </li>
+                            <li className="reports__list-item">
+                                <a href="https://ooni.org/post/2019-iran-internet-blackout/" target="_blank">
+                                    {link3}
+                                </a>
+                            </li>
+                            <li className="reports__list-item">
+                                <a href="https://ooni.org/post/2019-benin-social-media-blocking/" target="_blank">
+                                    {link4}
+                                </a>
+                            </li>
+                            <li className="reports__list-item">
+                                <a href="https://ooni.org/post/gabon-internet-disruption/" target="_blank">
+                                    {link5}
+                                </a>
+                            </li>
                         </ul>
-                    </nav>
+                    </div>
                 </div>
+
             </div>
         );
     }
 }
 
-export default Nav;
+export default Reports;

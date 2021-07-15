@@ -52,6 +52,7 @@ import Footer from "./templates/Footer";
 import Home from './pages/home/Home';
 import Dashboard from './pages/dashboard/Dashboard';
 import Entity from './pages/entity/Entity';
+import Reports from './pages/reports/Reports';
 import TestAPI from "./pages/tests/TestAPI";
 
 
@@ -65,6 +66,7 @@ class App extends Component {
                 <Route path='/test' component={TestAPI}/>
                 <Route path='/dashboard' component={Dashboard}/>
                 <Route exact path='/:entityType/:entityCode' component={Entity} />
+                <Route path='/reports' component={Reports}/>
                 <Route path='/' component={Home}/>
             </Switch>
             <Footer/>
