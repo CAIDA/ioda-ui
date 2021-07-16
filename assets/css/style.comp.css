@@ -3190,3 +3190,12 @@ button[class*="searchButton"] {
       transition: ease-in-out 0.3s; }
       .reports__list-item a:link:hover, .reports__list-item a:visited:hover {
         background-size: 100% 2px; }
+
+.report {
+  padding-top: 5rem;
+  margin-top: 4rem; }
+  .report .row {
+    max-width: 114rem; }
+  .report img {
+    width: 100rem;
+    height: auto; }

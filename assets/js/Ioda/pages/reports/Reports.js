@@ -39,8 +39,6 @@ import { Link } from 'react-router-dom';
 import T from 'i18n-react';
 
 
-
-
 class Reports extends PureComponent {
 
     render() {
@@ -65,7 +63,7 @@ class Reports extends PureComponent {
                                 </a>
                             </li>
                             <li className="reports__list-item">
-                                <Link to="https://ooni.org/post/2021-uganda-general-election-blocks-and-outage/">
+                                <Link to="/reports/2020-iran-report">
                                     {link2}
                                 </Link>
                             </li>

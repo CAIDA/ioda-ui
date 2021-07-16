@@ -282,5 +282,9 @@
     "link3": "Nov 2019 Iran",
     "link4": "Apr 2019 Benin",
     "link5": "Jan 2019 Gabon"
+  },
+  "iranReport2020": {
+    "title": "An analysis of large Internet outages affecting Iranian networks in early 2020",
+    "authors": "Ramakrishna Padmanabhan (CAIDA, UC San Diego), Anant Shah (Verizon Media Platform), Nima Fatemi (Kandoo), Alberto Dainotti (CAIDA, UC San Diego)"
   }
 }
