@@ -58,6 +58,7 @@ import isocLogo from 'images/logos/isoc.svg';
 import Loading from "../../components/loading/Loading";
 // Constants
 import urls from "../../constants/urls/urls";
+import Methodology from "./Methodology";
 
 
 // const Example = country => {
@@ -288,7 +289,7 @@ class Home extends Component {
                     </div>
                 </div>
                 <Examples />
-                {/*</div>*/}
+                <Methodology />
                 <div className="row partners">
                     <div className="col-1-of-1">
                         <h2 className="section-header">

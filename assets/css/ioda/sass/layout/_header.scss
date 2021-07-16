@@ -65,10 +65,6 @@
     list-style-type: none;
     height: auto;
     display: flex;
-
-    &:not(:last-child) {
-      border-right: 2px solid $color-primary-light;
-    }
   }
 
   &__link:link,
