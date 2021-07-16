@@ -122,7 +122,6 @@ class Modal extends Component {
                                     {currentCountInHts3}
                                 </p>
                         }
-
                     </div>
                     {
                         this.props.modalLocation === 'map'

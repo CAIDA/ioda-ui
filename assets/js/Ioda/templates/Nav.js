@@ -45,6 +45,7 @@ class Nav extends Component {
     render() {
         const dashboard = T.translate("header.dashboard");
         const reports = T.translate("header.reports");
+        const help = T.translate("header.help");
         const iodaLogoAltText = T.translate("header.iodaLogoAltText");
 
         return(
@@ -71,6 +72,11 @@ class Nav extends Component {
                             <li className="header__item">
                                 <Link to="/reports" className="header__link">
                                     {reports}
+                                </Link>
+                            </li>
+                            <li className="header__item">
+                                <Link to="/help" className="header__link">
+                                    {help}
                                 </Link>
                             </li>
                         </ul>
