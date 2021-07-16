@@ -20,7 +20,7 @@
     font-size: 1.3rem;
 
     &-item {
-      & a {
+      & a:link, a:visited {
         @include textLink;
       }
     }

@@ -814,8 +814,14 @@ class Entity extends Component {
 
         // get time span considered, using network telescope first as that data source has the most up to time data, then Ping-slash24, then bgp
         const timeBegin = networkTelescopeValues[0] ? networkTelescopeValues[0].x : activeProbingValues[0] ? activeProbingValues[0].x : bgpValues[0].x;
-        const timeEnd = networkTelescopeValues[networkTelescopeValues.length -1] ? networkTelescopeValues[networkTelescopeValues.length -1].x :
-            activeProbingValues[activeProbingValues.length -1] ? activeProbingValues[activeProbingValues.length -1].x : bgpValues[activeProbingValues.length -1].x;
+        const timeEnd =
+            networkTelescopeValues && networkTelescopeValues[networkTelescopeValues.length -1]
+                ? networkTelescopeValues[networkTelescopeValues.length -1].x
+                : activeProbingValues && activeProbingValues[activeProbingValues.length -1]
+                    ? activeProbingValues[activeProbingValues.length -1].x
+                    : bgpValues && bgpValues[bgpValues.length -1].x
+                        ? bgpValues[bgpValues.length -1].x
+                        : this.state.until;
         // Add 1% padding to the right edge of the Chart
         const extraPadding = (timeEnd - timeBegin) * 0.01;
         const viewportMaximum = new Date(timeEnd.getTime() + extraPadding);
