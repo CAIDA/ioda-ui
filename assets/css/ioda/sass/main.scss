@@ -10,7 +10,7 @@
 @import "components/controlPanel/controlPanel";
 @import "components/controlPanel/timePicker";
 @import "components/controlPanel/reactDateRange";
-@import "components/help/help";
+@import "components/tooltip/tooltip";
 @import "components/table/table";
 @import "components/leafletMap/leafletMap";
 @import "components/leafletMap/leafletTooltip";
@@ -23,6 +23,8 @@
 @import "layout/grid";
 @import "layout/header";
 
+@import "pages/acknowledgements";
+@import "pages/help";
 @import "pages/home";
 @import "pages/dashboard";
 @import "pages/entity";

@@ -53,8 +53,10 @@ import Home from './pages/home/Home';
 import Dashboard from './pages/dashboard/Dashboard';
 import Entity from './pages/entity/Entity';
 import Reports from './pages/reports/Reports';
+import Help from './pages/help/Help';
 import IranReport2020 from './pages/reports/IranReport2020';
 import TestAPI from "./pages/tests/TestAPI";
+import Acknowledgements from "./pages/acknowledgements/Acknowledgements";
 
 
 
@@ -67,6 +69,8 @@ class App extends Component {
                 <Route path='/test' component={TestAPI}/>
                 <Route path='/dashboard' component={Dashboard}/>
                 <Route exact path='/reports' component={Reports}/>
+                <Route exact path='/help' component={Help}/>
+                <Route exact path='/acknowledgements' component={Acknowledgements}/>
                 <Route path='/reports/2020-iran-report' component={IranReport2020}/>
                 <Route exact path='/:entityType/:entityCode' component={Entity} />
                 <Route path='/' component={Home}/>

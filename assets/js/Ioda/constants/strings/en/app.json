@@ -2,7 +2,12 @@
   "header": {
     "dashboard": "Dashboard",
     "reports": "Reports",
-    "iodaLogoAltText": "IODA Logo"
+    "iodaLogoAltText": "IODA Logo",
+    "help": "Help",
+    "projectInfo": "Project Info",
+    "explorer": "Explorer",
+    "acknowledgements": "Acknowledgements",
+    "api": "API"
   },
   "home": {
     "title": "IODA",

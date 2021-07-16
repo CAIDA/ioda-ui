@@ -2336,7 +2336,7 @@ body {
   .header__container {
     display: flex;
     flex-direction: row;
-    justify-content: left;
+    justify-content: space-between;
     max-width: 114rem;
     width: 100%;
     height: auto; }
@@ -2369,10 +2369,12 @@ body {
     height: 100%;
     margin: 0; }
   .header__item {
-    width: 18rem;
+    padding: 0 2rem;
     list-style-type: none;
     height: auto;
     display: flex; }
+    .header__item:not(:last-child) {
+      border-right: 2px solid #617486; }
   .header__link:link, .header__link:visited {
     display: flex;
     justify-content: center;
@@ -2389,6 +2391,142 @@ body {
       text-decoration: none;
       color: #fff;
       background-color: #2c3e50; }
+
+.acknowledgements {
+  padding-top: 5rem;
+  margin: 4rem 0;
+  color: #2c3e50; }
+  .acknowledgements .row {
+    max-width: 114rem; }
+  .acknowledgements img {
+    width: 100rem;
+    height: auto;
+    margin: 1.5rem auto;
+    display: block;
+    box-shadow: 0 1px 2px #9F9D9D; }
+  .acknowledgements h2 {
+    font-size: 1.9rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-top: 1rem;
+    margin-top: 1.5rem; }
+    .acknowledgements h2:before {
+      content: "";
+      width: 100%;
+      height: 0.1rem;
+      background-color: #2c3e50;
+      position: absolute;
+      top: 0;
+      left: 0; }
+  .acknowledgements h3 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    margin-left: 2rem; }
+  .acknowledgements h4 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    margin-left: 2rem; }
+  .acknowledgements ul {
+    margin-left: 4rem;
+    margin-bottom: 1rem; }
+    .acknowledgements ul li {
+      font-size: 1.2rem; }
+  .acknowledgements p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    margin-left: 2rem; }
+  .acknowledgements a:link:link, .acknowledgements a:link:visited, .acknowledgements a:visited:link, .acknowledgements a:visited:visited {
+    color: #5899AE;
+    font-weight: 700;
+    text-decoration: none;
+    padding-bottom: 2px;
+    margin-bottom: 1px;
+    background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+    background-size: 100% 0;
+    /* controls underline thickness */
+    transition: ease-in-out 0.3s; }
+    .acknowledgements a:link:link:hover, .acknowledgements a:link:visited:hover, .acknowledgements a:visited:link:hover, .acknowledgements a:visited:visited:hover {
+      background-size: 100% 2px; }
+  .acknowledgements .thumbnail {
+    background-color: #fff;
+    box-shadow: 0 1px 2px #9F9D9D;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    width: 100%; }
+    .acknowledgements .thumbnail__content {
+      display: flex;
+      flex-direction: column; }
+    .acknowledgements .thumbnail__text {
+      margin-left: 0;
+      color: #2c3e50; }
+    .acknowledgements .thumbnail__img {
+      height: 15rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem; }
+    .acknowledgements .thumbnail img {
+      height: auto;
+      max-width: 15rem;
+      max-height: 15rem;
+      width: 100%;
+      box-shadow: none; }
+
+.helpPage {
+  padding-top: 5rem;
+  margin: 4rem 0;
+  color: #2c3e50; }
+  .helpPage .row {
+    max-width: 114rem; }
+  .helpPage img {
+    width: 100rem;
+    height: auto;
+    margin: 1.5rem auto;
+    display: block;
+    box-shadow: 0 1px 2px #9F9D9D; }
+  .helpPage h2 {
+    font-size: 1.9rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-top: 1rem;
+    margin-top: 1.5rem; }
+    .helpPage h2:before {
+      content: "";
+      width: 100%;
+      height: 0.1rem;
+      background-color: #2c3e50;
+      position: absolute;
+      top: 0;
+      left: 0; }
+  .helpPage h3 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    margin-left: 2rem; }
+  .helpPage h4 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    margin-left: 2rem; }
+  .helpPage ul {
+    margin-left: 4rem;
+    margin-bottom: 1rem; }
+    .helpPage ul li {
+      font-size: 1.2rem; }
+  .helpPage p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    margin-left: 2rem; }
+  .helpPage a:link:link, .helpPage a:link:visited, .helpPage a:visited:link, .helpPage a:visited:visited {
+    color: #5899AE;
+    font-weight: 700;
+    text-decoration: none;
+    padding-bottom: 2px;
+    margin-bottom: 1px;
+    background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+    background-size: 100% 0;
+    /* controls underline thickness */
+    transition: ease-in-out 0.3s; }
+    .helpPage a:link:link:hover, .helpPage a:link:visited:hover, .helpPage a:visited:link:hover, .helpPage a:visited:visited:hover {
+      background-size: 100% 2px; }
 
 button[class*="searchButton"] {
   display: none !important; }
@@ -3178,7 +3316,7 @@ button[class*="searchButton"] {
   .reports__list {
     margin-left: 2.5rem;
     font-size: 1.3rem; }
-    .reports__list-item a:link, .reports__list-item a:visited {
+    .reports__list-item a:link:link, .reports__list-item a:link:visited, .reports__list-item a:visited:link, .reports__list-item a:visited:visited {
       color: #5899AE;
       font-weight: 700;
       text-decoration: none;
@@ -3188,14 +3326,61 @@ button[class*="searchButton"] {
       background-size: 100% 0;
       /* controls underline thickness */
       transition: ease-in-out 0.3s; }
-      .reports__list-item a:link:hover, .reports__list-item a:visited:hover {
+      .reports__list-item a:link:link:hover, .reports__list-item a:link:visited:hover, .reports__list-item a:visited:link:hover, .reports__list-item a:visited:visited:hover {
         background-size: 100% 2px; }
 
 .report {
   padding-top: 5rem;
-  margin-top: 4rem; }
+  margin: 4rem 0;
+  color: #2c3e50; }
   .report .row {
     max-width: 114rem; }
   .report img {
     width: 100rem;
-    height: auto; }
+    height: auto;
+    margin: 1.5rem auto;
+    display: block;
+    box-shadow: 0 1px 2px #9F9D9D; }
+  .report h2 {
+    font-size: 1.9rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-top: 1rem;
+    margin-top: 1.5rem; }
+    .report h2:before {
+      content: "";
+      width: 100%;
+      height: 0.1rem;
+      background-color: #2c3e50;
+      position: absolute;
+      top: 0;
+      left: 0; }
+  .report h3 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    margin-left: 2rem; }
+  .report h4 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    margin-left: 2rem; }
+  .report ul {
+    margin-left: 4rem;
+    margin-bottom: 1rem; }
+    .report ul li {
+      font-size: 1.2rem; }
+  .report p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    margin-left: 2rem; }
+  .report a:link:link, .report a:link:visited, .report a:visited:link, .report a:visited:visited {
+    color: #5899AE;
+    font-weight: 700;
+    text-decoration: none;
+    padding-bottom: 2px;
+    margin-bottom: 1px;
+    background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+    background-size: 100% 0;
+    /* controls underline thickness */
+    transition: ease-in-out 0.3s; }
+    .report a:link:link:hover, .report a:link:visited:hover, .report a:visited:link:hover, .report a:visited:visited:hover {
+      background-size: 100% 2px; }

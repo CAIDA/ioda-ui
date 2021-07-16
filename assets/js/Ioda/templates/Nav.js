@@ -45,7 +45,12 @@ class Nav extends Component {
     render() {
         const dashboard = T.translate("header.dashboard");
         const reports = T.translate("header.reports");
+        const help = T.translate("header.help");
+        const projectInfo = T.translate("header.projectInfo");
+        const explorer = T.translate("header.explorer");
         const iodaLogoAltText = T.translate("header.iodaLogoAltText");
+        const acknowledgements = T.translate("header.acknowledgements");
+        const api = T.translate("header.api");
 
         return(
             <div className="header">
@@ -64,13 +69,38 @@ class Nav extends Component {
                         </div>
                         <ul className="header__list">
                             <li className="header__item">
-                                <a href="/dashboard" className="header__link">
+                                <Link to="/dashboard" className="header__link">
                                     {dashboard}
+                                </Link>
+                            </li>
+                            <li className="header__item">
+                                <a href="https://ioda.caida.org/ioda/explorer" className="header__link">
+                                    {explorer}
+                                </a>
+                            </li>
+                            <li className="header__item">
+                                <a href="https://github.com/CAIDA/ioda-api/wiki/API-Specification" className="header__link">
+                                    {api}
+                                </a>
+                            </li>
+                            <li className="header__item">
+                                <a href="https://www.caida.org/projects/ioda/" className="header__link">
+                                    {projectInfo}
                                 </a>
                             </li>
                             <li className="header__item">
                                 <Link to="/reports" className="header__link">
                                     {reports}
+                                </Link>
+                            </li>
+                            <li className="header__item">
+                                <Link to="/acknowledgements" className="header__link">
+                                    {acknowledgements}
+                                </Link>
+                            </li>
+                            <li className="header__item">
+                                <Link to="/help" className="header__link">
+                                    {help}
                                 </Link>
                             </li>
                         </ul>

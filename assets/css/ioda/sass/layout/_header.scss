@@ -13,7 +13,7 @@
   &__container {
     display: flex;
     flex-direction: row;
-    justify-content: left;
+    justify-content: space-between;
     max-width: $grid-width;
     width: 100%;
     height: auto;
@@ -61,10 +61,14 @@
   }
 
   &__item {
-    width: 18rem;
+    padding: 0 2rem;
     list-style-type: none;
     height: auto;
     display: flex;
+
+    &:not(:last-child) {
+      border-right: 2px solid $color-primary-light;
+    }
   }
 
   &__link:link,
