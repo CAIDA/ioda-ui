@@ -3164,3 +3164,38 @@ button[class*="searchButton"] {
       @media only screen and (max-width: 64em) {
         .entity .related__modal-button {
           margin-left: 3rem; } }
+
+.reports {
+  padding-top: 5rem;
+  margin-top: 4rem; }
+  .reports .row {
+    max-width: 114rem; }
+  .reports .list {
+    display: flex;
+    justify-content: center; }
+  .reports__text {
+    font-size: 1.3rem; }
+  .reports__list {
+    margin-left: 2.5rem;
+    font-size: 1.3rem; }
+    .reports__list-item a:link, .reports__list-item a:visited {
+      color: #5899AE;
+      font-weight: 700;
+      text-decoration: none;
+      padding-bottom: 2px;
+      margin-bottom: 1px;
+      background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+      background-size: 100% 0;
+      /* controls underline thickness */
+      transition: ease-in-out 0.3s; }
+      .reports__list-item a:link:hover, .reports__list-item a:visited:hover {
+        background-size: 100% 2px; }
+
+.report {
+  padding-top: 5rem;
+  margin-top: 4rem; }
+  .report .row {
+    max-width: 114rem; }
+  .report img {
+    width: 100rem;
+    height: auto; }

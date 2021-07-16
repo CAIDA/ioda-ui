@@ -1,0 +1,13 @@
+.report {
+  padding-top: $header-height;
+  margin-top: 4rem;
+
+  & .row {
+    max-width: 114rem;
+  }
+  
+  img {
+    width: 100rem;
+    height: auto;
+  }
+}

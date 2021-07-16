@@ -1,6 +1,7 @@
 {
   "header": {
     "dashboard": "Dashboard",
+    "reports": "Reports",
     "iodaLogoAltText": "IODA Logo"
   },
   "home": {
@@ -272,5 +273,18 @@
       "title": "Raw IODA Signals",
       "text": "This visualization shows IODA's signals over time. The \"Stacked Horizon Graph\" turns from dark green to white as a signal decreases."
     }
+  },
+  "reports": {
+    "title": "Reports",
+    "text": "We often (co)author reports containing detailed analyses of IODA signals during major Internet outage events.",
+    "link1": "Jan 2021 Uganda",
+    "link2": "Feb to Apr 2020 Iran",
+    "link3": "Nov 2019 Iran",
+    "link4": "Apr 2019 Benin",
+    "link5": "Jan 2019 Gabon"
+  },
+  "iranReport2020": {
+    "title": "An analysis of large Internet outages affecting Iranian networks in early 2020",
+    "authors": "Ramakrishna Padmanabhan (CAIDA, UC San Diego), Anant Shah (Verizon Media Platform), Nima Fatemi (Kandoo), Alberto Dainotti (CAIDA, UC San Diego)"
   }
 }
