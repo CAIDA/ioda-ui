@@ -90,7 +90,7 @@ class Acknowledgements extends PureComponent {
                                         <img src={dhs}/>
                                     </div>
                                     <p className="thumbnail__text">
-                                        This platform is also supported by Department of Homeland Security
+                                        This platform was also supported by Department of Homeland Security
                                         Science
                                         and Technology Directorate (DHS S&T) contract HHSP
                                         233201600012C [Science of Internet Security:
@@ -112,7 +112,7 @@ class Acknowledgements extends PureComponent {
                                         <img src={otf}/>
                                     </div>
                                     <p className="thumbnail__text">
-                                        This platform is also supported by the Open
+                                        This platform was also supported by the Open
                                         Technology Fund under contract number 1002-2018-027.
                                     </p>
                                 </div>
@@ -160,7 +160,8 @@ class Acknowledgements extends PureComponent {
                                     <img src={nersc}/>
                                 </div>
                                 <p className="thumbnail__text">
-                                    Storage resources are supported by NERSC, a DOE Office of Science
+                                    Storage resources for the UCSD Network Telescope 
+                                    are supported by NERSC, a DOE Office of Science
                                     User Facility
                                     supported by the Office of Science of the U.S.
                                     Department of Energy under Contract No.
@@ -178,7 +179,7 @@ class Acknowledgements extends PureComponent {
                                         <img src={xsedeBlack}/>
                                     </div>
                                     <p className="thumbnail__text">
-                                        Computational resources are supported by National Science Foundation
+                                        Computational resources were supported by National Science Foundation
                                         grant number
                                         ACI-1053575.
                                     </p>
@@ -228,12 +229,12 @@ class Acknowledgements extends PureComponent {
                                     <img src={usdos}/>
                                 </div>
                                 <p className="thumbnail__text">
-                                    This platform is supported by the <a
+                                    This platform was/is supported by the <a
                                     href="https://www.state.gov/bureaus-offices/under-secretary-for-civilian-security-democracy-and-human-rights/bureau-of-democracy-human-rights-and-labor/">
                                     U.S. Department of State, Bureau of Democracy, Human Rights, and
-                                    Labor</a> and <a
+                                    Labor</a> (2020) and <a
                                     href="https://www.state.gov/bureaus-offices/under-secretary-for-political-affairs/bureau-of-near-eastern-affairs/">Bureau
-                                    of Near Eastern Affairs</a>.
+                                    of Near Eastern Affairs</a> (2021-2022).
                                 </p>
                             </div>
                         </div>
@@ -257,8 +258,7 @@ class Acknowledgements extends PureComponent {
                     </ul>
                     <h4>Active Probing Data</h4>
                     <ul>
-                        <li>CAIDA's <a href="http://www.caida.org/projects/ark/">Archipelago (Ark) Measurement
-                            Infrastructure</a></li>
+                        <li>Active measurements conducted from CAIDA servers.</li>
                     </ul>
                 </div>
             </div>
