@@ -92,9 +92,9 @@ class Acknowledgements extends PureComponent {
                                     <p className="thumbnail__text">
                                         This platform was also supported by Department of Homeland Security
                                         Science
-                                        and Technology Directorate (DHS S&T) contract HHSP
-                                        233201600012C [Science of Internet Security:
-                                        Technology and Experimental Research], and DHS S&T
+                                        and Technology Directorate (DHS S&T) contract 
+                                        70RSAT18CB0000015 [IODA-NP: Multi-source Realtime Detection
+                                        of Macroscopic Internet Connectivity Disruption], and DHS S&T
                                         cooperative agreement FA8750-12-2-0326
                                         [Supporting Research and Development of Security
                                         Technologies through Network and Security Data
