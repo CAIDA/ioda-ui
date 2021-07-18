@@ -96,8 +96,7 @@ class Help extends PureComponent {
                             </li>
                             <li>
                                 Currently the alerts IODA shows use data from a team of
-                                20 probers located at SDSC. (Alerts based on data from our
-                                distributed probers that run on the Ark platform are coming soon.)
+                                20 probers located at SDSC.
                             </li>
                             <li>
                                 The trinocular measurement and inference technique labels a /24 block as <em>up</em>,
