@@ -864,6 +864,7 @@ class Entity extends Component {
                     titleFontsColor: "#666666",
                     labelFontColor: "#666666",
                     labelFontSize: 12,
+                    minimum: this.state.tsDataNormalized ? 0 : null,
                     maximum: this.state.tsDataNormalized ? 110 : Math.max(...absoluteMax) * 1.1,
                     gridDashType: "dash",
                     gridColor: "#E6E6E6",
