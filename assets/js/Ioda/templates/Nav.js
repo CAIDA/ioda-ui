@@ -69,7 +69,7 @@ class Nav extends Component {
                         </div>
                         <ul className="header__list">
                             <li className="header__item">
-                                <Link to="/dashboard" className="header__link">
+                                <Link to="/dashboard?from=-24h&until=now" className="header__link">
                                     {dashboard}
                                 </Link>
                             </li>
