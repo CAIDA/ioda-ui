@@ -891,7 +891,7 @@ class Entity extends Component {
                 },
                 legend: {
                     cursor: "pointer",
-                    fontSize: this.state.tsDataScreenBelow640 ? 11 : 14,
+                    fontSize: this.state.tsDataScreenBelow640 ? 10 : 12,
                     verticalAlign: this.state.tsDataScreenBelow970 ? "top" : "bottom",
                     itemclick: (e) => {
                         // console.log("legend click: " + e.dataPointIndex);

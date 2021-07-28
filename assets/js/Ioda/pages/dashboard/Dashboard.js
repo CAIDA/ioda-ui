@@ -26,7 +26,8 @@ import {
     humanizeNumber,
     convertTsDataForHtsViz,
     dateRangeToSeconds,
-    controlPanelTimeRangeLimit
+    controlPanelTimeRangeLimit,
+    convertTimeToSecondsForURL
 } from "../../utils";
 import Loading from "../../components/loading/Loading";
 import * as d3 from 'd3-shape';
@@ -40,10 +41,10 @@ class Dashboard extends Component {
             mounted: false,
             // Control Panel
             from: window.location.search.split("?")[1]
-                ? window.location.search.split("?")[1].split("&")[0].split("=")[1]
+                ? convertTimeToSecondsForURL(window.location.search.split("?")[1].split("&")[0].split("=")[1])
                 : Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000),
             until: window.location.search.split("?")[1]
-                ? window.location.search.split("?")[1].split("&")[1].split("=")[1]
+                ? convertTimeToSecondsForURL(window.location.search.split("?")[1].split("&")[1].split("=")[1])
                 : Math.round(new Date().getTime() / 1000),
             // Tabs
             activeTab: typeof window.location.pathname.split("/")[2] !== 'undefined' && window.location.pathname.split("/")[2].split("?")[0] === region.type ? region.tab :
@@ -88,13 +89,47 @@ class Dashboard extends Component {
 
     componentDidMount() {
         // Check if time parameters are provided
-        let timeEntryInUrl = window.location.pathname.split("?");
-        if (timeEntryInUrl[1]){
+        console.log(window.location.search);
+
+        if (window.location.search) {
+            let providedFrom = window.location.search.split("&")[0].split("=")[1];
+            let providedUntil = window.location.search.split("&")[1].split("=")[1];
+
+            console.log(providedFrom);
+            console.log(providedUntil);
+
+            let newFrom = convertTimeToSecondsForURL(providedFrom);
+            let newUntil = convertTimeToSecondsForURL(providedUntil);
+
+            console.log(newFrom);
+            console.log(newUntil);
+
             this.setState({
-                from: timeEntryInUrl[1].split("&")[0].split("=")[1],
-                until: timeEntryInUrl[1].split("&")[1].split("=")[1],
+                from: newFrom,
+                until: newUntil
             })
         }
+
+
+        // // Check if time parameters are provided
+        // let timeEntryInUrl = window.location.pathname.split("?");
+        // if (timeEntryInUrl[1]) {
+        //     let providedFrom = timeEntryInUrl[1].split("&")[0].split("=")[1];
+        //     let providedUntil = timeEntryInUrl[1].split("&")[1].split("=")[1];
+        //
+        //     let newFrom = convertTimeToSecondsForURL(providedFrom);
+        //     let newUntil = convertTimeToSecondsForURL(providedUntil);
+        //
+        //     console.log(newFrom);
+        //     console.log(newUntil);
+        //
+        //     this.setState({
+        //         from: timeEntryInUrl[1].split("&")[0].split("=")[1],
+        //         until: timeEntryInUrl[1].split("&")[1].split("=")[1],
+        //     })
+        // } else {
+        //
+        // }
 
         this.setState({
             mounted: true,

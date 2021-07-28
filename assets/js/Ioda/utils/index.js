@@ -403,3 +403,53 @@ export function getTimeStringFromDate(d) {
     const sec = d.getSeconds() < 10 ? `0${d.getSeconds()}` : d.getSeconds();
     return `${hours}:${min}:${sec}`;
 }
+
+// used for extracting human-readable time parameters from url and turning them into seconds
+export function convertTimeToSecondsForURL(time) {
+    let timeValueInSeconds;
+    let multiplier;
+    let secondsValueFromNow;
+    console.log(time);
+
+    if (time.toLowerCase() === 'now') {
+        timeValueInSeconds = Math.round(new Date().getTime() / 1000);
+    }
+
+    if (time.charAt(0) === '-' || time.charAt(0) === '+') {
+        console.log("update3");
+        const durStr = time.match(/[\--0-9]+|[0-9]+|[a-zA-Z]+/g);
+
+        // get time multiplier value in seconds (time unit, e.g. seconds, minutes, hours, days, months)
+        switch (durStr[2]) {
+            case ("s"):
+                multiplier = 1;
+                break;
+            case ("m"):
+                multiplier = 60;
+                break;
+            case ("h"):
+                multiplier = 60 * 60;
+                break;
+            case ("d"):
+                multiplier = 60 * 60 * 24;
+                break;
+            case ("M"):
+                multiplier = 60 * 60 * 24 * 30;
+                break;
+            default:
+                break;
+            }
+
+        secondsValueFromNow = durStr[1] * multiplier;
+        // multiply variable above with [1] value, then determine if I should add or subtract from now time stamp value.
+    }
+
+
+
+        console.log(durStr);
+    }
+
+
+    console.log(timeValueInSeconds);
+    return timeValueInSeconds;
+}
