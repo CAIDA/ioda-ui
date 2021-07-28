@@ -406,50 +406,47 @@ export function getTimeStringFromDate(d) {
 
 // used for extracting human-readable time parameters from url and turning them into seconds
 export function convertTimeToSecondsForURL(time) {
-    let timeValueInSeconds;
-    let multiplier;
-    let secondsValueFromNow;
-    console.log(time);
+    let timeValueInSeconds, dateUnitMultiplier, secondsValueFromNow, currentTime;
 
+    currentTime = Math.round(new Date().getTime() / 1000);
     if (time.toLowerCase() === 'now') {
-        timeValueInSeconds = Math.round(new Date().getTime() / 1000);
+        timeValueInSeconds = currentTime;
     }
 
     if (time.charAt(0) === '-' || time.charAt(0) === '+') {
-        console.log("update3");
         const durStr = time.match(/[\--0-9]+|[0-9]+|[a-zA-Z]+/g);
 
         // get time multiplier value in seconds (time unit, e.g. seconds, minutes, hours, days, months)
         switch (durStr[2]) {
             case ("s"):
-                multiplier = 1;
+                dateUnitMultiplier = 1;
                 break;
             case ("m"):
-                multiplier = 60;
+                dateUnitMultiplier = 60;
                 break;
             case ("h"):
-                multiplier = 60 * 60;
+                dateUnitMultiplier = 60 * 60;
                 break;
             case ("d"):
-                multiplier = 60 * 60 * 24;
+                dateUnitMultiplier = 60 * 60 * 24;
                 break;
             case ("M"):
-                multiplier = 60 * 60 * 24 * 30;
+                dateUnitMultiplier = 60 * 60 * 24 * 30;
                 break;
             default:
                 break;
             }
 
-        secondsValueFromNow = durStr[1] * multiplier;
+        secondsValueFromNow = durStr[1] * dateUnitMultiplier;
         // multiply variable above with [1] value, then determine if I should add or subtract from now time stamp value.
+        if (durStr[0] === '-') {
+            timeValueInSeconds = currentTime - secondsValueFromNow;
+        }
     }
 
-
-
-        console.log(durStr);
+    if (!isNaN(time)) {
+        timeValueInSeconds = time;
     }
 
-
-    console.log(timeValueInSeconds);
     return timeValueInSeconds;
 }
