@@ -89,47 +89,18 @@ class Dashboard extends Component {
 
     componentDidMount() {
         // Check if time parameters are provided
-        console.log(window.location.search);
-
         if (window.location.search) {
             let providedFrom = window.location.search.split("&")[0].split("=")[1];
             let providedUntil = window.location.search.split("&")[1].split("=")[1];
 
-            console.log(providedFrom);
-            console.log(providedUntil);
-
             let newFrom = convertTimeToSecondsForURL(providedFrom);
             let newUntil = convertTimeToSecondsForURL(providedUntil);
-
-            console.log(newFrom);
-            console.log(newUntil);
 
             this.setState({
                 from: newFrom,
                 until: newUntil
             })
         }
-
-
-        // // Check if time parameters are provided
-        // let timeEntryInUrl = window.location.pathname.split("?");
-        // if (timeEntryInUrl[1]) {
-        //     let providedFrom = timeEntryInUrl[1].split("&")[0].split("=")[1];
-        //     let providedUntil = timeEntryInUrl[1].split("&")[1].split("=")[1];
-        //
-        //     let newFrom = convertTimeToSecondsForURL(providedFrom);
-        //     let newUntil = convertTimeToSecondsForURL(providedUntil);
-        //
-        //     console.log(newFrom);
-        //     console.log(newUntil);
-        //
-        //     this.setState({
-        //         from: timeEntryInUrl[1].split("&")[0].split("=")[1],
-        //         until: timeEntryInUrl[1].split("&")[1].split("=")[1],
-        //     })
-        // } else {
-        //
-        // }
 
         this.setState({
             mounted: true,

@@ -413,7 +413,7 @@ export function convertTimeToSecondsForURL(time) {
         timeValueInSeconds = currentTime;
     }
 
-    if (time.charAt(0) === '-' || time.charAt(0) === '+') {
+    if (time.charAt(0) === '-') {
         const durStr = time.match(/[\--0-9]+|[0-9]+|[a-zA-Z]+/g);
 
         // get time multiplier value in seconds (time unit, e.g. seconds, minutes, hours, days, months)

@@ -42,8 +42,15 @@ import {
     convertTsDataForHtsViz,
     getOutageCoords,
     dateRangeToSeconds,
-    normalize, secondsToDhms,
-    controlPanelTimeRangeLimit, alertBandColor, xyChartBackgroundLineColor, bgpColor, activeProbingColor, ucsdNtColor
+    normalize,
+    secondsToDhms,
+    controlPanelTimeRangeLimit,
+    alertBandColor,
+    xyChartBackgroundLineColor,
+    bgpColor,
+    activeProbingColor,
+    ucsdNtColor,
+    convertTimeToSecondsForURL
 } from "../../utils";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
 
@@ -63,10 +70,10 @@ class Entity extends Component {
             dataSources: null,
             // Control Panel
             from: window.location.search.split("?")[1]
-                ? window.location.search.split("?")[1].split("&")[0].split("=")[1]
+                ? convertTimeToSecondsForURL(window.location.search.split("?")[1].split("&")[0].split("=")[1])
                 : Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000),
             until: window.location.search.split("?")[1]
-                ? window.location.search.split("?")[1].split("&")[1].split("=")[1]
+                ? convertTimeToSecondsForURL(window.location.search.split("?")[1].split("&")[1].split("=")[1])
                 : Math.round(new Date().getTime() / 1000),
             // Search Bar
             suggestedSearchResults: null,
@@ -165,6 +172,21 @@ class Entity extends Component {
     componentDidMount() {
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
+
+        // Check if time parameters are provided
+        if (window.location.search) {
+            let providedFrom = window.location.search.split("&")[0].split("=")[1];
+            let providedUntil = window.location.search.split("&")[1].split("=")[1];
+
+            let newFrom = convertTimeToSecondsForURL(providedFrom);
+            let newUntil = convertTimeToSecondsForURL(providedUntil);
+
+            this.setState({
+                from: newFrom,
+                until: newUntil
+            })
+        }
+
         this.setState({
             mounted: true
         },() => {
