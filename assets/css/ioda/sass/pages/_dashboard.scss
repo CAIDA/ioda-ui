@@ -91,6 +91,15 @@
       box-shadow: $box-shadow;
       height: auto;
 
+      & .error-message {
+        padding: 1.5rem;
+        background-color: $color-error-background;
+        color: $color-white;
+        border-radius: 0.5rem;
+        font-size: 1.3rem;
+        font-weight: 700;
+      }
+
       & .row {
         padding: $gutter-vertical-small;
       }

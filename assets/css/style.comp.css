@@ -2954,6 +2954,13 @@ button[class*="searchButton"] {
       border-top-right-radius: 0.3rem;
       box-shadow: 0 1px 2px #9F9D9D;
       height: auto; }
+      .dashboard .tabs .tab .error-message {
+        padding: 1.5rem;
+        background-color: #E74C3C;
+        color: #fff;
+        border-radius: 0.5rem;
+        font-size: 1.3rem;
+        font-weight: 700; }
       .dashboard .tabs .tab .row {
         padding: 2.5rem; }
       .dashboard .tabs .tab__error {
