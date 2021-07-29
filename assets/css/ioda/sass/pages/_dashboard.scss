@@ -33,7 +33,7 @@
           display: flex;
           justify-content: center;
           align-items: center;
-          color: $color-secondary;
+          color: $color-primary;
           font-weight: 700;
           text-decoration: none;
           padding-bottom: 2px;
@@ -55,6 +55,7 @@
 
         & a {
           @include textLink;
+          color: $color-primary!important;
           border-top-left-radius: 3px;
           border-top-right-radius: 3px;
           border: 1px solid $color-table-cell-border;
@@ -63,11 +64,26 @@
           z-index: 100;
           position: relative;
 
+          &:link, &:visited {
+            background:
+                    linear-gradient(
+                                    175deg,
+                                    $color-primary-light 0%,
+                                    $color-primary-light 33.3%,
+                                    $color-primary 83.5%,
+                                    $color-primary-dark 100%
+                    )
+                    left
+                    bottom
+                    transparent
+                    no-repeat;
+          }
+
           &:hover {
             background-size: 100% 2px!important;
             border-top-left-radius: 3px;
             border-top-right-radius: 3px;
-            color: $color-secondary;
+            color: $color-primary;
           }
 
           &:after {

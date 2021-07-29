@@ -1300,6 +1300,8 @@ body {
     justify-content: left;
     align-items: center; }
     .table__cell-link:link, .table__cell-link:visited {
+      color: #2c3e50 !important;
+      font-weight: 400 !important;
       padding-bottom: 0 !important;
       margin-bottom: 0 !important;
       background-size: 100% 0 !important;
@@ -1318,7 +1320,7 @@ body {
         .table__cell-link:link:link:hover, .table__cell-link:link:visited:hover, .table__cell-link:visited:link:hover, .table__cell-link:visited:visited:hover {
           background-size: 100% 2px; }
       .table__cell-link:link:hover span, .table__cell-link:visited:hover span {
-        background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+        background: linear-gradient(175deg, #617486 0%, #617486 33.3%, #2c3e50 83.5%, #0D2032 100%) left bottom transparent no-repeat;
         background-size: 100% 2px; }
   .table__cell--overallScore {
     width: 10rem;
@@ -2910,7 +2912,7 @@ button[class*="searchButton"] {
           display: flex;
           justify-content: center;
           align-items: center;
-          color: #5899AE;
+          color: #2c3e50;
           font-weight: 700;
           text-decoration: none;
           padding-bottom: 2px;
@@ -2923,6 +2925,7 @@ button[class*="searchButton"] {
       .dashboard .tabs .nav-tabs li.active {
         background-color: #fff; }
         .dashboard .tabs .nav-tabs li.active a {
+          color: #2c3e50 !important;
           border-top-left-radius: 3px;
           border-top-right-radius: 3px;
           border: 1px solid #eeeeee;
@@ -2942,11 +2945,13 @@ button[class*="searchButton"] {
             transition: ease-in-out 0.3s; }
             .dashboard .tabs .nav-tabs li.active a:link:hover, .dashboard .tabs .nav-tabs li.active a:visited:hover {
               background-size: 100% 2px; }
+          .dashboard .tabs .nav-tabs li.active a:link, .dashboard .tabs .nav-tabs li.active a:visited {
+            background: linear-gradient(175deg, #617486 0%, #617486 33.3%, #2c3e50 83.5%, #0D2032 100%) left bottom transparent no-repeat; }
           .dashboard .tabs .nav-tabs li.active a:hover {
             background-size: 100% 2px !important;
             border-top-left-radius: 3px;
             border-top-right-radius: 3px;
-            color: #5899AE; }
+            color: #2c3e50; }
           .dashboard .tabs .nav-tabs li.active a:after {
             content: '';
             height: 1rem;
