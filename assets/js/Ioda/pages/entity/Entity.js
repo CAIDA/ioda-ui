@@ -722,7 +722,7 @@ class Entity extends Component {
                 yValueFormatString: "0",
                 dataPoints: activeProbingValues,
                 legendMarkerColor: activeProbingColor,
-                toolTipContent: "{x} <br/> {name}: {y} <br/>",
+                toolTipContent: "{x} <br/> {name}: {y}",
 
             }
         }
