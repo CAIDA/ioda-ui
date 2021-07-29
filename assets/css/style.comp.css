@@ -325,7 +325,7 @@ body {
       border-radius: 0.5rem;
       margin: 0.25rem;
       height: 3.5rem;
-      color: #5899AE;
+      color: #3975BB;
       display: flex;
       align-items: center; }
       @media only screen and (max-width: 80em) {
@@ -397,7 +397,7 @@ body {
       align-items: center;
       min-width: 25.6rem; }
   .control-panel .range__button {
-    background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
+    background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
     height: 3.5rem;
     border-radius: 0.5rem;
     color: #fff;
@@ -1031,7 +1031,7 @@ body {
   display: flex;
   align-items: center; }
   .help__button {
-    background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
+    background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
     height: 3.5rem;
     border-radius: 0.5rem;
     color: #fff;
@@ -1308,12 +1308,12 @@ body {
       /* controls underline thickness */
       transition: ease-in 0.2s; }
       .table__cell-link:link:link, .table__cell-link:link:visited, .table__cell-link:visited:link, .table__cell-link:visited:visited {
-        color: #5899AE;
+        color: #3975BB;
         font-weight: 700;
         text-decoration: none;
         padding-bottom: 2px;
         margin-bottom: 1px;
-        background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+        background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
         background-size: 100% 0;
         /* controls underline thickness */
         transition: ease-in-out 0.3s; }
@@ -1441,7 +1441,7 @@ body {
     .table__page-text {
       font-size: 1rem; }
     .table__page-button {
-      background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
+      background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
       height: 3.5rem;
       border-radius: 0.5rem;
       color: #fff;
@@ -1933,7 +1933,7 @@ body {
     box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
     transition: width 3s ease;
     animation: progress-bar-stripes 2s linear infinite;
-    background-color: #286F86; }
+    background-color: #1A5DAE; }
   .progress-bar-striped p {
     margin: 0; }
 
@@ -2006,7 +2006,7 @@ body {
   font-size: 1.1rem; }
 
 .modal__button {
-  background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
+  background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
   height: 3.5rem;
   border-radius: 0.5rem;
   color: #fff;
@@ -2058,7 +2058,7 @@ body {
   .modal__button:focus {
     outline: none; }
   .modal__button--table {
-    background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
+    background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
     height: 3.5rem;
     border-radius: 0.5rem;
     color: #fff;
@@ -2112,12 +2112,12 @@ body {
   margin: 0.5rem 0 1rem; }
   .modal__loadAll-button {
     border: none;
-    color: #5899AE;
+    color: #3975BB;
     font-weight: 700;
     text-decoration: none;
     padding-bottom: 2px;
     margin-bottom: 1px;
-    background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+    background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
     background-size: 100% 2px;
     /* controls underline thickness */
     cursor: pointer;
@@ -2182,12 +2182,12 @@ body {
   justify-content: flex-end; }
   .clipboard button {
     border: none;
-    color: #5899AE;
+    color: #3975BB;
     font-weight: 700;
     text-decoration: none;
     padding-bottom: 2px;
     margin-bottom: 1px;
-    background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+    background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
     background-size: 100% 2px;
     /* controls underline thickness */
     cursor: pointer;
@@ -2195,7 +2195,7 @@ body {
     position: relative; }
     .clipboard button:after {
       content: "date range copied";
-      background-color: #5899AE;
+      background-color: #3975BB;
       height: 1rem;
       width: 3rem;
       position: absolute;
@@ -2226,7 +2226,7 @@ body {
   line-height: 0.8rem;
   font-weight: bold;
   cursor: pointer;
-  background: linear-gradient(2deg, #286F86, #7FB7CA);
+  background: linear-gradient(2deg, #1A5DAE, #598DCC);
   color: #fff;
   padding: 0.4rem 0.6rem;
   box-shadow: 0 1px 2px #9F9D9D;
@@ -2444,12 +2444,12 @@ body {
     margin-bottom: 1rem;
     margin-left: 2rem; }
   .acknowledgements a:link:link, .acknowledgements a:link:visited, .acknowledgements a:visited:link, .acknowledgements a:visited:visited {
-    color: #5899AE;
+    color: #3975BB;
     font-weight: 700;
     text-decoration: none;
     padding-bottom: 2px;
     margin-bottom: 1px;
-    background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+    background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
     background-size: 100% 0;
     /* controls underline thickness */
     transition: ease-in-out 0.3s; }
@@ -2524,12 +2524,12 @@ body {
     margin-bottom: 1rem;
     margin-left: 2rem; }
   .helpPage a:link:link, .helpPage a:link:visited, .helpPage a:visited:link, .helpPage a:visited:visited {
-    color: #5899AE;
+    color: #3975BB;
     font-weight: 700;
     text-decoration: none;
     padding-bottom: 2px;
     margin-bottom: 1px;
-    background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+    background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
     background-size: 100% 0;
     /* controls underline thickness */
     transition: ease-in-out 0.3s; }
@@ -2565,12 +2565,12 @@ button[class*="searchButton"] {
     .home .search__link {
       margin-left: 0.5rem; }
       .home .search__link:link, .home .search__link:visited {
-        color: #5899AE;
+        color: #3975BB;
         font-weight: 700;
         text-decoration: none;
         padding-bottom: 2px;
         margin-bottom: 1px;
-        background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+        background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
         background-size: 100% 0;
         /* controls underline thickness */
         transition: ease-in-out 0.3s; }
@@ -2623,7 +2623,7 @@ button[class*="searchButton"] {
         display: inline-block;
         background: transparent;
         border-radius: 3px;
-        color: #5899AE;
+        color: #3975BB;
         position: relative;
         z-index: 1;
         font-size: 1.4rem;
@@ -2641,7 +2641,7 @@ button[class*="searchButton"] {
           bottom: 0;
           right: 0;
           z-index: -2;
-          background: linear-gradient(101deg, #7FB7CA 0%, #286F86 100%); }
+          background: linear-gradient(101deg, #598DCC 0%, #1A5DAE 100%); }
         .home .about .button button:after {
           top: 3px;
           bottom: 3px;
@@ -2725,12 +2725,12 @@ button[class*="searchButton"] {
         .home .examples .row .thumbnail__title {
           font-size: 1.4rem; }
           .home .examples .row .thumbnail__title:link, .home .examples .row .thumbnail__title:visited {
-            color: #5899AE;
+            color: #3975BB;
             font-weight: 700;
             text-decoration: none;
             padding-bottom: 2px;
             margin-bottom: 1px;
-            background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+            background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
             background-size: 100% 0;
             /* controls underline thickness */
             transition: ease-in-out 0.3s; }
@@ -2740,12 +2740,12 @@ button[class*="searchButton"] {
           font-size: 1.1rem;
           text-align: justify; }
           .home .examples .row .thumbnail p a:link, .home .examples .row .thumbnail p a:visited {
-            color: #5899AE;
+            color: #3975BB;
             font-weight: 700;
             text-decoration: none;
             padding-bottom: 2px;
             margin-bottom: 1px;
-            background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+            background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
             background-size: 100% 0;
             /* controls underline thickness */
             transition: ease-in-out 0.3s; }
@@ -2801,12 +2801,12 @@ button[class*="searchButton"] {
       margin-bottom: 1rem;
       margin-left: 2rem; }
     .home .methodology a:link:link, .home .methodology a:link:visited, .home .methodology a:visited:link, .home .methodology a:visited:visited {
-      color: #5899AE;
+      color: #3975BB;
       font-weight: 700;
       text-decoration: none;
       padding-bottom: 2px;
       margin-bottom: 1px;
-      background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+      background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
       background-size: 100% 0;
       /* controls underline thickness */
       transition: ease-in-out 0.3s; }
@@ -2874,12 +2874,12 @@ button[class*="searchButton"] {
       .card__text {
         height: auto; } }
     .card__text-link:link, .card__text-link:visited {
-      color: #5899AE;
+      color: #3975BB;
       font-weight: 700;
       text-decoration: none;
       padding-bottom: 2px;
       margin-bottom: 1px;
-      background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+      background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
       background-size: 100% 0;
       /* controls underline thickness */
       transition: ease-in-out 0.3s; }
@@ -2934,12 +2934,12 @@ button[class*="searchButton"] {
           z-index: 100;
           position: relative; }
           .dashboard .tabs .nav-tabs li.active a:link, .dashboard .tabs .nav-tabs li.active a:visited {
-            color: #5899AE;
+            color: #3975BB;
             font-weight: 700;
             text-decoration: none;
             padding-bottom: 2px;
             margin-bottom: 1px;
-            background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+            background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
             background-size: 100% 0;
             /* controls underline thickness */
             transition: ease-in-out 0.3s; }
@@ -2978,7 +2978,7 @@ button[class*="searchButton"] {
         width: 100%;
         margin-bottom: 1.5rem; }
         .dashboard .tabs .tab__config-button {
-          background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
+          background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
           height: 3.5rem;
           border-radius: 0.5rem;
           color: #fff;
@@ -3049,10 +3049,10 @@ button[class*="searchButton"] {
 
 .entity {
   padding-top: 5rem;
-  margin: 4rem 1.5rem 0; }
+  margin: 1.5rem 1.5rem 0; }
   @media only screen and (max-width: 27.5em) {
     .entity {
-      margin: 3rem 0.5rem 0; } }
+      margin: 1.5rem 0.5rem 0; } }
   .entity .col-1-of-3 {
     position: relative; }
   @media only screen and (max-width: 64em) {
@@ -3095,7 +3095,7 @@ button[class*="searchButton"] {
       .entity .overview__config-heading .help {
         height: 2.3rem; }
     .entity .overview__config-button {
-      background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
+      background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
       height: 3.5rem;
       border-radius: 0.5rem;
       color: #fff;
@@ -3157,7 +3157,7 @@ button[class*="searchButton"] {
     .entity .overview__xy-wrapper .canvasjs-chart-toolbar {
       border: none !important; }
     .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Reset"] {
-      background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
+      background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
       border-radius: 0.5rem;
       color: #fff !important;
       font-weight: 700;
@@ -3336,7 +3336,7 @@ button[class*="searchButton"] {
           .entity .related__no-outages .related__modal-button {
             margin-left: 0; } }
     .entity .related__modal-button {
-      background: linear-gradient(2deg, #286F86, #7FB7CA, #286F86, #7FB7CA);
+      background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
       height: 3.5rem;
       border-radius: 0.5rem;
       color: #fff;
@@ -3402,12 +3402,12 @@ button[class*="searchButton"] {
     margin-left: 2.5rem;
     font-size: 1.3rem; }
     .reports__list-item a:link:link, .reports__list-item a:link:visited, .reports__list-item a:visited:link, .reports__list-item a:visited:visited {
-      color: #5899AE;
+      color: #3975BB;
       font-weight: 700;
       text-decoration: none;
       padding-bottom: 2px;
       margin-bottom: 1px;
-      background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+      background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
       background-size: 100% 0;
       /* controls underline thickness */
       transition: ease-in-out 0.3s; }
@@ -3458,12 +3458,12 @@ button[class*="searchButton"] {
     margin-bottom: 1rem;
     margin-left: 2rem; }
   .report a:link:link, .report a:link:visited, .report a:visited:link, .report a:visited:visited {
-    color: #5899AE;
+    color: #3975BB;
     font-weight: 700;
     text-decoration: none;
     padding-bottom: 2px;
     margin-bottom: 1px;
-    background: linear-gradient(175deg, #7FB7CA 0%, #7FB7CA 33.3%, #5899AE 83.5%, #286F86 100%) left bottom transparent no-repeat;
+    background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
     background-size: 100% 0;
     /* controls underline thickness */
     transition: ease-in-out 0.3s; }
