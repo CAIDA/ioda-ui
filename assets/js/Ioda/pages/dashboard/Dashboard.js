@@ -31,7 +31,7 @@ import {
 } from "../../utils";
 import Loading from "../../components/loading/Loading";
 import * as d3 from 'd3-shape';
-import DashboardTabErrorMessage from "./DashboardTabErrorMessage";
+import Error from "../../components/error/Error";
 
 
 
@@ -567,7 +567,7 @@ class Dashboard extends Component {
                                     displayTimeRangeError={this.state.displayTimeRangeError}
                                 />
                                 : this.state.displayTimeRangeError ?
-                                    <DashboardTabErrorMessage/>
+                                    <Error/>
                                     : <Loading/>
                                 : null
                         }
@@ -587,7 +587,7 @@ class Dashboard extends Component {
                                     displayTimeRangeError={this.state.displayTimeRangeError}
                                 />
                                 : this.state.displayTimeRangeError ?
-                                    <DashboardTabErrorMessage/>
+                                    <Error/>
                                     : <Loading/>
                                 : null
                         }
@@ -607,7 +607,7 @@ class Dashboard extends Component {
                                 />
                                 :
                                     this.state.displayTimeRangeError ?
-                                        <DashboardTabErrorMessage/>
+                                        <Error/>
                                         : <Loading/>
                                 : null
                         }
