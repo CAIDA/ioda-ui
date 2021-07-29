@@ -208,7 +208,7 @@ body {
   background-color: #fff;
   border-radius: 0.3rem;
   box-shadow: 0 1px 2px #9F9D9D;
-  padding: 2.5rem;
+  padding: 2rem;
   display: flex; }
   @media only screen and (max-width: 40em) {
     .control-panel {
@@ -1967,15 +1967,15 @@ body {
   background-color: #fff;
   border-radius: 0.3rem;
   box-shadow: 0 1px 2px #9F9D9D;
-  padding: 2.5rem;
-  margin-bottom: 2.5rem; }
+  padding: 2rem;
+  margin-bottom: 2rem; }
 
 .modal__content .col-2-of-3 {
   background-color: #fff;
   border-radius: 0.3rem;
   box-shadow: 0 1px 2px #9F9D9D;
-  padding: 2.5rem;
-  margin-bottom: 2.5rem; }
+  padding: 2rem;
+  margin-bottom: 2rem; }
   .modal__content .col-2-of-3 .horizon-series .label {
     background-color: rgba(255, 255, 255, 0.4);
     padding: 0 0.4rem;
@@ -2145,9 +2145,9 @@ body {
     background-color: #fff;
     border-radius: 0.3rem;
     box-shadow: 0 1px 2px #9F9D9D;
-    padding: 2.5rem;
-    margin-bottom: 2.5rem;
-    margin-bottom: 2.5rem; }
+    padding: 2rem;
+    margin-bottom: 2rem;
+    margin-bottom: 2rem; }
   .modal__table-error {
     background-color: #E74C3C;
     padding: 0.75rem;
@@ -2161,8 +2161,8 @@ body {
   background-color: #fff;
   border-radius: 0.3rem;
   box-shadow: 0 1px 2px #9F9D9D;
-  padding: 2.5rem;
-  margin-bottom: 2.5rem; }
+  padding: 2rem;
+  margin-bottom: 2rem; }
 
 .modal__chart {
   margin-bottom: 1.5rem; }
@@ -2286,10 +2286,10 @@ body {
 .row {
   margin: 0 auto; }
   .row:not(:last-child) {
-    margin-bottom: 4.5rem; }
+    margin-bottom: 1.5rem; }
     @media only screen and (max-width: 64em) {
       .row:not(:last-child) {
-        margin-bottom: 2.5rem; } }
+        margin-bottom: 2rem; } }
   .row::after {
     content: '';
     display: table;
@@ -2297,38 +2297,38 @@ body {
   .row [class^="col-"] {
     float: left; }
     .row [class^="col-"]:not(:last-child) {
-      margin-right: 2.5rem; }
+      margin-right: 1.5rem; }
     @media only screen and (max-width: 64em) {
       .row [class^="col-"] {
         width: 100% !important;
         margin-right: 0;
-        margin-bottom: 2.5rem; } }
+        margin-bottom: 2rem; } }
   .row .col-1-of-1 {
     width: 100%; }
   .row .col-1-of-2 {
-    width: calc((100% - 2.5rem) / 2); }
+    width: calc((100% - 1.5rem) / 2); }
   .row .col-1-of-3 {
-    width: calc((100% - (2 * 2.5rem)) / 3); }
+    width: calc((100% - (2 * 1.5rem)) / 3); }
   .row .col-2-of-3 {
-    width: calc( 2 * ((100% - (2 * 2.5rem)) / 3) + 2.5rem); }
+    width: calc( 2 * ((100% - (2 * 1.5rem)) / 3) + 1.5rem); }
   .row .col-1-of-4 {
-    width: calc((100% - (3 * 2.5rem)) / 4); }
+    width: calc((100% - (3 * 1.5rem)) / 4); }
   .row .col-2-of-4 {
-    width: calc( 2 * ((100% - (3 * 2.5rem)) / 4) + 2.5rem); }
+    width: calc( 2 * ((100% - (3 * 1.5rem)) / 4) + 1.5rem); }
   .row .col-3-of-4 {
-    width: calc( 3 * ((100% - (3 * 2.5rem)) / 4) + (2 * 2.5rem)); }
+    width: calc( 3 * ((100% - (3 * 1.5rem)) / 4) + (2 * 1.5rem)); }
   .row .col-1-of-5 {
-    width: calc((100% - (4 * 2.5rem)) / 5); }
+    width: calc((100% - (4 * 1.5rem)) / 5); }
   .row .col-2-of-5 {
-    width: calc( 2 * ((100% - (4 * 2.5rem)) / 5) + 2.5rem); }
+    width: calc( 2 * ((100% - (4 * 1.5rem)) / 5) + 1.5rem); }
   .row .col-3-of-5 {
-    width: calc( 3 * ((100% - (4 * 2.5rem)) / 5) + (2 * 2.5rem)); }
+    width: calc( 3 * ((100% - (4 * 1.5rem)) / 5) + (2 * 1.5rem)); }
   .row .col-4-of-5 {
-    width: calc( 4 * ((100% - (4 * 2.5rem)) / 5) + (3 * 2.5rem)); }
+    width: calc( 4 * ((100% - (4 * 1.5rem)) / 5) + (3 * 1.5rem)); }
   .row .col-1-of-6 {
-    width: calc((100% - (5 * 2.5rem)) / 6); }
+    width: calc((100% - (5 * 1.5rem)) / 6); }
   .row .col-5-of-6 {
-    width: calc( 5 * ((100% - (5 * 2.5rem)) / 6) + (4 * 2.5rem)); }
+    width: calc( 5 * ((100% - (5 * 1.5rem)) / 6) + (4 * 1.5rem)); }
 
 .header {
   width: 100%;
@@ -2659,7 +2659,7 @@ button[class*="searchButton"] {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      margin-bottom: 2.5rem; }
+      margin-bottom: 2rem; }
       @media only screen and (max-width: 64em) {
         .home .examples .row {
           flex-direction: column; } }
@@ -2886,7 +2886,7 @@ button[class*="searchButton"] {
 
 .dashboard {
   padding-top: 5rem;
-  margin: 4rem 4.5rem 0; }
+  margin: 1.5rem 1.5rem 0; }
   @media only screen and (max-width: 27.5em) {
     .dashboard {
       margin: 3rem 0.5rem 0; } }
@@ -2895,7 +2895,7 @@ button[class*="searchButton"] {
   .dashboard .col-1-of-3 {
     position: relative; }
   .dashboard .tabs {
-    margin-bottom: 4.5rem; }
+    margin-bottom: 1.5rem; }
     .dashboard .tabs .nav-tabs {
       list-style-type: none;
       height: 4rem;
@@ -2963,7 +2963,7 @@ button[class*="searchButton"] {
       box-shadow: 0 1px 2px #9F9D9D;
       height: auto; }
       .dashboard .tabs .tab .row {
-        padding: 2.5rem; }
+        padding: 2rem; }
       .dashboard .tabs .tab__error {
         font-size: 1.3rem; }
       .dashboard .tabs .tab__config {
@@ -3030,7 +3030,7 @@ button[class*="searchButton"] {
         .dashboard .tabs .tab__heading .heading-h2 {
           margin-right: 0.5rem; }
       .dashboard .tabs .tab__map {
-        height: 53.3rem; }
+        height: 52.9rem; }
       .dashboard .tabs .tab .horizon-series .label {
         background-color: rgba(255, 255, 255, 0.4);
         padding: 0 0.4rem;
@@ -3044,7 +3044,7 @@ button[class*="searchButton"] {
 
 .entity {
   padding-top: 5rem;
-  margin: 4rem 4.5rem 0; }
+  margin: 4rem 1.5rem 0; }
   @media only screen and (max-width: 27.5em) {
     .entity {
       margin: 3rem 0.5rem 0; } }
@@ -3060,7 +3060,7 @@ button[class*="searchButton"] {
     border-top-right-radius: 0.3rem;
     min-height: 58rem;
     box-shadow: 0 1px 2px #9F9D9D;
-    padding: 2.5rem; }
+    padding: 2rem; }
     @media only screen and (max-width: 80em) {
       .entity .overview .col-3-of-5, .entity .overview .col-2-of-5, .entity .overview__time-range-error {
         min-height: unset; } }
@@ -3069,12 +3069,12 @@ button[class*="searchButton"] {
       margin-bottom: 2.5rem !important; } }
   .entity .overview__time-range-error {
     min-height: 6rem;
-    margin-bottom: 4.5rem;
+    margin-bottom: 1.5rem;
     font-size: 1.3rem; }
   @media only screen and (max-width: 80em) {
     .entity .overview .col-3-of-5 {
       width: 100%;
-      margin-bottom: 4.5rem; }
+      margin-bottom: 1.5rem; }
     .entity .overview .col-2-of-5 {
       width: 100%; } }
   .entity .overview__config {
@@ -3290,7 +3290,7 @@ button[class*="searchButton"] {
     margin-bottom: 0;
     height: inherit; }
   .entity .related {
-    margin-bottom: 4.5rem; }
+    margin-bottom: 1.5rem; }
     @media only screen and (max-width: 64em) {
       .entity .related {
         padding: 0; } }
@@ -3301,7 +3301,7 @@ button[class*="searchButton"] {
       border-top-right-radius: 0.3rem;
       height: 50rem;
       box-shadow: 0 1px 2px #9F9D9D;
-      padding: 2.5rem; }
+      padding: 2rem; }
       @media only screen and (max-width: 64em) {
         .entity .related .col-1-of-2 {
           height: unset; }

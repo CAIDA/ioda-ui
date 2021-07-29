@@ -1,6 +1,6 @@
 .dashboard {
   padding-top: $header-height;
-  margin: 4rem $gutter-vertical 0;
+  margin: 1.5rem $gutter-vertical 0;
 
   @include respond(phone-440) {
     margin: 3rem 0.5rem 0;
@@ -132,7 +132,7 @@
       }
 
       &__map {
-        height: 53.3rem;
+        height: 52.9rem;
       }
 
       & .horizon-series .label {
