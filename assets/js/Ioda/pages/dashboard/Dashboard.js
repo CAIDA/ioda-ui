@@ -26,10 +26,12 @@ import {
     humanizeNumber,
     convertTsDataForHtsViz,
     dateRangeToSeconds,
-    controlPanelTimeRangeLimit
+    controlPanelTimeRangeLimit,
+    convertTimeToSecondsForURL
 } from "../../utils";
 import Loading from "../../components/loading/Loading";
 import * as d3 from 'd3-shape';
+import Error from "../../components/error/Error";
 
 
 
@@ -40,10 +42,10 @@ class Dashboard extends Component {
             mounted: false,
             // Control Panel
             from: window.location.search.split("?")[1]
-                ? window.location.search.split("?")[1].split("&")[0].split("=")[1]
+                ? convertTimeToSecondsForURL(window.location.search.split("?")[1].split("&")[0].split("=")[1])
                 : Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000),
             until: window.location.search.split("?")[1]
-                ? window.location.search.split("?")[1].split("&")[1].split("=")[1]
+                ? convertTimeToSecondsForURL(window.location.search.split("?")[1].split("&")[1].split("=")[1])
                 : Math.round(new Date().getTime() / 1000),
             // Tabs
             activeTab: typeof window.location.pathname.split("/")[2] !== 'undefined' && window.location.pathname.split("/")[2].split("?")[0] === region.type ? region.tab :
@@ -88,31 +90,44 @@ class Dashboard extends Component {
 
     componentDidMount() {
         // Check if time parameters are provided
-        let timeEntryInUrl = window.location.pathname.split("?");
-        if (timeEntryInUrl[1]){
-            this.setState({
-                from: timeEntryInUrl[1].split("&")[0].split("=")[1],
-                until: timeEntryInUrl[1].split("&")[1].split("=")[1],
-            })
-        }
+        if (window.location.search) {
+            let providedFrom = window.location.search.split("&")[0].split("=")[1];
+            let providedUntil = window.location.search.split("&")[1].split("=")[1];
 
-        this.setState({
-            mounted: true,
-        },() => {
-            if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
-                // Set initial tab to load
-                this.handleSelectTab(this.tabs[this.props.match.params.tab]);
-                // Get topo and outage data to populate map and table
-                window.location.pathname.split("/")[2] && window.location.pathname.split("/")[2].split("?")[0] !== "asn" ?
-                    this.getDataTopo(this.state.activeTabType) :
-                    window.location.pathname.split("/").length === 2 ? this.getDataTopo(this.state.activeTabType) :
-                        window.location.pathname.split("/").length === 3 && window.location.pathname.split("/")[2] === "" ? this.getDataTopo(this.state.activeTabType) :
-                            null;
+            let newFrom = convertTimeToSecondsForURL(providedFrom);
+            let newUntil = convertTimeToSecondsForURL(providedUntil);
 
-                this.getDataOutageSummary(this.state.activeTabType);
-                this.getTotalOutages(this.state.activeTabType);
+
+            if (newUntil - newFrom > 0) {
+                this.setState({
+                    from: newFrom,
+                    until: newUntil
+                });
+
+                this.setState({
+                    mounted: true,
+                },() => {
+                    if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
+                        // Set initial tab to load
+                        this.handleSelectTab(this.tabs[this.props.match.params.tab]);
+                        // Get topo and outage data to populate map and table
+                        window.location.pathname.split("/")[2] && window.location.pathname.split("/")[2].split("?")[0] !== "asn" ?
+                            this.getDataTopo(this.state.activeTabType) :
+                            window.location.pathname.split("/").length === 2 ? this.getDataTopo(this.state.activeTabType) :
+                                window.location.pathname.split("/").length === 3 && window.location.pathname.split("/")[2] === "" ? this.getDataTopo(this.state.activeTabType) :
+                                    null;
+
+                        this.getDataOutageSummary(this.state.activeTabType);
+                        this.getTotalOutages(this.state.activeTabType);
+                    }
+                });
+            } else {
+                this.setState({
+                    displayTimeRangeError: true
+                });
             }
-        });
+
+        }
     }
 
     componentWillUnmount() {
@@ -225,6 +240,7 @@ class Dashboard extends Component {
             tabCurrentView: "map",
             eventDataRaw: [],
             eventDataProcessed: [],
+            displayTimeRangeError: false
         }, () => {
             // Get topo and outage data to repopulate map and table
             this.getDataTopo(this.state.activeTabType);
@@ -529,7 +545,6 @@ class Dashboard extends Component {
                     history={this.props.history}
                 />
                 <div className="row tabs">
-
                     <div className="col-1-of-1">
                         <Tabs
                             tabOptions={tabOptions}
@@ -548,8 +563,12 @@ class Dashboard extends Component {
                                     tabCurrentView={this.state.tabCurrentView}
                                     from={this.state.from}
                                     until={this.state.until}
+                                    // display error text if from value is higher than until value
+                                    displayTimeRangeError={this.state.displayTimeRangeError}
                                 />
-                                : <Loading/>
+                                : this.state.displayTimeRangeError ?
+                                    <Error/>
+                                    : <Loading/>
                                 : null
                         }
                         {
@@ -564,8 +583,12 @@ class Dashboard extends Component {
                                     tabCurrentView={this.state.tabCurrentView}
                                     from={this.state.from}
                                     until={this.state.until}
+                                    // display error text if from value is higher than until value
+                                    displayTimeRangeError={this.state.displayTimeRangeError}
                                 />
-                                : <Loading/>
+                                : this.state.displayTimeRangeError ?
+                                    <Error/>
+                                    : <Loading/>
                                 : null
                         }
                         {
@@ -579,8 +602,13 @@ class Dashboard extends Component {
                                     tabCurrentView={this.state.tabCurrentView}
                                     from={this.state.from}
                                     until={this.state.until}
+                                    // display error text if from value is higher than until value
+                                    displayTimeRangeError={this.state.displayTimeRangeError}
                                 />
-                                : <Loading/>
+                                :
+                                    this.state.displayTimeRangeError ?
+                                        <Error/>
+                                        : <Loading/>
                                 : null
                         }
                     </div>

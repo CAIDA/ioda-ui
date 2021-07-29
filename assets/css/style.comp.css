@@ -1018,6 +1018,14 @@ body {
   display: -webkit-box;
   display: flex; }
 
+.error {
+  padding: 1.5rem;
+  background-color: #E74C3C;
+  color: #fff;
+  border-radius: 0.5rem;
+  font-size: 1.3rem;
+  font-weight: 700; }
+
 .help {
   position: relative;
   display: flex;

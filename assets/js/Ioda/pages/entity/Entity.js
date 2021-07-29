@@ -42,10 +42,18 @@ import {
     convertTsDataForHtsViz,
     getOutageCoords,
     dateRangeToSeconds,
-    normalize, secondsToDhms,
-    controlPanelTimeRangeLimit, alertBandColor, xyChartBackgroundLineColor, bgpColor, activeProbingColor, ucsdNtColor
+    normalize,
+    secondsToDhms,
+    controlPanelTimeRangeLimit,
+    alertBandColor,
+    xyChartBackgroundLineColor,
+    bgpColor,
+    activeProbingColor,
+    ucsdNtColor,
+    convertTimeToSecondsForURL
 } from "../../utils";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
+import Error from "../../components/error/Error";
 
 
 class Entity extends Component {
@@ -59,14 +67,15 @@ class Entity extends Component {
             entityName: "",
             parentEntityName: "",
             parentEntityCode: "",
+            displayTimeRangeError: false,
             // Data Sources Available
             dataSources: null,
             // Control Panel
             from: window.location.search.split("?")[1]
-                ? window.location.search.split("?")[1].split("&")[0].split("=")[1]
+                ? convertTimeToSecondsForURL(window.location.search.split("?")[1].split("&")[0].split("=")[1])
                 : Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000),
             until: window.location.search.split("?")[1]
-                ? window.location.search.split("?")[1].split("&")[1].split("=")[1]
+                ? convertTimeToSecondsForURL(window.location.search.split("?")[1].split("&")[1].split("=")[1])
                 : Math.round(new Date().getTime() / 1000),
             // Search Bar
             suggestedSearchResults: null,
@@ -165,20 +174,41 @@ class Entity extends Component {
     componentDidMount() {
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
-        this.setState({
-            mounted: true
-        },() => {
-            if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
-                // Get all datasources
-                // this.props.getDatasourcesAction();
-                // Overview Panel
-                this.props.searchEventsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
-                this.props.searchAlertsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], null, null, null);
-                this.props.getSignalsAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], this.state.from, this.state.until, null, 3000);
-                // Get entity name from code provided in url
-                this.props.getEntityMetadataAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
+
+        // Check if time parameters are provided
+        if (window.location.search) {
+            let providedFrom = window.location.search.split("&")[0].split("=")[1];
+            let providedUntil = window.location.search.split("&")[1].split("=")[1];
+
+            let newFrom = convertTimeToSecondsForURL(providedFrom);
+            let newUntil = convertTimeToSecondsForURL(providedUntil);
+
+            if (newUntil - newFrom > 0) {
+                this.setState({
+                    from: newFrom,
+                    until: newUntil
+                });
+
+                this.setState({
+                    mounted: true
+                },() => {
+                    if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
+                        // Get all datasources
+                        // this.props.getDatasourcesAction();
+                        // Overview Panel
+                        this.props.searchEventsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
+                        this.props.searchAlertsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], null, null, null);
+                        this.props.getSignalsAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], this.state.from, this.state.until, null, 3000);
+                        // Get entity name from code provided in url
+                        this.props.getEntityMetadataAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
+                    }
+                });
+            } else {
+                this.setState({
+                    displayTimeRangeError: true
+                });
             }
-        });
+        }
     }
 
     componentWillUnmount() {
@@ -452,6 +482,7 @@ class Entity extends Component {
                 this.setState({
                     from: range[0],
                     until: range[1],
+                    displayTimeRangeError: false,
                     // XY Plot Time Series states
                     xyDataOptions: null,
                     tsDataRaw: null,
@@ -891,7 +922,7 @@ class Entity extends Component {
                 },
                 legend: {
                     cursor: "pointer",
-                    fontSize: this.state.tsDataScreenBelow640 ? 11 : 14,
+                    fontSize: this.state.tsDataScreenBelow640 ? 10 : 12,
                     verticalAlign: this.state.tsDataScreenBelow970 ? "top" : "bottom",
                     itemclick: (e) => {
                         // console.log("legend click: " + e.dataPointIndex);
@@ -2038,92 +2069,94 @@ class Entity extends Component {
                     history={this.props.history}
                 />
                 {
-                    this.state.until - this.state.from < controlPanelTimeRangeLimit ?
-                    <React.Fragment>
-                        <div className="row overview">
-                            <div className="col-3-of-5">
-                                <div className="overview__config" ref={this.config}>
-                                    <div className="overview__config-heading">
-                                        <h3 className="heading-h3">
-                                            {xyChartTitle}
-                                            {this.state.entityName}
-                                        </h3>
-                                        <Tooltip
-                                            title={tooltipXyPlotTimeSeriesTitle}
-                                            text={tooltipXyPlotTimeSeriesText}
-                                        />
+                    this.state.displayTimeRangeError
+                        ? <Error/>
+                        : this.state.until - this.state.from < controlPanelTimeRangeLimit
+                            ? <React.Fragment>
+                                <div className="row overview">
+                                    <div className="col-3-of-5">
+                                        <div className="overview__config" ref={this.config}>
+                                            <div className="overview__config-heading">
+                                                <h3 className="heading-h3">
+                                                    {xyChartTitle}
+                                                    {this.state.entityName}
+                                                </h3>
+                                                <Tooltip
+                                                    title={tooltipXyPlotTimeSeriesTitle}
+                                                    text={tooltipXyPlotTimeSeriesText}
+                                                />
+                                            </div>
+                                            <div className="overview__buttons">
+                                                <ToggleButton
+                                                    selected={this.state.tsDataDisplayOutageBands}
+                                                    toggleSelected={() => this.handleDisplayAlertBands()}
+                                                    label={xyChartAlertToggleLabel}
+                                                />
+                                                <ToggleButton
+                                                    selected={this.state.tsDataNormalized}
+                                                    toggleSelected={() => this.changeXyChartNormalization()}
+                                                    label={xyChartNormalizedToggleLabel}
+                                                />
+                                                {/*<button className="overview__config-button">Modal</button>*/}
+                                            </div>
+                                        </div>
+                                        {
+                                            this.state.xyDataOptions
+                                                ? this.genXyChart()
+                                                : <Loading/>
+                                        }
+                                        <div className="overview__timestamp">
+                                            <TimeStamp from={convertSecondsToDateValues(this.state.tsDataLegendRangeFrom)}
+                                                       until={convertSecondsToDateValues(this.state.tsDataLegendRangeUntil)} />
+                                        </div>
                                     </div>
-                                    <div className="overview__buttons">
-                                        <ToggleButton
-                                            selected={this.state.tsDataDisplayOutageBands}
-                                            toggleSelected={() => this.handleDisplayAlertBands()}
-                                            label={xyChartAlertToggleLabel}
-                                        />
-                                        <ToggleButton
-                                            selected={this.state.tsDataNormalized}
-                                            toggleSelected={() => this.changeXyChartNormalization()}
-                                            label={xyChartNormalizedToggleLabel}
-                                        />
-                                        {/*<button className="overview__config-button">Modal</button>*/}
+                                    <div className="col-2-of-5">
+                                        <div className="overview__table-config">
+                                            <div className="overview__config-heading">
+                                                <h3 className="heading-h3">
+                                                    {this.state.currentTable === 'event' ? `${eventFeedTitle} ${this.state.entityName}` : `${alertFeedTitle} ${this.state.entityName}`}
+                                                </h3>
+                                                <Tooltip
+                                                    title={tooltipAlertFeedTitle}
+                                                    text={tooltipAlertFeedText}
+                                                />
+                                            </div>
+                                            <button className="overview__config-button"
+                                                    onClick={() => this.changeCurrentTable()}
+                                                    style={this.props.type === 'asn' ? {display: 'none'} : null}
+                                            >
+                                                {eventAlertButtonText1}{this.state.currentTable === 'event' ? eventAlertButtonOption1 : eventAlertButtonOption2}{eventAlertButtonText2}
+                                            </button>
+                                        </div>
+
+                                        <div className="overview__table">
+                                            <div style={this.state.currentTable === 'event' ? {display: 'block'} : {display: 'none'}}>
+                                                {
+                                                    this.state.eventDataRaw ?
+                                                        this.genEventTable() : <Loading/>
+                                                }
+                                            </div>
+                                            <div style={this.state.currentTable === 'alert' ? {display: 'block'} : {display: 'none'}}>
+                                                {
+                                                    this.state.alertDataRaw ?
+                                                        this.genAlertTable() : <Loading/>
+                                                }
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 {
-                                    this.state.xyDataOptions
-                                        ? this.genXyChart()
-                                        : <Loading/>
+                                    this.genEntityRelatedRow()
                                 }
-                                <div className="overview__timestamp">
-                                    <TimeStamp from={convertSecondsToDateValues(this.state.tsDataLegendRangeFrom)}
-                                               until={convertSecondsToDateValues(this.state.tsDataLegendRangeUntil)} />
+                                </React.Fragment>
+                            : <div className="row overview">
+                                <div className="col-1-of-1">
+                                    <p className="overview__time-range-error">
+                                        {timeDurationTooHighErrorMessage}
+                                        {secondsToDhms(this.state.until - this.state.from)}.
+                                    </p>
                                 </div>
                             </div>
-                            <div className="col-2-of-5">
-                                <div className="overview__table-config">
-                                    <div className="overview__config-heading">
-                                        <h3 className="heading-h3">
-                                            {this.state.currentTable === 'event' ? `${eventFeedTitle} ${this.state.entityName}` : `${alertFeedTitle} ${this.state.entityName}`}
-                                        </h3>
-                                        <Tooltip
-                                            title={tooltipAlertFeedTitle}
-                                            text={tooltipAlertFeedText}
-                                        />
-                                    </div>
-                                    <button className="overview__config-button"
-                                            onClick={() => this.changeCurrentTable()}
-                                            style={this.props.type === 'asn' ? {display: 'none'} : null}
-                                    >
-                                        {eventAlertButtonText1}{this.state.currentTable === 'event' ? eventAlertButtonOption1 : eventAlertButtonOption2}{eventAlertButtonText2}
-                                    </button>
-                                </div>
-
-                                <div className="overview__table">
-                                    <div style={this.state.currentTable === 'event' ? {display: 'block'} : {display: 'none'}}>
-                                        {
-                                            this.state.eventDataRaw ?
-                                                this.genEventTable() : <Loading/>
-                                        }
-                                    </div>
-                                    <div style={this.state.currentTable === 'alert' ? {display: 'block'} : {display: 'none'}}>
-                                        {
-                                            this.state.alertDataRaw ?
-                                                this.genAlertTable() : <Loading/>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {
-                            this.genEntityRelatedRow()
-                        }
-                        </React.Fragment> :
-                        <div className="row overview">
-                            <div className="col-1-of-1">
-                                <p className="overview__time-range-error">
-                                    {timeDurationTooHighErrorMessage}
-                                    {secondsToDhms(this.state.until - this.state.from)}.
-                                </p>
-                            </div>
-                        </div>
                 }
             </div>
         )
