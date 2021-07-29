@@ -43,10 +43,10 @@ class Dashboard extends Component {
             // Control Panel
             from: window.location.search.split("?")[1]
                 ? convertTimeToSecondsForURL(window.location.search.split("?")[1].split("&")[0].split("=")[1])
-                : Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000),
+                : convertTimeToSecondsForURL(Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000)),
             until: window.location.search.split("?")[1]
                 ? convertTimeToSecondsForURL(window.location.search.split("?")[1].split("&")[1].split("=")[1])
-                : Math.round(new Date().getTime() / 1000),
+                : convertTimeToSecondsForURL(Math.round(new Date().getTime() / 1000)),
             // Tabs
             activeTab: typeof window.location.pathname.split("/")[2] !== 'undefined' && window.location.pathname.split("/")[2].split("?")[0] === region.type ? region.tab :
                 typeof window.location.pathname.split("/")[2] !== 'undefined' && window.location.pathname.split("/")[2].split("?")[0] === asn.type ? asn.tab : country.tab,
@@ -126,7 +126,24 @@ class Dashboard extends Component {
                     displayTimeRangeError: true
                 });
             }
+        } else {
+            this.setState({
+                mounted: true,
+            },() => {
+                if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
+                    // Set initial tab to load
+                    this.handleSelectTab(this.tabs[this.props.match.params.tab]);
+                    // Get topo and outage data to populate map and table
+                    window.location.pathname.split("/")[2] && window.location.pathname.split("/")[2].split("?")[0] !== "asn" ?
+                        this.getDataTopo(this.state.activeTabType) :
+                        window.location.pathname.split("/").length === 2 ? this.getDataTopo(this.state.activeTabType) :
+                            window.location.pathname.split("/").length === 3 && window.location.pathname.split("/")[2] === "" ? this.getDataTopo(this.state.activeTabType) :
+                                null;
 
+                    this.getDataOutageSummary(this.state.activeTabType);
+                    this.getTotalOutages(this.state.activeTabType);
+                }
+            });
         }
     }
 
