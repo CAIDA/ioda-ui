@@ -718,11 +718,11 @@ class Entity extends Component {
                 name: activeProbingLegendText,
                 visible: this.state.tsDataSeriesVisiblePingSlash24,
                 showInLegend: true,
-                xValueFormatString: "DDD, MMM DD - HH:MM",
+                xValueFormatString: "DDD, MMM DD - HH:mm",
                 yValueFormatString: "0",
                 dataPoints: activeProbingValues,
                 legendMarkerColor: activeProbingColor,
-                toolTipContent: "{x} <br/> Active Probing (# /24s Up): {y}",
+                toolTipContent: "{x} <br/> {name}: {y} <br/>",
 
             }
         }
@@ -737,11 +737,11 @@ class Entity extends Component {
                 name: bgpLegendText,
                 visible: this.state.tsDataSeriesVisibleBgp,
                 showInLegend: true,
-                xValueFormatString: "DDD, MMM DD - HH:MM",
+                xValueFormatString: "DDD, MMM DD - HH:mm",
                 yValueFormatString: "0",
                 dataPoints: bgpValues,
                 legendMarkerColor: bgpColor,
-                toolTipContent: "{x} <br/> BGP (# Visbile /24s): {y}"
+                toolTipContent: "{x} <br/> {name}: {y}"
             }
         }
         if (networkTelescopeValues) {
@@ -756,11 +756,11 @@ class Entity extends Component {
                 visible: this.state.tsDataSeriesVisibleUcsdNt,
                 axisYType: this.state.tsDataNormalized ? 'primary' : "secondary",
                 showInLegend: true,
-                xValueFormatString: "DDD, MMM DD - HH:MM",
+                xValueFormatString: "DDD, MMM DD - HH:mm",
                 yValueFormatString: "0",
                 dataPoints: networkTelescopeValues,
                 legendMarkerColor: ucsdNtColor,
-                toolTipContent: "{x} <br/> Network Telescope (# Unique Source IPs): {y}"
+                toolTipContent: "{x} <br/> {name}: {y}"
             }
         }
 
