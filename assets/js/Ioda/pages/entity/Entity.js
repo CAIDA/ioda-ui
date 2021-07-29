@@ -87,10 +87,10 @@ class Entity extends Component {
             tsDataNormalized: true,
             tsDataDisplayOutageBands: true,
             tsDataLegendRangeFrom: window.location.search.split("?")[1]
-                ? window.location.search.split("?")[1].split("&")[0].split("=")[1]
+                ? convertTimeToSecondsForURL(window.location.search.split("?")[1].split("&")[0].split("=")[1])
                 : Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000),
             tsDataLegendRangeUntil: window.location.search.split("?")[1]
-                ? window.location.search.split("?")[1].split("&")[1].split("=")[1]
+                ? convertTimeToSecondsForURL(window.location.search.split("?")[1].split("&")[1].split("=")[1])
                 : Math.round(new Date().getTime() / 1000),
             // Used for responsively styling the xy chart
             tsDataScreenBelow970: window.innerWidth <= 970,
