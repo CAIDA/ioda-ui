@@ -26,7 +26,7 @@
   line-height: 0.8rem;
   font-weight: bold;
   cursor: pointer;
-  background: linear-gradient(2deg, #286F86, #7FB7CA);
+  background: linear-gradient(2deg, $color-secondary-dark, $color-secondary-light);
   color: $color-white;
   padding: 0.4rem 0.6rem;
   box-shadow: $box-shadow;

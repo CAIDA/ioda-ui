@@ -258,6 +258,8 @@
       &:link,
       &:visited {
         @include textLink;
+        color: $color-primary!important;
+        font-weight: 400!important;
         padding-bottom: 0!important;
         margin-bottom: 0!important;
         background-size: 100% 0!important; /* controls underline thickness */
@@ -269,10 +271,10 @@
             background:
                     linear-gradient(
                                     175deg,
-                                    $color-secondary-light 0%,
-                                    $color-secondary-light 33.3%,
-                                    $color-secondary 83.5%,
-                                    $color-secondary-dark 100%
+                                    $color-primary-light 0%,
+                                    $color-primary-light 33.3%,
+                                    $color-primary 83.5%,
+                                    $color-primary-dark 100%
                     )
                     left
                     bottom
