@@ -408,43 +408,49 @@ export function getTimeStringFromDate(d) {
 export function convertTimeToSecondsForURL(time) {
     let timeValueInSeconds, dateUnitMultiplier, secondsValueFromNow, currentTime;
 
+    console.log(typeof(time));
+    console.log(time);
+
     currentTime = Math.round(new Date().getTime() / 1000);
-    if (time.toLowerCase() === 'now') {
-        timeValueInSeconds = currentTime;
-    }
+    if (Number.isNaN(time)) {
+        if (time.toLowerCase() === 'now') {
+            timeValueInSeconds = currentTime;
+        }
 
-    if (time.charAt(0) === '-') {
-        const durStr = time.match(/[\--0-9]+|[0-9]+|[a-zA-Z]+/g);
+        if (time.charAt(0) === '-') {
+            const durStr = time.match(/[\--0-9]+|[0-9]+|[a-zA-Z]+/g);
 
-        // get time multiplier value in seconds (time unit, e.g. seconds, minutes, hours, days, months)
-        switch (durStr[2]) {
-            case ("s"):
-                dateUnitMultiplier = 1;
-                break;
-            case ("m"):
-                dateUnitMultiplier = 60;
-                break;
-            case ("h"):
-                dateUnitMultiplier = 60 * 60;
-                break;
-            case ("d"):
-                dateUnitMultiplier = 60 * 60 * 24;
-                break;
-            case ("M"):
-                dateUnitMultiplier = 60 * 60 * 24 * 30;
-                break;
-            default:
-                break;
+            // get time multiplier value in seconds (time unit, e.g. seconds, minutes, hours, days, months)
+            switch (durStr[2]) {
+                case ("s"):
+                    dateUnitMultiplier = 1;
+                    break;
+                case ("m"):
+                    dateUnitMultiplier = 60;
+                    break;
+                case ("h"):
+                    dateUnitMultiplier = 60 * 60;
+                    break;
+                case ("d"):
+                    dateUnitMultiplier = 60 * 60 * 24;
+                    break;
+                case ("M"):
+                    dateUnitMultiplier = 60 * 60 * 24 * 30;
+                    break;
+                default:
+                    break;
             }
 
-        secondsValueFromNow = durStr[1] * dateUnitMultiplier;
-        // multiply variable above with [1] value, then determine if I should add or subtract from now time stamp value.
-        if (durStr[0] === '-') {
-            timeValueInSeconds = currentTime - secondsValueFromNow;
+            secondsValueFromNow = durStr[1] * dateUnitMultiplier;
+            // multiply variable above with [1] value, then determine if I should add or subtract from now time stamp value.
+            if (durStr[0] === '-') {
+                timeValueInSeconds = currentTime - secondsValueFromNow;
+            }
         }
     }
 
-    if (!isNaN(time)) {
+
+    if (!Number.isNaN(time)) {
         timeValueInSeconds = time;
     }
 

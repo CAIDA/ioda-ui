@@ -208,6 +208,21 @@ class Entity extends Component {
                     displayTimeRangeError: true
                 });
             }
+        } else {
+            this.setState({
+                mounted: true,
+            },() => {
+                if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
+                    // Get all datasources
+                    // this.props.getDatasourcesAction();
+                    // Overview Panel
+                    this.props.searchEventsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
+                    this.props.searchAlertsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], null, null, null);
+                    this.props.getSignalsAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], this.state.from, this.state.until, null, 3000);
+                    // Get entity name from code provided in url
+                    this.props.getEntityMetadataAction(window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
+                }
+            });
         }
     }
 
