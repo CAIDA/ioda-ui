@@ -408,9 +408,6 @@ export function getTimeStringFromDate(d) {
 export function convertTimeToSecondsForURL(time) {
     let timeValueInSeconds, dateUnitMultiplier, secondsValueFromNow, currentTime;
 
-    console.log(typeof(time));
-    console.log(time);
-
     currentTime = Math.round(new Date().getTime() / 1000);
     if (Number.isNaN(time)) {
         if (time.toLowerCase() === 'now') {
