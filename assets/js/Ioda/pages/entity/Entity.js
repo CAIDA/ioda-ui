@@ -798,45 +798,42 @@ class Entity extends Component {
 
         // Loop through available datasources to collect plot points
         this.state.tsDataRaw[0].map(datasource => {
-            let min, max;
+            let max;
             switch (datasource.datasource) {
                 case "ucsd-nt":
-                    min = Math.min(...datasource.values);
                     max = Math.max(...datasource.values);
                     absoluteMax.push(max);
                     absoluteMaxY2 = max;
                     datasource.values && datasource.values.map((value, index) => {
                         let x, y;
                         x = toDateTime(datasource.from + (datasource.step * index));
-                        y = this.state.tsDataNormalized ? normalize(value, min, max) : value;
+                        y = this.state.tsDataNormalized ? normalize(value, max) : value;
                         networkTelescopeValues.push({x: x, y: y, color: ucsdNtColor});
                     });
                     // the last two values populating are the min value, and the max value. Removing these from the coordinates.
                     networkTelescopeValues.length > 2 ? networkTelescopeValues.splice(-1,2) : networkTelescopeValues;
                     break;
                 case "bgp":
-                    min = Math.min(...datasource.values);
                     max = Math.max(...datasource.values);
                     absoluteMax.push(max);
 
                     datasource.values && datasource.values.map((value, index) => {
                         let x, y;
                         x = toDateTime(datasource.from + (datasource.step * index));
-                        y = this.state.tsDataNormalized ? normalize(value, min, max) : value;
+                        y = this.state.tsDataNormalized ? normalize(value, max) : value;
                         bgpValues.push({x: x, y: y, color: bgpColor});
                     });
                     // the last two values populating are the min value, and the max value. Removing these from the coordinates.
                     bgpValues.length > 2 ? bgpValues.splice(-1,2) : bgpValues;
                     break;
                 case "ping-slash24":
-                    min = Math.min(...datasource.values);
                     max = Math.max(...datasource.values);
                     absoluteMax.push(max);
 
                     datasource.values && datasource.values.map((value, index) => {
                         let x, y;
                         x = toDateTime(datasource.from + (datasource.step * index));
-                        y = this.state.tsDataNormalized ? normalize(value, min, max) : value;
+                        y = this.state.tsDataNormalized ? normalize(value, max) : value;
                         activeProbingValues.push({x: x, y: y, color: activeProbingColor});
                     });
                     // the last two values populating are the min value, and the max value. Removing these from the coordinates.
