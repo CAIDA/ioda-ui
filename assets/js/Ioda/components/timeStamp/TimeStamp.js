@@ -6,15 +6,23 @@ import T from "i18n-react";
 class TimeStamp extends Component {
     constructor(props) {
         super(props);
-        this.state = { fade: false }
+        this.state = {
+            fade: false,
+            messageTop: 0,
+            messageLeft: 0
+        }
     }
 
-    copyTimestamp(timestamp) {
+    copyTimestamp(e, timestamp) {
         // copy to clipboard
         navigator.clipboard.writeText(timestamp);
 
         // trigger animation
-        this.setState({fade: true});
+        this.setState({
+            fade: true,
+            messageTop: event.target.offsetTop - 15,
+            messageLeft: event.clientX + 15
+        });
     }
 
     resetFadeState() {
@@ -26,11 +34,11 @@ class TimeStamp extends Component {
         const fade = this.state.fade;
         const copyToClipboardMessage = T.translate("timestamp.copyToClipboardMessage");
         return (
-            <div className="timestamp" onClick={() => this.copyTimestamp(timestamp)}>
+            <div className="timestamp" onClick={(e) => this.copyTimestamp(e, timestamp)}>
                 <div
                     className={fade ? 'timestamp__message timestamp__fade' : 'timestamp__message'}
                     onAnimationEnd={() => this.resetFadeState()}
-                    style={{top: event.target.offsetTop - 5, left: event.clientX}}
+                    style={{top: `${this.state.messageTop}px`, left: `${this.state.messageLeft}px`}}
                 >
                     {copyToClipboardMessage}
                 </div>
