@@ -856,15 +856,27 @@ class Entity extends Component {
         }
 
         // get time span considered, using network telescope first as that data source has the most up to time data, then Ping-slash24, then bgp
-        const timeBegin = networkTelescopeValues[0] ? networkTelescopeValues[0].x : activeProbingValues[0] ? activeProbingValues[0].x : bgpValues[0].x;
+        console.log("update5");
+        const timeBegin =
+            networkTelescopeValues && networkTelescopeValues[0]
+                ? networkTelescopeValues[0].x
+                : activeProbingValues && activeProbingValues[0]
+                    ? activeProbingValues[0].x
+                    : bgpValues && bgpValues[0]
+                        ? bgpValues[0].x
+                        : window.location.search.split("?")[1]
+                            ? new Date(window.location.search.split("?")[1].split("&")[0].split("=")[1])
+                            : new Date(Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000));
         const timeEnd =
             networkTelescopeValues && networkTelescopeValues[networkTelescopeValues.length -1]
                 ? networkTelescopeValues[networkTelescopeValues.length -1].x
                 : activeProbingValues && activeProbingValues[activeProbingValues.length -1]
                     ? activeProbingValues[activeProbingValues.length -1].x
-                    : bgpValues && bgpValues[bgpValues.length -1].x
+                    : bgpValues && bgpValues[bgpValues.length -1]
                         ? bgpValues[bgpValues.length -1].x
-                        : this.state.until;
+                        : window.location.search.split("?")[1]
+                            ? new Date(window.location.search.split("?")[1].split("&")[1].split("=")[1])
+                            : new Date(Math.round(new Date().getTime() / 1000));
         // Add 1% padding to the right edge of the Chart
         const extraPadding = (timeEnd - timeBegin) * 0.01;
         const viewportMaximum = new Date(timeEnd.getTime() + extraPadding);
