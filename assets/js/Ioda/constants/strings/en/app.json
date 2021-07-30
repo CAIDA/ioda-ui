@@ -279,6 +279,9 @@
       "text": "This visualization shows IODA's signals over time. The \"Stacked Horizon Graph\" turns from dark green to white as a signal decreases."
     }
   },
+  "timestamp": {
+    "copyToClipboardMessage": "Date Range Copied"
+  },
   "reports": {
     "title": "Reports",
     "text": "We often (co)author reports containing detailed analyses of IODA signals during major Internet outage events.",
