@@ -270,7 +270,7 @@ class Home extends Component {
                             <TwitterTimelineEmbed
                                 sourceType="profile"
                                 screenName="caida_ioda"
-                                options={{height: '48.3rem'}}
+                                options={{ id: "profile:caida_ioda", height: '48.3rem'}}
                                 lang="en"
                             />
                         </div>
