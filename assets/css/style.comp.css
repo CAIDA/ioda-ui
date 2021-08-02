@@ -309,7 +309,7 @@ body {
       padding: 0 1.5rem; }
     .control-panel .range__input-field {
       width: 100%;
-      height: auto;
+      height: 2.6rem;
       border: none;
       margin-top: -0.5rem;
       padding-left: 1rem;
@@ -340,6 +340,14 @@ body {
     @media only screen and (max-width: 27.5em) {
       .control-panel .range__dropdown .rdrDateRangePickerWrapper .rdrCalendarWrapper {
         font-size: 1.5rem; } }
+    .control-panel .range__dropdown .rdrDateRangePickerWrapper .rdrStartEdge, .control-panel .range__dropdown .rdrDateRangePickerWrapper .rdrEndEdge, .control-panel .range__dropdown .rdrDateRangePickerWrapper .rdrInRange, .control-panel .range__dropdown .rdrDateRangePickerWrapper .rdrDayHovered {
+      color: #3975BB !important; }
+    .control-panel .range__dropdown .rdrDateRangePickerWrapper .rdrDayHovered, .control-panel .range__dropdown .rdrDateRangePickerWrapper .rdrDayActive {
+      border-color: #3975BB !important;
+      border-bottom-color: #3975BB !important;
+      border-top-color: #3975BB !important;
+      border-left-color: #3975BB !important;
+      border-right-color: #3975BB !important; }
     .control-panel .range__dropdown .rdrStaticRange {
       background-color: #fbfbfb;
       border-radius: 0.5rem;
@@ -361,7 +369,7 @@ body {
           justify-content: center;
           align-items: center; } }
       .control-panel .range__dropdown .rdrStaticRange:hover {
-        background: linear-gradient(2deg, #286F86, #7FB7CA) !important;
+        background: linear-gradient(2deg, #1A5DAE, #598DCC) !important;
         font-weight: 700 !important;
         color: #fff !important; }
     .control-panel .range__dropdown-userInputRange {

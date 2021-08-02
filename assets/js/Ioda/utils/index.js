@@ -36,9 +36,12 @@ import d3 from 'd3';
 // Time limit max that a user can select in the calendar -- currently set for 35 days
 export const controlPanelTimeRangeLimit = 3024001;
 export const monthStrings = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
 export const alertBandColor = "#BE1D2D";
 export const xyChartBackgroundLineColor = "#E6E6E6";
-
+export const secondaryColor = "#3975BB";
+export const secondaryColorLight = "#598DCC";
+export const secondaryColorDark = "#1A5DAE";
 export const bgpColor = "#33A02C";
 export const activeProbingColor = "#1F78B4";
 export const ucsdNtColor = "#ED9B40";

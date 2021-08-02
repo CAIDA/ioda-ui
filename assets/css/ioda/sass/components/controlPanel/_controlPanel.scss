@@ -155,7 +155,7 @@
 
       &-field {
         width: 100%;
-        height: 2.7rem;
+        height: 2.6rem;
         border: none;
         margin-top: -0.5rem;
         padding-left: 1rem;
@@ -198,6 +198,18 @@
             font-size: 1.5rem;
           }
         }
+
+        & .rdrStartEdge, & .rdrEndEdge, & .rdrInRange, & .rdrDayHovered {
+          color: $color-secondary!important;
+        }
+
+        & .rdrDayHovered, .rdrDayActive {
+          border-color: $color-secondary!important;
+          border-bottom-color: $color-secondary!important;
+          border-top-color: $color-secondary!important;
+          border-left-color: $color-secondary!important;
+          border-right-color: $color-secondary!important;
+        }
       }
 
       .rdrStaticRange {
@@ -225,7 +237,7 @@
         }
 
         &:hover {
-          background: linear-gradient(2deg, #286F86, #7FB7CA)!important;
+          background: linear-gradient(2deg, $color-secondary-dark, $color-secondary-light)!important;
           font-weight: 700!important;
           color: #fff!important;
         }
@@ -360,8 +372,6 @@
       background-color: $color-blue-border;
     }
   }
-
-
 }
 
 

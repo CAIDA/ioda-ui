@@ -27,7 +27,7 @@ import {
     convertDateValuesToSeconds,
     convertSecondsToDateValues,
     getTimeStringFromDate,
-    getUTCTimeStringFromDate
+    getUTCTimeStringFromDate, secondaryColor, secondaryColorDark, secondaryColorLight
 } from "../../utils";
 
 class ControlPanel extends Component {
@@ -467,8 +467,8 @@ class ControlPanel extends Component {
             ...createStaticRanges(sideBar)
         ];
 
-        const activeCSS = "background: linear-gradient(2deg, #286F86, #7FB7CA)!important; font-weight: 700!important; color: #fff!important;";
-        const inactiveCSS = "color: #5899AE!important; font-weight: 400!important;";
+        const activeCSS = `background: linear-gradient(2deg, ${secondaryColorDark}, ${secondaryColorLight})!important; font-weight: 700!important; color: #fff!important;`;
+        const inactiveCSS = `color: ${secondaryColor}!important; font-weight: 400!important;`;
 
 
         return(
