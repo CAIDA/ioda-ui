@@ -234,18 +234,31 @@ body {
     display: flex;
     flex-direction: column; }
   .control-panel [class^="searchInput-"] {
-    height: 3.75rem;
-    padding-left: 0.8rem; }
-    @media only screen and (max-width: 30em) {
+    height: 3rem;
+    padding-left: 0.8rem;
+    color: #2c3e50; }
+    .control-panel [class^="searchInput-"]::placeholder {
+      font-size: 1.2rem;
+      color: #2c3e50; }
+    @media only screen and (max-width: 40em) {
       .control-panel [class^="searchInput-"] {
-        font-size: 1.3rem; } }
+        font-size: 1.2rem;
+        height: 3.75rem; } }
     .control-panel [class^="searchInput-"]:focus ~ label {
       margin-top: -5.6rem;
       padding-left: 1rem; }
   .control-panel [class^="searchLabel-"] {
     display: none; }
   .control-panel [class^="searchResultsVisible-"] {
-    z-index: 1001; }
+    z-index: 1001;
+    top: 3.5rem; }
+  .control-panel [class^="searchResultsList-"] {
+    margin: 0; }
+  .control-panel [class^="searchResultsListItem-"],
+  .control-panel [class^="searchResultsListItemActive-"] {
+    padding-left: 5px; }
+  .control-panel [class^="searchResultsListItem-"]:hover:after {
+    background-color: #3975BB; }
   .control-panel .range__heading {
     display: flex; }
   .control-panel .range__label {
@@ -260,15 +273,18 @@ body {
     justify-content: center;
     margin-top: -0.5rem;
     margin-left: -0.8rem;
-    height: 3.4rem;
+    height: 2.7rem;
     padding: 0 0.3rem;
     border-right: 2px solid #DCE4EA; }
+    @media only screen and (max-width: 40em) {
+      .control-panel .range__calendar {
+        height: 3.25rem; } }
     .control-panel .range__calendar img {
       height: 2rem; }
   .control-panel .range__input {
     cursor: pointer;
     background-color: #fff;
-    height: 3.75rem;
+    height: 3rem;
     width: 100%;
     border: 2px solid #DCE4EA;
     border-radius: 5px;
@@ -279,6 +295,9 @@ body {
     color: #757575;
     padding-top: 0.5rem;
     padding-left: 0.8rem; }
+    @media only screen and (max-width: 40em) {
+      .control-panel .range__input {
+        height: 3.75rem; } }
     @media only screen and (max-width: 30em) {
       .control-panel .range__input {
         font-size: 1.3rem; } }
@@ -290,17 +309,18 @@ body {
       padding: 0 1.5rem; }
     .control-panel .range__input-field {
       width: 100%;
-      height: 3.5rem;
+      height: 2.6rem;
       border: none;
       margin-top: -0.5rem;
       padding-left: 1rem;
-      color: #2c3e50; }
+      color: #2c3e50;
+      font-size: 1.2rem; }
   .control-panel .range__dropdown {
     display: none;
     z-index: 10000;
     position: absolute;
     left: 0;
-    top: 12.5rem;
+    top: 12rem;
     box-shadow: 0 1px 2px #9F9D9D;
     border-radius: 3px; }
     @media only screen and (max-width: 27.5em) {
@@ -341,7 +361,7 @@ body {
           justify-content: center;
           align-items: center; } }
       .control-panel .range__dropdown .rdrStaticRange:hover {
-        background: linear-gradient(2deg, #286F86, #7FB7CA) !important;
+        background: linear-gradient(2deg, #1A5DAE, #598DCC) !important;
         font-weight: 700 !important;
         color: #fff !important; }
     .control-panel .range__dropdown-userInputRange {
@@ -412,6 +432,7 @@ body {
     position: relative;
     z-index: 10;
     padding: 0 0.5rem;
+    box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
     margin: 1.5rem;
     position: absolute;
     bottom: -0.5rem;
@@ -449,7 +470,8 @@ body {
       outline: none; }
     .control-panel .range__button--secondary {
       left: 6rem;
-      background: #777879; }
+      background: #777879;
+      box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15); }
     .control-panel .range__button--disabled {
       cursor: not-allowed; }
   .control-panel__title {
@@ -537,7 +559,7 @@ body {
   box-sizing: border-box; }
 
 .rdrCalendarWrapper {
-  color: #000000;
+  color: #000;
   font-size: 12px; }
 
 .rdrDateDisplayWrapper {
@@ -547,7 +569,7 @@ body {
   margin: 0.833em; }
   .rdrDateDisplayItem {
     border-radius: 4px;
-    background-color: white;
+    background-color: #fff;
     box-shadow: 0 1px 2px 0 rgba(35, 57, 66, 0.21);
     border: 1px solid transparent; }
     .rdrDateDisplayItem input {
@@ -559,7 +581,7 @@ body {
       width: 100%;
       color: #849095; }
     .rdrDateDisplayItemActive {
-      border-color: currentColor; }
+      border-color: #3975BB; }
       .rdrDateDisplayItemActive input {
         color: #7d888d; }
 
@@ -580,7 +602,7 @@ body {
     padding: 10px 30px 10px 10px;
     border-radius: 4px;
     outline: 0;
-    color: #3e484f;
+    color: #2c3e50;
     background: url("data:image/svg+xml;utf8,<svg width='9px' height='6px' viewBox='0 0 9 6' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><g id='Artboard' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd' transform='translate(-636.000000, -171.000000)' fill-opacity='0.368716033'><g id='input' transform='translate(172.000000, 37.000000)' fill='%230E242F' fill-rule='nonzero'><g id='Group-9' transform='translate(323.000000, 127.000000)'><path d='M142.280245,7.23952813 C141.987305,6.92353472 141.512432,6.92361662 141.219585,7.23971106 C140.926739,7.5558055 140.926815,8.06821394 141.219755,8.38420735 L145.498801,13 L149.780245,8.38162071 C150.073185,8.0656273 150.073261,7.55321886 149.780415,7.23712442 C149.487568,6.92102998 149.012695,6.92094808 148.719755,7.23694149 L145.498801,10.7113732 L142.280245,7.23952813 Z' id='arrow'></path></g></g></g></svg>") no-repeat;
     background-position: right 8px center;
     cursor: pointer;
@@ -615,14 +637,14 @@ body {
 
 .rdrPprevButton i {
   border-width: 4px 6px 4px 4px;
-  border-color: transparent #34495e transparent transparent;
+  border-color: transparent #3975BB transparent transparent;
   -webkit-transform: translate(-3px, 0px);
   transform: translate(-3px, 0px); }
 
 .rdrNextButton i {
   margin: 0 0 0 7px;
   border-width: 4px 4px 4px 6px;
-  border-color: transparent transparent transparent #34495e;
+  border-color: transparent transparent transparent #3975BB;
   -webkit-transform: translate(3px, 0px);
   transform: translate(3px, 0px); }
 
@@ -654,7 +676,7 @@ body {
   line-height: 3.000em;
   height: 3.000em;
   text-align: center;
-  color: #1d2429; }
+  color: #2c3e50; }
 
 .rdrDay:focus {
   outline: 0; }
@@ -687,16 +709,22 @@ body {
   width: 18px;
   height: 2px;
   border-radius: 2px;
-  background: #3d91ff; }
+  background: #3975BB; }
 
-.rdrDayToday:not(.rdrDayPassive) .rdrInRange ~ .rdrDayNumber span:after, .rdrDayToday:not(.rdrDayPassive) .rdrStartEdge ~ .rdrDayNumber span:after, .rdrDayToday:not(.rdrDayPassive) .rdrEndEdge ~ .rdrDayNumber span:after, .rdrDayToday:not(.rdrDayPassive) .rdrSelected ~ .rdrDayNumber span:after {
+.rdrDayToday:not(.rdrDayPassive) .rdrInRange ~ .rdrDayNumber span:after,
+.rdrDayToday:not(.rdrDayPassive) .rdrStartEdge ~ .rdrDayNumber span:after,
+.rdrDayToday:not(.rdrDayPassive) .rdrEndEdge ~ .rdrDayNumber span:after,
+.rdrDayToday:not(.rdrDayPassive) .rdrSelected ~ .rdrDayNumber span:after {
   background: #fff; }
 
-.rdrDay:not(.rdrDayPassive) .rdrInRange ~ .rdrDayNumber span, .rdrDay:not(.rdrDayPassive) .rdrStartEdge ~ .rdrDayNumber span, .rdrDay:not(.rdrDayPassive) .rdrEndEdge ~ .rdrDayNumber span, .rdrDay:not(.rdrDayPassive) .rdrSelected ~ .rdrDayNumber span {
+.rdrDay:not(.rdrDayPassive) .rdrInRange ~ .rdrDayNumber span,
+.rdrDay:not(.rdrDayPassive) .rdrStartEdge ~ .rdrDayNumber span,
+.rdrDay:not(.rdrDayPassive) .rdrEndEdge ~ .rdrDayNumber span,
+.rdrDay:not(.rdrDayPassive) .rdrSelected ~ .rdrDayNumber span {
   color: rgba(255, 255, 255, 0.85); }
 
 .rdrSelected, .rdrInRange, .rdrStartEdge, .rdrEndEdge {
-  background: currentColor;
+  background: #3975BB;
   position: absolute;
   top: 5px;
   left: 0;
@@ -718,7 +746,7 @@ body {
   right: 2px; }
 
 .rdrSelected {
-  border-radius: 1.042em; }
+  border-radius: 1.042rem; }
 
 .rdrDayStartOfMonth .rdrInRange, .rdrDayStartOfMonth .rdrEndEdge, .rdrDayStartOfWeek .rdrInRange, .rdrDayStartOfWeek .rdrEndEdge {
   border-top-left-radius: 1.042em;
@@ -750,7 +778,7 @@ body {
   right: 0;
   bottom: 3px;
   pointer-events: none;
-  border: 0 solid currentColor;
+  border: 0 solid #3975BB;
   z-index: 1; }
 
 .rdrDayStartPreview {
@@ -776,11 +804,11 @@ body {
 .rdrDefinedRangesWrapper {
   font-size: 12px;
   width: 226px;
-  border-right: solid 1px #eff2f7;
+  border-right: solid 1px #EFF2F7;
   background: #fff; }
 
 .rdrDefinedRangesWrapper .rdrStaticRangeSelected {
-  color: currentColor;
+  color: #3975BB;
   font-weight: 600; }
 
 .rdrStaticRange {
@@ -788,7 +816,7 @@ body {
   cursor: pointer;
   display: block;
   outline: 0;
-  border-bottom: 1px solid #eff2f7;
+  border-bottom: 1px solid #EFF2F7;
   padding: 0;
   background: #fff; }
 
@@ -813,7 +841,7 @@ body {
   line-height: 30px;
   border-radius: 4px;
   text-align: center;
-  border: solid 1px #dee7eb;
+  border: solid 1px #DEE7EB;
   margin-right: 10px;
   color: #6c767a; }
 
@@ -824,7 +852,7 @@ body {
 
 .rdrCalendarWrapper:not(.rdrDateRangeWrapper) .rdrDayHovered .rdrDayNumber:after {
   content: '';
-  border: 1px solid currentColor;
+  border: 1px solid #3975BB;
   border-radius: 1.333em;
   position: absolute;
   top: -2px;
@@ -860,7 +888,7 @@ body {
 
 .rdrCalendarWrapper {
   box-sizing: border-box;
-  background: #ffffff;
+  background: #fff;
   display: inline-flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
@@ -968,7 +996,7 @@ body {
   line-height: 1.6em;
   top: 0;
   right: .25em;
-  color: #FF0000; }
+  color: #E74C3C; }
 
 .rdrDay {
   box-sizing: inherit;
@@ -982,7 +1010,7 @@ body {
   position: relative; }
 
 .rdrDayNumber span {
-  color: #1d2429; }
+  color: #2c3e50; }
 
 .rdrDayDisabled {
   cursor: not-allowed; }
@@ -1046,6 +1074,7 @@ body {
     position: relative;
     z-index: 10;
     padding: 0 0.5rem;
+    box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
     border-radius: 3rem;
     font-size: 1rem;
     padding: 0 0.4rem;
@@ -1158,6 +1187,9 @@ body {
     width: calc(10rem + 15px); }
   .table--event tbody {
     max-height: 49rem; }
+    @media only screen and (min-width: 112.5em) {
+      .table--event tbody {
+        max-height: 42rem; } }
   .table--alert {
     /* first col */ }
     .table--alert-critical {
@@ -1456,6 +1488,7 @@ body {
       position: relative;
       z-index: 10;
       padding: 0 0.5rem;
+      box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
       width: 7rem;
       height: 1.2rem;
       border-radius: 1.2rem;
@@ -2021,6 +2054,7 @@ body {
   position: relative;
   z-index: 10;
   padding: 0 0.5rem;
+  box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
   margin: 0;
   width: 2.2rem;
   height: 2.2rem;
@@ -2073,6 +2107,7 @@ body {
     position: relative;
     z-index: 10;
     padding: 0 0.5rem;
+    box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
     height: 2.2rem;
     font-size: 1rem;
     margin: 0; }
@@ -2218,7 +2253,7 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 1px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255, 255, 255, 0.15); }
+    box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15); }
     .toggle__container--disabled {
       background-image: linear-gradient(#737e8d, #3f454e);
       flex-direction: row-reverse; }
@@ -2997,6 +3032,7 @@ button[class*="searchButton"] {
           position: relative;
           z-index: 10;
           padding: 0 0.5rem;
+          box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
           padding: 0.2rem;
           height: 3rem;
           font-size: 1rem;
@@ -3067,7 +3103,7 @@ button[class*="searchButton"] {
     border-bottom-right-radius: 0.3rem;
     border-bottom-left-radius: 0.3rem;
     border-top-right-radius: 0.3rem;
-    min-height: 58rem;
+    min-height: 64rem;
     box-shadow: 0 1px 2px #9F9D9D;
     padding: 2rem; }
     @media only screen and (max-width: 80em) {
@@ -3114,6 +3150,7 @@ button[class*="searchButton"] {
       position: relative;
       z-index: 10;
       padding: 0 0.5rem;
+      box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
       height: 3rem;
       font-size: 1.1rem;
       margin: 0;
@@ -3355,6 +3392,7 @@ button[class*="searchButton"] {
       position: relative;
       z-index: 10;
       padding: 0 0.5rem;
+      box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
       height: 3rem;
       font-size: 1rem;
       margin: 0;

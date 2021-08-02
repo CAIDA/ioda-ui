@@ -27,7 +27,7 @@ import {
     convertDateValuesToSeconds,
     convertSecondsToDateValues,
     getTimeStringFromDate,
-    getUTCTimeStringFromDate
+    getUTCTimeStringFromDate, secondaryColor, secondaryColorDark, secondaryColorLight
 } from "../../utils";
 
 class ControlPanel extends Component {
@@ -467,8 +467,8 @@ class ControlPanel extends Component {
             ...createStaticRanges(sideBar)
         ];
 
-        const activeCSS = "background: linear-gradient(2deg, #286F86, #7FB7CA)!important; font-weight: 700!important; color: #fff!important;";
-        const inactiveCSS = "color: #5899AE!important; font-weight: 400!important;";
+        const activeCSS = `background: linear-gradient(2deg, ${secondaryColorDark}, ${secondaryColorLight})!important; font-weight: 700!important; color: #fff!important;`;
+        const inactiveCSS = `color: ${secondaryColor}!important; font-weight: 400!important;`;
 
 
         return(
@@ -547,6 +547,7 @@ class ControlPanel extends Component {
                                                     lastHourSelected: false,
                                                     customRangeSelected: false,
                                                     userInputSelected: false,
+                                                    customRangeVisible: false,
                                                     timeRange: [
                                                         "00:00:00",
                                                         "23:59:59"
@@ -558,10 +559,11 @@ class ControlPanel extends Component {
                                             case 'lastHour':
                                                 this.setState({
                                                     ...this.state,
-                                                    lastHourSelected: true,
                                                     todaySelected: false,
-                                                    userInputSelected: false,
+                                                    lastHourSelected: true,
                                                     customRangeSelected: false,
+                                                    userInputSelected: false,
+                                                    customRangeVisible: false,
                                                     timeRange: [
                                                         `${item.selection.startDate.getUTCHours() < 10 ? `0${item.selection.startDate.getUTCHours()}` : item.selection.startDate.getUTCHours()}:${item.selection.startDate.getUTCMinutes() < 10 ? `0${item.selection.startDate.getUTCMinutes()}` : item.selection.startDate.getUTCMinutes()}:${item.selection.startDate.getUTCSeconds() < 10 ? `0${item.selection.startDate.getUTCSeconds()}` : item.selection.startDate.getUTCSeconds()}`,
                                                         `${item.selection.endDate.getUTCHours() < 10 ? `0${item.selection.endDate.getUTCHours()}` : item.selection.endDate.getUTCHours()}:${item.selection.endDate.getUTCMinutes() < 10 ? `0${item.selection.endDate.getUTCMinutes()}` : item.selection.endDate.getUTCMinutes()}:${item.selection.endDate.getUTCSeconds() < 10 ? `0${item.selection.endDate.getUTCSeconds()}` : item.selection.endDate.getUTCSeconds()}`
@@ -574,18 +576,19 @@ class ControlPanel extends Component {
                                                 this.setState({
                                                     todaySelected: false,
                                                     lastHourSelected: false,
-                                                    userInputSelected: true,
                                                     customRangeSelected: false,
+                                                    userInputSelected: true,
+                                                    customRangeVisible: false,
                                                     ...item
                                                 });
                                                 break;
                                             case "customRange":
                                                 this.setState({
-                                                    customRangeVisible: true,
-                                                    customRangeSelected: true,
                                                     todaySelected: false,
                                                     lastHourSelected: false,
+                                                    customRangeSelected: true,
                                                     userInputSelected: false,
+                                                    customRangeVisible: true,
                                                     selection: {
                                                         startDate: this.state.wholeDayInputSelected
                                                             ? new Date(item.selection.startDate.setHours(this.state.timeRange[0].split(":")[0], this.state.timeRange[0].split(":")[1], this.state.timeRange[0].split(":")[2]))
@@ -606,6 +609,8 @@ class ControlPanel extends Component {
                                             todaySelected: false,
                                             lastHourSelected: false,
                                             userInputSelected: false,
+                                            customRangeSelected: false,
+                                            customRangeVisible: false,
                                             timeRange: [
                                                 "00:00:00",
                                                 "23:59:59"

@@ -1006,10 +1006,10 @@ class Entity extends Component {
     resize() {
         let tsDataScreenBelow970 = (window.innerWidth <= 970);
         if (tsDataScreenBelow970 !== this.state.tsDataScreenBelow970) {
-
             this.setState({
                 tsDataScreenBelow970: tsDataScreenBelow970
             }, () => {
+                console.log(this.state.tsDataScreenBelow970);
                 let tsDataScreenBelow640 = (window.innerWidth <= 640);
                 if (tsDataScreenBelow640 !== this.state.tsDataScreenBelow640) {
 
