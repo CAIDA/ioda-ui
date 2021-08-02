@@ -198,18 +198,6 @@
             font-size: 1.5rem;
           }
         }
-
-        & .rdrStartEdge, & .rdrEndEdge, & .rdrInRange, & .rdrDayHovered {
-          color: $color-secondary!important;
-        }
-
-        & .rdrDayHovered, .rdrDayActive {
-          border-color: $color-secondary!important;
-          border-bottom-color: $color-secondary!important;
-          border-top-color: $color-secondary!important;
-          border-left-color: $color-secondary!important;
-          border-right-color: $color-secondary!important;
-        }
       }
 
       .rdrStaticRange {
@@ -330,7 +318,8 @@
 
       &--secondary {
         left: 6rem;
-        background: #777879;
+        background: $color-secondary-button;
+        box-shadow: $button-box-shadow;
       }
 
       &--disabled {
