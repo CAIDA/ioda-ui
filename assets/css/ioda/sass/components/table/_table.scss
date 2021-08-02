@@ -40,6 +40,10 @@
 
     & tbody {
       max-height: 49rem;
+
+      @include respond(big-desktop) {
+        max-height: 42rem;
+      }
     }
   }
 

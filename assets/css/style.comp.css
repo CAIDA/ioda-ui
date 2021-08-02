@@ -1158,6 +1158,9 @@ body {
     width: calc(10rem + 15px); }
   .table--event tbody {
     max-height: 49rem; }
+    @media only screen and (min-width: 112.5em) {
+      .table--event tbody {
+        max-height: 42rem; } }
   .table--alert {
     /* first col */ }
     .table--alert-critical {
@@ -3067,7 +3070,7 @@ button[class*="searchButton"] {
     border-bottom-right-radius: 0.3rem;
     border-bottom-left-radius: 0.3rem;
     border-top-right-radius: 0.3rem;
-    min-height: 58rem;
+    min-height: 64rem;
     box-shadow: 0 1px 2px #9F9D9D;
     padding: 2rem; }
     @media only screen and (max-width: 80em) {
