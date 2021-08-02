@@ -280,7 +280,7 @@ class Home extends Component {
                     <div className="row">
                         <div className="col-2-of-3">
                             <T.p className="about__text" text="home.about"/>
-                            <Link to="/dashboard?from=-24h&until=now" className="button">
+                            <Link to="/dashboard" className="button">
                                 <button>
                                     {aboutButtonText}
                                 </button>

@@ -16,10 +16,9 @@ class ToggleButton extends Component {
         return (
             <div className="toggle" onClick={toggleSelected}>
                 <span className="toggle__label">{this.props.label}</span>
-                <div className="toggle__container">
-                    <div className={`dialog-button ${selected ? "" : "disabled"}`}>
-                        {selected ? toggleOn : toggleOff}
-                    </div>
+                <div className={`toggle__container ${selected ? "" : "toggle__container--disabled"}`}>
+                    <span className="toggle__text">{selected ? toggleOn : toggleOff}</span>
+                    <div className={`dialog-button ${selected ? "" : "disabled"}`}>&nbsp;</div>
                 </div>
             </div>
         );
