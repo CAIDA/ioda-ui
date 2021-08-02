@@ -1,36 +1,36 @@
 .timestamp {
-  font-style: italic;
   display: flex;
   justify-content: flex-end;
   margin-top: 1rem;
-  font-size: 1rem;
-  color: $color-primary;
-}
+  cursor: pointer;
 
-.clipboard {
-  display: flex;
-  justify-content: flex-end;
+  &__message {
+    background-color: $color-secondary;
+    color: $color-white;
+    border-radius: 0.5rem;
+    display: flex;
+    width: max-content;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    z-index: 1000;
+    position: absolute;
+    padding: 0.5rem 1rem;
+    top: -2rem;
+    right: 6rem;
+    opacity: 0;
+  }
 
-  & button {
-    @include buttonAsTextLink;
-    position: relative;
+  &__fade {
+    animation-name: fade-out;
+    animation-duration: 1.4s;
+    animation-timing-function: ease-out;
+  }
 
-    &:after {
-      content: "date range copied";
-      background-color: $color-secondary;
-      height: 1rem;
-      width: 3rem;
-      position: absolute;
-      opacity: 0;
-      animation: fade-out 2s ease-out;
-      animation-fill-mode: forwards;
-    }
-
-    &:active {
-
-      &:after {
-
-      }
-    }
+  &__text {
+    font-style: italic;
+    font-size: 1rem;
+    color: $color-primary;
   }
 }

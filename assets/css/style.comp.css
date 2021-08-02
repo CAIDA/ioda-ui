@@ -2170,38 +2170,34 @@ body {
   margin-bottom: 1.5rem; }
 
 .timestamp {
-  font-style: italic;
   display: flex;
   justify-content: flex-end;
   margin-top: 1rem;
-  font-size: 1rem;
-  color: #2c3e50; }
-
-.clipboard {
-  display: flex;
-  justify-content: flex-end; }
-  .clipboard button {
-    border: none;
-    color: #3975BB;
+  cursor: pointer; }
+  .timestamp__message {
+    background-color: #3975BB;
+    color: #fff;
+    border-radius: 0.5rem;
+    display: flex;
+    width: max-content;
+    justify-content: center;
+    align-items: center;
     font-weight: 700;
-    text-decoration: none;
-    padding-bottom: 2px;
-    margin-bottom: 1px;
-    background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
-    background-size: 100% 2px;
-    /* controls underline thickness */
-    cursor: pointer;
-    font-size: 1.1rem;
-    position: relative; }
-    .clipboard button:after {
-      content: "date range copied";
-      background-color: #3975BB;
-      height: 1rem;
-      width: 3rem;
-      position: absolute;
-      opacity: 0;
-      animation: fade-out 2s ease-out;
-      animation-fill-mode: forwards; }
+    font-size: 1.2rem;
+    z-index: 1000;
+    position: absolute;
+    padding: 0.5rem 1rem;
+    top: -2rem;
+    right: 6rem;
+    opacity: 0; }
+  .timestamp__fade {
+    animation-name: fade-out;
+    animation-duration: 1.4s;
+    animation-timing-function: ease-out; }
+  .timestamp__text {
+    font-style: italic;
+    font-size: 1rem;
+    color: #2c3e50; }
 
 .toggle {
   display: flex;

@@ -97,7 +97,7 @@ export function convertDateValuesToSeconds(d) {
     // config and return utc date time since epoch
     // const newDate = new Date(`${mon} ${day}, ${yr} ${meridian === "pm" ? parseInt(hr) + 12 : hr}:${min}:00 `);
     // console.log(yr, monthStrings.findIndex(item => item === mon), day, meridian === "pm" ? parseInt(hr) + 12 : hr, min);
-    const newDate = new Date(Date.UTC(parseInt(yr), monthStrings.findIndex(item => item === mon) - 1, parseInt(day), meridian === "pm" ? parseInt(hr) + 12 : hr, parseInt(min)));
+    const newDate = new Date(Date.UTC(parseInt(yr), monthStrings.findIndex(item => item === mon), parseInt(day), meridian === "pm" ? parseInt(hr) + 12 : hr, parseInt(min)));
     // console.log(newDate);
     // return Math.floor(newDate.getTime() - (newDate.getTimezoneOffset() * 60000) / 1000);
     return Math.floor(newDate.getTime());
@@ -362,10 +362,10 @@ export function dateRangeToSeconds(dateRange, timeRange) {
 }
 
 // Normalize valye in XY plot of time series on entity page
-export function normalize(value, min, max) {
+export function normalize(value, max) {
     if (value && value !== 0) {
         return value !== null && (!isNaN((value - 0) / (max - 0))) ? (value - 0) / (max - 0) * 100 : 100;
-    } else if (value) {
+    } else if (value === 0) {
         return 0;
     } else {
         return null;
@@ -445,7 +445,6 @@ export function convertTimeToSecondsForURL(time) {
             }
         }
     }
-
 
     if (!Number.isNaN(time)) {
         timeValueInSeconds = time;

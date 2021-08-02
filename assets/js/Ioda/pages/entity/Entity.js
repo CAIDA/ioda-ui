@@ -718,11 +718,11 @@ class Entity extends Component {
                 name: activeProbingLegendText,
                 visible: this.state.tsDataSeriesVisiblePingSlash24,
                 showInLegend: true,
-                xValueFormatString: "DDD, MMM DD - HH:MM",
+                xValueFormatString: "DDD, MMM DD - HH:mm",
                 yValueFormatString: "0",
                 dataPoints: activeProbingValues,
                 legendMarkerColor: activeProbingColor,
-                toolTipContent: "{x} <br/> Active Probing (# /24s Up): {y}",
+                toolTipContent: "{x} <br/> {name}: {y}",
 
             }
         }
@@ -737,11 +737,11 @@ class Entity extends Component {
                 name: bgpLegendText,
                 visible: this.state.tsDataSeriesVisibleBgp,
                 showInLegend: true,
-                xValueFormatString: "DDD, MMM DD - HH:MM",
+                xValueFormatString: "DDD, MMM DD - HH:mm",
                 yValueFormatString: "0",
                 dataPoints: bgpValues,
                 legendMarkerColor: bgpColor,
-                toolTipContent: "{x} <br/> BGP (# Visbile /24s): {y}"
+                toolTipContent: "{x} <br/> {name}: {y}"
             }
         }
         if (networkTelescopeValues) {
@@ -756,11 +756,11 @@ class Entity extends Component {
                 visible: this.state.tsDataSeriesVisibleUcsdNt,
                 axisYType: this.state.tsDataNormalized ? 'primary' : "secondary",
                 showInLegend: true,
-                xValueFormatString: "DDD, MMM DD - HH:MM",
+                xValueFormatString: "DDD, MMM DD - HH:mm",
                 yValueFormatString: "0",
                 dataPoints: networkTelescopeValues,
                 legendMarkerColor: ucsdNtColor,
-                toolTipContent: "{x} <br/> Network Telescope (# Unique Source IPs): {y}"
+                toolTipContent: "{x} <br/> {name}: {y}"
             }
         }
 
@@ -798,45 +798,42 @@ class Entity extends Component {
 
         // Loop through available datasources to collect plot points
         this.state.tsDataRaw[0].map(datasource => {
-            let min, max;
+            let max;
             switch (datasource.datasource) {
                 case "ucsd-nt":
-                    min = Math.min(...datasource.values);
                     max = Math.max(...datasource.values);
                     absoluteMax.push(max);
                     absoluteMaxY2 = max;
                     datasource.values && datasource.values.map((value, index) => {
                         let x, y;
                         x = toDateTime(datasource.from + (datasource.step * index));
-                        y = this.state.tsDataNormalized ? normalize(value, min, max) : value;
+                        y = this.state.tsDataNormalized ? normalize(value, max) : value;
                         networkTelescopeValues.push({x: x, y: y, color: ucsdNtColor});
                     });
                     // the last two values populating are the min value, and the max value. Removing these from the coordinates.
                     networkTelescopeValues.length > 2 ? networkTelescopeValues.splice(-1,2) : networkTelescopeValues;
                     break;
                 case "bgp":
-                    min = Math.min(...datasource.values);
                     max = Math.max(...datasource.values);
                     absoluteMax.push(max);
 
                     datasource.values && datasource.values.map((value, index) => {
                         let x, y;
                         x = toDateTime(datasource.from + (datasource.step * index));
-                        y = this.state.tsDataNormalized ? normalize(value, min, max) : value;
+                        y = this.state.tsDataNormalized ? normalize(value, max) : value;
                         bgpValues.push({x: x, y: y, color: bgpColor});
                     });
                     // the last two values populating are the min value, and the max value. Removing these from the coordinates.
                     bgpValues.length > 2 ? bgpValues.splice(-1,2) : bgpValues;
                     break;
                 case "ping-slash24":
-                    min = Math.min(...datasource.values);
                     max = Math.max(...datasource.values);
                     absoluteMax.push(max);
 
                     datasource.values && datasource.values.map((value, index) => {
                         let x, y;
                         x = toDateTime(datasource.from + (datasource.step * index));
-                        y = this.state.tsDataNormalized ? normalize(value, min, max) : value;
+                        y = this.state.tsDataNormalized ? normalize(value, max) : value;
                         activeProbingValues.push({x: x, y: y, color: activeProbingColor});
                     });
                     // the last two values populating are the min value, and the max value. Removing these from the coordinates.
@@ -859,15 +856,27 @@ class Entity extends Component {
         }
 
         // get time span considered, using network telescope first as that data source has the most up to time data, then Ping-slash24, then bgp
-        const timeBegin = networkTelescopeValues[0] ? networkTelescopeValues[0].x : activeProbingValues[0] ? activeProbingValues[0].x : bgpValues[0].x;
+        console.log("update5");
+        const timeBegin =
+            networkTelescopeValues && networkTelescopeValues[0]
+                ? networkTelescopeValues[0].x
+                : activeProbingValues && activeProbingValues[0]
+                    ? activeProbingValues[0].x
+                    : bgpValues && bgpValues[0]
+                        ? bgpValues[0].x
+                        : window.location.search.split("?")[1]
+                            ? new Date(window.location.search.split("?")[1].split("&")[0].split("=")[1])
+                            : new Date(Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000));
         const timeEnd =
             networkTelescopeValues && networkTelescopeValues[networkTelescopeValues.length -1]
                 ? networkTelescopeValues[networkTelescopeValues.length -1].x
                 : activeProbingValues && activeProbingValues[activeProbingValues.length -1]
                     ? activeProbingValues[activeProbingValues.length -1].x
-                    : bgpValues && bgpValues[bgpValues.length -1].x
+                    : bgpValues && bgpValues[bgpValues.length -1]
                         ? bgpValues[bgpValues.length -1].x
-                        : this.state.until;
+                        : window.location.search.split("?")[1]
+                            ? new Date(window.location.search.split("?")[1].split("&")[1].split("=")[1])
+                            : new Date(Math.round(new Date().getTime() / 1000));
         // Add 1% padding to the right edge of the Chart
         const extraPadding = (timeEnd - timeBegin) * 0.01;
         const viewportMaximum = new Date(timeEnd.getTime() + extraPadding);
