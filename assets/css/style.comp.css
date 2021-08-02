@@ -440,6 +440,7 @@ body {
     position: relative;
     z-index: 10;
     padding: 0 0.5rem;
+    box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
     margin: 1.5rem;
     position: absolute;
     bottom: -0.5rem;
@@ -1074,6 +1075,7 @@ body {
     position: relative;
     z-index: 10;
     padding: 0 0.5rem;
+    box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
     border-radius: 3rem;
     font-size: 1rem;
     padding: 0 0.4rem;
@@ -1487,6 +1489,7 @@ body {
       position: relative;
       z-index: 10;
       padding: 0 0.5rem;
+      box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
       width: 7rem;
       height: 1.2rem;
       border-radius: 1.2rem;
@@ -2052,6 +2055,7 @@ body {
   position: relative;
   z-index: 10;
   padding: 0 0.5rem;
+  box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
   margin: 0;
   width: 2.2rem;
   height: 2.2rem;
@@ -2104,6 +2108,7 @@ body {
     position: relative;
     z-index: 10;
     padding: 0 0.5rem;
+    box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
     height: 2.2rem;
     font-size: 1rem;
     margin: 0; }
@@ -2249,7 +2254,7 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 1px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255, 255, 255, 0.15); }
+    box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15); }
     .toggle__container--disabled {
       background-image: linear-gradient(#737e8d, #3f454e);
       flex-direction: row-reverse; }
@@ -3028,6 +3033,7 @@ button[class*="searchButton"] {
           position: relative;
           z-index: 10;
           padding: 0 0.5rem;
+          box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
           padding: 0.2rem;
           height: 3rem;
           font-size: 1rem;
@@ -3145,6 +3151,7 @@ button[class*="searchButton"] {
       position: relative;
       z-index: 10;
       padding: 0 0.5rem;
+      box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
       height: 3rem;
       font-size: 1.1rem;
       margin: 0;
@@ -3386,6 +3393,7 @@ button[class*="searchButton"] {
       position: relative;
       z-index: 10;
       padding: 0 0.5rem;
+      box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
       height: 3rem;
       font-size: 1rem;
       margin: 0;

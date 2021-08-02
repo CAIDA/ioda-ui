@@ -183,6 +183,7 @@ $breakpoint Argument Choices:
   position: relative;
   z-index: 10;
   padding: 0 0.5rem;
+  box-shadow: $button-box-shadow;
 
   &:before {
     content: '';

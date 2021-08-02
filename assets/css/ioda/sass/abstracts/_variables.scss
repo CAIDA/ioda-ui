@@ -50,6 +50,10 @@ $color-table-datasource-bottom-border: #aaa;
 
 // BOX SHADOW
 $box-shadow: 0 1px 2px #9F9D9D;
+$button-box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, .2),
+                    inset 0 0 0 0.1rem rgba(0, 0, 0, .15),
+                    0 0.1rem 0 rgba(255, 255, 255, .15);
+
 $linear-gradient-primary: linear-gradient(2deg, $color-primary, $color-primary-light);
 $linear-gradient-secondary: linear-gradient(2deg, $color-secondary-dark, $color-secondary-light);
 $linear-gradient-secondary-reverse: linear-gradient(2deg, $color-secondary-light, $color-secondary-dark);
