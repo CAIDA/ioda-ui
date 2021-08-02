@@ -250,7 +250,15 @@ body {
   .control-panel [class^="searchLabel-"] {
     display: none; }
   .control-panel [class^="searchResultsVisible-"] {
-    z-index: 1001; }
+    z-index: 1001;
+    top: 3.5rem; }
+  .control-panel [class^="searchResultsList-"] {
+    margin: 0; }
+  .control-panel [class^="searchResultsListItem-"],
+  .control-panel [class^="searchResultsListItemActive-"] {
+    padding-left: 5px; }
+  .control-panel [class^="searchResultsListItem-"]:hover:after {
+    background-color: #3975BB; }
   .control-panel .range__heading {
     display: flex; }
   .control-panel .range__label {
@@ -265,7 +273,7 @@ body {
     justify-content: center;
     margin-top: -0.5rem;
     margin-left: -0.8rem;
-    height: 3rem;
+    height: 2.7rem;
     padding: 0 0.3rem;
     border-right: 2px solid #DCE4EA; }
     @media only screen and (max-width: 40em) {
@@ -312,7 +320,7 @@ body {
     z-index: 10000;
     position: absolute;
     left: 0;
-    top: 12.5rem;
+    top: 12rem;
     box-shadow: 0 1px 2px #9F9D9D;
     border-radius: 3px; }
     @media only screen and (max-width: 27.5em) {

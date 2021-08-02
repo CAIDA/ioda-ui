@@ -70,6 +70,20 @@
 
   [class^="searchResultsVisible-"] {
     z-index: 1001;
+    top: 3.5rem;
+  }
+
+  [class^="searchResultsList-"] {
+    margin: 0;
+  }
+
+  [class^="searchResultsListItem-"],
+  [class^="searchResultsListItemActive-"] {
+    padding-left: 5px;
+  }
+
+  [class^="searchResultsListItem-"]:hover:after {
+    background-color: $color-secondary;
   }
 
   .range {
@@ -141,7 +155,7 @@
 
       &-field {
         width: 100%;
-        height: auto;
+        height: 2.7rem;
         border: none;
         margin-top: -0.5rem;
         padding-left: 1rem;
@@ -155,7 +169,7 @@
       z-index: 10000;
       position: absolute;
       left: 0;
-      top: 12.5rem;
+      top: 12rem;
       box-shadow: $box-shadow;
       border-radius: 3px;
 
