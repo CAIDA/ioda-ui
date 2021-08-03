@@ -40,6 +40,12 @@ import iodaLogo from 'images/logos/ioda-logo.svg';
 class Nav extends Component {
     constructor(props) {
         super(props);
+        this.checkbox = React.createRef();
+        this.toggleMenu = this.toggleMenu.bind(this);
+    }
+
+    toggleMenu(event) {
+        this.checkbox.current.click();
     }
 
     render() {
@@ -60,51 +66,52 @@ class Nav extends Component {
                             <img src={iodaLogo} alt={iodaLogoAltText} />
                         </Link>
                     </div>
-                    <nav className="header__nav">
-                        <div className="header__nav--mobile">
-                            <input type="checkbox" className="header__checkbox" ref={this.checkbox} id="nav-toggle" />
-                            <label htmlFor="nav-toggle" className="header__button">
-                                <span className="header__icon">&nbsp;</span>
-                            </label>
-                        </div>
-                        <ul className="header__list">
-                            <li className="header__item">
-                                <Link to="/dashboard" className="header__link">
-                                    {dashboard}
-                                </Link>
-                            </li>
-                            <li className="header__item">
-                                <a href="https://ioda.caida.org/ioda/explorer" className="header__link">
-                                    {explorer}
-                                </a>
-                            </li>
-                            <li className="header__item">
-                                <a href="https://github.com/CAIDA/ioda-api/wiki/API-Specification" className="header__link">
-                                    {api}
-                                </a>
-                            </li>
-                            <li className="header__item">
-                                <a href="https://www.caida.org/projects/ioda/" className="header__link">
-                                    {projectInfo}
-                                </a>
-                            </li>
-                            <li className="header__item">
-                                <Link to="/reports" className="header__link">
-                                    {reports}
-                                </Link>
-                            </li>
-                            <li className="header__item">
-                                <Link to="/acknowledgements" className="header__link">
-                                    {acknowledgements}
-                                </Link>
-                            </li>
-                            <li className="header__item">
-                                <Link to="/help" className="header__link">
-                                    {help}
-                                </Link>
-                            </li>
-                        </ul>
-                    </nav>
+                    <div className="header__menu">
+                        <input type="checkbox" className="header__checkbox" ref={this.checkbox} id="nav-toggle" />
+                        <label htmlFor="nav-toggle" className="header__button">
+                            <span className="header__icon">&nbsp;</span>
+                        </label>
+                        <div className="header__background"></div>
+                        <nav className="header__nav">
+                            <ul className="header__list">
+                                <li className="header__item">
+                                    <Link to="/dashboard" className="header__link" onClick={() => this.toggleMenu()}>
+                                        {dashboard}
+                                    </Link>
+                                </li>
+                                <li className="header__item">
+                                    <a href="https://ioda.caida.org/ioda/explorer" className="header__link" onClick={() => this.toggleMenu()}>
+                                        {explorer}
+                                    </a>
+                                </li>
+                                <li className="header__item">
+                                    <a href="https://github.com/CAIDA/ioda-api/wiki/API-Specification" className="header__link" onClick={() => this.toggleMenu()}>
+                                        {api}
+                                    </a>
+                                </li>
+                                <li className="header__item">
+                                    <a href="https://www.caida.org/projects/ioda/" className="header__link" onClick={() => this.toggleMenu()}>
+                                        {projectInfo}
+                                    </a>
+                                </li>
+                                <li className="header__item">
+                                    <Link to="/reports" className="header__link" onClick={() => this.toggleMenu()}>
+                                        {reports}
+                                    </Link>
+                                </li>
+                                <li className="header__item">
+                                    <Link to="/acknowledgements" className="header__link" onClick={() => this.toggleMenu()}>
+                                        {acknowledgements}
+                                    </Link>
+                                </li>
+                                <li className="header__item">
+                                    <Link to="/help" className="header__link" onClick={() => this.toggleMenu()}>
+                                        {help}
+                                    </Link>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
             </div>
         );

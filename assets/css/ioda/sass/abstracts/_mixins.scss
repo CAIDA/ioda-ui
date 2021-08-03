@@ -124,6 +124,10 @@ $breakpoint Argument Choices:
     @media only screen and (max-width: 40em) { @content }; // 640px
   }
 
+  @if $breakpoint == screen-870 {
+    @media only screen and (max-width: 54.375em) { @content }; // 870px
+  }
+
   @if $breakpoint == tab-port {
     @media only screen and (max-width: 64em) { @content }; // 1024px
   }
