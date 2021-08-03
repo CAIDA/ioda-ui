@@ -1553,6 +1553,11 @@ body {
     .table__empty td {
       text-align: center; }
 
+@media not all and (min-resolution: 0.001dpcm) {
+  @supports (-webkit-appearance: none) {
+    .table__cell--overallScore {
+      padding: 1rem 0; } } }
+
 /* required styles */
 .leaflet-map-pane,
 .leaflet-tile,
