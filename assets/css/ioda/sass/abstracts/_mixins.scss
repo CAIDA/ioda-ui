@@ -270,12 +270,18 @@ $breakpoint Argument Choices:
   margin: 4rem 0;
   color: $color-primary;
 
+  @include respond(tab-port) {
+    padding: 1.5rem;
+    margin-top: 4rem;
+  }
+
   & .row {
     max-width: 114rem;
   }
 
   & img {
-    width: 100rem;
+    max-width: 100rem;
+    width: 100%;
     height: auto;
     margin: 1.5rem auto;
     display: block;
