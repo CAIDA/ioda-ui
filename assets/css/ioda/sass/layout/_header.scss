@@ -167,7 +167,7 @@
     list-style-type: none;
     height: auto;
     display: flex;
-    min-width: max-content;
+    min-width: 10rem;
 
     @include respond(screen-870) {
       border-top: 1px solid $color-table-head-border;

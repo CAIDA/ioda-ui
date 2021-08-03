@@ -2493,7 +2493,7 @@ body {
     list-style-type: none;
     height: auto;
     display: flex;
-    min-width: max-content; }
+    min-width: 10rem; }
     @media only screen and (max-width: 54.375em) {
       .header__item {
         border-top: 1px solid #798998;
