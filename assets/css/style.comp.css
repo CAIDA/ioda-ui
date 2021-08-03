@@ -1553,6 +1553,11 @@ body {
     .table__empty td {
       text-align: center; }
 
+@media not all and (min-resolution: 0.001dpcm) {
+  @supports (-webkit-appearance: none) {
+    .table__cell--overallScore {
+      padding: 1rem 0; } } }
+
 /* required styles */
 .leaflet-map-pane,
 .leaflet-tile,
@@ -2525,10 +2530,15 @@ body {
   padding-top: 5rem;
   margin: 4rem 0;
   color: #2c3e50; }
+  @media only screen and (max-width: 64em) {
+    .acknowledgements {
+      padding: 1.5rem;
+      margin-top: 4rem; } }
   .acknowledgements .row {
     max-width: 114rem; }
   .acknowledgements img {
-    width: 100rem;
+    max-width: 100rem;
+    width: 100%;
     height: auto;
     margin: 1.5rem auto;
     display: block;
@@ -2605,10 +2615,15 @@ body {
   padding-top: 5rem;
   margin: 4rem 0;
   color: #2c3e50; }
+  @media only screen and (max-width: 64em) {
+    .helpPage {
+      padding: 1.5rem;
+      margin-top: 4rem; } }
   .helpPage .row {
     max-width: 114rem; }
   .helpPage img {
-    width: 100rem;
+    max-width: 100rem;
+    width: 100%;
     height: auto;
     margin: 1.5rem auto;
     display: block;
@@ -2882,10 +2897,15 @@ button[class*="searchButton"] {
     display: flex;
     flex-direction: column;
     justify-content: center; }
+    @media only screen and (max-width: 64em) {
+      .home .methodology {
+        padding: 1.5rem;
+        margin-top: 4rem; } }
     .home .methodology .row {
       max-width: 114rem; }
     .home .methodology img {
-      width: 100rem;
+      max-width: 100rem;
+      width: 100%;
       height: auto;
       margin: 1.5rem auto;
       display: block;
@@ -3514,38 +3534,78 @@ button[class*="searchButton"] {
 
 .reports {
   padding-top: 5rem;
-  margin-top: 4rem; }
+  margin: 4rem 0;
+  color: #2c3e50; }
+  @media only screen and (max-width: 64em) {
+    .reports {
+      padding: 1.5rem;
+      margin-top: 4rem; } }
   .reports .row {
     max-width: 114rem; }
-  .reports .list {
-    display: flex;
-    justify-content: center; }
-  .reports__text {
-    font-size: 1.3rem; }
-  .reports__list {
-    margin-left: 2.5rem;
-    font-size: 1.3rem; }
-    .reports__list-item a:link:link, .reports__list-item a:link:visited, .reports__list-item a:visited:link, .reports__list-item a:visited:visited {
-      color: #3975BB;
-      font-weight: 700;
-      text-decoration: none;
-      padding-bottom: 2px;
-      margin-bottom: 1px;
-      background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
-      background-size: 100% 0;
-      /* controls underline thickness */
-      transition: ease-in-out 0.3s; }
-      .reports__list-item a:link:link:hover, .reports__list-item a:link:visited:hover, .reports__list-item a:visited:link:hover, .reports__list-item a:visited:visited:hover {
-        background-size: 100% 2px; }
+  .reports img {
+    max-width: 100rem;
+    width: 100%;
+    height: auto;
+    margin: 1.5rem auto;
+    display: block;
+    box-shadow: 0 1px 2px #9F9D9D; }
+  .reports h2 {
+    font-size: 1.9rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-top: 1rem;
+    margin-top: 1.5rem; }
+    .reports h2:before {
+      content: "";
+      width: 100%;
+      height: 0.1rem;
+      background-color: #2c3e50;
+      position: absolute;
+      top: 0;
+      left: 0; }
+  .reports h3 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    margin-left: 2rem; }
+  .reports h4 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    margin-left: 2rem; }
+  .reports ul {
+    margin-left: 4rem;
+    margin-bottom: 1rem; }
+    .reports ul li {
+      font-size: 1.2rem; }
+  .reports p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    margin-left: 2rem; }
+  .reports a:link:link, .reports a:link:visited, .reports a:visited:link, .reports a:visited:visited {
+    color: #3975BB;
+    font-weight: 700;
+    text-decoration: none;
+    padding-bottom: 2px;
+    margin-bottom: 1px;
+    background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
+    background-size: 100% 0;
+    /* controls underline thickness */
+    transition: ease-in-out 0.3s; }
+    .reports a:link:link:hover, .reports a:link:visited:hover, .reports a:visited:link:hover, .reports a:visited:visited:hover {
+      background-size: 100% 2px; }
 
 .report {
   padding-top: 5rem;
   margin: 4rem 0;
   color: #2c3e50; }
+  @media only screen and (max-width: 64em) {
+    .report {
+      padding: 1.5rem;
+      margin-top: 4rem; } }
   .report .row {
     max-width: 114rem; }
   .report img {
-    width: 100rem;
+    max-width: 100rem;
+    width: 100%;
     height: auto;
     margin: 1.5rem auto;
     display: block;
