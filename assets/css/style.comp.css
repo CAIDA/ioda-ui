@@ -2209,6 +2209,11 @@ body {
 .modal__chart {
   margin-bottom: 1.5rem; }
 
+@media not all and (min-resolution: 0.001dpcm) {
+  @supports (-webkit-appearance: none) {
+    .modal__button {
+      align-items: flex-end; } } }
+
 .timestamp {
   display: flex;
   justify-content: flex-end;

@@ -176,3 +176,12 @@
     margin-bottom: 1.5rem;
   }
 }
+
+// safari-only media query
+@media not all and (min-resolution:.001dpcm)
+{ @supports (-webkit-appearance:none) {
+
+  .modal__button {
+    align-items: flex-end;
+  }
+}}
