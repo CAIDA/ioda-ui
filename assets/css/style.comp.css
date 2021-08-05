@@ -2389,7 +2389,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 1999;
   height: 5rem;
   padding: 0 4.5rem; }
   .header__container {
