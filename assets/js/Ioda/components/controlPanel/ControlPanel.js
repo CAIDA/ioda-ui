@@ -22,7 +22,6 @@ import TimeRangePicker from '@wojtekmaj/react-timerange-picker';
 import iconCalendar from 'images/icons/icon-calendar.png';
 // Tooltip Component
 import Tooltip from "../../components/tooltip/Tooltip";
-import ReactDOM from "react-dom";
 import {
     convertDateValuesToSeconds,
     convertSecondsToDateValues,
@@ -55,6 +54,7 @@ class ControlPanel extends Component {
             todaySelected: false,
             lastHourSelected: false,
             userInputSelected: false,
+            last24HoursSelected: false,
             userInputRangeInput: null,
             userInputRangeSelect: "days"
         };
@@ -236,10 +236,9 @@ class ControlPanel extends Component {
                 })
             }
         } else {
-
             // Add conditional to check states for delivering utc time vs normal time.
             let readableDates;
-            if (this.state.lastHourSelected || this.state.userInputSelected) {
+            if (this.state.lastHourSelected || this.state.userInputSelected || this.state.last24HoursSelected) {
                 readableDates = this.setDateInLegend(
                     Math.floor(this.state.selection.startDate.getTime() / 1000),
                     Math.floor(this.state.selection.endDate.getTime() / 1000)
@@ -373,8 +372,6 @@ class ControlPanel extends Component {
                     <option value={selectOptions.hr}>{selectOptions.hr}</option>
                     <option value={selectOptions.day}>{selectOptions.day}</option>
                     <option value={selectOptions.wk}>{selectOptions.wk}</option>
-                    {/*<option value={selectOptions.mon}>{selectOptions.mon}</option>*/}
-                    {/*<option value={selectOptions.yr}>{selectOptions.yr}</option>*/}
                 </select>
             </div>;
             return [
@@ -382,7 +379,8 @@ class ControlPanel extends Component {
                     label: "Today",
                     range: () => ({
                         startDate: defineds.startOfToday,
-                        endDate: defineds.endOfToday
+                        endDate: defineds.endOfToday,
+                        label: "today"
                     })
                 },
                 {
@@ -405,44 +403,26 @@ class ControlPanel extends Component {
                     label: "- 7 days",
                     range: () => ({
                         startDate: defineds.startOfLastSevenDay,
-                        endDate: defineds.endOfToday
+                        endDate: defineds.endOfToday,
+                        label: "last7Days"
                     })
                 },
                 {
                     label: "- 30 days",
                     range: () => ({
                         startDate: defineds.startOfLastThirtyDay,
-                        endDate: defineds.endOfToday
+                        endDate: defineds.endOfToday,
+                        label: "last30Days"
                     })
                 },
-                // {
-                //     label: "- 1 year",
-                //     range: () => ({
-                //         startDate: defineds.startOfLastThreeHundredSixtyFiveDay,
-                //         endDate: defineds.endOfToday
-                //     })
-                // },
                 {
                     label: "This Month",
                     range: () => ({
                         startDate: defineds.startOfMonth,
-                        endDate: defineds.endOfMonth
+                        endDate: defineds.endOfMonth,
+                        label: "thisMonth"
                     })
                 },
-                // {
-                //     label: "This Year",
-                //     range: () => ({
-                //         startDate: defineds.startOfYear,
-                //         endDate: defineds.endOfYear
-                //     })
-                // },
-                // {
-                //     label: "Last Year",
-                //     range: () => ({
-                //         startDate: defineds.startOflastYear,
-                //         endDate: defineds.endOflastYear
-                //     })
-                // },
                 {
                     label: customInputHTML,
                     range: () => ({
@@ -463,7 +443,6 @@ class ControlPanel extends Component {
         // simplify sidebar to a variable, then set it to the static ranges attribute
         const sideBar = sideBarOptions();
         const staticRanges = [
-            // ...defaultStaticRanges,
             ...createStaticRanges(sideBar)
         ];
 
@@ -545,6 +524,7 @@ class ControlPanel extends Component {
                                                     ...this.state,
                                                     todaySelected: true,
                                                     lastHourSelected: false,
+                                                    last24HoursSelected: false,
                                                     customRangeSelected: false,
                                                     userInputSelected: false,
                                                     customRangeVisible: false,
@@ -561,6 +541,23 @@ class ControlPanel extends Component {
                                                     ...this.state,
                                                     todaySelected: false,
                                                     lastHourSelected: true,
+                                                    last24HoursSelected: false,
+                                                    customRangeSelected: false,
+                                                    userInputSelected: false,
+                                                    customRangeVisible: false,
+                                                    timeRange: [
+                                                        `${item.selection.startDate.getUTCHours() < 10 ? `0${item.selection.startDate.getUTCHours()}` : item.selection.startDate.getUTCHours()}:${item.selection.startDate.getUTCMinutes() < 10 ? `0${item.selection.startDate.getUTCMinutes()}` : item.selection.startDate.getUTCMinutes()}:${item.selection.startDate.getUTCSeconds() < 10 ? `0${item.selection.startDate.getUTCSeconds()}` : item.selection.startDate.getUTCSeconds()}`,
+                                                        `${item.selection.endDate.getUTCHours() < 10 ? `0${item.selection.endDate.getUTCHours()}` : item.selection.endDate.getUTCHours()}:${item.selection.endDate.getUTCMinutes() < 10 ? `0${item.selection.endDate.getUTCMinutes()}` : item.selection.endDate.getUTCMinutes()}:${item.selection.endDate.getUTCSeconds() < 10 ? `0${item.selection.endDate.getUTCSeconds()}` : item.selection.endDate.getUTCSeconds()}`
+                                                    ],
+                                                    ...item
+                                                }, this.handleRangeUpdate);
+                                                break;
+                                            case 'last24Hours':
+                                                this.setState({
+                                                    ...this.state,
+                                                    todaySelected: false,
+                                                    lastHourSelected: false,
+                                                    last24HoursSelected: true,
                                                     customRangeSelected: false,
                                                     userInputSelected: false,
                                                     customRangeVisible: false,
@@ -576,6 +573,7 @@ class ControlPanel extends Component {
                                                 this.setState({
                                                     todaySelected: false,
                                                     lastHourSelected: false,
+                                                    last24HoursSelected: false,
                                                     customRangeSelected: false,
                                                     userInputSelected: true,
                                                     customRangeVisible: false,
@@ -586,6 +584,7 @@ class ControlPanel extends Component {
                                                 this.setState({
                                                     todaySelected: false,
                                                     lastHourSelected: false,
+                                                    last24HoursSelected: false,
                                                     customRangeSelected: true,
                                                     userInputSelected: false,
                                                     customRangeVisible: true,
@@ -601,6 +600,20 @@ class ControlPanel extends Component {
                                                 });
                                                 break;
                                             default:
+                                                this.setState({
+                                                    ...this.state,
+                                                    todaySelected: false,
+                                                    lastHourSelected: false,
+                                                    last24HoursSelected: false,
+                                                    userInputSelected: false,
+                                                    customRangeSelected: false,
+                                                    customRangeVisible: false,
+                                                    timeRange: [
+                                                        "00:00:00",
+                                                        "23:59:59"
+                                                    ],
+                                                    ...item
+                                                }, this.handleRangeUpdate);
                                                 break;
                                         }
                                     } else {
@@ -608,6 +621,7 @@ class ControlPanel extends Component {
                                             ...this.state,
                                             todaySelected: false,
                                             lastHourSelected: false,
+                                            last24HoursSelected: false,
                                             userInputSelected: false,
                                             customRangeSelected: false,
                                             customRangeVisible: false,
@@ -616,7 +630,7 @@ class ControlPanel extends Component {
                                                 "23:59:59"
                                             ],
                                             ...item
-                                        }, this.handleRangeUpdate)
+                                        }, this.handleRangeUpdate);
                                     }
                                 }}
                                 months={1}
@@ -628,7 +642,7 @@ class ControlPanel extends Component {
                                 ranges={[this.state.selection]}
                                 staticRanges={staticRanges}
                                 inputRanges = {[]}
-                                rangeColors={["#5899AE"]}
+                                rangeColors={[secondaryColor]}
                             />
                             <div className={this.state.customRangeVisible ? "range__time range__time--visible" : "range__time"}>
                                 {
