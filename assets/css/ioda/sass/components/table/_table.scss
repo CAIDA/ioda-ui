@@ -86,9 +86,6 @@
     & tr td:nth-child(2) {
       width: 20%;
       min-width: 18rem;
-      display: flex;
-      align-items: center;
-      height: 100%;
 
       @include respond(tab-land) {
         min-width: 12rem;
