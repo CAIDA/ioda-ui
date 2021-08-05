@@ -2696,6 +2696,8 @@ button[class*="searchButton"] {
   .home .search {
     display: flex;
     justify-content: center; }
+    .home .search [class^="searchResultsVisible-"] {
+      z-index: 1001; }
     .home .search .section-header {
       margin-bottom: -1rem; }
     .home .search__text {
