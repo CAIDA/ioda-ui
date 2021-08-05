@@ -1216,10 +1216,7 @@ body {
     .table--alert .table__header-col:nth-child(2),
     .table--alert tr td:nth-child(2) {
       width: 20%;
-      min-width: 18rem;
-      display: flex;
-      align-items: center;
-      height: 100%; }
+      min-width: 18rem; }
       @media only screen and (max-width: 80em) {
         .table--alert .table__header-col:nth-child(2),
         .table--alert tr td:nth-child(2) {
@@ -2389,7 +2386,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 1999;
   height: 5rem;
   padding: 0 4.5rem; }
   .header__container {
@@ -2696,6 +2693,10 @@ button[class*="searchButton"] {
   .home .search {
     display: flex;
     justify-content: center; }
+    .home .search [class^="searchLabel-"] {
+      display: none; }
+    .home .search [class^="searchResultsVisible-"] {
+      z-index: 1001; }
     .home .search .section-header {
       margin-bottom: -1rem; }
     .home .search__text {

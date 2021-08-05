@@ -90,6 +90,8 @@ class TopoMap extends Component {
                     bounds={this.props.bounds ? this.props.bounds : null}
                     minZoom={1}
                     scrollWheelZoom={false}
+                    touchZoom={true}
+                    dragging={!this.state.screenWidthBelow680}
                     style={{width: 'inherit', height: 'inherit', overflow: 'hidden'}}
                 >
                     <TileLayer

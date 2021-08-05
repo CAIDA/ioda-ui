@@ -28,6 +28,14 @@ button[class*="searchButton"] {
     display: flex;
     justify-content: center;
 
+    [class^="searchLabel-"] {
+      display: none;
+    }
+
+    [class^="searchResultsVisible-"] {
+      z-index: 1001;
+    }
+
     & .section-header {
       margin-bottom: -1rem;
     }
