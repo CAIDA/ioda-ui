@@ -37,7 +37,7 @@ class DashboardTab extends Component {
                         font-style: italic;
                         position: absolute;
                         top: 1rem;
-                        left: -5.5rem;
+                        left: -5.65rem;
                         color: #2c3e50;
                         font-weight: 400;
                     }
@@ -67,7 +67,7 @@ class DashboardTab extends Component {
                                         >
                                             {
                                                 <img className="tab__config-button-img"
-                                                     src={this.props.tabCurrentView === 'timeSeries' ? iconChart : iconGlobe}
+                                                     src={this.props.tabCurrentView === 'timeSeries' ? iconGlobe : iconChart}
                                                      alt={this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts}
                                                      title={this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts}
                                                 />
