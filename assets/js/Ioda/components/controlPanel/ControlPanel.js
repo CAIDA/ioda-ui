@@ -138,7 +138,6 @@ class ControlPanel extends Component {
     }
     // Checkbox in custom range menu to toggle time selected as the entire day
     handleWholeDaySelection() {
-        console.log("handleWholeDaySelection");
         this.setState({
             timeRange: ["00:00:00", "23:59:59"],
             selection: {

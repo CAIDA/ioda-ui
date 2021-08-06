@@ -1220,7 +1220,7 @@ body {
       @media only screen and (max-width: 80em) {
         .table--alert .table__header-col:nth-child(2),
         .table--alert tr td:nth-child(2) {
-          min-width: 12rem; } }
+          min-width: 13rem; } }
       .table--alert .table__header-col:nth-child(2) p,
       .table--alert tr td:nth-child(2) p {
         display: flex;
@@ -2029,13 +2029,28 @@ body {
       margin-right: 0.5rem; }
     .modal__heading-title .help__modal {
       top: 0; }
+      @media only screen and (max-width: 64em) {
+        .modal__heading-title .help__modal {
+          top: 4rem;
+          left: -21rem; } }
       .modal__heading-title .help__modal-content:before {
         top: 1.3rem;
         background: #f7f7f7; }
+        @media only screen and (max-width: 64em) {
+          .modal__heading-title .help__modal-content:before {
+            top: 0;
+            left: 20.5rem; } }
       .modal__heading-title .help__modal-content:after {
         top: 0;
         background: #f7f7f7;
         transform: translateY(0); }
+        @media only screen and (max-width: 64em) {
+          .modal__heading-title .help__modal-content:after {
+            height: 4.25rem;
+            width: 1.5em;
+            left: 20.5rem;
+            top: -1.2rem;
+            transform: translateY(0) rotate(90deg); } }
 
 .modal__hts-count {
   font-size: 1.1rem; }
@@ -3458,9 +3473,7 @@ button[class*="searchButton"] {
       padding: 2rem; }
       @media only screen and (max-width: 64em) {
         .entity .related .col-1-of-2 {
-          height: unset; }
-          .entity .related .col-1-of-2 .map {
-            height: unset !important; } }
+          height: unset; } }
       .entity .related .col-1-of-2 .table--summary tbody {
         max-height: 34rem; }
     .entity .related__heading {

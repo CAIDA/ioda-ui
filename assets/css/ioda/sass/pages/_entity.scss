@@ -299,10 +299,6 @@
 
       @include respond(tab-port) {
         height: unset;
-
-        & .map {
-          height: unset!important;
-        }
       }
 
       & .table--summary tbody {
