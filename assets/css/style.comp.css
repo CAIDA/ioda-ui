@@ -2712,6 +2712,8 @@ button[class*="searchButton"] {
       display: none; }
     .home .search [class^="searchResultsVisible-"] {
       z-index: 1001; }
+    .home .search [class^="searchResultsListItem-"]:hover:after {
+      background-color: #3975BB; }
     .home .search .section-header {
       margin-bottom: -1rem; }
     .home .search__text {
