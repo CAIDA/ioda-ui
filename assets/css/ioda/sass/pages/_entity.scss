@@ -145,14 +145,28 @@
       .canvasjs-chart-toolbar button[title="Zoom"] {
         height: 1.6rem!important;
         padding: 0.2rem!important;
-        width: 4.2rem!important;
+        width: 5.4rem!important;
         position: relative;
         border-right: none!important;
-        margin-right: 2rem;
-        background-color: #ECF0F1!important;
+        margin-right: 5rem;
         cursor: pointer;
-        border-radius: 0.3rem;
+        border-radius: 0.4rem;
         margin-top: 0.5rem;
+        background: linear-gradient(
+                        2deg
+                , $color-secondary-dark, $color-secondary-light);
+
+
+        color: $color-white;
+        padding: 0.25rem 0.5rem;
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+        left: 2.3rem;
+        transition: all 0.3s ease;
+        box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, .2),
+        inset 0 0 0 1px rgba(0, 0, 0, .15),
+        0 1px 0 rgba(255, 255, 255, .15);
       }
       .canvasjs-chart-toolbar button[title="Reset"] img,
       .canvasjs-chart-toolbar button[title="Pan"] img,
@@ -175,52 +189,52 @@
       }
       .canvasjs-chart-toolbar button[title="Pan"]:after,
       .canvasjs-chart-toolbar button[title="Zoom"]:after {
-        top: 0.2rem;
         font-size: 0.7rem;
         line-height: 0.8rem;
         font-weight: bold;
         cursor: pointer;
-        background: linear-gradient(
-                        2deg
-                , $color-secondary-dark, $color-secondary-light);
+        background: linear-gradient(#c0c6c9,#81898f);
         color: $color-white;
         padding: 0.4rem 0.6rem;
-        box-shadow: 0 1px 2px #9f9d9d;
+        box-shadow: $button-box-shadow;
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 2.7rem;
+        width: 0;
         height: 1.6rem;
-        border-radius: 0.3rem;
         box-sizing: border-box;
         position: absolute;
-        left: 1.7rem;
+        left: 0;
+        top: 0;
         transition: all 0.3s ease;
+        border-radius: 0.4rem;
       }
       .canvasjs-chart-toolbar button[title="Pan"]:after {
-        content: "ZOOM";
+        content: "\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0ZOOM";
+        justify-content: flex-start;
+        padding-left: 1.2rem;
       }
       .canvasjs-chart-toolbar button[title="Zoom"]:after {
-        content: "PAN";
-        left: 0.2rem;
+        content: "PAN\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0";
+        left: 3.5rem;
+        justify-content: flex-end;
+        padding-left: 1.2rem;
       }
       .canvasjs-chart-toolbar button[title="Pan"]::before,
       .canvasjs-chart-toolbar button[title="Zoom"]::before {
         content: "Toggle Pan/Zoom";
         position: absolute;
         top: 0;
-        left: -8rem;
+        left: -8.2rem;
         font-style: italic;
         color: black;
         font-size: 0.9rem;
-        background-color: #ECF0F1 !important;
+        background-color: $color-white;
         height: 1.6rem;
-        border-top-left-radius: 0.3rem;
-        border-bottom-left-radius: 0.3rem;
-        border-right: 1px solid #ccc;
         display: flex;
         align-items: center;
         padding: 0 0.5rem;
+        z-index: 10;
       }
 
       .canvasjs-chart-credit {
