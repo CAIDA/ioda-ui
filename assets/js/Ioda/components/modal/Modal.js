@@ -65,6 +65,8 @@ class Modal extends Component {
         const bgpHtsLabel = T.translate("entityModal.bgpHtsLabel");
         const ucsdNtHtsLabel = T.translate("entityModal.ucsdNtHtsLabel");
         const checkMaxButton = T.translate("entityModal.checkMaxButton");
+        const checkMaxButtonBelow150_1 = T.translate("entityModal.checkMaxButtonBelow150_1");
+        const checkMaxButtonBelow150_2 = T.translate("entityModal.checkMaxButtonBelow150_2");
         const uncheckAllButton = T.translate("entityModal.uncheckAllButton");
         const currentCountInHts1 = T.translate("entityModal.currentCountInHts1");
         const regionSingular = T.translate("entityModal.regionSingular");
@@ -154,7 +156,11 @@ class Modal extends Component {
                                                     {
                                                         this.props.checkMaxButtonLoading ? <img src={LoadingIcon} className="modal__loadAll-spinner" alt="Loading"/>
                                                             : <button className="modal__button--table" name="checkMaxRegional" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
-                                                                {checkMaxButton}
+                                                                {
+                                                                    this.props.regionalSignalsTableSummaryDataProcessed.length < 150
+                                                                        ? `${checkMaxButtonBelow150_1}${this.props.regionalSignalsTableSummaryDataProcessed.length}${checkMaxButtonBelow150_2}`
+                                                                        : checkMaxButton
+                                                                }
                                                             </button>
                                                     }
                                                     {

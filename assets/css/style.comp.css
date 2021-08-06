@@ -2712,6 +2712,8 @@ button[class*="searchButton"] {
       display: none; }
     .home .search [class^="searchResultsVisible-"] {
       z-index: 1001; }
+    .home .search [class^="searchResultsListItem-"]:hover:after {
+      background-color: #3975BB; }
     .home .search .section-header {
       margin-bottom: -1rem; }
     .home .search__text {
@@ -3320,6 +3322,9 @@ button[class*="searchButton"] {
     /***************/ }
     .entity .overview__xy-wrapper .canvasjs-chart-toolbar {
       border: none !important; }
+      @media only screen and (max-width: 60.625em) {
+        .entity .overview__xy-wrapper .canvasjs-chart-toolbar {
+          top: 3rem !important; } }
     .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Reset"] {
       background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
       border-radius: 0.5rem;
@@ -3349,14 +3354,22 @@ button[class*="searchButton"] {
     .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Zoom"] {
       height: 1.6rem !important;
       padding: 0.2rem !important;
-      width: 4.2rem !important;
+      width: 5.4rem !important;
       position: relative;
       border-right: none !important;
-      margin-right: 2rem;
-      background-color: #ECF0F1 !important;
+      margin-right: 5rem;
       cursor: pointer;
-      border-radius: 0.3rem;
-      margin-top: 0.5rem; }
+      border-radius: 0.4rem;
+      margin-top: 0.5rem;
+      background: linear-gradient(2deg, #1A5DAE, #598DCC);
+      color: #fff;
+      padding: 0.25rem 0.5rem;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+      left: 2.3rem;
+      transition: all 0.3s ease;
+      box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 1px rgba(0, 0, 0, 0.15), 0 1px 0 rgba(255, 255, 255, 0.15); }
     .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Reset"] img,
     .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Pan"] img,
     .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Zoom"] img {
@@ -3375,47 +3388,49 @@ button[class*="searchButton"] {
       left: 0; }
     .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Pan"]:after,
     .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Zoom"]:after {
-      top: 0.2rem;
       font-size: 0.7rem;
       line-height: 0.8rem;
       font-weight: bold;
       cursor: pointer;
-      background: linear-gradient(2deg, #286F86, #7FB7CA);
+      background: linear-gradient(#c0c6c9, #81898f);
       color: #fff;
       padding: 0.4rem 0.6rem;
-      box-shadow: 0 1px 2px #9f9d9d;
+      box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 2.7rem;
+      width: 0;
       height: 1.6rem;
-      border-radius: 0.3rem;
       box-sizing: border-box;
       position: absolute;
-      left: 1.7rem;
-      transition: all 0.3s ease; }
+      left: 0;
+      top: 0;
+      transition: all 0.3s ease;
+      border-radius: 0.4rem; }
     .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Pan"]:after {
-      content: "ZOOM"; }
+      content: "\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0ZOOM";
+      justify-content: flex-start;
+      padding-left: 1.2rem; }
     .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Zoom"]:after {
-      content: "PAN";
-      left: 0.2rem; }
+      content: "PAN\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0";
+      left: 3.5rem;
+      justify-content: flex-end;
+      padding-left: 1.2rem; }
     .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Pan"]::before,
     .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Zoom"]::before {
       content: "Toggle Pan/Zoom";
       position: absolute;
       top: 0;
-      left: -8rem;
+      left: -8.2rem;
       font-style: italic;
       color: black;
       font-size: 0.9rem;
-      background-color: #ECF0F1 !important;
+      background-color: #fff;
       height: 1.6rem;
-      border-top-left-radius: 0.3rem;
-      border-bottom-left-radius: 0.3rem;
-      border-right: 1px solid #ccc;
       display: flex;
       align-items: center;
-      padding: 0 0.5rem; }
+      padding: 0 0.5rem;
+      z-index: 10; }
     .entity .overview__xy-wrapper .canvasjs-chart-credit {
       display: none; }
     @media only screen and (max-width: 30em) {

@@ -856,7 +856,6 @@ class Entity extends Component {
         }
 
         // get time span considered, using network telescope first as that data source has the most up to time data, then Ping-slash24, then bgp
-        console.log("update5");
         const timeBegin =
             networkTelescopeValues && networkTelescopeValues[0]
                 ? networkTelescopeValues[0].x
