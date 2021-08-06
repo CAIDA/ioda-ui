@@ -182,6 +182,8 @@
     "regionalMapTitle": "Map of Regional Outages",
     "noOutagesOnMapMessage": "No Regional Outages Detected",
     "checkMaxButton": "Check Max (150)",
+    "checkMaxButtonBelow150_1": "Check Max (",
+    "checkMaxButtonBelow150_2": ")",
     "uncheckAllButton": "Uncheck All",
     "loadRemainingEntities1": "Number of",
     "loadRemainingEntities2": " initially capped at ",
