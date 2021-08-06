@@ -3322,6 +3322,9 @@ button[class*="searchButton"] {
     /***************/ }
     .entity .overview__xy-wrapper .canvasjs-chart-toolbar {
       border: none !important; }
+      @media only screen and (max-width: 60.625em) {
+        .entity .overview__xy-wrapper .canvasjs-chart-toolbar {
+          top: 4rem !important; } }
     .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Reset"] {
       background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
       border-radius: 0.5rem;
@@ -3382,7 +3385,7 @@ button[class*="searchButton"] {
       line-height: 0.8rem;
       font-weight: bold;
       cursor: pointer;
-      background: linear-gradient(2deg, #286F86, #7FB7CA);
+      background: linear-gradient(2deg, #1A5DAE, #598DCC);
       color: #fff;
       padding: 0.4rem 0.6rem;
       box-shadow: 0 1px 2px #9f9d9d;
