@@ -97,7 +97,7 @@ class Dashboard extends Component {
             let newFrom = convertTimeToSecondsForURL(providedFrom);
             let newUntil = convertTimeToSecondsForURL(providedUntil);
 
-
+            // trigger api calls with valid date ranges
             if (newUntil - newFrom > 0) {
                 this.setState({
                     from: newFrom,
