@@ -1,12 +1,10 @@
 body {
-  font-family: 'Lato', sans-serif;
-  font-weight: 400;
+  font-family: 'Lato-Regular', sans-serif;
   line-height: 1.7;
 }
 
 .section-header {
-  font-family: 'Lato', sans-serif;
-  font-weight: 700;
+  font-family: 'Lato-Bold', sans-serif;
   font-size: 2.6rem;
 }
 
@@ -24,4 +22,30 @@ body {
   font-size: 1.5rem;
   color: $color-primary;
   margin-bottom: 1rem;
+}
+
+@font-face {
+  font-family: "Lato-Black";
+  src: url("/fonts/Lato-Black.woff") format("woff");
+}
+@font-face {
+  font-family: "Lato-Bold";
+  src: url("/fonts/Lato-Bold.woff") format("woff");
+}
+@font-face {
+  font-family: "Lato-Italic";
+  src: url("/fonts/Lato-Italic.woff") format("woff");
+}
+@font-face {
+  font-family: "Lato-Light";
+  src: url("/fonts/Lato-Light.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Lato-Regular";
+  src: url("/fonts/Lato-Regular.woff") format("woff");
+}
+@font-face {
+  font-family: "Lato-Thin";
+  src: url("/fonts/Lato-Thin.woff") format("woff");
 }
