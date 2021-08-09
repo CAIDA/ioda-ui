@@ -533,76 +533,47 @@ class Dashboard extends Component {
                             handleSelectTab={this.handleSelectTab}
                         />
                         {
-                            tab === this.countryTab
+                            tab !== this.asnTab
                                 ? this.state.topoData || this.state.until - this.state.from > controlPanelTimeRangeLimit
-                                ? <DashboardTab
-                                    type={this.state.activeTabType}
-                                    populateGeoJsonMap={() => this.populateGeoJsonMap()}
-                                    populateHtsChart={(width) => this.populateHtsChart(width)}
-                                    handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
-                                    tabCurrentView={this.state.tabCurrentView}
-                                    from={this.state.from}
-                                    until={this.state.until}
-                                    // display error text if from value is higher than until value
-                                    displayTimeRangeError={this.state.displayTimeRangeError}
-                                    // to populate summary table
-                                    summaryDataProcessed={this.state.summaryDataProcessed}
-                                    totalOutages={this.state.totalOutages}
-                                    activeTabType={this.state.activeTabType}
-                                    genSummaryTableDataProcessed={this.state.genSummaryTableDataProcessed}
-                                />
-                                : this.state.displayTimeRangeError ?
-                                    <Error/>
-                                    : <Loading/>
-                                : null
-                        }
-                        {
-                            tab === this.regionTab
-                                ? this.state.topoData || this.state.until - this.state.from > controlPanelTimeRangeLimit
-                                ? <DashboardTab
-                                    type={this.state.activeTabType}
-                                    populateGeoJsonMap={() => this.populateGeoJsonMap()}
-                                    populateHtsChart={(width) => this.populateHtsChart(width)}
-                                    handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
-                                    tabCurrentView={this.state.tabCurrentView}
-                                    from={this.state.from}
-                                    until={this.state.until}
-                                    // display error text if from value is higher than until value
-                                    displayTimeRangeError={this.state.displayTimeRangeError}
-                                    // to populate summary table
-                                    summaryDataProcessed={this.state.summaryDataProcessed}
-                                    totalOutages={this.state.totalOutages}
-                                    activeTabType={this.state.activeTabType}
-                                    genSummaryTableDataProcessed={this.state.genSummaryTableDataProcessed}
-                                />
-                                : this.state.displayTimeRangeError ?
-                                    <Error/>
-                                    : <Loading/>
-                                : null
-                        }
-                        {
-                            tab === this.asnTab
-                                ? this.state.eventDataProcessed || this.state.until - this.state.from > controlPanelTimeRangeLimit
-                                ? <DashboardTab
-                                    type={this.state.activeTabType}
-                                    populateHtsChart={(width) => this.populateHtsChart(width)}
-                                    handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
-                                    tabCurrentView={this.state.tabCurrentView}
-                                    from={this.state.from}
-                                    until={this.state.until}
-                                    // display error text if from value is higher than until value
-                                    displayTimeRangeError={this.state.displayTimeRangeError}
-                                    // to populate summary table
-                                    summaryDataProcessed={this.state.summaryDataProcessed}
-                                    totalOutages={this.state.totalOutages}
-                                    activeTabType={this.state.activeTabType}
-                                    genSummaryTableDataProcessed={this.state.genSummaryTableDataProcessed}
-                                />
-                                :
+                                    ? <DashboardTab
+                                        type={this.state.activeTabType}
+                                        populateGeoJsonMap={() => this.populateGeoJsonMap()}
+                                        populateHtsChart={(width) => this.populateHtsChart(width)}
+                                        handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
+                                        tabCurrentView={this.state.tabCurrentView}
+                                        from={this.state.from}
+                                        until={this.state.until}
+                                        // display error text if from value is higher than until value
+                                        displayTimeRangeError={this.state.displayTimeRangeError}
+                                        // to populate summary table
+                                        summaryDataProcessed={this.state.summaryDataProcessed}
+                                        totalOutages={this.state.totalOutages}
+                                        activeTabType={this.state.activeTabType}
+                                        genSummaryTableDataProcessed={this.state.genSummaryTableDataProcessed}
+                                    />
+                                    : this.state.displayTimeRangeError
+                                        ? <Error/>
+                                        : <Loading/>
+                                : this.state.eventDataProcessed || this.state.until - this.state.from > controlPanelTimeRangeLimit
+                                    ? <DashboardTab
+                                        type={this.state.activeTabType}
+                                        populateHtsChart={(width) => this.populateHtsChart(width)}
+                                        handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
+                                        tabCurrentView={this.state.tabCurrentView}
+                                        from={this.state.from}
+                                        until={this.state.until}
+                                        // display error text if from value is higher than until value
+                                        displayTimeRangeError={this.state.displayTimeRangeError}
+                                        // to populate summary table
+                                        summaryDataProcessed={this.state.summaryDataProcessed}
+                                        totalOutages={this.state.totalOutages}
+                                        activeTabType={this.state.activeTabType}
+                                        genSummaryTableDataProcessed={this.state.genSummaryTableDataProcessed}
+                                    />
+                                    :
                                     this.state.displayTimeRangeError ?
                                         <Error/>
                                         : <Loading/>
-                                : null
                         }
                     </div>
                 </div>
