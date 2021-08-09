@@ -271,78 +271,52 @@ class Dashboard extends Component {
     }
 
 // Tabbing
+
     // Function to map active tab to state and manage url
     handleSelectTab = selectedKey => {
         console.time('handleSelectTab');
         const { history } = this.props;
 
+        let tabValue, activeTabType, url;
         if (selectedKey === asn.tab) {
-            this.setState({
-                activeTab: selectedKey,
-                tab: this.asnTab,
-                activeTabType: asn.type,
-                // Trigger Data Update for new tab
-                tabCurrentView: "map",
-                topoData: null,
-                summaryDataRaw: null,
-                eventDataRaw: [],
-                eventDataProcessed: null,
-                eventEndpointCalled: false,
-                totalEventCount: 0
-            });
-            if (history.location.pathname !== asn.url) {
-                if (window.location.search) {
-                    history.push(`${asn.url}/?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`);
-                } else {
-                    history.push(asn.url);
-                }
-            }
+            tabValue = this.asnTab;
+            activeTabType = asn.type;
+            url = asn.url;
         }
-        else if (selectedKey === region.tab) {
-            this.setState({
-                activeTab: selectedKey,
-                tab: this.regionTab,
-                activeTabType: region.type,
-                // Trigger Data Update for new tab
-                tabCurrentView: "map",
-                topoData: null,
-                summaryDataRaw: null,
-                eventDataRaw: [],
-                eventDataProcessed: null,
-                eventEndpointCalled: false,
-                totalEventCount: 0
-            });
-            if (window.location.search) {
-                history.push(`${region.url}/?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`);
-            } else {
-                history.push(region.url);
-            }
+        if (selectedKey === region.tab) {
+            tabValue = this.regionTab;
+            activeTabType = region.type;
+            url = region.url;
+        }
+        if (selectedKey === country.tab || !selectedKey) {
+            tabValue = this.countryTab;
+            activeTabType = country.type;
+            url = country.url;
+        }
+        this.setState({
+            activeTab: selectedKey,
+            tab: tabValue,
+            activeTabType: activeTabType,
+            // Trigger Data Update for new tab
+            tabCurrentView: "map",
+            topoData: null,
+            summaryDataRaw: null,
+            eventDataRaw: [],
+            eventDataProcessed: null,
+            eventEndpointCalled: false,
+            totalEventCount: 0
+        });
 
-        }
-        else if (selectedKey === country.tab) {
-            this.setState({
-                activeTab: country.tab,
-                tab: this.countryTab,
-                activeTabType: country.type,
-                // Trigger Data Update for new tab
-                tabCurrentView: "map",
-                topoData: null,
-                summaryDataRaw: null,
-                eventDataRaw: [],
-                eventDataProcessed: null,
-                eventEndpointCalled: false,
-                totalEventCount: 0
-            });
-            if (history.location.pathname !== country.url) {
-                if (window.location.search) {
-                    history.push(`${country.url}/?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`);
-                } else {
-                    history.push(country.url);
-                }
+        if (history.location.pathname !== url) {
+            if (window.location.search) {
+                history.push(`${url}/?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`);
+            } else {
+                history.push(url);
             }
         }
         console.timeEnd('handleSelectTab');
     }
+
     handleTabChangeViewButton() {
         console.time('handleTabChangeViewButton');
         if (this.state.tabCurrentView === 'map') {
