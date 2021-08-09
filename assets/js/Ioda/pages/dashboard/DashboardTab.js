@@ -6,6 +6,7 @@ import Tooltip from "../../components/tooltip/Tooltip";
 import iconGlobe from 'images/icons/icon-globe.png';
 import iconChart from 'images/icons/icon-chart.png';
 import { Style } from "react-style-tag";
+import Table from "../../components/table/Table";
 
 
 class DashboardTab extends Component {
@@ -97,7 +98,15 @@ class DashboardTab extends Component {
                             <div className="col-1-of-3">
                                 <div className="tab__table">
                                     {
-                                        this.props.genSummaryTable()
+                                        this.props.activeTabType &&
+                                        this.props.totalOutages &&
+                                        this.props.genSummaryTableDataProcessed &&
+                                        <Table
+                                            type={"summary"}
+                                            data={this.props.summaryDataProcessed}
+                                            totalCount={this.props.totalOutages}
+                                            entityType={this.props.activeTabType}
+                                        />
                                     }
                                 </div>
                             </div>

@@ -64,6 +64,8 @@ class Dashboard extends Component {
             // Summary Table
             summaryDataRaw: null,
             summaryDataProcessed: [],
+            // Determine when data is available for table so multiple calls to populate the table aren't made
+            genSummaryTableDataProcessed: false,
             totalOutages: 0,
             // Summary Table Pagination
             apiPageNumber: 0,
@@ -267,76 +269,51 @@ class Dashboard extends Component {
     }
 
 // Tabbing
+
     // Function to map active tab to state and manage url
     handleSelectTab = selectedKey => {
         const { history } = this.props;
 
+        let tabValue, activeTabType, url;
         if (selectedKey === asn.tab) {
-            this.setState({
-                activeTab: selectedKey,
-                tab: this.asnTab,
-                activeTabType: asn.type,
-                // Trigger Data Update for new tab
-                tabCurrentView: "map",
-                topoData: null,
-                summaryDataRaw: null,
-                eventDataRaw: [],
-                eventDataProcessed: null,
-                eventEndpointCalled: false,
-                totalEventCount: 0
-            });
-            if (history.location.pathname !== asn.url) {
-                if (window.location.search) {
-                    history.push(`${asn.url}/?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`);
-                } else {
-                    history.push(asn.url);
-                }
-            }
+            tabValue = this.asnTab;
+            activeTabType = asn.type;
+            url = asn.url;
         }
-        else if (selectedKey === region.tab) {
-            this.setState({
-                activeTab: selectedKey,
-                tab: this.regionTab,
-                activeTabType: region.type,
-                // Trigger Data Update for new tab
-                tabCurrentView: "map",
-                topoData: null,
-                summaryDataRaw: null,
-                eventDataRaw: [],
-                eventDataProcessed: null,
-                eventEndpointCalled: false,
-                totalEventCount: 0
-            });
-            if (window.location.search) {
-                history.push(`${region.url}/?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`);
-            } else {
-                history.push(region.url);
-            }
+        if (selectedKey === region.tab) {
+            tabValue = this.regionTab;
+            activeTabType = region.type;
+            url = region.url;
+        }
+        if (selectedKey === country.tab || !selectedKey) {
+            tabValue = this.countryTab;
+            activeTabType = country.type;
+            url = country.url;
+        }
+        this.setState({
+            activeTab: selectedKey ? selectedKey : country.tab,
+            tab: tabValue,
+            activeTabType: activeTabType,
+            // Trigger Data Update for new tab
+            tabCurrentView: "map",
+            topoData: null,
+            summaryDataRaw: null,
+            genSummaryTableDataProcessed: false,
+            eventDataRaw: [],
+            eventDataProcessed: null,
+            eventEndpointCalled: false,
+            totalEventCount: 0
+        });
 
-        }
-        else if (selectedKey === country.tab) {
-            this.setState({
-                activeTab: country.tab,
-                tab: this.countryTab,
-                activeTabType: country.type,
-                // Trigger Data Update for new tab
-                tabCurrentView: "map",
-                topoData: null,
-                summaryDataRaw: null,
-                eventDataRaw: [],
-                eventDataProcessed: null,
-                eventEndpointCalled: false,
-                totalEventCount: 0
-            });
-            if (history.location.pathname !== country.url) {
-                if (window.location.search) {
-                    history.push(`${country.url}/?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`);
-                } else {
-                    history.push(country.url);
-                }
+        if (history.location.pathname !== url) {
+            if (window.location.search) {
+                history.push(`${url}/?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`);
+            } else {
+                history.push(url);
             }
         }
     }
+
     handleTabChangeViewButton() {
         if (this.state.tabCurrentView === 'map') {
             this.setState({tabCurrentView: 'timeSeries'}, () => {
@@ -401,7 +378,6 @@ class Dashboard extends Component {
             });
             return <TopoMap topoData={topoData} scores={scores} handleEntityShapeClick={this.handleEntityShapeClick}/>;
         }
-
     }
     // Make API call to retrieve topographic data
     getDataTopo(entityType) {
@@ -438,7 +414,7 @@ class Dashboard extends Component {
                 return entity.entity.code;
             }
         }).toString();
-        this.props.getEventSignalsAction(entityType, entities, from, until, attr, order)
+        this.props.getEventSignalsAction(entityType, entities, from, until, attr, order);
     }
     convertValuesForHtsViz() {
         let eventDataProcessed = [];
@@ -454,6 +430,7 @@ class Dashboard extends Component {
         });
     }
     populateHtsChart(width) {
+        // console.time('populateHtsChart');
         if (this.state.eventDataProcessed) {
             const myChart = HorizonTSChart()(document.getElementById(`horizon-chart`));
             myChart
@@ -472,6 +449,7 @@ class Dashboard extends Component {
                 // .positiveColorStops([.99])
                 .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
         }
+        // console.timeEnd('populateHtsChart');
     }
 
 // Search bar
@@ -518,34 +496,20 @@ class Dashboard extends Component {
 
 // Summary Table
     convertValuesForSummaryTable() {
+
         let summaryData = convertValuesForSummaryTable(this.state.summaryDataRaw);
         if (this.state.apiPageNumber === 0) {
             this.setState({
-                summaryDataProcessed: summaryData
-            }, () => {
-                this.genSummaryTable();
+                summaryDataProcessed: summaryData,
+                genSummaryTableDataProcessed: true
             })
         }
 
         if (this.state.apiPageNumber > 0) {
             this.setState({
                 summaryDataProcessed: this.state.summaryDataProcessed.concat(summaryData)
-            }, () => {
-                this.genSummaryTable();
             })
         }
-
-
-    }
-    genSummaryTable() {
-        return (
-            <Table
-                type={"summary"}
-                data={this.state.summaryDataProcessed}
-                totalCount={this.state.totalOutages}
-                entityType={this.state.activeTabType}
-            />
-        )
     }
 
     render() {
@@ -574,7 +538,6 @@ class Dashboard extends Component {
                                 ? <DashboardTab
                                     type={this.state.activeTabType}
                                     populateGeoJsonMap={() => this.populateGeoJsonMap()}
-                                    genSummaryTable={() => this.genSummaryTable()}
                                     populateHtsChart={(width) => this.populateHtsChart(width)}
                                     handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
                                     tabCurrentView={this.state.tabCurrentView}
@@ -582,6 +545,11 @@ class Dashboard extends Component {
                                     until={this.state.until}
                                     // display error text if from value is higher than until value
                                     displayTimeRangeError={this.state.displayTimeRangeError}
+                                    // to populate summary table
+                                    summaryDataProcessed={this.state.summaryDataProcessed}
+                                    totalOutages={this.state.totalOutages}
+                                    activeTabType={this.state.activeTabType}
+                                    genSummaryTableDataProcessed={this.state.genSummaryTableDataProcessed}
                                 />
                                 : this.state.displayTimeRangeError ?
                                     <Error/>
@@ -594,7 +562,6 @@ class Dashboard extends Component {
                                 ? <DashboardTab
                                     type={this.state.activeTabType}
                                     populateGeoJsonMap={() => this.populateGeoJsonMap()}
-                                    genSummaryTable={() => this.genSummaryTable()}
                                     populateHtsChart={(width) => this.populateHtsChart(width)}
                                     handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
                                     tabCurrentView={this.state.tabCurrentView}
@@ -602,6 +569,11 @@ class Dashboard extends Component {
                                     until={this.state.until}
                                     // display error text if from value is higher than until value
                                     displayTimeRangeError={this.state.displayTimeRangeError}
+                                    // to populate summary table
+                                    summaryDataProcessed={this.state.summaryDataProcessed}
+                                    totalOutages={this.state.totalOutages}
+                                    activeTabType={this.state.activeTabType}
+                                    genSummaryTableDataProcessed={this.state.genSummaryTableDataProcessed}
                                 />
                                 : this.state.displayTimeRangeError ?
                                     <Error/>
@@ -613,7 +585,6 @@ class Dashboard extends Component {
                                 ? this.state.eventDataProcessed || this.state.until - this.state.from > controlPanelTimeRangeLimit
                                 ? <DashboardTab
                                     type={this.state.activeTabType}
-                                    genSummaryTable={() => this.genSummaryTable()}
                                     populateHtsChart={(width) => this.populateHtsChart(width)}
                                     handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
                                     tabCurrentView={this.state.tabCurrentView}
@@ -621,6 +592,11 @@ class Dashboard extends Component {
                                     until={this.state.until}
                                     // display error text if from value is higher than until value
                                     displayTimeRangeError={this.state.displayTimeRangeError}
+                                    // to populate summary table
+                                    summaryDataProcessed={this.state.summaryDataProcessed}
+                                    totalOutages={this.state.totalOutages}
+                                    activeTabType={this.state.activeTabType}
+                                    genSummaryTableDataProcessed={this.state.genSummaryTableDataProcessed}
                                 />
                                 :
                                     this.state.displayTimeRangeError ?
