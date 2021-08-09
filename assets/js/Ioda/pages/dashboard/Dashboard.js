@@ -64,6 +64,8 @@ class Dashboard extends Component {
             // Summary Table
             summaryDataRaw: null,
             summaryDataProcessed: [],
+            // Determine when data is available for table so multiple calls to populate the table aren't made
+            genSummaryTableDataProcessed: false,
             totalOutages: 0,
             // Summary Table Pagination
             apiPageNumber: 0,
@@ -89,7 +91,6 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
-        console.time('componentDidMount');
         // Check if time parameters are provided
         if (window.location.search) {
             let providedFrom = window.location.search.split("&")[0].split("=")[1];
@@ -146,7 +147,6 @@ class Dashboard extends Component {
                 }
             });
         }
-        console.timeEnd('componentDidMount');
     }
 
     componentWillUnmount() {
@@ -244,7 +244,6 @@ class Dashboard extends Component {
 // Control Panel
     // manage the date selected in the input
     handleTimeFrame(dateRange, timeRange) {
-        console.time('handleTimeFrame');
         const range = dateRangeToSeconds(dateRange, timeRange);
         const { history } = this.props;
         if (this.state.from !== range[0] || this.state.until !== range[1]) {
@@ -267,14 +266,12 @@ class Dashboard extends Component {
             this.getDataOutageSummary(this.state.activeTabType);
             this.getTotalOutages(this.state.activeTabType);
         })
-        console.timeEnd('handleTimeFrame');
     }
 
 // Tabbing
 
     // Function to map active tab to state and manage url
     handleSelectTab = selectedKey => {
-        console.time('handleSelectTab');
         const { history } = this.props;
 
         let tabValue, activeTabType, url;
@@ -294,13 +291,14 @@ class Dashboard extends Component {
             url = country.url;
         }
         this.setState({
-            activeTab: selectedKey,
+            activeTab: selectedKey ? selectedKey : country.tab,
             tab: tabValue,
             activeTabType: activeTabType,
             // Trigger Data Update for new tab
             tabCurrentView: "map",
             topoData: null,
             summaryDataRaw: null,
+            genSummaryTableDataProcessed: false,
             eventDataRaw: [],
             eventDataProcessed: null,
             eventEndpointCalled: false,
@@ -314,7 +312,6 @@ class Dashboard extends Component {
                 history.push(url);
             }
         }
-        console.timeEnd('handleSelectTab');
     }
 
     handleTabChangeViewButton() {
@@ -511,36 +508,20 @@ class Dashboard extends Component {
 
 // Summary Table
     convertValuesForSummaryTable() {
-        console.time('convertValuesForSummaryTable');
+
         let summaryData = convertValuesForSummaryTable(this.state.summaryDataRaw);
         if (this.state.apiPageNumber === 0) {
             this.setState({
-                summaryDataProcessed: summaryData
-            }, () => {
-                this.genSummaryTable();
+                summaryDataProcessed: summaryData,
+                genSummaryTableDataProcessed: true
             })
         }
 
         if (this.state.apiPageNumber > 0) {
             this.setState({
                 summaryDataProcessed: this.state.summaryDataProcessed.concat(summaryData)
-            }, () => {
-                this.genSummaryTable();
             })
         }
-        console.timeEnd('convertValuesForSummaryTable');
-    }
-    genSummaryTable() {
-        console.time('genSummaryTable');
-        return (
-            <Table
-                type={"summary"}
-                data={this.state.summaryDataProcessed}
-                totalCount={this.state.totalOutages}
-                entityType={this.state.activeTabType}
-            />
-        )
-        console.timeEnd('genSummaryTable');
     }
 
     render() {
@@ -569,7 +550,6 @@ class Dashboard extends Component {
                                 ? <DashboardTab
                                     type={this.state.activeTabType}
                                     populateGeoJsonMap={() => this.populateGeoJsonMap()}
-                                    genSummaryTable={() => this.genSummaryTable()}
                                     populateHtsChart={(width) => this.populateHtsChart(width)}
                                     handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
                                     tabCurrentView={this.state.tabCurrentView}
@@ -577,6 +557,11 @@ class Dashboard extends Component {
                                     until={this.state.until}
                                     // display error text if from value is higher than until value
                                     displayTimeRangeError={this.state.displayTimeRangeError}
+                                    // to populate summary table
+                                    summaryDataProcessed={this.state.summaryDataProcessed}
+                                    totalOutages={this.state.totalOutages}
+                                    activeTabType={this.state.activeTabType}
+                                    genSummaryTableDataProcessed={this.state.genSummaryTableDataProcessed}
                                 />
                                 : this.state.displayTimeRangeError ?
                                     <Error/>
@@ -589,7 +574,6 @@ class Dashboard extends Component {
                                 ? <DashboardTab
                                     type={this.state.activeTabType}
                                     populateGeoJsonMap={() => this.populateGeoJsonMap()}
-                                    genSummaryTable={() => this.genSummaryTable()}
                                     populateHtsChart={(width) => this.populateHtsChart(width)}
                                     handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
                                     tabCurrentView={this.state.tabCurrentView}
@@ -597,6 +581,11 @@ class Dashboard extends Component {
                                     until={this.state.until}
                                     // display error text if from value is higher than until value
                                     displayTimeRangeError={this.state.displayTimeRangeError}
+                                    // to populate summary table
+                                    summaryDataProcessed={this.state.summaryDataProcessed}
+                                    totalOutages={this.state.totalOutages}
+                                    activeTabType={this.state.activeTabType}
+                                    genSummaryTableDataProcessed={this.state.genSummaryTableDataProcessed}
                                 />
                                 : this.state.displayTimeRangeError ?
                                     <Error/>
@@ -608,7 +597,6 @@ class Dashboard extends Component {
                                 ? this.state.eventDataProcessed || this.state.until - this.state.from > controlPanelTimeRangeLimit
                                 ? <DashboardTab
                                     type={this.state.activeTabType}
-                                    genSummaryTable={() => this.genSummaryTable()}
                                     populateHtsChart={(width) => this.populateHtsChart(width)}
                                     handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
                                     tabCurrentView={this.state.tabCurrentView}
@@ -616,6 +604,11 @@ class Dashboard extends Component {
                                     until={this.state.until}
                                     // display error text if from value is higher than until value
                                     displayTimeRangeError={this.state.displayTimeRangeError}
+                                    // to populate summary table
+                                    summaryDataProcessed={this.state.summaryDataProcessed}
+                                    totalOutages={this.state.totalOutages}
+                                    activeTabType={this.state.activeTabType}
+                                    genSummaryTableDataProcessed={this.state.genSummaryTableDataProcessed}
                                 />
                                 :
                                     this.state.displayTimeRangeError ?
