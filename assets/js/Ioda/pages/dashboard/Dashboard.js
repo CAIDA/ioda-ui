@@ -89,6 +89,7 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
+        console.time('componentDidMount');
         // Check if time parameters are provided
         if (window.location.search) {
             let providedFrom = window.location.search.split("&")[0].split("=")[1];
@@ -145,6 +146,7 @@ class Dashboard extends Component {
                 }
             });
         }
+        console.timeEnd('componentDidMount');
     }
 
     componentWillUnmount() {
@@ -242,6 +244,7 @@ class Dashboard extends Component {
 // Control Panel
     // manage the date selected in the input
     handleTimeFrame(dateRange, timeRange) {
+        console.time('handleTimeFrame');
         const range = dateRangeToSeconds(dateRange, timeRange);
         const { history } = this.props;
         if (this.state.from !== range[0] || this.state.until !== range[1]) {
@@ -264,11 +267,13 @@ class Dashboard extends Component {
             this.getDataOutageSummary(this.state.activeTabType);
             this.getTotalOutages(this.state.activeTabType);
         })
+        console.timeEnd('handleTimeFrame');
     }
 
 // Tabbing
     // Function to map active tab to state and manage url
     handleSelectTab = selectedKey => {
+        console.time('handleSelectTab');
         const { history } = this.props;
 
         if (selectedKey === asn.tab) {
@@ -336,8 +341,10 @@ class Dashboard extends Component {
                 }
             }
         }
+        console.timeEnd('handleSelectTab');
     }
     handleTabChangeViewButton() {
+        console.time('handleTabChangeViewButton');
         if (this.state.tabCurrentView === 'map') {
             this.setState({tabCurrentView: 'timeSeries'}, () => {
                 this.getDataEvents(this.state.activeTabType);
@@ -345,11 +352,13 @@ class Dashboard extends Component {
         } else if (this.state.tabCurrentView === 'timeSeries') {
             this.setState({tabCurrentView: 'map'});
         }
+        console.timeEnd('handleTabChangeViewButton');
     }
 
 // Outage Data
     // Make API call to retrieve summary data to populate on map
     getDataOutageSummary(entityType) {
+        console.time('getDataOutageSummary');
         if (this.state.mounted) {
             let until = this.state.until;
             let from = this.state.from;
@@ -362,18 +371,22 @@ class Dashboard extends Component {
                 this.props.searchSummaryAction(from, until, entityType, entityCode, limit, page, includeMetadata);
             }
         }
+        console.timeEnd('getDataOutageSummary');
     }
     getTotalOutages(entityType) {
+        console.time('getTotalOutages');
         if (this.state.mounted) {
             let until = this.state.until;
             let from = this.state.from;
             this.props.totalOutagesAction(from, until, entityType);
         }
+        console.timeEnd('getTotalOutages');
     }
 
 // Map
     // Process Geo data, attribute outage scores to a new topoData property where possible, then render Map
     populateGeoJsonMap() {
+        console.time('populateGeoJsonMap');
         if (this.state.topoData && this.state.summaryDataRaw && this.state.summaryDataRaw[0] && this.state.summaryDataRaw[0]["entity"] && this.state.summaryDataRaw[0]["entity"]["type"] === this.state.activeTabType) {
             let topoData = this.state.topoData;
             let scores = [];
@@ -401,7 +414,7 @@ class Dashboard extends Component {
             });
             return <TopoMap topoData={topoData} scores={scores} handleEntityShapeClick={this.handleEntityShapeClick}/>;
         }
-
+        console.timeEnd('populateGeoJsonMap');
     }
     // Make API call to retrieve topographic data
     getDataTopo(entityType) {
@@ -427,6 +440,7 @@ class Dashboard extends Component {
 
 // Event Time Series
     getDataEvents(entityType) {
+        console.time('getDataEvents');
         // If using /signals/events endpoint
         let until = this.state.until;
         let from = this.state.from;
@@ -439,8 +453,10 @@ class Dashboard extends Component {
             }
         }).toString();
         this.props.getEventSignalsAction(entityType, entities, from, until, attr, order)
+        console.timeEnd('getDataEvents');
     }
     convertValuesForHtsViz() {
+        console.time('convertValuesForHtsViz');
         let eventDataProcessed = [];
         // Create visualization-friendly data objects
         this.state.eventDataRaw.map(entity => {
@@ -452,8 +468,10 @@ class Dashboard extends Component {
         this.setState({
             eventDataProcessed: eventDataProcessed
         });
+        console.timeEnd('convertValuesForHtsViz');
     }
     populateHtsChart(width) {
+        console.time('populateHtsChart');
         if (this.state.eventDataProcessed) {
             const myChart = HorizonTSChart()(document.getElementById(`horizon-chart`));
             myChart
@@ -472,6 +490,7 @@ class Dashboard extends Component {
                 // .positiveColorStops([.99])
                 .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
         }
+        console.timeEnd('populateHtsChart');
     }
 
 // Search bar
@@ -518,6 +537,7 @@ class Dashboard extends Component {
 
 // Summary Table
     convertValuesForSummaryTable() {
+        console.time('convertValuesForSummaryTable');
         let summaryData = convertValuesForSummaryTable(this.state.summaryDataRaw);
         if (this.state.apiPageNumber === 0) {
             this.setState({
@@ -534,10 +554,10 @@ class Dashboard extends Component {
                 this.genSummaryTable();
             })
         }
-
-
+        console.timeEnd('convertValuesForSummaryTable');
     }
     genSummaryTable() {
+        console.time('genSummaryTable');
         return (
             <Table
                 type={"summary"}
@@ -546,6 +566,7 @@ class Dashboard extends Component {
                 entityType={this.state.activeTabType}
             />
         )
+        console.timeEnd('genSummaryTable');
     }
 
     render() {
