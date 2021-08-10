@@ -13,7 +13,6 @@ import ControlPanel from '../../components/controlPanel/ControlPanel';
 import { Searchbar } from 'caida-components-library'
 import Tabs from '../../components/tabs/Tabs';
 import DashboardTab from "./DashboardTab";
-import TopoMap from "../../components/map/Map";
 import * as topojson from 'topojson';
 // Constants
 import {tabOptions, country, region, asn} from "./DashboardConstants";
@@ -59,6 +58,7 @@ class Dashboard extends Component {
             searchTerm: null,
             // Map Data
             topoData: null,
+            topoScores: null,
             // Summary Table
             summaryDataRaw: null,
             summaryDataProcessed: [],
@@ -181,6 +181,7 @@ class Dashboard extends Component {
             this.setState({
                 summaryDataRaw: this.props.summary
             },() => {
+                this.getMapScores();
                 this.convertValuesForSummaryTable();
                 if (this.state.activeTabType === 'asn') {
                     this.getDataEvents(this.state.activeTabType);
@@ -223,9 +224,7 @@ class Dashboard extends Component {
 
             this.setState({
                 topoData: topoObjects
-            }, () => {
-                this.populateGeoJsonMap();
-            });
+            }, this.getMapScores);
         }
 
         // Make API call for data to populate time series stacked horizon view
@@ -295,6 +294,7 @@ class Dashboard extends Component {
             // Trigger Data Update for new tab
             tabCurrentView: "map",
             topoData: null,
+            topoScores: null,
             summaryDataRaw: null,
             genSummaryTableDataProcessed: false,
             eventDataRaw: [],
@@ -347,9 +347,8 @@ class Dashboard extends Component {
     }
 
 // Map
-    // Process Geo data, attribute outage scores to a new topoData property where possible, then render Map
-    populateGeoJsonMap() {
-        if (this.state.topoData && this.state.summaryDataRaw && this.state.summaryDataRaw[0] && this.state.summaryDataRaw[0]["entity"] && this.state.summaryDataRaw[0]["entity"]["type"] === this.state.activeTabType) {
+    getMapScores() {
+        if (this.state.topoData && this.state.summaryDataRaw) {
             let topoData = this.state.topoData;
             let scores = [];
 
@@ -374,7 +373,7 @@ class Dashboard extends Component {
                     });
                 }
             });
-            return <TopoMap topoData={topoData} scores={scores} handleEntityShapeClick={this.handleEntityShapeClick}/>;
+            this.setState({topoScores: scores});
         }
     }
     // Make API call to retrieve topographic data
@@ -510,10 +509,9 @@ class Dashboard extends Component {
                         />
                         {
                             tab !== this.asnTab
-                                ? this.state.topoData || this.state.until - this.state.from > controlPanelTimeRangeLimit
+                                ? this.state.topoData && this.state.topoScores || this.state.until - this.state.from > controlPanelTimeRangeLimit
                                     ? <DashboardTab
                                         type={this.state.activeTabType}
-                                        populateGeoJsonMap={() => this.populateGeoJsonMap()}
                                         handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
                                         tabCurrentView={this.state.tabCurrentView}
                                         from={this.state.from}
@@ -527,6 +525,12 @@ class Dashboard extends Component {
                                         genSummaryTableDataProcessed={this.state.genSummaryTableDataProcessed}
                                         // to populate horizon time series table
                                         eventDataProcessed={this.state.eventDataProcessed}
+                                        // to populate map
+                                        topoData={this.state.topoData}
+                                        topoScores={this.state.topoScores}
+                                        handleEntityShapeClick={this.handleEntityShapeClick}
+                                        summaryDataRaw={this.state.summaryDataRaw}
+
                                     />
                                     : this.state.displayTimeRangeError
                                         ? <Error/>

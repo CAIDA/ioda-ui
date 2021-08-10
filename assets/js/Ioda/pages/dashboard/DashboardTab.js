@@ -14,12 +14,17 @@ import { Style } from "react-style-tag";
 import Table from "../../components/table/Table";
 import HorizonTSChart from "horizon-timeseries-chart";
 import * as d3 from "d3-shape";
+import TopoMap from "../../components/map/Map";
 
 
 class DashboardTab extends Component {
     constructor(props) {
         super(props);
         this.config = React.createRef();
+    }
+
+    genMap() {
+        return <TopoMap topoData={this.props.topoData} scores={this.props.topoScores} handleEntityShapeClick={(entity) => this.props.handleEntityShapeClick(entity)}/>;
     }
 
     genChart() {
@@ -106,8 +111,11 @@ class DashboardTab extends Component {
                                     this.props.type !== "asn"
                                         ? <div className="tab__map" style={this.props.tabCurrentView === 'map' ? {display: 'block'} : {display: 'none'}}>
                                             {
-                                                this.props.populateGeoJsonMap()
+                                                this.props.topoData && this.props.summaryDataRaw && this.props.totalOutages && this.props.topoScores
+                                                    ? this.genMap()
+                                                    : null
                                             }
+
                                         </div>
                                         : null
                                 }
