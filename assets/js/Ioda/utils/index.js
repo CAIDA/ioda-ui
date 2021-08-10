@@ -45,6 +45,7 @@ export const secondaryColorDark = "#1A5DAE";
 export const bgpColor = "#33A02C";
 export const activeProbingColor = "#1F78B4";
 export const ucsdNtColor = "#ED9B40";
+export const horizonChartSeriesColor = "#006D2D";
 
 // Humanize number with rounding, abbreviations, etc.
 export function humanizeNumber(value, precisionDigits) {

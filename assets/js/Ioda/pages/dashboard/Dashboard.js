@@ -15,8 +15,6 @@ import Tabs from '../../components/tabs/Tabs';
 import DashboardTab from "./DashboardTab";
 import TopoMap from "../../components/map/Map";
 import * as topojson from 'topojson';
-import Table from "../../components/table/Table";
-import HorizonTSChart from 'horizon-timeseries-chart';
 // Constants
 import {tabOptions, country, region, asn} from "./DashboardConstants";
 import {connect} from "react-redux";
@@ -27,7 +25,7 @@ import {
     convertTsDataForHtsViz,
     dateRangeToSeconds,
     controlPanelTimeRangeLimit,
-    convertTimeToSecondsForURL
+    convertTimeToSecondsForURL, horizonChartSeriesColor
 } from "../../utils";
 import Loading from "../../components/loading/Loading";
 import * as d3 from 'd3-shape';
@@ -429,28 +427,6 @@ class Dashboard extends Component {
             eventDataProcessed: eventDataProcessed
         });
     }
-    populateHtsChart(width) {
-        // console.time('populateHtsChart');
-        if (this.state.eventDataProcessed) {
-            const myChart = HorizonTSChart()(document.getElementById(`horizon-chart`));
-            myChart
-                .data(this.state.eventDataProcessed)
-                .series('entityName')
-                .yNormalize(false)
-                .useUtc(true)
-                .use24h(false)
-                // Will need to detect column width to populate height
-                .width(width)
-                .height(570)
-                .enableZoom(false)
-                .showRuler(true)
-                .interpolationCurve(d3.curveStepAfter)
-                .positiveColors(['white', '#006D2D'])
-                // .positiveColorStops([.99])
-                .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
-        }
-        // console.timeEnd('populateHtsChart');
-    }
 
 // Search bar
     // get data for search results that populate in suggested search list
@@ -538,7 +514,6 @@ class Dashboard extends Component {
                                     ? <DashboardTab
                                         type={this.state.activeTabType}
                                         populateGeoJsonMap={() => this.populateGeoJsonMap()}
-                                        populateHtsChart={(width) => this.populateHtsChart(width)}
                                         handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
                                         tabCurrentView={this.state.tabCurrentView}
                                         from={this.state.from}
@@ -550,6 +525,8 @@ class Dashboard extends Component {
                                         totalOutages={this.state.totalOutages}
                                         activeTabType={this.state.activeTabType}
                                         genSummaryTableDataProcessed={this.state.genSummaryTableDataProcessed}
+                                        // to populate horizon time series table
+                                        eventDataProcessed={this.state.eventDataProcessed}
                                     />
                                     : this.state.displayTimeRangeError
                                         ? <Error/>
@@ -557,7 +534,6 @@ class Dashboard extends Component {
                                 : this.state.eventDataProcessed || this.state.until - this.state.from > controlPanelTimeRangeLimit
                                     ? <DashboardTab
                                         type={this.state.activeTabType}
-                                        populateHtsChart={(width) => this.populateHtsChart(width)}
                                         handleTabChangeViewButton={() => this.handleTabChangeViewButton()}
                                         tabCurrentView={this.state.tabCurrentView}
                                         from={this.state.from}
@@ -569,6 +545,8 @@ class Dashboard extends Component {
                                         totalOutages={this.state.totalOutages}
                                         activeTabType={this.state.activeTabType}
                                         genSummaryTableDataProcessed={this.state.genSummaryTableDataProcessed}
+                                        // to populate horizon time series table
+                                        eventDataProcessed={this.state.eventDataProcessed}
                                     />
                                     :
                                     this.state.displayTimeRangeError ?

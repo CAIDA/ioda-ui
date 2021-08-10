@@ -1,18 +1,44 @@
 import React, {Component} from 'react';
 import T from "i18n-react";
-import {convertSecondsToDateValues, secondsToDhms, controlPanelTimeRangeLimit} from "../../utils";
+import {
+    convertSecondsToDateValues,
+    secondsToDhms,
+    controlPanelTimeRangeLimit,
+    horizonChartSeriesColor, humanizeNumber
+} from "../../utils";
 import TimeStamp from "../../components/timeStamp/TimeStamp";
 import Tooltip from "../../components/tooltip/Tooltip";
 import iconGlobe from 'images/icons/icon-globe.png';
 import iconChart from 'images/icons/icon-chart.png';
 import { Style } from "react-style-tag";
 import Table from "../../components/table/Table";
+import HorizonTSChart from "horizon-timeseries-chart";
+import * as d3 from "d3-shape";
 
 
 class DashboardTab extends Component {
     constructor(props) {
         super(props);
         this.config = React.createRef();
+    }
+
+    genChart() {
+        const chart = HorizonTSChart()(document.getElementById(`horizon-chart`));
+        chart
+            .data(this.props.eventDataProcessed)
+            .series('entityName')
+            .yNormalize(false)
+            .useUtc(true)
+            .use24h(false)
+            // Will need to detect column width to populate height
+            .width(this.config && this.config.current && this.config.current.offsetWidth)
+            .height(570)
+            .enableZoom(false)
+            .showRuler(true)
+            .interpolationCurve(d3.curveStepAfter)
+            .positiveColors(['white', horizonChartSeriesColor])
+            // .positiveColorStops([.99])
+            .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
     }
 
     render() {
@@ -87,8 +113,8 @@ class DashboardTab extends Component {
                                 }
                                 <div id="horizon-chart" style={this.props.tabCurrentView === 'timeSeries' || this.props.type === 'asn' ? {display: 'block'} : {display: 'none'}}>
                                     {
-                                        this.config.current
-                                            ? this.props.populateHtsChart(this.config.current.offsetWidth)
+                                        this.config.current && this.props.eventDataProcessed
+                                            ? this.genChart()
                                             : null
                                     }
                                 </div>
