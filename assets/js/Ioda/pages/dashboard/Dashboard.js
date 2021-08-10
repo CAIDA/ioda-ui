@@ -1,12 +1,11 @@
 // React Imports
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 // Internationalization
 import T from 'i18n-react';
 // Data Hooks
 import { searchEntities } from "../../data/ActionEntities";
 import { getTopoAction } from "../../data/ActionTopo";
-import { searchOverallEvents, searchSummary, totalOutages } from "../../data/ActionOutages";
+import { searchSummary, totalOutages } from "../../data/ActionOutages";
 import { getSignalsAction, getEventSignalsAction } from "../../data/ActionSignals";
 // Components
 import ControlPanel from '../../components/controlPanel/ControlPanel';
@@ -27,9 +26,7 @@ import {
     convertTimeToSecondsForURL, horizonChartSeriesColor
 } from "../../utils";
 import Loading from "../../components/loading/Loading";
-import * as d3 from 'd3-shape';
 import Error from "../../components/error/Error";
-
 
 
 class Dashboard extends Component {
@@ -310,7 +307,7 @@ class Dashboard extends Component {
                 history.push(url);
             }
         }
-    }
+    };
 
     handleTabChangeViewButton() {
         if (this.state.tabCurrentView === 'map') {
@@ -385,17 +382,11 @@ class Dashboard extends Component {
     // function to manage when a user clicks a country in the map
     handleEntityShapeClick(entity) {
         const { history } = this.props;
-        this.state.activeTabType === 'country'
-            ? history.push(
+        history.push(
             window.location.search.split("?")[1]
-                ? `/country/${entity.properties.usercode}?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
-                : `/country/${entity.properties.usercode}`
-            ) :
-            history.push(
-                window.location.search.split("?")[1]
-                    ? `/region/${entity.properties.id}?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
-                    : `/region/${entity.properties.id}`
-            )
+                ? `/country/${this.state.activeTabType === 'country' ? entity.properties.usercode : entity.properties.id}?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
+                : `/country/${this.state.activeTabType === 'country' ? entity.properties.usercode : entity.properties.id}`
+        );
     }
 
 // Event Time Series
@@ -471,7 +462,6 @@ class Dashboard extends Component {
 
 // Summary Table
     convertValuesForSummaryTable() {
-
         let summaryData = convertValuesForSummaryTable(this.state.summaryDataRaw);
         if (this.state.apiPageNumber === 0) {
             this.setState({
@@ -479,7 +469,6 @@ class Dashboard extends Component {
                 genSummaryTableDataProcessed: true
             })
         }
-
         if (this.state.apiPageNumber > 0) {
             this.setState({
                 summaryDataProcessed: this.state.summaryDataProcessed.concat(summaryData)
@@ -564,16 +553,12 @@ class Dashboard extends Component {
     }
 }
 
-
-
-
 const mapStateToProps = (state) => {
     return {
         suggestedSearchResults: state.iodaApi.entities,
         summary: state.iodaApi.summary,
         topoData: state.iodaApi.topo,
         totalOutages: state.iodaApi.summaryTotalCount,
-        overallEvents: state.iodaApi.overallEvents,
         signals: state.iodaApi.signals,
         eventSignals: state.iodaApi.eventSignals
     }
@@ -592,9 +577,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         getTopoAction: (entityType) => {
             getTopoAction(dispatch, entityType);
-        },
-        searchOverallEventsAction: (from, until, entityType=null, entityCode=null, datasource=null, includeAlerts=null, format=null, limit=null, page=null) => {
-            searchOverallEvents(dispatch, from, until, entityType, entityCode, datasource, includeAlerts, format, limit, page);
         },
         getSignalsAction: (entityType, entityCode, from, until, datasource=null, maxPoints=null) => {
             getSignalsAction(dispatch, entityType, entityCode, from, until, datasource, maxPoints);
