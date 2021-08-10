@@ -115,7 +115,6 @@ class DashboardTab extends Component {
                                                     ? this.genMap()
                                                     : null
                                             }
-
                                         </div>
                                         : null
                                 }
