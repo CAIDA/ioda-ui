@@ -324,7 +324,6 @@ class Dashboard extends Component {
         } else {
             history.push(url);
         }
-
     };
 
     handleTabChangeViewButton() {

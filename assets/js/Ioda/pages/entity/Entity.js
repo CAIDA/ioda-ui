@@ -172,6 +172,7 @@ class Entity extends Component {
     }
 
     componentDidMount() {
+        console.log("update1");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
 
@@ -768,8 +769,8 @@ class Entity extends Component {
     }
     // function for when zoom/pan
     xyPlotRangeChanged(e) {
-        let beginningRangeDate = Math.floor(e.axisX[0].viewportMinimum / 1000);
-        let endRangeDate = Math.floor(e.axisX[0].viewportMaximum / 1000);
+        // let beginningRangeDate = Math.floor(e.axisX[0].viewportMinimum / 1000);
+        // let endRangeDate = Math.floor(e.axisX[0].viewportMaximum / 1000);
 
         if (Math.floor(e.axisX[0].viewportMinimum / 1000) !== 0 || Math.floor(e.axisX[0].viewportMaximum / 1000) !== 0) {
             this.setState({
@@ -1056,35 +1057,8 @@ class Entity extends Component {
 
         this.setState({
             eventDataProcessed: eventData
-        }, () => {
-            this.genEventTable();
         });
     }
-    // Generate the Event table that will display in the UI with the formatted values
-    genEventTable() {
-        // this.state.eventDataProcessed && console.log(this.state.eventDataProcessed);
-        return (
-            this.state.eventDataProcessed &&
-            <Table
-                type={"event"}
-                data={this.state.eventDataProcessed}
-                totalCount={this.state.eventDataProcessed.length}
-            />
-        )
-    }
-    // Switching between Events and Alerts
-    changeCurrentTable() {
-        if (this.state.currentTable === 'event') {
-            this.setState({currentTable: 'alert'}, () => {
-                this.genAlertTable()
-            });
-        } else if (this.state.currentTable === 'alert') {
-            this.setState({currentTable: 'event'}, () => {
-                this.genEventTable()
-            });
-        }
-    }
-// Alert Table Functions
     // Take values from api and format for Alert table
     convertValuesForAlertTable() {
         // Get the relevant values to populate table with
@@ -1111,21 +1085,17 @@ class Entity extends Component {
 
         this.setState({
             alertDataProcessed: alertData.reverse()
-        }, () => {
-            this.genAlertTable();
         });
     }
-    // Generate the Alert table that will display in the UI with the formatted values
-    genAlertTable() {
-        return (
-            this.state.alertDataProcessed &&
-            <Table
-                type="alert"
-                data={this.state.alertDataProcessed}
-                totalCount={this.state.alertDataProcessed.length}
-            />
-        )
+    // Switching between Events and Alerts
+    changeCurrentTable() {
+        if (this.state.currentTable === 'event') {
+            this.setState({currentTable: 'alert'});
+        } else if (this.state.currentTable === 'alert') {
+            this.setState({currentTable: 'event'});
+        }
     }
+
 
 // 2nd Row
 // EntityRelated
@@ -2155,14 +2125,23 @@ class Entity extends Component {
                                         <div className="overview__table">
                                             <div style={this.state.currentTable === 'event' ? {display: 'block'} : {display: 'none'}}>
                                                 {
-                                                    this.state.eventDataRaw ?
-                                                        this.genEventTable() : <Loading/>
+                                                    this.state.eventDataProcessed ?
+                                                        <Table
+                                                            type={"event"}
+                                                            data={this.state.eventDataProcessed}
+                                                            totalCount={this.state.eventDataProcessed.length}
+                                                        /> : <Loading/>
                                                 }
                                             </div>
                                             <div style={this.state.currentTable === 'alert' ? {display: 'block'} : {display: 'none'}}>
                                                 {
-                                                    this.state.alertDataRaw ?
-                                                        this.genAlertTable() : <Loading/>
+
+                                                        this.state.alertDataProcessed ?
+                                                        <Table
+                                                            type="alert"
+                                                            data={this.state.alertDataProcessed}
+                                                            totalCount={this.state.alertDataProcessed.length}
+                                                        /> : <Loading/>
                                                 }
                                             </div>
                                         </div>
