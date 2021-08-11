@@ -172,7 +172,6 @@ class Dashboard extends Component {
     componentDidUpdate(prevProps, prevState) {
         // A check to prevent repetitive selection of the same tab
         if (this.props.match.params.tab !== prevProps.match.params.tab) {
-            console.log(this.props);
             this.handleSelectTab(this.tabs[prevProps.match.params.tab]);
         }
 
@@ -320,13 +319,12 @@ class Dashboard extends Component {
             totalEventCount: 0
         });
 
-        // if (history.location.pathname !== url) {
-            if (window.location.search) {
-                history.push(`${url}/?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`);
-            } else {
-                history.push(url);
-            }
-        // }
+        if (window.location.search) {
+            history.push(`${url}/?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`);
+        } else {
+            history.push(url);
+        }
+
     };
 
     handleTabChangeViewButton() {
