@@ -172,7 +172,6 @@ class Entity extends Component {
     }
 
     componentDidMount() {
-        console.log("update1");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
 
