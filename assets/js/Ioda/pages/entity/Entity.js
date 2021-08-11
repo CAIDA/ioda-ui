@@ -1098,93 +1098,6 @@ class Entity extends Component {
 
 
 // 2nd Row
-// EntityRelated
-    // Populate 2nd Row UI objects (managed in EntityRelated Component)
-    genEntityRelatedRow() {
-        return <EntityRelated
-            entityName={this.state.entityName}
-            entityType={this.state.entityType}
-            parentEntityName={this.state.parentEntityName}
-            toggleModal={this.toggleModal}
-            showMapModal={this.state.showMapModal}
-            showTableModal={this.state.showTableModal}
-            relatedToTableSummary={this.state.relatedToTableSummary}
-            populateGeoJsonMap={() => this.populateGeoJsonMap()}
-            genSummaryTable={() => this.genSummaryTable()}
-            genSignalsTable={(entityType) => this.genSignalsTable(entityType)}
-            handleSelectAndDeselectAllButtons={(event) => this.handleSelectAndDeselectAllButtons(event)}
-            // Regional HTS methods
-            regionalSignalsTableEntitiesChecked={this.state.regionalSignalsTableEntitiesChecked}
-            asnSignalsTableEntitiesChecked={this.state.asnSignalsTableEntitiesChecked}
-            initialTableLimit={this.initialTableLimit}
-
-            populateHtsChart={(width, dataSource, entityType) => this.populateHtsChart(width, dataSource, entityType)}
-
-            // to detect when loading bar should appear in modal
-            regionalSignalsTableSummaryDataProcessed={this.state.regionalSignalsTableSummaryDataProcessed}
-            asnSignalsTableSummaryDataProcessed={this.state.asnSignalsTableSummaryDataProcessed}
-
-            rawRegionalSignalsProcessedPingSlash24={this.state.rawRegionalSignalsProcessedPingSlash24}
-            rawRegionalSignalsProcessedBgp={this.state.rawRegionalSignalsProcessedBgp}
-            rawRegionalSignalsProcessedUcsdNt={this.state.rawRegionalSignalsProcessedUcsdNt}
-            rawAsnSignalsProcessedPingSlash24={this.state.rawAsnSignalsProcessedPingSlash24}
-            rawAsnSignalsProcessedBgp={this.state.rawAsnSignalsProcessedBgp}
-            rawAsnSignalsProcessedUcsdNt={this.state.rawAsnSignalsProcessedUcsdNt}
-            summaryDataMapRaw={this.state.summaryDataMapRaw}
-            rawSignalsMaxEntitiesHtsError={this.state.rawSignalsMaxEntitiesHtsError}
-            // count used to determine if text to populate remaining entities beyond the initial Table load limit should display
-            asnSignalsTableTotalCount={this.state.asnSignalsTableTotalCount}
-            regionalSignalsTableTotalCount={this.state.regionalSignalsTableTotalCount}
-            // function used to call api to load remaining entities
-            handleLoadAllEntitiesButton={event => this.handleLoadAllEntitiesButton(event)}
-            // Used to determine if load all message should display or not
-            regionalRawSignalsLoadAllButtonClicked={this.state.regionalRawSignalsLoadAllButtonClicked}
-            asnRawSignalsLoadAllButtonClicked={this.state.asnRawSignalsLoadAllButtonClicked}
-            // modal loading icon for load all button
-            loadAllButtonEntitiesLoading={this.state.loadAllButtonEntitiesLoading}
-            handleAdditionalEntitiesLoading={() => this.handleAdditionalEntitiesLoading()}
-            additionalRawSignalRequestedPingSlash24={this.state.additionalRawSignalRequestedPingSlash24}
-            additionalRawSignalRequestedBgp={this.state.additionalRawSignalRequestedBgp}
-            additionalRawSignalRequestedUcsdNt={this.state.additionalRawSignalRequestedUcsdNt}
-            // used for tracking when check max/uncheck all loading icon should appear and not
-            checkMaxButtonLoading={this.state.checkMaxButtonLoading}
-            uncheckAllButtonLoading={this.state.uncheckAllButtonLoading}
-
-        />;
-    }
-    // Show/hide modal when button is clicked on either panel
-    toggleModal(modalLocation) {
-        if (modalLocation === 'map') {
-            this.props.regionalSignalsTableSummaryDataAction("region", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
-            // Get related entities used on table in map modal
-            this.setState({
-                showMapModal: !this.state.showMapModal
-            },() => {
-                if (!this.state.showMapModal) {
-                    this.setState({
-                        rawRegionalSignalsLoadedBgp: true,
-                        rawRegionalSignalsLoadedPingSlash24: true,
-                        rawRegionalSignalsLoadedUcsdNt: true
-                    })
-                }
-            });
-
-        } else if (modalLocation === 'table') {
-            this.props.asnSignalsTableSummaryDataAction("asn", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
-            this.setState({
-                showTableModal: !this.state.showTableModal
-            },() => {
-                if (!this.state.showTableModal) {
-                    this.setState({
-                        rawAsnSignalsLoadedBgp: true,
-                        rawAsnSignalsLoadedPingSlash24: true,
-                        rawAsnSignalsLoadedUcsdNt: true
-                    })
-                }
-            });
-        }
-    }
-
 // RelatedTo Map
     // Make API call to retrieve topographic data
     getDataTopo(entityType) {
@@ -1273,6 +1186,38 @@ class Entity extends Component {
                 : `/region/${entity.properties.id}`
         );
         this.handleStateReset("newEntity", null, "region", entity.properties.id);
+    }
+    // Show/hide modal when button is clicked on either panel
+    toggleModal(modalLocation) {
+        if (modalLocation === 'map') {
+            this.props.regionalSignalsTableSummaryDataAction("region", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
+            // Get related entities used on table in map modal
+            this.setState({
+                showMapModal: !this.state.showMapModal
+            },() => {
+                if (!this.state.showMapModal) {
+                    this.setState({
+                        rawRegionalSignalsLoadedBgp: true,
+                        rawRegionalSignalsLoadedPingSlash24: true,
+                        rawRegionalSignalsLoadedUcsdNt: true
+                    })
+                }
+            });
+
+        } else if (modalLocation === 'table') {
+            this.props.asnSignalsTableSummaryDataAction("asn", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
+            this.setState({
+                showTableModal: !this.state.showTableModal
+            },() => {
+                if (!this.state.showTableModal) {
+                    this.setState({
+                        rawAsnSignalsLoadedBgp: true,
+                        rawAsnSignalsLoadedPingSlash24: true,
+                        rawAsnSignalsLoadedUcsdNt: true
+                    })
+                }
+            });
+        }
     }
 
 // Summary Table for related ASNs
@@ -2147,9 +2092,56 @@ class Entity extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                {
-                                    this.genEntityRelatedRow()
-                                }
+                                <EntityRelated
+                                    entityName={this.state.entityName}
+                                    entityType={this.state.entityType}
+                                    parentEntityName={this.state.parentEntityName}
+                                    toggleModal={this.toggleModal}
+                                    showMapModal={this.state.showMapModal}
+                                    showTableModal={this.state.showTableModal}
+                                    relatedToTableSummary={this.state.relatedToTableSummary}
+                                    populateGeoJsonMap={() => this.populateGeoJsonMap()}
+                                    genSummaryTable={() => this.genSummaryTable()}
+                                    genSignalsTable={(entityType) => this.genSignalsTable(entityType)}
+                                    handleSelectAndDeselectAllButtons={(event) => this.handleSelectAndDeselectAllButtons(event)}
+                                    // Regional HTS methods
+                                    regionalSignalsTableEntitiesChecked={this.state.regionalSignalsTableEntitiesChecked}
+                                    asnSignalsTableEntitiesChecked={this.state.asnSignalsTableEntitiesChecked}
+                                    initialTableLimit={this.initialTableLimit}
+
+                                    populateHtsChart={(width, dataSource, entityType) => this.populateHtsChart(width, dataSource, entityType)}
+
+                                    // to detect when loading bar should appear in modal
+                                    regionalSignalsTableSummaryDataProcessed={this.state.regionalSignalsTableSummaryDataProcessed}
+                                    asnSignalsTableSummaryDataProcessed={this.state.asnSignalsTableSummaryDataProcessed}
+
+                                    rawRegionalSignalsProcessedPingSlash24={this.state.rawRegionalSignalsProcessedPingSlash24}
+                                    rawRegionalSignalsProcessedBgp={this.state.rawRegionalSignalsProcessedBgp}
+                                    rawRegionalSignalsProcessedUcsdNt={this.state.rawRegionalSignalsProcessedUcsdNt}
+                                    rawAsnSignalsProcessedPingSlash24={this.state.rawAsnSignalsProcessedPingSlash24}
+                                    rawAsnSignalsProcessedBgp={this.state.rawAsnSignalsProcessedBgp}
+                                    rawAsnSignalsProcessedUcsdNt={this.state.rawAsnSignalsProcessedUcsdNt}
+                                    summaryDataMapRaw={this.state.summaryDataMapRaw}
+                                    rawSignalsMaxEntitiesHtsError={this.state.rawSignalsMaxEntitiesHtsError}
+                                    // count used to determine if text to populate remaining entities beyond the initial Table load limit should display
+                                    asnSignalsTableTotalCount={this.state.asnSignalsTableTotalCount}
+                                    regionalSignalsTableTotalCount={this.state.regionalSignalsTableTotalCount}
+                                    // function used to call api to load remaining entities
+                                    handleLoadAllEntitiesButton={event => this.handleLoadAllEntitiesButton(event)}
+                                    // Used to determine if load all message should display or not
+                                    regionalRawSignalsLoadAllButtonClicked={this.state.regionalRawSignalsLoadAllButtonClicked}
+                                    asnRawSignalsLoadAllButtonClicked={this.state.asnRawSignalsLoadAllButtonClicked}
+                                    // modal loading icon for load all button
+                                    loadAllButtonEntitiesLoading={this.state.loadAllButtonEntitiesLoading}
+                                    handleAdditionalEntitiesLoading={() => this.handleAdditionalEntitiesLoading()}
+                                    additionalRawSignalRequestedPingSlash24={this.state.additionalRawSignalRequestedPingSlash24}
+                                    additionalRawSignalRequestedBgp={this.state.additionalRawSignalRequestedBgp}
+                                    additionalRawSignalRequestedUcsdNt={this.state.additionalRawSignalRequestedUcsdNt}
+                                    // used for tracking when check max/uncheck all loading icon should appear and not
+                                    checkMaxButtonLoading={this.state.checkMaxButtonLoading}
+                                    uncheckAllButtonLoading={this.state.uncheckAllButtonLoading}
+
+                                />
                                 </React.Fragment>
                             : <div className="row overview">
                                 <div className="col-1-of-1">
