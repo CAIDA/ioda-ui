@@ -106,13 +106,22 @@ class Dashboard extends Component {
                 },() => {
                     if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
                         // Set initial tab to load
-                        this.handleSelectTab(this.tabs[this.props.match.params.tab]);
+                        this.handleSelectTab(this.tabs[
+                            this.props.history.location.pathname.split("/")[2] && this.props.history.location.pathname.split("/")[2].split("?")[0] === 'region'
+                                ? this.props.history.location.pathname.split("/")[2].split("?")[0]
+                                : this.props.history.location.pathname.split("/")[2] && this.props.history.location.pathname.split("/")[2].split("?")[0] === 'asn'
+                                ? this.props.history.location.pathname.split("/")[2].split("?")[0]
+                                : this.props.history.location.pathname.split("/")[0]
+                            ]);
+
                         // Get topo and outage data to populate map and table
-                        window.location.pathname.split("/")[2] && window.location.pathname.split("/")[2].split("?")[0] !== "asn" ?
-                            this.getDataTopo(this.state.activeTabType) :
-                            window.location.pathname.split("/").length === 2 ? this.getDataTopo(this.state.activeTabType) :
-                                window.location.pathname.split("/").length === 3 && window.location.pathname.split("/")[2] === "" ? this.getDataTopo(this.state.activeTabType) :
-                                    null;
+                        window.location.pathname.split("/")[2] && window.location.pathname.split("/")[2].split("?")[0] !== "asn"
+                            ? this.getDataTopo(this.state.activeTabType)
+                            : window.location.pathname.split("/").length === 2
+                            ? this.getDataTopo(this.state.activeTabType)
+                            : window.location.pathname.split("/").length === 3 && window.location.pathname.split("/")[2].split("?")[0] === ""
+                                ? this.getDataTopo(this.state.activeTabType)
+                                : null;
 
                         this.getDataOutageSummary(this.state.activeTabType);
                         this.getTotalOutages(this.state.activeTabType);
@@ -125,17 +134,27 @@ class Dashboard extends Component {
             }
         } else {
             this.setState({
-                mounted: true,
+                mounted: true
             },() => {
                 if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
                     // Set initial tab to load
-                    this.handleSelectTab(this.tabs[this.props.match.params.tab]);
+
+                    this.handleSelectTab(this.tabs[
+                        this.props.history.location.pathname.split("/")[2] && this.props.history.location.pathname.split("/")[2].split("?")[0] === 'region'
+                            ? this.props.history.location.pathname.split("/")[2]
+                            : this.props.history.location.pathname.split("/")[2] && this.props.history.location.pathname.split("/")[2].split("?")[0] === 'asn'
+                                ? this.props.history.location.pathname.split("/")[2]
+                                : this.props.history.location.pathname.split("/")[0]
+                        ]);
+
                     // Get topo and outage data to populate map and table
-                    window.location.pathname.split("/")[2] && window.location.pathname.split("/")[2].split("?")[0] !== "asn" ?
-                        this.getDataTopo(this.state.activeTabType) :
-                        window.location.pathname.split("/").length === 2 ? this.getDataTopo(this.state.activeTabType) :
-                            window.location.pathname.split("/").length === 3 && window.location.pathname.split("/")[2] === "" ? this.getDataTopo(this.state.activeTabType) :
-                                null;
+                    window.location.pathname.split("/")[2] && window.location.pathname.split("/")[2] !== "asn"
+                        ? this.getDataTopo(this.state.activeTabType)
+                        : window.location.pathname.split("/").length === 2
+                            ? this.getDataTopo(this.state.activeTabType)
+                            : window.location.pathname.split("/").length === 3 && window.location.pathname === ""
+                                ? this.getDataTopo(this.state.activeTabType)
+                                : null;
 
                     this.getDataOutageSummary(this.state.activeTabType);
                     this.getTotalOutages(this.state.activeTabType);
@@ -153,6 +172,7 @@ class Dashboard extends Component {
     componentDidUpdate(prevProps, prevState) {
         // A check to prevent repetitive selection of the same tab
         if (this.props.match.params.tab !== prevProps.match.params.tab) {
+            console.log(this.props);
             this.handleSelectTab(this.tabs[prevProps.match.params.tab]);
         }
 
@@ -289,7 +309,7 @@ class Dashboard extends Component {
             tab: tabValue,
             activeTabType: activeTabType,
             // Trigger Data Update for new tab
-            tabCurrentView: "map",
+            tabCurrentView: selectedKey !== 3 ? "map" : "timeSeries",
             topoData: null,
             topoScores: null,
             summaryDataRaw: null,
@@ -300,13 +320,13 @@ class Dashboard extends Component {
             totalEventCount: 0
         });
 
-        if (history.location.pathname !== url) {
+        // if (history.location.pathname !== url) {
             if (window.location.search) {
                 history.push(`${url}/?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`);
             } else {
                 history.push(url);
             }
-        }
+        // }
     };
 
     handleTabChangeViewButton() {
@@ -391,7 +411,6 @@ class Dashboard extends Component {
 
 // Event Time Series
     getDataEvents(entityType) {
-        // If using /signals/events endpoint
         let until = this.state.until;
         let from = this.state.from;
         let attr = this.state.eventOrderByAttr;
