@@ -11,7 +11,7 @@ class EntityRelated extends Component {
         super(props);
         this.relatedTableConfig = React.createRef();
     }
-
+    
     render() {
         const regionalModalButtonText = T.translate("entity.regionalModalButtonText");
         const asnModalButtonText = T.translate("entity.asnModalButtonText");
@@ -67,10 +67,17 @@ class EntityRelated extends Component {
                                 topoScores={this.props.topoScores}
                                 handleEntityShapeClick={(entity) => this.props.handleEntityShapeClick(entity)}
 
+                                // render function that populates the ui
+                                totalCount={this.props.regionalSignalsTableSummaryDataProcessed.length}
+                                toggleEntityVisibilityInHtsViz={event => this.props.toggleEntityVisibilityInHtsViz(event, "region")}
+                                handleEntityClick={(entityType, entityCode) => this.props.handleEntityClick(entityType, entityCode)}
+                                handleCheckboxEventLoading={(item) => this.props.handleCheckboxEventLoading(item)}
+                                regionalSignalsTableSummaryDataProcessed={this.props.regionalSignalsTableSummaryDataProcessed}
+
+
                                 // data that draws polygons on map
                                 summaryDataMapRaw={this.props.summaryDataMapRaw}
-                                // render function that populates the ui
-                                genSignalsTable={(entityType) => this.props.genSignalsTable(entityType)}
+
                                 // check max and uncheck all button functionality
                                 handleSelectAndDeselectAllButtons={(event) => this.props.handleSelectAndDeselectAllButtons(event)}
                                 // Current number of entities checked in table
@@ -81,8 +88,7 @@ class EntityRelated extends Component {
                                 rawRegionalSignalsProcessedPingSlash24={this.props.rawRegionalSignalsProcessedPingSlash24}
                                 rawRegionalSignalsProcessedBgp={this.props.rawRegionalSignalsProcessedBgp}
                                 rawRegionalSignalsProcessedUcsdNt={this.props.rawRegionalSignalsProcessedUcsdNt}
-                                // data that populates in table
-                                regionalSignalsTableSummaryDataProcessed={this.props.regionalSignalsTableSummaryDataProcessed}
+
                                 // Error message when max entities are checked
                                 rawSignalsMaxEntitiesHtsError={this.props.rawSignalsMaxEntitiesHtsError}
                                 // For use in the string that populates when there are more than 300 entities that could load
@@ -158,15 +164,23 @@ class EntityRelated extends Component {
                                 // tracking when the close button is clicked
                                 toggleModal={this.props.toggleModal}
                                 // render function that populates the ui
-                                genSignalsTable={(entityType) => this.props.genSignalsTable(entityType)}
+                                // genSignalsTable={(entityType) => this.props.genSignalsTable(entityType)}
+
+                                // data that populates in table
+                                asnSignalsTableSummaryDataProcessed={this.props.asnSignalsTableSummaryDataProcessed}
+                                // render function that populates the ui
+                                toggleEntityVisibilityInHtsViz={event => this.props.toggleEntityVisibilityInHtsViz(event, "asn")}
+                                handleEntityClick={(entityType, entityCode) => this.props.handleEntityClick(entityType, entityCode)}
+                                handleCheckboxEventLoading={(item) => this.props.handleCheckboxEventLoading(item)}
+
+
                                 // render function that populate the ui
                                 populateHtsChart={(width, dataSource, entityType) => this.props.populateHtsChart(width, dataSource, entityType)}
                                 // data for each horizon time series
                                 rawAsnSignalsProcessedPingSlash24={this.props.rawAsnSignalsProcessedPingSlash24}
                                 rawAsnSignalsProcessedBgp={this.props.rawAsnSignalsProcessedBgp}
                                 rawAsnSignalsProcessedUcsdNt={this.props.rawAsnSignalsProcessedUcsdNt}
-                                // data that populates in table
-                                asnSignalsTableSummaryDataProcessed={this.props.asnSignalsTableSummaryDataProcessed}
+
                                 // Current number of entities checked in table
                                 asnSignalsTableEntitiesChecked={this.props.asnSignalsTableEntitiesChecked}
                                 // check max and uncheck all button functionality

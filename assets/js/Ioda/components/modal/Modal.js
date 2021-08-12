@@ -5,6 +5,7 @@ import Loading from "../../components/loading/Loading";
 import LoadingIcon from 'images/icons/icon-loading.png';
 import Tooltip from "../tooltip/Tooltip";
 import TopoMap from "../map/Map";
+import Table from "../table/Table";
 
 class Modal extends Component {
     constructor(props) {
@@ -177,8 +178,16 @@ class Modal extends Component {
                                             }
                                             <div className="modal__table">
                                                 {
-                                                    this.props.regionalSignalsTableSummaryDataProcessed.length ?
-                                                        this.props.genSignalsTable("region") : <Loading/>
+                                                    this.props.regionalSignalsTableSummaryDataProcessed ?
+                                                    <Table
+                                                        type="signal"
+                                                        data={this.props.regionalSignalsTableSummaryDataProcessed}
+                                                        totalCount={this.props.regionalSignalsTableSummaryDataProcessed.length}
+                                                        toggleEntityVisibilityInHtsViz={event => this.props.toggleEntityVisibilityInHtsViz(event, "region")}
+                                                        handleEntityClick={(entityType, entityCode) => this.props.handleEntityClick(entityType, entityCode)}
+                                                        handleCheckboxEventLoading={(item) => this.props.handleCheckboxEventLoading(item)}
+                                                    />
+                                                    : <Loading/>
                                                 }
                                             </div>
                                         </div>
@@ -295,8 +304,16 @@ class Modal extends Component {
                                             }
                                             <div className="modal__table modal__table--asn">
                                                 {
-                                                    this.props.asnSignalsTableSummaryDataProcessed.length ?
-                                                        this.props.genSignalsTable("asn") : <Loading/>
+                                                    this.props.asnSignalsTableSummaryDataProcessed && this.props.asnSignalsTableTotalCount ?
+                                                    <Table
+                                                        type="signal"
+                                                        data={this.props.asnSignalsTableSummaryDataProcessed}
+                                                        totalCount={this.props.asnSignalsTableTotalCount}
+                                                        entityType={this.props.entityType === "asn" ? "country" : "asn"}
+                                                        toggleEntityVisibilityInHtsViz={event => this.props.toggleEntityVisibilityInHtsViz(event, "asn")}
+                                                        handleEntityClick={(entityType, entityCode) => this.props.handleEntityClick(entityType, entityCode)}
+                                                        handleCheckboxEventLoading={(item) => this.props.handleCheckboxEventLoading(item)}
+                                                    /> : <Loading/>
                                                 }
                                             </div>
                                         </div>
