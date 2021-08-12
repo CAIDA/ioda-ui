@@ -11,8 +11,8 @@ class EntityRelated extends Component {
         this.relatedTableConfig = React.createRef();
     }
 
-    genMap() {
-        return <TopoMap topoData={this.props.topoData} bounds={this.props.bounds} scores={this.props.topoScores} handleEntityShapeClick={(entity) => this.props.handleEntityShapeClick(entity)}/>;
+    componentDidMount() {
+        console.log("update");
     }
 
     render() {
@@ -113,7 +113,7 @@ class EntityRelated extends Component {
                     <div className="map" style={{display: 'block', height: '40.5rem'}}>
                         {
                             this.props.topoData && this.props.bounds && this.props.topoScores
-                                ? this.genMap()
+                                ? <TopoMap topoData={this.props.topoData} bounds={this.props.bounds} scores={this.props.topoScores} handleEntityShapeClick={(entity) => this.props.handleEntityShapeClick(entity)}/>
                                 : this.props.summaryDataMapRaw && this.props.topoScores && this.props.topoScores.length === 0
                                     ? <div className="related__no-outages">
                                         <h2 className="related__no-outages-title">{noOutagesOnMapMessage}</h2>
