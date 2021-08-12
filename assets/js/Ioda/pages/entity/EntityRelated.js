@@ -11,10 +11,6 @@ class EntityRelated extends Component {
         this.relatedTableConfig = React.createRef();
     }
 
-    componentDidMount() {
-        console.log("update");
-    }
-
     render() {
         const regionalModalButtonText = T.translate("entity.regionalModalButtonText");
         const asnModalButtonText = T.translate("entity.asnModalButtonText");
