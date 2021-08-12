@@ -42,7 +42,6 @@ class DashboardTab extends Component {
             .showRuler(true)
             .interpolationCurve(d3.curveStepAfter)
             .positiveColors(['white', horizonChartSeriesColor])
-            // .positiveColorStops([.99])
             .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
     }
 

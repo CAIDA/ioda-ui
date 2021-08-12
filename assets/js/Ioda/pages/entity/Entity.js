@@ -54,6 +54,7 @@ import {
 } from "../../utils";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
 import Error from "../../components/error/Error";
+import DashboardTab from "../dashboard/DashboardTab";
 
 
 class Entity extends Component {
@@ -107,6 +108,8 @@ class Entity extends Component {
             alertDataProcessed: [],
             // relatedTo entity Map
             topoData: null,
+            topoScores: null,
+            bounds: null,
             relatedToMapSummary: null,
             summaryDataMapRaw: null,
             // relatedTo entity Table
@@ -299,16 +302,14 @@ class Entity extends Component {
             let topoObjects = topojson.feature(this.props.topoData.region.topology, this.props.topoData.region.topology.objects["ne_10m_admin_1.regions.v3.0.0"]);
             this.setState({
                 topoData: topoObjects
-            }, () => {
-                this.populateGeoJsonMap();
-            });
+            }, this.getMapScores);
         }
 
         // After API call for outage summary data completes, pass summary data to map function for data merging
         if (this.props.relatedToMapSummary !== prevProps.relatedToMapSummary) {
             this.setState({
                 summaryDataMapRaw: this.props.relatedToMapSummary
-            })
+            }, this.getMapScores)
         }
 
         // After API call for outage summary data completes, pass summary data to table component for data merging
@@ -516,7 +517,9 @@ class Entity extends Component {
                     alertDataRaw: null,
                     alertDataProcessed: [],
                     // relatedTo entity Map
+                    topoScores: null,
                     summaryDataMapRaw: null,
+                    bounds: null,
                     // relatedTo entity Table
                     relatedToTableApiPageNumber: 0,
                     relatedToTableSummary: null,
@@ -589,6 +592,8 @@ class Entity extends Component {
                     alertDataProcessed: [],
                     // relatedTo entity Map
                     summaryDataMapRaw: null,
+                    topoScores: null,
+                    bounds: null,
                     // relatedTo entity Table
                     relatedToTableApiPageNumber: 0,
                     relatedToTableSummary: null,
@@ -1105,8 +1110,8 @@ class Entity extends Component {
         }
     }
     // Process Geo data from api, attribute outage scores to a new topoData property where possible, then render Map
-    populateGeoJsonMap() {
-        if (this.state.topoData && this.state.summaryDataMapRaw && this.state.summaryDataMapRaw[0] && this.state.summaryDataMapRaw[0]["entity"]) {
+    getMapScores() {
+        if (this.state.topoData && this.state.summaryDataMapRaw) {
             let topoData = this.state.topoData;
             let features = [];
             let scores = [];
@@ -1134,18 +1139,7 @@ class Entity extends Component {
                 outageCoords = getOutageCoords(features);
             }
 
-            return <TopoMap topoData={topoData} bounds={outageCoords} scores={scores} handleEntityShapeClick={this.handleEntityShapeClick}/>;
-        } else if (this.state.summaryDataMapRaw && this.state.summaryDataMapRaw.length === 0) {
-            const noOutagesOnMapMessage = T.translate("entityModal.noOutagesOnMapMessage");
-            const regionalModalButtonText = T.translate("entity.regionalModalButtonText");
-            return <div className="related__no-outages">
-                <h2 className="related__no-outages-title">{noOutagesOnMapMessage}</h2>
-                <button style={{marginTop: "2rem", transform: "scale(1.5)"}} className="related__modal-button" onClick={() => this.toggleModal("map")}>
-                    {regionalModalButtonText}
-                </button>
-            </div>
-        } else {
-            return <Loading/>
+            this.setState({topoScores: scores, bounds: outageCoords});
         }
     }
     // Make API call to retrieve summary data to populate on map
@@ -2098,8 +2092,14 @@ class Entity extends Component {
                                     toggleModal={this.toggleModal}
                                     showMapModal={this.state.showMapModal}
                                     showTableModal={this.state.showTableModal}
+                                    // to populate map
+                                    topoData={this.state.topoData}
+                                    topoScores={this.state.topoScores}
+                                    bounds={this.state.bounds}
+                                    handleEntityShapeClick={(entity) => this.handleEntityShapeClick(entity)}
+                                    summaryDataRaw={this.state.summaryDataRaw}
+                                    // to populate tables
                                     relatedToTableSummary={this.state.relatedToTableSummary}
-                                    populateGeoJsonMap={() => this.populateGeoJsonMap()}
                                     genSummaryTable={() => this.genSummaryTable()}
                                     genSignalsTable={(entityType) => this.genSignalsTable(entityType)}
                                     handleSelectAndDeselectAllButtons={(event) => this.handleSelectAndDeselectAllButtons(event)}

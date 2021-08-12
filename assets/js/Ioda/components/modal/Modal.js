@@ -4,6 +4,7 @@ import T from 'i18n-react';
 import Loading from "../../components/loading/Loading";
 import LoadingIcon from 'images/icons/icon-loading.png';
 import Tooltip from "../tooltip/Tooltip";
+import TopoMap from "../map/Map";
 
 class Modal extends Component {
     constructor(props) {
@@ -35,6 +36,10 @@ class Modal extends Component {
     genAsnUcsdNt = () => {
         this.props.populateHtsChart(this.configUcsdNt.current.offsetWidth, "ucsd-nt", "asn");
     };
+
+    genMap() {
+        return <TopoMap topoData={this.props.topoData} bounds={this.props.bounds} scores={this.props.topoScores} handleEntityShapeClick={(entity) => this.props.handleEntityShapeClick(entity)}/>;
+    }
 
     handleAdditionalEntitiesLoading(event) {
         let name = event.target.name;
@@ -184,13 +189,17 @@ class Modal extends Component {
                                         <div className="modal__map-container">
                                             <h3 className="heading-h3">{regionalMapTitle}</h3>
                                             <div className="modal__map">
-                                                {
-                                                    this.props.summaryDataMapRaw
-                                                        ? this.props.summaryDataMapRaw.length > 0
-                                                            ? this.props.populateGeoJsonMap()
-                                                            : noOutagesOnMapMessage
-                                                        : <Loading/>
-                                                }
+                                                <div className="modal__map" style={{display: 'block', height: '40.5rem'}}>
+                                                    {
+                                                        this.props.topoData && this.props.bounds && this.props.topoScores
+                                                            ? this.genMap()
+                                                            : this.props.summaryDataMapRaw && this.props.topoScores && this.props.topoScores.length === 0
+                                                            ? <div className="related__no-outages">
+                                                                <h2 className="related__no-outages-title">{noOutagesOnMapMessage}</h2>
+                                                            </div>
+                                                            : <Loading/>
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
