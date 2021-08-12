@@ -1268,36 +1268,6 @@ class Entity extends Component {
 
 
 // Modal Windows
-    // Display the table in the UI if the data is available
-    genSignalsTable(entityType) {
-        switch (entityType) {
-            case "region":
-                return (
-                    this.state.regionalSignalsTableSummaryDataProcessed &&
-                    <Table
-                        type="signal"
-                        data={this.state.regionalSignalsTableSummaryDataProcessed}
-                        totalCount={this.state.regionalSignalsTableSummaryDataProcessed.length}
-                        toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInHtsViz(event, "region")}
-                        handleEntityClick={(entityType, entityCode) => this.handleEntityClick(entityType, entityCode)}
-                        handleCheckboxEventLoading={(item) => this.handleCheckboxEventLoading(item)}
-                    />
-                );
-            case "asn":
-                return (
-                    this.state.asnSignalsTableSummaryDataProcessed &&
-                    <Table
-                        type="signal"
-                        data={this.state.asnSignalsTableSummaryDataProcessed}
-                        totalCount={this.state.asnSignalsTableTotalCount}
-                        entityType={this.state.entityType === "asn" ? "country" : "asn"}
-                        toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInHtsViz(event, "asn")}
-                        handleEntityClick={(entityType, entityCode) => this.handleEntityClick(entityType, entityCode)}
-                        handleCheckboxEventLoading={(item) => this.handleCheckboxEventLoading(item)}
-                    />
-                );
-        }
-    }
     // Make API call that gets raw signals for a group of entities
     getSignalsHtsDataEvents(entityType, dataSource) {
         let until = this.state.until;
@@ -1869,7 +1839,6 @@ class Entity extends Component {
             this.setState({
                 regionalSignalsTableSummaryDataProcessed: this.state.regionalSignalsTableSummaryDataProcessed.concat(signalsTableData.slice(this.initialTableLimit))
             }, () => {
-                this.genSignalsTable("region");
                 this.setState({loadAllButtonEntitiesLoading: false, regionalRawSignalsLoadAllButtonClicked: true});
             });
         }
@@ -1882,7 +1851,6 @@ class Entity extends Component {
                 this.setState({
                     asnSignalsTableSummaryDataProcessed: this.state.asnSignalsTableSummaryDataProcessed.concat(signalsTableData.slice(this.initialTableLimit)),
                 }, () => {
-                    this.genSignalsTable("asn");
                     this.setState({
                         loadAllButtonEntitiesLoading: false
                     });

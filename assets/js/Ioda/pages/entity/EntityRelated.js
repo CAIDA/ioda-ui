@@ -163,7 +163,6 @@ class EntityRelated extends Component {
                                 // tracking when the close button is clicked
                                 toggleModal={this.props.toggleModal}
                                 // render function that populates the ui
-                                // genSignalsTable={(entityType) => this.props.genSignalsTable(entityType)}
 
                                 // data that populates in table
                                 asnSignalsTableSummaryDataProcessed={this.props.asnSignalsTableSummaryDataProcessed}
