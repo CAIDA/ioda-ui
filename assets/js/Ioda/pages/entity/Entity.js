@@ -1251,32 +1251,15 @@ class Entity extends Component {
             // console.log(summaryData);
             this.setState({
                 relatedToTableSummaryProcessed: summaryData
-            }, () => {
-                this.genSummaryTable();
             })
         }
         // If the end of the data list is hit but more data exists, fetch it and tack it on
         if (this.state.relatedToTableApiPageNumber > 0) {
             this.setState({
                 relatedToTableSummaryProcessed: this.state.relatedToTableSummaryProcessed.concat(summaryData)
-            }, () => {
-                this.genSummaryTable();
             })
         }
 
-    }
-    // Populate Summary table in the UI for Related ASNs
-    genSummaryTable() {
-        return (
-            this.state.relatedToTableSummaryProcessed &&
-            <Table
-                type="summary"
-                data={this.state.relatedToTableSummaryProcessed}
-                totalCount={this.state.relatedToTableSummaryProcessed.length}
-                entityType={this.state.entityType === "asn" ? "country" : "asn"}
-                handleEntityClick={(entityType, entityCode) => this.handleEntityClick(entityType, entityCode)}
-            />
-        )
     }
     // function to manage what happens when a linked entity in the table is clicked
     handleEntityClick(entityType, entityCode) {
@@ -2098,9 +2081,11 @@ class Entity extends Component {
                                     bounds={this.state.bounds}
                                     handleEntityShapeClick={(entity) => this.handleEntityShapeClick(entity)}
                                     summaryDataRaw={this.state.summaryDataRaw}
-                                    // to populate tables
+                                    // to populate asn summary table
+                                    relatedToTableSummaryProcessed={this.state.relatedToTableSummaryProcessed}
                                     relatedToTableSummary={this.state.relatedToTableSummary}
-                                    genSummaryTable={() => this.genSummaryTable()}
+                                    handleEntityClick={(entity) => this.handleEntityClick(entity)}
+                                    // raw signal tables
                                     genSignalsTable={(entityType) => this.genSignalsTable(entityType)}
                                     handleSelectAndDeselectAllButtons={(event) => this.handleSelectAndDeselectAllButtons(event)}
                                     // Regional HTS methods

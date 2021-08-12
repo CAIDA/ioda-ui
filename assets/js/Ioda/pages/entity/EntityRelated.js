@@ -4,6 +4,7 @@ import T from "i18n-react";
 import Loading from "../../components/loading/Loading";
 import Tooltip from "../../components/tooltip/Tooltip";
 import TopoMap from "../../components/map/Map";
+import Table from "../../components/table/Table";
 
 class EntityRelated extends Component {
     constructor(props) {
@@ -196,9 +197,15 @@ class EntityRelated extends Component {
                     </div>
                     <div className="tab__table" ref={this.relatedTableConfig}>
                         {
-                            this.props.relatedToTableSummary
-                                ? this.props.genSummaryTable()
-                                : <Loading/>
+                            this.props.relatedToTableSummaryProcessed ?
+                            <Table
+                                type="summary"
+                                data={this.props.relatedToTableSummaryProcessed}
+                                totalCount={this.props.relatedToTableSummaryProcessed.length}
+                                entityType={this.props.entityType === "asn" ? "country" : "asn"}
+                                handleEntityClick={(entityType, entityCode) => this.props.handleEntityClick(entityType, entityCode)}
+                            />
+                            : <Loading/>
                         }
                     </div>
                 </div>
