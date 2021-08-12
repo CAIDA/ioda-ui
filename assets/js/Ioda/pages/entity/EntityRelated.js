@@ -3,6 +3,7 @@ import Modal from '../../components/modal/Modal';
 import T from "i18n-react";
 import Loading from "../../components/loading/Loading";
 import Tooltip from "../../components/tooltip/Tooltip";
+import TopoMap from "../../components/map/Map";
 
 class EntityRelated extends Component {
     constructor(props) {
@@ -21,6 +22,7 @@ class EntityRelated extends Component {
         const tooltipEntityRegionalSummaryMapText = T.translate("tooltip.entityRegionalSummaryMap.text");
         const tooltipEntityAsnSummaryTableTitle = T.translate("tooltip.entityAsnSummaryTable.title");
         const tooltipEntityAsnSummaryTableText = T.translate("tooltip.entityAsnSummaryTable.text");
+        const noOutagesOnMapMessage = T.translate("entityModal.noOutagesOnMapMessage");
 
         return(
             <div className="row related">
@@ -58,8 +60,12 @@ class EntityRelated extends Component {
                                 showModal={this.props.showMapModal}
                                 // tracking when the close button is clicked
                                 toggleModal={this.props.toggleModal}
-                                // render function that populates the ui
-                                populateGeoJsonMap={() => this.props.populateGeoJsonMap()}
+                                // to populate outage map
+                                topoData={this.props.topoData}
+                                bounds={this.props.bounds}
+                                topoScores={this.props.topoScores}
+                                handleEntityShapeClick={(entity) => this.props.handleEntityShapeClick(entity)}
+
                                 // data that draws polygons on map
                                 summaryDataMapRaw={this.props.summaryDataMapRaw}
                                 // render function that populates the ui
@@ -102,7 +108,16 @@ class EntityRelated extends Component {
                     </div>
                     <div className="map" style={{display: 'block', height: '40.5rem'}}>
                         {
-                            this.props.populateGeoJsonMap()
+                            this.props.topoData && this.props.bounds && this.props.topoScores
+                                ? <TopoMap topoData={this.props.topoData} bounds={this.props.bounds} scores={this.props.topoScores} handleEntityShapeClick={(entity) => this.props.handleEntityShapeClick(entity)}/>
+                                : this.props.summaryDataMapRaw && this.props.topoScores && this.props.topoScores.length === 0
+                                    ? <div className="related__no-outages">
+                                        <h2 className="related__no-outages-title">{noOutagesOnMapMessage}</h2>
+                                        <button style={{marginTop: "2rem", transform: "scale(1.5)"}} className="related__modal-button" onClick={() => this.props.toggleModal("map")}>
+                                            {regionalModalButtonText}
+                                        </button>
+                                    </div>
+                                    : <Loading/>
                         }
                     </div>
                 </div>
