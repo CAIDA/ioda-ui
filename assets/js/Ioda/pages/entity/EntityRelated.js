@@ -4,6 +4,7 @@ import T from "i18n-react";
 import Loading from "../../components/loading/Loading";
 import Tooltip from "../../components/tooltip/Tooltip";
 import TopoMap from "../../components/map/Map";
+import Table from "../../components/table/Table";
 
 class EntityRelated extends Component {
     constructor(props) {
@@ -66,10 +67,16 @@ class EntityRelated extends Component {
                                 topoScores={this.props.topoScores}
                                 handleEntityShapeClick={(entity) => this.props.handleEntityShapeClick(entity)}
 
+                                // render function that populates the ui
+                                totalCount={this.props.regionalSignalsTableSummaryDataProcessed.length}
+                                toggleEntityVisibilityInHtsViz={event => this.props.toggleEntityVisibilityInHtsViz(event, "region")}
+                                handleEntityClick={(entityType, entityCode) => this.props.handleEntityClick(entityType, entityCode)}
+                                handleCheckboxEventLoading={(item) => this.props.handleCheckboxEventLoading(item)}
+                                regionalSignalsTableSummaryDataProcessed={this.props.regionalSignalsTableSummaryDataProcessed}
+
                                 // data that draws polygons on map
                                 summaryDataMapRaw={this.props.summaryDataMapRaw}
-                                // render function that populates the ui
-                                genSignalsTable={(entityType) => this.props.genSignalsTable(entityType)}
+
                                 // check max and uncheck all button functionality
                                 handleSelectAndDeselectAllButtons={(event) => this.props.handleSelectAndDeselectAllButtons(event)}
                                 // Current number of entities checked in table
@@ -80,8 +87,7 @@ class EntityRelated extends Component {
                                 rawRegionalSignalsProcessedPingSlash24={this.props.rawRegionalSignalsProcessedPingSlash24}
                                 rawRegionalSignalsProcessedBgp={this.props.rawRegionalSignalsProcessedBgp}
                                 rawRegionalSignalsProcessedUcsdNt={this.props.rawRegionalSignalsProcessedUcsdNt}
-                                // data that populates in table
-                                regionalSignalsTableSummaryDataProcessed={this.props.regionalSignalsTableSummaryDataProcessed}
+
                                 // Error message when max entities are checked
                                 rawSignalsMaxEntitiesHtsError={this.props.rawSignalsMaxEntitiesHtsError}
                                 // For use in the string that populates when there are more than 300 entities that could load
@@ -111,13 +117,13 @@ class EntityRelated extends Component {
                             this.props.topoData && this.props.bounds && this.props.topoScores
                                 ? <TopoMap topoData={this.props.topoData} bounds={this.props.bounds} scores={this.props.topoScores} handleEntityShapeClick={(entity) => this.props.handleEntityShapeClick(entity)}/>
                                 : this.props.summaryDataMapRaw && this.props.topoScores && this.props.topoScores.length === 0
-                                    ? <div className="related__no-outages">
-                                        <h2 className="related__no-outages-title">{noOutagesOnMapMessage}</h2>
-                                        <button style={{marginTop: "2rem", transform: "scale(1.5)"}} className="related__modal-button" onClick={() => this.props.toggleModal("map")}>
-                                            {regionalModalButtonText}
-                                        </button>
-                                    </div>
-                                    : <Loading/>
+                                ? <div className="related__no-outages">
+                                    <h2 className="related__no-outages-title">{noOutagesOnMapMessage}</h2>
+                                    <button style={{marginTop: "2rem", transform: "scale(1.5)"}} className="related__modal-button" onClick={() => this.props.toggleModal("map")}>
+                                        {regionalModalButtonText}
+                                    </button>
+                                </div>
+                                : <Loading/>
                         }
                     </div>
                 </div>
@@ -157,15 +163,21 @@ class EntityRelated extends Component {
                                 // tracking when the close button is clicked
                                 toggleModal={this.props.toggleModal}
                                 // render function that populates the ui
-                                genSignalsTable={(entityType) => this.props.genSignalsTable(entityType)}
+
+                                // data that populates in table
+                                asnSignalsTableSummaryDataProcessed={this.props.asnSignalsTableSummaryDataProcessed}
+                                // render function that populates the ui
+                                toggleEntityVisibilityInHtsViz={event => this.props.toggleEntityVisibilityInHtsViz(event, "asn")}
+                                handleEntityClick={(entityType, entityCode) => this.props.handleEntityClick(entityType, entityCode)}
+                                handleCheckboxEventLoading={(item) => this.props.handleCheckboxEventLoading(item)}
+
                                 // render function that populate the ui
                                 populateHtsChart={(width, dataSource, entityType) => this.props.populateHtsChart(width, dataSource, entityType)}
                                 // data for each horizon time series
                                 rawAsnSignalsProcessedPingSlash24={this.props.rawAsnSignalsProcessedPingSlash24}
                                 rawAsnSignalsProcessedBgp={this.props.rawAsnSignalsProcessedBgp}
                                 rawAsnSignalsProcessedUcsdNt={this.props.rawAsnSignalsProcessedUcsdNt}
-                                // data that populates in table
-                                asnSignalsTableSummaryDataProcessed={this.props.asnSignalsTableSummaryDataProcessed}
+
                                 // Current number of entities checked in table
                                 asnSignalsTableEntitiesChecked={this.props.asnSignalsTableEntitiesChecked}
                                 // check max and uncheck all button functionality
@@ -196,8 +208,14 @@ class EntityRelated extends Component {
                     </div>
                     <div className="tab__table" ref={this.relatedTableConfig}>
                         {
-                            this.props.relatedToTableSummary
-                                ? this.props.genSummaryTable()
+                            this.props.relatedToTableSummaryProcessed ?
+                                <Table
+                                    type="summary"
+                                    data={this.props.relatedToTableSummaryProcessed}
+                                    totalCount={this.props.relatedToTableSummaryProcessed.length}
+                                    entityType={this.props.entityType === "asn" ? "country" : "asn"}
+                                    handleEntityClick={(entityType, entityCode) => this.props.handleEntityClick(entityType, entityCode)}
+                                />
                                 : <Loading/>
                         }
                     </div>

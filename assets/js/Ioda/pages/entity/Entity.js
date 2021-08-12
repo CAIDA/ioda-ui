@@ -50,7 +50,7 @@ import {
     bgpColor,
     activeProbingColor,
     ucsdNtColor,
-    convertTimeToSecondsForURL
+    convertTimeToSecondsForURL, horizonChartSeriesColor
 } from "../../utils";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
 import Error from "../../components/error/Error";
@@ -1251,32 +1251,15 @@ class Entity extends Component {
             // console.log(summaryData);
             this.setState({
                 relatedToTableSummaryProcessed: summaryData
-            }, () => {
-                this.genSummaryTable();
             })
         }
         // If the end of the data list is hit but more data exists, fetch it and tack it on
         if (this.state.relatedToTableApiPageNumber > 0) {
             this.setState({
                 relatedToTableSummaryProcessed: this.state.relatedToTableSummaryProcessed.concat(summaryData)
-            }, () => {
-                this.genSummaryTable();
             })
         }
 
-    }
-    // Populate Summary table in the UI for Related ASNs
-    genSummaryTable() {
-        return (
-            this.state.relatedToTableSummaryProcessed &&
-            <Table
-                type="summary"
-                data={this.state.relatedToTableSummaryProcessed}
-                totalCount={this.state.relatedToTableSummaryProcessed.length}
-                entityType={this.state.entityType === "asn" ? "country" : "asn"}
-                handleEntityClick={(entityType, entityCode) => this.handleEntityClick(entityType, entityCode)}
-            />
-        )
     }
     // function to manage what happens when a linked entity in the table is clicked
     handleEntityClick(entityType, entityCode) {
@@ -1285,36 +1268,6 @@ class Entity extends Component {
 
 
 // Modal Windows
-    // Display the table in the UI if the data is available
-    genSignalsTable(entityType) {
-        switch (entityType) {
-            case "region":
-                return (
-                    this.state.regionalSignalsTableSummaryDataProcessed &&
-                    <Table
-                        type="signal"
-                        data={this.state.regionalSignalsTableSummaryDataProcessed}
-                        totalCount={this.state.regionalSignalsTableSummaryDataProcessed.length}
-                        toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInHtsViz(event, "region")}
-                        handleEntityClick={(entityType, entityCode) => this.handleEntityClick(entityType, entityCode)}
-                        handleCheckboxEventLoading={(item) => this.handleCheckboxEventLoading(item)}
-                    />
-                );
-            case "asn":
-                return (
-                    this.state.asnSignalsTableSummaryDataProcessed &&
-                    <Table
-                        type="signal"
-                        data={this.state.asnSignalsTableSummaryDataProcessed}
-                        totalCount={this.state.asnSignalsTableTotalCount}
-                        entityType={this.state.entityType === "asn" ? "country" : "asn"}
-                        toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInHtsViz(event, "asn")}
-                        handleEntityClick={(entityType, entityCode) => this.handleEntityClick(entityType, entityCode)}
-                        handleCheckboxEventLoading={(item) => this.handleCheckboxEventLoading(item)}
-                    />
-                );
-        }
-    }
     // Make API call that gets raw signals for a group of entities
     getSignalsHtsDataEvents(entityType, dataSource) {
         let until = this.state.until;
@@ -1618,7 +1571,7 @@ class Entity extends Component {
                 .enableZoom(false)
                 .showRuler(true)
                 .interpolationCurve(d3.curveStepAfter)
-                .positiveColors(['white', '#006D2D'])
+                .positiveColors(['white', horizonChartSeriesColor])
                 // .positiveColorStops([.01])
                 .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}:&nbsp;${humanizeNumber(val)}`;
         }
@@ -1886,7 +1839,6 @@ class Entity extends Component {
             this.setState({
                 regionalSignalsTableSummaryDataProcessed: this.state.regionalSignalsTableSummaryDataProcessed.concat(signalsTableData.slice(this.initialTableLimit))
             }, () => {
-                this.genSignalsTable("region");
                 this.setState({loadAllButtonEntitiesLoading: false, regionalRawSignalsLoadAllButtonClicked: true});
             });
         }
@@ -1899,7 +1851,6 @@ class Entity extends Component {
                 this.setState({
                     asnSignalsTableSummaryDataProcessed: this.state.asnSignalsTableSummaryDataProcessed.concat(signalsTableData.slice(this.initialTableLimit)),
                 }, () => {
-                    this.genSignalsTable("asn");
                     this.setState({
                         loadAllButtonEntitiesLoading: false
                     });
@@ -2098,11 +2049,21 @@ class Entity extends Component {
                                     bounds={this.state.bounds}
                                     handleEntityShapeClick={(entity) => this.handleEntityShapeClick(entity)}
                                     summaryDataRaw={this.state.summaryDataRaw}
-                                    // to populate tables
+                                    // to populate asn summary table
+                                    relatedToTableSummaryProcessed={this.state.relatedToTableSummaryProcessed}
                                     relatedToTableSummary={this.state.relatedToTableSummary}
-                                    genSummaryTable={() => this.genSummaryTable()}
-                                    genSignalsTable={(entityType) => this.genSignalsTable(entityType)}
+                                    // handleEntityClick={(entity) => this.handleEntityClick(entity)}
+                                    // raw signals tables for region modal
                                     handleSelectAndDeselectAllButtons={(event) => this.handleSelectAndDeselectAllButtons(event)}
+                                    regionalSignalsTableSummaryDataProcessed={this.state.regionalSignalsTableSummaryDataProcessed}
+
+                                    toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInHtsViz(event, "region")}
+                                    handleEntityClick={(entityType, entityCode) => this.handleEntityClick(entityType, entityCode)}
+                                    handleCheckboxEventLoading={(item) => this.handleCheckboxEventLoading(item)}
+
+                                    asnSignalsTableSummaryDataProcessed={this.state.asnSignalsTableSummaryDataProcessed}
+
+
                                     // Regional HTS methods
                                     regionalSignalsTableEntitiesChecked={this.state.regionalSignalsTableEntitiesChecked}
                                     asnSignalsTableEntitiesChecked={this.state.asnSignalsTableEntitiesChecked}
@@ -2110,9 +2071,6 @@ class Entity extends Component {
 
                                     populateHtsChart={(width, dataSource, entityType) => this.populateHtsChart(width, dataSource, entityType)}
 
-                                    // to detect when loading bar should appear in modal
-                                    regionalSignalsTableSummaryDataProcessed={this.state.regionalSignalsTableSummaryDataProcessed}
-                                    asnSignalsTableSummaryDataProcessed={this.state.asnSignalsTableSummaryDataProcessed}
 
                                     rawRegionalSignalsProcessedPingSlash24={this.state.rawRegionalSignalsProcessedPingSlash24}
                                     rawRegionalSignalsProcessedBgp={this.state.rawRegionalSignalsProcessedBgp}
