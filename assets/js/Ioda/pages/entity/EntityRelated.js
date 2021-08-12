@@ -11,7 +11,7 @@ class EntityRelated extends Component {
         super(props);
         this.relatedTableConfig = React.createRef();
     }
-    
+
     render() {
         const regionalModalButtonText = T.translate("entity.regionalModalButtonText");
         const asnModalButtonText = T.translate("entity.asnModalButtonText");
@@ -74,7 +74,6 @@ class EntityRelated extends Component {
                                 handleCheckboxEventLoading={(item) => this.props.handleCheckboxEventLoading(item)}
                                 regionalSignalsTableSummaryDataProcessed={this.props.regionalSignalsTableSummaryDataProcessed}
 
-
                                 // data that draws polygons on map
                                 summaryDataMapRaw={this.props.summaryDataMapRaw}
 
@@ -118,13 +117,13 @@ class EntityRelated extends Component {
                             this.props.topoData && this.props.bounds && this.props.topoScores
                                 ? <TopoMap topoData={this.props.topoData} bounds={this.props.bounds} scores={this.props.topoScores} handleEntityShapeClick={(entity) => this.props.handleEntityShapeClick(entity)}/>
                                 : this.props.summaryDataMapRaw && this.props.topoScores && this.props.topoScores.length === 0
-                                    ? <div className="related__no-outages">
-                                        <h2 className="related__no-outages-title">{noOutagesOnMapMessage}</h2>
-                                        <button style={{marginTop: "2rem", transform: "scale(1.5)"}} className="related__modal-button" onClick={() => this.props.toggleModal("map")}>
-                                            {regionalModalButtonText}
-                                        </button>
-                                    </div>
-                                    : <Loading/>
+                                ? <div className="related__no-outages">
+                                    <h2 className="related__no-outages-title">{noOutagesOnMapMessage}</h2>
+                                    <button style={{marginTop: "2rem", transform: "scale(1.5)"}} className="related__modal-button" onClick={() => this.props.toggleModal("map")}>
+                                        {regionalModalButtonText}
+                                    </button>
+                                </div>
+                                : <Loading/>
                         }
                     </div>
                 </div>
@@ -173,7 +172,6 @@ class EntityRelated extends Component {
                                 handleEntityClick={(entityType, entityCode) => this.props.handleEntityClick(entityType, entityCode)}
                                 handleCheckboxEventLoading={(item) => this.props.handleCheckboxEventLoading(item)}
 
-
                                 // render function that populate the ui
                                 populateHtsChart={(width, dataSource, entityType) => this.props.populateHtsChart(width, dataSource, entityType)}
                                 // data for each horizon time series
@@ -212,14 +210,14 @@ class EntityRelated extends Component {
                     <div className="tab__table" ref={this.relatedTableConfig}>
                         {
                             this.props.relatedToTableSummaryProcessed ?
-                            <Table
-                                type="summary"
-                                data={this.props.relatedToTableSummaryProcessed}
-                                totalCount={this.props.relatedToTableSummaryProcessed.length}
-                                entityType={this.props.entityType === "asn" ? "country" : "asn"}
-                                handleEntityClick={(entityType, entityCode) => this.props.handleEntityClick(entityType, entityCode)}
-                            />
-                            : <Loading/>
+                                <Table
+                                    type="summary"
+                                    data={this.props.relatedToTableSummaryProcessed}
+                                    totalCount={this.props.relatedToTableSummaryProcessed.length}
+                                    entityType={this.props.entityType === "asn" ? "country" : "asn"}
+                                    handleEntityClick={(entityType, entityCode) => this.props.handleEntityClick(entityType, entityCode)}
+                                />
+                                : <Loading/>
                         }
                     </div>
                 </div>
