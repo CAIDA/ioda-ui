@@ -290,8 +290,6 @@ class ControlPanel extends Component {
         const endDateTime = convertDateValuesToSeconds(e.target.value.split(" — ")[1]);
         const readableTimes = this.setDateInLegend(Math.floor(startDateTime / 1000), Math.floor(endDateTime / 1000));
 
-        console.log("handleRangeInputKeyChange");
-
         this.setState({
             selection: {
                 startDate: new Date(startDateTime),

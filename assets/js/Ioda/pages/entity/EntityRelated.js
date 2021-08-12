@@ -12,6 +12,10 @@ class EntityRelated extends Component {
         this.relatedTableConfig = React.createRef();
     }
 
+    componentDidMount() {
+        console.log("update15");
+    }
+
     render() {
         const regionalModalButtonText = T.translate("entity.regionalModalButtonText");
         const asnModalButtonText = T.translate("entity.asnModalButtonText");
@@ -81,9 +85,8 @@ class EntityRelated extends Component {
                                 handleSelectAndDeselectAllButtons={(event) => this.props.handleSelectAndDeselectAllButtons(event)}
                                 // Current number of entities checked in table
                                 regionalSignalsTableEntitiesChecked={this.props.regionalSignalsTableEntitiesChecked}
-                                // function to populate horizon time series visual
-                                populateHtsChart={(width, dataSource, entityType) => this.props.populateHtsChart(width, dataSource, entityType)}
-                                // to detect when loading bar should appear in modal
+
+                                // to populate data in modal for chart
                                 rawRegionalSignalsProcessedPingSlash24={this.props.rawRegionalSignalsProcessedPingSlash24}
                                 rawRegionalSignalsProcessedBgp={this.props.rawRegionalSignalsProcessedBgp}
                                 rawRegionalSignalsProcessedUcsdNt={this.props.rawRegionalSignalsProcessedUcsdNt}
@@ -162,22 +165,18 @@ class EntityRelated extends Component {
                                 entityType={this.props.entityType}
                                 // tracking when the close button is clicked
                                 toggleModal={this.props.toggleModal}
-                                // render function that populates the ui
-
                                 // data that populates in table
                                 asnSignalsTableSummaryDataProcessed={this.props.asnSignalsTableSummaryDataProcessed}
                                 // render function that populates the ui
                                 toggleEntityVisibilityInHtsViz={event => this.props.toggleEntityVisibilityInHtsViz(event, "asn")}
                                 handleEntityClick={(entityType, entityCode) => this.props.handleEntityClick(entityType, entityCode)}
                                 handleCheckboxEventLoading={(item) => this.props.handleCheckboxEventLoading(item)}
-
                                 // render function that populate the ui
                                 populateHtsChart={(width, dataSource, entityType) => this.props.populateHtsChart(width, dataSource, entityType)}
                                 // data for each horizon time series
                                 rawAsnSignalsProcessedPingSlash24={this.props.rawAsnSignalsProcessedPingSlash24}
                                 rawAsnSignalsProcessedBgp={this.props.rawAsnSignalsProcessedBgp}
                                 rawAsnSignalsProcessedUcsdNt={this.props.rawAsnSignalsProcessedUcsdNt}
-
                                 // Current number of entities checked in table
                                 asnSignalsTableEntitiesChecked={this.props.asnSignalsTableEntitiesChecked}
                                 // check max and uncheck all button functionality
