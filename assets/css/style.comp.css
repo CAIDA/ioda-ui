@@ -3156,6 +3156,12 @@ button[class*="searchButton"] {
         padding: 2rem; }
       .dashboard .tabs .tab__error {
         font-size: 1.3rem; }
+        .dashboard .tabs .tab__error--noOutagesFound {
+          background-color: #E74C3C;
+          color: #fff;
+          padding: 1rem;
+          border-radius: 0.4rem;
+          font-family: "Lato-Bold", "Helvetica", "arial", sans-serif; }
       .dashboard .tabs .tab__config {
         display: flex;
         flex-direction: row;
