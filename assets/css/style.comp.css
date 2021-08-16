@@ -3161,7 +3161,8 @@ button[class*="searchButton"] {
           color: #fff;
           padding: 1rem;
           border-radius: 0.4rem;
-          font-family: "Lato-Bold", "Helvetica", "arial", sans-serif; }
+          font-family: "Lato-Bold", "Helvetica", "arial", sans-serif;
+          text-transform: capitalize; }
       .dashboard .tabs .tab__config {
         display: flex;
         flex-direction: row;
