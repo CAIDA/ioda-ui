@@ -86,7 +86,6 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        console.log("upadte");
         this.setState({mounted: true}, () => {
             // Get topo and outage data to populate map
             this.getDataTopo();
@@ -110,10 +109,7 @@ class Home extends Component {
         if (this.props.summary !== prevProps.summary) {
             this.setState({
                 outageSummaryData: this.props.summary
-            }, () => {
-                console.log(this.state.outageSummaryData);
-                this.getMapScores();
-            })
+            }, this.getMapScores)
         }
 
         // After API call for topographic data completes, update topoData state with fresh data
@@ -121,8 +117,6 @@ class Home extends Component {
             let topoObjects = topojson.feature(this.props.topoData.country.topology, this.props.topoData.country.topology.objects["ne_10m_admin_0.countries.v3.1.0"]);
             this.setState({
                 topoData: topoObjects
-            }, () => {
-                console.log(this.state.topoData);
             });
         }
     }
@@ -159,9 +153,7 @@ class Home extends Component {
                     });
                 }
             });
-            this.setState({topoScores: scores}, ()=> {
-                console.log(this.state.topoScores);
-            });
+            this.setState({topoScores: scores});
         }
     }
 
