@@ -113,6 +113,15 @@
 
       &__error {
         font-size: 1.3rem;
+
+        &--noOutagesFound {
+          background-color: $color-error-background;
+          color: $color-white;
+          padding: 1rem;
+          border-radius: 0.4rem;
+          font-family: $font-lato-bold;
+          text-transform: capitalize;
+        }
       }
 
       &__config {

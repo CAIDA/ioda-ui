@@ -79,13 +79,14 @@ class Home extends Component {
             searchTerm: null,
             lastFetched: 0,
             topoData: null,
+            topoScores: null,
             outageSummaryData: null
         };
         this.handleEntityShapeClick = this.handleEntityShapeClick.bind(this);
     }
 
     componentDidMount() {
-        this.setState({mounted: true, mapLoading: true}, () => {
+        this.setState({mounted: true}, () => {
             // Get topo and outage data to populate map
             this.getDataTopo();
             this.getDataOutageSummary();
@@ -108,7 +109,7 @@ class Home extends Component {
         if (this.props.summary !== prevProps.summary) {
             this.setState({
                 outageSummaryData: this.props.summary
-            })
+            }, this.getMapScores)
         }
 
         // After API call for topographic data completes, update topoData state with fresh data
@@ -116,8 +117,6 @@ class Home extends Component {
             let topoObjects = topojson.feature(this.props.topoData.country.topology, this.props.topoData.country.topology.objects["ne_10m_admin_0.countries.v3.1.0"]);
             this.setState({
                 topoData: topoObjects
-            }, () => {
-                this.populateGeoJsonMap();
             });
         }
     }
@@ -132,8 +131,8 @@ class Home extends Component {
         }
     }
 
-    // Populate JSX that creates the map once topographic data is available
-    populateGeoJsonMap() {
+    // Compile Scores to be used within the map
+    getMapScores() {
         if (this.state.topoData && this.state.outageSummaryData) {
             let topoData = this.state.topoData;
             let scores = [];
@@ -154,9 +153,7 @@ class Home extends Component {
                     });
                 }
             });
-
-            return <TopoMap topoData={topoData} scores={scores} handleEntityShapeClick={this.handleEntityShapeClick}/>;
-
+            this.setState({topoScores: scores});
         }
     }
 
@@ -253,13 +250,15 @@ class Home extends Component {
                         </h2>
                         <T.p className="map__text" text="home.mapTimeFrame"/>
                         {
-                            !this.state.topoData
-                                ? <Loading/>
-                                : <div className="map__content">
-                                    {
-                                        this.populateGeoJsonMap()
-                                    }
+                            this.state.topoData && this.state.topoScores
+                                ? <div className="map__content">
+                                    <TopoMap topoData={this.state.topoData} scores={this.state.topoScores} handleEntityShapeClick={this.handleEntityShapeClick}/>
                                 </div>
+                            : this.state.topoData && this.state.outageSummaryData.length === 0
+                                ? <div className="map__content">
+                                    <TopoMap topoData={this.state.topoData} scores={null} handleEntityShapeClick={this.handleEntityShapeClick}/>
+                                </div>
+                            : <Loading/>
                         }
                     </div>
                     <div className="col-1-of-4">

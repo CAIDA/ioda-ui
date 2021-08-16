@@ -105,6 +105,7 @@ class TopoMap extends Component {
                             color: 'transparent',
                             weight: 2,
                             fillColor:
+                                !scores ? "#f2f2f0" :
                                 !feature.properties.score
                                     ? "#f2f2f0"
                                     : interpolateColor("#1387CB", "#E8080D", scores[0], scores[scores.length -1], feature.properties.score)
