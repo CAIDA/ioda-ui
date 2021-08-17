@@ -117,7 +117,7 @@ class Home extends Component {
             let topoObjects = topojson.feature(this.props.topoData.country.topology, this.props.topoData.country.topology.objects["ne_10m_admin_0.countries.v3.1.0"]);
             this.setState({
                 topoData: topoObjects
-            });
+            }, this.getMapScores);
         }
     }
 
