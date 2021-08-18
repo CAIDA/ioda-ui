@@ -359,8 +359,12 @@ button[class*="searchButton"] {
     align-items: center;
 
     &-icon {
-      max-width: 18rem;
-      max-height: 15rem;
+      width: 100%;
+      position: relative;
+      height: inherit;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 

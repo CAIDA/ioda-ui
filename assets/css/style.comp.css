@@ -3045,8 +3045,12 @@ button[class*="searchButton"] {
     justify-content: center;
     align-items: center; }
     .card__logo-icon {
-      max-width: 18rem;
-      max-height: 15rem; }
+      width: 100%;
+      position: relative;
+      height: inherit;
+      display: flex;
+      justify-content: center;
+      align-items: center; }
   .card__text {
     height: 14rem;
     font-size: 1.2rem; }
