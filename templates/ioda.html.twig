@@ -36,7 +36,16 @@
         </script>
     </head>
     <body>
-        <div id="root"></div>
+        <div id="root">
+            <div class="contentLoading">
+                <img width="180" src="/apple-touch-icon.png" alt="IODA logo" />
+                <div class="contentLoading__progressBar progress-bar-striped">
+                    <div style="width: 100%;">
+                        <strong>Loading...</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script src="{{ asset('build/ioda.js') }}"></script>
     </body>
 </html>

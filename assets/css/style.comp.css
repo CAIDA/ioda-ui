@@ -172,6 +172,23 @@ body {
   .app > div:nth-child(2) {
     flex-grow: 1; }
 
+.contentLoading {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+  .contentLoading__progressBar {
+    width: calc(100% - 3rem);
+    height: 3rem !important; }
+    .contentLoading__progressBar > div {
+      font-size: 1.8rem !important;
+      line-height: 3rem !important; }
+
+.full-page-loader > img {
+  animation: 1.8s infinite heartbeat; }
+
 body {
   font-family: 'Lato-Regular', sans-serif;
   line-height: 1.7; }
