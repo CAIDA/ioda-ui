@@ -2375,6 +2375,23 @@ body {
       display: flex;
       justify-content: center;
       align-items: center; }
+      .footer__logos-item:first-child .footer__logos-item-container div {
+        position: relative !important;
+        width: 10rem !important;
+        height: 10rem !important;
+        background-size: contain !important; }
+      .footer__logos-item:not(:first-child) .footer__logos-item-container div {
+        position: relative !important;
+        width: 15rem !important;
+        height: 6rem !important;
+        background-size: contain !important; }
+      .footer__logos-item-container {
+        width: 100%;
+        position: relative;
+        height: inherit;
+        display: flex;
+        justify-content: center;
+        align-items: center; }
       @media only screen and (max-width: 46em) {
         .footer__logos-item--caida {
           margin-bottom: 4rem !important; } }
