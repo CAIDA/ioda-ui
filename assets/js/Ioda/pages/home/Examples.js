@@ -36,6 +36,8 @@
 import React, { PureComponent } from 'react';
 // Internationalization
 import T from 'i18n-react';
+// Lazy Load Images
+import PreloadImage from "react-preload-image";
 // Images
 import africa from 'images/exampleOutages/Africa-Jan2020.jpg';
 import as209 from 'images/exampleOutages/AS209-Dec2018.jpg';
@@ -53,13 +55,11 @@ import {Link} from "react-router-dom";
 
 class Examples extends PureComponent {
     render() {
-        const syriaAltText = T.translate("home.examples.syria.altText");
         const syriaTitle = T.translate("home.examples.syria.title");
         const syriaText1 = T.translate("home.examples.syria.text1");
         const syriaText2 = T.translate("home.examples.syria.text2");
         const syriaText3 = T.translate("home.examples.syria.text3");
 
-        const africaAltText = T.translate("home.examples.africa.altText");
         const africaTitle = T.translate("home.examples.africa.title");
         const africaText1 = T.translate("home.examples.africa.text1");
         const africaText2 = T.translate("home.examples.africa.text2");
@@ -72,7 +72,6 @@ class Examples extends PureComponent {
         const africaText9 = T.translate("home.examples.africa.text9");
         const africaText10 = T.translate("home.examples.africa.text10");
 
-        const iranAltText = T.translate("home.examples.iran.altText");
         const iranTitle = T.translate("home.examples.iran.title");
         const iranText1 = T.translate("home.examples.iran.text1");
         const iranText2 = T.translate("home.examples.iran.text2");
@@ -84,7 +83,6 @@ class Examples extends PureComponent {
         const iranText8 = T.translate("home.examples.iran.text8");
         const iranText9 = T.translate("home.examples.iran.text9");
 
-        const as37680AltText = T.translate("home.examples.as37680.altText");
         const as37680Title = T.translate("home.examples.as37680.title");
         const as37680Text1 = T.translate("home.examples.as37680.text1");
         const as37680Text2 = T.translate("home.examples.as37680.text2");
@@ -92,7 +90,6 @@ class Examples extends PureComponent {
         const as37680Text4 = T.translate("home.examples.as37680.text4");
         const as37680Text5 = T.translate("home.examples.as37680.text5");
 
-        const chinaAltText = T.translate("home.examples.china.altText");
         const chinaTitle = T.translate("home.examples.china.title");
         const chinaText1 = T.translate("home.examples.china.text1");
         const chinaText2 = T.translate("home.examples.china.text2");
@@ -100,13 +97,11 @@ class Examples extends PureComponent {
         const chinaText4 = T.translate("home.examples.china.text4");
         const chinaText5 = T.translate("home.examples.china.text5");
 
-        const venezuelaAltText = T.translate("home.examples.venezuela.altText");
         const venezuelaTitle = T.translate("home.examples.venezuela.title");
         const venezuelaText1 = T.translate("home.examples.venezuela.text1");
         const venezuelaText2 = T.translate("home.examples.venezuela.text2");
         const venezuelaText3 = T.translate("home.examples.venezuela.text3");
 
-        const as209AltText = T.translate("home.examples.as209.altText");
         const as209Title = T.translate("home.examples.as209.title");
         const as209Text1 = T.translate("home.examples.as209.text1");
         const as209Text2 = T.translate("home.examples.as209.text2");
@@ -114,11 +109,9 @@ class Examples extends PureComponent {
         const as209Text4 = T.translate("home.examples.as209.text4");
         const as209Text5 = T.translate("home.examples.as209.text5");
 
-        const iraqAltText = T.translate("home.examples.iraq.altText");
         const iraqTitle = T.translate("home.examples.iraq.title");
         const iraqText1 = T.translate("home.examples.iraq.text1");
 
-        const gabonAltText = T.translate("home.examples.gabon.altText");
         const gabonTitle = T.translate("home.examples.gabon.title");
         const gabonText1 = T.translate("home.examples.gabon.text1");
         const gabonText2 = T.translate("home.examples.gabon.text2");
@@ -145,8 +138,7 @@ class Examples extends PureComponent {
                         <div className="thumbnail">
                             <div className="thumbnail__img">
                                 <Link to="/country/SY?from=1592693703&until=1593557703">
-                                    <img
-                                        src={syria} alt={syriaAltText}/>
+                                    <PreloadImage className="thumbnail__img-container" src={syria} lazy/>
                                 </Link>
                             </div>
                             <div className="thumbnail__text">
@@ -172,8 +164,7 @@ class Examples extends PureComponent {
                         <div className="thumbnail">
                             <div className="thumbnail__img">
                                 <Link to="/dashboard?from=1579108680&until=1579192320">
-                                    <img
-                                        src={africa} alt={africaAltText}/>
+                                    <PreloadImage className="thumbnail__img-container" src={africa} lazy/>
                                 </Link>
                             </div>
                             <div className="thumbnail__text">
@@ -199,7 +190,7 @@ class Examples extends PureComponent {
                         <div className="thumbnail">
                             <div className="thumbnail__img">
                                 <Link to="/country/IR?from=1573862400&until=1574035200">
-                                    <img src={iran} alt={iranAltText}/>
+                                    <PreloadImage className="thumbnail__img-container" src={iran} lazy/>
                                 </Link>
                             </div>
                             <div className="thumbnail__text">
@@ -231,8 +222,7 @@ class Examples extends PureComponent {
                         <div className="thumbnail">
                             <div className="thumbnail__img">
                                 <Link to="/asn/37680?from=1569024000&until=1569153600">
-                                    <img
-                                        src={as37680} alt={as37680AltText}/>
+                                    <PreloadImage className="thumbnail__img-container" src={as37680} lazy/>
                                 </Link>
                             </div>
                             <div className="thumbnail__text">
@@ -258,7 +248,7 @@ class Examples extends PureComponent {
                         <div className="thumbnail">
                             <div className="thumbnail__img">
                                 <Link to="/country/CN?from=1557724024&until=1557810424">
-                                    <img src={china} alt={chinaAltText}/>
+                                    <PreloadImage className="thumbnail__img-container" src={china} lazy/>
                                 </Link>
                             </div>
                             <div className="thumbnail__text">
@@ -284,8 +274,7 @@ class Examples extends PureComponent {
                         <div className="thumbnail">
                             <div className="thumbnail__img">
                                 <Link to="/country/VE?from=1551946200&until=1552528800">
-                                    <img
-                                        src={venezuela} alt={venezuelaAltText}/>
+                                    <PreloadImage className="thumbnail__img-container" src={venezuela} lazy/>
                                 </Link>
                             </div>
                             <div className="thumbnail__text">
@@ -311,8 +300,7 @@ class Examples extends PureComponent {
                         <div className="thumbnail">
                             <div className="thumbnail__img">
                                 <Link to="/asn/209?from=1545820620&until=1546047120">
-                                    <img
-                                        src={as209} alt={as209AltText}/>
+                                    <PreloadImage className="thumbnail__img-container" src={as209} lazy/>
                                 </Link>
                             </div>
                             <div className="thumbnail__text">
@@ -340,8 +328,7 @@ class Examples extends PureComponent {
                         <div className="thumbnail">
                             <div className="thumbnail__img">
                                 <Link to="/country/IQ?from=1475280000&until=1475884800">
-                                    <img
-                                        src={iraq} alt={iraqAltText}/>
+                                    <PreloadImage className="thumbnail__img-container" src={iraq} lazy/>
                                 </Link>
                             </div>
                             <div className="thumbnail__text">
@@ -363,7 +350,7 @@ class Examples extends PureComponent {
                         <div className="thumbnail">
                             <div className="thumbnail__img">
                                 <Link to="/country/GA?from=1473033600&until=1473638400">
-                                    <img src={gabon} alt={gabonAltText}/>
+                                    <PreloadImage className="thumbnail__img-container" src={gabon} lazy/>
                                 </Link>
 
                             </div>

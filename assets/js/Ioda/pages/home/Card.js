@@ -46,7 +46,7 @@ import dosLogo from 'images/logos/dos.png';
 // Constants
 import urls from "../../constants/urls/urls";
 import PreloadImage from "react-preload-image";
-import {Style} from "react-style-tag";
+
 
 class Card extends Component {
     render() {

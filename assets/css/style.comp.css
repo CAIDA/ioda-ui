@@ -2876,6 +2876,18 @@ button[class*="searchButton"] {
           display: flex;
           justify-content: center;
           align-items: center; }
+          .home .examples .row .thumbnail__img-container {
+            width: 100%;
+            position: relative;
+            height: inherit;
+            display: flex;
+            justify-content: center;
+            align-items: center; }
+            .home .examples .row .thumbnail__img-container div {
+              position: relative !important;
+              width: 35rem !important;
+              height: 14rem !important;
+              background-size: contain !important; }
           .home .examples .row .thumbnail__img img {
             height: auto;
             max-width: 35rem;
