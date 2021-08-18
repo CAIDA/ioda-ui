@@ -52,6 +52,7 @@ import mar11iranTelecom from 'images/iran-report/mar-11-2020-iran-telecom.png';
 import mar11shatel from 'images/iran-report/mar-11-2020-shatel.png';
 import timeline from 'images/iran-report/timeline.png';
 import zeus from 'images/iran-report/zeus.png';
+import PreloadImage from "react-preload-image";
 
 
 
@@ -131,7 +132,7 @@ class IranReport2020 extends PureComponent {
                                 <a href="https://ooni.org/post/2019-iran-internet-blackout/">political upheavals</a>
                                 . In this post, we use several complementary data sources to examine Internet connectivity in Iranian networks in a two-month period (February 17 to April 17 2020) covering events such as the legislative election (held on Feb 21 2020) and the early spread of COVID-19 cases in Iran. We analyze four Internet connectivity outages affecting Iranian networks during this time.
                             </p>
-                            <img src={timeline}/>
+                            <PreloadImage className="img-container" src={timeline} lazy/>
                                 <p>Our findings show:</p>
                                 <p>
                                     a) Widespread Internet connectivity outages, affecting
@@ -369,9 +370,7 @@ class IranReport2020 extends PureComponent {
                                     further below,</strong> whereas
                                     the peak on Mar 25 likely corresponds to network reconfiguration events.
                                 </p>
-
-                                <img src={zeus} />
-
+                                <PreloadImage className="img-container" src={zeus} lazy/>
                                     <p>
                                         <em>
                                             Figure 1: Visualizing ZeusPing's inferences
@@ -490,8 +489,7 @@ class IranReport2020 extends PureComponent {
 
                                     <h3 id="#mar-3-2020"><strong>Several overlapping network outages on Mar 3
                                         2020</strong></h3>
-
-                                    <img src={mar3}/>
+                                    <PreloadImage className="img-container" src={mar3} lazy/>
                                         <p>
                                             <em>
                                                 All three IODA signals for Iran experienced a significant drop.
@@ -533,8 +531,7 @@ class IranReport2020 extends PureComponent {
 
 
                                         <h4>Shatel (AS31549)</h4>
-
-                                        <img src={mar3shatel}/>
+                                        <PreloadImage className="img-container" src={mar3shatel} lazy/>
                                             <ul className="bulleted-list">
                                                 <li>We observe that one of the largest non-state-owned Iranian
                                                     ISPs, <strong>Shatel (AS31549) lost connectivity for
@@ -551,10 +548,7 @@ class IranReport2020 extends PureComponent {
                                             </ul>
 
                                             <h4>Pars Online (AS16322)</h4>
-
-                                            <img
-                                                src={mar3pars} />
-
+                            <PreloadImage className="img-container" src={mar3pars} lazy/>
                                                 <ul className="bulleted-list">
                                                     <li>Another large non-state-owned ISP, <strong>Pars Online (AS16322)
                                                         lost connectivity for a large part of its
@@ -582,8 +576,7 @@ class IranReport2020 extends PureComponent {
                                                 </ul>
 
                                                 <h4>Iran Telecom Co (AS58224)</h4>
-                                                <img
-                                                    src={mar3iranTelecom}/>
+                                                    <PreloadImage className="img-container" src={mar3iranTelecom} lazy/>
                                                     <ul className="bulleted-list">
                                                         <li>Iran Telecom Co, a state-owned ISP, experienced multiple
                                                             outages between 11:45 PM on March 02 and 1:30 AM UTC.
@@ -595,8 +588,7 @@ class IranReport2020 extends PureComponent {
                                                     </ul>
 
                                                     <h4>ITC (AS12880)</h4>
-                                                    <img
-                                                        src={mar3itc}/>
+                                                        <PreloadImage className="img-container" src={mar3itc} lazy/>
                                                         <ul className="bulleted-list">
                                                             <li><strong>Similar to the other state-owned ISP (Iran
                                                                 Telecom Co), ITC (AS12880) also observed several
@@ -610,8 +602,7 @@ class IranReport2020 extends PureComponent {
                                                         </ul>
 
                                                         <h4>Iran Cell (AS44244)</h4>
-                                                        <img
-                                                            src={mar3iranCell}/>
+                                                        <PreloadImage className="img-container" src={mar3iranCell} lazy/>
                                                             <ul className="bulleted-list">
                                                                 <li>Although IODA can sometimes have limited visibility
                                                                     into cellular outages, IODA’s BGP signal for Iran
@@ -641,8 +632,7 @@ class IranReport2020 extends PureComponent {
                                                             </ul>
 
                                                             <h4>MCCI (AS197207)</h4>
-                                                            <img
-                                                                src={mar3mcci}/>
+                            <PreloadImage className="img-container" src={mar3mcci} lazy/>
                                                                 <ul className="bulleted-list">
                                                                     <li>MCCI is another major cellular ISP in Iran which
                                                                         observed drops in Internet connectivity in the
@@ -692,8 +682,7 @@ class IranReport2020 extends PureComponent {
                                                                 </ul>
 
                                                                 <h4>Shatel (AS31549)</h4>
-                                                                <img
-                                                                    src={mar11shatel}/>
+                                                                    <PreloadImage className="img-container" src={mar11shatel} lazy/>
                                                                     <ul className="bulleted-list">
                                                                         <li><strong>Shatel (AS31549), a large
                                                                             non-state-owned ISP, appears to suffer
@@ -717,8 +706,7 @@ class IranReport2020 extends PureComponent {
                                                                     </ul>
 
                                                                     <h4>Iran Telecom Co (AS58224)</h4>
-                                                                    <img
-                                                                        src={mar11iranTelecom}/>
+                                                                    <PreloadImage className="img-container" src={mar11iranTelecom} lazy/>
                                                                         <ul className="bulleted-list">
                                                                             <li>Iran Telecom Co, a large state-owned ISP
                                                                                 also experienced a significant outage at
@@ -740,8 +728,7 @@ class IranReport2020 extends PureComponent {
                                                                         </ul>
 
                                                                         <h4>Iran Cell (AS44244)</h4>
-                                                                        <img
-                                                                            src={mar11iranCell}/>
+                            <PreloadImage className="img-container" src={mar11iranCell} lazy/>
                                                                             <ul className="bulleted-list">
                                                                                 <li>The IODA signals indicate an outage
                                                                                     for Iran Cell, a major cellular ISP,
@@ -856,8 +843,8 @@ class IranReport2020 extends PureComponent {
                                                                                     address-space just before recovery.
                                                                                 </li>
                                                                             </ul>
-                                                                            <img
-                                                                                src={apr3itc}/>
+                                                                            <PreloadImage className="img-container" src={apr3itc} lazy/>
+
 
                                                                                 <h3 id="feb-27-2020"><strong>Internet
                                                                                     outage on Feb 27 2020 for Shatel
@@ -915,9 +902,7 @@ class IranReport2020 extends PureComponent {
                                                                                         data sources.
                                                                                     </li>
                                                                                 </ul>
-                                                                                <img
-                                                                                    src={feb27shatel}/>
-
+                            <PreloadImage className="img-container" src={feb27shatel} lazy/>
                                                                                     <h2 id="conclusion">Conclusion</h2>
                                                                                     <p>
                                                                                         In this post, we used diverse

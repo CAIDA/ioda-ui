@@ -283,6 +283,22 @@ $breakpoint Argument Choices:
     max-width: 114rem;
   }
 
+  & .img-container {
+    width: 100%;
+    position: relative;
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & div {
+      position: relative!important;
+      width: 100rem!important;
+      height: 46.5rem!important;
+      background-size: contain!important;
+    }
+  }
+
   & img {
     max-width: 100rem;
     width: 100%;

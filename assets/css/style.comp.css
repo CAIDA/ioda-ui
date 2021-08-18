@@ -2616,6 +2616,18 @@ body {
       margin-top: 4rem; } }
   .acknowledgements .row {
     max-width: 114rem; }
+  .acknowledgements .img-container {
+    width: 100%;
+    position: relative;
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+    .acknowledgements .img-container div {
+      position: relative !important;
+      width: 100rem !important;
+      height: 46.5rem !important;
+      background-size: contain !important; }
   .acknowledgements img {
     max-width: 100rem;
     width: 100%;
@@ -2701,6 +2713,18 @@ body {
       margin-top: 4rem; } }
   .helpPage .row {
     max-width: 114rem; }
+  .helpPage .img-container {
+    width: 100%;
+    position: relative;
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+    .helpPage .img-container div {
+      position: relative !important;
+      width: 100rem !important;
+      height: 46.5rem !important;
+      background-size: contain !important; }
   .helpPage img {
     max-width: 100rem;
     width: 100%;
@@ -3000,6 +3024,18 @@ button[class*="searchButton"] {
         margin-top: 4rem; } }
     .home .methodology .row {
       max-width: 114rem; }
+    .home .methodology .img-container {
+      width: 100%;
+      position: relative;
+      height: inherit;
+      display: flex;
+      justify-content: center;
+      align-items: center; }
+      .home .methodology .img-container div {
+        position: relative !important;
+        width: 100rem !important;
+        height: 46.5rem !important;
+        background-size: contain !important; }
     .home .methodology img {
       max-width: 100rem;
       width: 100%;
@@ -3677,6 +3713,18 @@ button[class*="searchButton"] {
       margin-top: 4rem; } }
   .reports .row {
     max-width: 114rem; }
+  .reports .img-container {
+    width: 100%;
+    position: relative;
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+    .reports .img-container div {
+      position: relative !important;
+      width: 100rem !important;
+      height: 46.5rem !important;
+      background-size: contain !important; }
   .reports img {
     max-width: 100rem;
     width: 100%;
@@ -3738,6 +3786,18 @@ button[class*="searchButton"] {
       margin-top: 4rem; } }
   .report .row {
     max-width: 114rem; }
+  .report .img-container {
+    width: 100%;
+    position: relative;
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+    .report .img-container div {
+      position: relative !important;
+      width: 100rem !important;
+      height: 46.5rem !important;
+      background-size: contain !important; }
   .report img {
     max-width: 100rem;
     width: 100%;
