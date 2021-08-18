@@ -341,6 +341,23 @@ button[class*="searchButton"] {
   }
 }
 
+.card--nsf .card__logo-icon div,
+.card--dos .card__logo-icon div,
+.card--dhs .card__logo-icon div {
+  position: relative!important;
+  width: 15rem!important;
+  height: 15rem!important;
+  background-size: contain!important;
+}
+.card--comcast .card__logo-icon div,
+.card--isoc .card__logo-icon div,
+.card--otf .card__logo-icon div {
+  position: relative!important;
+  width: 22rem!important;
+  height: 7rem!important;
+  background-size: contain!important;
+}
+
 .card {
   background-color: $color-white;
   box-shadow: $box-shadow;

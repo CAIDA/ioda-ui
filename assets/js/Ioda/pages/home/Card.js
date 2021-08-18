@@ -53,49 +53,22 @@ class Card extends Component {
         const org = this.props.partner;
         const text = "home." +  org;
 
-        const squareLogoCSS = `position: relative!important;
-                        width: 15rem!important;
-                        height: 15rem!important;
-                        background-size: contain!important;`;
-        const rectangleLogoCSS = `position: relative!important;
-                        width: 22rem!important;
-                        height: 7rem!important;
-                        background-size: contain!important;`;
-
         if (org !== "dos") {
             return (
                 <a className="card__link" href={urls.home[`${org}`]}>
-                    <Style>{`
-                    /* Styles to size the image based on image shape */ 
-                    .card--nsf .card__logo-icon div, 
-                    .card--dos .card__logo-icon div, 
-                    .card--dhs .card__logo-icon div {
-                       ${squareLogoCSS}
-                    }
-                    .card--comcast .card__logo-icon div, 
-                    .card--isoc .card__logo-icon div,
-                    .card--otf .card__logo-icon div {
-                       ${rectangleLogoCSS}
-                    }
-                `}</Style>
                     <div className={`card card--${org}`}>
                         <div className="card__logo">
                             {
                                 org === 'otf'
                                 ? <PreloadImage className="card__logo-icon" src={otfLogo} lazy/>
-                                // <img src={otfLogo} alt={`${this.props.partner} logo`} className="card__logo-icon" />
                                 : org === 'dhs'
                                 ? <PreloadImage className="card__logo-icon" src={dhsLogo} lazy/>
-                                // <img src={dhsLogo} alt={`${this.props.partner} logo`} className="card__logo-icon" />
                                 : org === 'comcast'
                                 ? <PreloadImage className="card__logo-icon" src={comcastLogo} lazy/>
-                                // <img src={comcastLogo} alt={`${this.props.partner} logo`} className="card__logo-icon" />
                                 : org === 'nsf'
                                 ? <PreloadImage className="card__logo-icon" src={nsfLogo} lazy/>
-                                // <img src={nsfLogo} alt={`${this.props.partner} logo`} className="card__logo-icon" />
                                 : org === 'isoc'
                                 ? <PreloadImage className="card__logo-icon" src={isocLogo} lazy/>
-                                // <img src={isocLogo} alt={`${this.props.partner} logo`} className="card__logo-icon" />
                                 : null
                             }
                         </div>
@@ -108,15 +81,8 @@ class Card extends Component {
         } else {
             return (
                 <div className={`card card--${org}`}>
-                    <Style>{`
-                    /* Styles to size the image based on image shape */ 
-                    .card__logo-icon div {
-                        ${squareLogoCSS}
-                    }
-                `}</Style>
                     <div className="card__logo">
                         <PreloadImage className="card__logo-icon" src={dosLogo} lazy/>
-                        {/*<img src={dosLogo} alt={`${this.props.partner} logo`} className="card__logo-icon" />*/}
                     </div>
                     <div className="card__content">
                         <p className="card__text">
