@@ -45,28 +45,31 @@ import isocLogo from 'images/logos/isoc.svg';
 import dosLogo from 'images/logos/dos.png';
 // Constants
 import urls from "../../constants/urls/urls";
+import PreloadImage from "react-preload-image";
+import {Style} from "react-style-tag";
 
 class Card extends Component {
     render() {
         const org = this.props.partner;
         const text = "home." +  org;
+
         if (org !== "dos") {
             return (
                 <a className="card__link" href={urls.home[`${org}`]}>
-                    <div className="card" >
+                    <div className={`card card--${org}`}>
                         <div className="card__logo">
                             {
                                 org === 'otf'
-                                    ? <img src={otfLogo} alt={`${this.props.partner} logo`} className="card__logo-icon" />
-                                    : org === 'dhs'
-                                    ? <img src={dhsLogo} alt={`${this.props.partner} logo`} className="card__logo-icon" />
-                                    : org === 'comcast'
-                                        ? <img src={comcastLogo} alt={`${this.props.partner} logo`} className="card__logo-icon" />
-                                        : org === 'nsf'
-                                            ? <img src={nsfLogo} alt={`${this.props.partner} logo`} className="card__logo-icon" />
-                                            : org === 'isoc'
-                                                ? <img src={isocLogo} alt={`${this.props.partner} logo`} className="card__logo-icon" />
-                                                : null
+                                ? <PreloadImage className="card__logo-icon" src={otfLogo} lazy/>
+                                : org === 'dhs'
+                                ? <PreloadImage className="card__logo-icon" src={dhsLogo} lazy/>
+                                : org === 'comcast'
+                                ? <PreloadImage className="card__logo-icon" src={comcastLogo} lazy/>
+                                : org === 'nsf'
+                                ? <PreloadImage className="card__logo-icon" src={nsfLogo} lazy/>
+                                : org === 'isoc'
+                                ? <PreloadImage className="card__logo-icon" src={isocLogo} lazy/>
+                                : null
                             }
                         </div>
                         <div className="card__content">
@@ -77,9 +80,9 @@ class Card extends Component {
             )
         } else {
             return (
-                <div className="card">
+                <div className={`card card--${org}`}>
                     <div className="card__logo">
-                        <img src={dosLogo} alt={`${this.props.partner} logo`} className="card__logo-icon" />
+                        <PreloadImage className="card__logo-icon" src={dosLogo} lazy/>
                     </div>
                     <div className="card__content">
                         <p className="card__text">

@@ -49,26 +49,9 @@ import TopoMap from "../../components/map/Map";
 import * as topojson from 'topojson';
 import Card from "./Card";
 import Examples from "./Examples";
-// Images
-import otfLogo from 'images/logos/otf.png';
-import dhsLogo from 'images/logos/dhs.svg';
-import comcastLogo from 'images/logos/comcast.svg';
-import nsfLogo from 'images/logos/nsf.svg';
-import isocLogo from 'images/logos/isoc.svg';
 import Loading from "../../components/loading/Loading";
-// Constants
-import urls from "../../constants/urls/urls";
 import Methodology from "./Methodology";
 
-
-// const Example = country => {
-//     const countryName = Object.values(country);
-//   return (
-//     <div className="example">
-//         {`${countryName}`}
-//     </div>
-//   );
-// };
 
 class Home extends Component {
     constructor(props) {

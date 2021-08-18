@@ -3031,6 +3031,22 @@ button[class*="searchButton"] {
     .home .partners .section-header {
       margin-bottom: 2rem; }
 
+.card--nsf .card__logo-icon div,
+.card--dos .card__logo-icon div,
+.card--dhs .card__logo-icon div {
+  position: relative !important;
+  width: 15rem !important;
+  height: 15rem !important;
+  background-size: contain !important; }
+
+.card--comcast .card__logo-icon div,
+.card--isoc .card__logo-icon div,
+.card--otf .card__logo-icon div {
+  position: relative !important;
+  width: 22rem !important;
+  height: 7rem !important;
+  background-size: contain !important; }
+
 .card {
   background-color: #fff;
   box-shadow: 0 1px 2px #9F9D9D;
@@ -3045,8 +3061,12 @@ button[class*="searchButton"] {
     justify-content: center;
     align-items: center; }
     .card__logo-icon {
-      max-width: 18rem;
-      max-height: 15rem; }
+      width: 100%;
+      position: relative;
+      height: inherit;
+      display: flex;
+      justify-content: center;
+      align-items: center; }
   .card__text {
     height: 14rem;
     font-size: 1.2rem; }
