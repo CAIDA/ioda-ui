@@ -12,7 +12,7 @@ class Tooltip extends Component {
     }
 
     componentDidMount() {
-        document.addEventListener('click', this.handleClickOutside, true);
+        document.addEventListener('click', this.handleClickOutside, {passive: true});
     }
 
     componentWillUnmount() {

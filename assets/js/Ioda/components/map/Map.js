@@ -18,7 +18,7 @@ class TopoMap extends Component {
     }
 
     componentDidMount() {
-        window.addEventListener("resize", this.resize.bind(this));
+        window.addEventListener("resize", this.resize.bind(this), {passive: true});
     }
 
     resize() {
