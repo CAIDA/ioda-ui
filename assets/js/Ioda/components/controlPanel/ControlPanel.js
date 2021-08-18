@@ -268,11 +268,17 @@ class ControlPanel extends Component {
     // function manage the time unit selected in the dropdown for the user input option in sidebar
     handleUserInputRange(event) {
         if (event.currentTarget.className === "range__dropdown-userInputRangeSelect") {
-            this.setState({userInputRangeSelect: event.target.value});
+            this.setState({
+                userInputRangeSelect: event.target.value,
+                userInputSelected: true
+            });
         }
 
         if (event.currentTarget.className === "range__dropdown-userInputRangeInput") {
-            this.setState({ userInputRangeInput: event.target.value});
+            this.setState({
+                userInputRangeInput: event.target.value,
+                userInputSelected: true
+            });
         }
     }
     // function to handle clicking the close button when on an entity page
@@ -289,8 +295,6 @@ class ControlPanel extends Component {
         const startDateTime = convertDateValuesToSeconds(e.target.value.split(" - ")[0]);
         const endDateTime = convertDateValuesToSeconds(e.target.value.split(" — ")[1]);
         const readableTimes = this.setDateInLegend(Math.floor(startDateTime / 1000), Math.floor(endDateTime / 1000));
-
-        console.log("handleRangeInputKeyChange");
 
         this.setState({
             selection: {
@@ -327,7 +331,6 @@ class ControlPanel extends Component {
         const defineds = {
             startOfToday: new Date(new Date().setHours(0,0,0,0)),
             endOfToday: new Date(new Date().setHours(23,59,59,999)),
-
             oneHourAgo: new Date(new Date().getTime() - (1000*60*60)),
             twentyFourHoursAgo: new Date(new Date().getTime() - (1000*60*60*24)),
             currentTime: new Date(),
@@ -335,22 +338,14 @@ class ControlPanel extends Component {
             endOfWeek: endOfWeek(new Date()),
             startOfLastWeek: startOfWeek(addDays(new Date(), -7)),
             endOfLastWeek: endOfWeek(addDays(new Date(), -7)),
-
             startOfLastSevenDay: startOfDay(addDays(new Date(), -7)),
             startOfLastThirtyDay: startOfDay(addDays(new Date(), -30)),
-            startOfLastNintyDay: startOfDay(addDays(new Date(), -90)),
-            startOfLastThreeHundredSixtyFiveDay: startOfDay(addDays(new Date(), -365)),
-
             startOfYesterday: startOfDay(addDays(new Date(), -1)),
             endOfYesterday: endOfDay(addDays(new Date(), -1)),
             startOfMonth: startOfMonth(new Date()),
             endOfMonth: endOfMonth(new Date()),
             startOfLastMonth: startOfMonth(addMonths(new Date(), -1)),
             endOfLastMonth: endOfMonth(addMonths(new Date(), -1)),
-            startOfYear: startOfYear(new Date()),
-            endOfYear: endOfYear(new Date()),
-            startOflastYear: startOfYear(addYears(new Date(), -1)),
-            endOflastYear: endOfYear(addYears(new Date(), -1))
         };
 
         // set UI for sidebar options on date range
@@ -360,8 +355,6 @@ class ControlPanel extends Component {
                 hr: "hours",
                 day: "days",
                 wk: "weeks"
-                // mon: "months",
-                // yr: "years"
             };
             let customInputHTML = <div className="range__dropdown-userInputRange">
                 Last
@@ -472,10 +465,10 @@ class ControlPanel extends Component {
                     .rdrStaticRange:nth-child(2) {
                         ${this.state.lastHourSelected ? activeCSS : inactiveCSS}  
                     }
-                    .rdrStaticRange:nth-child(10) {
+                    .rdrStaticRange:nth-child(7) {
                         ${this.state.userInputSelected ? activeCSS : inactiveCSS}
                     }
-                    .rdrStaticRange:nth-child(11) {
+                    .rdrStaticRange:nth-child(8) {
                         ${this.state.customRangeSelected ? activeCSS : inactiveCSS}
                     }
                     .rdrStaticRangeSelected {
@@ -588,10 +581,10 @@ class ControlPanel extends Component {
                                                     userInputSelected: false,
                                                     customRangeVisible: true,
                                                     selection: {
-                                                        startDate: this.state.wholeDayInputSelected
+                                                        startDate: !this.state.wholeDayInputSelected
                                                             ? new Date(item.selection.startDate.setHours(this.state.timeRange[0].split(":")[0], this.state.timeRange[0].split(":")[1], this.state.timeRange[0].split(":")[2]))
                                                             : new Date(item.selection.startDate.setHours(0, 0, 0)),
-                                                        endDate: this.state.wholeDayInputSelected
+                                                        endDate: !this.state.wholeDayInputSelected
                                                             ? new Date(item.selection.endDate.setHours(this.state.timeRange[1].split(":")[0], this.state.timeRange[1].split(":")[1], this.state.timeRange[1].split(":")[2]))
                                                             : new Date(item.selection.endDate.setHours(23, 59, 59)),
                                                         ...item.selection
