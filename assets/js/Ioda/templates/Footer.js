@@ -32,23 +32,16 @@
  * MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
  */
 
-import React, { Component } from 'react';
-import T from 'i18n-react';
-import { Link } from 'react-router-dom';
-
+import React, { PureComponent } from 'react';
+import PreloadImage from "react-preload-image";
+// images
 import caidaLogo from 'images/logos/caida.png';
 import sdscLogo from 'images/logos/sdsc.jpg';
 import ucsdLogo from 'images/logos/ucsd-logo.png';
 
 
-
-class Footer extends Component {
-    constructor(props) {
-        super(props);
-    }
-
+class Footer extends PureComponent {
     render() {
-        const year = new Date().getFullYear();
         return (
             <div className="footer">
                 <div className="footer__content">
@@ -56,13 +49,13 @@ class Footer extends Component {
                         <div className="col-1-of-1">
                             <div className="footer__logos">
                                 <div className="footer__logos-item footer__logos-item--caida">
-                                    <img src={caidaLogo} alt={`caida logo`} />
+                                    <PreloadImage className="footer__logos-item-container" src={caidaLogo} lazy/>
                                 </div>
                                 <div className="footer__logos-item">
-                                    <img src={sdscLogo} alt={`sdsc logo`} />
+                                    <PreloadImage className="footer__logos-item-container" src={sdscLogo} lazy/>
                                 </div>
                                 <div className="footer__logos-item">
-                                    <img src={ucsdLogo} alt={`caida logo`} />
+                                    <PreloadImage className="footer__logos-item-container" src={ucsdLogo} lazy/>
                                 </div>
                             </div>
                         </div>

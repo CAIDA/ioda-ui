@@ -181,6 +181,7 @@ body {
   flex-direction: column; }
   .contentLoading__progressBar {
     width: calc(100% - 3rem);
+    max-width: 48rem;
     height: 3rem !important; }
     .contentLoading__progressBar > div {
       font-size: 1.8rem !important;
@@ -212,27 +213,33 @@ body {
 
 @font-face {
   font-family: "Lato-Black";
-  src: url("/fonts/Lato-Black.woff") format("woff"); }
+  src: url("/fonts/Lato-Black.woff") format("woff");
+  font-display: swap; }
 
 @font-face {
   font-family: "Lato-Bold";
-  src: url("/fonts/Lato-Bold.woff") format("woff"); }
+  src: url("/fonts/Lato-Bold.woff") format("woff");
+  font-display: swap; }
 
 @font-face {
   font-family: "Lato-Italic";
-  src: url("/fonts/Lato-Italic.woff") format("woff"); }
+  src: url("/fonts/Lato-Italic.woff") format("woff");
+  font-display: swap; }
 
 @font-face {
   font-family: "Lato-Light";
-  src: url("/fonts/Lato-Light.woff") format("woff"); }
+  src: url("/fonts/Lato-Light.woff") format("woff");
+  font-display: swap; }
 
 @font-face {
   font-family: "Lato-Regular";
-  src: url("/fonts/Lato-Regular.woff") format("woff"); }
+  src: url("/fonts/Lato-Regular.woff") format("woff");
+  font-display: swap; }
 
 @font-face {
   font-family: "Lato-Thin";
-  src: url("/fonts/Lato-Thin.woff") format("woff"); }
+  src: url("/fonts/Lato-Thin.woff") format("woff");
+  font-display: swap; }
 
 .u-full-max-width {
   max-width: 100% !important; }
@@ -2369,6 +2376,23 @@ body {
       display: flex;
       justify-content: center;
       align-items: center; }
+      .footer__logos-item:first-child .footer__logos-item-container div {
+        position: relative !important;
+        width: 10rem !important;
+        height: 10rem !important;
+        background-size: contain !important; }
+      .footer__logos-item:not(:first-child) .footer__logos-item-container div {
+        position: relative !important;
+        width: 15rem !important;
+        height: 6rem !important;
+        background-size: contain !important; }
+      .footer__logos-item-container {
+        width: 100%;
+        position: relative;
+        height: inherit;
+        display: flex;
+        justify-content: center;
+        align-items: center; }
       @media only screen and (max-width: 46em) {
         .footer__logos-item--caida {
           margin-bottom: 4rem !important; } }
@@ -2592,6 +2616,26 @@ body {
       margin-top: 4rem; } }
   .acknowledgements .row {
     max-width: 114rem; }
+  .acknowledgements .img-container {
+    width: 100%;
+    position: relative;
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+    .acknowledgements .img-container div {
+      position: relative !important;
+      width: 100rem !important;
+      height: 46.5rem !important;
+      background-size: contain !important; }
+      @media only screen and (max-width: 64em) {
+        .acknowledgements .img-container div {
+          width: 80rem !important;
+          height: 37.2rem !important; } }
+      @media only screen and (max-width: 54.375em) {
+        .acknowledgements .img-container div {
+          width: 50rem !important;
+          height: 23.25rem !important; } }
   .acknowledgements img {
     max-width: 100rem;
     width: 100%;
@@ -2630,18 +2674,20 @@ body {
     font-size: 1.2rem;
     margin-bottom: 1rem;
     margin-left: 2rem; }
-  .acknowledgements a:link:link, .acknowledgements a:link:visited, .acknowledgements a:visited:link, .acknowledgements a:visited:visited {
-    color: #3975BB;
-    font-weight: 700;
-    text-decoration: none;
-    padding-bottom: 2px;
-    margin-bottom: 1px;
-    background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
-    background-size: 100% 0;
-    /* controls underline thickness */
-    transition: ease-in-out 0.3s; }
-    .acknowledgements a:link:link:hover, .acknowledgements a:link:visited:hover, .acknowledgements a:visited:link:hover, .acknowledgements a:visited:visited:hover {
-      background-size: 100% 2px; }
+  .acknowledgements a:link, .acknowledgements a:visited {
+    word-break: break-all; }
+    .acknowledgements a:link:link, .acknowledgements a:link:visited, .acknowledgements a:visited:link, .acknowledgements a:visited:visited {
+      color: #3975BB;
+      font-weight: 700;
+      text-decoration: none;
+      padding-bottom: 2px;
+      margin-bottom: 1px;
+      background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
+      background-size: 100% 0;
+      /* controls underline thickness */
+      transition: ease-in-out 0.3s; }
+      .acknowledgements a:link:link:hover, .acknowledgements a:link:visited:hover, .acknowledgements a:visited:link:hover, .acknowledgements a:visited:visited:hover {
+        background-size: 100% 2px; }
   .acknowledgements .thumbnail {
     background-color: #fff;
     box-shadow: 0 1px 2px #9F9D9D;
@@ -2677,6 +2723,26 @@ body {
       margin-top: 4rem; } }
   .helpPage .row {
     max-width: 114rem; }
+  .helpPage .img-container {
+    width: 100%;
+    position: relative;
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+    .helpPage .img-container div {
+      position: relative !important;
+      width: 100rem !important;
+      height: 46.5rem !important;
+      background-size: contain !important; }
+      @media only screen and (max-width: 64em) {
+        .helpPage .img-container div {
+          width: 80rem !important;
+          height: 37.2rem !important; } }
+      @media only screen and (max-width: 54.375em) {
+        .helpPage .img-container div {
+          width: 50rem !important;
+          height: 23.25rem !important; } }
   .helpPage img {
     max-width: 100rem;
     width: 100%;
@@ -2715,18 +2781,20 @@ body {
     font-size: 1.2rem;
     margin-bottom: 1rem;
     margin-left: 2rem; }
-  .helpPage a:link:link, .helpPage a:link:visited, .helpPage a:visited:link, .helpPage a:visited:visited {
-    color: #3975BB;
-    font-weight: 700;
-    text-decoration: none;
-    padding-bottom: 2px;
-    margin-bottom: 1px;
-    background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
-    background-size: 100% 0;
-    /* controls underline thickness */
-    transition: ease-in-out 0.3s; }
-    .helpPage a:link:link:hover, .helpPage a:link:visited:hover, .helpPage a:visited:link:hover, .helpPage a:visited:visited:hover {
-      background-size: 100% 2px; }
+  .helpPage a:link, .helpPage a:visited {
+    word-break: break-all; }
+    .helpPage a:link:link, .helpPage a:link:visited, .helpPage a:visited:link, .helpPage a:visited:visited {
+      color: #3975BB;
+      font-weight: 700;
+      text-decoration: none;
+      padding-bottom: 2px;
+      margin-bottom: 1px;
+      background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
+      background-size: 100% 0;
+      /* controls underline thickness */
+      transition: ease-in-out 0.3s; }
+      .helpPage a:link:link:hover, .helpPage a:link:visited:hover, .helpPage a:visited:link:hover, .helpPage a:visited:visited:hover {
+        background-size: 100% 2px; }
 
 button[class*="searchButton"] {
   display: none !important; }
@@ -2976,6 +3044,26 @@ button[class*="searchButton"] {
         margin-top: 4rem; } }
     .home .methodology .row {
       max-width: 114rem; }
+    .home .methodology .img-container {
+      width: 100%;
+      position: relative;
+      height: inherit;
+      display: flex;
+      justify-content: center;
+      align-items: center; }
+      .home .methodology .img-container div {
+        position: relative !important;
+        width: 100rem !important;
+        height: 46.5rem !important;
+        background-size: contain !important; }
+        @media only screen and (max-width: 64em) {
+          .home .methodology .img-container div {
+            width: 80rem !important;
+            height: 37.2rem !important; } }
+        @media only screen and (max-width: 54.375em) {
+          .home .methodology .img-container div {
+            width: 50rem !important;
+            height: 23.25rem !important; } }
     .home .methodology img {
       max-width: 100rem;
       width: 100%;
@@ -3014,18 +3102,20 @@ button[class*="searchButton"] {
       font-size: 1.2rem;
       margin-bottom: 1rem;
       margin-left: 2rem; }
-    .home .methodology a:link:link, .home .methodology a:link:visited, .home .methodology a:visited:link, .home .methodology a:visited:visited {
-      color: #3975BB;
-      font-weight: 700;
-      text-decoration: none;
-      padding-bottom: 2px;
-      margin-bottom: 1px;
-      background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
-      background-size: 100% 0;
-      /* controls underline thickness */
-      transition: ease-in-out 0.3s; }
-      .home .methodology a:link:link:hover, .home .methodology a:link:visited:hover, .home .methodology a:visited:link:hover, .home .methodology a:visited:visited:hover {
-        background-size: 100% 2px; }
+    .home .methodology a:link, .home .methodology a:visited {
+      word-break: break-all; }
+      .home .methodology a:link:link, .home .methodology a:link:visited, .home .methodology a:visited:link, .home .methodology a:visited:visited {
+        color: #3975BB;
+        font-weight: 700;
+        text-decoration: none;
+        padding-bottom: 2px;
+        margin-bottom: 1px;
+        background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
+        background-size: 100% 0;
+        /* controls underline thickness */
+        transition: ease-in-out 0.3s; }
+        .home .methodology a:link:link:hover, .home .methodology a:link:visited:hover, .home .methodology a:visited:link:hover, .home .methodology a:visited:visited:hover {
+          background-size: 100% 2px; }
     .home .methodology .row:first-child .col-1-of-1 {
       display: flex;
       justify-content: center;
@@ -3653,6 +3743,26 @@ button[class*="searchButton"] {
       margin-top: 4rem; } }
   .reports .row {
     max-width: 114rem; }
+  .reports .img-container {
+    width: 100%;
+    position: relative;
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+    .reports .img-container div {
+      position: relative !important;
+      width: 100rem !important;
+      height: 46.5rem !important;
+      background-size: contain !important; }
+      @media only screen and (max-width: 64em) {
+        .reports .img-container div {
+          width: 80rem !important;
+          height: 37.2rem !important; } }
+      @media only screen and (max-width: 54.375em) {
+        .reports .img-container div {
+          width: 50rem !important;
+          height: 23.25rem !important; } }
   .reports img {
     max-width: 100rem;
     width: 100%;
@@ -3691,18 +3801,20 @@ button[class*="searchButton"] {
     font-size: 1.2rem;
     margin-bottom: 1rem;
     margin-left: 2rem; }
-  .reports a:link:link, .reports a:link:visited, .reports a:visited:link, .reports a:visited:visited {
-    color: #3975BB;
-    font-weight: 700;
-    text-decoration: none;
-    padding-bottom: 2px;
-    margin-bottom: 1px;
-    background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
-    background-size: 100% 0;
-    /* controls underline thickness */
-    transition: ease-in-out 0.3s; }
-    .reports a:link:link:hover, .reports a:link:visited:hover, .reports a:visited:link:hover, .reports a:visited:visited:hover {
-      background-size: 100% 2px; }
+  .reports a:link, .reports a:visited {
+    word-break: break-all; }
+    .reports a:link:link, .reports a:link:visited, .reports a:visited:link, .reports a:visited:visited {
+      color: #3975BB;
+      font-weight: 700;
+      text-decoration: none;
+      padding-bottom: 2px;
+      margin-bottom: 1px;
+      background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
+      background-size: 100% 0;
+      /* controls underline thickness */
+      transition: ease-in-out 0.3s; }
+      .reports a:link:link:hover, .reports a:link:visited:hover, .reports a:visited:link:hover, .reports a:visited:visited:hover {
+        background-size: 100% 2px; }
 
 .report {
   padding-top: 5rem;
@@ -3714,6 +3826,26 @@ button[class*="searchButton"] {
       margin-top: 4rem; } }
   .report .row {
     max-width: 114rem; }
+  .report .img-container {
+    width: 100%;
+    position: relative;
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+    .report .img-container div {
+      position: relative !important;
+      width: 100rem !important;
+      height: 46.5rem !important;
+      background-size: contain !important; }
+      @media only screen and (max-width: 64em) {
+        .report .img-container div {
+          width: 80rem !important;
+          height: 37.2rem !important; } }
+      @media only screen and (max-width: 54.375em) {
+        .report .img-container div {
+          width: 50rem !important;
+          height: 23.25rem !important; } }
   .report img {
     max-width: 100rem;
     width: 100%;
@@ -3752,15 +3884,17 @@ button[class*="searchButton"] {
     font-size: 1.2rem;
     margin-bottom: 1rem;
     margin-left: 2rem; }
-  .report a:link:link, .report a:link:visited, .report a:visited:link, .report a:visited:visited {
-    color: #3975BB;
-    font-weight: 700;
-    text-decoration: none;
-    padding-bottom: 2px;
-    margin-bottom: 1px;
-    background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
-    background-size: 100% 0;
-    /* controls underline thickness */
-    transition: ease-in-out 0.3s; }
-    .report a:link:link:hover, .report a:link:visited:hover, .report a:visited:link:hover, .report a:visited:visited:hover {
-      background-size: 100% 2px; }
+  .report a:link, .report a:visited {
+    word-break: break-all; }
+    .report a:link:link, .report a:link:visited, .report a:visited:link, .report a:visited:visited {
+      color: #3975BB;
+      font-weight: 700;
+      text-decoration: none;
+      padding-bottom: 2px;
+      margin-bottom: 1px;
+      background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
+      background-size: 100% 0;
+      /* controls underline thickness */
+      transition: ease-in-out 0.3s; }
+      .report a:link:link:hover, .report a:link:visited:hover, .report a:visited:link:hover, .report a:visited:visited:hover {
+        background-size: 100% 2px; }

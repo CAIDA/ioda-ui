@@ -299,8 +299,6 @@ class Table extends Component {
         const displayCountShowing = T.translate("table.displayCountShowing");
         const displayCountOf = T.translate("table.displayCountOf");
         const displayCountEntries = T.translate("table.displayCountEntries");
-        const prevButtonText = T.translate("table.prevButtonText");
-        const nextButtonText = T.translate("table.nextButtonText");
         const eventNoOutagesMessage = T.translate("table.eventNoOutagesMessage");
         const alertNoOutagesMessage = T.translate("table.alertNoOutagesMessage");
         const summaryNoOutagesMessage = T.translate("table.summaryNoOutagesMessage");

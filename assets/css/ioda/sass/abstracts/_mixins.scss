@@ -283,6 +283,32 @@ $breakpoint Argument Choices:
     max-width: 114rem;
   }
 
+  & .img-container {
+    width: 100%;
+    position: relative;
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & div {
+      position: relative!important;
+      width: 100rem!important;
+      height: 46.5rem!important;
+      background-size: contain!important;
+
+      @include respond(tab-port) {
+        width: 80rem!important;
+        height: 37.2rem!important;
+      }
+
+      @include respond(screen-870) {
+        width: 50rem!important;
+        height: 23.25rem!important;
+      }
+    }
+  }
+
   & img {
     max-width: 100rem;
     width: 100%;
@@ -339,5 +365,6 @@ $breakpoint Argument Choices:
 
   & a:link, & a:visited {
     @include textLink;
+    word-break: break-all;
   }
 }
