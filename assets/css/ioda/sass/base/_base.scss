@@ -95,10 +95,16 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 
   &__progressBar {
-    width: 95%;
-    height: 4rem;
+    width: calc(100% - 3rem);
+    height: 3rem!important;
+
+    & > div {
+      font-size: 1.8rem!important;
+      line-height: 3rem!important;
+    }
   }
 }
 .full-page-loader > img {

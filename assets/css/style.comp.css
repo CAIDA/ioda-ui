@@ -96,18 +96,6 @@ $breakpoint Argument Choices:
   100% {
     opacity: 0; } }
 
-@keyframes heartbeat {
-  0% {
-    transform: scale(1); }
-  25% {
-    transform: scale(1.05); }
-  50% {
-    transform: scale(1); }
-  75% {
-    transform: scale(1.05); }
-  100% {
-    transform: scale(1); } }
-
 /*!
  * This software is Copyright (c) 2013 The Regents of the University of
  * California. All Rights Reserved. Permission to copy, modify, and distribute this
@@ -189,10 +177,14 @@ body {
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center; }
+  align-items: center;
+  flex-direction: column; }
   .contentLoading__progressBar {
-    width: 95%;
-    height: 4rem; }
+    width: calc(100% - 3rem);
+    height: 3rem !important; }
+    .contentLoading__progressBar > div {
+      font-size: 1.8rem !important;
+      line-height: 3rem !important; }
 
 .full-page-loader > img {
   animation: 1.8s infinite heartbeat; }
