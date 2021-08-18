@@ -268,11 +268,21 @@ class ControlPanel extends Component {
     // function manage the time unit selected in the dropdown for the user input option in sidebar
     handleUserInputRange(event) {
         if (event.currentTarget.className === "range__dropdown-userInputRangeSelect") {
-            this.setState({userInputRangeSelect: event.target.value});
+            this.setState({
+                userInputRangeSelect: event.target.value,
+                userInputSelected: true
+            }, () => {
+                console.log(this.state.userInputSelected);
+            });
         }
 
         if (event.currentTarget.className === "range__dropdown-userInputRangeInput") {
-            this.setState({ userInputRangeInput: event.target.value});
+            this.setState({
+                userInputRangeInput: event.target.value,
+                userInputSelected: true
+            }, () => {
+                console.log(this.state.userInputSelected);
+            });
         }
     }
     // function to handle clicking the close button when on an entity page
@@ -289,8 +299,6 @@ class ControlPanel extends Component {
         const startDateTime = convertDateValuesToSeconds(e.target.value.split(" - ")[0]);
         const endDateTime = convertDateValuesToSeconds(e.target.value.split(" — ")[1]);
         const readableTimes = this.setDateInLegend(Math.floor(startDateTime / 1000), Math.floor(endDateTime / 1000));
-
-        console.log("handleRangeInputKeyChange");
 
         this.setState({
             selection: {
@@ -472,10 +480,10 @@ class ControlPanel extends Component {
                     .rdrStaticRange:nth-child(2) {
                         ${this.state.lastHourSelected ? activeCSS : inactiveCSS}  
                     }
-                    .rdrStaticRange:nth-child(10) {
+                    .rdrStaticRange:nth-child(7) {
                         ${this.state.userInputSelected ? activeCSS : inactiveCSS}
                     }
-                    .rdrStaticRange:nth-child(11) {
+                    .rdrStaticRange:nth-child(8) {
                         ${this.state.customRangeSelected ? activeCSS : inactiveCSS}
                     }
                     .rdrStaticRangeSelected {
