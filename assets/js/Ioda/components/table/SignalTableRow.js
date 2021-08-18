@@ -20,7 +20,7 @@ class SignalTableRow extends Component {
     }
 
     componentDidMount() {
-        document.addEventListener('click', this.handleRowScoreHide, true);
+        document.addEventListener('click', this.handleRowScoreHide, {passive: true});
     }
 
     componentWillUnmount() {

@@ -72,7 +72,7 @@ class ControlPanel extends Component {
             }
         });
 
-        document.addEventListener('click', event => this.handleClickOffTimeRange(event));
+        document.addEventListener('click', event => this.handleClickOffTimeRange(event), {passive: true});
     }
 
     componentWillUnmount() {
