@@ -99,6 +99,7 @@ body {
 
   &__progressBar {
     width: calc(100% - 3rem);
+    max-width: 48rem;
     height: 3rem!important;
 
     & > div {

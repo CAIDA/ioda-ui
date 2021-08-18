@@ -181,6 +181,7 @@ body {
   flex-direction: column; }
   .contentLoading__progressBar {
     width: calc(100% - 3rem);
+    max-width: 48rem;
     height: 3rem !important; }
     .contentLoading__progressBar > div {
       font-size: 1.8rem !important;
