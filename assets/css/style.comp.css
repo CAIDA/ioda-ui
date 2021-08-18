@@ -2628,6 +2628,14 @@ body {
       width: 100rem !important;
       height: 46.5rem !important;
       background-size: contain !important; }
+      @media only screen and (max-width: 64em) {
+        .acknowledgements .img-container div {
+          width: 80rem !important;
+          height: 37.2rem !important; } }
+      @media only screen and (max-width: 54.375em) {
+        .acknowledgements .img-container div {
+          width: 50rem !important;
+          height: 23.25rem !important; } }
   .acknowledgements img {
     max-width: 100rem;
     width: 100%;
@@ -2666,18 +2674,20 @@ body {
     font-size: 1.2rem;
     margin-bottom: 1rem;
     margin-left: 2rem; }
-  .acknowledgements a:link:link, .acknowledgements a:link:visited, .acknowledgements a:visited:link, .acknowledgements a:visited:visited {
-    color: #3975BB;
-    font-weight: 700;
-    text-decoration: none;
-    padding-bottom: 2px;
-    margin-bottom: 1px;
-    background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
-    background-size: 100% 0;
-    /* controls underline thickness */
-    transition: ease-in-out 0.3s; }
-    .acknowledgements a:link:link:hover, .acknowledgements a:link:visited:hover, .acknowledgements a:visited:link:hover, .acknowledgements a:visited:visited:hover {
-      background-size: 100% 2px; }
+  .acknowledgements a:link, .acknowledgements a:visited {
+    word-break: break-all; }
+    .acknowledgements a:link:link, .acknowledgements a:link:visited, .acknowledgements a:visited:link, .acknowledgements a:visited:visited {
+      color: #3975BB;
+      font-weight: 700;
+      text-decoration: none;
+      padding-bottom: 2px;
+      margin-bottom: 1px;
+      background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
+      background-size: 100% 0;
+      /* controls underline thickness */
+      transition: ease-in-out 0.3s; }
+      .acknowledgements a:link:link:hover, .acknowledgements a:link:visited:hover, .acknowledgements a:visited:link:hover, .acknowledgements a:visited:visited:hover {
+        background-size: 100% 2px; }
   .acknowledgements .thumbnail {
     background-color: #fff;
     box-shadow: 0 1px 2px #9F9D9D;
@@ -2725,6 +2735,14 @@ body {
       width: 100rem !important;
       height: 46.5rem !important;
       background-size: contain !important; }
+      @media only screen and (max-width: 64em) {
+        .helpPage .img-container div {
+          width: 80rem !important;
+          height: 37.2rem !important; } }
+      @media only screen and (max-width: 54.375em) {
+        .helpPage .img-container div {
+          width: 50rem !important;
+          height: 23.25rem !important; } }
   .helpPage img {
     max-width: 100rem;
     width: 100%;
@@ -2763,18 +2781,20 @@ body {
     font-size: 1.2rem;
     margin-bottom: 1rem;
     margin-left: 2rem; }
-  .helpPage a:link:link, .helpPage a:link:visited, .helpPage a:visited:link, .helpPage a:visited:visited {
-    color: #3975BB;
-    font-weight: 700;
-    text-decoration: none;
-    padding-bottom: 2px;
-    margin-bottom: 1px;
-    background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
-    background-size: 100% 0;
-    /* controls underline thickness */
-    transition: ease-in-out 0.3s; }
-    .helpPage a:link:link:hover, .helpPage a:link:visited:hover, .helpPage a:visited:link:hover, .helpPage a:visited:visited:hover {
-      background-size: 100% 2px; }
+  .helpPage a:link, .helpPage a:visited {
+    word-break: break-all; }
+    .helpPage a:link:link, .helpPage a:link:visited, .helpPage a:visited:link, .helpPage a:visited:visited {
+      color: #3975BB;
+      font-weight: 700;
+      text-decoration: none;
+      padding-bottom: 2px;
+      margin-bottom: 1px;
+      background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
+      background-size: 100% 0;
+      /* controls underline thickness */
+      transition: ease-in-out 0.3s; }
+      .helpPage a:link:link:hover, .helpPage a:link:visited:hover, .helpPage a:visited:link:hover, .helpPage a:visited:visited:hover {
+        background-size: 100% 2px; }
 
 button[class*="searchButton"] {
   display: none !important; }
@@ -3036,6 +3056,14 @@ button[class*="searchButton"] {
         width: 100rem !important;
         height: 46.5rem !important;
         background-size: contain !important; }
+        @media only screen and (max-width: 64em) {
+          .home .methodology .img-container div {
+            width: 80rem !important;
+            height: 37.2rem !important; } }
+        @media only screen and (max-width: 54.375em) {
+          .home .methodology .img-container div {
+            width: 50rem !important;
+            height: 23.25rem !important; } }
     .home .methodology img {
       max-width: 100rem;
       width: 100%;
@@ -3074,18 +3102,20 @@ button[class*="searchButton"] {
       font-size: 1.2rem;
       margin-bottom: 1rem;
       margin-left: 2rem; }
-    .home .methodology a:link:link, .home .methodology a:link:visited, .home .methodology a:visited:link, .home .methodology a:visited:visited {
-      color: #3975BB;
-      font-weight: 700;
-      text-decoration: none;
-      padding-bottom: 2px;
-      margin-bottom: 1px;
-      background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
-      background-size: 100% 0;
-      /* controls underline thickness */
-      transition: ease-in-out 0.3s; }
-      .home .methodology a:link:link:hover, .home .methodology a:link:visited:hover, .home .methodology a:visited:link:hover, .home .methodology a:visited:visited:hover {
-        background-size: 100% 2px; }
+    .home .methodology a:link, .home .methodology a:visited {
+      word-break: break-all; }
+      .home .methodology a:link:link, .home .methodology a:link:visited, .home .methodology a:visited:link, .home .methodology a:visited:visited {
+        color: #3975BB;
+        font-weight: 700;
+        text-decoration: none;
+        padding-bottom: 2px;
+        margin-bottom: 1px;
+        background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
+        background-size: 100% 0;
+        /* controls underline thickness */
+        transition: ease-in-out 0.3s; }
+        .home .methodology a:link:link:hover, .home .methodology a:link:visited:hover, .home .methodology a:visited:link:hover, .home .methodology a:visited:visited:hover {
+          background-size: 100% 2px; }
     .home .methodology .row:first-child .col-1-of-1 {
       display: flex;
       justify-content: center;
@@ -3725,6 +3755,14 @@ button[class*="searchButton"] {
       width: 100rem !important;
       height: 46.5rem !important;
       background-size: contain !important; }
+      @media only screen and (max-width: 64em) {
+        .reports .img-container div {
+          width: 80rem !important;
+          height: 37.2rem !important; } }
+      @media only screen and (max-width: 54.375em) {
+        .reports .img-container div {
+          width: 50rem !important;
+          height: 23.25rem !important; } }
   .reports img {
     max-width: 100rem;
     width: 100%;
@@ -3763,18 +3801,20 @@ button[class*="searchButton"] {
     font-size: 1.2rem;
     margin-bottom: 1rem;
     margin-left: 2rem; }
-  .reports a:link:link, .reports a:link:visited, .reports a:visited:link, .reports a:visited:visited {
-    color: #3975BB;
-    font-weight: 700;
-    text-decoration: none;
-    padding-bottom: 2px;
-    margin-bottom: 1px;
-    background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
-    background-size: 100% 0;
-    /* controls underline thickness */
-    transition: ease-in-out 0.3s; }
-    .reports a:link:link:hover, .reports a:link:visited:hover, .reports a:visited:link:hover, .reports a:visited:visited:hover {
-      background-size: 100% 2px; }
+  .reports a:link, .reports a:visited {
+    word-break: break-all; }
+    .reports a:link:link, .reports a:link:visited, .reports a:visited:link, .reports a:visited:visited {
+      color: #3975BB;
+      font-weight: 700;
+      text-decoration: none;
+      padding-bottom: 2px;
+      margin-bottom: 1px;
+      background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
+      background-size: 100% 0;
+      /* controls underline thickness */
+      transition: ease-in-out 0.3s; }
+      .reports a:link:link:hover, .reports a:link:visited:hover, .reports a:visited:link:hover, .reports a:visited:visited:hover {
+        background-size: 100% 2px; }
 
 .report {
   padding-top: 5rem;
@@ -3798,6 +3838,14 @@ button[class*="searchButton"] {
       width: 100rem !important;
       height: 46.5rem !important;
       background-size: contain !important; }
+      @media only screen and (max-width: 64em) {
+        .report .img-container div {
+          width: 80rem !important;
+          height: 37.2rem !important; } }
+      @media only screen and (max-width: 54.375em) {
+        .report .img-container div {
+          width: 50rem !important;
+          height: 23.25rem !important; } }
   .report img {
     max-width: 100rem;
     width: 100%;
@@ -3836,15 +3884,17 @@ button[class*="searchButton"] {
     font-size: 1.2rem;
     margin-bottom: 1rem;
     margin-left: 2rem; }
-  .report a:link:link, .report a:link:visited, .report a:visited:link, .report a:visited:visited {
-    color: #3975BB;
-    font-weight: 700;
-    text-decoration: none;
-    padding-bottom: 2px;
-    margin-bottom: 1px;
-    background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
-    background-size: 100% 0;
-    /* controls underline thickness */
-    transition: ease-in-out 0.3s; }
-    .report a:link:link:hover, .report a:link:visited:hover, .report a:visited:link:hover, .report a:visited:visited:hover {
-      background-size: 100% 2px; }
+  .report a:link, .report a:visited {
+    word-break: break-all; }
+    .report a:link:link, .report a:link:visited, .report a:visited:link, .report a:visited:visited {
+      color: #3975BB;
+      font-weight: 700;
+      text-decoration: none;
+      padding-bottom: 2px;
+      margin-bottom: 1px;
+      background: linear-gradient(175deg, #598DCC 0%, #598DCC 33.3%, #3975BB 83.5%, #1A5DAE 100%) left bottom transparent no-repeat;
+      background-size: 100% 0;
+      /* controls underline thickness */
+      transition: ease-in-out 0.3s; }
+      .report a:link:link:hover, .report a:link:visited:hover, .report a:visited:link:hover, .report a:visited:visited:hover {
+        background-size: 100% 2px; }

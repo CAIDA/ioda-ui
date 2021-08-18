@@ -493,9 +493,9 @@ class IranReport2020 extends PureComponent {
                                         <p>
                                             <em>
                                                 All three IODA signals for Iran experienced a significant drop.
-                                            </em>
+                                            </em>&nbsp;
                                             <a href="https://ioda.caida.org/ioda/dashboard#view=inspect&amp;entity=country/IR&amp;lastView=overview&amp;from=1583179200&amp;until=1583208000">https://ioda.caida.org/ioda/dashboard#view=inspect&amp;entity=country/IR&amp;lastView=overview&amp;from=1583179200&amp;until=1583208000</a>
-                                            [publicly accessible]
+                                            &nbsp;[publicly accessible]
                                         </p>
 
                                         <h4>Summary</h4>
