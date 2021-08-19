@@ -3430,6 +3430,28 @@ button[class*="searchButton"] {
         margin-right: 0.5rem; }
       .entity .overview__config-heading .help {
         height: 2.3rem; }
+        @media only screen and (max-width: 64em) {
+          .entity .overview__config-heading .help__modal {
+            top: 4rem;
+            left: -21rem; } }
+        .entity .overview__config-heading .help__modal-content:before {
+          top: 1.3rem;
+          background: #f7f7f7; }
+          @media only screen and (max-width: 64em) {
+            .entity .overview__config-heading .help__modal-content:before {
+              top: 0;
+              left: 20.5rem; } }
+        .entity .overview__config-heading .help__modal-content:after {
+          top: 0;
+          background: #f7f7f7;
+          transform: translateY(0); }
+          @media only screen and (max-width: 64em) {
+            .entity .overview__config-heading .help__modal-content:after {
+              height: 4.25rem;
+              width: 1.5em;
+              left: 20.5rem;
+              top: -1.2rem;
+              transform: translateY(0) rotate(90deg); } }
     .entity .overview__config-button {
       background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
       height: 3.5rem;
