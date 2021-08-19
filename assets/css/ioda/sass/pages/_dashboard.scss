@@ -89,8 +89,8 @@
           &:after {
             content: '';
             height: 1rem;
-            width: 20rem;
-            background-color: #fff;
+            width: 100%;
+            background-color: $color-white;
             position: absolute;
             bottom: -1rem;
             left: -1px;

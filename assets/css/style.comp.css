@@ -3281,7 +3281,7 @@ button[class*="searchButton"] {
           .dashboard .tabs .nav-tabs li.active a:after {
             content: '';
             height: 1rem;
-            width: 20rem;
+            width: 100%;
             background-color: #fff;
             position: absolute;
             bottom: -1rem;
