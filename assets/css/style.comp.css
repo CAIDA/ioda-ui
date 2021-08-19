@@ -2125,7 +2125,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2.4rem; }
+  font-size: 2.4rem;
+  line-height: 2.5rem; }
   .modal__button:before {
     content: '';
     display: inline-block;
