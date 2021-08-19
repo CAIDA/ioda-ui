@@ -70,36 +70,7 @@
           height: 2.3rem;
 
           &__modal {
-            @include respond(tab-port) {
-              top: 4rem;
-              left: -21rem;
-            }
-
-            &-content {
-              &:before {
-                top: 1.3rem;
-                background: $color-table-row-odd;
-
-                @include respond(tab-port) {
-                  top: 0;
-                  left: 20.5rem;
-                }
-              }
-
-              &:after {
-                top: 0;
-                background: $color-table-row-odd;
-                transform: translateY(0);
-
-                @include respond(tab-port) {
-                  height: 4.25rem;
-                  width: 1.5em;
-                  left: 20.5rem;
-                  top: -1.2rem;
-                  transform: translateY(0) rotate(90deg);
-                }
-              }
-            }
+            @include mobileTooltip();
           }
         }
       }
@@ -372,6 +343,10 @@
 
         & .help {
           height: 2.6rem;
+
+          &__modal {
+            @include mobileTooltip();
+          }
         }
       }
     }
