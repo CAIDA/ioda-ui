@@ -326,7 +326,8 @@ body {
       .control-panel .range__calendar {
         height: 3.25rem; } }
     .control-panel .range__calendar img {
-      height: 2rem; }
+      height: 2rem;
+      width: 100%; }
   .control-panel .range__input {
     cursor: pointer;
     background-color: #fff;
@@ -2487,7 +2488,8 @@ body {
     .header__logo a {
       display: block; }
       .header__logo a img {
-        height: 3.5rem; }
+        height: 3.5rem;
+        width: 100%; }
   .header__menu {
     display: flex;
     align-items: center; }
@@ -3359,7 +3361,8 @@ button[class*="searchButton"] {
           .dashboard .tabs .tab__config-button:focus {
             outline: none; }
           .dashboard .tabs .tab__config-button-img {
-            height: 100%; }
+            height: 100%;
+            width: 100%; }
       .dashboard .tabs .tab .horizon-series {
         border-bottom: 1px solid #ccc; }
       .dashboard .tabs .tab__heading {

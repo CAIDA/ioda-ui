@@ -63,7 +63,7 @@ class Nav extends Component {
                 <div className="header__container">
                     <div className="header__logo">
                         <Link to="/">
-                            <img src={iodaLogo} alt={iodaLogoAltText} />
+                            <img src={iodaLogo} alt={iodaLogoAltText} width="97" height="35"/>
                         </Link>
                     </div>
                     <div className="header__menu">
