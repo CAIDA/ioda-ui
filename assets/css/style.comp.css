@@ -326,7 +326,8 @@ body {
       .control-panel .range__calendar {
         height: 3.25rem; } }
     .control-panel .range__calendar img {
-      height: 2rem; }
+      height: 2rem;
+      width: 100%; }
   .control-panel .range__input {
     cursor: pointer;
     background-color: #fff;
@@ -2073,30 +2074,28 @@ body {
     display: flex; }
     .modal__heading-title .heading-h2 {
       margin-right: 0.5rem; }
-    .modal__heading-title .help__modal {
-      top: 0; }
+    @media only screen and (max-width: 64em) {
+      .modal__heading-title .help__modal {
+        top: 4rem;
+        left: -21rem; } }
+    .modal__heading-title .help__modal-content:before {
+      top: 1.3rem;
+      background: #f7f7f7; }
       @media only screen and (max-width: 64em) {
-        .modal__heading-title .help__modal {
-          top: 4rem;
-          left: -21rem; } }
-      .modal__heading-title .help__modal-content:before {
-        top: 1.3rem;
-        background: #f7f7f7; }
-        @media only screen and (max-width: 64em) {
-          .modal__heading-title .help__modal-content:before {
-            top: 0;
-            left: 20.5rem; } }
-      .modal__heading-title .help__modal-content:after {
-        top: 0;
-        background: #f7f7f7;
-        transform: translateY(0); }
-        @media only screen and (max-width: 64em) {
-          .modal__heading-title .help__modal-content:after {
-            height: 4.25rem;
-            width: 1.5em;
-            left: 20.5rem;
-            top: -1.2rem;
-            transform: translateY(0) rotate(90deg); } }
+        .modal__heading-title .help__modal-content:before {
+          top: 0;
+          left: 20.5rem; } }
+    .modal__heading-title .help__modal-content:after {
+      top: 0;
+      background: #f7f7f7;
+      transform: translateY(0); }
+      @media only screen and (max-width: 64em) {
+        .modal__heading-title .help__modal-content:after {
+          height: 4.25rem;
+          width: 1.5em;
+          left: 20.5rem;
+          top: -1.2rem;
+          transform: translateY(0) rotate(90deg); } }
 
 .modal__hts-count {
   font-size: 1.1rem; }
@@ -2124,7 +2123,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2.4rem; }
+  font-size: 2.4rem;
+  line-height: 2.5rem; }
   .modal__button:before {
     content: '';
     display: inline-block;
@@ -2487,7 +2487,8 @@ body {
     .header__logo a {
       display: block; }
       .header__logo a img {
-        height: 3.5rem; }
+        height: 3.5rem;
+        width: 100%; }
   .header__menu {
     display: flex;
     align-items: center; }
@@ -3279,7 +3280,7 @@ button[class*="searchButton"] {
           .dashboard .tabs .nav-tabs li.active a:after {
             content: '';
             height: 1rem;
-            width: 20rem;
+            width: 100%;
             background-color: #fff;
             position: absolute;
             bottom: -1rem;
@@ -3359,7 +3360,8 @@ button[class*="searchButton"] {
           .dashboard .tabs .tab__config-button:focus {
             outline: none; }
           .dashboard .tabs .tab__config-button-img {
-            height: 100%; }
+            height: 100%;
+            width: 100%; }
       .dashboard .tabs .tab .horizon-series {
         border-bottom: 1px solid #ccc; }
       .dashboard .tabs .tab__heading {
@@ -3426,6 +3428,28 @@ button[class*="searchButton"] {
         margin-right: 0.5rem; }
       .entity .overview__config-heading .help {
         height: 2.3rem; }
+        @media only screen and (max-width: 64em) {
+          .entity .overview__config-heading .help__modal {
+            top: 4rem;
+            left: -21rem; } }
+        .entity .overview__config-heading .help__modal-content:before {
+          top: 1.3rem;
+          background: #f7f7f7; }
+          @media only screen and (max-width: 64em) {
+            .entity .overview__config-heading .help__modal-content:before {
+              top: 0;
+              left: 20.5rem; } }
+        .entity .overview__config-heading .help__modal-content:after {
+          top: 0;
+          background: #f7f7f7;
+          transform: translateY(0); }
+          @media only screen and (max-width: 64em) {
+            .entity .overview__config-heading .help__modal-content:after {
+              height: 4.25rem;
+              width: 1.5em;
+              left: 20.5rem;
+              top: -1.2rem;
+              transform: translateY(0) rotate(90deg); } }
     .entity .overview__config-button {
       background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
       height: 3.5rem;
@@ -3669,6 +3693,28 @@ button[class*="searchButton"] {
           margin-right: 0.5rem; }
         .entity .related__heading-title .help {
           height: 2.6rem; }
+          @media only screen and (max-width: 64em) {
+            .entity .related__heading-title .help__modal {
+              top: 4rem;
+              left: -21rem; } }
+          .entity .related__heading-title .help__modal-content:before {
+            top: 1.3rem;
+            background: #f7f7f7; }
+            @media only screen and (max-width: 64em) {
+              .entity .related__heading-title .help__modal-content:before {
+                top: 0;
+                left: 20.5rem; } }
+          .entity .related__heading-title .help__modal-content:after {
+            top: 0;
+            background: #f7f7f7;
+            transform: translateY(0); }
+            @media only screen and (max-width: 64em) {
+              .entity .related__heading-title .help__modal-content:after {
+                height: 4.25rem;
+                width: 1.5em;
+                left: 20.5rem;
+                top: -1.2rem;
+                transform: translateY(0) rotate(90deg); } }
     .entity .related__no-outages {
       display: flex;
       flex-direction: column;

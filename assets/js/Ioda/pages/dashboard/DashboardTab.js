@@ -107,6 +107,7 @@ class DashboardTab extends Component {
                                                                  src={this.props.tabCurrentView === 'timeSeries' ? iconGlobe : iconChart}
                                                                  alt={this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts}
                                                                  title={this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts}
+                                                                 height="26" width="26"
                                                             />
                                                         }
                                                     </button>

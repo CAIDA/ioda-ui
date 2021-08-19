@@ -68,6 +68,10 @@
 
         & .help {
           height: 2.3rem;
+
+          &__modal {
+            @include mobileTooltip();
+          }
         }
       }
 
@@ -339,6 +343,10 @@
 
         & .help {
           height: 2.6rem;
+
+          &__modal {
+            @include mobileTooltip();
+          }
         }
       }
     }
