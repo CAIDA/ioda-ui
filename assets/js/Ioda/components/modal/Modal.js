@@ -269,7 +269,11 @@ class Modal extends Component {
                                                     {
                                                         this.props.checkMaxButtonLoading ? <img src={LoadingIcon} className="modal__loadAll-spinner" alt="Loading"/>
                                                             : <button className="modal__button--table" name="checkMaxAsn" onClick={event => this.props.handleSelectAndDeselectAllButtons(event)}>
-                                                                {checkMaxButton}
+                                                                {
+                                                                    this.props.asnSignalsTableSummaryDataProcessed.length < 150
+                                                                        ? `${checkMaxButtonBelow150_1}${this.props.asnSignalsTableSummaryDataProcessed.length}${checkMaxButtonBelow150_2}`
+                                                                        : checkMaxButton
+                                                                }
                                                             </button>
                                                     }
                                                     {
