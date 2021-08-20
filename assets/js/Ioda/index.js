@@ -57,6 +57,8 @@ import Help from './pages/help/Help';
 import IranReport2020 from './pages/reports/IranReport2020';
 import TestAPI from "./pages/tests/TestAPI";
 import Acknowledgements from "./pages/acknowledgements/Acknowledgements";
+// to render in Edge/IE
+import 'react-app-polyfill/stable';
 
 
 

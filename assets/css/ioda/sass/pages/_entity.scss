@@ -70,6 +70,7 @@
           height: 2.3rem;
 
           &__modal {
+            top: 0;
             @include mobileTooltip();
           }
         }
@@ -96,8 +97,6 @@
           margin-bottom: 1rem;
         }
       }
-
-
     }
 
     &__xy-wrapper {
@@ -345,6 +344,7 @@
           height: 2.6rem;
 
           &__modal {
+            top: 0;
             @include mobileTooltip();
           }
         }

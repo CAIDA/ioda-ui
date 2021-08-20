@@ -99,8 +99,7 @@ class Help extends PureComponent {
                                 20 probers located at SDSC.
                             </li>
                             <li>
-                                The trinocular measurement and inference technique labels a /24 block as <em>up</em>,
-                                <em>down</em>, or <em>unknown</em>.
+                                The trinocular measurement and inference technique labels a /24 block as <em>up</em>, <em>down</em>, or <em>unknown</em>.
                                 In addition, we then aggregate <em>up</em> /24s into country, region and ASN
                                 statistics.
                             </li>
@@ -132,17 +131,14 @@ class Help extends PureComponent {
                             <li>
                                 Detection is performed by comparing the <em>current</em> value for
                                 each datasource/aggregation (e.g. the number of /24 networks visible
-                                on <em>BGP</em> and geolocated to <em>Italy</em>) to an
-                                <em>historical</em> value that is computed by finding the
-                                <em>median</em> of a sliding window of recent values (the length of
+                                on <em>BGP</em> and geolocated to <em>Italy</em>) to an <em>historical</em> value that is computed by finding the <em>median</em> of a sliding window of recent values (the length of
                                 the window varies between data sources and is listed below).
                             </li>
                             <li>
                                 If the <em>current</em> value is lower than a given fraction of the
                                 <em>history</em> value, an alert is generated. Each data source is
                                 configured with two <em>history-fraction</em> thresholds; one that
-                                triggers a <em>warning</em> alert, and one that triggers a
-                                <em>critical</em> alert. The warning and critical thresholds for each
+                                triggers a <em>warning</em> alert, and one that triggers a <em>critical</em> alert. The warning and critical thresholds for each
                                 data source are listed below. These values are experimental and are based on empirical observations of the signal to noise ratio for each data source.
                             </li>
                         </ul>
