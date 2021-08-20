@@ -103,14 +103,12 @@ class DashboardTab extends Component {
                                                             onClick={() => this.props.handleTabChangeViewButton()}
                                                             style={this.props.type === 'asn' ? {display: 'none'} : null}
                                                     >
-                                                        {
-                                                            <img className="tab__config-button-img"
-                                                                 src={this.props.tabCurrentView === 'timeSeries' ? iconGlobe : iconChart}
-                                                                 alt={this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts}
-                                                                 title={this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts}
-                                                                 height="20" width="20"
-                                                            />
-                                                        }
+                                                        <img className="tab__config-button-img"
+                                                             src={this.props.tabCurrentView === 'timeSeries' ? iconGlobe : iconChart}
+                                                             alt={this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts}
+                                                             title={this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts}
+                                                             height="20" width="20"
+                                                        />
                                                     </button>
                                                 </div>
                                             </div>
