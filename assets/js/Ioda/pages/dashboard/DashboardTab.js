@@ -24,12 +24,7 @@ class DashboardTab extends Component {
         this.config = React.createRef();
     }
 
-    componentDidMount() {
-        console.log(this.config.current);
-    }
-
     componentDidUpdate(prevProps) {
-        // console.log(this.props);
         if (this.props.eventDataProcessed !== prevProps.eventDataProcessed) {
             this.genChart();
         }
@@ -37,8 +32,6 @@ class DashboardTab extends Component {
         if (this.config.current) {
             this.genChart();
         }
-
-
     }
 
     genMap() {
@@ -47,7 +40,7 @@ class DashboardTab extends Component {
 
     genChart() {
         const chart = HorizonTSChart()(document.getElementById(`horizon-chart`));
-        return chart
+        chart
             .data(this.props.eventDataProcessed)
             .series('entityName')
             .yNormalize(false)
