@@ -61,6 +61,7 @@
         "lodash": "^4.17.15",
         "prop-types": "^15.6.2",
         "react": "^16.14.0",
+        "react-app-polyfill": "^2.0.0",
         "react-bootstrap": "^0.32.4",
         "react-date-range": "^1.1.3",
         "react-dom": "^16.8.6",
