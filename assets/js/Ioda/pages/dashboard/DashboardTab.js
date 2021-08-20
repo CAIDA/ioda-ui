@@ -103,11 +103,6 @@ class DashboardTab extends Component {
                                                             onClick={() => this.props.handleTabChangeViewButton()}
                                                             style={this.props.type === 'asn' ? {display: 'none'} : null}
                                                     >
-                                                        {
-                                                            // this.props.tabCurrentView === 'timeSeries' ?
-                                                            // <PreloadImage className="tab__config-button-container" src={iconGlobe} /> :
-                                                            // <PreloadImage className="tab__config-button-container" src={iconChart} />
-                                                        }
                                                         <img className="tab__config-button-img"
                                                              src={this.props.tabCurrentView === 'timeSeries' ? iconGlobe : iconChart}
                                                              alt={this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts}
