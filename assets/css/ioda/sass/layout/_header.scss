@@ -10,6 +10,10 @@
   height: $header-height;
   padding: 0 4.5rem;
 
+  @include respond(tab-port) {
+    padding: 0 1.5rem;
+  }
+
   &__container {
     display: flex;
     flex-direction: row;

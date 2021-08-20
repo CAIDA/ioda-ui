@@ -2477,6 +2477,9 @@ body {
   z-index: 1999;
   height: 5rem;
   padding: 0 4.5rem; }
+  @media only screen and (max-width: 64em) {
+    .header {
+      padding: 0 1.5rem; } }
   .header__container {
     display: flex;
     flex-direction: row;
@@ -3339,6 +3342,7 @@ button[class*="searchButton"] {
           box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
           padding: 0.2rem;
           height: 3rem;
+          width: 3rem;
           font-size: 1rem;
           margin: 0 !important; }
           .dashboard .tabs .tab__config-button:before {

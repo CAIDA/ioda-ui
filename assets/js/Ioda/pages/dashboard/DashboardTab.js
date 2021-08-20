@@ -104,13 +104,16 @@ class DashboardTab extends Component {
                                                             style={this.props.type === 'asn' ? {display: 'none'} : null}
                                                     >
                                                         {
-                                                            <img className="tab__config-button-img"
-                                                                 src={this.props.tabCurrentView === 'timeSeries' ? iconGlobe : iconChart}
-                                                                 alt={this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts}
-                                                                 title={this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts}
-                                                                 height="20" width="20"
-                                                            />
+                                                            // this.props.tabCurrentView === 'timeSeries' ?
+                                                            // <PreloadImage className="tab__config-button-container" src={iconGlobe} /> :
+                                                            // <PreloadImage className="tab__config-button-container" src={iconChart} />
                                                         }
+                                                        <img className="tab__config-button-img"
+                                                             src={this.props.tabCurrentView === 'timeSeries' ? iconGlobe : iconChart}
+                                                             alt={this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts}
+                                                             title={this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts}
+                                                             height="20" width="20"
+                                                        />
                                                     </button>
                                                 </div>
                                             </div>
