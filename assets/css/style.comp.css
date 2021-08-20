@@ -374,7 +374,7 @@ body {
       font-size: 1.2rem; }
   .control-panel .range__dropdown {
     display: none;
-    z-index: 10000;
+    z-index: 1000;
     position: absolute;
     left: 0;
     top: 12rem;
@@ -2657,6 +2657,8 @@ body {
     margin: 1.5rem auto;
     display: block;
     box-shadow: 0 1px 2px #9F9D9D; }
+  .acknowledgements .img-container div {
+    filter: drop-shadow(0 1px 2px #9F9D9D); }
   .acknowledgements h2 {
     font-size: 1.9rem;
     margin-bottom: 1.5rem;
@@ -2764,6 +2766,8 @@ body {
     margin: 1.5rem auto;
     display: block;
     box-shadow: 0 1px 2px #9F9D9D; }
+  .helpPage .img-container div {
+    filter: drop-shadow(0 1px 2px #9F9D9D); }
   .helpPage h2 {
     font-size: 1.9rem;
     margin-bottom: 1.5rem;
@@ -3086,6 +3090,8 @@ button[class*="searchButton"] {
       margin: 1.5rem auto;
       display: block;
       box-shadow: 0 1px 2px #9F9D9D; }
+    .home .methodology .img-container div {
+      filter: drop-shadow(0 1px 2px #9F9D9D); }
     .home .methodology h2 {
       font-size: 1.9rem;
       margin-bottom: 1.5rem;
@@ -3708,28 +3714,30 @@ button[class*="searchButton"] {
           margin-right: 0.5rem; }
         .entity .related__heading-title .help {
           height: 2.6rem; }
-          @media only screen and (max-width: 64em) {
-            .entity .related__heading-title .help__modal {
-              top: 4rem;
-              left: -21rem; } }
-          .entity .related__heading-title .help__modal-content:before {
-            top: 1.3rem;
-            background: #f7f7f7; }
+          .entity .related__heading-title .help__modal {
+            top: 0; }
             @media only screen and (max-width: 64em) {
-              .entity .related__heading-title .help__modal-content:before {
-                top: 0;
-                left: 20.5rem; } }
-          .entity .related__heading-title .help__modal-content:after {
-            top: 0;
-            background: #f7f7f7;
-            transform: translateY(0); }
-            @media only screen and (max-width: 64em) {
-              .entity .related__heading-title .help__modal-content:after {
-                height: 4.25rem;
-                width: 1.5em;
-                left: 20.5rem;
-                top: -1.2rem;
-                transform: translateY(0) rotate(90deg); } }
+              .entity .related__heading-title .help__modal {
+                top: 4rem;
+                left: -21rem; } }
+            .entity .related__heading-title .help__modal-content:before {
+              top: 1.3rem;
+              background: #f7f7f7; }
+              @media only screen and (max-width: 64em) {
+                .entity .related__heading-title .help__modal-content:before {
+                  top: 0;
+                  left: 20.5rem; } }
+            .entity .related__heading-title .help__modal-content:after {
+              top: 0;
+              background: #f7f7f7;
+              transform: translateY(0); }
+              @media only screen and (max-width: 64em) {
+                .entity .related__heading-title .help__modal-content:after {
+                  height: 4.25rem;
+                  width: 1.5em;
+                  left: 20.5rem;
+                  top: -1.2rem;
+                  transform: translateY(0) rotate(90deg); } }
     .entity .related__no-outages {
       display: flex;
       flex-direction: column;
@@ -3831,6 +3839,8 @@ button[class*="searchButton"] {
     margin: 1.5rem auto;
     display: block;
     box-shadow: 0 1px 2px #9F9D9D; }
+  .reports .img-container div {
+    filter: drop-shadow(0 1px 2px #9F9D9D); }
   .reports h2 {
     font-size: 1.9rem;
     margin-bottom: 1.5rem;
@@ -3914,6 +3924,8 @@ button[class*="searchButton"] {
     margin: 1.5rem auto;
     display: block;
     box-shadow: 0 1px 2px #9F9D9D; }
+  .report .img-container div {
+    filter: drop-shadow(0 1px 2px #9F9D9D); }
   .report h2 {
     font-size: 1.9rem;
     margin-bottom: 1.5rem;
