@@ -325,8 +325,19 @@ body {
     @media only screen and (max-width: 40em) {
       .control-panel .range__calendar {
         height: 3.25rem; } }
-    .control-panel .range__calendar img {
-      height: 2rem; }
+    .control-panel .range__calendar-img {
+      width: 100%;
+      position: relative;
+      height: inherit;
+      display: flex;
+      justify-content: center;
+      align-items: center; }
+      .control-panel .range__calendar-img div {
+        position: relative !important;
+        background-size: contain !important; }
+      .control-panel .range__calendar-img div {
+        width: 2.5rem !important;
+        height: 2.5rem !important; }
   .control-panel .range__input {
     cursor: pointer;
     background-color: #fff;
@@ -2480,6 +2491,7 @@ body {
   .header__logo {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     position: relative;
     z-index: 10;
     overflow: hidden; }
@@ -2969,9 +2981,10 @@ button[class*="searchButton"] {
             align-items: center; }
             .home .examples .row .thumbnail__img-container div {
               position: relative !important;
-              width: 35rem !important;
-              height: 14rem !important;
               background-size: contain !important; }
+            .home .examples .row .thumbnail__img-container div {
+              width: 35rem !important;
+              height: 14rem !important; }
           .home .examples .row .thumbnail__img img {
             height: auto;
             max-width: 35rem;

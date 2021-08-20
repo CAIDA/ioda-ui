@@ -28,6 +28,7 @@ import {
     getTimeStringFromDate,
     getUTCTimeStringFromDate, secondaryColor, secondaryColorDark, secondaryColorLight
 } from "../../utils";
+import PreloadImage from "react-preload-image";
 
 class ControlPanel extends Component {
     constructor(props) {
@@ -499,7 +500,7 @@ class ControlPanel extends Component {
                         <div className="range">
                             <button className="range__input" onClick={() => this.handleRangeDisplay()}>
                                 <div className="range__calendar">
-                                    <img src={iconCalendar} alt={T.translate("controlPanel.calendarIconAltText")} width="20" height="20"/>
+                                    <PreloadImage className="range__calendar-img" src={iconCalendar} />
                                 </div>
                                 <input className="range__input-field" onChange={(e) => this.handleRangeInputKeyChange(e)}
                                        value={`${this.state.readableTimeRangeInputSelection.startDate} — ${this.state.readableTimeRangeInputSelection.endDate}`}

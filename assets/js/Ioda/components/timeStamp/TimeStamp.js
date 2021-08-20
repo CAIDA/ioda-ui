@@ -36,7 +36,7 @@ class TimeStamp extends Component {
     copyTimestamp(e, timestamp) {
         // copy to clipboard
         navigator.clipboard.writeText(timestamp);
-        
+
         // trigger animation
         this.setState({
             fade: true,

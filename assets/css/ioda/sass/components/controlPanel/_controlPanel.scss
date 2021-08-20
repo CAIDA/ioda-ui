@@ -113,8 +113,13 @@
         height: 3.25rem;
       }
 
-      & img {
-        height: 2rem;
+      &-img {
+        @include preloadedImage();
+
+        & div {
+          width: 2.5rem!important;
+          height: 2.5rem!important;
+        }
       }
     }
 
