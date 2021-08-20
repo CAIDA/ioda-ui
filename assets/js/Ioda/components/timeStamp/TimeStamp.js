@@ -9,7 +9,27 @@ class TimeStamp extends Component {
         this.state = {
             fade: false,
             messageTop: 0,
-            messageLeft: 0
+            messageLeft: 0,
+            screenBelow1024: false
+        }
+    }
+
+    componentDidMount() {
+        window.addEventListener("resize", this.resize.bind(this));
+        this.resize();
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.resize.bind(this));
+    }
+
+    resize() {
+        let screenBelow1024 = (window.innerWidth <= 1024);
+        console.log(screenBelow1024);
+        if (screenBelow1024 !== this.state.screenBelow1024) {
+            this.setState({
+                screenBelow1024: screenBelow1024
+            });
         }
     }
 
@@ -21,7 +41,7 @@ class TimeStamp extends Component {
         this.setState({
             fade: true,
             messageTop: event.target.offsetTop - 15,
-            messageLeft: event.clientX + 15
+            messageLeft: this.state.screenBelow1024 ? event.clientX - 105 : event.clientX + 15
         });
     }
 

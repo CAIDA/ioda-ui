@@ -221,18 +221,11 @@ button[class*="searchButton"] {
           align-items: center;
 
           &-container {
-            width: 100%;
-            position: relative;
-            height: inherit;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            @include preloadedImage();
 
             & div {
-              position: relative!important;
               width: 35rem!important;
               height: 14rem!important;
-              background-size: contain!important;
             }
           }
 

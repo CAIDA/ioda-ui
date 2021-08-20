@@ -15,6 +15,7 @@ import Table from "../../components/table/Table";
 import HorizonTSChart from "horizon-timeseries-chart";
 import * as d3 from "d3-shape";
 import TopoMap from "../../components/map/Map";
+import PreloadImage from "react-preload-image";
 
 
 class DashboardTab extends Component {
@@ -107,7 +108,7 @@ class DashboardTab extends Component {
                                                                  src={this.props.tabCurrentView === 'timeSeries' ? iconGlobe : iconChart}
                                                                  alt={this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts}
                                                                  title={this.props.tabCurrentView === 'timeSeries' ? viewChangeIconAltTextMap : viewChangeIconAltTextHts}
-                                                                 height="26" width="26"
+                                                                 height="20" width="20"
                                                             />
                                                         }
                                                     </button>
