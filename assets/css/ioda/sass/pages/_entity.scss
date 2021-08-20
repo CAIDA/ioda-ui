@@ -70,6 +70,7 @@
           height: 2.3rem;
 
           &__modal {
+            top: 0;
             @include mobileTooltip();
           }
         }

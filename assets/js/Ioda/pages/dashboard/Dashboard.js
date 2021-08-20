@@ -49,7 +49,7 @@ class Dashboard extends Component {
             tab: typeof window.location.pathname.split("/")[2] !== 'undefined' && window.location.pathname.split("/")[2].split("?")[0] === "region" ? T.translate("dashboard.regionTabTitle") :
                 typeof window.location.pathname.split("/")[2] !== 'undefined' && window.location.pathname.split("/")[2].split("?")[0] === "asn" ? T.translate("dashboard.asnTabTitle") : T.translate("dashboard.countryTabTitle"),
             //Tab View Changer Button
-            tabCurrentView: typeof window.location.pathname.split("/")[2] !== 'undefined' && window.location.pathname.split("/").length === 2 && window.location.pathname.split("/")[2].split("?")[0] === asn.type ? 'timeSeries' : "map",
+            tabCurrentView: typeof window.location.pathname.split("/")[2] !== 'undefined' && window.location.pathname.split("/").length === 3 && window.location.pathname.split("/")[2].split("?")[0] === asn.type ? 'timeSeries' : "map",
             // Search Bar
             suggestedSearchResults: null,
             searchTerm: null,

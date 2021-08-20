@@ -24,20 +24,37 @@ class DashboardTab extends Component {
         this.config = React.createRef();
     }
 
+    componentDidMount() {
+        console.log(this.config.current);
+    }
+
+    componentDidUpdate(prevProps) {
+        // console.log(this.props);
+        if (this.props.eventDataProcessed !== prevProps.eventDataProcessed) {
+            this.genChart();
+        }
+
+        if (this.config.current) {
+            this.genChart();
+        }
+
+
+    }
+
     genMap() {
         return <TopoMap topoData={this.props.topoData} scores={this.props.topoScores} handleEntityShapeClick={(entity) => this.props.handleEntityShapeClick(entity)}/>;
     }
 
     genChart() {
         const chart = HorizonTSChart()(document.getElementById(`horizon-chart`));
-        chart
+        return chart
             .data(this.props.eventDataProcessed)
             .series('entityName')
             .yNormalize(false)
             .useUtc(true)
             .use24h(false)
             // Will need to detect column width to populate height
-            .width(this.config && this.config.current && this.config.current.offsetWidth)
+            .width(this.config.current.offsetWidth)
             .height(570)
             .enableZoom(false)
             .showRuler(true)
@@ -125,7 +142,7 @@ class DashboardTab extends Component {
                                             }
                                             <div id="horizon-chart" style={this.props.tabCurrentView === 'timeSeries' || this.props.type === 'asn' ? {display: 'block'} : {display: 'none'}}>
                                                 {
-                                                    this.config.current && this.props.eventDataProcessed
+                                                    this.config.current && this.props.eventDataProcessed.length > 0
                                                         ? this.genChart()
                                                         : null
                                                 }
