@@ -1,5 +1,3 @@
-// import 'babel-polyfill';
-// import "core-js/stable";
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 // These must be the first lines in src/index.js

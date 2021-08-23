@@ -135,8 +135,8 @@ export function convertValuesForSummaryTable(summaryDataRaw) {
         allScores.push(summary.scores.overall)
     });
 
-    min = Math.min(...allScores);
-    max = Math.max(...allScores);
+    min = Math.min.apply(null, allScores);
+    max = Math.max.apply(null, allScores);
 
     summaryDataRaw.map((summary, index) => {
         let overallScore = null;
@@ -299,7 +299,7 @@ export function convertTsDataForHtsViz(tsData) {
                 ts: new Date(signal.from * 1000 + signal.step * 1000 * index),
                 val: value
             };
-            const max = Math.max( ...values );
+            const max = Math.max.apply(null, values);
             if (max !== 0) {
                 series.push(plotPoint);
             }
