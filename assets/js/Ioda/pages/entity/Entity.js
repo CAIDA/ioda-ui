@@ -806,7 +806,7 @@ class Entity extends Component {
             let max;
             switch (datasource.datasource) {
                 case "ucsd-nt":
-                    max = Math.max(...datasource.values);
+                    max = Math.max.apply(null, datasource.values);
                     absoluteMax.push(max);
                     absoluteMaxY2 = max;
                     datasource.values && datasource.values.map((value, index) => {
@@ -819,7 +819,7 @@ class Entity extends Component {
                     networkTelescopeValues.length > 2 ? networkTelescopeValues.splice(-1,2) : networkTelescopeValues;
                     break;
                 case "bgp":
-                    max = Math.max(...datasource.values);
+                    max = Math.max.apply(null, datasource.values);
                     absoluteMax.push(max);
 
                     datasource.values && datasource.values.map((value, index) => {
@@ -832,7 +832,7 @@ class Entity extends Component {
                     bgpValues.length > 2 ? bgpValues.splice(-1,2) : bgpValues;
                     break;
                 case "ping-slash24":
-                    max = Math.max(...datasource.values);
+                    max = Math.max.apply(null, datasource.values);
                     absoluteMax.push(max);
 
                     datasource.values && datasource.values.map((value, index) => {
@@ -924,7 +924,7 @@ class Entity extends Component {
                     labelFontColor: "#666666",
                     labelFontSize: 12,
                     minimum: 0,
-                    maximum: this.state.tsDataNormalized ? 110 : Math.max(...absoluteMax) * 1.1,
+                    maximum: this.state.tsDataNormalized ? 110 : Math.max.apply(null, absoluteMax) * 1.1,
                     gridDashType: "dash",
                     gridColor: "#E6E6E6",
                     stripLines: this.state.tsDataNormalized ? normalizedStripline : null,
