@@ -78,5 +78,13 @@
         "redux": "^4.0.5",
         "redux-thunk": "^2.3.0",
         "topojson": "1.6.18"
+    },
+    "browserslist": {
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version",
+            "ie 11"
+        ]
     }
 }
