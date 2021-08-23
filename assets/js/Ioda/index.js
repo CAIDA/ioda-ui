@@ -1,3 +1,6 @@
+import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/stable';
+// These must be the first lines in src/index.js
 /*
  * This software is Copyright (c) 2013 The Regents of the University of
  * California. All Rights Reserved. Permission to copy, modify, and distribute this
@@ -57,9 +60,6 @@ import Help from './pages/help/Help';
 import IranReport2020 from './pages/reports/IranReport2020';
 import TestAPI from "./pages/tests/TestAPI";
 import Acknowledgements from "./pages/acknowledgements/Acknowledgements";
-// to render in Edge/IE
-import 'react-app-polyfill/stable';
-
 
 
 
