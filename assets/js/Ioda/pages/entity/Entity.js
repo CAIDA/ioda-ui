@@ -55,6 +55,7 @@ import {
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
 import Error from "../../components/error/Error";
 import DashboardTab from "../dashboard/DashboardTab";
+import {Helmet} from "react-helmet";
 
 
 class Entity extends Component {
@@ -1942,6 +1943,10 @@ class Entity extends Component {
 
         return(
             <div className="entity">
+                <Helmet>
+                    <title>IODA | Internet Outages for {this.state.entityName}</title>
+                    <meta name="description" content={`Visualizations and Alerts for ${this.state.entityName} Internet Outages Detected by IODA`} />
+                </Helmet>
                 <ControlPanel
                     from={this.state.from}
                     until={this.state.until}

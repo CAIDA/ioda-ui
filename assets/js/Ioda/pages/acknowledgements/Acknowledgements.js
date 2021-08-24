@@ -50,6 +50,7 @@ import sdsc from 'images/acknowledgements/sdsc.svg';
 import ucsd from 'images/acknowledgements/ucsd.svg';
 import usdos from 'images/acknowledgements/usdos.png';
 import xsedeBlack from 'images/acknowledgements/xsede-black.png';
+import {Helmet} from "react-helmet";
 
 
 class Acknowledgements extends PureComponent {
@@ -59,6 +60,10 @@ class Acknowledgements extends PureComponent {
 
         return (
             <div className="acknowledgements">
+                <Helmet>
+                    <title>IODA | Acknowledgements</title>
+                    <meta name="description" content="Contributing partners to IODA's internet outage detection processes and software" />
+                </Helmet>
                 <div className="row">
                     <div className="col-1-of-1">
                         <h1 className="section-header">{title}</h1>
@@ -92,10 +97,7 @@ class Acknowledgements extends PureComponent {
                                     <p className="thumbnail__text">
                                         This platform was also supported by Department of Homeland Security
                                         Science
-                                        and Technology Directorate (DHS S&T) contract 
-                                        70RSAT18CB0000015 [IODA-NP: Multi-source Realtime Detection
-                                        of Macroscopic Internet Connectivity Disruption], and DHS S&T
-                                        cooperative agreement FA8750-12-2-0326
+                                        and Technology Directorate (DHS S&T) contract 70RSAT18CB0000015 [IODA-NP: Multi-source Realtime Detection of Macroscopic Internet Connectivity Disruption], and DHS S&T cooperative agreement FA8750-12-2-0326
                                         [Supporting Research and Development of Security
                                         Technologies through Network and Security Data
                                         Collection].

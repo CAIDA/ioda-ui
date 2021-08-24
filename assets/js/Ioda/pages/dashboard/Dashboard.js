@@ -27,6 +27,7 @@ import {
 } from "../../utils";
 import Loading from "../../components/loading/Loading";
 import Error from "../../components/error/Error";
+import {Helmet} from "react-helmet";
 
 
 class Dashboard extends Component {
@@ -497,6 +498,10 @@ class Dashboard extends Component {
         const title = T.translate("entity.pageTitle");
         return(
             <div className="dashboard">
+                <Helmet>
+                    <title>IODA | Monitor Macroscopic Internet Outages in Near Real-Time</title>
+                    <meta name="description" content="Visualizations and Alerts Showing Country-, Region-, and ASN/ISP-level Internet Outages Detected by IODA" />
+                </Helmet>
                 <ControlPanel
                     timeFrame={this.handleTimeFrame}
                     searchbar={() => this.populateSearchBar()}

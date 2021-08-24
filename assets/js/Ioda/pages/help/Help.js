@@ -37,6 +37,7 @@ import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 // Internationalization
 import T from 'i18n-react';
+import {Helmet} from "react-helmet";
 
 
 class Help extends PureComponent {
@@ -52,6 +53,10 @@ class Help extends PureComponent {
 
         return (
             <div className="helpPage">
+                <Helmet>
+                    <title>IODA | Screencasts, Detection Methods, Data Access, and More</title>
+                    <meta name="description" content="Learn more about IODA's datasources used, internet outage detection and scoring methods, or get help using the interface." />
+                </Helmet>
                 <div className="row list">
                     <div className="col-1-of-1">
                         <h1 className="section-header">{title}</h1>
