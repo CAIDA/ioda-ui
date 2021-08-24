@@ -53,6 +53,7 @@ import mar11shatel from 'images/iran-report/mar-11-2020-shatel.png';
 import timeline from 'images/iran-report/timeline.png';
 import zeus from 'images/iran-report/zeus.png';
 import PreloadImage from "react-preload-image";
+import {Helmet} from "react-helmet";
 
 
 
@@ -67,6 +68,10 @@ class IranReport2020 extends PureComponent {
 
         return (
             <div className="report">
+                <Helmet>
+                    <title>IODA | Iran Internet Outage 2020 Report</title>
+                    <meta name="description" content="An analysis of Internet outages in Iran from February 17, 2020 to April 17, 2020, covering the legislative election and the early spread of COVID-19 cases." />
+                </Helmet>
                 <div className="row list">
                     <div className="col-1-of-1">
                         <h1 className="section-header">{title}</h1>

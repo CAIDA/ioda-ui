@@ -50,6 +50,7 @@ import sdsc from 'images/acknowledgements/sdsc.svg';
 import ucsd from 'images/acknowledgements/ucsd.svg';
 import usdos from 'images/acknowledgements/usdos.png';
 import xsedeBlack from 'images/acknowledgements/xsede-black.png';
+import {Helmet} from "react-helmet";
 
 
 class Acknowledgements extends PureComponent {
@@ -59,6 +60,10 @@ class Acknowledgements extends PureComponent {
 
         return (
             <div className="acknowledgements">
+                <Helmet>
+                    <title>IODA | Acknowledgements</title>
+                    <meta name="description" content="Contributing partners to IODA's internet outage detection processes and software" />
+                </Helmet>
                 <div className="row">
                     <div className="col-1-of-1">
                         <h1 className="section-header">{title}</h1>
@@ -92,7 +97,7 @@ class Acknowledgements extends PureComponent {
                                     <p className="thumbnail__text">
                                         This platform was also supported by Department of Homeland Security
                                         Science
-                                        and Technology Directorate (DHS S&T) contract 
+                                        and Technology Directorate (DHS S&T) contract
                                         70RSAT18CB0000015 [IODA-NP: Multi-source Realtime Detection
                                         of Macroscopic Internet Connectivity Disruption], and DHS S&T
                                         cooperative agreement FA8750-12-2-0326
@@ -160,7 +165,7 @@ class Acknowledgements extends PureComponent {
                                     <img src={nersc}/>
                                 </div>
                                 <p className="thumbnail__text">
-                                    Storage resources for the UCSD Network Telescope 
+                                    Storage resources for the UCSD Network Telescope
                                     are supported by NERSC, a DOE Office of Science
                                     User Facility
                                     supported by the Office of Science of the U.S.

@@ -37,6 +37,7 @@ import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 // Internationalization
 import T from 'i18n-react';
+import {Helmet} from "react-helmet";
 
 
 class Reports extends PureComponent {
@@ -52,6 +53,10 @@ class Reports extends PureComponent {
 
         return (
             <div className="reports">
+                <Helmet>
+                    <title>IODA | Internet Outage Reports on Major Internet Outage Events</title>
+                    <meta name="description" content="(Co)Authored Reports containing detailed analyses of IODA signals during major Internet outage events." />
+                </Helmet>
                 <div className="row list">
                     <div className="col-1-of-1">
                         <h1 className="section-header">{title}</h1>

@@ -36,6 +36,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
 // Internationalization
 import T from 'i18n-react';
 // Data Hooks
@@ -206,6 +207,10 @@ class Home extends Component {
 
         return (
             <div className='home'>
+                <Helmet>
+                    <title>IODA | Monitor Macroscopic Internet Outages in Near Real-Time</title>
+                    <meta name="description" content="IODA monitors the Internet in near real-time to identify macroscopic Internet outages affecting the edge of the network on a country, regional, or ASN/ISP level" />
+                </Helmet>
                 <div className="row search">
                     <div className="col-2-of-3">
                         <h2 className="section-header">
