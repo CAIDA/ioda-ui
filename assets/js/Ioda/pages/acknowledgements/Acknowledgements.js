@@ -97,10 +97,7 @@ class Acknowledgements extends PureComponent {
                                     <p className="thumbnail__text">
                                         This platform was also supported by Department of Homeland Security
                                         Science
-                                        and Technology Directorate (DHS S&T) contract
-                                        70RSAT18CB0000015 [IODA-NP: Multi-source Realtime Detection
-                                        of Macroscopic Internet Connectivity Disruption], and DHS S&T
-                                        cooperative agreement FA8750-12-2-0326
+                                        and Technology Directorate (DHS S&T) contract 70RSAT18CB0000015 [IODA-NP: Multi-source Realtime Detection of Macroscopic Internet Connectivity Disruption], and DHS S&T cooperative agreement FA8750-12-2-0326
                                         [Supporting Research and Development of Security
                                         Technologies through Network and Security Data
                                         Collection].
@@ -165,7 +162,7 @@ class Acknowledgements extends PureComponent {
                                     <img src={nersc}/>
                                 </div>
                                 <p className="thumbnail__text">
-                                    Storage resources for the UCSD Network Telescope
+                                    Storage resources for the UCSD Network Telescope 
                                     are supported by NERSC, a DOE Office of Science
                                     User Facility
                                     supported by the Office of Science of the U.S.
