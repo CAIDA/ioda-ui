@@ -1,0 +1,64 @@
+.toggle {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+
+  &__label {
+    font-style: italic;
+  }
+
+  &__container {
+    margin-left: 1rem;
+    width: 3.9rem;
+    background-image: linear-gradient(#4894cd, #2852a6);
+    cursor: pointer;
+    user-select: none;
+    border-radius: 0.4rem;
+    height: 1.7rem;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-shadow: $button-box-shadow;
+
+    &--disabled {
+      background-image: linear-gradient(#737e8d,#3f454e);
+      flex-direction: row-reverse;
+
+      & .toggle__text {
+        padding-right: 0.3rem;
+      }
+    }
+  }
+
+  &__text {
+    color: $color-white;
+    font-size: 0.9rem;
+    padding-left: 0.4rem;
+  }
+}
+
+.dialog-button {
+  cursor: pointer;
+  background: linear-gradient(#c0c6c9,#81898f);
+  color: $color-white;
+  padding: 0.25rem 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 0.4rem;
+  box-sizing: border-box;
+  position: absolute;
+  left: 2.3rem;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, .2),
+              inset 0 0 0 1px rgba(0, 0, 0, .15),
+              0 1px 0 rgba(255, 255, 255, .15);
+}
+
+.disabled {
+  left: 0;
+}

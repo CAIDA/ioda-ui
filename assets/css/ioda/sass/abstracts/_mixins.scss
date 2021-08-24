@@ -1,0 +1,421 @@
+@mixin resultPageSearchResultSidebar($bgcolor: $color-white) {
+  content: "";
+  height: 100%;
+  width: 1rem;
+  position: absolute;
+  top: 0;
+  left: -1rem;
+  background-color: $bgcolor;
+}
+
+@mixin multiLineEllipsis($lineHeight: 1.2rem, $lineCount: 1, $bgColor: white) {
+  overflow: hidden;
+  position: relative;
+  max-height: $lineHeight * $lineCount;
+  text-align: justify;
+  margin-right: -1rem;
+  padding-right: 1rem;
+  &:before {
+    content: '...';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.2rem;
+    background: $bgColor;
+  }
+}
+
+@mixin searchResultCard($color) {
+  overflow: hidden;
+  position: relative;
+
+  //&:before {
+  //  content: "";
+  //  height: 7rem;
+  //  width: 3rem;
+  //  transform: rotate(45deg);
+  //  top: -2.5rem;
+  //  left: 0;
+  //  background-color: $color;
+  //  position: absolute;
+  //  box-shadow: 0 2px 3px #333;
+  //}
+  &:before {
+    content: "";
+    height: 100%;
+    width: 3rem;
+    top: 0;
+    left: 0;
+    background-color: $color;
+    position: absolute;
+    box-shadow: 0 2px 3px #333;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+  }
+}
+
+@mixin clearfix {
+  &::after {
+    content: '';
+    //standard display for clearfix
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin placeholder {
+  ::-webkit-input-placeholder { @content }
+  :-moz-placeholder           { @content }
+  ::-moz-placeholder          { @content }
+  :-ms-input-placeholder      { @content }
+}
+
+// MEDIA QUERY MANAGER
+/*
+0 - 480px:			Phone
+481px - 1024px:		Tablet Portrait
+1025px - 1280px:	Tablet Landscape
+1281px - 1799px:	Desktop (normal styles apply)
+1800px + : 			Big Desktop
+
+$breakpoint Argument Choices:
+- phone-sm
+- phone
+- phone-md
+- phone-log
+- tab-port
+- tab-land
+- big-desktop
+*/
+
+
+// ORDER TO APPLY MEDIA QUERIES: global font size > typography > general layout + grid > page layout > components.
+// 1em = 16px
+
+@mixin respond($breakpoint) {
+  @if $breakpoint == phone-sm {
+    @media only screen and (max-width: 21.875em) { @content }; //  350px
+  }
+
+  @if $breakpoint == phone-370 {
+    @media only screen and (max-width: 23.125em) { @content }; //  370px
+  }
+
+  @if $breakpoint == phone-440 {
+    @media only screen and (max-width: 27.5em) { @content }; //  440px
+  }
+
+  @if $breakpoint == phone {
+    @media only screen and (max-width: 30em) { @content }; //  480px
+  }
+
+  @if $breakpoint == phone-md {
+    @media only screen and (max-width: 46em) { @content }; // 575px
+  }
+
+  @if $breakpoint == phone-lg {
+    @media only screen and (max-width: 40em) { @content }; // 640px
+  }
+
+  @if $breakpoint == screen-870 {
+    @media only screen and (max-width: 54.375em) { @content }; // 870px
+  }
+
+  @if $breakpoint == screen-970 {
+    @media only screen and (max-width: 60.625em) { @content }; // 970px
+  }
+
+  @if $breakpoint == tab-port {
+    @media only screen and (max-width: 64em) { @content }; // 1024px
+  }
+
+  @if $breakpoint == tab-land {
+    @media only screen and (max-width: 80em) { @content }; // 1280px
+  }
+
+  @if $breakpoint == big-desktop {
+    @media only screen and (min-width: 112.5em) { @content }; // 1800px
+  }
+}
+
+@mixin textLink {
+  &:link,
+  &:visited {
+    color: $color-secondary;
+    font-weight: 700;
+    text-decoration: none;
+    padding-bottom: 2px;
+    margin-bottom: 1px;
+    background:
+            linear-gradient(
+                            175deg,
+                            $color-secondary-light 0%,
+                            $color-secondary-light 33.3%,
+                            $color-secondary 83.5%,
+                            $color-secondary-dark 100%
+            )
+            left
+            bottom
+            transparent
+            no-repeat;
+    background-size: 100% 0; /* controls underline thickness */
+    transition: ease-in-out 0.3s;
+
+    &:hover {
+      background-size: 100% 2px;
+    }
+  }
+}
+
+@mixin button {
+  //background: linear-gradient(2deg, #C12F2E, #f9ad40, #C12F2E, #f9ad40);
+  background: linear-gradient(2deg, $color-secondary-dark, $color-secondary-light, $color-secondary-dark, $color-secondary-light);
+  height: 3.5rem;
+  border-radius: 0.5rem;
+  color: $color-white;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 2rem;
+  text-align: center;
+  border: none;
+  background-size: 100% 300%;
+  transition: all .4s ease-in-out;
+  position: relative;
+  z-index: 10;
+  padding: 0 0.5rem;
+  box-shadow: $button-box-shadow;
+
+  &:before {
+    content: '';
+    display: inline-block;
+    height: 40px;
+    position: absolute;
+    bottom: -5px;
+    left: 30px;
+    right: 30px;
+    z-index: -1;
+    border-radius: 30em;
+    filter: blur(20px) brightness(0.95);
+    transform-style: preserve-3d;
+    transition: all 0.3s ease-out;
+
+
+    &:hover {
+      bottom: -7px;
+      opacity: 1;
+      filter: blur(20px);
+      background: linear-gradient(2deg, #C12F2E, #f9ad40, #C12F2E, #f9ad40);
+    }
+  }
+
+  &:hover,
+  &:active {
+    border-radius: 0.5rem;
+    //background-position: 0 100%;
+    transition: all .4s ease-in-out;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    filter: brightness(1.05) contrast(1.05);
+    transform: scale(1.03);
+
+    &:before {
+      bottom: -7px;
+      filter: blur(10px) brightness(0.95);
+    }
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+// background panel that seperates columns
+@mixin panel {
+  background-color: $color-white;
+  border-radius: 0.3rem;
+  box-shadow: $box-shadow;
+  padding: $gutter-vertical-small;
+  margin-bottom: $gutter-vertical-small;
+}
+
+@mixin buttonAsTextLink {
+  border: none;
+  color: $color-secondary;
+  font-weight: 700;
+  text-decoration: none;
+  padding-bottom: 2px;
+  margin-bottom: 1px;
+  background:
+          linear-gradient(
+                          175deg,
+                          $color-secondary-light 0%,
+                          $color-secondary-light 33.3%,
+                          $color-secondary 83.5%,
+                          $color-secondary-dark 100%
+          )
+          left
+          bottom
+          transparent
+          no-repeat;
+  background-size: 100% 2px; /* controls underline thickness */
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+@mixin staticPageFormatting {
+  padding-top: $header-height;
+  margin: 4rem 0;
+  color: $color-primary;
+
+  @include respond(tab-port) {
+    padding: 1.5rem;
+    margin-top: 4rem;
+  }
+
+  & .row {
+    max-width: 114rem;
+  }
+
+  & .img-container {
+    width: 100%;
+    position: relative;
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & div {
+      position: relative!important;
+      width: 100rem!important;
+      height: 46.5rem!important;
+      background-size: contain!important;
+
+      @include respond(tab-port) {
+        width: 80rem!important;
+        height: 37.2rem!important;
+      }
+
+      @include respond(screen-870) {
+        width: 50rem!important;
+        height: 23.25rem!important;
+      }
+    }
+  }
+
+  & img {
+    max-width: 100rem;
+    width: 100%;
+    height: auto;
+    margin: 1.5rem auto;
+    display: block;
+    box-shadow: $box-shadow;
+  }
+
+  & .img-container div {
+    filter: drop-shadow(0 1px 2px #9F9D9D);
+  }
+
+  & h2 {
+    font-size: 1.9rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-top: 1rem;
+    margin-top: 1.5rem;
+
+    &:before {
+      content: "";
+      width: 100%;
+      height: 0.1rem;
+      background-color: $color-primary;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  & h3 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    margin-left: 2rem;
+  }
+
+  & h4 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    margin-left: 2rem;
+  }
+
+  & ul {
+    margin-left: 4rem;
+    margin-bottom: 1rem;
+
+    & li {
+      font-size: 1.2rem;
+    }
+  }
+
+  & p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    margin-left: 2rem;
+  }
+
+  & a:link, & a:visited {
+    @include textLink;
+    word-break: break-all;
+  }
+}
+
+@mixin preloadedImage() {
+  width: 100%;
+  position: relative;
+  height: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & div {
+    position: relative!important;
+    background-size: contain!important;
+  }
+}
+
+@mixin mobileTooltip() {
+  @include respond(tab-port) {
+    top: 4rem;
+    left: -21rem;
+  }
+
+  &-content {
+    &:before {
+      top: 1.3rem;
+      background: $color-table-row-odd;
+
+      @include respond(tab-port) {
+        top: 0;
+        left: 20.5rem;
+      }
+    }
+
+    &:after {
+      top: 0;
+      background: $color-table-row-odd;
+      transform: translateY(0);
+
+      @include respond(tab-port) {
+        height: 4.25rem;
+        width: 1.5em;
+        left: 20.5rem;
+        top: -1.2rem;
+        transform: translateY(0) rotate(90deg);
+      }
+    }
+  }
+}

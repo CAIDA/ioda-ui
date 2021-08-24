@@ -1,0 +1,58 @@
+/*topToBottom Animation*/
+@-moz-keyframes topToBottom{
+  0% { opacity: 0; }
+  5% { opacity: 0; -moz-transform: rotateY(90deg); }
+  10% { opacity: 1; -moz-transform: translateX(0px); }
+  25% { opacity: 1; -moz-transform: translateX(0px); }
+  30% { opacity: 0; -moz-transform: translateX(0px); }
+  80% { opacity: 0; }
+  100% { opacity: 0;}
+}
+@-webkit-keyframes topToBottom{
+  0% { opacity: 0; }
+  5% { opacity: 0; -webkit-transform: rotateY(90deg); }
+  10% { opacity: 1; -webkit-transform: translateX(0px); }
+  25% { opacity: 1; -webkit-transform: translateX(0px); }
+  30% { opacity: 0; -webkit-transform: translateX(0px); }
+  80% { opacity: 0; }
+  100% { opacity: 0; }
+}
+@-ms-keyframes topToBottom{
+  0% { opacity: 0; }
+  5% { opacity: 0; -ms-transform: rotateY(90deg); }
+  10% { opacity: 1; -ms-transform: translateX(0px); }
+  25% { opacity: 1; -ms-transform: translateX(0px); }
+  30% { opacity: 0; -ms-transform: translateX(0px); }
+  80% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/*Loading Bar Animation*/
+@keyframes progress-bar-stripes {
+  0% {
+    background-position: 4rem 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+/* Loading Wheel Animation */
+@keyframes loading-spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/*copy button fade in/out */
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

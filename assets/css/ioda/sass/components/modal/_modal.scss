@@ -1,0 +1,174 @@
+.modal {
+  &__background {
+    background: $color-black;
+    opacity: 0.7;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+  }
+
+  &__window {
+    background: $color-background-white;
+    position: fixed;
+    top: 12vh;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 2px solid $color-table-cell-border;
+    box-shadow: $box-shadow;
+    width: calc(100% - 9rem);
+    z-index: 99999;
+    overflow-y: auto;
+    height: 84vh;
+    padding: 1.5rem;
+    border-radius: 3px;
+
+    @include respond(phone-440) {
+      width: calc(100% - 2rem);
+    }
+  }
+
+  &__row {
+    @include panel;
+  }
+
+  &__content {
+    .col-2-of-3 {
+      @include panel;
+
+      & .horizon-series .label {
+        background-color: rgba(255,255,255,0.4);
+        padding: 0 0.4rem;
+        border-radius: 0.3rem;
+        max-height: 100%;
+      }
+    }
+  }
+
+  &__heading {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+
+    &-title {
+      display: flex;
+
+      & .heading-h2 {
+        margin-right: 0.5rem;
+      }
+
+      & .help__modal {
+        @include mobileTooltip();
+      }
+    }
+  }
+
+  &__hts-count {
+    font-size: 1.1rem;
+  }
+
+  &__button {
+    @include button;
+    margin: 0;
+    width: 2.2rem;
+    height: 2.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.4rem;
+    line-height: 2.5rem;
+
+    &--table {
+      @include button;
+      height: 2.2rem;
+      font-size: 1rem;
+      margin: 0;
+
+      &:first-child {
+        margin-right: 1rem;
+      }
+    }
+  }
+
+  &__loadAll {
+    margin: 0.5rem 0 1rem;
+
+    &-button {
+      @include buttonAsTextLink;
+    }
+
+    & strong {
+      padding: 0 0.3rem;
+    }
+
+    &-spinner {
+      height: 2.5rem;
+      animation: loading-spinner 1.2s linear infinite;
+    }
+  }
+
+  &__loading-spinner {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  &__table {
+    margin-bottom: 1.5rem;
+
+
+    &-heading {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &-buttons {
+      display: flex;
+    }
+
+    & tbody {
+      max-height: 42.5rem;
+    }
+
+    &--asn {
+      tbody {
+        max-height: 88rem;
+      }
+    }
+
+    &-container {
+      @include panel;
+      margin-bottom: $gutter-vertical-small;
+    }
+
+    &-error {
+      background-color: $color-error-background;
+      padding: 0.75rem;
+      text-align: center;
+      font-weight: 700;
+      border-radius: 3px;
+      color: $color-white;
+      margin: 1rem 0;
+    }
+  }
+
+  &__map {
+    &-container {
+      @include panel;
+    }
+  }
+
+  &__chart {
+    margin-bottom: 1.5rem;
+  }
+}
+
+// safari-only media query
+@media not all and (min-resolution:.001dpcm)
+{ @supports (-webkit-appearance:none) {
+
+  .modal__button {
+    align-items: flex-end;
+  }
+}}

@@ -1,0 +1,36 @@
+.timestamp {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  cursor: pointer;
+
+  &__message {
+    background-color: $color-secondary;
+    color: $color-white;
+    border-radius: 0.5rem;
+    display: flex;
+    width: max-content;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    z-index: 1000;
+    position: absolute;
+    padding: 0.5rem 1rem;
+    top: -2rem;
+    right: 6rem;
+    opacity: 0;
+  }
+
+  &__fade {
+    animation-name: fade-out;
+    animation-duration: 1.4s;
+    animation-timing-function: ease-out;
+  }
+
+  &__text {
+    font-style: italic;
+    font-size: 1rem;
+    color: $color-primary;
+  }
+}

@@ -1,0 +1,372 @@
+.control-panel {
+  background-color: $color-white;
+  border-radius: 0.3rem;
+  box-shadow: $box-shadow;
+  padding: $gutter-vertical-small;
+  display: flex;
+
+  @include respond(phone-lg) {
+    flex-direction: column-reverse;
+  }
+
+  .col-1-of-3 {
+    min-width: 46rem;
+
+    @include respond(phone) {
+      min-width: unset;
+    }
+  }
+
+  .searchbar {
+    margin-bottom: 1rem;
+
+    &__heading {
+      display: flex;
+      align-items: center;
+    }
+
+    &__label {
+      padding-left: 1rem;
+      font-style: italic;
+      font-size: $control-panel-input-label-font-size;
+      margin-right: 0.5rem;
+    }
+  }
+
+  // Search bar
+  [class^="search-"] {
+    margin: 0;
+  }
+
+  [class^="searchbar-"] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  [class^="searchInput-"] {
+    height: 3rem;
+    padding-left: 0.8rem;
+    color: $color-primary;
+
+    &::placeholder {
+      font-size: 1.2rem;
+      color: $color-primary;
+    }
+
+    @include respond(phone-lg) {
+      font-size: 1.2rem;
+      height: 3.75rem;
+    }
+
+    &:focus ~ label {
+      margin-top: -5.6rem;
+      padding-left: 1rem;
+    }
+  }
+
+  [class^="searchLabel-"] {
+    display: none;
+  }
+
+  [class^="searchResultsVisible-"] {
+    z-index: 1001;
+    top: 3.5rem;
+  }
+
+  [class^="searchResultsList-"] {
+    margin: 0;
+  }
+
+  [class^="searchResultsListItem-"],
+  [class^="searchResultsListItemActive-"] {
+    padding-left: 5px;
+  }
+
+  [class^="searchResultsListItem-"]:hover:after {
+    background-color: $color-secondary;
+  }
+
+  .range {
+    &__heading {
+      display: flex;
+    }
+
+    &__label {
+      padding-left: 1rem;
+      font-style: italic;
+      font-size: $control-panel-input-label-font-size;
+      margin-right: 0.5rem;
+    }
+
+    &__calendar {
+      background-color: $control-panel-input-calendar-icon-background;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: -0.5rem;
+      margin-left: -0.8rem;
+      height: 2.7rem;
+      padding: 0 0.3rem;
+      border-right: 2px solid $color-blue-border;
+
+      @include respond(phone-lg) {
+        height: 3.25rem;
+      }
+
+      &-img {
+        @include preloadedImage();
+
+        & div {
+          width: 2.5rem!important;
+          height: 2.5rem!important;
+        }
+      }
+    }
+
+    &__input {
+      cursor: pointer;
+      background-color: $color-white;
+      height: 3rem;
+      width: 100%;
+      border: 2px solid $color-blue-border;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: row;
+      justify-content: left;
+      align-items: center;
+      color: #757575;
+      padding-top: 0.5rem;
+      padding-left: 0.8rem;
+
+      @include respond(phone-lg) {
+        height: 3.75rem;
+      }
+
+      @include respond(phone) {
+        font-size: 1.3rem;
+      }
+
+      &-start {
+        margin-left: 0.5rem;
+      }
+
+      & span {
+        display: inline-block;
+      }
+
+      &-dash {
+        padding: 0 1.5rem;
+      }
+
+      &-field {
+        width: 100%;
+        height: 2.6rem;
+        border: none;
+        margin-top: -0.5rem;
+        padding-left: 1rem;
+        color: $color-primary;
+        font-size: 1.2rem;
+      }
+    }
+
+    &__dropdown {
+      display: none;
+      z-index: 1000;
+      position: absolute;
+      left: 0;
+      top: 12rem;
+      box-shadow: $box-shadow;
+      border-radius: 3px;
+
+      @include respond(phone-440) {
+        left: -3rem;
+        overflow: hidden;
+      }
+
+      .rdrDateRangePickerWrapper {
+        @include respond(phone-lg) {
+          display: flex;
+          flex-direction: column;
+        }
+
+        & .rdrDefinedRangesWrapper {
+          width: 100%;
+        }
+
+        & .rdrCalendarWrapper {
+          @include respond(phone-lg) {
+            margin-top: -5rem;
+            padding-bottom: 5rem;
+          }
+
+          @include respond(phone-440) {
+            font-size: 1.5rem;
+          }
+        }
+      }
+
+      .rdrStaticRange {
+        background-color: $color-background-white;
+        border-radius: 0.5rem;
+        margin: 0.25rem;
+        height: 3.5rem;
+        color: $color-secondary;
+        display: flex;
+        align-items: center;
+
+        @include respond(tab-land) {
+          height: 4rem;
+        }
+
+        @include respond(tab-port) {
+          height: 4.5rem;
+        }
+
+        @include respond(phone) {
+          font-size: 1.3rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        &:hover {
+          background: linear-gradient(2deg, $color-secondary-dark, $color-secondary-light)!important;
+          font-weight: 700!important;
+          color: #fff!important;
+        }
+      }
+
+      &-userInputRange {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+
+        & input {
+          width: 5.5rem;
+          margin: -0.1rem 0.75rem 0;
+          padding: 0.25rem;
+          -moz-appearance: textfield;
+          height: 1.9rem;
+          border: 1px solid $color-blue-border;
+
+          @include respond(tab-land) {
+            margin: 0 0.75rem;
+            height: 100%;
+            font-size: 1.3rem;
+          }
+
+          &::-webkit-outer-spin-button,
+          &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+        }
+
+        &Select {
+          border: 1px solid $color-blue-border;
+          margin-top: -0.1rem;
+
+          @include respond(phone) {
+            font-size: 1.3rem;
+          }
+        }
+      }
+
+      &-checkbox {
+        width: 100%;
+        margin-top: 0.5rem;
+        //display: flex; controlled in component file
+        justify-content: center;
+        align-items: center;
+        font-style: italic;
+        font-size: 1.1rem;
+
+        & input {
+          margin-right: 0.5rem;
+          border: 1px solid $color-blue-border;
+        }
+      }
+
+      &--visible {
+        display: inline-block;
+      }
+    }
+
+    &__time {
+      display: none;
+      position: absolute;
+      bottom: 0.25rem;
+      right: 3.8rem;
+
+      @include respond(phone-lg) {
+        bottom: 1rem;
+        right: 1.5rem;
+      }
+
+      &--visible {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-width: 25.6rem;
+      }
+    }
+
+    &__button {
+      @include button;
+      margin: 1.5rem;
+      position: absolute;
+      bottom: -0.5rem;
+      left: 0;
+      padding: 0 1rem;
+      font-size: 1.1rem;
+
+      &--secondary {
+        left: 6rem;
+        background: $color-secondary-button;
+        box-shadow: $button-box-shadow;
+      }
+
+      &--disabled {
+        cursor:not-allowed;
+      }
+    }
+  }
+
+  &__title {
+    display: flex;
+    justify-content: flex-end;
+
+    @include respond(phone-lg) {
+      justify-content: space-between;
+    }
+
+    .heading-h1 {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+
+  &__button {
+    background-color: $control-panel-input-calendar-icon-background;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 5rem;
+    width: 5rem;
+    border: 2px solid $color-blue-border;
+    font-weight: 700;
+    border-radius: 0.3rem;
+    margin-left: 2rem;
+    font-size: 3rem;
+    color: $color-primary;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $color-blue-border;
+    }
+  }
+}
+
+
+

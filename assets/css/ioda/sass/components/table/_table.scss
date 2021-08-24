@@ -1,0 +1,529 @@
+.table {
+  background-color: $color-white;
+  padding: 0;
+  border: none;
+  border-spacing: 0;
+  z-index: 10;
+  border-radius: 3px;
+  width: 100%;
+  border-bottom: 1px solid #111;
+
+
+//type-specific column widths and alignment
+  &--event {
+    & .table__header-col:nth-child(1),
+    & tr td:nth-child(1),
+    & .table__header-col:nth-child(2),
+    & tr td:nth-child(2) {
+      width: 20%;
+      min-width: 11rem;
+    }
+    & .table__header-col:nth-child(3),
+    & .table__header-col:nth-child(4) {
+      justify-content: center;
+
+      & button {
+        justify-content: center;
+      }
+    }
+
+    & .table__header-col:nth-child(3),
+    & tr td:nth-child(3) {
+      width: 10rem;
+      text-align: center;
+    }
+
+    & .table__header-col:nth-child(4),
+    & tr td:nth-child(4) {
+      width: calc(10rem + 15px);
+    }
+
+    & tbody {
+      max-height: 49rem;
+
+      @include respond(big-desktop) {
+        max-height: 42rem;
+      }
+    }
+  }
+
+  &--alert {
+    /* first col */
+    &-critical {
+      background-color: $color-alert-feed-critical;
+      width: 3rem;
+    }
+    &-warning {
+      background-color: $color-alert-feed-warning;
+      width: 3rem;
+    }
+    &-normal {
+      background-color: $color-alert-feed-normal;
+      width: 3rem;
+    }
+    &-level-img {
+      height: 1.1rem;
+      width: 1.1rem;
+    }
+    & .table__header-col:first-child,
+    & tr td:first-child {
+      width: 3rem;
+    }
+
+    & .table__header-col:nth-child(1) {
+      @include respond(tab-land) {
+        padding-left: 0;
+      }
+
+      & button {
+        @include respond(tab-land) {
+          justify-content: center;
+        }
+      }
+
+    }
+    & .table__header-col:nth-child(2),
+    & tr td:nth-child(2) {
+      width: 20%;
+      min-width: 18rem;
+
+      @include respond(tab-land) {
+        min-width: 13rem;
+      }
+
+      & p {
+        display: flex;
+        align-items: center;
+
+        &:first-child {
+          margin-right: 0.5rem;
+        }
+      }
+    }
+    & .table__header-col:nth-child(3),
+    & tr td:nth-child(3) {
+      width: 20%;
+      min-width: 11rem;
+
+      @include respond(tab-land) {
+        min-width: 9rem;
+      }
+    }
+    & .table__header-col:nth-child(4),
+    & .table__header-col:nth-child(5) {
+      justify-content: center;
+
+      & button {
+        @include respond(tab-land) {
+          justify-content: center;
+        }
+      }
+    }
+
+    & .table__header-col:nth-child(4),
+    & tr td:nth-child(4) {
+      width: 11rem;
+    }
+
+    & .table__header-col:nth-child(5),
+    & tr td:nth-child(5) {
+      width: calc(11rem + 15px);
+    }
+
+    & tbody {
+      max-height: 49rem;
+    }
+  }
+
+  &--summary {
+    & .table__scores--active {
+      display: block;
+
+      & thead {
+        display: block;
+      }
+    }
+
+    & .table__header-col:first-child button {
+      justify-content: left;
+      padding-left: 1rem;
+    }
+    & .table__header-col:nth-child(2),
+    &--asn .table__header-col:nth-child(3) {
+      width: 10rem;
+    }
+  }
+  &--signal {
+    margin: 0;
+
+    & .table__header-col:first-child,
+    & tr td:first-child {
+      width: 4rem;
+    }
+
+    & .table__header-col:nth-child(2) button {
+      justify-content: left;
+      padding-left: 1rem;
+    }
+
+
+    & .table__header-col:nth-child(3),
+    &--asn tbody tr td:nth-child(3),
+    &--asn .table__header-col:nth-child(4),
+    &--asn tbody tr td:nth-child(4) {
+      width: 10rem;
+    }
+
+    .table__scores-sourceCount {
+      display: none;
+    }
+  }
+
+// general table styles
+  &__header {
+    color: $color-primary;
+    border-bottom: 1px solid #111;
+
+    &-col {
+      padding-left: 0.5rem;
+
+      & button {
+        background: transparent;
+        color: inherit;
+        outline: none;
+        width: 100%;
+        height: 100%;
+        padding: 0.25rem;
+        border: none;
+        font-size: 1.2rem;
+        font-weight: 700;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        cursor: pointer;
+      }
+    }
+
+    &-sort {
+      height: 2rem;
+      width: 2rem;
+      margin-left: 0.5rem;
+    }
+  }
+
+  & thead tr:nth-child(odd) {
+    background-color: $color-white;
+  }
+
+  & tbody {
+    /* managed in component */
+    /* overflow-y: scroll; */
+    display: block;
+    width: 100%;
+  }
+
+  & tr {
+    height: 3.4rem;
+    display: table;
+    width: 100%;
+  }
+
+  & tr:nth-child(odd) {
+    background-color: $color-table-row-odd;
+  }
+
+  & tr:nth-child(even) {
+    background-color: $color-white;
+  }
+
+  & td {
+    font-size: 1.1rem;
+    text-align: left;
+    position: relative;
+    height: inherit;
+    padding-left: 1.5rem;
+  }
+
+  & .td--center {
+    text-align: center;
+    padding-left: 0;
+  }
+
+  &__cell {
+    &-link {
+      display: flex;
+      height: 100%;
+      justify-content: left;
+      align-items: center;
+
+      &:link,
+      &:visited {
+        @include textLink;
+        color: $color-primary!important;
+        font-weight: 400!important;
+        padding-bottom: 0!important;
+        margin-bottom: 0!important;
+        background-size: 100% 0!important; /* controls underline thickness */
+        transition: ease-in 0.2s;
+
+        &:hover {
+
+          & span {
+            background:
+                    linear-gradient(
+                                    175deg,
+                                    $color-primary-light 0%,
+                                    $color-primary-light 33.3%,
+                                    $color-primary 83.5%,
+                                    $color-primary-dark 100%
+                    )
+                    left
+                    bottom
+                    transparent
+                    no-repeat;
+            background-size: 100% 2px;
+          }
+        }
+      }
+    }
+
+    &--overallScore {
+      width: 10rem;
+      position: relative;
+      cursor: pointer;
+    }
+
+    &--ipCount {
+      width: 10rem;
+    }
+  }
+
+  &__ellipses {
+    font-size: 1.8rem;
+    line-height: 1.9rem;
+    vertical-align: sub;
+    position: absolute;
+    right: 0.5rem;
+  }
+
+  &__scores {
+    display: none;
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
+    z-index: 100;
+    right: 2.5rem;
+    width: 24rem;
+    border-bottom: 1px solid #111;
+    border-radius: 3px;
+
+    /* div that displays how many datasources are reporting scores */
+    &-sourceCount {
+      position: absolute;
+      width: 1rem;
+      top: 5%;
+      left: .5rem;
+      border-radius: 3px;
+      height: 90%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+
+      &-unit {
+        height: 33%;
+
+        &--ping-slash24 {
+          background-color: $color-ping-slash-24;
+        }
+
+        &--bgp {
+          background-color: $color-bgp;
+        }
+
+        &--ucsd-nt {
+          background-color: $color-ucsd-nt;
+        }
+
+        &--empty {
+          background-color: $color-black;
+          opacity: 0.1;
+        }
+      }
+
+      &-unit:not(:last-child) {
+        border-bottom: 1px solid $color-table-datasource-bottom-border;
+      }
+    }
+
+    /* styles for additional score table */
+    & td, & th {
+      position: relative;
+      z-index: 100;
+
+      &:first-child {
+        text-align: left;
+        padding-left: 1rem;
+      }
+
+      &:last-child {
+        text-align: center;
+        padding-left: 0;
+      }
+    }
+
+    &-headers {
+      background-color: $color-white;
+      color: $color-primary;
+      box-shadow: $box-shadow;
+      font-size: 1.1rem;
+      border-bottom: 1px solid #111;
+      border-top-left-radius: 3px;
+
+      & th {
+        padding: 0.5rem;
+
+        &:first-child {
+          border-top-left-radius: 0.3rem;
+        }
+      }
+    }
+
+    & tbody {
+      box-shadow: $box-shadow;
+      position: relative;
+      z-index: 99;
+      border-bottom-left-radius: 0.3rem;
+      border-bottom-right-radius: 0.3rem;
+
+      & tr {
+        & td {
+          border: none;
+        }
+
+        & td:first-child {
+          width: 18rem;
+        }
+
+        & td:last-child {
+          width: 6rem;
+        }
+
+        &:last-child {
+          border-bottom-left-radius: 3px;
+          border-bottom-right-radius: 3px;
+        }
+      }
+    }
+
+    &:after {
+      top: 1px;
+      right: -0.2rem;
+      content: "";
+      height: 3.2rem;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      border-left: 1.5rem solid transparent;
+      //border-left: 1.5rem solid $color-primary-light;
+      border-top: 1.5rem solid transparent;
+      border-bottom: 1.5rem solid transparent;
+      z-index: 101;
+      background-color: $color-white;
+    }
+
+    &:before {
+      content: '';
+      position: absolute;
+      background-color: $color-white;
+      transform: rotate(45deg);
+      width: 2.4rem;
+      height: 2.4rem;
+      right: -1.2rem;
+      top: 0.5rem;
+      z-index: -1;
+      box-shadow: $box-shadow;
+    }
+  }
+
+  &__page {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    color: #333;
+    font-style: italic;
+
+    &-text {
+      font-size: 1rem;
+    }
+
+    &-button {
+      @include button;
+      width: 7rem;
+      height: 1.2rem;
+      border-radius: 1.2rem;
+      margin: 0.25rem 0.5rem;
+      font-size: 1rem;
+    }
+
+    &-legend {
+      display: flex;
+      flex-direction: row;
+      font-size: 1rem;
+
+
+      &-item {
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        &:not(:last-child) {
+          margin-right: 1rem;
+        }
+
+        &:before {
+          content: "";
+          display: inline-block;
+          position: relative;
+          height: 0.9rem;
+          width: 0.9rem;
+          border-radius: 3px;
+          border: 1px solid $color-table-row-odd;
+          margin-right: 0.25rem;
+        }
+
+        &--ping-slash24:before {
+          background-color: $color-ping-slash-24;
+        }
+
+        &--bgp:before {
+          background-color: $color-bgp;
+        }
+
+        &--ucsd-nt:before {
+          background-color: $color-ucsd-nt;
+        }
+      }
+    }
+  }
+
+  &__empty {
+    font-size: 1.3rem;
+
+    & td {
+      text-align: center;
+    }
+
+  }
+}
+
+@media not all and (min-resolution:.001dpcm)
+{ @supports (-webkit-appearance:none) {
+
+  .table__cell--overallScore {
+    padding: 1rem 0;
+  }
+}}

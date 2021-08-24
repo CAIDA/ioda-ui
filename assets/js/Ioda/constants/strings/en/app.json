@@ -1,0 +1,291 @@
+{
+  "header": {
+    "dashboard": "Dashboard",
+    "reports": "Reports",
+    "iodaLogoAltText": "IODA Logo",
+    "help": "Help",
+    "projectInfo": "Project Info",
+    "explorer": "Explorer",
+    "acknowledgements": "Acknowledgements",
+    "api": "API"
+  },
+  "home": {
+    "title": "IODA",
+    "subheader": "A platform for Applied Network Data Analysis",
+    "searchBarTitle": "Jump to a Country, Region, or ASN/ISP of Interest",
+    "searchBarPlaceholder": "Search for a Country, Region, or ASN/ISP",
+    "searchBarDashboardText": "or continue to",
+    "searchBarDashboardLink": "Outages Dashboard >>",
+    "recentOutages": "Recent Outages",
+    "mapTimeFrame": "Last 24 hours",
+    "twitterWidgetTitle": "Latest News",
+    "about": "IODA (Internet Outage Detection and Analysis) is a CAIDA project to develop an operational prototype system that monitors the internet, in near-realtime, to identify macroscopic Internet outages affecting the edge of the network, i.e. significantly impacting an AS (Autonomous System) or a large fraction of a country.",
+    "aboutButtonText": "Dashboard",
+    "partnersSectionTitle": "Partners",
+    "otf": "This platform was supported by the Open Technology Fund under contract number 1002-2018-027.",
+    "dhs": "This platform was supported by Department of Homeland Security Science and Technology Directorate (DHS S&T) contract 70RSAT18CB0000015 (IODA-NP: Multi-source Realtime Detection of Macroscopic Internet Connectivity Disruption), and DHS S&T cooperative agreement FA8750-12-2-0326 (Supporting Research and Development of Security Technologies through Network and Security Data Collection).",
+    "comcast": "Additional funding to work on visualization interfaces was generously provided by a Comcast research grant.",
+    "nsf": "This platform was supported by NSF grant CNS-1228994 (Detection and Analysis of Large-scale Internet Infrastructure Outages (IODA)).",
+    "isoc": "Additional funding to support this platform was generously provided by a grant from the Internet Society.",
+    "dos1": "This platform was supported by ",
+    "dos2": "U.S. Department of State, Bureau of Democracy, Human Rights, and Labor",
+    "dos3": " and ",
+    "dos4": "Bureau of Near Eastern Affairs",
+    "dos5": ".",
+    "examples": {
+      "syria": {
+        "title": "Syria, Jun 2020 (Exam-related)",
+        "text1": "Government-ordered Internet shutdowns in conjunction with national exams have been occurring in Syria for ",
+        "text2": "several years",
+        "text3": ". These shutdowns disconnect most of the country from the rest of the Internet. In this example from June 2020, IODA's data and visualizations clearly show the pattern of these outages."
+      },
+      "africa": {
+        "title": "West Africa, Jan 2020 (Cable cut)",
+        "text1": "On January 16 2020, ",
+        "text2": "undersea cable infrastructure problems",
+        "text3": " severely disrupted Internet connectivity in several West African countries. IODA detected significant outages affecting ",
+        "text4": "the Republic of Congo",
+        "text5": ", ",
+        "text6": "Namibia",
+        "text7": "the Democratic Republic of Congo",
+        "text8": ", and ",
+        "text9": "Angola",
+        "text10": " during this time."
+      },
+      "iran": {
+        "title": "Iran, Nov 2019 (Government-mandated)",
+        "text1": "Amid ",
+        "text2": "widespread protests",
+        "text3": " against the government, on November 16 2019, Iran experienced one of the most severe government-ordered ",
+        "text4": "Internet outages",
+        "text5": ". This ",
+        "text6": "detailed analysis",
+        "text7": " shows how most Iranian users were affected for nearly a week. Amnesty International used IODA's data in an ",
+        "text8": "investigation",
+        "text9": " correlating this Internet shutdown with the killing of hundreds of Iranians."
+      },
+      "as37680": {
+        "title": "COOL-IDEAS (AS 37680), Sep 2019 (DDoS attack)",
+        "text1": "A distributed denial-of-service (DDoS) amplification attack leveraging the DNS and CLDAP protocols and ",
+        "text2": "using the \"carpet bombing\" approach",
+        "text3": " resulted in a ",
+        "text4": "multi-hour Internet outage",
+        "text5": " for South Africa's largest Internet service provider on September 21, 2019."
+      },
+      "china": {
+        "title": "China, May 2019",
+        "text1": "On May 13 2019, IODA detected a significant Internet outage affecting China that began at 7:30 PM UTC and continued for several hours. The outage was reported by several sources, including ",
+        "text2": "ThousandEyes",
+        "text3": " and ",
+        "text4": "Internet Intelligence",
+        "text5": " but its cause remains unclear."
+      },
+      "venezuela": {
+        "title": "Venezuela, Mar 2019 (Power outage)",
+        "text1": "In March 2019, Venezuela was affected by ",
+        "text2": "several power outages",
+        "text3": ". IODA's data also shows the cascading failures affecting the power grid as repeated efforts at restoration obtained temporary success."
+      },
+      "as209": {
+        "title": "CenturyLink (AS209), Dec 2018 (Network misconfiguration)",
+        "text1": "In late December 2018, IODA detected a large-scale Internet outage affecting CenturyLink, a major residential Internet Service Provider (ISP) in the U.S. The outage lasted for more than a day and reportedly affected ",
+        "text2": "millions of users",
+        "text3": " and was caused by \"malformed management packets\", according to an ",
+        "text4": "FCC report",
+        "text5": "."
+      },
+      "iraq": {
+        "title": "Iraq, Oct 2016 (Exam-related)",
+        "text1": "In the first week of October 2016, IODA detected nearly daily outages that significantly affected Iraqi Internet connectivity."
+      },
+      "gabon": {
+        "title": "Gabon, Sep 2016 (Government-mandated)",
+        "text1": "In early September 2016, IODA detected daily outages in Gabon that significantly affected Internet connectivity. These outages were widely reported (e.g., by ",
+        "text2": "CNN",
+        "text3": "Cloudflare",
+        "text4": "Akamai",
+        "text5": ", ",
+        "text6": "etc.) and were \"initially imposed amid clashes between opposition protesters and security forces following the announcement that incumbent President Ali Bongo had won reelection by a slim margin\"."
+      }
+    }
+  },
+  "dashboard": {
+    "countryTabTitle": "Country View",
+    "regionTabTitle": "Region View",
+    "countryOutages": "Country Outages",
+    "regionalOutages": "Regional Outages",
+    "asnOutages": "ASN/ISP Outages",
+    "asnTabTitle": "ASN/ISP View",
+    "viewTitleMap": "Chart View",
+    "viewTitleChart": "Map View",
+    "viewChangeIconAltTextHts": "Change to Chart View",
+    "viewChangeIconAltTextMap": "Change to Map View",
+    "timeDurationTooHighErrorMessage": "Time duration must be less than 35 days on the dashboard. Current request is for ",
+    "summaryLegendTelescope": "Telescope",
+    "summaryLegendActiveProbing": "Active Probing",
+    "summaryLegendBgp": "BGP"
+  },
+  "entity": {
+    "pageTitle": "Outage Severity Overview",
+    "timeRangeTitle": "Outages Occurring Today",
+    "xyChartTitle": "IODA Signals for ",
+    "xyChartXAxisTitle": "Time (UTC)",
+    "toggleOn": "ON",
+    "toggleOff": "OFF",
+    "xyChartAlertToggleLabel": "Alert Bands",
+    "xyChartNormalizedToggleLabel": "Normalized Values",
+    "activeProbingLegendText": "Active Probing (#/24s Up)",
+    "bgpLegendText": "BGP (#Visible /24s)",
+    "darknetLegendText": "Telescope (# Unique Source IPs)",
+    "eventAlertButtonText1": "View ",
+    "eventAlertButtonOption1": "Alert",
+    "eventAlertButtonOption2": "Event",
+    "eventAlertButtonText2": " Table",
+    "eventFeedTitle": "Event Feed for ",
+    "alertFeedTitle": "Alert Feed for ",
+    "regionalModalButtonText": "Regional Raw Signals",
+    "asnModalButtonText": "ASN/ISP Raw Signals",
+    "regionalSectionTitleCountryType": "Regional Outages in ",
+    "regionalSectionTitleRegionType": "Other Regions Affected in ",
+    "regionalSectionTitleAsnType": "Regional Outages related to "
+  },
+  "controlPanel": {
+    "timeRange": "Select a Time Range",
+    "utc": "UTC",
+    "timeInputCheckbox": "Whole Day",
+    "applyButtonText": "Apply",
+    "searchBarPlaceholder": "Search for a Country, Region, or ASN/ISP",
+    "wholeDay": "Whole Day",
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "calendarIconAltText": "calendar icon"
+  },
+  "loadingBar": {
+    "loading": "Loading..."
+  },
+  "entityModal": {
+    "regionSingular": " Region",
+    "regionPlural": " Regions",
+    "asnSingular": " ASN/ISP",
+    "asnPlural": " ASNs/ISPs",
+    "regionTitle": "Regional Raw Signals related to ",
+    "regionalTableTitle": "Regional Raw Signals",
+    "regionalMapTitle": "Map of Regional Outages",
+    "noOutagesOnMapMessage": "No Regional Outages Detected",
+    "checkMaxButton": "Check Max (150)",
+    "checkMaxButtonBelow150_1": "Check Max (",
+    "checkMaxButtonBelow150_2": ")",
+    "uncheckAllButton": "Uncheck All",
+    "loadRemainingEntities1": "Number of",
+    "loadRemainingEntities2": " initially capped at ",
+    "loadRemainingEntities3": " (",
+    "loadRemainingEntities4": "Load All",
+    "loadRemainingEntities5": " - May take a while)",
+    "currentCountInHts1": "Displaying ",
+    "currentCountInHts2": " in the Horizon Time Series - Use checkboxes on the",
+    "currentCountInHts3": " Raw Signals table to change the selection.",
+    "maxEntitiesPopulatedMessage": "Max entities populated. Please uncheck the visibility of some entities before adding more.",
+    "asnTitle": "ASN/ISP Raw Signals related to ",
+    "asnTableTitle": "ASN/ISP Raw Signals",
+    "pingSlash24HtsLabel": "Active Probing",
+    "bgpHtsLabel": "BGP",
+    "ucsdNtHtsLabel": "Network Telescope"
+  },
+  "table": {
+    "alertHeaders": {
+      "level": "Alert",
+      "timeStamp": "Time (UTC)",
+      "dataSource": "Type",
+      "actualValue": "Actual Value",
+      "baselineValue": "Baseline Value"
+    },
+    "alertLabels": {
+      "activeProbing": "Active Probing",
+      "bgp": "BGP",
+      "darknet": "Telescope"
+    },
+    "eventHeaders": {
+      "fromDate": "From",
+      "untilDate": "Until",
+      "duration": "Duration",
+      "score": "Score"
+    },
+    "summaryHeaders": {
+      "name": "Name",
+      "ipCount": "IP Count",
+      "score": "Score"
+    },
+    "signalHeaders": {
+      "visibility": "",
+      "nameCountry": "Country",
+      "nameRegion": "Region",
+      "nameAsn": "ASN/ISP",
+      "ipCount": "IP Count",
+      "score": "Outage Score"
+    },
+    "unsortedIconAltText": "Unsorted",
+    "scoresTable": {
+      "dataSourceHeading": "Source",
+      "scoreHeading": "Score"
+    },
+    "displayCountShowing": "Showing ",
+    "displayCountOf": " of ",
+    "displayCountEntries": " Entries",
+    "prevButtonText": "prev",
+    "nextButtonText": "next",
+    "eventNoOutagesMessage": "No data available in table",
+    "alertNoOutagesMessage": "No data available in table",
+    "summaryNoOutagesMessage": "No data available in table",
+    "signalNoOutagesMessage": "No data available in table"
+  },
+  "tooltip": {
+    "timeRange": {
+      "title": "Time Range",
+      "text": "This dropdown menu allows you to pick the time range for the data you want to inspect. Note that the dashboard limits the data to 35 days."
+      },
+    "searchBar": {
+      "title": "Search",
+      "text": "This search bar allows for a quick navigation to a specific country, region, or ASN/ISP."
+    },
+    "dashboardHeading": {
+      "title": "Granularity Levels",
+      "text": "IODA can detect outages at three levels of granularity: countries, regions, and ASNs/ISPs"
+    },
+    "xyPlotTimeSeriesTitle": {
+      "title": "IODA Signals",
+      "text": "This panel allows you to inspect the time series of IODA's three signals: active probing, BGP, and Telescope."
+    },
+    "alertFeed": {
+      "title": "Alert Feed",
+      "text": "This table contains potential outages that IODA discovered. The cause of an outage can be manifold and includes misconfiguration, natural disasters, and shutdowns."
+    },
+    "entityRegionalSummaryMap": {
+      "title": "Outage Severity Levels",
+      "text": "This map shows potential regional outages by their relative severity. The more severe the outage, the more red the respective region overlay."
+    },
+    "entityAsnSummaryTable": {
+      "title": "Outage Severity Levels",
+      "text": "This table shows potential ASN/ISP outages by their relative severity. The more severe the outage, the more red the respective table cell."
+    },
+    "entityRawSignalsHeading": {
+      "title": "Raw IODA Signals",
+      "text": "This visualization shows IODA's signals over time. The \"Stacked Horizon Graph\" turns from dark green to white as a signal decreases."
+    }
+  },
+  "timestamp": {
+    "copyToClipboardMessage": "Date Range Copied"
+  },
+  "reports": {
+    "title": "Reports",
+    "text": "We often (co)author reports containing detailed analyses of IODA signals during major Internet outage events.",
+    "link1": "Jan 2021 Uganda",
+    "link2": "Feb to Apr 2020 Iran",
+    "link3": "Nov 2019 Iran",
+    "link4": "Apr 2019 Benin",
+    "link5": "Jan 2019 Gabon"
+  },
+  "iranReport2020": {
+    "title": "An analysis of large Internet outages affecting Iranian networks in early 2020",
+    "authors": "Ramakrishna Padmanabhan (CAIDA, UC San Diego), Anant Shah (Verizon Media Platform), Nima Fatemi (Kandoo), Alberto Dainotti (CAIDA, UC San Diego)"
+  }
+}

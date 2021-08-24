@@ -1,0 +1,71 @@
+// GRID
+$grid-width: 114rem;
+$gutter-vertical: 1.5rem;
+$gutter-horizontal: 1.5rem;
+$gutter-vertical-small: 2rem;
+$header-height: 5rem;
+
+// FONTS
+$font-lato-black: 'Lato-Black', 'Helvetica', 'arial', sans-serif;
+$font-lato-bold: 'Lato-Bold', 'Helvetica', 'arial', sans-serif;
+$font-lato-italic: 'Lato-Italic', 'Helvetica', 'arial', sans-serif;
+$font-lato-light: 'Lato-Light', 'Helvetica', 'arial', sans-serif;
+$font-lato-regular: 'Lato-Regular', 'Helvetica', 'arial', sans-serif;
+$font-lato-thin: 'Lato-Thin', 'Helvetica', 'arial', sans-serif;
+
+// SIZING
+$control-panel-input-label-font-size: 1.1rem;
+$control-panel-input-calendar-icon-background: #ECF0F1;
+
+// COLORS
+$color-white: #fff;
+$color-black: #000;
+$color-background-white: #fbfbfb;
+$color-primary: #2c3e50;
+$color-primary-light: #617486;
+$color-primary-dark: #0D2032;
+$color-secondary: #3975BB;
+$color-secondary-light: #598DCC;
+$color-secondary-dark: #1A5DAE;
+$color-secondary-button: #777879;
+
+$color-blue-border: #DCE4EA;
+
+$color-table-row-odd: #f7f7f7;
+$color-table-cell-border: #eeeeee;
+$color-table-head-border: #798998;
+
+$color-alert-feed-critical: #F18179;
+$color-alert-feed-warning: #F2AB79;
+$color-alert-feed-normal: #D4F19D;
+
+$color-error-background: #E74C3C;
+
+$color-ping-slash-24: #1F78B4;
+$color-bgp: #33A02C;
+$color-ucsd-nt: #ED9B40;
+
+$color-table-datasource-bottom-border: #aaa;
+
+// BOX SHADOW
+$box-shadow: 0 1px 2px #9F9D9D;
+$button-box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, .2),
+                    inset 0 0 0 0.1rem rgba(0, 0, 0, .15),
+                    0 0.1rem 0 rgba(255, 255, 255, .15);
+
+$linear-gradient-primary: linear-gradient(2deg, $color-primary, $color-primary-light);
+$linear-gradient-secondary: linear-gradient(2deg, $color-secondary-dark, $color-secondary-light);
+$linear-gradient-secondary-reverse: linear-gradient(2deg, $color-secondary-light, $color-secondary-dark);
+
+// CALENDAR DATE RANGE COMPONENT
+$color-rdrDateDisplayItemActive-input: #7d888d;
+$color-rdrNextPrevButton: #EFF2F7;
+$color-rdrNextPrevButton-hover: #E1E7F0;
+$color-rdrWeekDay: #849095;
+$color-rdrInputRangeInput-color: #6c767a;
+$color-rdrInputRangeInput-border: #DEE7EB;
+$color-rdrInputRangeInput-borderHover: #b4bfc4;
+$color-rdrDayNumber-span: #d5dce0;
+$color-rdrDayDisabled: #f8f8f8;
+$color-rdrDayDisabled-span: #aeb9bf;
+

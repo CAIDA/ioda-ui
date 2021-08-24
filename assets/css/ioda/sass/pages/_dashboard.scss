@@ -1,0 +1,184 @@
+.dashboard {
+  padding-top: $header-height;
+  margin: 1.5rem $gutter-vertical 0;
+
+  @include respond(phone-440) {
+    margin: 3rem 1rem 0;
+  }
+
+  .title {
+    margin-bottom: 0;
+  }
+
+  .col-1-of-3 {
+    position: relative;
+  }
+
+  .tabs {
+    margin-bottom: $gutter-vertical;
+
+    & .nav-tabs {
+      list-style-type: none;
+      height: 4rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: left;
+
+      & li {
+        width: 20rem;
+
+        a {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: $color-primary;
+          font-weight: 700;
+          text-decoration: none;
+          padding-bottom: 2px;
+          margin-bottom: 1px;
+          font-size: 1.2rem;
+
+          &:hover {
+            & span {
+              transition: all .4s ease-in-out;
+              filter: brightness(1.05) contrast(1.05);
+              transform: scale(1.03);
+            }
+          }
+        }
+      }
+
+      & li.active {
+        background-color: $color-white;
+
+        & a {
+          @include textLink;
+          color: $color-primary!important;
+          border-top-left-radius: 3px;
+          border-top-right-radius: 3px;
+          border: 1px solid $color-table-cell-border;
+          background-size: 100% 2px!important;
+          box-shadow: $box-shadow;
+          z-index: 100;
+          position: relative;
+
+          &:link, &:visited {
+            background:
+                    linear-gradient(
+                                    175deg,
+                                    $color-primary-light 0%,
+                                    $color-primary-light 33.3%,
+                                    $color-primary 83.5%,
+                                    $color-primary-dark 100%
+                    )
+                    left
+                    bottom
+                    transparent
+                    no-repeat;
+          }
+
+          &:hover {
+            background-size: 100% 2px!important;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            color: $color-primary;
+          }
+
+          &:after {
+            content: '';
+            height: 1rem;
+            width: 100%;
+            background-color: $color-white;
+            position: absolute;
+            bottom: -1rem;
+            left: -1px;
+          }
+        }
+      }
+    }
+
+    & .tab {
+      background-color: $color-white;
+      border-bottom-right-radius: 0.3rem;
+      border-bottom-left-radius: 0.3rem;
+      border-top-right-radius: 0.3rem;
+      box-shadow: $box-shadow;
+      height: auto;
+
+      & .row {
+        padding: $gutter-vertical-small;
+      }
+
+      &__error {
+        font-size: 1.3rem;
+
+        &--noOutagesFound {
+          background-color: $color-error-background;
+          color: $color-white;
+          padding: 1rem;
+          border-radius: 0.4rem;
+          font-family: $font-lato-bold;
+          text-transform: capitalize;
+        }
+      }
+
+      &__config {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 1.5rem;
+
+        &-button {
+          @include button;
+          padding: 0.2rem;
+          height: 3rem;
+          width: 3rem;
+          font-size: 1rem;
+          margin: 0!important;
+
+          &-img {
+            height: 100%;
+            width: 100%;
+          }
+        }
+      }
+
+      .horizon-series {
+        border-bottom: 1px solid #ccc;
+      }
+
+      &__heading {
+        display: flex;
+
+        & .heading-h2 {
+          margin-right: 0.5rem;
+        }
+      }
+
+      &__map {
+        height: 52.9rem;
+      }
+
+      & .horizon-series .label {
+        background-color: rgba(255,255,255,0.4);
+        padding: 0 0.4rem;
+        border-radius: 0.3rem;
+        max-height: 100%;
+      }
+
+      &__table {
+        & .table {
+          margin-bottom: 0;
+          height: inherit;
+
+          & tbody {
+            max-height: 54.3rem;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,10 +1,10 @@
-# panda-ui
-Web application UI for the PANDA project (https://panda.caida.org)
-- [PANDA server deployment](http://github.com/CAIDA/panda-deploy)
+# ioda-ui
+Web application UI for the IODA project (https://ioda.caida.org)
+- [IODA server deployment](http://github.com/CAIDA/ioda-deploy)
 
 
 ## Install
-1. Ensure PHP 7.2 is running on your machine.
+1. Ensure PHP 7.2 or higher is running on your machine.
 2. Clone repo locally 
 3. run `brew install composer yarn`
 4. run `curl -sS https://get.symfony.com/cli/installer | bash`

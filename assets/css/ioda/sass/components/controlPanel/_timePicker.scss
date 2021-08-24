@@ -1,0 +1,82 @@
+.react-timerange-picker {
+  display: inline-flex;
+  position: relative;
+
+  &--disabled {
+    background-color: #f0f0f0;
+    color: #6d6d6d;
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 0;
+    border: 2px solid $color-blue-border!important;
+    font-size: 1.2rem;
+    border-radius: 3px;
+    width: 25.6rem;
+  }
+
+  &__inputGroup {
+    min-width: calc((0.4rem * 3) + 3.24rem + 0.434rem);
+    flex-grow: 1;
+    padding: 0 2px;
+    box-sizing: content-box;
+    text-align: center;
+
+    &__input {
+      min-width: .75rem;
+      height: 100%;
+      position: relative;
+      padding: 0 1px;
+      border: 0;
+      background: none;
+      font: inherit;
+      box-sizing: content-box!important;
+      -moz-appearance: textfield;
+
+      &::-webkit-outer-spin-button, &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      &:invalid {
+        background: rgba(255,0,0,0.1);
+      }
+
+      &--hasLeadingZero {
+        margin-left: -0.75rem;
+        padding-left: calc(0.1rem + .75rem);
+      }
+    }
+
+    &__leadingZero {
+      margin-top: 1px;
+    }
+
+    &__amPm {
+      font: inherit;
+      -moz-appearance: menulist;
+    }
+  }
+
+  &__range-divider {
+    padding: 0 0.25rem;
+  }
+}
+
+.react-time-picker {
+  &__inputGroup__divider {
+    padding: 0.25rem 0;
+    white-space: pre;
+  }
+}
+
+.react-timerange-picker,
+.react-timerange-picker *,
+.react-timerange-picker *:before,
+.react-timerange-picker *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
