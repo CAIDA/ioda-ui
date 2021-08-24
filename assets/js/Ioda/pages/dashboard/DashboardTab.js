@@ -39,8 +39,9 @@ class DashboardTab extends Component {
     }
 
     genChart() {
+
         const chart = HorizonTSChart()(document.getElementById(`horizon-chart`));
-        chart
+        this.props.eventDataProcessed ? chart
             .data(this.props.eventDataProcessed)
             .series('entityName')
             .yNormalize(false)
@@ -53,7 +54,7 @@ class DashboardTab extends Component {
             .showRuler(true)
             .interpolationCurve(d3.curveStepAfter)
             .positiveColors(['white', horizonChartSeriesColor])
-            .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}`;
+            .toolTipContent=({ series, ts, val }) => `${series}<br>${ts}: ${humanizeNumber(val)}` : null;
     }
 
     render() {
@@ -135,7 +136,7 @@ class DashboardTab extends Component {
                                             }
                                             <div id="horizon-chart" style={this.props.tabCurrentView === 'timeSeries' || this.props.type === 'asn' ? {display: 'block'} : {display: 'none'}}>
                                                 {
-                                                    this.config.current && this.props.eventDataProcessed.length > 0
+                                                    this.config.current && this.props.eventDataProcessed && this.props.eventDataProcessed.length > 0
                                                         ? this.genChart()
                                                         : null
                                                 }

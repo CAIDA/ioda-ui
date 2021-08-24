@@ -43,6 +43,7 @@ import './constants/strings';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import GA4React, { useGA4React } from "ga-4-react";
 // Redux
 import { Provider } from 'react-redux';
 import {createStore, applyMiddleware, combineReducers} from "redux";
@@ -62,6 +63,14 @@ import TestAPI from "./pages/tests/TestAPI";
 import Acknowledgements from "./pages/acknowledgements/Acknowledgements";
 
 
+const ga4react = new GA4React('G-XD5MWMBCF9');
+ga4react.initialize().then((ga4) => {
+    ga4.pageview('path');
+    ga4.gtag('event','pageview','path'); // or your custom gtag event
+    console.log(ga4);
+},(err) => {
+    console.error(err)
+});
 
 class App extends Component {
     render() {
@@ -88,11 +97,17 @@ const reducers = {
 const rootReducer = combineReducers(reducers);
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
-ReactDOM.render(
-    <Provider store={store}>
-        <BrowserRouter>
-            <App/>
-        </BrowserRouter>
-    </Provider>,
-    document.getElementById('root')
-);
+// await google analytics to initialize
+(async () => {
+    await ga4react.initialize();
+
+    ReactDOM.render(
+        <Provider store={store}>
+            <BrowserRouter>
+                <App/>
+            </BrowserRouter>
+        </Provider>,
+        document.getElementById('root')
+    );
+})();
+
