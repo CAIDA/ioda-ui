@@ -242,7 +242,7 @@ class Home extends Component {
                                 ? <div className="map__content">
                                     <TopoMap topoData={this.state.topoData} scores={this.state.topoScores} handleEntityShapeClick={this.handleEntityShapeClick}/>
                                 </div>
-                            : this.state.topoData && this.state.outageSummaryData.length === 0
+                            : this.state.topoData && this.state.outageSummaryData && this.state.outageSummaryData.length === 0
                                 ? <div className="map__content">
                                     <TopoMap topoData={this.state.topoData} scores={null} handleEntityShapeClick={this.handleEntityShapeClick}/>
                                 </div>
