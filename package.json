@@ -55,6 +55,7 @@
         "d3-shape": "^2.1.0",
         "date-fns": "^2.16.1",
         "dotenv-webpack": "^1.7.0",
+        "ga-4-react": "^0.1.281",
         "horizon-timeseries-chart": "^1.6.4",
         "i18n-react": "^0.7.0",
         "jquery": "3.5.0",
