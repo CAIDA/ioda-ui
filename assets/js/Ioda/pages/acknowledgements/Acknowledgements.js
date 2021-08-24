@@ -162,8 +162,7 @@ class Acknowledgements extends PureComponent {
                                     <img src={nersc}/>
                                 </div>
                                 <p className="thumbnail__text">
-                                    Storage resources for the UCSD Network Telescope 
-                                    are supported by NERSC, a DOE Office of Science
+                                    Storage resources for the UCSD Network Telescope are supported by NERSC, a DOE Office of Science
                                     User Facility
                                     supported by the Office of Science of the U.S.
                                     Department of Energy under Contract No.
