@@ -67,7 +67,6 @@ const ga4react = new GA4React('G-XD5MWMBCF9');
 ga4react.initialize().then((ga4) => {
     ga4.pageview('path');
     ga4.gtag('event','pageview','path'); // or your custom gtag event
-    console.log(ga4);
 },(err) => {
     console.error(err)
 });
