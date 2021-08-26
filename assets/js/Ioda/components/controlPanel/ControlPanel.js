@@ -584,10 +584,10 @@ class ControlPanel extends Component {
                                                     selection: {
                                                         startDate: !this.state.wholeDayInputSelected
                                                             ? new Date(item.selection.startDate.setHours(this.state.timeRange[0].split(":")[0], this.state.timeRange[0].split(":")[1], this.state.timeRange[0].split(":")[2]))
-                                                            : new Date(item.selection.startDate.setHours(0, 0, 0)),
+                                                            : new Date(item.selection.startDate.setUTCHours(0, 0, 0)),
                                                         endDate: !this.state.wholeDayInputSelected
                                                             ? new Date(item.selection.endDate.setHours(this.state.timeRange[1].split(":")[0], this.state.timeRange[1].split(":")[1], this.state.timeRange[1].split(":")[2]))
-                                                            : new Date(item.selection.endDate.setHours(23, 59, 59)),
+                                                            : new Date(item.selection.endDate.setUTCHours(23, 59, 59)),
                                                         ...item.selection
                                                     }
                                                 });
