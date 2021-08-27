@@ -273,6 +273,7 @@
     }
   },
   "timestamp": {
+    "hoverTitle": "Click to Copy",
     "copyToClipboardMessage": "Date Range Copied"
   },
   "reports": {
