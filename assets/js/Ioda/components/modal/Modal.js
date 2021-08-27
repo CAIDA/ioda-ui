@@ -9,6 +9,7 @@ import Table from "../table/Table";
 import HorizonTSChart from "horizon-timeseries-chart";
 import * as d3 from "d3-shape";
 import {horizonChartSeriesColor, humanizeNumber} from "../../utils";
+import HorizonTSChart from "horizon-timeseries-chart";
 
 class Modal extends Component {
     constructor(props) {
@@ -22,9 +23,52 @@ class Modal extends Component {
         this.additionalEntitiesLoading = false;
     }
 
-    genRegionalPingSlash24 = () => {
-        // this.props.populateHtsChart(this.configPingSlash24.current.offsetWidth,"ping-slash24", "region");
-        const myChart = HorizonTSChart()(document.getElementById(`${this.props.entityType}-horizon-chart--${dataSourceForCSS}`));
+    genChart(width, dataSource, entityType) {
+        // set variables
+        let dataSourceForCSS, rawSignalsLoadedBoolean, rawSignalsProcessedArray;
+        switch (entityType) {
+            case 'region':
+                switch (dataSource) {
+                    case 'ping-slash24':
+                        dataSourceForCSS = "pingSlash24";
+                        rawSignalsLoadedBoolean = this.props.rawRegionalSignalsLoadedPingSlash24;
+                        rawSignalsProcessedArray = this.props.rawRegionalSignalsProcessedPingSlash24;
+                        break;
+                    case 'bgp':
+                        dataSourceForCSS = "bgp";
+                        rawSignalsLoadedBoolean = this.props.rawRegionalSignalsLoadedBgp;
+                        rawSignalsProcessedArray = this.props.rawRegionalSignalsProcessedBgp;
+                        break;
+                    case 'ucsd-nt':
+                        dataSourceForCSS = "ucsdNt";
+                        rawSignalsLoadedBoolean = this.props.rawRegionalSignalsLoadedUcsdNt;
+                        rawSignalsProcessedArray = this.props.rawRegionalSignalsProcessedUcsdNt;
+                        break;
+                }
+                break;
+            case 'asn':
+                switch (dataSource) {
+                    case 'ping-slash24':
+                        dataSourceForCSS = "pingSlash24";
+                        rawSignalsLoadedBoolean = this.props.rawAsnSignalsLoadedPingSlash24;
+                        rawSignalsProcessedArray = this.props.rawAsnSignalsProcessedPingSlash24;
+                        break;
+                    case 'bgp':
+                        dataSourceForCSS = "bgp";
+                        rawSignalsLoadedBoolean = this.props.rawAsnSignalsLoadedBgp;
+                        rawSignalsProcessedArray = this.props.rawAsnSignalsProcessedBgp;
+                        break;
+                    case 'ucsd-nt':
+                        dataSourceForCSS = "ucsdNt";
+                        rawSignalsLoadedBoolean = this.props.rawAsnSignalsLoadedUcsdNt;
+                        rawSignalsProcessedArray = this.props.rawAsnSignalsProcessedUcsdNt;
+                        break;
+                }
+                break;
+        }
+
+        // draw viz
+        const myChart = HorizonTSChart()(document.getElementById(`${entityType}-horizon-chart--${dataSourceForCSS}`));
         myChart
             .data(rawSignalsProcessedArray)
             .series('entityName')
@@ -40,13 +84,8 @@ class Modal extends Component {
             .positiveColors(['white', horizonChartSeriesColor])
             // .positiveColorStops([.01])
             .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}:&nbsp;${humanizeNumber(val)}`;
-    };
-    genRegionalBgp = () => {
-        this.props.populateHtsChart(this.configBgp.current.offsetWidth, "bgp", "region");
-    };
-    genRegionalUcsdNt = () => {
-        this.props.populateHtsChart(this.configUcsdNt.current.offsetWidth, "ucsd-nt", "region");
-    };
+    }
+
     genAsnPingSlash24 = () => {
         this.props.populateHtsChart(this.configPingSlash24.current.offsetWidth, "ping-slash24", "asn");
     };
@@ -234,13 +273,15 @@ class Modal extends Component {
                                         }
                                         {
                                             this.props.additionalRawSignalRequestedPingSlash24 === true ? <Loading/> :
-                                                <div id="region-horizon-chart--pingSlash24" ref={this.configPingSlash24}
-                                                     className="modal__chart">
-                                                    {
-                                                        this.configPingSlash24.current ?
-                                                            this.genRegionalPingSlash24() : null
-                                                    }
-                                                </div>
+                                                this.props.rawRegionalSignalsProcessedPingSlash24
+                                                    ? <div id="region-horizon-chart--pingSlash24" ref={this.configPingSlash24}
+                                                           className="modal__chart">
+                                                        {
+                                                            this.configPingSlash24.current ?
+                                                                this.genChart(this.configPingSlash24.current.offsetWidth, "ping-slash24", "region") : null
+                                                        }
+                                                    </div>
+                                                    : null
                                         }
                                         <h3 className="heading-h3">{bgpHtsLabel}</h3>
                                         {
@@ -248,13 +289,15 @@ class Modal extends Component {
                                         }
                                         {
                                             this.props.additionalRawSignalRequestedBgp === true ? <Loading/> :
-                                                <div id="region-horizon-chart--bgp" ref={this.configBgp}
-                                                     className="modal__chart">
-                                                    {
-                                                        this.configBgp.current ?
-                                                            this.genRegionalBgp() : null
-                                                    }
-                                                </div>
+                                                this.props.rawRegionalSignalsProcessedBgp
+                                                    ? <div id="region-horizon-chart--bgp" ref={this.configBgp}
+                                                           className="modal__chart">
+                                                        {
+                                                            this.configBgp.current ?
+                                                                this.genChart(this.configBgp.current.offsetWidth, "bgp", "region") : null
+                                                        }
+                                                    </div>
+                                                    : null
                                         }
                                         <h3 className="heading-h3">{ucsdNtHtsLabel}</h3>
                                         {
@@ -262,14 +305,15 @@ class Modal extends Component {
                                         }
                                         {
                                             this.props.additionalRawSignalRequestedUcsdNt === true ? <Loading/> :
-
-                                                <div id="region-horizon-chart--ucsdNt" ref={this.configUcsdNt}
-                                                     className="modal__chart">
-                                                    {
-                                                        this.configUcsdNt.current ?
-                                                            this.genRegionalUcsdNt() : null
-                                                    }
-                                                </div>
+                                                this.props.rawRegionalSignalsProcessedUcsdNt
+                                                    ? <div id="region-horizon-chart--ucsdNt" ref={this.configUcsdNt}
+                                                           className="modal__chart">
+                                                        {
+                                                            this.configUcsdNt.current ?
+                                                                this.genChart(this.configUcsdNt.current.offsetWidth, "ucsd-nt", "region") : null
+                                                        }
+                                                    </div>
+                                                    : null
                                         }
                                     </div>
                                 </div>

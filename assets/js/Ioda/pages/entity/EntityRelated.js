@@ -81,9 +81,8 @@ class EntityRelated extends Component {
                                 handleSelectAndDeselectAllButtons={(event) => this.props.handleSelectAndDeselectAllButtons(event)}
                                 // Current number of entities checked in table
                                 regionalSignalsTableEntitiesChecked={this.props.regionalSignalsTableEntitiesChecked}
-                                // function to populate horizon time series visual
-                                populateHtsChart={(width, dataSource, entityType) => this.props.populateHtsChart(width, dataSource, entityType)}
                                 // to detect when loading bar should appear in modal
+                                // and to populate data in modal for chart
                                 rawRegionalSignalsProcessedPingSlash24={this.props.rawRegionalSignalsProcessedPingSlash24}
                                 rawRegionalSignalsProcessedBgp={this.props.rawRegionalSignalsProcessedBgp}
                                 rawRegionalSignalsProcessedUcsdNt={this.props.rawRegionalSignalsProcessedUcsdNt}
