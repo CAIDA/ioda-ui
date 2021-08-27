@@ -1984,7 +1984,6 @@ class Entity extends Component {
                                                     toggleSelected={() => this.changeXyChartNormalization()}
                                                     label={xyChartNormalizedToggleLabel}
                                                 />
-                                                {/*<button className="overview__config-button">Modal</button>*/}
                                             </div>
                                         </div>
                                         {
@@ -2061,22 +2060,15 @@ class Entity extends Component {
                                     // raw signals tables for region modal
                                     handleSelectAndDeselectAllButtons={(event) => this.handleSelectAndDeselectAllButtons(event)}
                                     regionalSignalsTableSummaryDataProcessed={this.state.regionalSignalsTableSummaryDataProcessed}
-
                                     toggleEntityVisibilityInHtsViz={event => this.toggleEntityVisibilityInHtsViz(event, "region")}
                                     handleEntityClick={(entityType, entityCode) => this.handleEntityClick(entityType, entityCode)}
                                     handleCheckboxEventLoading={(item) => this.handleCheckboxEventLoading(item)}
-
                                     asnSignalsTableSummaryDataProcessed={this.state.asnSignalsTableSummaryDataProcessed}
-
-
                                     // Regional HTS methods
                                     regionalSignalsTableEntitiesChecked={this.state.regionalSignalsTableEntitiesChecked}
                                     asnSignalsTableEntitiesChecked={this.state.asnSignalsTableEntitiesChecked}
                                     initialTableLimit={this.initialTableLimit}
-
                                     populateHtsChart={(width, dataSource, entityType) => this.populateHtsChart(width, dataSource, entityType)}
-
-
                                     rawRegionalSignalsProcessedPingSlash24={this.state.rawRegionalSignalsProcessedPingSlash24}
                                     rawRegionalSignalsProcessedBgp={this.state.rawRegionalSignalsProcessedBgp}
                                     rawRegionalSignalsProcessedUcsdNt={this.state.rawRegionalSignalsProcessedUcsdNt}
@@ -2102,7 +2094,6 @@ class Entity extends Component {
                                     // used for tracking when check max/uncheck all loading icon should appear and not
                                     checkMaxButtonLoading={this.state.checkMaxButtonLoading}
                                     uncheckAllButtonLoading={this.state.uncheckAllButtonLoading}
-
                                 />
                                 </React.Fragment>
                             : <div className="row overview">

@@ -6,6 +6,9 @@ import LoadingIcon from 'images/icons/icon-loading.png';
 import Tooltip from "../tooltip/Tooltip";
 import TopoMap from "../map/Map";
 import Table from "../table/Table";
+import HorizonTSChart from "horizon-timeseries-chart";
+import * as d3 from "d3-shape";
+import {horizonChartSeriesColor, humanizeNumber} from "../../utils";
 
 class Modal extends Component {
     constructor(props) {
@@ -20,7 +23,23 @@ class Modal extends Component {
     }
 
     genRegionalPingSlash24 = () => {
-        this.props.populateHtsChart(this.configPingSlash24.current.offsetWidth,"ping-slash24", "region");
+        // this.props.populateHtsChart(this.configPingSlash24.current.offsetWidth,"ping-slash24", "region");
+        const myChart = HorizonTSChart()(document.getElementById(`${this.props.entityType}-horizon-chart--${dataSourceForCSS}`));
+        myChart
+            .data(rawSignalsProcessedArray)
+            .series('entityName')
+            .yNormalize(false)
+            .useUtc(true)
+            .use24h(false)
+            // Will need to detect column width to populate height
+            .width(width)
+            .height(360)
+            .enableZoom(false)
+            .showRuler(true)
+            .interpolationCurve(d3.curveStepAfter)
+            .positiveColors(['white', horizonChartSeriesColor])
+            // .positiveColorStops([.01])
+            .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}:&nbsp;${humanizeNumber(val)}`;
     };
     genRegionalBgp = () => {
         this.props.populateHtsChart(this.configBgp.current.offsetWidth, "bgp", "region");
