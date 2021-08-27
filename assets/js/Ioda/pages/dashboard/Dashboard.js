@@ -499,7 +499,7 @@ class Dashboard extends Component {
         return(
             <div className="dashboard">
                 <Helmet>
-                    <title>IODA | Monitor Macroscopic Internet Outages in Near Real-Time</title>
+                    <title>IODA | Dashboard for Monitoring Internet Outages</title>
                     <meta name="description" content="Visualizations and Alerts Showing Country-, Region-, and ASN/ISP-level Internet Outages Detected by IODA" />
                 </Helmet>
                 <ControlPanel
