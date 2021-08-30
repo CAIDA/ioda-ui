@@ -64,6 +64,8 @@ class ControlPanel extends Component {
     }
 
     componentDidMount() {
+        console.log("update5");
+
         let readableDates = this.setDateInLegend(this.props.from, this.props.until);
 
         this.setState({

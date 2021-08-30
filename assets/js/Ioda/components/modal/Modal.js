@@ -6,7 +6,6 @@ import LoadingIcon from 'images/icons/icon-loading.png';
 import Tooltip from "../tooltip/Tooltip";
 import TopoMap from "../map/Map";
 import Table from "../table/Table";
-import HorizonTSChart from "horizon-timeseries-chart";
 import * as d3 from "d3-shape";
 import {horizonChartSeriesColor, humanizeNumber} from "../../utils";
 import HorizonTSChart from "horizon-timeseries-chart";
@@ -21,6 +20,18 @@ class Modal extends Component {
         this.configBgp = React.createRef();
         this.configUcsdNt = React.createRef();
         this.additionalEntitiesLoading = false;
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.rawRegionalSignalsProcessedPingSlash24 !== prevProps.rawRegionalSignalsProcessedPingSlash24) {
+            this.genChart(this.configPingSlash24.current.offsetWidth, "ping-slash24", "region")
+        }
+        if (this.props.rawRegionalSignalsProcessedBgp !== prevProps.rawRegionalSignalsProcessedBgp) {
+            this.genChart(this.configBgp.current.offsetWidth, "bgp", "region")
+        }
+        if (this.props.rawRegionalSignalsProcessedUcsdNt !== prevProps.rawRegionalSignalsProcessedUcsdNt) {
+            this.genChart(this.configUcsdNt.current.offsetWidth, "ucsd-nt", "region")
+        }
     }
 
     genChart(width, dataSource, entityType) {
