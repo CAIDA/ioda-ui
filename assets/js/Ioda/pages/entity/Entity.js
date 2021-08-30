@@ -1481,103 +1481,6 @@ class Entity extends Component {
                 break;
         }
     }
-    // STILL AVAILABLE FOR THE ASN TABLE FOR NOW
-    // Display the horizon time series in the UI if the data is available
-    populateHtsChart(width, dataSource, entityType) {
-        // set variables
-        let dataSourceForCSS, rawSignalsLoadedBoolean, rawSignalsProcessedArray;
-
-        switch (entityType) {
-            case 'region':
-                switch (dataSource) {
-                    case 'ping-slash24':
-                        dataSourceForCSS = "pingSlash24";
-                        rawSignalsLoadedBoolean = this.state.rawRegionalSignalsLoadedPingSlash24;
-                        rawSignalsProcessedArray = this.state.rawRegionalSignalsProcessedPingSlash24;
-                        break;
-                    case 'bgp':
-                        dataSourceForCSS = "bgp";
-                        rawSignalsLoadedBoolean = this.state.rawRegionalSignalsLoadedBgp;
-                        rawSignalsProcessedArray = this.state.rawRegionalSignalsProcessedBgp;
-                        break;
-                    case 'ucsd-nt':
-                        dataSourceForCSS = "ucsdNt";
-                        rawSignalsLoadedBoolean = this.state.rawRegionalSignalsLoadedUcsdNt;
-                        rawSignalsProcessedArray = this.state.rawRegionalSignalsProcessedUcsdNt;
-                        break;
-                }
-                break;
-            case 'asn':
-                switch (dataSource) {
-                    case 'ping-slash24':
-                        dataSourceForCSS = "pingSlash24";
-                        rawSignalsLoadedBoolean = this.state.rawAsnSignalsLoadedPingSlash24;
-                        rawSignalsProcessedArray = this.state.rawAsnSignalsProcessedPingSlash24;
-                        break;
-                    case 'bgp':
-                        dataSourceForCSS = "bgp";
-                        rawSignalsLoadedBoolean = this.state.rawAsnSignalsLoadedBgp;
-                        rawSignalsProcessedArray = this.state.rawAsnSignalsProcessedBgp;
-                        break;
-                    case 'ucsd-nt':
-                        dataSourceForCSS = "ucsdNt";
-                        rawSignalsLoadedBoolean = this.state.rawAsnSignalsLoadedUcsdNt;
-                        rawSignalsProcessedArray = this.state.rawAsnSignalsProcessedUcsdNt;
-                        break;
-                }
-                break;
-        }
-
-        // set state to track loading status
-        if (rawSignalsProcessedArray && rawSignalsLoadedBoolean) {
-            switch (entityType) {
-                case 'region':
-                    switch (dataSource) {
-                        case 'ping-slash24':
-                            this.setState({rawRegionalSignalsLoadedPingSlash24: false});
-                            break;
-                        case 'bgp':
-                            this.setState({rawRegionalSignalsLoadedBgp: false});
-                            break;
-                        case 'ucsd-nt':
-                            this.setState({rawRegionalSignalsLoadedUcsdNt: false});
-                            break;
-                    }
-                    break;
-                case 'asn':
-                    switch (dataSource) {
-                        case 'ping-slash24':
-                            this.setState({rawAsnSignalsLoadedPingSlash24: false});
-                            break;
-                        case 'bgp':
-                            this.setState({rawAsnSignalsLoadedBgp: false});
-                            break;
-                        case 'ucsd-nt':
-                            this.setState({rawAsnSignalsLoadedUcsdNt: false});
-                            break;
-                    }
-                    break;
-            }
-
-            // draw viz
-            const myChart = HorizonTSChart()(document.getElementById(`${entityType}-horizon-chart--${dataSourceForCSS}`));
-            myChart
-                .data(rawSignalsProcessedArray)
-                .series('entityName')
-                .yNormalize(false)
-                .useUtc(true)
-                .use24h(false)
-                // Will need to detect column width to populate height
-                .width(width)
-                .height(360)
-                .enableZoom(false)
-                .showRuler(true)
-                .interpolationCurve(d3.curveStepAfter)
-                .positiveColors(['white', horizonChartSeriesColor])
-                // .positiveColorStops([.01])
-                .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}:&nbsp;${humanizeNumber(val)}`;
-        }
-    }
     // function to manage what happens when a checkbox is changed in the raw signals table
     toggleEntityVisibilityInHtsViz(entity, entityType) {
         let maxEntitiesPopulatedMessage = T.translate("entityModal.maxEntitiesPopulatedMessage");
@@ -1893,7 +1796,7 @@ class Entity extends Component {
                     }, () => {
                         setTimeout(() => {
                             this.toggleEntityVisibilityInHtsViz(item, item["entityType"]);
-                        }, 1000)
+                        }, 700)
                     });
                     break;
                 case "asn":
@@ -1905,7 +1808,7 @@ class Entity extends Component {
                     }, () => {
                         setTimeout(() => {
                             this.toggleEntityVisibilityInHtsViz(item, item["entityType"]);
-                        }, 1000)
+                        }, 700)
                     });
                     break;
             }
@@ -2061,7 +1964,6 @@ class Entity extends Component {
                                     regionalSignalsTableEntitiesChecked={this.state.regionalSignalsTableEntitiesChecked}
                                     asnSignalsTableEntitiesChecked={this.state.asnSignalsTableEntitiesChecked}
                                     initialTableLimit={this.initialTableLimit}
-                                    populateHtsChart={(width, dataSource, entityType) => this.populateHtsChart(width, dataSource, entityType)}
                                     rawRegionalSignalsProcessedPingSlash24={this.state.rawRegionalSignalsProcessedPingSlash24}
                                     rawRegionalSignalsProcessedBgp={this.state.rawRegionalSignalsProcessedBgp}
                                     rawRegionalSignalsProcessedUcsdNt={this.state.rawRegionalSignalsProcessedUcsdNt}

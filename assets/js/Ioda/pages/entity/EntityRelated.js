@@ -169,9 +169,6 @@ class EntityRelated extends Component {
                                 toggleEntityVisibilityInHtsViz={event => this.props.toggleEntityVisibilityInHtsViz(event, "asn")}
                                 handleEntityClick={(entityType, entityCode) => this.props.handleEntityClick(entityType, entityCode)}
                                 handleCheckboxEventLoading={(item) => this.props.handleCheckboxEventLoading(item)}
-
-                                // render function that populate the ui
-                                populateHtsChart={(width, dataSource, entityType) => this.props.populateHtsChart(width, dataSource, entityType)}
                                 // data for each horizon time series
                                 rawAsnSignalsProcessedPingSlash24={this.props.rawAsnSignalsProcessedPingSlash24}
                                 rawAsnSignalsProcessedBgp={this.props.rawAsnSignalsProcessedBgp}
