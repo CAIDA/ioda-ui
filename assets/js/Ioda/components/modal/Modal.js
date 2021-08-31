@@ -105,7 +105,7 @@ class Modal extends PureComponent {
                 // .positiveColorStops([.01])
                 .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}:&nbsp;${humanizeNumber(val)}`;
         } else {
-            return "Check box in the table to toggle raw signal data."
+            return null
         }
     }
 
