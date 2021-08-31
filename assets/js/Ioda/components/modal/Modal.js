@@ -22,14 +22,16 @@ class Modal extends PureComponent {
         this.additionalEntitiesLoading = false;
     }
 
-    componentDidUpdate(prevProps, nextState, nextContext) {
-        if (this.props.rawRegionalSignalsProcessedUcsdNt !== prevProps.rawRegionalSignalsProcessedUcsdNt) {
+    componentDidUpdate(prevProps) {
+        if (this.props.rawRegionalSignalsProcessedUcsdNt !== prevProps.rawRegionalSignalsProcessedUcsdNt && this.configUcsdNt.current) {
             this.genChart(this.configUcsdNt.current.offsetWidth, "ucsd-nt", "region")
+        }
+        if (this.props.rawAsnSignalsProcessedUcsdNt !== prevProps.rawAsnSignalsProcessedUcsdNt && this.configUcsdNt.current) {
+            this.genChart(this.configUcsdNt.current.offsetWidth, "ucsd-nt", "asn")
         }
     }
 
     genChart(width, dataSource, entityType) {
-        console.log("genChart--" + dataSource + "--- width: " + width);
         // set variables
         let dataSourceForCSS, rawSignalsLoadedBoolean, rawSignalsProcessedArray;
         switch (entityType) {
@@ -61,24 +63,30 @@ class Modal extends PureComponent {
             case 'asn':
                 switch (dataSource) {
                     case 'ping-slash24':
-                        dataSourceForCSS = "pingSlash24";
-                        rawSignalsLoadedBoolean = this.props.rawAsnSignalsLoadedPingSlash24;
-                        rawSignalsProcessedArray = this.props.rawAsnSignalsProcessedPingSlash24;
+                        if (this.props.rawAsnSignalsProcessedPingSlash24 && this.props.rawAsnSignalsProcessedPingSlash24.length > 0) {
+                            dataSourceForCSS = "pingSlash24";
+                            rawSignalsLoadedBoolean = this.props.rawAsnSignalsLoadedPingSlash24;
+                            rawSignalsProcessedArray = this.props.rawAsnSignalsProcessedPingSlash24;
+                        }
                         break;
                     case 'bgp':
-                        dataSourceForCSS = "bgp";
-                        rawSignalsLoadedBoolean = this.props.rawAsnSignalsLoadedBgp;
-                        rawSignalsProcessedArray = this.props.rawAsnSignalsProcessedBgp;
+                        if (this.props.rawAsnSignalsProcessedBgp && this.props.rawAsnSignalsProcessedBgp.length > 0) {
+                            dataSourceForCSS = "bgp";
+                            rawSignalsLoadedBoolean = this.props.rawAsnSignalsLoadedBgp;
+                            rawSignalsProcessedArray = this.props.rawAsnSignalsProcessedBgp;
+                        }
                         break;
                     case 'ucsd-nt':
-                        dataSourceForCSS = "ucsdNt";
-                        rawSignalsLoadedBoolean = this.props.rawAsnSignalsLoadedUcsdNt;
-                        rawSignalsProcessedArray = this.props.rawAsnSignalsProcessedUcsdNt;
+                        if (this.props.rawAsnSignalsProcessedUcsdNt && this.props.rawAsnSignalsProcessedUcsdNt.length > 0) {
+                            dataSourceForCSS = "ucsdNt";
+                            rawSignalsLoadedBoolean = this.props.rawAsnSignalsLoadedUcsdNt;
+                            rawSignalsProcessedArray = this.props.rawAsnSignalsProcessedUcsdNt;
+                        }
                         break;
                 }
                 break;
         }
-        if (rawSignalsProcessedArray.length > 0) {
+        if (rawSignalsProcessedArray && rawSignalsProcessedArray.length > 0) {
             // draw viz
             const myChart = HorizonTSChart()(document.getElementById(`${entityType}-horizon-chart--${dataSourceForCSS}`));
             myChart
@@ -96,6 +104,8 @@ class Modal extends PureComponent {
                 .positiveColors(['white', horizonChartSeriesColor])
                 // .positiveColorStops([.01])
                 .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}:&nbsp;${humanizeNumber(val)}`;
+        } else {
+            return "Check box in the table to toggle raw signal data."
         }
     }
 
@@ -393,8 +403,6 @@ class Modal extends PureComponent {
                                         {
                                             this.props.rawAsnSignalsProcessedPingSlash24 ? null : <Loading/>
                                         }
-
-
                                         {
                                             this.props.additionalRawSignalRequestedPingSlash24 === true ? <Loading/> :
                                                 this.props.rawAsnSignalsProcessedPingSlash24 ?
