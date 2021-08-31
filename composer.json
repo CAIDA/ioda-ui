@@ -12,7 +12,8 @@
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "*",
         "symfony/twig-bundle": "*",
-        "symfony/yaml": "*"
+        "symfony/yaml": "*",
+        "symfony/webpack-encore-pack": "^1.0"
     },
     "require-dev": {
     },

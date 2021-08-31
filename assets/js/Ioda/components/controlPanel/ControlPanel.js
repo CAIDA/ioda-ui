@@ -64,17 +64,14 @@ class ControlPanel extends Component {
     }
 
     componentDidMount() {
-        console.log("update10");
-
+        console.log("update6");
         let readableDates = this.setDateInLegend(this.props.from, this.props.until);
-
         this.setState({
             readableTimeRangeInputSelection: {
                 startDate: readableDates[0],
                 endDate: readableDates[1]
             }
         });
-
         document.addEventListener('click', event => this.handleClickOffTimeRange(event), {passive: true});
     }
 

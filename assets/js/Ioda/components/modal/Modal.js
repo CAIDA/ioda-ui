@@ -22,19 +22,8 @@ class Modal extends Component {
         this.additionalEntitiesLoading = false;
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.rawRegionalSignalsProcessedPingSlash24 !== null && this.props.rawRegionalSignalsProcessedPingSlash24 !== prevProps.rawRegionalSignalsProcessedPingSlash24) {
-            this.genChart(this.configPingSlash24.current.offsetWidth, "ping-slash24", "region")
-        }
-        if (prevProps.rawRegionalSignalsProcessedBgp !== null && this.props.rawRegionalSignalsProcessedBgp !== prevProps.rawRegionalSignalsProcessedBgp) {
-            this.genChart(this.configBgp.current.offsetWidth, "bgp", "region")
-        }
-        if (prevProps.rawRegionalSignalsProcessedUcsdNt !== null && this.props.rawRegionalSignalsProcessedUcsdNt !== prevProps.rawRegionalSignalsProcessedUcsdNt) {
-            this.genChart(this.configUcsdNt.current.offsetWidth, "ucsd-nt", "region")
-        }
-    }
-
     genChart(width, dataSource, entityType) {
+        console.log("genChart--" + dataSource + "--- width: " + width);
         // set variables
         let dataSourceForCSS, rawSignalsLoadedBoolean, rawSignalsProcessedArray;
         switch (entityType) {
@@ -77,6 +66,7 @@ class Modal extends Component {
                 }
                 break;
         }
+        console.log(rawSignalsProcessedArray);
 
         // draw viz
         const myChart = HorizonTSChart()(document.getElementById(`${entityType}-horizon-chart--${dataSourceForCSS}`));
@@ -96,16 +86,6 @@ class Modal extends Component {
             // .positiveColorStops([.01])
             .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}:&nbsp;${humanizeNumber(val)}`;
     }
-
-    genAsnPingSlash24 = () => {
-        this.props.populateHtsChart(this.configPingSlash24.current.offsetWidth, "ping-slash24", "asn");
-    };
-    genAsnBgp = () => {
-        this.props.populateHtsChart(this.configBgp.current.offsetWidth, "bgp", "asn");
-    };
-    genAsnUcsdNt = () => {
-        this.props.populateHtsChart(this.configUcsdNt.current.offsetWidth, "ucsd-nt", "asn");
-    };
 
     handleAdditionalEntitiesLoading(event) {
         let name = event.target.name;
