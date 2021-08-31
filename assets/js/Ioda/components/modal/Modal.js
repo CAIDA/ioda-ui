@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import PropTypes from "prop-types";
 import T from 'i18n-react';
 import Loading from "../../components/loading/Loading";
@@ -10,7 +10,7 @@ import * as d3 from "d3-shape";
 import {horizonChartSeriesColor, humanizeNumber} from "../../utils";
 import HorizonTSChart from "horizon-timeseries-chart";
 
-class Modal extends Component {
+class Modal extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -22,6 +22,12 @@ class Modal extends Component {
         this.additionalEntitiesLoading = false;
     }
 
+    componentDidUpdate(prevProps, nextState, nextContext) {
+        if (this.props.rawRegionalSignalsProcessedUcsdNt !== prevProps.rawRegionalSignalsProcessedUcsdNt) {
+            this.genChart(this.configUcsdNt.current.offsetWidth, "ucsd-nt", "region")
+        }
+    }
+
     genChart(width, dataSource, entityType) {
         console.log("genChart--" + dataSource + "--- width: " + width);
         // set variables
@@ -30,19 +36,25 @@ class Modal extends Component {
             case 'region':
                 switch (dataSource) {
                     case 'ping-slash24':
-                        dataSourceForCSS = "pingSlash24";
-                        rawSignalsLoadedBoolean = this.props.rawRegionalSignalsLoadedPingSlash24;
-                        rawSignalsProcessedArray = this.props.rawRegionalSignalsProcessedPingSlash24;
+                        if (this.props.rawRegionalSignalsProcessedPingSlash24 && this.props.rawRegionalSignalsProcessedPingSlash24.length > 0) {
+                            dataSourceForCSS = "pingSlash24";
+                            rawSignalsLoadedBoolean = this.props.rawRegionalSignalsLoadedPingSlash24;
+                            rawSignalsProcessedArray = this.props.rawRegionalSignalsProcessedPingSlash24;
+                        }
                         break;
                     case 'bgp':
-                        dataSourceForCSS = "bgp";
-                        rawSignalsLoadedBoolean = this.props.rawRegionalSignalsLoadedBgp;
-                        rawSignalsProcessedArray = this.props.rawRegionalSignalsProcessedBgp;
+                        if (this.props.rawRegionalSignalsProcessedBgp && this.props.rawRegionalSignalsProcessedBgp.length > 0) {
+                            dataSourceForCSS = "bgp";
+                            rawSignalsLoadedBoolean = this.props.rawRegionalSignalsLoadedBgp;
+                            rawSignalsProcessedArray = this.props.rawRegionalSignalsProcessedBgp;
+                        }
                         break;
                     case 'ucsd-nt':
-                        dataSourceForCSS = "ucsdNt";
-                        rawSignalsLoadedBoolean = this.props.rawRegionalSignalsLoadedUcsdNt;
-                        rawSignalsProcessedArray = this.props.rawRegionalSignalsProcessedUcsdNt;
+                        if (this.props.rawRegionalSignalsProcessedUcsdNt && this.props.rawRegionalSignalsProcessedUcsdNt.length > 0) {
+                            dataSourceForCSS = "ucsdNt";
+                            rawSignalsLoadedBoolean = this.props.rawRegionalSignalsLoadedUcsdNt;
+                            rawSignalsProcessedArray = this.props.rawRegionalSignalsProcessedUcsdNt;
+                        }
                         break;
                 }
                 break;
@@ -66,25 +78,25 @@ class Modal extends Component {
                 }
                 break;
         }
-        console.log(rawSignalsProcessedArray);
-
-        // draw viz
-        const myChart = HorizonTSChart()(document.getElementById(`${entityType}-horizon-chart--${dataSourceForCSS}`));
-        myChart
-            .data(rawSignalsProcessedArray)
-            .series('entityName')
-            .yNormalize(false)
-            .useUtc(true)
-            .use24h(false)
-            // Will need to detect column width to populate height
-            .width(width)
-            .height(360)
-            .enableZoom(false)
-            .showRuler(true)
-            .interpolationCurve(d3.curveStepAfter)
-            .positiveColors(['white', horizonChartSeriesColor])
-            // .positiveColorStops([.01])
-            .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}:&nbsp;${humanizeNumber(val)}`;
+        if (rawSignalsProcessedArray.length > 0) {
+            // draw viz
+            const myChart = HorizonTSChart()(document.getElementById(`${entityType}-horizon-chart--${dataSourceForCSS}`));
+            myChart
+                .data(rawSignalsProcessedArray)
+                .series('entityName')
+                .yNormalize(false)
+                .useUtc(true)
+                .use24h(false)
+                // Will need to detect column width to populate height
+                .width(width)
+                .height(360)
+                .enableZoom(false)
+                .showRuler(true)
+                .interpolationCurve(d3.curveStepAfter)
+                .positiveColors(['white', horizonChartSeriesColor])
+                // .positiveColorStops([.01])
+                .toolTipContent = ({series, ts, val}) => `${series}<br>${ts}:&nbsp;${humanizeNumber(val)}`;
+        }
     }
 
     handleAdditionalEntitiesLoading(event) {
@@ -94,7 +106,7 @@ class Modal extends Component {
         }, () => {
             setTimeout(() => {
                 this.props.handleLoadAllEntitiesButton(name)
-            }, 1000);
+            }, 600);
         });
     }
 
