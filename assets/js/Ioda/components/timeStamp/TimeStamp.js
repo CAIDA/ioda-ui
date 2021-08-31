@@ -54,7 +54,7 @@ class TimeStamp extends Component {
         const hoverTitle = T.translate("timestamp.hoverTitle");
         const copyToClipboardMessage = T.translate("timestamp.copyToClipboardMessage");
         return (
-            <div className="timestamp" onClick={(e) => this.copyTimestamp(e, timestamp)} title={hoverTitle}>
+            <div className="timestamp" onClick={(e) => this.copyTimestamp(e, timestamp)}>
                 <div
                     className={fade ? 'timestamp__message timestamp__fade' : 'timestamp__message'}
                     onAnimationEnd={() => this.resetFadeState()}
@@ -62,7 +62,7 @@ class TimeStamp extends Component {
                 >
                     {copyToClipboardMessage}
                 </div>
-                <div className="timestamp__text">
+                <div className="timestamp__text" title={hoverTitle}>
                     {timestamp}
                 </div>
             </div>

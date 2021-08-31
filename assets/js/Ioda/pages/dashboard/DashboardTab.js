@@ -39,7 +39,6 @@ class DashboardTab extends Component {
     }
 
     genChart() {
-
         const chart = HorizonTSChart()(document.getElementById(`horizon-chart`));
         this.props.eventDataProcessed ? chart
             .data(this.props.eventDataProcessed)
