@@ -282,7 +282,8 @@ body {
   .control-panel [class^="searchInput-"] {
     height: 3rem;
     padding-left: 0.8rem;
-    color: #2c3e50; }
+    color: #2c3e50;
+    line-height: 3rem; }
     .control-panel [class^="searchInput-"]::placeholder {
       font-size: 1.2rem;
       color: #2c3e50; }
@@ -1179,7 +1180,8 @@ body {
     font-size: 1.2rem;
     color: #2c3e50;
     border: 0.1rem solid #b3b3b3;
-    left: 3rem; }
+    left: 3rem;
+    top: 0; }
     .help__modal-content {
       position: relative;
       z-index: 10002; }
