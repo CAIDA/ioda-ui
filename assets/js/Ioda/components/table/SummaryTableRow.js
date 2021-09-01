@@ -24,7 +24,7 @@ class SummaryTableRow extends Component {
         this.handleRowScoreHide = this.handleRowScoreHide.bind(this);
     }
 
-    componentDidMount() {
+    componentDidMount = () => {
         document.addEventListener('click', this.handleRowScoreHide, {passive: true});
         // set states for outage source indicator in score cell
 
@@ -43,7 +43,7 @@ class SummaryTableRow extends Component {
         });
     }
 
-    componentWillUnmount() {
+    componentWillUnmount = () => {
         document.removeEventListener('click', this.handleRowScoreHide, true);
     }
 
@@ -66,12 +66,15 @@ class SummaryTableRow extends Component {
     }
 
     handleRowScoreHide() {
-        const domNode = ReactDOM.findDOMNode(this);
-        if (!domNode || !domNode.contains(event.target)) {
-            this.setState({
-                displayScores: false
-            });
+        if (this.state.displayScores) {
+            const domNode = ReactDOM.findDOMNode(this);
+            if (!domNode || !domNode.contains(event.target)) {
+                this.setState({
+                    displayScores: false
+                });
+            }
         }
+
     }
 
     showScoreTooltipHover() {

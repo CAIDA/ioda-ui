@@ -16,15 +16,15 @@ class SignalTableRow extends Component {
             displayScores: false,
             visibility: this.props.data.visibility
         };
-        this.handleRowScoreHide = this.handleRowScoreHide.bind(this);
+        // this.handleRowScoreHide = this.handleRowScoreHide.bind(this);
     }
 
-    componentDidMount() {
-        document.addEventListener('click', this.handleRowScoreHide, {passive: true});
+    componentDidMount = () => {
+        // document.addEventListener('click', this.handleRowScoreHide, {passive: true});
     }
 
-    componentWillUnmount() {
-        document.removeEventListener('click', this.handleRowScoreHide, true);
+    componentWillUnmount = () => {
+        // document.removeEventListener('click', this.handleRowScoreHide, true);
     }
 
     handlePopulateScores(scores) {
@@ -45,15 +45,15 @@ class SignalTableRow extends Component {
         } else {return null;}
     }
 
-    handleRowScoreHide() {
-        const domNode = ReactDOM.findDOMNode(this);
-
-        if (!domNode || !domNode.contains(event.target)) {
-            this.setState({
-                displayScores: false
-            });
-        }
-    }
+    // handleRowScoreHide() {
+    //     const domNode = ReactDOM.findDOMNode(this);
+    //
+    //     if (!domNode || !domNode.contains(event.target)) {
+    //         this.setState({
+    //             displayScores: false
+    //         });
+    //     }
+    // }
 
     handleRowScoreDisplay() {
         this.setState({

@@ -81,9 +81,8 @@ class EntityRelated extends Component {
                                 handleSelectAndDeselectAllButtons={(event) => this.props.handleSelectAndDeselectAllButtons(event)}
                                 // Current number of entities checked in table
                                 regionalSignalsTableEntitiesChecked={this.props.regionalSignalsTableEntitiesChecked}
-                                // function to populate horizon time series visual
-                                populateHtsChart={(width, dataSource, entityType) => this.props.populateHtsChart(width, dataSource, entityType)}
                                 // to detect when loading bar should appear in modal
+                                // and to populate data in modal for chart
                                 rawRegionalSignalsProcessedPingSlash24={this.props.rawRegionalSignalsProcessedPingSlash24}
                                 rawRegionalSignalsProcessedBgp={this.props.rawRegionalSignalsProcessedBgp}
                                 rawRegionalSignalsProcessedUcsdNt={this.props.rawRegionalSignalsProcessedUcsdNt}
@@ -170,9 +169,6 @@ class EntityRelated extends Component {
                                 toggleEntityVisibilityInHtsViz={event => this.props.toggleEntityVisibilityInHtsViz(event, "asn")}
                                 handleEntityClick={(entityType, entityCode) => this.props.handleEntityClick(entityType, entityCode)}
                                 handleCheckboxEventLoading={(item) => this.props.handleCheckboxEventLoading(item)}
-
-                                // render function that populate the ui
-                                populateHtsChart={(width, dataSource, entityType) => this.props.populateHtsChart(width, dataSource, entityType)}
                                 // data for each horizon time series
                                 rawAsnSignalsProcessedPingSlash24={this.props.rawAsnSignalsProcessedPingSlash24}
                                 rawAsnSignalsProcessedBgp={this.props.rawAsnSignalsProcessedBgp}
