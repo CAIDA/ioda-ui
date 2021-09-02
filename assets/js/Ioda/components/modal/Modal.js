@@ -414,7 +414,7 @@ class Modal extends PureComponent {
                                                             </button>
                                                     }
                                                 </div>
-                                            </div>
+                                            </div> 
                                             {
                                                 this.props.asnSignalsTableTotalCount > this.props.initialTableLimit && this.props.asnRawSignalsLoadAllButtonClicked === false
                                                     ? <div className="modal__loadAll">
