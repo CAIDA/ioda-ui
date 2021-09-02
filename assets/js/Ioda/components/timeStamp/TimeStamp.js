@@ -24,7 +24,7 @@ class TimeStamp extends Component {
     }
 
     resize() {
-        let screenBelow1024 = (window.innerWidth <= 1024);
+        let screenBelow1024 = (window.innerWidth <= 1024 || navigator.userAgent.match(/(iPad)/));
         if (screenBelow1024 !== this.state.screenBelow1024) {
             this.setState({
                 screenBelow1024: screenBelow1024

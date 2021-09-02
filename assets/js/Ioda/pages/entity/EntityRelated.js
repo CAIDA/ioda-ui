@@ -108,6 +108,10 @@ class EntityRelated extends Component {
                                 // used for tracking when check max/uncheck all loading icon should appear and not
                                 checkMaxButtonLoading={this.props.checkMaxButtonLoading}
                                 uncheckAllButtonLoading={this.props.uncheckAllButtonLoading}
+                                // used to check if there are no entities available to load (to control when loading bar disappears)
+                                rawRegionalSignalsRawBgpLength = {this.props.rawRegionalSignalsRawBgpLength}
+                                rawRegionalSignalsRawPingSlash24Length = {this.props.rawRegionalSignalsRawPingSlash24Length}
+                                rawRegionalSignalsRawUcsdNtLength = {this.props.rawRegionalSignalsRawUcsdNtLength}
                             />
                         </div>
                     </div>
@@ -199,6 +203,10 @@ class EntityRelated extends Component {
                                 // used for tracking when check max/uncheck all loading icon should appear and not
                                 checkMaxButtonLoading={this.props.checkMaxButtonLoading}
                                 uncheckAllButtonLoading={this.props.uncheckAllButtonLoading}
+                                // used to check if there are no entities available to load (to control when loading bar disappears)
+                                rawAsnSignalsRawBgpLength = {this.props.rawAsnSignalsRawBgpLength}
+                                rawAsnSignalsRawPingSlash24Length = {this.props.rawAsnSignalsRawPingSlash24Length}
+                                rawAsnSignalsRawUcsdNtLength = {this.props.rawAsnSignalsRawUcsdNtLength}
                             />
                         </div>
                     </div>
