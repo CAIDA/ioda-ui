@@ -9,7 +9,11 @@ class Loading extends Component {
         return (
             <div className="progress-bar-striped">
                 <div style={{width: "100%"}}>
-                    <strong><T.p text="loadingBar.loading"/></strong>
+                    <strong>
+                        {
+                            this.props.text ? <p>{this.props.text}</p> : <T.p text="loadingBar.loading"/>
+                        }
+                    </strong>
                 </div>
             </div>
         );

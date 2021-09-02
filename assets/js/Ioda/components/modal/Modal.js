@@ -456,13 +456,13 @@ class Modal extends PureComponent {
                                     <div className="col-2-of-3">
                                         <h3 className="heading-h3" ref={this.titlePingSlash24}>{pingSlash24HtsLabel}</h3>
                                         {
-                                            this.props.rawAsnSignalsRawPingSlash24Length === 0 && !this.props.rawAsnSignalsProcessedPingSlash24 ? "Retrieving Data" :
-                                            this.props.rawAsnSignalsRawPingSlash24Length !== 0 && this.titlePingSlash24 && this.titlePingSlash24.current && this.titlePingSlash24.current.nextElementSibling !== "div#asn-horizon-chart--pingSlash24.modal__chart" ? <div className="renderingDataPingSlash24">Rendering Data</div> :
+                                            this.props.rawAsnSignalsRawPingSlash24Length === 0 && !this.props.rawAsnSignalsProcessedPingSlash24 ? <Loading text="Retrieving Data..."/> :
+                                            this.props.rawAsnSignalsRawPingSlash24Length !== 0 && this.titlePingSlash24 && this.titlePingSlash24.current && this.titlePingSlash24.current.nextElementSibling !== "div#asn-horizon-chart--pingSlash24.modal__chart" ? <div className="renderingDataPingSlash24"><Loading text="Rendering Data..."/></div> :
                                             null
                                         }
                                         {
                                             this.props.additionalRawSignalRequestedPingSlash24 === true ? <Loading/> :
-                                                this.props.rawAsnSignalsProcessedPingSlash24 ?
+                                                this.props.rawAsnSignalsProcessedPingSlash24 && this.props.rawAsnSignalsProcessedPingSlash24.length !== 0 ?
                                                     <div id="asn-horizon-chart--pingSlash24" ref={this.configPingSlash24}
                                                          className="modal__chart">
                                                         {
@@ -473,14 +473,15 @@ class Modal extends PureComponent {
                                         }
                                         <h3 className="heading-h3" ref={this.titleBgp}>{bgpHtsLabel}</h3>
                                         {
-                                            this.props.rawAsnSignalsRawBgpLength === 0 && !this.props.rawAsnSignalsProcessedBgp ? "Retrieving Data" :
-                                            this.props.rawAsnSignalsRawBgpLength !== 0 && this.titleBgp && this.titleBgp.current && this.titleBgp.current.nextElementSibling !== "div#asn-horizon-chart--bgp.modal__chart" ? <div className="renderingDataBgp">Rendering Data</div> :
+                                            this.props.rawAsnSignalsRawBgpLength !== 0 && this.props.rawAsnSignalsProcessedBgp && this.props.rawAsnSignalsProcessedBgp.length === 0 ? null :
+                                            this.props.rawAsnSignalsRawBgpLength === 0 && !this.props.rawAsnSignalsProcessedBgp ? <Loading text="Retrieving Data..."/> :
+                                            this.props.rawAsnSignalsRawBgpLength !== 0 && this.titleBgp && this.titleBgp.current && this.titleBgp.current.nextElementSibling !== "div#asn-horizon-chart--bgp.modal__chart" ? <div className="renderingDataBgp"><Loading text="Rendering Data..."/></div> :
                                             null
                                             // this.props.rawAsnSignalsProcessedBgp ? null : <Loading/>
                                         }
                                         {
                                             this.props.additionalRawSignalRequestedBgp === true ? <Loading/> :
-                                                this.props.rawAsnSignalsProcessedBgp ?
+                                                this.props.rawAsnSignalsProcessedBgp && this.props.rawAsnSignalsProcessedBgp.length !== 0 ?
                                                 <div id="asn-horizon-chart--bgp" ref={this.configBgp}
                                                      className="modal__chart">
                                                     {
@@ -491,14 +492,14 @@ class Modal extends PureComponent {
                                         }
                                         <h3 className="heading-h3" ref={this.titleUcsdNt}>{ucsdNtHtsLabel}</h3>
                                         {
-                                            this.props.rawAsnSignalsRawUcsdNtLength === 0 && !this.props.rawAsnSignalsProcessedUcsdNt ? "Retrieving Data" :
-                                            this.props.rawAsnSignalsRawUcsdNtLength !== 0 &&  this.titleUcsdNt && this.titleUcsdNt.current && this.titleUcsdNt.current.nextElementSibling !== "div#asn-horizon-chart--ucsdNt.modal__chart" ? <div className="renderingDataUcsdNt">Rendering Data</div> :
+                                            this.props.rawAsnSignalsRawUcsdNtLength === 0 && !this.props.rawAsnSignalsProcessedUcsdNt ? <Loading text="Retrieving Data..."/> :
+                                            this.props.rawAsnSignalsRawUcsdNtLength !== 0 &&  this.titleUcsdNt && this.titleUcsdNt.current && this.titleUcsdNt.current.nextElementSibling !== "div#asn-horizon-chart--ucsdNt.modal__chart" ? <div className="renderingDataUcsdNt"><Loading text="Rendering Data..."/></div> :
                                             null
                                             // this.props.rawAsnSignalsProcessedUcsdNt ? null : <Loading/>
                                         }
                                         {
                                             this.props.additionalRawSignalRequestedUcsdNt === true ? <Loading/> :
-                                                this.props.rawAsnSignalsProcessedUcsdNt ?
+                                                this.props.rawAsnSignalsProcessedUcsdNt && this.props.rawAsnSignalsProcessedUcsdNt.length !== 0 ?
                                                 <div id="asn-horizon-chart--ucsdNt" ref={this.configUcsdNt}
                                                      className="modal__chart">
                                                     {
