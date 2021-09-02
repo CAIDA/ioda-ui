@@ -7,19 +7,33 @@ import Tooltip from "../tooltip/Tooltip";
 import TopoMap from "../map/Map";
 import Table from "../table/Table";
 import * as d3 from "d3-shape";
-import {horizonChartSeriesColor, humanizeNumber} from "../../utils";
+import {
+    horizonChartSeriesColor,
+    humanizeNumber,
+    secondaryColor,
+    secondaryColorDark,
+    secondaryColorLight
+} from "../../utils";
 import HorizonTSChart from "horizon-timeseries-chart";
+import Style from "react-style-tag/lib/Style";
 
 class Modal extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            additionalEntitiesLoading: false
+            additionalEntitiesLoading: false,
+            renderingDataPingSlash24: false,
+            renderingDataBgp: false,
+            renderingDataUcsdNt: false
         };
         this.configPingSlash24 = React.createRef();
         this.configBgp = React.createRef();
         this.configUcsdNt = React.createRef();
         this.additionalEntitiesLoading = false;
+
+        this.titlePingSlash24 = React.createRef();
+        this.titleBgp = React.createRef();
+        this.titleUcsdNt = React.createRef();
     }
 
     componentDidUpdate(prevProps) {
@@ -28,6 +42,30 @@ class Modal extends PureComponent {
         }
         if (this.props.rawAsnSignalsProcessedUcsdNt !== prevProps.rawAsnSignalsProcessedUcsdNt && this.configUcsdNt.current) {
             this.genChart(this.configUcsdNt.current.offsetWidth, "ucsd-nt", "asn")
+        }
+
+        if (this.configPingSlash24 && this.configPingSlash24.current && this.configPingSlash24.current.clientHeight === 0) {
+            this.setState({ renderingDataPingSlash24: true })
+        }
+
+        if (this.configPingSlash24 && this.configPingSlash24.current && this.configPingSlash24.current.clientHeight !== 0) {
+            this.setState({ renderingDataPingSlash24: false })
+        }
+
+        if (this.configBgp && this.configBgp.current && this.configBgp.current.clientHeight === 0) {
+            this.setState({ renderingDataBgp: true })
+        }
+
+        if (this.configBgp && this.configBgp.current && this.configBgp.current.clientHeight !== 0) {
+            this.setState({ renderingDataBgp: false })
+        }
+
+        if (this.configUcsdNt && this.configUcsdNt.current && this.configUcsdNt.current.clientHeight === 0) {
+            this.setState({ renderingDataUcsdNt: true })
+        }
+
+        if (this.configUcsdNt && this.configUcsdNt.current && this.configUcsdNt.current.clientHeight !== 0) {
+            this.setState({ renderingDataUcsdNt: false })
         }
     }
 
@@ -156,8 +194,25 @@ class Modal extends PureComponent {
         const tooltipEntityRawSignalsHeadingTitle = T.translate("tooltip.entityRawSignalsHeading.title");
         const tooltipEntityRawSignalsHeadingText = T.translate("tooltip.entityRawSignalsHeading.text");
 
+        console.log(this.titleBgp);
+        console.log(this.configBgp);
+
+        const activeCSS = `display: block;`;
+        const inactiveCSS = `display: none;`;
+
         return(
             <div className="modal">
+                <Style>{`
+                    .renderingDataPingSlash24 {
+                        ${this.state.renderingDataPingSlash24 ? activeCSS : inactiveCSS}
+                    }
+                    .renderingDataBgp {
+                        ${this.state.renderingDataBgp ? activeCSS : inactiveCSS}
+                    }
+                    .renderingDataUcsdNt {
+                        ${this.state.renderingDataUcsdNt ? activeCSS : inactiveCSS}
+                    }
+                `}</Style>
                 <div className="modal__background"></div>
                 <div className="modal__window">
                     <div className="modal__row">
@@ -399,9 +454,11 @@ class Modal extends PureComponent {
                                         </div>
                                     </div>
                                     <div className="col-2-of-3">
-                                        <h3 className="heading-h3">{pingSlash24HtsLabel}</h3>
+                                        <h3 className="heading-h3" ref={this.titlePingSlash24}>{pingSlash24HtsLabel}</h3>
                                         {
-                                            this.props.rawAsnSignalsProcessedPingSlash24 ? null : <Loading/>
+                                            this.props.rawAsnSignalsRawPingSlash24Length === 0 && !this.props.rawAsnSignalsProcessedPingSlash24 ? "Retrieving Data" :
+                                            this.props.rawAsnSignalsRawPingSlash24Length !== 0 && this.titlePingSlash24 && this.titlePingSlash24.current && this.titlePingSlash24.current.nextElementSibling !== "div#asn-horizon-chart--pingSlash24.modal__chart" ? <div className="renderingDataPingSlash24">Rendering Data</div> :
+                                            null
                                         }
                                         {
                                             this.props.additionalRawSignalRequestedPingSlash24 === true ? <Loading/> :
@@ -414,9 +471,12 @@ class Modal extends PureComponent {
                                                         }
                                                     </div> : null
                                         }
-                                        <h3 className="heading-h3">{bgpHtsLabel}</h3>
+                                        <h3 className="heading-h3" ref={this.titleBgp}>{bgpHtsLabel}</h3>
                                         {
-                                            this.props.rawAsnSignalsProcessedBgp ? null : <Loading/>
+                                            this.props.rawAsnSignalsRawBgpLength === 0 && !this.props.rawAsnSignalsProcessedBgp ? "Retrieving Data" :
+                                            this.props.rawAsnSignalsRawBgpLength !== 0 && this.titleBgp && this.titleBgp.current && this.titleBgp.current.nextElementSibling !== "div#asn-horizon-chart--bgp.modal__chart" ? <div className="renderingDataBgp">Rendering Data</div> :
+                                            null
+                                            // this.props.rawAsnSignalsProcessedBgp ? null : <Loading/>
                                         }
                                         {
                                             this.props.additionalRawSignalRequestedBgp === true ? <Loading/> :
@@ -429,9 +489,12 @@ class Modal extends PureComponent {
                                                     }
                                                 </div> : null
                                         }
-                                        <h3 className="heading-h3">{ucsdNtHtsLabel}</h3>
+                                        <h3 className="heading-h3" ref={this.titleUcsdNt}>{ucsdNtHtsLabel}</h3>
                                         {
-                                            this.props.rawAsnSignalsProcessedUcsdNt ? null : <Loading/>
+                                            this.props.rawAsnSignalsRawUcsdNtLength === 0 && !this.props.rawAsnSignalsProcessedUcsdNt ? "Retrieving Data" :
+                                            this.props.rawAsnSignalsRawUcsdNtLength !== 0 &&  this.titleUcsdNt && this.titleUcsdNt.current && this.titleUcsdNt.current.nextElementSibling !== "div#asn-horizon-chart--ucsdNt.modal__chart" ? <div className="renderingDataUcsdNt">Rendering Data</div> :
+                                            null
+                                            // this.props.rawAsnSignalsProcessedUcsdNt ? null : <Loading/>
                                         }
                                         {
                                             this.props.additionalRawSignalRequestedUcsdNt === true ? <Loading/> :

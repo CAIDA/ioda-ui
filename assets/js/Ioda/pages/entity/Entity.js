@@ -1989,6 +1989,13 @@ class Entity extends Component {
                                     // used for tracking when check max/uncheck all loading icon should appear and not
                                     checkMaxButtonLoading={this.state.checkMaxButtonLoading}
                                     uncheckAllButtonLoading={this.state.uncheckAllButtonLoading}
+                                    // used to check if there are no entities available to load (to control when loading bar disappears)
+                                    rawRegionalSignalsRawBgpLength = {this.state.rawRegionalSignalsRawBgp.length}
+                                    rawRegionalSignalsRawPingSlash24Length = {this.state.rawRegionalSignalsRawPingSlash24.length}
+                                    rawRegionalSignalsRawUcsdNtLength = {this.state.rawRegionalSignalsRawUcsdNt.length}
+                                    rawAsnSignalsRawBgpLength = {this.state.rawAsnSignalsRawBgp.length}
+                                    rawAsnSignalsRawPingSlash24Length = {this.state.rawAsnSignalsRawPingSlash24.length}
+                                    rawAsnSignalsRawUcsdNtLength = {this.state.rawAsnSignalsRawUcsdNt.length}
                                 />
                                 </React.Fragment>
                             : <div className="row overview">
