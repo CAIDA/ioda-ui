@@ -471,16 +471,16 @@ class Modal extends PureComponent {
                                                 ? null
                                                 : this.props.rawRegionalSignalsUcsdNtLength === 0 && !this.props.rawRegionalSignalsProcessedUcsdNt
                                                 ? <Loading text="Retrieving Data..."/>
-                                                : this.props.rawRegionalSignalsUcsdNtLength !== 0 && this.titleUcsdNt && this.titleUcsdNt.current && this.titleUcsdNt.current.nextElementSibling !== "div#region-horizon-chart--bgp.modal__chart"
-                                                    ? <div className="renderingDataBgp"><Loading text="Rendering Data..."/></div>
+                                                : this.props.rawRegionalSignalsUcsdNtLength !== 0 && this.titleUcsdNt && this.titleUcsdNt.current && this.titleUcsdNt.current.nextElementSibling !== "div#region-horizon-chart--ucsdNt.modal__chart"
+                                                    ? <div className="renderingDataUcsdNt"><Loading text="Rendering Data..."/></div>
                                                     : null
                                         }</React.Fragment> : <React.Fragment>{
-                                            this.props.rawAsnSignalsRawBgpLength !== 0 && this.props.rawAsnSignalsProcessedBgp && this.props.rawAsnSignalsProcessedBgp.length === 0
+                                            this.props.rawAsnSignalsRawUcsdNtLength !== 0 && this.props.rawAsnSignalsProcessedUcsdNt && this.props.rawAsnSignalsProcessedUcsdNt.length === 0
                                                 ? null
-                                                : this.props.rawAsnSignalsRawBgpLength === 0 && !this.props.rawAsnSignalsProcessedBgp
+                                                : this.props.rawAsnSignalsRawUcsdNtLength === 0 && !this.props.rawAsnSignalsProcessedUcsdNt
                                                 ? <Loading text="Retrieving Data..."/>
-                                                : this.props.rawAsnSignalsRawBgpLength !== 0 && this.titleBgp && this.titleBgp.current && this.titleBgp.current.nextElementSibling !== "div#asn-horizon-chart--bgp.modal__chart"
-                                                    ? <div className="renderingDataBgp"><Loading text="Rendering Data..."/></div>
+                                                : this.props.rawAsnSignalsRawUcsdNtLength !== 0 && this.titleUcsdNt && this.titleUcsdNt.current && this.titleUcsdNt.current.nextElementSibling !== "div#asn-horizon-chart--ucsdNt.modal__chart"
+                                                    ? <div className="renderingDataUcsdNt"><Loading text="Rendering Data..."/></div>
                                                     : null
                                         }</React.Fragment>
                                 }
@@ -493,7 +493,7 @@ class Modal extends PureComponent {
                                                          className="modal__chart">
                                                         {
                                                             this.configUcsdNt.current ?
-                                                                this.genChart(this.configUcsdNt.current.offsetWidth, "ucsdn-nt", "region") : null
+                                                                this.genChart(this.configUcsdNt.current.offsetWidth, "ucsd-nt", "region") : null
                                                         }
                                                     </div> : null
                                             }</React.Fragment> : <React.Fragment>{
