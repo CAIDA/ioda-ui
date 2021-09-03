@@ -64,7 +64,6 @@ class ControlPanel extends Component {
     }
 
     componentDidMount() {
-        console.log("update1");
         let readableDates = this.setDateInLegend(this.props.from, this.props.until);
         this.setState({
             readableTimeRangeInputSelection: {
