@@ -194,8 +194,6 @@ class Modal extends PureComponent {
         const tooltipEntityRawSignalsHeadingTitle = T.translate("tooltip.entityRawSignalsHeading.title");
         const tooltipEntityRawSignalsHeadingText = T.translate("tooltip.entityRawSignalsHeading.text");
 
-        console.log(this.titleBgp);
-        console.log(this.configBgp);
 
         const activeCSS = `display: block;`;
         const inactiveCSS = `display: none;`;
@@ -387,7 +385,7 @@ class Modal extends PureComponent {
                                                         ? <div className="renderingDataPingSlash24"><Loading text="Rendering Data..."/></div>
                                                         : null
                                         }</React.Fragment> : <React.Fragment>{
-                                            this.props.rawAsnSignalsRawBgpLength !== 0 && this.props.rawAsnSignalsProcessedBgp && this.props.rawAsnSignalsProcessedBgp.length === 0
+                                            this.props.rawAsnSignalsRawPingSlash24Length !== 0 && this.props.rawAsnSignalsProcessedPingSlash24 && this.props.rawAsnSignalsProcessedPingSlash24.length === 0
                                                 ? null
                                                 : this.props.rawAsnSignalsRawPingSlash24Length === 0 && !this.props.rawAsnSignalsProcessedPingSlash24
                                                     ? <Loading text="Retrieving Data..."/>
@@ -423,11 +421,11 @@ class Modal extends PureComponent {
                                 {
                                     this.props.modalLocation === 'map'
                                         ? <React.Fragment>{
-                                            this.props.rawAsnSignalsRawBgpLength !== 0 && this.props.rawRegionalSignalsProcessedBgp && this.props.rawRegionalSignalsProcessedBgp.length === 0
+                                            this.props.rawRegionalSignalsRawBgpLength !== 0 && this.props.rawRegionalSignalsProcessedBgp && this.props.rawRegionalSignalsProcessedBgp.length === 0
                                                 ? null
-                                                : this.props.rawRegionalSignalsBgpLength === 0 && !this.props.rawRegionalSignalsProcessedBgp
+                                                : this.props.rawRegionalSignalsRawBgpLength === 0 && !this.props.rawRegionalSignalsProcessedBgp
                                                 ? <Loading text="Retrieving Data..."/>
-                                                : this.props.rawRegionalSignalsBgpLength !== 0 && this.titleBgp && this.titleBgp.current && this.titleBgp.current.nextElementSibling !== "div#region-horizon-chart--bgp.modal__chart"
+                                                : this.props.rawRegionalSignalsRawBgpLength !== 0 && this.titleBgp && this.titleBgp.current && this.titleBgp.current.nextElementSibling !== "div#region-horizon-chart--bgp.modal__chart"
                                                     ? <div className="renderingDataBgp"><Loading text="Rendering Data..."/></div>
                                                     : null
                                         }</React.Fragment> : <React.Fragment>{
@@ -467,11 +465,11 @@ class Modal extends PureComponent {
                                 {
                                     this.props.modalLocation === 'map'
                                         ? <React.Fragment>{
-                                            this.props.rawAsnSignalsRawUcsdNtLength !== 0 && this.props.rawRegionalSignalsProcessedUcsdNt && this.props.rawRegionalSignalsProcessedUcsdNt.length === 0
+                                            this.props.rawRegionalSignalsRawUcsdNtLength !== 0 && this.props.rawRegionalSignalsProcessedUcsdNt && this.props.rawRegionalSignalsProcessedUcsdNt.length === 0
                                                 ? null
-                                                : this.props.rawRegionalSignalsUcsdNtLength === 0 && !this.props.rawRegionalSignalsProcessedUcsdNt
+                                                : this.props.rawRegionalSignalsRawUcsdNtLength === 0 && !this.props.rawRegionalSignalsProcessedUcsdNt
                                                 ? <Loading text="Retrieving Data..."/>
-                                                : this.props.rawRegionalSignalsUcsdNtLength !== 0 && this.titleUcsdNt && this.titleUcsdNt.current && this.titleUcsdNt.current.nextElementSibling !== "div#region-horizon-chart--ucsdNt.modal__chart"
+                                                : this.props.rawRegionalSignalsRawUcsdNtLength !== 0 && this.titleUcsdNt && this.titleUcsdNt.current && this.titleUcsdNt.current.nextElementSibling !== "div#region-horizon-chart--ucsdNt.modal__chart"
                                                     ? <div className="renderingDataUcsdNt"><Loading text="Rendering Data..."/></div>
                                                     : null
                                         }</React.Fragment> : <React.Fragment>{
