@@ -1172,7 +1172,6 @@ class Entity extends Component {
     }
     // Show/hide modal when button is clicked on either panel
     toggleModal(modalLocation) {
-        console.log(modalLocation);
         if (modalLocation === 'map') {
             if (!this.state.rawRegionalSignalsLoaded) {
                 this.props.regionalSignalsTableSummaryDataAction("region", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
