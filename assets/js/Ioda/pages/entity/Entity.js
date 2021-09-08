@@ -336,7 +336,8 @@ class Entity extends Component {
         }
 
         // data for regional signals table Ping-Slash24 Source
-        if (this.props.rawRegionalSignalsPingSlash24 !== prevProps.rawRegionalSignalsPingSlash24 && this.props.rawRegionalSignalsPingSlash24[0][0]["entityType"] !== "asn") {
+        if (this.props.rawRegionalSignalsPingSlash24 !== prevProps.rawRegionalSignalsPingSlash24 && this.state.showMapModal) {
+            console.log(this.props.rawRegionalSignalsRawPingSlash24);
             let rawRegionalSignals = [];
             this.props.rawRegionalSignalsPingSlash24.map(signal => {
 
@@ -351,7 +352,7 @@ class Entity extends Component {
         }
 
         // data for regional signals table BGP Source
-        if (this.props.rawRegionalSignalsBgp !== prevProps.rawRegionalSignalsBgp && this.props.rawRegionalSignalsBgp[0][0]["entityType"] !== "asn") {
+        if (this.props.rawRegionalSignalsBgp !== prevProps.rawRegionalSignalsBgp && this.props.rawRegionalSignalsBgp && this.state.showMapModal) {
             // assign to respective state
             let rawRegionalSignals = [];
             this.props.rawRegionalSignalsBgp.map(signal => {
@@ -366,7 +367,7 @@ class Entity extends Component {
         }
 
         // data for regional signals table UCSD-NT Source
-        if (this.props.rawRegionalSignalsUcsdNt !== prevProps.rawRegionalSignalsUcsdNt && this.props.rawRegionalSignalsUcsdNt[0][0]["entityType"] !== "asn") {
+        if (this.props.rawRegionalSignalsUcsdNt !== prevProps.rawRegionalSignalsUcsdNt && this.props.rawRegionalSignalsUcsdNt && this.state.showMapModal) {
             // assign to respective state
             let rawRegionalSignals = [];
             this.props.rawRegionalSignalsUcsdNt.map(signal => {
@@ -382,7 +383,7 @@ class Entity extends Component {
 
 
         // data for asn signals table Ping-Slash24 Source
-        if (this.props.rawAsnSignalsPingSlash24 !== prevProps.rawAsnSignalsPingSlash24 && this.props.rawAsnSignalsPingSlash24[0][0]["entityType"] !== "region") {
+        if (this.props.rawAsnSignalsPingSlash24 !== prevProps.rawAsnSignalsPingSlash24 && this.props.rawAsnSignalsPingSlash24 && this.state.showTableModal) {
             let rawAsnSignals = [];
             this.props.rawAsnSignalsPingSlash24.map(signal => {
                 //Remove empty items and assign to proper state. Then call next function
@@ -396,7 +397,7 @@ class Entity extends Component {
         }
 
         // data for asn signals table BGP Source
-        if (this.props.rawAsnSignalsBgp !== prevProps.rawAsnSignalsBgp && this.props.rawAsnSignalsBgp[0][0]["entityType"] !== "region") {
+        if (this.props.rawAsnSignalsBgp !== prevProps.rawAsnSignalsBgp && this.props.rawAsnSignalsBgp && this.state.showTableModal) {
             // assign to respective state
             let rawAsnSignals = [];
             this.props.rawAsnSignalsBgp.map(signal => {
@@ -411,7 +412,7 @@ class Entity extends Component {
         }
 
         // data for asn signals table UCSD-NT Source
-        if (this.props.rawAsnSignalsUcsdNt !== prevProps.rawAsnSignalsUcsdNt && this.props.rawAsnSignalsUcsdNt[0][0]["entityType"] !== "region") {
+        if (this.props.rawAsnSignalsUcsdNt !== prevProps.rawAsnSignalsUcsdNt && this.props.rawAsnSignalsUcsdNt && this.state.showTableModal) {
             // assign to respective state
             let rawAsnSignals = [];
             this.props.rawAsnSignalsUcsdNt.map(signal => {
