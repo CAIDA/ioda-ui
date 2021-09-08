@@ -337,7 +337,6 @@ class Entity extends Component {
 
         // data for regional signals table Ping-Slash24 Source
         if (this.props.rawRegionalSignalsPingSlash24 !== prevProps.rawRegionalSignalsPingSlash24 && this.state.showMapModal) {
-            console.log(this.props.rawRegionalSignalsRawPingSlash24);
             let rawRegionalSignals = [];
             this.props.rawRegionalSignalsPingSlash24.map(signal => {
 
