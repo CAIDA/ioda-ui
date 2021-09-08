@@ -127,7 +127,8 @@ export const getRawAsnSignalsPingSlash24Action = (dispatch, entityType, entityCo
         dispatch({
             type: GET_RAW_ASN_SIGNALS_PINGSLASH24,
             payload: data.data.data,
-        })
+        });
+        console.log(data);
     });
 };
 
@@ -137,7 +138,8 @@ export const getRawAsnSignalsBgpAction = (dispatch, entityType, entityCode, from
         dispatch({
             type: GET_RAW_ASN_SIGNALS_BGP,
             payload: data.data.data,
-        })
+        });
+        console.log(data);
     });
 };
 
@@ -147,7 +149,8 @@ export const getRawAsnSignalsUcsdNtAction = (dispatch, entityType, entityCode, f
         dispatch({
             type: GET_RAW_ASN_SIGNALS_UCSDNT,
             payload: data.data.data,
-        })
+        });
+        console.log(data);
     });
 };
 

@@ -138,9 +138,8 @@ class Entity extends Component {
             rawRegionalSignalsProcessedBgp: null,
             rawRegionalSignalsProcessedPingSlash24: null,
             rawRegionalSignalsProcessedUcsdNt: null,
-            rawRegionalSignalsLoadedBgp: true,
-            rawRegionalSignalsLoadedPingSlash24: true,
-            rawRegionalSignalsLoadedUcsdNt: true,
+            // tracking when to dump states if a new entity is chosen
+            rawRegionalSignalsLoaded: false,
             // Stacked Horizon Visual on ASN Table Panel
             rawAsnSignalsRawBgp: [],
             rawAsnSignalsRawPingSlash24: [],
@@ -148,9 +147,7 @@ class Entity extends Component {
             rawAsnSignalsProcessedBgp: null,
             rawAsnSignalsProcessedPingSlash24: null,
             rawAsnSignalsProcessedUcsdNt: null,
-            rawAsnSignalsLoadedBgp: true,
-            rawAsnSignalsLoadedPingSlash24: true,
-            rawAsnSignalsLoadedUcsdNt: true,
+            rawAsnSignalsLoaded: false,
             // Shared between Modals
             rawSignalsMaxEntitiesHtsError: "",
             regionalRawSignalsLoadAllButtonClicked: false,
@@ -386,6 +383,7 @@ class Entity extends Component {
 
         // data for asn signals table Ping-Slash24 Source
         if (this.props.rawAsnSignalsPingSlash24 !== prevProps.rawAsnSignalsPingSlash24) {
+            console.log(this.props.rawAsnSignalsRawPingSlash24);
             let rawAsnSignals = [];
             this.props.rawAsnSignalsPingSlash24.map(signal => {
 
@@ -401,6 +399,8 @@ class Entity extends Component {
 
         // data for asn signals table BGP Source
         if (this.props.rawAsnSignalsBgp !== prevProps.rawAsnSignalsBgp) {
+            console.log(this.props.rawAsnSignalsBgp);
+
             // assign to respective state
             let rawAsnSignals = [];
             this.props.rawAsnSignalsBgp.map(signal => {
@@ -416,6 +416,8 @@ class Entity extends Component {
 
         // data for asn signals table UCSD-NT Source
         if (this.props.rawAsnSignalsUcsdNt !== prevProps.rawAsnSignalsUcsdNt) {
+            console.log(this.props.rawAsnSignalsUcsdNt);
+
             // assign to respective state
             let rawAsnSignals = [];
             this.props.rawAsnSignalsUcsdNt.map(signal => {
@@ -546,9 +548,7 @@ class Entity extends Component {
                     rawRegionalSignalsProcessedBgp: null,
                     rawRegionalSignalsProcessedPingSlash24: null,
                     rawRegionalSignalsProcessedUcsdNt: null,
-                    rawRegionalSignalsLoadedBgp: true,
-                    rawRegionalSignalsLoadedPingSlash24: true,
-                    rawRegionalSignalsLoadedUcsdNt: true,
+                    rawRegionalSignalsLoaded: false,
                     rawRegionalSignalsLoadAllButtonClicked: false,
                     // Stacked Horizon Visual on ASN Table Panel
                     rawAsnSignalsRawBgp: [],
@@ -557,7 +557,7 @@ class Entity extends Component {
                     rawAsnSignalsProcessedBgp: null,
                     rawAsnSignalsProcessedPingSlash24: null,
                     rawAsnSignalsProcessedUcsdNt: null,
-                    rawAsnSignalsLoadAllButtonClicked: false
+                    rawAsnSignalsLoaded: false,
                 }, () => {
                     // Get topo and outage data to repopulate map and table
                     this.props.searchEventsAction(this.state.from, this.state.until, this.state.entityType, this.state.entityCode);
@@ -620,6 +620,9 @@ class Entity extends Component {
                     rawRegionalSignalsProcessedBgp: null,
                     rawRegionalSignalsProcessedPingSlash24: null,
                     rawRegionalSignalsProcessedUcsdNt: null,
+                    rawRegionalSignalsLoaded: false,
+                    rawRegionalSignalsLoadAllButtonClicked: false,
+                    regionalRawSignalsLoadAllButtonClicked: false,
                     // Stacked Horizon Visual on ASN Table Panel
                     rawAsnSignalsRawBgp: [],
                     rawAsnSignalsRawPingSlash24: [],
@@ -627,17 +630,9 @@ class Entity extends Component {
                     rawAsnSignalsProcessedBgp: null,
                     rawAsnSignalsProcessedPingSlash24: null,
                     rawAsnSignalsProcessedUcsdNt: null,
-                    rawAsnSignalsLoadedBgp: true,
-                    rawAsnSignalsLoadedPingSlash24: true,
-                    rawAsnSignalsLoadedUcsdNt: true,
-                    rawRegionalSignalsLoadedBgp: true,
-                    rawRegionalSignalsLoadedPingSlash24: true,
-                    rawRegionalSignalsLoadedUcsdNt: true,
-                    rawRegionalSignalsLoadAllButtonClicked: false,
-                    rawAsnSignalsLoadAllButtonClicked: false,
+                    rawAsnSignalsLoaded: false,
+                    asnRawSignalsLoadAllButtonClicked: false,
                     rawSignalsMaxEntitiesHtsError: "",
-                    regionalRawSignalsLoadAllButtonClicked: false,
-                    asnRawSignalsLoadAllButtonClicked: false
                 }, () => {
                     window.scrollTo(0, 0);
                     this.componentDidMount();
@@ -1183,31 +1178,36 @@ class Entity extends Component {
     }
     // Show/hide modal when button is clicked on either panel
     toggleModal(modalLocation) {
+        console.log(modalLocation);
         if (modalLocation === 'map') {
-            this.props.regionalSignalsTableSummaryDataAction("region", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
+            if (!this.state.rawRegionalSignalsLoaded) {
+                this.props.regionalSignalsTableSummaryDataAction("region", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
+
+            }
             // Get related entities used on table in map modal
             this.setState({
                 showMapModal: !this.state.showMapModal
             },() => {
                 if (!this.state.showMapModal) {
                     this.setState({
-                        rawRegionalSignalsLoadedBgp: true,
-                        rawRegionalSignalsLoadedPingSlash24: true,
-                        rawRegionalSignalsLoadedUcsdNt: true
+                        rawRegionalSignalsLoaded: true
                     })
                 }
             });
 
         } else if (modalLocation === 'table') {
-            this.props.asnSignalsTableSummaryDataAction("asn", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
+            if (!this.state.rawAsnSignalsLoaded) {
+                console.log(this.state.rawAsnSignalsRawPingSlash24);
+                console.log(this.state.rawAsnSignalsRawPingSlash24.length);
+                this.props.asnSignalsTableSummaryDataAction("asn", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
+            }
             this.setState({
                 showTableModal: !this.state.showTableModal
             },() => {
                 if (!this.state.showTableModal) {
                     this.setState({
-                        rawAsnSignalsLoadedBgp: true,
-                        rawAsnSignalsLoadedPingSlash24: true,
-                        rawAsnSignalsLoadedUcsdNt: true
+                        rawAsnSignalsLoaded: true
+
                     })
                 }
             });
@@ -1276,6 +1276,8 @@ class Entity extends Component {
         let attr = null;
         let order = this.state.eventOrderByOrder;
         let entities;
+
+        console.log(entityType, dataSource);
 
         switch (entityType) {
             case "region":
@@ -1433,7 +1435,6 @@ class Entity extends Component {
                     case "ping-slash24":
                         this.setState({
                             rawRegionalSignalsProcessedPingSlash24: convertTsDataForHtsViz(rawSignalsNew),
-                            rawRegionalSignalsLoadedPingSlash24: true,
                             additionalRawSignalRequestedPingSlash24: false
 
                         });
@@ -1441,14 +1442,12 @@ class Entity extends Component {
                     case "bgp":
                         this.setState({
                             rawRegionalSignalsProcessedBgp: convertTsDataForHtsViz(rawSignalsNew),
-                            rawRegionalSignalsLoadedBgp: true,
                             additionalRawSignalRequestedBgp: false
                         });
                         break;
                     case "ucsd-nt":
                         this.setState({
                             rawRegionalSignalsProcessedUcsdNt: convertTsDataForHtsViz(rawSignalsNew),
-                            rawRegionalSignalsLoadedUcsdNt: true,
                             additionalRawSignalRequestedUcsdNt: false
                         });
                         break;
@@ -1459,21 +1458,18 @@ class Entity extends Component {
                     case "ping-slash24":
                         this.setState({
                             rawAsnSignalsProcessedPingSlash24: convertTsDataForHtsViz(rawSignalsNew),
-                            rawAsnSignalsLoadedPingSlash24: true,
                             additionalRawSignalRequestedPingSlash24: false
                         });
                         break;
                     case "bgp":
                         this.setState({
                             rawAsnSignalsProcessedBgp: convertTsDataForHtsViz(rawSignalsNew),
-                            rawAsnSignalsLoadedBgp: true,
                             additionalRawSignalRequestedBgp: false
                         });
                         break;
                     case "ucsd-nt":
                         this.setState({
                             rawAsnSignalsProcessedUcsdNt: convertTsDataForHtsViz(rawSignalsNew),
-                            rawAsnSignalsLoadedUcsdNt: true,
                             additionalRawSignalRequestedUcsdNt: false
                         });
                         break;
