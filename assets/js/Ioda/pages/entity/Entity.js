@@ -336,7 +336,7 @@ class Entity extends Component {
         }
 
         // data for regional signals table Ping-Slash24 Source
-        if (this.props.rawRegionalSignalsPingSlash24 !== prevProps.rawRegionalSignalsPingSlash24) {
+        if (this.props.rawRegionalSignalsPingSlash24 !== prevProps.rawRegionalSignalsPingSlash24 && this.props.rawRegionalSignalsPingSlash24[0][0]["entityType"] !== "asn") {
             let rawRegionalSignals = [];
             this.props.rawRegionalSignalsPingSlash24.map(signal => {
 
@@ -351,7 +351,7 @@ class Entity extends Component {
         }
 
         // data for regional signals table BGP Source
-        if (this.props.rawRegionalSignalsBgp !== prevProps.rawRegionalSignalsBgp) {
+        if (this.props.rawRegionalSignalsBgp !== prevProps.rawRegionalSignalsBgp && this.props.rawRegionalSignalsBgp[0][0]["entityType"] !== "asn") {
             // assign to respective state
             let rawRegionalSignals = [];
             this.props.rawRegionalSignalsBgp.map(signal => {
@@ -366,7 +366,7 @@ class Entity extends Component {
         }
 
         // data for regional signals table UCSD-NT Source
-        if (this.props.rawRegionalSignalsUcsdNt !== prevProps.rawRegionalSignalsUcsdNt) {
+        if (this.props.rawRegionalSignalsUcsdNt !== prevProps.rawRegionalSignalsUcsdNt && this.props.rawRegionalSignalsUcsdNt[0][0]["entityType"] !== "asn") {
             // assign to respective state
             let rawRegionalSignals = [];
             this.props.rawRegionalSignalsUcsdNt.map(signal => {
@@ -382,11 +382,9 @@ class Entity extends Component {
 
 
         // data for asn signals table Ping-Slash24 Source
-        if (this.props.rawAsnSignalsPingSlash24 !== prevProps.rawAsnSignalsPingSlash24) {
-            console.log(this.props.rawAsnSignalsRawPingSlash24);
+        if (this.props.rawAsnSignalsPingSlash24 !== prevProps.rawAsnSignalsPingSlash24 && this.props.rawAsnSignalsPingSlash24[0][0]["entityType"] !== "region") {
             let rawAsnSignals = [];
             this.props.rawAsnSignalsPingSlash24.map(signal => {
-
                 //Remove empty items and assign to proper state. Then call next function
                 signal.length ? rawAsnSignals.push(signal[0]): null;
             });
@@ -398,9 +396,7 @@ class Entity extends Component {
         }
 
         // data for asn signals table BGP Source
-        if (this.props.rawAsnSignalsBgp !== prevProps.rawAsnSignalsBgp) {
-            console.log(this.props.rawAsnSignalsBgp);
-
+        if (this.props.rawAsnSignalsBgp !== prevProps.rawAsnSignalsBgp && this.props.rawAsnSignalsBgp[0][0]["entityType"] !== "region") {
             // assign to respective state
             let rawAsnSignals = [];
             this.props.rawAsnSignalsBgp.map(signal => {
@@ -415,9 +411,7 @@ class Entity extends Component {
         }
 
         // data for asn signals table UCSD-NT Source
-        if (this.props.rawAsnSignalsUcsdNt !== prevProps.rawAsnSignalsUcsdNt) {
-            console.log(this.props.rawAsnSignalsUcsdNt);
-
+        if (this.props.rawAsnSignalsUcsdNt !== prevProps.rawAsnSignalsUcsdNt && this.props.rawAsnSignalsUcsdNt[0][0]["entityType"] !== "region") {
             // assign to respective state
             let rawAsnSignals = [];
             this.props.rawAsnSignalsUcsdNt.map(signal => {
@@ -1277,8 +1271,6 @@ class Entity extends Component {
         let order = this.state.eventOrderByOrder;
         let entities;
 
-        console.log(entityType, dataSource);
-
         switch (entityType) {
             case "region":
                 entities = this.state.regionalSignalsTableSummaryDataProcessed.map(entity => {
@@ -1289,7 +1281,7 @@ class Entity extends Component {
                 }).toString();
                 switch (dataSource) {
                     case "ping-slash24":
-                        this.props.getRawRegionalSignalsPingSlash24Action(entityType, entities, from, until, attr=null, order, dataSource);
+                        this.props.getRawRegionalSignalsPingSlash24Action(entityType, entities, from, until, attr, order, dataSource);
                         break;
                     case "bgp":
                         this.props.getRawRegionalSignalsBgpAction(entityType, entities, from, until, attr, order, dataSource);
