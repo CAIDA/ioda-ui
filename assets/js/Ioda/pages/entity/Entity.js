@@ -336,7 +336,7 @@ class Entity extends Component {
         }
 
         // data for regional signals table Ping-Slash24 Source
-        if (this.props.rawRegionalSignalsPingSlash24 !== prevProps.rawRegionalSignalsPingSlash24 && this.state.showMapModal) {
+        if (this.props.rawRegionalSignalsPingSlash24 !== prevProps.rawRegionalSignalsPingSlash24 && this.props.rawRegionalSignalsPingSlash24 && this.state.showMapModal) {
             let rawRegionalSignals = [];
             this.props.rawRegionalSignalsPingSlash24.map(signal => {
 
@@ -379,7 +379,6 @@ class Entity extends Component {
                 this.convertValuesForHtsViz("ucsd-nt", "region");
             });
         }
-
 
         // data for asn signals table Ping-Slash24 Source
         if (this.props.rawAsnSignalsPingSlash24 !== prevProps.rawAsnSignalsPingSlash24 && this.props.rawAsnSignalsPingSlash24 && this.state.showTableModal) {
@@ -1175,23 +1174,20 @@ class Entity extends Component {
         if (modalLocation === 'map') {
             if (!this.state.rawRegionalSignalsLoaded) {
                 this.props.regionalSignalsTableSummaryDataAction("region", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
-
             }
             // Get related entities used on table in map modal
             this.setState({
                 showMapModal: !this.state.showMapModal
             },() => {
+                console.log(this.state);
                 if (!this.state.showMapModal) {
                     this.setState({
                         rawRegionalSignalsLoaded: true
                     })
                 }
             });
-
         } else if (modalLocation === 'table') {
             if (!this.state.rawAsnSignalsLoaded) {
-                console.log(this.state.rawAsnSignalsRawPingSlash24);
-                console.log(this.state.rawAsnSignalsRawPingSlash24.length);
                 this.props.asnSignalsTableSummaryDataAction("asn", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
             }
             this.setState({
@@ -1200,7 +1196,6 @@ class Entity extends Component {
                 if (!this.state.showTableModal) {
                     this.setState({
                         rawAsnSignalsLoaded: true
-
                     })
                 }
             });
@@ -1983,6 +1978,9 @@ class Entity extends Component {
                                     rawAsnSignalsRawBgpLength = {this.state.rawAsnSignalsRawBgp.length}
                                     rawAsnSignalsRawPingSlash24Length = {this.state.rawAsnSignalsRawPingSlash24.length}
                                     rawAsnSignalsRawUcsdNtLength = {this.state.rawAsnSignalsRawUcsdNt.length}
+
+                                    rawRegionalSignalsLoaded={this.state.rawRegionalSignalsLoaded}
+                                    rawAsnSignalsLoaded={this.state.rawAsnSignalsLoaded}
                                 />
                                 </React.Fragment>
                             : <div className="row overview">

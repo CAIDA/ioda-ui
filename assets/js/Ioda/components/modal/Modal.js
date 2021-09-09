@@ -398,7 +398,7 @@ class Modal extends PureComponent {
                                     this.props.additionalRawSignalRequestedPingSlash24 === true ? <Loading/> :
                                     this.props.modalLocation === 'map'
                                         ? <React.Fragment>{
-                                            this.props.rawRegionalSignalsProcessedPingSlash24 && this.props.rawRegionalSignalsProcessedPingSlash24.length !== 0 ?
+                                            (this.props.rawRegionalSignalsProcessedPingSlash24 && this.props.rawRegionalSignalsProcessedPingSlash24.length > 0) || this.props.rawRegionalSignalsLoaded ?
                                                 <div id="region-horizon-chart--pingSlash24" ref={this.configPingSlash24}
                                                      className="modal__chart">
                                                     {
@@ -407,7 +407,7 @@ class Modal extends PureComponent {
                                                     }
                                                 </div> : null
                                             }</React.Fragment> : <React.Fragment>{
-                                                this.props.rawAsnSignalsProcessedPingSlash24 && this.props.rawAsnSignalsProcessedPingSlash24.length !== 0 ?
+                                            (this.props.rawAsnSignalsProcessedPingSlash24 && this.props.rawAsnSignalsProcessedPingSlash24.length > 0) || this.props.rawRegionalSignalsLoaded ?
                                                 <div id="asn-horizon-chart--pingSlash24" ref={this.configPingSlash24}
                                                      className="modal__chart">
                                                     {
@@ -442,7 +442,7 @@ class Modal extends PureComponent {
                                     this.props.additionalRawSignalRequestedBgp === true ? <Loading/> :
                                         this.props.modalLocation === 'map'
                                             ? <React.Fragment>{
-                                                this.props.rawRegionalSignalsProcessedBgp && this.props.rawRegionalSignalsProcessedBgp.length !== 0 ?
+                                                (this.props.rawRegionalSignalsProcessedBgp && this.props.rawRegionalSignalsProcessedBgp.length > 0) || this.props.rawRegionalSignalsLoaded ?
                                                     <div id="region-horizon-chart--bgp" ref={this.configBgp}
                                                          className="modal__chart">
                                                         {
@@ -451,7 +451,7 @@ class Modal extends PureComponent {
                                                         }
                                                     </div> : null
                                             }</React.Fragment> : <React.Fragment>{
-                                                this.props.rawAsnSignalsProcessedBgp && this.props.rawAsnSignalsProcessedBgp.length !== 0 ?
+                                                (this.props.rawAsnSignalsProcessedBgp && this.props.rawAsnSignalsProcessedBgp.length > 0) || this.props.rawRegionalSignalsLoaded ?
                                                     <div id="asn-horizon-chart--bgp" ref={this.configBgp}
                                                          className="modal__chart">
                                                         {
@@ -486,7 +486,7 @@ class Modal extends PureComponent {
                                     this.props.additionalRawSignalRequestedUcsdNt === true ? <Loading/> :
                                         this.props.modalLocation === 'map'
                                             ? <React.Fragment>{
-                                                this.props.rawRegionalSignalsProcessedUcsdNt && this.props.rawRegionalSignalsProcessedUcsdNt.length !== 0 ?
+                                                (this.props.rawRegionalSignalsProcessedUcsdNt && this.props.rawRegionalSignalsProcessedUcsdNt.length > 0) || this.props.rawRegionalSignalsLoaded ?
                                                     <div id="region-horizon-chart--ucsdNt" ref={this.configUcsdNt}
                                                          className="modal__chart">
                                                         {
@@ -495,7 +495,7 @@ class Modal extends PureComponent {
                                                         }
                                                     </div> : null
                                             }</React.Fragment> : <React.Fragment>{
-                                                this.props.rawAsnSignalsProcessedUcsdNt && this.props.rawAsnSignalsProcessedUcsdNt.length !== 0 ?
+                                                (this.props.rawAsnSignalsProcessedUcsdNt && this.props.rawAsnSignalsProcessedUcsdNt.length > 0) || this.props.rawRegionalSignalsLoaded ?
                                                     <div id="asn-horizon-chart--ucsdNt" ref={this.configUcsdNt}
                                                          className="modal__chart">
                                                         {
