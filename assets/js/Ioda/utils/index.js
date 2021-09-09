@@ -47,6 +47,8 @@ export const activeProbingColor = "#1F78B4";
 export const ucsdNtColor = "#ED9B40";
 export const horizonChartSeriesColor = "#006D2D";
 
+export const maxHtsLimit = 150;
+
 // Humanize number with rounding, abbreviations, etc.
 export function humanizeNumber(value, precisionDigits) {
     precisionDigits = precisionDigits || 3;
