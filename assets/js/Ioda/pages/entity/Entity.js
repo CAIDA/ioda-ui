@@ -1179,7 +1179,6 @@ class Entity extends Component {
             this.setState({
                 showMapModal: !this.state.showMapModal
             },() => {
-                console.log(this.state);
                 if (!this.state.showMapModal) {
                     this.setState({
                         rawRegionalSignalsLoaded: true
@@ -1978,7 +1977,7 @@ class Entity extends Component {
                                     rawAsnSignalsRawBgpLength = {this.state.rawAsnSignalsRawBgp.length}
                                     rawAsnSignalsRawPingSlash24Length = {this.state.rawAsnSignalsRawPingSlash24.length}
                                     rawAsnSignalsRawUcsdNtLength = {this.state.rawAsnSignalsRawUcsdNt.length}
-
+                                    // used for when a given modal is opened multiple times 
                                     rawRegionalSignalsLoaded={this.state.rawRegionalSignalsLoaded}
                                     rawAsnSignalsLoaded={this.state.rawAsnSignalsLoaded}
                                 />
