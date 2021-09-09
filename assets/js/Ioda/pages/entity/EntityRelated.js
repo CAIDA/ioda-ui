@@ -112,6 +112,8 @@ class EntityRelated extends Component {
                                 rawRegionalSignalsRawBgpLength = {this.props.rawRegionalSignalsRawBgpLength}
                                 rawRegionalSignalsRawPingSlash24Length = {this.props.rawRegionalSignalsRawPingSlash24Length}
                                 rawRegionalSignalsRawUcsdNtLength = {this.props.rawRegionalSignalsRawUcsdNtLength}
+                                rawRegionalSignalsLoaded={this.props.rawRegionalSignalsLoaded}
+                                rawAsnSignalsLoaded={this.props.rawAsnSignalsLoaded}
                             />
                         </div>
                     </div>
