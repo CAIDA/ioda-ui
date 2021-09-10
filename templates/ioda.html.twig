@@ -22,7 +22,6 @@
 {#        Stylesheet #}
         <link rel="stylesheet" href="{{ asset('build/ioda.css') }}">
         <link rel="stylesheet" href="{{ asset('build/style.css') }}">
-{#      Check if browser is IE 8 or below and serve the not supported page if so #}
     </head>
     <body>
         <div id="root">
@@ -32,12 +31,10 @@
         </div>
         <script>
             const div = document.querySelector('.contentLoading');
-            /*
-             * documentMode is an IE-only property
-             */
+            /* documentMode is an IE-only property */
             let msie = document.documentMode;
             let html;
-            // IF IE, serve different content
+            // IF IE, serve browser not supported statement
             if (msie) {
                 html = '<h1 class="u-full-max-width u-text-align-center">Browser&nbsp;not&nbsp;Supported</h1>';
                 div.insertAdjacentHTML('beforeend', html);
