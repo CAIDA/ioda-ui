@@ -11,8 +11,8 @@ class Tooltip extends Component {
         }
     }
 
-    componentDidMount = () => {
-        document.addEventListener('click', this.handleClickOutside, {passive: true});
+    componentDidMount() {
+        document.addEventListener('click', this.handleClickOutside.bind(this), {passive: true});
     }
 
     componentWillUnmount() {
@@ -31,6 +31,7 @@ class Tooltip extends Component {
                 visible: false
             });
         }
+        document.removeEventListener('click', this.handleClickOutside.bind(this), true);
     }
 
     render() {
