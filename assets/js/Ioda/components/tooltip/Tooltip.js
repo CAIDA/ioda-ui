@@ -12,11 +12,11 @@ class Tooltip extends Component {
     }
 
     componentDidMount() {
-        document.addEventListener('click', this.handleClickOutside, {passive: true});
+        document.addEventListener('click', this.handleClickOutside.bind(this), {passive: true});
     }
 
     componentWillUnmount() {
-        document.removeEventListener('click', this.handleClickOutside, true);
+        document.removeEventListener('click', this.handleClickOutside.bind(this), true);
     }
 
     handleTooltipClick() {
@@ -31,6 +31,7 @@ class Tooltip extends Component {
                 visible: false
             });
         }
+        document.removeEventListener('click', this.handleClickOutside.bind(this), true);
     }
 
     render() {

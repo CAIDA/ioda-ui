@@ -1172,13 +1172,15 @@ class Entity extends Component {
     // Show/hide modal when button is clicked on either panel
     toggleModal(modalLocation) {
         if (modalLocation === 'map') {
-            if (!this.state.rawRegionalSignalsLoaded) {
-                this.props.regionalSignalsTableSummaryDataAction("region", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
-            }
             // Get related entities used on table in map modal
             this.setState({
                 showMapModal: !this.state.showMapModal
             },() => {
+                if (this.state.showMapModal) {
+                    if (!this.state.rawRegionalSignalsLoaded) {
+                        this.props.regionalSignalsTableSummaryDataAction("region", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
+                    }
+                }
                 if (!this.state.showMapModal) {
                     this.setState({
                         rawRegionalSignalsLoaded: true
@@ -1186,12 +1188,14 @@ class Entity extends Component {
                 }
             });
         } else if (modalLocation === 'table') {
-            if (!this.state.rawAsnSignalsLoaded) {
-                this.props.asnSignalsTableSummaryDataAction("asn", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
-            }
             this.setState({
                 showTableModal: !this.state.showTableModal
             },() => {
+                if (this.state.showTableModal) {
+                    if (!this.state.rawAsnSignalsLoaded) {
+                        this.props.asnSignalsTableSummaryDataAction("asn", window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
+                    }
+                }
                 if (!this.state.showTableModal) {
                     this.setState({
                         rawAsnSignalsLoaded: true
@@ -1977,7 +1981,7 @@ class Entity extends Component {
                                     rawAsnSignalsRawBgpLength = {this.state.rawAsnSignalsRawBgp.length}
                                     rawAsnSignalsRawPingSlash24Length = {this.state.rawAsnSignalsRawPingSlash24.length}
                                     rawAsnSignalsRawUcsdNtLength = {this.state.rawAsnSignalsRawUcsdNt.length}
-                                    // used for when a given modal is opened multiple times 
+                                    // used for when a given modal is opened multiple times
                                     rawRegionalSignalsLoaded={this.state.rawRegionalSignalsLoaded}
                                     rawAsnSignalsLoaded={this.state.rawAsnSignalsLoaded}
                                 />
