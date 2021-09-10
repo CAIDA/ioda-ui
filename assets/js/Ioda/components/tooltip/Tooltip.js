@@ -8,7 +8,8 @@ class Tooltip extends Component {
         super(props);
         this.state = {
             visible: false
-        }
+        };
+        this.tooltipRef = React.createRef();
     }
 
     componentDidMount() {
@@ -24,19 +25,16 @@ class Tooltip extends Component {
     }
 
     handleClickOutside = event => {
-        const domNode = ReactDOM.findDOMNode(this);
-
-        if (!domNode || !domNode.contains(event.target)) {
+        if (this.tooltipRef && this.tooltipRef.current && !this.tooltipRef.current.contains(event.target)) {
             this.setState({
                 visible: false
             });
         }
-        document.removeEventListener('click', this.handleClickOutside.bind(this), true);
     }
 
     render() {
         return (
-            <div className="help">
+            <div className="help" ref={this.tooltipRef}>
                 <button className="help__button" onClick={() => this.handleTooltipClick()}>
                     ?
                 </button>
