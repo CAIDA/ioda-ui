@@ -33,15 +33,9 @@
             // IF IE , redirect to browser not supported page
             if (msie) {
                 console.log(process.env.PUBLIC_URL);
-                console.log("here1");
                 window.location.href = process.env.PUBLIC_URL + "/browserNotSupported.html";
-            }
-            if (msie) {
-                console.log(process.env.PUBLIC_URL);
                 console.log("here2");
                 window.location.href = "https://dev.v2.ioda.caida.org/browserNotSupported.html";
-            }
-            if (msie) {
                 console.log("here3");
                 window.location.href = "%PUBLIC_URL%/browserNotSupported.html";
             }
