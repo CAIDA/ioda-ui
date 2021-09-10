@@ -11,12 +11,12 @@ class Tooltip extends Component {
         }
     }
 
-    componentDidMount() {
+    componentDidMount = () => {
         document.addEventListener('click', this.handleClickOutside, {passive: true});
     }
 
     componentWillUnmount() {
-        document.removeEventListener('click', this.handleClickOutside, true);
+        document.removeEventListener('click', this.handleClickOutside.bind(this), true);
     }
 
     handleTooltipClick() {
