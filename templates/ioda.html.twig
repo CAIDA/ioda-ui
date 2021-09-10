@@ -24,17 +24,19 @@
         <link rel="stylesheet" href="{{ asset('build/style.css') }}">
 {#      Check if browser is IE 8 or below and serve the not supported page if so #}
         <script>
+            const rootDiv = document.getElementById('root');
             /*
              * documentMode is an IE-only property
-             * https://www.w3schools.com/jsref/prop_doc_documentmode.asp
-             * Script to check if browser is Internet Explorer 10 or lower
              */
             let msie = document.documentMode;
-            // IF IE , redirect to browser not supported page
+            let html;
+            // IF IE, serve different content
             if (msie) {
-                window.location.href = "https://dev.v2.ioda.caida.org/browserNotSupported.html";
-                console.log("here");
-                window.location.href = "%PUBLIC_URL%/browserNotSupported.html";
+                html = `<div class="contentLoading"><img width="180" src="/apple-touch-icon.png" alt="IODA logo" /><h1 class="u-full-max-width u-text-align-center">Browser not Supported</h1></div>`;
+                rootDiv.insertAdjacentHTML('afterbegin', html);
+            } else {
+                html = `<div class="contentLoading"><img width="180" src="/apple-touch-icon.png" alt="IODA logo" /><div class="contentLoading__progressBar progress-bar-striped"><div style="width: 100%;"><strong>Loading...</strong></div></div></div>`;
+                rootDiv.insertAdjacentHTML('afterbegin', html);
             }
         </script>
     </head>
