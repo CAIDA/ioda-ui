@@ -22,31 +22,27 @@
 {#        Stylesheet #}
         <link rel="stylesheet" href="{{ asset('build/ioda.css') }}">
         <link rel="stylesheet" href="{{ asset('build/style.css') }}">
-{#      Check if browser is IE 8 or below and serve the not supported page if so #}
-        <script>
-            /*
-             * documentMode is an IE-only property
-             * https://www.w3schools.com/jsref/prop_doc_documentmode.asp
-             * Script to check if browser is Internet Explorer 10 or lower
-             */
-            let msie = document.documentMode;
-            // IF IE , redirect to browser not supported page
-            if (msie <= 11) {
-                window.location = "%PUBLIC_URL%/browserNotSupported.html";
-            }
-        </script>
     </head>
     <body>
         <div id="root">
             <div class="contentLoading">
                 <img width="180" src="/apple-touch-icon.png" alt="IODA logo" />
-                <div class="contentLoading__progressBar progress-bar-striped">
-                    <div style="width: 100%;">
-                        <strong>Loading...</strong>
-                    </div>
-                </div>
             </div>
         </div>
+        <script>
+            const div = document.querySelector('.contentLoading');
+            /* documentMode is an IE-only property */
+            let msie = document.documentMode;
+            let html;
+            // IF IE, serve browser not supported statement
+            if (msie) {
+                html = '<h1 class="u-full-max-width u-text-align-center">Browser&nbsp;not&nbsp;Supported</h1>';
+                div.insertAdjacentHTML('beforeend', html);
+            } else {
+                html = '<div class="contentLoading__progressBar progress-bar-striped"><div style="width:100%;"><strong>Loading...</strong></div></div>';
+                div.insertAdjacentHTML('beforeend', html);
+            }
+        </script>
         <script src="{{ asset('build/ioda.js') }}"></script>
     </body>
 </html>
