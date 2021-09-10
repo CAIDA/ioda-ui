@@ -32,10 +32,10 @@
             let html;
             // IF IE, serve different content
             if (msie) {
-                html = `<div class="contentLoading"><img width="180" src="/apple-touch-icon.png" alt="IODA logo" /><h1 class="u-full-max-width u-text-align-center">Browser not Supported</h1></div>`;
+                html = '<h1 class="u-full-max-width u-text-align-center">Browser&nbsp;not&nbsp;Supported</h1>';
                 rootDiv.insertAdjacentHTML('afterbegin', html);
             } else {
-                html = `<div class="contentLoading"><img width="180" src="/apple-touch-icon.png" alt="IODA logo" /><div class="contentLoading__progressBar progress-bar-striped"><div style="width: 100%;"><strong>Loading...</strong></div></div></div>`;
+                html = '<div class="contentLoading__progressBar progress-bar-striped"><div style="width:100%;"><strong>Loading...</strong></div></div>';
                 rootDiv.insertAdjacentHTML('afterbegin', html);
             }
         </script>
@@ -44,11 +44,6 @@
         <div id="root">
             <div class="contentLoading">
                 <img width="180" src="/apple-touch-icon.png" alt="IODA logo" />
-                <div class="contentLoading__progressBar progress-bar-striped">
-                    <div style="width: 100%;">
-                        <strong>Loading...</strong>
-                    </div>
-                </div>
             </div>
         </div>
         <script src="{{ asset('build/ioda.js') }}"></script>
