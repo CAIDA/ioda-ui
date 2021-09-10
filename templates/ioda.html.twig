@@ -31,7 +31,7 @@
              */
             let msie = document.documentMode;
             // IF IE , redirect to browser not supported page
-            if (msie <= 11) {
+            if (msie) {
                 window.location = "%PUBLIC_URL%/browserNotSupported.html";
             }
         </script>
