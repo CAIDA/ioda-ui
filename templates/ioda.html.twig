@@ -29,8 +29,9 @@
              * https://www.w3schools.com/jsref/prop_doc_documentmode.asp
              * Script to check if browser is Internet Explorer 10 or lower
              */
+            console.log(document);
             console.log(document.documentMode);
-            let msie = /*@cc_on!@*/false || !!document.documentMode;;
+            let msie = /*@cc_on!@*/false || !!document.documentMode;
             // IF IE , redirect to browser not supported page
             if (msie) {
                 window.location = "%PUBLIC_URL%/browserNotSupported.html";
