@@ -336,7 +336,7 @@ class Entity extends Component {
         }
 
         // data for regional signals table Ping-Slash24 Source
-        if (this.props.rawRegionalSignalsPingSlash24 !== prevProps.rawRegionalSignalsPingSlash24 && this.props.rawRegionalSignalsPingSlash24 && this.state.showMapModal) {
+        if (this.props.rawRegionalSignalsPingSlash24 !== prevProps.rawRegionalSignalsPingSlash24) {
             let rawRegionalSignals = [];
             this.props.rawRegionalSignalsPingSlash24.map(signal => {
 
@@ -351,7 +351,7 @@ class Entity extends Component {
         }
 
         // data for regional signals table BGP Source
-        if (this.props.rawRegionalSignalsBgp !== prevProps.rawRegionalSignalsBgp && this.props.rawRegionalSignalsBgp && this.state.showMapModal) {
+        if (this.props.rawRegionalSignalsBgp !== prevProps.rawRegionalSignalsBgp) {
             // assign to respective state
             let rawRegionalSignals = [];
             this.props.rawRegionalSignalsBgp.map(signal => {
@@ -366,7 +366,7 @@ class Entity extends Component {
         }
 
         // data for regional signals table UCSD-NT Source
-        if (this.props.rawRegionalSignalsUcsdNt !== prevProps.rawRegionalSignalsUcsdNt && this.props.rawRegionalSignalsUcsdNt && this.state.showMapModal) {
+        if (this.props.rawRegionalSignalsUcsdNt !== prevProps.rawRegionalSignalsUcsdNt) {
             // assign to respective state
             let rawRegionalSignals = [];
             this.props.rawRegionalSignalsUcsdNt.map(signal => {
@@ -381,7 +381,7 @@ class Entity extends Component {
         }
 
         // data for asn signals table Ping-Slash24 Source
-        if (this.props.rawAsnSignalsPingSlash24 !== prevProps.rawAsnSignalsPingSlash24 && this.props.rawAsnSignalsPingSlash24 && this.state.showTableModal) {
+        if (this.props.rawAsnSignalsPingSlash24 !== prevProps.rawAsnSignalsPingSlash24) {
             let rawAsnSignals = [];
             this.props.rawAsnSignalsPingSlash24.map(signal => {
                 //Remove empty items and assign to proper state. Then call next function
@@ -395,7 +395,7 @@ class Entity extends Component {
         }
 
         // data for asn signals table BGP Source
-        if (this.props.rawAsnSignalsBgp !== prevProps.rawAsnSignalsBgp && this.props.rawAsnSignalsBgp && this.state.showTableModal) {
+        if (this.props.rawAsnSignalsBgp !== prevProps.rawAsnSignalsBgp) {
             // assign to respective state
             let rawAsnSignals = [];
             this.props.rawAsnSignalsBgp.map(signal => {
@@ -410,7 +410,7 @@ class Entity extends Component {
         }
 
         // data for asn signals table UCSD-NT Source
-        if (this.props.rawAsnSignalsUcsdNt !== prevProps.rawAsnSignalsUcsdNt && this.props.rawAsnSignalsUcsdNt && this.state.showTableModal) {
+        if (this.props.rawAsnSignalsUcsdNt !== prevProps.rawAsnSignalsUcsdNt) {
             // assign to respective state
             let rawAsnSignals = [];
             this.props.rawAsnSignalsUcsdNt.map(signal => {
@@ -551,6 +551,7 @@ class Entity extends Component {
                     rawAsnSignalsProcessedPingSlash24: null,
                     rawAsnSignalsProcessedUcsdNt: null,
                     rawAsnSignalsLoaded: false,
+                    rawAsnSignalsLoadAllButtonClicked: false
                 }, () => {
                     // Get topo and outage data to repopulate map and table
                     this.props.searchEventsAction(this.state.from, this.state.until, this.state.entityType, this.state.entityCode);
@@ -716,7 +717,7 @@ class Entity extends Component {
                 yValueFormatString: "0",
                 dataPoints: activeProbingValues,
                 legendMarkerColor: activeProbingColor,
-                toolTipContent: "{x} <br/> {name}: {y}",
+                toolTipContent: this.state.tsDataNormalized ? "{x} <br/> {name}: {y}%" : "{x} <br/> {name}: {y}"
 
             }
         }
@@ -735,7 +736,7 @@ class Entity extends Component {
                 yValueFormatString: "0",
                 dataPoints: bgpValues,
                 legendMarkerColor: bgpColor,
-                toolTipContent: "{x} <br/> {name}: {y}"
+                toolTipContent: this.state.tsDataNormalized ? "{x} <br/> {name}: {y}%" : "{x} <br/> {name}: {y}"
             }
         }
         if (networkTelescopeValues) {
@@ -754,7 +755,7 @@ class Entity extends Component {
                 yValueFormatString: "0",
                 dataPoints: networkTelescopeValues,
                 legendMarkerColor: ucsdNtColor,
-                toolTipContent: "{x} <br/> {name}: {y}"
+                toolTipContent: this.state.tsDataNormalized ? "{x} <br/> {name}: {y}%" : "{x} <br/> {name}: {y}"
             }
         }
 
@@ -919,7 +920,7 @@ class Entity extends Component {
                     stripLines: this.state.tsDataNormalized ? normalizedStripline : null,
                     labelFormatter: (event) => {
                         if (this.state.tsDataNormalized) {
-                            return event.value <= 100 ? event.value : ""
+                            return event.value <= 100 ? `${event.value}%` : ""
                         } else {
                             return event.value;
                         }
