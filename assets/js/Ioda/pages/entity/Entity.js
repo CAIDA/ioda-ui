@@ -336,7 +336,7 @@ class Entity extends Component {
         }
 
         // data for regional signals table Ping-Slash24 Source
-        if (this.props.rawRegionalSignalsPingSlash24 !== prevProps.rawRegionalSignalsPingSlash24) {
+        if (this.props.rawRegionalSignalsPingSlash24 !== prevProps.rawRegionalSignalsPingSlash24 && this.props.rawRegionalSignalsPingSlash24 && this.state.showMapModal ) {
             let rawRegionalSignals = [];
             this.props.rawRegionalSignalsPingSlash24.map(signal => {
 
@@ -351,7 +351,7 @@ class Entity extends Component {
         }
 
         // data for regional signals table BGP Source
-        if (this.props.rawRegionalSignalsBgp !== prevProps.rawRegionalSignalsBgp) {
+        if (this.props.rawRegionalSignalsBgp !== prevProps.rawRegionalSignalsBgp && this.props.rawRegionalSignalsBgp && this.state.showMapModal) {
             // assign to respective state
             let rawRegionalSignals = [];
             this.props.rawRegionalSignalsBgp.map(signal => {
@@ -366,7 +366,7 @@ class Entity extends Component {
         }
 
         // data for regional signals table UCSD-NT Source
-        if (this.props.rawRegionalSignalsUcsdNt !== prevProps.rawRegionalSignalsUcsdNt) {
+        if (this.props.rawRegionalSignalsUcsdNt !== prevProps.rawRegionalSignalsUcsdNt && this.props.rawRegionalSignalsUcsdNt && this.state.showMapModal) {
             // assign to respective state
             let rawRegionalSignals = [];
             this.props.rawRegionalSignalsUcsdNt.map(signal => {
@@ -381,7 +381,7 @@ class Entity extends Component {
         }
 
         // data for asn signals table Ping-Slash24 Source
-        if (this.props.rawAsnSignalsPingSlash24 !== prevProps.rawAsnSignalsPingSlash24) {
+        if (this.props.rawAsnSignalsPingSlash24 !== prevProps.rawAsnSignalsPingSlash24 && this.props.rawAsnSignalsPingSlash24 && this.state.showTableModal) {
             let rawAsnSignals = [];
             this.props.rawAsnSignalsPingSlash24.map(signal => {
                 //Remove empty items and assign to proper state. Then call next function
@@ -395,7 +395,7 @@ class Entity extends Component {
         }
 
         // data for asn signals table BGP Source
-        if (this.props.rawAsnSignalsBgp !== prevProps.rawAsnSignalsBgp) {
+        if (this.props.rawAsnSignalsBgp !== prevProps.rawAsnSignalsBgp && this.props.rawAsnSignalsBgp && this.state.showTableModal) {
             // assign to respective state
             let rawAsnSignals = [];
             this.props.rawAsnSignalsBgp.map(signal => {
@@ -410,7 +410,7 @@ class Entity extends Component {
         }
 
         // data for asn signals table UCSD-NT Source
-        if (this.props.rawAsnSignalsUcsdNt !== prevProps.rawAsnSignalsUcsdNt) {
+        if (this.props.rawAsnSignalsUcsdNt !== prevProps.rawAsnSignalsUcsdNt && this.props.rawAsnSignalsUcsdNt && this.state.showTableModal) {
             // assign to respective state
             let rawAsnSignals = [];
             this.props.rawAsnSignalsUcsdNt.map(signal => {
@@ -1003,7 +1003,6 @@ class Entity extends Component {
             this.setState({
                 tsDataScreenBelow970: tsDataScreenBelow970
             }, () => {
-                console.log(this.state.tsDataScreenBelow970);
                 let tsDataScreenBelow640 = (window.innerWidth <= 640);
                 if (tsDataScreenBelow640 !== this.state.tsDataScreenBelow640) {
 
@@ -1982,9 +1981,6 @@ class Entity extends Component {
                                     rawAsnSignalsRawBgpLength = {this.state.rawAsnSignalsRawBgp.length}
                                     rawAsnSignalsRawPingSlash24Length = {this.state.rawAsnSignalsRawPingSlash24.length}
                                     rawAsnSignalsRawUcsdNtLength = {this.state.rawAsnSignalsRawUcsdNt.length}
-                                    // used for when a given modal is opened multiple times
-                                    rawRegionalSignalsLoaded={this.state.rawRegionalSignalsLoaded}
-                                    rawAsnSignalsLoaded={this.state.rawAsnSignalsLoaded}
                                 />
                                 </React.Fragment>
                             : <div className="row overview">

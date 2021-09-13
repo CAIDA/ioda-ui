@@ -112,7 +112,6 @@ class EntityRelated extends Component {
                                 rawRegionalSignalsRawBgpLength = {this.props.rawRegionalSignalsRawBgpLength}
                                 rawRegionalSignalsRawPingSlash24Length = {this.props.rawRegionalSignalsRawPingSlash24Length}
                                 rawRegionalSignalsRawUcsdNtLength = {this.props.rawRegionalSignalsRawUcsdNtLength}
-                                rawRegionalSignalsLoaded={this.props.rawRegionalSignalsLoaded}
                             />
                         </div>
                     </div>
@@ -208,7 +207,6 @@ class EntityRelated extends Component {
                                 rawAsnSignalsRawBgpLength = {this.props.rawAsnSignalsRawBgpLength}
                                 rawAsnSignalsRawPingSlash24Length = {this.props.rawAsnSignalsRawPingSlash24Length}
                                 rawAsnSignalsRawUcsdNtLength = {this.props.rawAsnSignalsRawUcsdNtLength}
-                                rawAsnSignalsLoaded={this.props.rawAsnSignalsLoaded}
                             />
                         </div>
                     </div>
