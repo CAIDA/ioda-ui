@@ -426,7 +426,7 @@ class Modal extends PureComponent {
                                                     {
                                                         this.genChart("ping-slash24", "region")
                                                     }
-                                                </div> : "null1"
+                                                </div> : null
                                             }</React.Fragment> : <React.Fragment>{
                                             this.props.rawAsnSignalsProcessedPingSlash24 && this.props.rawAsnSignalsProcessedPingSlash24.length > 0 ?
                                                 <div id="asn-horizon-chart--pingSlash24" ref={this.configPingSlash24}
@@ -434,7 +434,7 @@ class Modal extends PureComponent {
                                                     {
                                                         this.genChart("ping-slash24", "asn")
                                                     }
-                                                </div> : "null1"
+                                                </div> : null
                                             }</React.Fragment>
                                 }
                                 <h3 className="heading-h3" ref={this.titleBgp}>{bgpHtsLabel}</h3>
