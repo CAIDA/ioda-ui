@@ -716,7 +716,7 @@ class Entity extends Component {
                 yValueFormatString: "0",
                 dataPoints: activeProbingValues,
                 legendMarkerColor: activeProbingColor,
-                toolTipContent: "{x} <br/> {name}: {y}",
+                toolTipContent: this.state.tsDataNormalized ? "{x} <br/> {name}: {y}%" : "{x} <br/> {name}: {y}"
 
             }
         }
@@ -735,7 +735,7 @@ class Entity extends Component {
                 yValueFormatString: "0",
                 dataPoints: bgpValues,
                 legendMarkerColor: bgpColor,
-                toolTipContent: "{x} <br/> {name}: {y}"
+                toolTipContent: this.state.tsDataNormalized ? "{x} <br/> {name}: {y}%" : "{x} <br/> {name}: {y}"
             }
         }
         if (networkTelescopeValues) {
@@ -754,7 +754,7 @@ class Entity extends Component {
                 yValueFormatString: "0",
                 dataPoints: networkTelescopeValues,
                 legendMarkerColor: ucsdNtColor,
-                toolTipContent: "{x} <br/> {name}: {y}"
+                toolTipContent: this.state.tsDataNormalized ? "{x} <br/> {name}: {y}%" : "{x} <br/> {name}: {y}"
             }
         }
 
@@ -919,7 +919,7 @@ class Entity extends Component {
                     stripLines: this.state.tsDataNormalized ? normalizedStripline : null,
                     labelFormatter: (event) => {
                         if (this.state.tsDataNormalized) {
-                            return event.value <= 100 ? event.value : ""
+                            return event.value <= 100 ? `${event.value}%` : ""
                         } else {
                             return event.value;
                         }
