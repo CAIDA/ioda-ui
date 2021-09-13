@@ -20,6 +20,10 @@
     top: -2rem;
     right: 6rem;
     opacity: 0;
+
+    @include respond(tab-land) {
+      right: -6rem;
+    }
   }
 
   &__fade {
