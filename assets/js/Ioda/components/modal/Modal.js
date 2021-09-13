@@ -39,11 +39,9 @@ class Modal extends PureComponent {
 
     componentDidUpdate(prevProps) {
         if (this.props.rawRegionalSignalsProcessedUcsdNt !== prevProps.rawRegionalSignalsProcessedUcsdNt && this.configUcsdNt.current) {
-            console.log(this.props.rawRegionalSignalsProcessedUcsdNt);
             this.genChart("ucsd-nt", "region")
         }
         if (this.props.rawAsnSignalsProcessedUcsdNt !== prevProps.rawAsnSignalsProcessedUcsdNt && this.configUcsdNt.current) {
-            console.log(this.props.rawAsnSignalsProcessedUcsdNt);
             this.genChart("ucsd-nt", "asn")
         }
 
@@ -81,21 +79,18 @@ class Modal extends PureComponent {
                     case 'ping-slash24':
                         if (this.props.rawRegionalSignalsProcessedPingSlash24 && this.props.rawRegionalSignalsProcessedPingSlash24.length > 0) {
                             dataSourceForCSS = "pingSlash24";
-                            rawSignalsLoadedBoolean = this.props.rawRegionalSignalsLoadedPingSlash24;
                             rawSignalsProcessedArray = this.props.rawRegionalSignalsProcessedPingSlash24;
                         }
                         break;
                     case 'bgp':
                         if (this.props.rawRegionalSignalsProcessedBgp && this.props.rawRegionalSignalsProcessedBgp.length > 0) {
                             dataSourceForCSS = "bgp";
-                            rawSignalsLoadedBoolean = this.props.rawRegionalSignalsLoadedBgp;
                             rawSignalsProcessedArray = this.props.rawRegionalSignalsProcessedBgp;
                         }
                         break;
                     case 'ucsd-nt':
                         if (this.props.rawRegionalSignalsProcessedUcsdNt && this.props.rawRegionalSignalsProcessedUcsdNt.length > 0) {
                             dataSourceForCSS = "ucsdNt";
-                            rawSignalsLoadedBoolean = this.props.rawRegionalSignalsLoadedUcsdNt;
                             rawSignalsProcessedArray = this.props.rawRegionalSignalsProcessedUcsdNt;
                         }
                         break;
@@ -106,21 +101,18 @@ class Modal extends PureComponent {
                     case 'ping-slash24':
                         if (this.props.rawAsnSignalsProcessedPingSlash24 && this.props.rawAsnSignalsProcessedPingSlash24.length > 0) {
                             dataSourceForCSS = "pingSlash24";
-                            rawSignalsLoadedBoolean = this.props.rawAsnSignalsLoadedPingSlash24;
                             rawSignalsProcessedArray = this.props.rawAsnSignalsProcessedPingSlash24;
                         }
                         break;
                     case 'bgp':
                         if (this.props.rawAsnSignalsProcessedBgp && this.props.rawAsnSignalsProcessedBgp.length > 0) {
                             dataSourceForCSS = "bgp";
-                            rawSignalsLoadedBoolean = this.props.rawAsnSignalsLoadedBgp;
                             rawSignalsProcessedArray = this.props.rawAsnSignalsProcessedBgp;
                         }
                         break;
                     case 'ucsd-nt':
                         if (this.props.rawAsnSignalsProcessedUcsdNt && this.props.rawAsnSignalsProcessedUcsdNt.length > 0) {
                             dataSourceForCSS = "ucsdNt";
-                            rawSignalsLoadedBoolean = this.props.rawAsnSignalsLoadedUcsdNt;
                             rawSignalsProcessedArray = this.props.rawAsnSignalsProcessedUcsdNt;
                         }
                         break;
@@ -130,11 +122,7 @@ class Modal extends PureComponent {
 
         if (rawSignalsProcessedArray && rawSignalsProcessedArray.length > 0) {
 
-            console.log(dataSource);
             function chart(width) {
-                console.log(width);
-                console.log(dataSource);
-                console.log(dataSource);
                 // draw viz
                 const chart = HorizonTSChart()(document.getElementById(`${entityType}-horizon-chart--${dataSourceForCSS}`));
                 chart
