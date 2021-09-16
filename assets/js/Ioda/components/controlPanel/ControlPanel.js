@@ -52,7 +52,6 @@ class ControlPanel extends Component {
             validRange: true,
             applyButtonActive: true,
             customRangeVisible: false,
-            todaySelected: false,
             lastHourSelected: false,
             userInputSelected: false,
             last24HoursSelected: false,
@@ -367,14 +366,6 @@ class ControlPanel extends Component {
             </div>;
             return [
                 {
-                    label: "Today",
-                    range: () => ({
-                        startDate: defineds.startOfToday,
-                        endDate: defineds.endOfToday,
-                        label: "today"
-                    })
-                },
-                {
                     label: "- 60 mins",
                     range: () => ({
                         startDate: defineds.oneHourAgo,
@@ -458,20 +449,17 @@ class ControlPanel extends Component {
                     }
                     
                     /* Styles to force issue where active custom inputs styling needs to be controlled */                    
-                    .rdrStaticRange:first-child {
-                        ${this.state.todaySelected ? activeCSS : inactiveCSS}  
-                    }
-                    .rdrStaticRange:nth-child(2) {
+                    .rdrStaticRange:nth-child(1) {
                         ${this.state.lastHourSelected ? activeCSS : inactiveCSS}  
                     }
-                    .rdrStaticRange:nth-child(7) {
+                    .rdrStaticRange:nth-child(6) {
                         ${this.state.userInputSelected ? activeCSS : inactiveCSS}
                     }
-                    .rdrStaticRange:nth-child(8) {
+                    .rdrStaticRange:nth-child(7) {
                         ${this.state.customRangeSelected ? activeCSS : inactiveCSS}
                     }
                     .rdrStaticRangeSelected {
-                        ${this.state.todaySelected || this.state.lastHourSelected || this.state.userInputSelected || this.state.customRangeSelected ? inactiveCSS : activeCSS}
+                        ${this.state.lastHourSelected || this.state.userInputSelected || this.state.customRangeSelected ? inactiveCSS : activeCSS}
                     }
                 `}</Style>
                 <div className="col-1-of-3">
@@ -510,27 +498,9 @@ class ControlPanel extends Component {
                                 onChange={item => {
                                     if (item.selection.label) {
                                         switch (item.selection.label) {
-                                            case 'today':
-                                                this.setState({
-                                                    ...this.state,
-                                                    todaySelected: true,
-                                                    lastHourSelected: false,
-                                                    last24HoursSelected: false,
-                                                    customRangeSelected: false,
-                                                    userInputSelected: false,
-                                                    customRangeVisible: false,
-                                                    timeRange: [
-                                                        "00:00:00",
-                                                        "23:59:59"
-                                                    ],
-
-                                                    ...item
-                                                }, this.handleRangeUpdate);
-                                                break;
                                             case 'lastHour':
                                                 this.setState({
                                                     ...this.state,
-                                                    todaySelected: false,
                                                     lastHourSelected: true,
                                                     last24HoursSelected: false,
                                                     customRangeSelected: false,
@@ -546,7 +516,6 @@ class ControlPanel extends Component {
                                             case 'last24Hours':
                                                 this.setState({
                                                     ...this.state,
-                                                    todaySelected: false,
                                                     lastHourSelected: false,
                                                     last24HoursSelected: true,
                                                     customRangeSelected: false,
@@ -562,7 +531,6 @@ class ControlPanel extends Component {
                                             case 'userInputRange':
                                                 // set state here to control what is highlighted in css, use state in apply button to set time parameters
                                                 this.setState({
-                                                    todaySelected: false,
                                                     lastHourSelected: false,
                                                     last24HoursSelected: false,
                                                     customRangeSelected: false,
@@ -573,7 +541,6 @@ class ControlPanel extends Component {
                                                 break;
                                             case "customRange":
                                                 this.setState({
-                                                    todaySelected: false,
                                                     lastHourSelected: false,
                                                     last24HoursSelected: false,
                                                     customRangeSelected: true,
@@ -593,7 +560,6 @@ class ControlPanel extends Component {
                                             default:
                                                 this.setState({
                                                     ...this.state,
-                                                    todaySelected: false,
                                                     lastHourSelected: false,
                                                     last24HoursSelected: false,
                                                     userInputSelected: false,
@@ -610,7 +576,6 @@ class ControlPanel extends Component {
                                     } else {
                                         this.setState({
                                             ...this.state,
-                                            todaySelected: false,
                                             lastHourSelected: false,
                                             last24HoursSelected: false,
                                             userInputSelected: false,
