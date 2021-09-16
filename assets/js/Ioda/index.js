@@ -60,7 +60,9 @@ import Reports from './pages/reports/Reports';
 import Help from './pages/help/Help';
 import IranReport2020 from './pages/reports/IranReport2020';
 import TestAPI from "./pages/tests/TestAPI";
+import ChartShare from "./pages/tests/ChartShare";
 import Acknowledgements from "./pages/acknowledgements/Acknowledgements";
+
 
 
 const ga4react = new GA4React('G-XD5MWMBCF9');
@@ -76,7 +78,8 @@ class App extends Component {
         return <div className="app">
             <Nav/>
             <Switch>
-                <Route path='/test' component={TestAPI}/>
+                {/*<Route path='/test' component={TestAPI}/>*/}
+                <Route path='/chart/:entityType/:entityCode' component={ChartShare}/>
                 <Route path='/dashboard' component={Dashboard}/>
                 <Route exact path='/reports' component={Reports}/>
                 <Route exact path='/help' component={Help}/>
