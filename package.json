@@ -67,6 +67,7 @@
         "react": "^16.14.0",
         "react-app-polyfill": "^2.0.0",
         "react-bootstrap": "^0.32.4",
+        "react-component-export-image": "^1.0.6",
         "react-date-range": "^1.1.3",
         "react-dom": "^16.8.6",
         "react-ga": "^3.0.0",
