@@ -367,7 +367,7 @@ export function dateRangeToSeconds(dateRange, timeRange) {
     return [ dStart, dEnd ];
 }
 
-// Normalize valye in XY plot of time series on entity page
+// Normalize value in XY plot of time series on entity page
 export function normalize(value, max) {
     if (value && value !== 0) {
         return value !== null && (!isNaN((value - 0) / (max - 0))) ? (value - 0) / (max - 0) * 100 : 100;

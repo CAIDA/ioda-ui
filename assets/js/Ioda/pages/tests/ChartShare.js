@@ -100,7 +100,6 @@ class ChartShare extends Component {
     }
 
     componentDidMount() {
-        console.log("update4");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
 
