@@ -57,8 +57,8 @@ class ChartShare extends Component {
         this.state = {
             // Global
             mounted: false,
-            entityType: window.location.pathname.split("/")[1],
-            entityCode: window.location.pathname.split("/")[2],
+            entityType: window.location.pathname.split("/")[2],
+            entityCode: window.location.pathname.split("/")[3],
             entityName: "",
             parentEntityName: "",
             parentEntityCode: "",
@@ -100,6 +100,7 @@ class ChartShare extends Component {
     }
 
     componentDidMount() {
+        console.log("update4");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
 
@@ -121,9 +122,7 @@ class ChartShare extends Component {
                     mounted: true
                 },() => {
                     if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
-                        // Overview Panel
                         this.props.getSignalsAction(window.location.pathname.split("/")[2], window.location.pathname.split("/")[3], this.state.from, this.state.until, null, 3000);
-                        // Get entity name from code provided in url
                         this.props.getEntityMetadataAction(window.location.pathname.split("/")[2], window.location.pathname.split("/")[3]);
                     }
                 });
@@ -137,12 +136,7 @@ class ChartShare extends Component {
                 mounted: true,
             },() => {
                 if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
-                    // Get all datasources
-                    // this.props.getDatasourcesAction();
-                    // Overview Panel
-                    console.log(window.location.pathname.split("/"));
                     this.props.getSignalsAction(window.location.pathname.split("/")[2], window.location.pathname.split("/")[3], this.state.from, this.state.until, null, 3000);
-                    // Get entity name from code provided in url
                     this.props.getEntityMetadataAction(window.location.pathname.split("/")[2], window.location.pathname.split("/")[3]);
                 }
             });
@@ -166,8 +160,7 @@ class ChartShare extends Component {
 
         // After API call for getting entity name from url
         if (this.props.entityMetadata !== prevProps.entityMetadata) {
-            console.log(this.props.entityMetadata);
-            this.setState({
+            this.props.entityMetadata.length && this.setState({
                 entityName: this.props.entityMetadata[0]["name"],
                 parentEntityName: this.props.entityMetadata[0]["attrs"]["country_name"] ? this.props.entityMetadata[0]["attrs"]["country_name"] : this.state.parentEntityName,
                 parentEntityCode: this.props.entityMetadata[0]["attrs"]["country_code"] ? this.props.entityMetadata[0]["attrs"]["country_code"] : this.state.parentEntityCode
@@ -215,61 +208,9 @@ class ChartShare extends Component {
                     // Search Bar
                     suggestedSearchResults: null,
                     searchTerm: "",
-                    lastFetched: 0,
-                    // Event/Table Data
-                    currentTable: 'alert',
-                    eventDataRaw: null,
-                    eventDataProcessed: [],
-                    alertDataRaw: null,
-                    alertDataProcessed: [],
-                    // relatedTo entity Map
-                    topoScores: null,
-                    summaryDataMapRaw: null,
-                    bounds: null,
-                    // relatedTo entity Table
-                    relatedToTableApiPageNumber: 0,
-                    relatedToTableSummary: null,
-                    relatedToTableSummaryProcessed: null,
-                    relatedToTablePageNumber: 0,
-                    // Modal window display status
-                    showMapModal: false,
-                    showTableModal: false,
-                    // Signals Modal Table on Map Panel
-                    regionalSignalsTableSummaryData: [],
-                    regionalSignalsTableSummaryDataProcessed: [],
-                    regionalSignalsTableTotalCount: 0,
-                    regionalSignalsTableEntitiesChecked: 0,
-                    // Signals Modal Table on Table Panel
-                    asnSignalsTableSummaryData: [],
-                    asnSignalsTableSummaryDataProcessed: [],
-                    asnSignalsTableTotalCount: 0,
-                    asnSignalsTableEntitiesChecked: 0,
-                    // Stacked Horizon Visual on Region Map Panel
-                    rawRegionalSignalsRawBgp: [],
-                    rawRegionalSignalsRawPingSlash24: [],
-                    rawRegionalSignalsRawUcsdNt: [],
-                    rawRegionalSignalsProcessedBgp: null,
-                    rawRegionalSignalsProcessedPingSlash24: null,
-                    rawRegionalSignalsProcessedUcsdNt: null,
-                    rawRegionalSignalsLoaded: false,
-                    rawRegionalSignalsLoadAllButtonClicked: false,
-                    // Stacked Horizon Visual on ASN Table Panel
-                    rawAsnSignalsRawBgp: [],
-                    rawAsnSignalsRawPingSlash24: [],
-                    rawAsnSignalsRawUcsdNt: [],
-                    rawAsnSignalsProcessedBgp: null,
-                    rawAsnSignalsProcessedPingSlash24: null,
-                    rawAsnSignalsProcessedUcsdNt: null,
-                    rawAsnSignalsLoaded: false,
-                    rawAsnSignalsLoadAllButtonClicked: false
+                    lastFetched: 0
                 }, () => {
-                    // Get topo and outage data to repopulate map and table
-                    this.props.searchEventsAction(this.state.from, this.state.until, this.state.entityType, this.state.entityCode);
-                    this.props.searchAlertsAction(this.state.from, this.state.until, this.state.entityType, this.state.entityCode, null, null, null);
                     this.props.getSignalsAction( this.state.entityType, this.state.entityCode, this.state.from, this.state.until, null, null);
-                    this.getDataTopo("region");
-                    this.getDataRelatedToMapSummary("region");
-                    this.getDataRelatedToTableSummary("asn");
                 });
                 break;
             case "newEntity":
@@ -289,54 +230,6 @@ class ChartShare extends Component {
                     tsDataRaw: null,
                     tsDataNormalized: true,
                     tsDataDisplayOutageBands: true,
-                    // Event/Table Data
-                    currentTable: 'alert',
-                    eventDataRaw: null,
-                    eventDataProcessed: [],
-                    alertDataRaw: null,
-                    alertDataProcessed: [],
-                    // relatedTo entity Map
-                    summaryDataMapRaw: null,
-                    topoScores: null,
-                    bounds: null,
-                    // relatedTo entity Table
-                    relatedToTableApiPageNumber: 0,
-                    relatedToTableSummary: null,
-                    relatedToTableSummaryProcessed: null,
-                    relatedToTablePageNumber: 0,
-                    // Modal window display status
-                    showMapModal: false,
-                    showTableModal: false,
-                    // Signals Modal Table on Map Panel
-                    regionalSignalsTableSummaryData: [],
-                    regionalSignalsTableSummaryDataProcessed: [],
-                    regionalSignalsTableTotalCount: 0,
-                    regionalSignalsTableEntitiesChecked: 0,
-                    // Signals Modal Table on Table Panel
-                    asnSignalsTableSummaryData: [],
-                    asnSignalsTableSummaryDataProcessed: [],
-                    asnSignalsTableTotalCount: 0,
-                    asnSignalsTableEntitiesChecked: 0,
-                    // Stacked Horizon Visual on Region Map Panel
-                    rawRegionalSignalsRawBgp: [],
-                    rawRegionalSignalsRawPingSlash24: [],
-                    rawRegionalSignalsRawUcsdNt: [],
-                    rawRegionalSignalsProcessedBgp: null,
-                    rawRegionalSignalsProcessedPingSlash24: null,
-                    rawRegionalSignalsProcessedUcsdNt: null,
-                    rawRegionalSignalsLoaded: false,
-                    rawRegionalSignalsLoadAllButtonClicked: false,
-                    regionalRawSignalsLoadAllButtonClicked: false,
-                    // Stacked Horizon Visual on ASN Table Panel
-                    rawAsnSignalsRawBgp: [],
-                    rawAsnSignalsRawPingSlash24: [],
-                    rawAsnSignalsRawUcsdNt: [],
-                    rawAsnSignalsProcessedBgp: null,
-                    rawAsnSignalsProcessedPingSlash24: null,
-                    rawAsnSignalsProcessedUcsdNt: null,
-                    rawAsnSignalsLoaded: false,
-                    asnRawSignalsLoadAllButtonClicked: false,
-                    rawSignalsMaxEntitiesHtsError: "",
                 }, () => {
                     window.scrollTo(0, 0);
                     this.componentDidMount();
@@ -350,7 +243,7 @@ class ChartShare extends Component {
     handleTimeFrame(dateRange, timeRange) {
         const range = dateRangeToSeconds(dateRange, timeRange);
         const { history } = this.props;
-        history.push(`/${this.state.entityType}/${this.state.entityCode}?from=${range[0]}&until=${range[1]}`);
+        history.push(`/chart/${this.state.entityType}/${this.state.entityCode}?from=${range[0]}&until=${range[1]}`);
         this.handleStateReset("newTimeFrame", range, null, null);
     }
 // Search bar
@@ -381,7 +274,7 @@ class ChartShare extends Component {
                 return result.name === query
             });
         entity = entity[0];
-        history.push(`/${entity.type}/${entity.code}`);
+        history.push(`/chart/${entity.type}/${entity.code}`);
         this.handleStateReset("newEntity", null, entity.type, entity.code);
     };
     // Reset search bar with search term value when a selection is made, no customizations needed here.
