@@ -906,10 +906,11 @@ class Entity extends Component {
                         snapToDataPoint: true,
                         lineDashType: "solid",
                         color: "#c5c5c5"
-                    }
+                    },
+                    minimum: new Date(this.state.from * 1000 + (new Date(this.state.from * 1000).getTimezoneOffset() * 60000)),
+                    maximum: new Date(this.state.until * 1000 + (new Date(this.state.until * 1000).getTimezoneOffset() * 60000))
                 },
                 axisY: {
-                    // title: "Active Probing and BGP",
                     titleFontsColor: "#666666",
                     labelFontColor: "#666666",
                     labelFontSize: 12,
