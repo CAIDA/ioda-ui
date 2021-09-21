@@ -24,6 +24,9 @@ import Loading from "../../components/loading/Loading";
 import ToggleButton from "../../components/toggleButton/ToggleButton";
 import TimeStamp from "../../components/timeStamp/TimeStamp";
 import Tooltip from "../../components/tooltip/Tooltip";
+// import RenderAsImage from 'react-render-as-image';
+import html2canvas from 'html2canvas';
+
 
 // Helper Functions
 import {
@@ -49,6 +52,8 @@ import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.rea
 import Error from "../../components/error/Error";
 import DashboardTab from "../dashboard/DashboardTab";
 import {Helmet} from "react-helmet";
+import Modal from "../../components/modal/Modal";
+import ChartShareModal from "./ChartShareModal";
 
 
 class ChartShare extends Component {
@@ -94,12 +99,17 @@ class ChartShare extends Component {
             tsDataSeriesVisiblePingSlash24: true,
             tsDataSeriesVisibleBgp: true,
             tsDataSeriesVisibleUcsdNt: true,
+            // used for exporting chart as image
+            renderAsImage: false,
+            imageFile: null,
+            showModal: false
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
-        // this.handleEntityClick = this.handleEntityClick.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
     }
 
     componentDidMount() {
+        console.log("update3");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
 
@@ -617,6 +627,32 @@ class ChartShare extends Component {
         }
     }
 
+    toggleModal() {
+        if (!this.state.showModal) {
+            const input = document.getElementById('image');
+            html2canvas(input)
+                .then((canvas) => {
+                    this.setState({
+                        imageFile: canvas.toDataURL('img/png'),
+                        showModal: !this.state.showModal
+                    })
+                })
+        } else {
+            this.setState({
+                showModal: !this.state.showModal
+            })
+        }
+    }
+
+    saveCanvas() {
+        const input = document.getElementById('image');
+        html2canvas(input)
+            .then((canvas) => {
+                this.setState({
+                    imageFile: canvas.toDataURL('img/png')
+                })
+            })
+    }
 
     render() {
         const xyChartTitle = T.translate("entity.xyChartTitle");
@@ -625,6 +661,7 @@ class ChartShare extends Component {
         const tooltipXyPlotTimeSeriesTitle = T.translate("tooltip.xyPlotTimeSeriesTitle.title");
         const tooltipXyPlotTimeSeriesText = T.translate("tooltip.xyPlotTimeSeriesTitle.text");
         const timeDurationTooHighErrorMessage = T.translate("dashboard.timeDurationTooHighErrorMessage");
+
         return(
             <div className="entity">
                 <Helmet>
@@ -645,43 +682,58 @@ class ChartShare extends Component {
                         ? <Error/>
                         : this.state.until - this.state.from < controlPanelTimeRangeLimit
                         ? <React.Fragment>
-                            <div className="row overview">
-                                <div className="col-1-of-1">
-                                    <div className="overview__config" ref={this.config}>
-                                        <div className="overview__config-heading">
-                                            <h3 className="heading-h3">
-                                                {xyChartTitle}
-                                                {this.state.entityName}
-                                            </h3>
-                                            <Tooltip
-                                                title={tooltipXyPlotTimeSeriesTitle}
-                                                text={tooltipXyPlotTimeSeriesText}
-                                            />
+                            {/*<Wrapper applyWrapper={this.state.renderAsImage}>*/}
+                                <div id="image" className="row overview">
+                                    <div className="col-1-of-1">
+                                        <div className="overview__config" ref={this.config}>
+                                            <div className="overview__config-heading">
+                                                <h3 className="heading-h3">
+                                                    {xyChartTitle}
+                                                    {this.state.entityName}
+                                                </h3>
+                                                <Tooltip
+                                                    title={tooltipXyPlotTimeSeriesTitle}
+                                                    text={tooltipXyPlotTimeSeriesText}
+                                                />
+                                            </div>
+                                            <div className="overview__buttons">
+                                                <ToggleButton
+                                                    selected={this.state.tsDataDisplayOutageBands}
+                                                    toggleSelected={() => this.handleDisplayAlertBands()}
+                                                    label={xyChartAlertToggleLabel}
+                                                />
+                                                <ToggleButton
+                                                    selected={this.state.tsDataNormalized}
+                                                    toggleSelected={() => this.changeXyChartNormalization()}
+                                                    label={xyChartNormalizedToggleLabel}
+                                                />
+                                                {/*<button onClick={() => this.saveCanvas()}>Export Chart</button>*/}
+                                                <div className="related__modal--region related__modal">
+                                                    <button className="related__modal-button" onClick={this.toggleModal}>
+                                                        Export Chart
+                                                    </button>
+                                                    {
+                                                        this.state.showModal && <ChartShareModal
+                                                            entityName={this.state.entityName}
+                                                            toggleModal={this.toggleModal}
+                                                            imageFile={this.state.imageFile}
+                                                        />
+                                                    }
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="overview__buttons">
-                                            <ToggleButton
-                                                selected={this.state.tsDataDisplayOutageBands}
-                                                toggleSelected={() => this.handleDisplayAlertBands()}
-                                                label={xyChartAlertToggleLabel}
-                                            />
-                                            <ToggleButton
-                                                selected={this.state.tsDataNormalized}
-                                                toggleSelected={() => this.changeXyChartNormalization()}
-                                                label={xyChartNormalizedToggleLabel}
-                                            />
+                                        {
+                                            this.state.xyDataOptions
+                                                ? this.genXyChart()
+                                                : <Loading/>
+                                        }
+                                        <div className="overview__timestamp">
+                                            <TimeStamp from={convertSecondsToDateValues(this.state.tsDataLegendRangeFrom)}
+                                                       until={convertSecondsToDateValues(this.state.tsDataLegendRangeUntil)} />
                                         </div>
-                                    </div>
-                                    {
-                                        this.state.xyDataOptions
-                                            ? this.genXyChart()
-                                            : <Loading/>
-                                    }
-                                    <div className="overview__timestamp">
-                                        <TimeStamp from={convertSecondsToDateValues(this.state.tsDataLegendRangeFrom)}
-                                                   until={convertSecondsToDateValues(this.state.tsDataLegendRangeUntil)} />
                                     </div>
                                 </div>
-                            </div>
+                            {/*</Wrapper>*/}
                         </React.Fragment>
                         : <div className="row overview">
                             <div className="col-1-of-1">
