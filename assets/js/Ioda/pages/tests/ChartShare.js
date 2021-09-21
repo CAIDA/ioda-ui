@@ -24,6 +24,8 @@ import Loading from "../../components/loading/Loading";
 import ToggleButton from "../../components/toggleButton/ToggleButton";
 import TimeStamp from "../../components/timeStamp/TimeStamp";
 import Tooltip from "../../components/tooltip/Tooltip";
+import html2canvas from 'html2canvas';
+
 
 // Helper Functions
 import {
@@ -49,6 +51,8 @@ import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.rea
 import Error from "../../components/error/Error";
 import DashboardTab from "../dashboard/DashboardTab";
 import {Helmet} from "react-helmet";
+import Modal from "../../components/modal/Modal";
+import ChartShareModal from "./ChartShareModal";
 
 
 class ChartShare extends Component {
@@ -78,6 +82,7 @@ class ChartShare extends Component {
             lastFetched: 0,
             // XY Plot Time Series
             xyDataOptions: null,
+            eventDataRaw: null,
             tsDataRaw: null,
             tsDataNormalized: true,
             tsDataDisplayOutageBands: true,
@@ -94,9 +99,15 @@ class ChartShare extends Component {
             tsDataSeriesVisiblePingSlash24: true,
             tsDataSeriesVisibleBgp: true,
             tsDataSeriesVisibleUcsdNt: true,
+            // used for exporting chart as image
+            renderAsImage: false,
+            imageFile: null,
+            showModal: false
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
-        // this.handleEntityClick = this.handleEntityClick.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
+        this.chartRef = React.createRef();
+        this.colRef = React.createRef();
     }
 
     componentDidMount() {
@@ -123,6 +134,7 @@ class ChartShare extends Component {
                     if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
                         this.props.getSignalsAction(window.location.pathname.split("/")[2], window.location.pathname.split("/")[3], this.state.from, this.state.until, null, 3000);
                         this.props.getEntityMetadataAction(window.location.pathname.split("/")[2], window.location.pathname.split("/")[3]);
+                        this.props.searchEventsAction(this.state.from, this.state.until, window.location.pathname.split("/")[2], window.location.pathname.split("/")[3]);
                     }
                 });
             } else {
@@ -137,6 +149,7 @@ class ChartShare extends Component {
                 if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
                     this.props.getSignalsAction(window.location.pathname.split("/")[2], window.location.pathname.split("/")[3], this.state.from, this.state.until, null, 3000);
                     this.props.getEntityMetadataAction(window.location.pathname.split("/")[2], window.location.pathname.split("/")[3]);
+                    this.props.searchEventsAction(this.state.from, this.state.until, window.location.pathname.split("/")[2], window.location.pathname.split("/")[3]);
                 }
             });
         }
@@ -183,6 +196,13 @@ class ChartShare extends Component {
                 this.convertValuesForXyViz();
             })
         }
+
+        // Make API call for data to populate event table
+        if (this.props.events !== prevProps.events) {
+            this.setState({
+                eventDataRaw: this.props.events,
+            });
+        }
     }
 
 // Global reset State function, called whenever a link that's destination also uses the entity page template is used
@@ -199,6 +219,7 @@ class ChartShare extends Component {
                     displayTimeRangeError: false,
                     // XY Plot Time Series states
                     xyDataOptions: null,
+                    eventDataRaw: null,
                     tsDataRaw: null,
                     tsDataNormalized: true,
                     tsDataDisplayOutageBands: true,
@@ -210,6 +231,7 @@ class ChartShare extends Component {
                     lastFetched: 0
                 }, () => {
                     this.props.getSignalsAction( this.state.entityType, this.state.entityCode, this.state.from, this.state.until, null, null);
+                    this.props.searchEventsAction(this.state.from, this.state.until, this.state.entityType, this.state.entityCode);
                 });
                 break;
             case "newEntity":
@@ -226,6 +248,7 @@ class ChartShare extends Component {
                     lastFetched: 0,
                     // XY Plot Time Series states
                     xyDataOptions: null,
+                    eventDataRaw: null,
                     tsDataRaw: null,
                     tsDataNormalized: true,
                     tsDataDisplayOutageBands: true,
@@ -579,7 +602,7 @@ class ChartShare extends Component {
     }
     genXyChart() {
         return (
-            this.state.xyDataOptions && <div className="overview__xy-wrapper">
+            this.state.xyDataOptions && <div className="overview__xy-wrapper" ref={this.chartRef}>
                 <CanvasJSChart options={this.state.xyDataOptions}
                                onRef={ref => this.chart = ref}
                 />
@@ -617,6 +640,22 @@ class ChartShare extends Component {
         }
     }
 
+    toggleModal() {
+        if (!this.state.showModal) {
+            const input = document.getElementById('image');
+            html2canvas(input)
+                .then((canvas) => {
+                    this.setState({
+                        imageFile: canvas.toDataURL('img/png'),
+                        showModal: !this.state.showModal
+                    })
+                })
+        } else {
+            this.setState({
+                showModal: !this.state.showModal
+            })
+        }
+    }
 
     render() {
         const xyChartTitle = T.translate("entity.xyChartTitle");
@@ -625,6 +664,7 @@ class ChartShare extends Component {
         const tooltipXyPlotTimeSeriesTitle = T.translate("tooltip.xyPlotTimeSeriesTitle.title");
         const tooltipXyPlotTimeSeriesText = T.translate("tooltip.xyPlotTimeSeriesTitle.text");
         const timeDurationTooHighErrorMessage = T.translate("dashboard.timeDurationTooHighErrorMessage");
+
         return(
             <div className="entity">
                 <Helmet>
@@ -645,43 +685,60 @@ class ChartShare extends Component {
                         ? <Error/>
                         : this.state.until - this.state.from < controlPanelTimeRangeLimit
                         ? <React.Fragment>
-                            <div className="row overview">
-                                <div className="col-1-of-1">
-                                    <div className="overview__config" ref={this.config}>
-                                        <div className="overview__config-heading">
-                                            <h3 className="heading-h3">
-                                                {xyChartTitle}
-                                                {this.state.entityName}
-                                            </h3>
-                                            <Tooltip
-                                                title={tooltipXyPlotTimeSeriesTitle}
-                                                text={tooltipXyPlotTimeSeriesText}
-                                            />
+                            {/*<Wrapper applyWrapper={this.state.renderAsImage}>*/}
+                                <div id="image" className="row overview">
+                                    <div className="col-1-of-1" ref={this.colRef}>
+                                        <div className="overview__config" ref={this.config}>
+                                            <div className="overview__config-heading">
+                                                <h3 className="heading-h3">
+                                                    {xyChartTitle}
+                                                    {this.state.entityName}
+                                                </h3>
+                                                <Tooltip
+                                                    title={tooltipXyPlotTimeSeriesTitle}
+                                                    text={tooltipXyPlotTimeSeriesText}
+                                                />
+                                            </div>
+                                            <div className="overview__buttons">
+                                                <ToggleButton
+                                                    selected={this.state.tsDataDisplayOutageBands}
+                                                    toggleSelected={() => this.handleDisplayAlertBands()}
+                                                    label={xyChartAlertToggleLabel}
+                                                />
+                                                <ToggleButton
+                                                    selected={this.state.tsDataNormalized}
+                                                    toggleSelected={() => this.changeXyChartNormalization()}
+                                                    label={xyChartNormalizedToggleLabel}
+                                                />
+                                                {/*<button onClick={() => this.saveCanvas()}>Export Chart</button>*/}
+                                                <div className="related__modal--region related__modal">
+                                                    <button className="related__modal-button" onClick={this.toggleModal}>
+                                                        Export Chart
+                                                    </button>
+                                                    {
+                                                        this.state.showModal && <ChartShareModal
+                                                            entityName={this.state.entityName}
+                                                            toggleModal={this.toggleModal}
+                                                            imageFile={this.state.imageFile}
+                                                            imageWidth={this.colRef.current.clientWidth}
+                                                            imageHeight={this.colRef.current.clientHeight}
+                                                        />
+                                                    }
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="overview__buttons">
-                                            <ToggleButton
-                                                selected={this.state.tsDataDisplayOutageBands}
-                                                toggleSelected={() => this.handleDisplayAlertBands()}
-                                                label={xyChartAlertToggleLabel}
-                                            />
-                                            <ToggleButton
-                                                selected={this.state.tsDataNormalized}
-                                                toggleSelected={() => this.changeXyChartNormalization()}
-                                                label={xyChartNormalizedToggleLabel}
-                                            />
+                                        {
+                                            this.state.xyDataOptions
+                                                ? this.genXyChart()
+                                                : <Loading/>
+                                        }
+                                        <div className="overview__timestamp">
+                                            <TimeStamp from={convertSecondsToDateValues(this.state.tsDataLegendRangeFrom)}
+                                                       until={convertSecondsToDateValues(this.state.tsDataLegendRangeUntil)} />
                                         </div>
-                                    </div>
-                                    {
-                                        this.state.xyDataOptions
-                                            ? this.genXyChart()
-                                            : <Loading/>
-                                    }
-                                    <div className="overview__timestamp">
-                                        <TimeStamp from={convertSecondsToDateValues(this.state.tsDataLegendRangeFrom)}
-                                                   until={convertSecondsToDateValues(this.state.tsDataLegendRangeUntil)} />
                                     </div>
                                 </div>
-                            </div>
+                            {/*</Wrapper>*/}
                         </React.Fragment>
                         : <div className="row overview">
                             <div className="col-1-of-1">
