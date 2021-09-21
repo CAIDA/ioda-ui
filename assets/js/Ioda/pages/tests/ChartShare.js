@@ -83,6 +83,7 @@ class ChartShare extends Component {
             lastFetched: 0,
             // XY Plot Time Series
             xyDataOptions: null,
+            eventDataRaw: null,
             tsDataRaw: null,
             tsDataNormalized: true,
             tsDataDisplayOutageBands: true,
@@ -134,6 +135,7 @@ class ChartShare extends Component {
                     if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
                         this.props.getSignalsAction(window.location.pathname.split("/")[2], window.location.pathname.split("/")[3], this.state.from, this.state.until, null, 3000);
                         this.props.getEntityMetadataAction(window.location.pathname.split("/")[2], window.location.pathname.split("/")[3]);
+                        this.props.searchEventsAction(this.state.from, this.state.until, window.location.pathname.split("/")[2], window.location.pathname.split("/")[3]);
                     }
                 });
             } else {
@@ -148,6 +150,7 @@ class ChartShare extends Component {
                 if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
                     this.props.getSignalsAction(window.location.pathname.split("/")[2], window.location.pathname.split("/")[3], this.state.from, this.state.until, null, 3000);
                     this.props.getEntityMetadataAction(window.location.pathname.split("/")[2], window.location.pathname.split("/")[3]);
+                    this.props.searchEventsAction(this.state.from, this.state.until, window.location.pathname.split("/")[2], window.location.pathname.split("/")[3]);
                 }
             });
         }
@@ -194,6 +197,13 @@ class ChartShare extends Component {
                 this.convertValuesForXyViz();
             })
         }
+
+        // Make API call for data to populate event table
+        if (this.props.events !== prevProps.events) {
+            this.setState({
+                eventDataRaw: this.props.events,
+            });
+        }
     }
 
 // Global reset State function, called whenever a link that's destination also uses the entity page template is used
@@ -210,6 +220,7 @@ class ChartShare extends Component {
                     displayTimeRangeError: false,
                     // XY Plot Time Series states
                     xyDataOptions: null,
+                    eventDataRaw: null,
                     tsDataRaw: null,
                     tsDataNormalized: true,
                     tsDataDisplayOutageBands: true,
@@ -221,6 +232,7 @@ class ChartShare extends Component {
                     lastFetched: 0
                 }, () => {
                     this.props.getSignalsAction( this.state.entityType, this.state.entityCode, this.state.from, this.state.until, null, null);
+                    this.props.searchEventsAction(this.state.from, this.state.until, this.state.entityType, this.state.entityCode);
                 });
                 break;
             case "newEntity":
@@ -237,6 +249,7 @@ class ChartShare extends Component {
                     lastFetched: 0,
                     // XY Plot Time Series states
                     xyDataOptions: null,
+                    eventDataRaw: null,
                     tsDataRaw: null,
                     tsDataNormalized: true,
                     tsDataDisplayOutageBands: true,
