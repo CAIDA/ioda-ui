@@ -106,10 +106,11 @@ class ChartShare extends Component {
         };
         this.handleTimeFrame = this.handleTimeFrame.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
+        this.chartRef = React.createRef();
+        this.colRef = React.createRef();
     }
 
     componentDidMount() {
-        console.log("update3");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
 
@@ -589,7 +590,7 @@ class ChartShare extends Component {
     }
     genXyChart() {
         return (
-            this.state.xyDataOptions && <div className="overview__xy-wrapper">
+            this.state.xyDataOptions && <div className="overview__xy-wrapper" ref={this.chartRef}>
                 <CanvasJSChart options={this.state.xyDataOptions}
                                onRef={ref => this.chart = ref}
                 />
@@ -644,16 +645,6 @@ class ChartShare extends Component {
         }
     }
 
-    saveCanvas() {
-        const input = document.getElementById('image');
-        html2canvas(input)
-            .then((canvas) => {
-                this.setState({
-                    imageFile: canvas.toDataURL('img/png')
-                })
-            })
-    }
-
     render() {
         const xyChartTitle = T.translate("entity.xyChartTitle");
         const xyChartAlertToggleLabel = T.translate("entity.xyChartAlertToggleLabel");
@@ -684,7 +675,7 @@ class ChartShare extends Component {
                         ? <React.Fragment>
                             {/*<Wrapper applyWrapper={this.state.renderAsImage}>*/}
                                 <div id="image" className="row overview">
-                                    <div className="col-1-of-1">
+                                    <div className="col-1-of-1" ref={this.colRef}>
                                         <div className="overview__config" ref={this.config}>
                                             <div className="overview__config-heading">
                                                 <h3 className="heading-h3">
@@ -717,6 +708,8 @@ class ChartShare extends Component {
                                                             entityName={this.state.entityName}
                                                             toggleModal={this.toggleModal}
                                                             imageFile={this.state.imageFile}
+                                                            imageWidth={this.colRef.current.clientWidth}
+                                                            imageHeight={this.colRef.current.clientHeight}
                                                         />
                                                     }
                                                 </div>
