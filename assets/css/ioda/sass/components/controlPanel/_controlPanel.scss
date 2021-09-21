@@ -192,6 +192,7 @@
 
         & .rdrDefinedRangesWrapper {
           width: 100%;
+          padding-bottom: 9rem;
         }
 
         & .rdrCalendarWrapper {
@@ -299,9 +300,17 @@
       bottom: 0.25rem;
       right: 3.8rem;
 
+      @include respond(tab-land) {
+        right: 5.8rem;
+      }
+
       @include respond(phone-lg) {
         bottom: 1rem;
         right: 1.5rem;
+      }
+
+      @include respond(big-desktop) {
+        right: 1rem;
       }
 
       &--visible {
