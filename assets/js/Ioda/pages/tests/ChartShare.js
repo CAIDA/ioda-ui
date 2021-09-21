@@ -24,7 +24,6 @@ import Loading from "../../components/loading/Loading";
 import ToggleButton from "../../components/toggleButton/ToggleButton";
 import TimeStamp from "../../components/timeStamp/TimeStamp";
 import Tooltip from "../../components/tooltip/Tooltip";
-// import RenderAsImage from 'react-render-as-image';
 import html2canvas from 'html2canvas';
 
 
