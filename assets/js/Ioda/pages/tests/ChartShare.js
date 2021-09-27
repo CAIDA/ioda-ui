@@ -111,6 +111,7 @@ class ChartShare extends Component {
     }
 
     componentDidMount() {
+        console.log("update1");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
 
@@ -666,7 +667,7 @@ class ChartShare extends Component {
         const timeDurationTooHighErrorMessage = T.translate("dashboard.timeDurationTooHighErrorMessage");
 
         return(
-            <div className="entity">
+            <div className="entity chartShare">
                 <Helmet>
                     <title>IODA | Internet Outages for {this.state.entityName}</title>
                     <meta name="description" content={`Visualizations and Alerts for ${this.state.entityName} Internet Outages Detected by IODA`} />
@@ -686,58 +687,58 @@ class ChartShare extends Component {
                         : this.state.until - this.state.from < controlPanelTimeRangeLimit
                         ? <React.Fragment>
                             {/*<Wrapper applyWrapper={this.state.renderAsImage}>*/}
-                                <div id="image" className="row overview">
-                                    <div className="col-1-of-1" ref={this.colRef}>
-                                        <div className="overview__config" ref={this.config}>
-                                            <div className="overview__config-heading">
-                                                <h3 className="heading-h3">
-                                                    {xyChartTitle}
-                                                    {this.state.entityName}
-                                                </h3>
-                                                <Tooltip
-                                                    title={tooltipXyPlotTimeSeriesTitle}
-                                                    text={tooltipXyPlotTimeSeriesText}
-                                                />
-                                            </div>
-                                            <div className="overview__buttons">
-                                                <ToggleButton
-                                                    selected={this.state.tsDataDisplayOutageBands}
-                                                    toggleSelected={() => this.handleDisplayAlertBands()}
-                                                    label={xyChartAlertToggleLabel}
-                                                />
-                                                <ToggleButton
-                                                    selected={this.state.tsDataNormalized}
-                                                    toggleSelected={() => this.changeXyChartNormalization()}
-                                                    label={xyChartNormalizedToggleLabel}
-                                                />
-                                                {/*<button onClick={() => this.saveCanvas()}>Export Chart</button>*/}
-                                                <div className="related__modal--region related__modal">
-                                                    <button className="related__modal-button" onClick={this.toggleModal}>
-                                                        Export Chart
-                                                    </button>
-                                                    {
-                                                        this.state.showModal && <ChartShareModal
-                                                            entityName={this.state.entityName}
-                                                            toggleModal={this.toggleModal}
-                                                            imageFile={this.state.imageFile}
-                                                            imageWidth={this.colRef.current.clientWidth}
-                                                            imageHeight={this.colRef.current.clientHeight}
-                                                        />
-                                                    }
-                                                </div>
-                                            </div>
+                            <div id="image" className="row overview">
+                                <div className="col-1-of-1" ref={this.colRef}>
+                                    <div className="overview__config" ref={this.config}>
+                                        <div className="overview__config-heading">
+                                            <h3 className="heading-h3">
+                                                {xyChartTitle}
+                                                {this.state.entityName}
+                                            </h3>
+                                            <Tooltip
+                                                title={tooltipXyPlotTimeSeriesTitle}
+                                                text={tooltipXyPlotTimeSeriesText}
+                                            />
                                         </div>
-                                        {
-                                            this.state.xyDataOptions
-                                                ? this.genXyChart()
-                                                : <Loading/>
-                                        }
-                                        <div className="overview__timestamp">
-                                            <TimeStamp from={convertSecondsToDateValues(this.state.tsDataLegendRangeFrom)}
-                                                       until={convertSecondsToDateValues(this.state.tsDataLegendRangeUntil)} />
+                                        <div className="overview__buttons">
+                                            <ToggleButton
+                                                selected={this.state.tsDataDisplayOutageBands}
+                                                toggleSelected={() => this.handleDisplayAlertBands()}
+                                                label={xyChartAlertToggleLabel}
+                                            />
+                                            <ToggleButton
+                                                selected={this.state.tsDataNormalized}
+                                                toggleSelected={() => this.changeXyChartNormalization()}
+                                                label={xyChartNormalizedToggleLabel}
+                                            />
+                                            {/*<button onClick={() => this.saveCanvas()}>Export Chart</button>*/}
+                                            <div className="related__modal--region related__modal">
+                                                <button className="related__modal-button" onClick={this.toggleModal}>
+                                                    Export Chart
+                                                </button>
+                                                {
+                                                    this.state.showModal && <ChartShareModal
+                                                        entityName={this.state.entityName}
+                                                        toggleModal={this.toggleModal}
+                                                        imageFile={this.state.imageFile}
+                                                        imageWidth={this.colRef.current.clientWidth}
+                                                        imageHeight={this.colRef.current.clientHeight}
+                                                    />
+                                                }
+                                            </div>
                                         </div>
                                     </div>
+                                    {
+                                        this.state.xyDataOptions
+                                            ? this.genXyChart()
+                                            : <Loading/>
+                                    }
+                                    <div className="overview__timestamp">
+                                        <TimeStamp from={convertSecondsToDateValues(this.state.tsDataLegendRangeFrom)}
+                                                   until={convertSecondsToDateValues(this.state.tsDataLegendRangeUntil)} />
+                                    </div>
                                 </div>
+                            </div>
                             {/*</Wrapper>*/}
                         </React.Fragment>
                         : <div className="row overview">

@@ -2742,6 +2742,32 @@ body {
       width: 100%;
       box-shadow: none; }
 
+.chartShare .textbox {
+  position: absolute;
+  border: 2px solid #DCE4EA;
+  background-color: rgba(255, 255, 255, 0.3);
+  z-index: 15;
+  padding: 0.5rem;
+  border-radius: 0.4rem;
+  width: 28rem !important;
+  max-width: 42rem;
+  min-height: 3.3rem;
+  font-size: 1.3rem;
+  color: #2c3e50;
+  text-align: center;
+  font-family: "Lato-Regular", "Helvetica", "arial", sans-serif;
+  resize: none;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.chartShare .annotation {
+  border: 2px solid #DCE4EA;
+  border-radius: 0.3rem; }
+  .chartShare .annotation__drawingLocked {
+    pointer-events: none; }
+
 .helpPage {
   padding-top: 5rem;
   margin: 4rem 0;
