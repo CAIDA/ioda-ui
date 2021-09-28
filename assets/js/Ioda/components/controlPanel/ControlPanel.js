@@ -204,7 +204,7 @@ class ControlPanel extends Component {
 
         // get time ranges from dates
         let startTimeRange, endTimeRange;
-        if (this.state.selection.label === "lastHour" || this.state.selection.label === "last24Hours" || this.state.selection.label === "userInputRange" || (this.state.selection.label === "customRange" && this.state.wholeDayInputSelected)) {
+        if (this.state.selection.label === "lastHour" || this.state.selection.label === "last24Hours" || this.state.selection.label === "userInputRange") {
             // Get UTC values for time range state, set them, then make api call
             startTimeRange = getUTCTimeStringFromDate(newStartDate);
             endTimeRange = getUTCTimeStringFromDate(newEndDate);
@@ -245,10 +245,15 @@ class ControlPanel extends Component {
                     Math.floor(this.state.selection.startDate.getTime() / 1000),
                     Math.floor(this.state.selection.endDate.getTime() / 1000)
                 );
-            } else {
+            } else if (this.state.selection.label !== "customRange" || (this.state.selection.label === "customRange" && this.state.wholeDayInputSelected)) {
                 readableDates = this.setDateInLegend(
                     Math.floor((this.state.selection.startDate.getTime() / 1000) - (this.state.selection.startDate.getTimezoneOffset() * 60000) / 1000),
                     Math.floor((this.state.selection.endDate.getTime() / 1000) - (this.state.selection.endDate.getTimezoneOffset() * 60000) / 1000)
+                );
+            } else {
+                readableDates = this.setDateInLegend(
+                    Math.floor((new Date(this.state.selection.startDate).setUTCHours(parseInt(this.state.timeRange[0].split(":")[0]), parseInt(this.state.timeRange[0].split(":")[1]), parseInt(this.state.timeRange[0].split(":")[2]))) / 1000),
+                    Math.floor((new Date(this.state.selection.endDate).setUTCHours(parseInt(this.state.timeRange[1].split(":")[0]), parseInt(this.state.timeRange[1].split(":")[1]), parseInt(this.state.timeRange[1].split(":")[2]))) / 1000)
                 );
             }
 
