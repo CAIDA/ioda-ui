@@ -63,6 +63,7 @@ class ControlPanel extends Component {
     }
 
     componentDidMount() {
+        console.log("update2");
         let readableDates = this.setDateInLegend(this.props.from, this.props.until);
         this.setState({
             readableTimeRangeInputSelection: {
@@ -144,6 +145,9 @@ class ControlPanel extends Component {
                 endDate: new Date(new Date(this.state.selection.endDate).setHours(23,59,59,0))
             },
             wholeDayInputSelected: !this.state.wholeDayInputSelected
+        },() => {
+            console.log(this.state.timeRange);
+            console.log(this.state.selection);
         });
     }
     handleRangeDisplay() {
@@ -204,7 +208,7 @@ class ControlPanel extends Component {
 
         // get time ranges from dates
         let startTimeRange, endTimeRange;
-        if (this.state.selection.label === "lastHour" || this.state.selection.label === "last24Hours" || this.state.selection.label === "userInputRange" || (this.state.selection.label === "customRange" && this.state.wholeDayInputSelected)) {
+        if (this.state.selection.label === "lastHour" || this.state.selection.label === "last24Hours" || this.state.selection.label === "userInputRange") {
             // Get UTC values for time range state, set them, then make api call
             startTimeRange = getUTCTimeStringFromDate(newStartDate);
             endTimeRange = getUTCTimeStringFromDate(newEndDate);
@@ -251,6 +255,10 @@ class ControlPanel extends Component {
                     Math.floor((this.state.selection.endDate.getTime() / 1000) - (this.state.selection.endDate.getTimezoneOffset() * 60000) / 1000)
                 );
             }
+
+            console.log(readableDates);
+            console.log(startTimeRange);
+            console.log(endTimeRange);
 
             this.setState({
                 timeRange: [
