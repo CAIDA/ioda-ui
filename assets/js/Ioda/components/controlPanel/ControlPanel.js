@@ -140,8 +140,8 @@ class ControlPanel extends Component {
             timeRange: ["00:00:00", "23:59:59"],
             selection: {
                 ...this.state.selection,
-                startDate: new Date(new Date(this.state.selection.startDate).setUTCHours(0,0,0,0)),
-                endDate: new Date(new Date(this.state.selection.endDate).setUTCHours(23,59,59,0))
+                startDate: new Date(new Date(this.state.selection.startDate).setHours(0,0,0,0)),
+                endDate: new Date(new Date(this.state.selection.endDate).setHours(23,59,59,0))
             },
             wholeDayInputSelected: !this.state.wholeDayInputSelected
         });
@@ -194,9 +194,12 @@ class ControlPanel extends Component {
                     console.alert("error with updating range with user input.");
                     break;
             }
-        } else {
+        } else if (this.state.selection.label !== "customRange" || (this.state.selection.label === "customRange" && this.state.wholeDayInputSelected)) {
             newStartDate = this.state.selection.startDate;
             newEndDate = this.state.selection.endDate;
+        } else {
+            newStartDate = new Date(this.state.selection.startDate).setHours(parseInt(this.state.timeRange[0].split(":")[0]),parseInt(this.state.timeRange[0].split(":")[1]), parseInt(this.state.timeRange[0].split(":")[2]));
+            newEndDate = new Date(this.state.selection.endDate).setHours(parseInt(this.state.timeRange[1].split(":")[0]), parseInt(this.state.timeRange[1].split(":")[1]), parseInt(this.state.timeRange[1].split(":")[2]));
         }
 
         // get time ranges from dates
@@ -205,11 +208,13 @@ class ControlPanel extends Component {
             // Get UTC values for time range state, set them, then make api call
             startTimeRange = getUTCTimeStringFromDate(newStartDate);
             endTimeRange = getUTCTimeStringFromDate(newEndDate);
-        } else {
+        } else if (this.state.selection.label !== "customRange") {
             startTimeRange = getTimeStringFromDate(newStartDate);
             endTimeRange = getTimeStringFromDate(newEndDate);
+        } else {
+            startTimeRange = this.state.timeRange[0];
+            endTimeRange = this.state.timeRange[1];
         }
-
         if (this.state.userInputSelected) {
             if (newStartDate && newEndDate) {
                 let readableDates = this.setDateInLegend(Math.floor(newStartDate / 1000) , Math.floor(newEndDate / 1000));
@@ -240,13 +245,17 @@ class ControlPanel extends Component {
                     Math.floor(this.state.selection.startDate.getTime() / 1000),
                     Math.floor(this.state.selection.endDate.getTime() / 1000)
                 );
-            } else {
+            } else if (this.state.selection.label !== "customRange" || (this.state.selection.label === "customRange" && this.state.wholeDayInputSelected)) {
                 readableDates = this.setDateInLegend(
                     Math.floor((this.state.selection.startDate.getTime() / 1000) - (this.state.selection.startDate.getTimezoneOffset() * 60000) / 1000),
                     Math.floor((this.state.selection.endDate.getTime() / 1000) - (this.state.selection.endDate.getTimezoneOffset() * 60000) / 1000)
                 );
+            } else {
+                readableDates = this.setDateInLegend(
+                    Math.floor((new Date(this.state.selection.startDate).setUTCHours(parseInt(this.state.timeRange[0].split(":")[0]), parseInt(this.state.timeRange[0].split(":")[1]), parseInt(this.state.timeRange[0].split(":")[2]))) / 1000),
+                    Math.floor((new Date(this.state.selection.endDate).setUTCHours(parseInt(this.state.timeRange[1].split(":")[0]), parseInt(this.state.timeRange[1].split(":")[1]), parseInt(this.state.timeRange[1].split(":")[2]))) / 1000)
+                );
             }
-
 
             this.setState({
                 timeRange: [
@@ -549,10 +558,10 @@ class ControlPanel extends Component {
                                                     selection: {
                                                         startDate: !this.state.wholeDayInputSelected
                                                             ? new Date(item.selection.startDate.setHours(this.state.timeRange[0].split(":")[0], this.state.timeRange[0].split(":")[1], this.state.timeRange[0].split(":")[2]))
-                                                            : new Date(item.selection.startDate.setUTCHours(0, 0, 0)),
+                                                            : new Date(item.selection.startDate.setHours(0, 0, 0)),
                                                         endDate: !this.state.wholeDayInputSelected
                                                             ? new Date(item.selection.endDate.setHours(this.state.timeRange[1].split(":")[0], this.state.timeRange[1].split(":")[1], this.state.timeRange[1].split(":")[2]))
-                                                            : new Date(item.selection.endDate.setUTCHours(23, 59, 59)),
+                                                            : new Date(item.selection.endDate.setHours(23, 59, 59)),
                                                         ...item.selection
                                                     }
                                                 });
