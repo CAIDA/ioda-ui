@@ -66,7 +66,7 @@ export function convertSecondsToDateValues(s) {
     const hourValue = new Date(s * 1000).getUTCHours();
     const hours = hourValue > 12
         ? hourValue - 12
-        : hourValue > 0
+        : 10 > hourValue > 0
             ? `0${hourValue}`
             : hourValue === 0
                 ? 12
