@@ -63,7 +63,6 @@ class ControlPanel extends Component {
     }
 
     componentDidMount() {
-        console.log("update2");
         let readableDates = this.setDateInLegend(this.props.from, this.props.until);
         this.setState({
             readableTimeRangeInputSelection: {
@@ -145,9 +144,6 @@ class ControlPanel extends Component {
                 endDate: new Date(new Date(this.state.selection.endDate).setHours(23,59,59,0))
             },
             wholeDayInputSelected: !this.state.wholeDayInputSelected
-        },() => {
-            console.log(this.state.timeRange);
-            console.log(this.state.selection);
         });
     }
     handleRangeDisplay() {
@@ -249,16 +245,17 @@ class ControlPanel extends Component {
                     Math.floor(this.state.selection.startDate.getTime() / 1000),
                     Math.floor(this.state.selection.endDate.getTime() / 1000)
                 );
-            } else {
+            } else if (this.state.selection.label !== "customRange" || (this.state.selection.label === "customRange" && this.state.wholeDayInputSelected)) {
                 readableDates = this.setDateInLegend(
                     Math.floor((this.state.selection.startDate.getTime() / 1000) - (this.state.selection.startDate.getTimezoneOffset() * 60000) / 1000),
                     Math.floor((this.state.selection.endDate.getTime() / 1000) - (this.state.selection.endDate.getTimezoneOffset() * 60000) / 1000)
                 );
+            } else {
+                readableDates = this.setDateInLegend(
+                    Math.floor((new Date(this.state.selection.startDate).setUTCHours(parseInt(this.state.timeRange[0].split(":")[0]), parseInt(this.state.timeRange[0].split(":")[1]), parseInt(this.state.timeRange[0].split(":")[2]))) / 1000),
+                    Math.floor((new Date(this.state.selection.endDate).setUTCHours(parseInt(this.state.timeRange[1].split(":")[0]), parseInt(this.state.timeRange[1].split(":")[1]), parseInt(this.state.timeRange[1].split(":")[2]))) / 1000)
+                );
             }
-
-            console.log(readableDates);
-            console.log(startTimeRange);
-            console.log(endTimeRange);
 
             this.setState({
                 timeRange: [
