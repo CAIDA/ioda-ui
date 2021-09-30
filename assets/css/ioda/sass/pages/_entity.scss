@@ -129,6 +129,14 @@
         width: 6rem!important;
         height: 3rem!important;
 
+        /* Safari 10.1+ */
+        @media not all and (min-resolution:.001dpcm)
+        { @supports (-webkit-appearance:none) {
+
+          font-weight: 400;
+          width: max-content;
+        }}
+
         &:hover,
         &:active {
           border-radius: 0.5rem;
@@ -155,11 +163,7 @@
         cursor: pointer;
         border-radius: 0.4rem;
         margin-top: 0.5rem;
-        background: linear-gradient(
-                        2deg
-                , $color-secondary-dark, $color-secondary-light);
-
-
+        background: linear-gradient(2deg, $color-secondary-dark, $color-secondary-light);
         color: $color-white;
         padding: 0.25rem 0.5rem;
         display: flex;
@@ -168,8 +172,8 @@
         left: 2.3rem;
         transition: all 0.3s ease;
         box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, .2),
-        inset 0 0 0 1px rgba(0, 0, 0, .15),
-        0 1px 0 rgba(255, 255, 255, .15);
+                    inset 0 0 0 1px rgba(0, 0, 0, .15),
+                      0 1px 0 rgba(255, 255, 255, .15);
       }
       .canvasjs-chart-toolbar button[title="Reset"] img,
       .canvasjs-chart-toolbar button[title="Pan"] img,
@@ -211,6 +215,11 @@
         top: 0;
         transition: all 0.3s ease;
         border-radius: 0.4rem;
+        /* Safari 10.1+ */
+        @media not all and (min-resolution:.001dpcm)
+        { @supports (-webkit-appearance:none) {
+          font-weight: 400;
+        }}
       }
       .canvasjs-chart-toolbar button[title="Pan"]:after {
         content: "\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0ZOOM";
@@ -238,6 +247,11 @@
         align-items: center;
         padding: 0 0.5rem;
         z-index: 10;
+        /* Safari 10.1+ */
+        @media not all and (min-resolution:.001dpcm)
+        { @supports (-webkit-appearance:none) {
+          left: -8.8rem;
+        }}
       }
 
       .canvasjs-chart-credit {

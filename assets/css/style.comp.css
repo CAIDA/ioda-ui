@@ -3593,7 +3593,13 @@ button[class*="searchButton"] {
       z-index: 10;
       padding: 0 0.5rem;
       width: 6rem !important;
-      height: 3rem !important; }
+      height: 3rem !important;
+      /* Safari 10.1+ */ }
+      @media not all and (min-resolution: 0.001dpcm) {
+        @supports (-webkit-appearance: none) {
+          .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Reset"] {
+            font-weight: 400;
+            width: max-content; } } }
       .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Reset"]:hover, .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Reset"]:active {
         border-radius: 0.5rem;
         transition: all .4s ease-in-out;
@@ -3659,7 +3665,13 @@ button[class*="searchButton"] {
       left: 0;
       top: 0;
       transition: all 0.3s ease;
-      border-radius: 0.4rem; }
+      border-radius: 0.4rem;
+      /* Safari 10.1+ */ }
+      @media not all and (min-resolution: 0.001dpcm) {
+        @supports (-webkit-appearance: none) {
+          .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Pan"]:after,
+          .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Zoom"]:after {
+            font-weight: 400; } } }
     .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Pan"]:after {
       content: "\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0\0000a0ZOOM";
       justify-content: flex-start;
@@ -3683,7 +3695,13 @@ button[class*="searchButton"] {
       display: flex;
       align-items: center;
       padding: 0 0.5rem;
-      z-index: 10; }
+      z-index: 10;
+      /* Safari 10.1+ */ }
+      @media not all and (min-resolution: 0.001dpcm) {
+        @supports (-webkit-appearance: none) {
+          .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Pan"]::before,
+          .entity .overview__xy-wrapper .canvasjs-chart-toolbar button[title="Zoom"]::before {
+            left: -8.8rem; } } }
     .entity .overview__xy-wrapper .canvasjs-chart-credit {
       display: none; }
     @media only screen and (max-width: 30em) {
