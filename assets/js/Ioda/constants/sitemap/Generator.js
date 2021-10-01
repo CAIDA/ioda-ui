@@ -35,13 +35,9 @@ async function generateSitemap() {
             entityCodeMap.push(formattedObj);
         });
 
-        console.log(entityCodeMap);
-
         const routeConfig = {
             '/country/:entityCode': [{entityCode: entityCodeMap}]
         };
-
-        console.log(routeConfig);
 
         return (
             new Sitemap(router)
@@ -52,7 +48,6 @@ async function generateSitemap() {
     } catch(e) {
         console.log(e);
     }
-
 }
 
 generateSitemap();
