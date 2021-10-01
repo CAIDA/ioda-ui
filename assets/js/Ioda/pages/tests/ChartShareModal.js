@@ -13,6 +13,8 @@ import Helmet from "react-helmet";
 import Draggable from 'react-draggable';
 import { Style } from "react-style-tag";
 import DragAndDropTextBox from "../../components/dragAndDropTextBox/DragAndDropTextBox";
+import Loading from "../../components/loading/Loading";
+import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
 
 const TextBox = ({order, textBoxComponentsStyles, onStart, onStop, handleTextAreaUpdate}) => <Draggable onStart={onStart} onStop={onStop}>
     <textarea className={`textbox textbox--${order}`} style={{height: textBoxComponentsStyles && textBoxComponentsStyles[order] ? `${textBoxComponentsStyles[order]}rem` : 'auto'}} onChange={(e) => handleTextAreaUpdate(e)} placeholder="wrong one">
@@ -31,9 +33,13 @@ class ChartShareModal extends PureComponent {
             // drag and drop textbox
             activeDrags: 0,
             textBoxComponents: [],
-            textBoxComponentsStyles: []
+            textBoxComponentsStyles: [],
+            // for updating the image snapshot
+            updatedSnapshotImageFile: null
         };
         this.headingRef = React.createRef();
+        this.chartRef = React.createRef();
+        this.canvasRef = React.createRef();
         this.onStop = this.onStop.bind(this);
         this.onStart = this.onStart.bind(this);
     }
@@ -42,6 +48,12 @@ class ChartShareModal extends PureComponent {
         setTimeout(() => {
             this.setState({ renderCanvas: true })
         }, 600);
+    }
+
+    componentDidUpdate(prevState) {
+        if (this.state.updatedSnapshotImageFile !== prevState.updatedSnapshotImageFile) {
+            console.log("different image file");
+        }
     }
 
     downloadFile() {
@@ -94,6 +106,37 @@ class ChartShareModal extends PureComponent {
             textBoxComponents: newComponents.slice(0,-1),
         });
     };
+
+    handleUpdateSnapshot() {
+        // save current drawings
+        localStorage.setItem(
+            "drawing",
+            this.canvasRef.getSaveData()
+        );
+        // take new snapshot and update
+        const input = document.getElementById('chart');
+        html2canvas(input)
+            .then((canvas) => {
+                this.setState({
+                    updatedSnapshotImageFile: canvas.toDataURL('img/png'),
+                }, () => {
+                    this.canvasRef.loadSaveData(
+                        localStorage.getItem("drawing")
+                    );
+                })
+            })
+    }
+
+    genXyChart() {
+        return (
+            this.props.xyDataOptions && <div className="overview__xy-wrapper" ref={this.chartRef}>
+                <CanvasJSChart options={this.props.xyDataOptions}
+                               onRef={ref => this.chart = ref}
+                />
+                {/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
+            </div>
+        );
+    }
 
     render() {
         const { textBoxComponents } = this.state;
@@ -153,6 +196,21 @@ class ChartShareModal extends PureComponent {
                     </div>
                     <div className="modal__content">
                         <div className="row">
+                            <h3 style={{fontSize: '3rem', margin: '1rem 0'}}>Chart</h3>
+                            <div id="chart">
+
+                                {
+                                    this.props.xyDataOptions
+                                        ? this.genXyChart()
+                                        : <Loading/>
+                                }
+                            </div>
+
+                            <button className="related__modal-button" style={{marginRight: '2rem'}} onClick={() => this.handleUpdateSnapshot()}>
+                                Update Snapshot
+                            </button>
+                        </div>
+                        <div className="row">
                             <h3 style={{fontSize: '3rem', margin: '1rem 0'}}>Annotator</h3>
                             {
                                 this.state.renderCanvas && <div id="annotation">
@@ -160,11 +218,12 @@ class ChartShareModal extends PureComponent {
                                     textBoxComponents.map((TextBox, i) => <DragAndDropTextBox key={i} order={i} onStart={this.onStart.bind(this)} onStop={this.onStop.bind(this)}/>)}
                                     <div className={this.state.drawingEnabled ? "annotation__drawingLocked" : null}>
                                         <CanvasDraw
-                                            ref={canvasDraw => (this.saveableCanvas = canvasDraw)}
+                                            key={this.state.updatedSnapshotImageFile}
+                                            ref={canvasDraw => (this.canvasRef = canvasDraw)}
                                             brushColor={this.state.color}
                                             brushRadius={this.state.brushRadius}
                                             lazyRadius={this.state.lazyRadius}
-                                            imgSrc={this.props.imageFile}
+                                            imgSrc={this.state.updatedSnapshotImageFile ? this.state.updatedSnapshotImageFile : this.props.imageFile}
                                             canvasWidth={this.headingRef.current.clientWidth}
                                             canvasHeight={(this.props.imageHeight * this.headingRef.current.clientWidth) / this.props.imageWidth}
                                         />

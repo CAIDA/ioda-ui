@@ -47,8 +47,7 @@
         "test:watch": "karma start --auto-watch --no-single-run --browsers FirefoxHeadless",
         "lint": "sass-lint -v",
         "test:es-check": "es-check es5 'assets/js/Ioda/*.js'",
-        "sitemap": "babel-node assets/js/Ioda/constants/sitemap/Generator.js",
-
+        "sitemap": "babel-node assets/js/Ioda/constants/sitemap/Generator.js"
     },
     "dependencies": {
         "@wojtekmaj/react-timerange-picker": "^3.0.0",

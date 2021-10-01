@@ -111,7 +111,6 @@ class ChartShare extends Component {
     }
 
     componentDidMount() {
-        console.log("update1");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
 
@@ -723,6 +722,8 @@ class ChartShare extends Component {
                                                         imageFile={this.state.imageFile}
                                                         imageWidth={this.colRef.current.clientWidth}
                                                         imageHeight={this.colRef.current.clientHeight}
+                                                        xyDataOptions={this.state.xyDataOptions}
+                                                        genXyChart={this.genXyChart}
                                                     />
                                                 }
                                             </div>
