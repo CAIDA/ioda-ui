@@ -3466,6 +3466,10 @@ button[class*="searchButton"] {
   @media only screen and (max-width: 64em) {
     .entity .overview .col-3-of-5 {
       margin-bottom: 2.5rem !important; } }
+  .entity .overview__buttons {
+    display: flex; }
+    .entity .overview__buttons-col:not(:first-child) {
+      margin-left: 2rem; }
   .entity .overview__time-range-error {
     min-height: 6rem;
     margin-bottom: 1.5rem;
