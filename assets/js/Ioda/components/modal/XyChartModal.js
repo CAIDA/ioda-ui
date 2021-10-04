@@ -1,13 +1,15 @@
 import React, {PureComponent} from 'react';
 import PropTypes from "prop-types";
 import CanvasDraw from "react-canvas-draw";
-import {secondaryColor} from "../../utils";
+import {convertSecondsToDateValues, secondaryColor} from "../../utils";
 import html2canvas from "html2canvas";
-import Helmet from "react-helmet";
 import Draggable from 'react-draggable';
 import DragAndDropTextBox from "../../components/dragAndDropTextBox/DragAndDropTextBox";
 import Loading from "../../components/loading/Loading";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
+import ToggleButton from "../toggleButton/ToggleButton";
+import T from "i18n-react";
+import TimeStamp from "../timeStamp/TimeStamp";
 
 const TextBox = ({order, textBoxComponentsStyles, onStart, onStop, handleTextAreaUpdate}) => <Draggable onStart={onStart} onStop={onStop}>
     <textarea className={`textbox textbox--${order}`} style={{height: textBoxComponentsStyles && textBoxComponentsStyles[order] ? `${textBoxComponentsStyles[order]}rem` : 'auto'}} onChange={(e) => handleTextAreaUpdate(e)} placeholder="wrong one">
@@ -23,7 +25,7 @@ class XyChartModal extends PureComponent {
             lazyRadius: 0,
             renderCanvas: false,
             drawingEnabled: false,
-            // drag and drop textbox
+            // drag and drop text box
             activeDrags: 0,
             textBoxComponents: [],
             textBoxComponentsStyles: [],
@@ -33,9 +35,9 @@ class XyChartModal extends PureComponent {
             loading: true
         };
         this.headingRef = React.createRef();
-        this.chartRef = React.createRef();
         this.canvasRef = React.createRef();
         this.colRef = React.createRef();
+        this.chartRef = React.createRef();
         this.onStop = this.onStop.bind(this);
         this.onStart = this.onStart.bind(this);
     }
@@ -62,7 +64,6 @@ class XyChartModal extends PureComponent {
                 this.saveAs(canvas.toDataURL(), `${this.props.entityName}Chart.png`);
             })
     }
-
     saveAs(uri, filename) {
         let link = document.createElement('a');
         if (typeof link.download === 'string') {
@@ -79,26 +80,25 @@ class XyChartModal extends PureComponent {
         }
     }
 
+
     onStart = () => {
         this.setState({activeDrags: ++this.state.activeDrags});
     };
-
     onStop = () => {
         this.setState({activeDrags: --this.state.activeDrags});
     };
-
     handleLockDrawing = () => {
         this.setState({
             drawingEnabled: !this.state.drawingEnabled
         })
     };
+
     handleRenderTextBox = () => {
         const newComponents = [...this.state.textBoxComponents, TextBox];
         this.setState({
             textBoxComponents: newComponents
         });
     };
-
     handleDeleteTextBox = () => {
         const newComponents = [...this.state.textBoxComponents];
         this.setState({
@@ -128,7 +128,7 @@ class XyChartModal extends PureComponent {
 
     genXyChart() {
         return (
-            this.props.xyDataOptions && <div className="overview__xy-wrapper" ref={this.chartRef}>
+            this.props.xyDataOptions && <div className="overview__xy-wrapper">
                 <CanvasJSChart options={this.props.xyDataOptions}
                                onRef={ref => this.chart = ref}
                 />
@@ -139,6 +139,9 @@ class XyChartModal extends PureComponent {
 
     render() {
         const { textBoxComponents } = this.state;
+        const xyChartAlertToggleLabel = T.translate("entity.xyChartAlertToggleLabel");
+        const xyChartNormalizedToggleLabel = T.translate("entity.xyChartNormalizedToggleLabel");
+
         if (this.props.modalStatus === false) {
             return null;
         } else {
@@ -178,23 +181,40 @@ class XyChartModal extends PureComponent {
                                         Remove Last Text Box
                                     </button>
                                 </div>
-                                <div className="chartShare__modal__control-panel-row">
-
-                                </div>
                             </div>
                         </div>
                         <div className="modal__content">
                             <div className="row">
                                 <div className="col-1-of-1" ref={this.colRef}>
-                                    <h3 style={{fontSize: '3rem', margin: '1rem 0'}}>Chart</h3>
-                                    <div id="chart">
-                                        {
-                                            this.props.xyDataOptions
-                                                ? this.genXyChart()
-                                                : <Loading/>
-                                        }
+                                    <div className="modal__row">
+                                        <div id="chart" ref={this.chartRef}>
+                                            <div className="overview__buttons">
+                                                <h3 className="section-header">Raw Signals for {this.props.entityName}</h3>
+                                                <div className="overview__buttons-col">
+                                                    <ToggleButton
+                                                        selected={this.props.tsDataDisplayOutageBands}
+                                                        toggleSelected={() => this.props.handleDisplayAlertBands()}
+                                                        label={xyChartAlertToggleLabel}
+                                                    />
+                                                    <ToggleButton
+                                                        selected={this.props.tsDataNormalized}
+                                                        toggleSelected={() => this.props.changeXyChartNormalization()}
+                                                        label={xyChartNormalizedToggleLabel}
+                                                    />
+                                                </div>
+                                            </div>
+                                            {
+                                                this.props.xyDataOptions
+                                                    ? this.genXyChart()
+                                                    : <Loading/>
+                                            }
+                                            <div className="overview__timestamp">
+                                                <TimeStamp from={convertSecondsToDateValues(this.props.tsDataLegendRangeFrom)}
+                                                           until={convertSecondsToDateValues(this.props.tsDataLegendRangeUntil)} />
+                                            </div>
+                                        </div>
                                     </div>
-                                    <button className="related__modal-button" style={{marginRight: '2rem'}} onClick={() => this.handleUpdateSnapshot()}>
+                                    <button className="related__modal-button" onClick={() => this.handleUpdateSnapshot()}>
                                         Update Snapshot
                                     </button>
                                 </div>
@@ -202,9 +222,9 @@ class XyChartModal extends PureComponent {
                             </div>
                             <div className="row">
                                 <div className="col-1-of-1">
-                                    <h3 style={{fontSize: '3rem', margin: '1rem 0'}}>Annotator</h3>
+                                    <h3 className="section-header">Annotator</h3>
                                     {
-                                        this.state.renderCanvas && <div id="annotation">
+                                        this.state.renderCanvas && <div id="annotation" className="annotation modal__row">
                                             {textBoxComponents.length !== 0 &&
                                             textBoxComponents.map((TextBox, i) => <DragAndDropTextBox key={i} order={i} onStart={this.onStart.bind(this)} onStop={this.onStop.bind(this)}/>)}
                                             <div className={this.state.drawingEnabled ? "annotation__drawingLocked" : null}>
@@ -215,8 +235,9 @@ class XyChartModal extends PureComponent {
                                                     brushRadius={this.state.brushRadius}
                                                     lazyRadius={this.state.lazyRadius}
                                                     imgSrc={this.state.imageFile}
-                                                    canvasWidth={this.headingRef && this.headingRef.current ? this.headingRef.current.clientWidth : null}
-                                                    canvasHeight={this.colRef && this.colRef.current ? (this.colRef.current.clientHeight * this.headingRef.current.clientWidth) / this.colRef.current.clientWidth : null}
+                                                    canvasWidth={this.chartRef && this.chartRef.current ? this.chartRef.current.clientWidth : null}
+                                                    canvasHeight={this.chartRef && this.chartRef.current ? this.chartRef.current.clientHeight - 10 : null}
+                                                    // canvasHeight={this.chartRef && this.chartRef.current ? (this.chartRef.current.clientHeight * this.headingRef.current.clientWidth) / this.chartRef.current.clientWidth : null}
                                                 />
                                             </div>
                                         </div>

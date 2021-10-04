@@ -173,12 +173,14 @@ class Entity extends Component {
         this.handleEntityClick = this.handleEntityClick.bind(this);
         this.handleCheckboxEventLoading = this.handleCheckboxEventLoading.bind(this);
         this.toggleXyChartModal = this.toggleXyChartModal.bind(this);
+        this.changeXyChartNormalization = this.changeXyChartNormalization.bind(this);
+        this.handleDisplayAlertBands = this.handleDisplayAlertBands.bind(this);
         this.initialTableLimit = 300;
         this.initialHtsLimit = 100;
         this.maxHtsLimit = 150;
     }
     componentDidMount() {
-        console.log("update16");
+        console.log("update28");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
 
@@ -1892,6 +1894,15 @@ class Entity extends Component {
                                                         toggleModal={this.toggleXyChartModal}
                                                         xyDataOptions={this.state.xyDataOptions}
                                                         modalStatus={this.state.showXyChartModal}
+                                                        // for toggles in chart, data and onToggle functions
+                                                        handleDisplayAlertBands={this.handleDisplayAlertBands}
+                                                        changeXyChartNormalization={this.changeXyChartNormalization}
+                                                        tsDataDisplayOutageBands={this.state.tsDataDisplayOutageBands}
+                                                        tsDataNormalized={this.state.tsDataNormalized}
+                                                        // for datestamp below chart
+                                                        tsDataLegendRangeFrom={this.state.tsDataLegendRangeFrom}
+                                                        tsDataLegendRangeUntil={this.state.tsDataLegendRangeUntil}
+
                                                     />
                                                 </div>
                                             </div>
