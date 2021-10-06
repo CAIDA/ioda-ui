@@ -1,4 +1,75 @@
 .chartShare {
+  &__modal__control-panel-row {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+  }
+
+  &__modal__control-panel-col {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+
+    &--toggle {
+      justify-content: flex-end;
+    }
+
+    & .toggle {
+      margin-left: 2rem;
+
+      &__container {
+        width: 5.2rem;
+
+        &--disabled .dialog-button {
+          left: 0!important;
+        }
+
+        & .dialog-button {
+          left: 3.5rem;
+        }
+      }
+    }
+  }
+
+  &__button-blob {
+    margin-left: 2rem;
+    display: flex;
+
+    & button {
+      background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
+      color: $color-white;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      border: none;
+      background-size: 100% 300%;
+      transition: all .4s ease-in-out;
+      position: relative;
+      z-index: 10;
+      box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, .2), inset 0 0 0 0.1rem rgba(0, 0, 0, .15), 0 0.1rem 0 rgba(255, 255, 255, .15);
+      height: 3rem;
+      font-size: 1rem;
+      margin: 0;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:not(:first-child) {
+        border-left: 0.2rem solid $color-primary-light;
+      }
+
+      &:first-child {
+        border-radius: 0.5rem 0 0 0.5rem;
+      }
+
+      &:last-child {
+        border-radius: 0 0.5rem 0.5rem 0;
+      }
+    }
+  }
+
   & .textbox {
     position: absolute;
     border: 2px solid $color-blue-border;
@@ -9,7 +80,6 @@
     width: 28rem!important;
     max-width: 42rem;
     min-height: 3.3rem;
-    //max-height: 6rem;
     font-size: 1.3rem;
     color: $color-primary;
     text-align: center;
@@ -19,15 +89,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    //&__text {
-    //  font-size: 1.3rem;
-    //  color: $color-primary;
-    //  text-align: center;
-    //  display: flex;
-    //  justify-content: center;
-    //  align-items: center;
-    //}
   }
 
   & .annotation {
@@ -36,6 +97,37 @@
 
     &__drawingLocked {
       pointer-events: none;
+    }
+  }
+
+  &__button--download {
+    width: 100%;
+    min-width: 26rem;
+    max-width:52rem;
+    height: 5rem;
+    margin: 3rem auto;
+    border-radius: 0.5rem;
+    background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
+    color: $color-white;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    border: none;
+    background-size: 100% 300%;
+    transition: all .4s ease-in-out;
+    position: relative;
+    z-index: 10;
+    box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, .2), inset 0 0 0 0.1rem rgba(0, 0, 0, .15), 0 0.1rem 0 rgba(255, 255, 255, .15);
+    font-size: 2.4rem;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-img {
+      height: 4rem;
+      width: 4rem;
+      margin-right: 1rem;
     }
   }
 }

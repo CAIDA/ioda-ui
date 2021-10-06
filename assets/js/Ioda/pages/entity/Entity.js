@@ -180,7 +180,7 @@ class Entity extends Component {
         this.maxHtsLimit = 150;
     }
     componentDidMount() {
-        console.log("update28");
+        console.log("update19");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
 
@@ -1902,7 +1902,6 @@ class Entity extends Component {
                                                         // for datestamp below chart
                                                         tsDataLegendRangeFrom={this.state.tsDataLegendRangeFrom}
                                                         tsDataLegendRangeUntil={this.state.tsDataLegendRangeUntil}
-
                                                     />
                                                 </div>
                                             </div>

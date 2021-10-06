@@ -11,9 +11,22 @@ import ToggleButton from "../toggleButton/ToggleButton";
 import T from "i18n-react";
 import TimeStamp from "../timeStamp/TimeStamp";
 
+import iconAddTextbox from 'images/icons/icon-addTextbox.png';
+import iconRemoveTextbox from 'images/icons/icon-removeTextbox.png';
+import iconDownload from 'images/icons/icon-download.png';
+import iconRefresh from 'images/icons/icon-refresh.png';
+import iconTrash from 'images/icons/icon-trash.png';
+import iconUndo from 'images/icons/icon-undo.png';
+import Tooltip from "../tooltip/Tooltip";
+
+
 const TextBox = ({order, textBoxComponentsStyles, onStart, onStop, handleTextAreaUpdate}) => <Draggable onStart={onStart} onStop={onStop}>
     <textarea className={`textbox textbox--${order}`} style={{height: textBoxComponentsStyles && textBoxComponentsStyles[order] ? `${textBoxComponentsStyles[order]}rem` : 'auto'}} onChange={(e) => handleTextAreaUpdate(e)} placeholder="wrong one">
 </textarea></Draggable>;
+
+const AlertBand = ({order, textBoxComponentsStyles, onStart, onStop, handleTextAreaUpdate}) => <Draggable onStart={onStart} onStop={onStop}>
+    <div className={`alertBand alertBand--${order}`} style={{height: textBoxComponentsStyles && textBoxComponentsStyles[order] ? `${textBoxComponentsStyles[order]}rem` : 'auto'}} onChange={(e) => handleTextAreaUpdate(e)} placeholder="wrong one">
+</div></Draggable>;
 
 class XyChartModal extends PureComponent {
     constructor(props) {
@@ -137,6 +150,13 @@ class XyChartModal extends PureComponent {
         );
     }
 
+    handleCustomAlertBands() {
+        const newAlertBands = [...this.state.alertBands, AlertBand];
+        this.setState({
+            alertBands: newAlertBands
+        });
+    }
+
     render() {
         const { textBoxComponents } = this.state;
         const xyChartAlertToggleLabel = T.translate("entity.xyChartAlertToggleLabel");
@@ -158,30 +178,6 @@ class XyChartModal extends PureComponent {
                                     ×
                                 </button>
                             </div>
-                            <div className="chartShare__modal__control-panel">
-                                <div className="chartShare__modal__control-panel-row">
-                                    <button className="related__modal-button" style={{marginRight: '2rem'}} onClick={() => this.saveableCanvas.clear()}>
-                                        Clear
-                                    </button>
-                                    <button className="related__modal-button" style={{marginRight: '2rem'}} onClick={() => this.saveableCanvas.undo()}>
-                                        Undo
-                                    </button>
-                                    <button className="related__modal-button" style={{marginRight: '2rem'}} onClick={() => this.downloadFile()}>
-                                        Download
-                                    </button>
-                                    <button className="related__modal-button" style={{marginRight: '2rem'}} onClick={() => this.handleLockDrawing()}>
-                                        {
-                                            this.state.drawingEnabled ? "Drawing Disabled" : "Drawing Enabled"
-                                        }
-                                    </button>
-                                    <button className="related__modal-button" style={{marginRight: '2rem'}} onClick={() => this.handleRenderTextBox()}>
-                                        Add New Text Box
-                                    </button>
-                                    <button className="related__modal-button" style={{marginRight: '2rem'}} onClick={() => this.handleDeleteTextBox()}>
-                                        Remove Last Text Box
-                                    </button>
-                                </div>
-                            </div>
                         </div>
                         <div className="modal__content">
                             <div className="row">
@@ -189,7 +185,7 @@ class XyChartModal extends PureComponent {
                                     <div className="modal__row">
                                         <div id="chart" ref={this.chartRef}>
                                             <div className="overview__buttons">
-                                                <h3 className="section-header">Raw Signals for {this.props.entityName}</h3>
+                                                <h3 className="section-header">Raw IODA Signals for {this.props.entityName}</h3>
                                                 <div className="overview__buttons-col">
                                                     <ToggleButton
                                                         selected={this.props.tsDataDisplayOutageBands}
@@ -214,15 +210,60 @@ class XyChartModal extends PureComponent {
                                             </div>
                                         </div>
                                     </div>
-                                    <button className="related__modal-button" onClick={() => this.handleUpdateSnapshot()}>
-                                        Update Snapshot
-                                    </button>
-                                </div>
 
+                                </div>
                             </div>
                             <div className="row">
                                 <div className="col-1-of-1">
                                     <h3 className="section-header">Annotator</h3>
+                                    <div className="chartShare__modal__control-panel">
+                                        <div className="chartShare__modal__control-panel-row">
+                                            <div className="chartShare__modal__control-panel-col">
+                                                <h4 className="chartShare__modal__control-panel-col-title">Chart Image</h4>
+                                                <button className="related__modal-button" onClick={() => this.handleUpdateSnapshot()}>
+                                                    <img className="related__modal-button-img" src={iconRefresh} title="Update Snapshot" alt="Update Snapshot"/>
+                                                </button>
+                                            </div>
+                                            <div className="chartShare__modal__control-panel-col">
+                                                <h4 className="chartShare__modal__control-panel-col-title">Drawing</h4>
+                                                <div className="chartShare__button-blob">
+                                                    <button className="chartShare__button" onClick={() => this.saveableCanvas.clear()}>
+                                                        <img className="related__modal-button-img" src={iconTrash} title="Remove All Drawn Lines" alt="Remove all Drawn Lines"/>
+                                                    </button>
+                                                    <button className="chartShare__button" onClick={() => this.saveableCanvas.undo()}>
+                                                        <img className="related__modal-button-img" src={iconUndo} title="Undo Last Line Drawn" alt="Undo Last Line Drawn"/>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div className="chartShare__modal__control-panel-col">
+                                                <h4 className="chartShare__modal__control-panel-col-title">Textbox</h4>
+                                                <div className="chartShare__button-blob">
+                                                    <button className="chartShare__button" onClick={() => this.handleRenderTextBox()}>
+                                                        <img className="related__modal-button-img" src={iconAddTextbox} title="Add New Text Box" alt="Add New Text Box"/>
+                                                    </button>
+                                                    <button className="chartShare__button" onClick={() => this.handleDeleteTextBox()}>
+                                                        <img className="related__modal-button-img" src={iconRemoveTextbox} title="Remove Last Text Box" alt="Remove Last Text Box"/>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div className="chartShare__modal__control-panel-col chartShare__modal__control-panel-col--toggle">
+                                                <ToggleButton
+                                                    selected={this.state.drawingEnabled}
+                                                    toggleSelected={() => this.handleLockDrawing()}
+                                                    label={"Toggle Drag/Draw"}
+                                                    customTextOn="DRAG"
+                                                    customTextOff="DRAW"
+                                                />
+                                                {/*<h4>Alert Bands</h4>*/}
+                                                {/*<button className="related__modal-button" style={{marginRight: '2rem'}} onClick={() => this.handleCustomAlertBands()}>*/}
+                                                {/*    Add New Alert Band*/}
+                                                {/*</button>*/}
+                                                {/*<button className="related__modal-button" style={{marginRight: '2rem'}} onClick={() => this.handleCustomAlertBands()}>*/}
+                                                {/*    Remove Last Alert Band*/}
+                                                {/*</button>*/}
+                                            </div>
+                                        </div>
+                                    </div>
                                     {
                                         this.state.renderCanvas && <div id="annotation" className="annotation modal__row">
                                             {textBoxComponents.length !== 0 &&
@@ -236,12 +277,16 @@ class XyChartModal extends PureComponent {
                                                     lazyRadius={this.state.lazyRadius}
                                                     imgSrc={this.state.imageFile}
                                                     canvasWidth={this.chartRef && this.chartRef.current ? this.chartRef.current.clientWidth : null}
-                                                    canvasHeight={this.chartRef && this.chartRef.current ? this.chartRef.current.clientHeight - 10 : null}
+                                                    canvasHeight={this.chartRef && this.chartRef.current ? this.chartRef.current.clientHeight - 7 : null}
                                                     // canvasHeight={this.chartRef && this.chartRef.current ? (this.chartRef.current.clientHeight * this.headingRef.current.clientWidth) / this.chartRef.current.clientWidth : null}
                                                 />
                                             </div>
                                         </div>
                                     }
+                                    <button className="chartShare__button--download" onClick={() => this.downloadFile()}>
+                                        <img className="chartShare__button--download-img" src={iconDownload} title="Download Image" alt="Download Image"/>
+                                        Download
+                                    </button>
                                 </div>
                             </div>
                         </div>
