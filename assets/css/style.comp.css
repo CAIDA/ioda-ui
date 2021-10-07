@@ -2772,6 +2772,9 @@ body {
       width: 100%;
       box-shadow: none; }
 
+.chartShare__modal--disabled {
+  display: none; }
+
 .chartShare__modal__control-panel-row {
   display: flex;
   justify-content: flex-start;
@@ -2782,6 +2785,8 @@ body {
   align-items: center;
   justify-content: flex-start;
   flex-direction: column; }
+  .chartShare__modal__control-panel-col:not(:first-child) {
+    margin-left: 2rem; }
   .chartShare__modal__control-panel-col--toggle {
     justify-content: flex-end; }
   .chartShare__modal__control-panel-col .toggle {
@@ -2793,8 +2798,11 @@ body {
       .chartShare__modal__control-panel-col .toggle__container .dialog-button {
         left: 3.5rem; }
 
+.chartShare__modal .overview__buttons {
+  display: flex;
+  justify-content: space-between; }
+
 .chartShare__button-blob {
-  margin-left: 2rem;
   display: flex; }
   .chartShare__button-blob button {
     background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
@@ -2840,11 +2848,13 @@ body {
   overflow: hidden;
   display: flex;
   justify-content: center;
-  align-items: center; }
+  align-items: center;
+  top: 50%; }
 
 .chartShare .annotation {
   border: 2px solid #DCE4EA;
-  border-radius: 0.3rem; }
+  border-radius: 0.3rem;
+  position: relative; }
   .chartShare .annotation__drawingLocked {
     pointer-events: none; }
 

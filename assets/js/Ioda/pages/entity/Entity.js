@@ -50,14 +50,11 @@ import {
     bgpColor,
     activeProbingColor,
     ucsdNtColor,
-    convertTimeToSecondsForURL, horizonChartSeriesColor
+    convertTimeToSecondsForURL
 } from "../../utils";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
 import Error from "../../components/error/Error";
-import DashboardTab from "../dashboard/DashboardTab";
 import {Helmet} from "react-helmet";
-import html2canvas from "html2canvas";
-import ChartShareModal from "../tests/ChartShareModal";
 import XyChartModal from "../../components/modal/XyChartModal";
 
 
@@ -180,7 +177,7 @@ class Entity extends Component {
         this.maxHtsLimit = 150;
     }
     componentDidMount() {
-        console.log("update19");
+        console.log("update42");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
 
@@ -1032,7 +1029,6 @@ class Entity extends Component {
             showXyChartModal: !this.state.showXyChartModal
         })
     }
-
 
 // Event Table
     // Take values from api and format for Event table
@@ -1889,20 +1885,22 @@ class Entity extends Component {
                                                     <button className="related__modal-button" onClick={this.toggleXyChartModal}>
                                                         Export Chart
                                                     </button>
-                                                    <XyChartModal
-                                                        entityName={this.state.entityName}
-                                                        toggleModal={this.toggleXyChartModal}
-                                                        xyDataOptions={this.state.xyDataOptions}
-                                                        modalStatus={this.state.showXyChartModal}
-                                                        // for toggles in chart, data and onToggle functions
-                                                        handleDisplayAlertBands={this.handleDisplayAlertBands}
-                                                        changeXyChartNormalization={this.changeXyChartNormalization}
-                                                        tsDataDisplayOutageBands={this.state.tsDataDisplayOutageBands}
-                                                        tsDataNormalized={this.state.tsDataNormalized}
-                                                        // for datestamp below chart
-                                                        tsDataLegendRangeFrom={this.state.tsDataLegendRangeFrom}
-                                                        tsDataLegendRangeUntil={this.state.tsDataLegendRangeUntil}
-                                                    />
+                                                    {
+                                                        this.state.showXyChartModal && <XyChartModal
+                                                            entityName={this.state.entityName}
+                                                            toggleModal={this.toggleXyChartModal}
+                                                            xyDataOptions={this.state.xyDataOptions}
+                                                            modalStatus={this.state.showXyChartModal}
+                                                            // for toggles in chart, data and onToggle functions
+                                                            handleDisplayAlertBands={this.handleDisplayAlertBands}
+                                                            changeXyChartNormalization={this.changeXyChartNormalization}
+                                                            tsDataDisplayOutageBands={this.state.tsDataDisplayOutageBands}
+                                                            tsDataNormalized={this.state.tsDataNormalized}
+                                                            // for datestamp below chart
+                                                            tsDataLegendRangeFrom={this.state.tsDataLegendRangeFrom}
+                                                            tsDataLegendRangeUntil={this.state.tsDataLegendRangeUntil}
+                                                        />
+                                                    }
                                                 </div>
                                             </div>
                                         </div>

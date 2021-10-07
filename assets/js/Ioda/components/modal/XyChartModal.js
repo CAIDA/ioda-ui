@@ -58,7 +58,7 @@ class XyChartModal extends PureComponent {
     componentDidMount() {
         setTimeout(() => {
             this.setState({ renderCanvas: true })
-        }, 600);
+        }, 300);
     }
 
     componentDidUpdate(prevState) {
@@ -282,6 +282,10 @@ class XyChartModal extends PureComponent {
                                                 />
                                             </div>
                                         </div>
+                                    }
+                                    {
+                                        this.state.renderCanvas
+                                            ? null : <div className="annotation modal__row"><Loading/></div>
                                     }
                                     <button className="chartShare__button--download" onClick={() => this.downloadFile()}>
                                         <img className="chartShare__button--download-img" src={iconDownload} title="Download Image" alt="Download Image"/>

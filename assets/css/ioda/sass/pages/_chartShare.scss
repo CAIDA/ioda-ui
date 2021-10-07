@@ -1,39 +1,55 @@
 .chartShare {
-  &__modal__control-panel-row {
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: 1rem;
-  }
-
-  &__modal__control-panel-col {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-direction: column;
-
-    &--toggle {
-      justify-content: flex-end;
+  &__modal {
+    &--disabled {
+      display: none;
     }
 
-    & .toggle {
-      margin-left: 2rem;
+    &__control-panel-row {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 1rem;
+    }
 
-      &__container {
-        width: 5.2rem;
+    &__control-panel-col {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-direction: column;
 
-        &--disabled .dialog-button {
-          left: 0!important;
-        }
+      &:not(:first-child) {
+        margin-left: 2rem;
+      }
 
-        & .dialog-button {
-          left: 3.5rem;
+      &--toggle {
+        justify-content: flex-end;
+      }
+
+      & .toggle {
+        margin-left: 2rem;
+
+        &__container {
+          width: 5.2rem;
+
+          &--disabled .dialog-button {
+            left: 0 !important;
+          }
+
+          & .dialog-button {
+            left: 3.5rem;
+          }
         }
       }
     }
+
+    & .overview__buttons {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 
+
+
   &__button-blob {
-    margin-left: 2rem;
     display: flex;
 
     & button {
@@ -89,11 +105,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    top: 50%;
   }
 
   & .annotation {
     border: 2px solid $color-blue-border;
     border-radius: 0.3rem;
+    position: relative;
 
     &__drawingLocked {
       pointer-events: none;
