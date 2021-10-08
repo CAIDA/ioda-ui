@@ -72,9 +72,13 @@ class XyChartModal extends PureComponent {
 
     downloadFile() {
         const input = document.getElementById('annotation');
+        const fromObj = convertSecondsToDateValues(this.props.tsDataLegendRangeFrom);
+        const untilObj = convertSecondsToDateValues(this.props.tsDataLegendRangeUntil);
+        const timestamp = `${fromObj.day}${fromObj.month.substr(0,3)}${fromObj.year}_${fromObj.hours}${fromObj.minutes}${fromObj.meridian.substr(0,1)}_${untilObj.day}${untilObj.month.substr(0,3)}${untilObj.year}_${untilObj.hours}${untilObj.minutes}${untilObj.meridian.substr(0,1)}`;
+
         html2canvas(input)
             .then((canvas) => {
-                this.saveAs(canvas.toDataURL(), `${this.props.entityName}Chart.png`);
+                this.saveAs(canvas.toDataURL(), `${this.props.entityName} Chart-${timestamp}.png`);
             })
     }
     saveAs(uri, filename) {
@@ -92,7 +96,6 @@ class XyChartModal extends PureComponent {
             window.open(uri);
         }
     }
-
 
     onStart = () => {
         this.setState({activeDrags: ++this.state.activeDrags});
@@ -145,16 +148,8 @@ class XyChartModal extends PureComponent {
                 <CanvasJSChart options={this.props.xyDataOptions}
                                onRef={ref => this.chart = ref}
                 />
-                {/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
             </div>
         );
-    }
-
-    handleCustomAlertBands() {
-        const newAlertBands = [...this.state.alertBands, AlertBand];
-        this.setState({
-            alertBands: newAlertBands
-        });
     }
 
     render() {
@@ -227,10 +222,10 @@ class XyChartModal extends PureComponent {
                                             <div className="chartShare__modal__control-panel-col">
                                                 <h4 className="chartShare__modal__control-panel-col-title">Drawing</h4>
                                                 <div className="chartShare__button-blob">
-                                                    <button className="chartShare__button" onClick={() => this.saveableCanvas.clear()}>
+                                                    <button className="chartShare__button" onClick={() => this.canvasRef.clear()}>
                                                         <img className="related__modal-button-img" src={iconTrash} title="Remove All Drawn Lines" alt="Remove all Drawn Lines"/>
                                                     </button>
-                                                    <button className="chartShare__button" onClick={() => this.saveableCanvas.undo()}>
+                                                    <button className="chartShare__button" onClick={() => this.canvasRef.undo()}>
                                                         <img className="related__modal-button-img" src={iconUndo} title="Undo Last Line Drawn" alt="Undo Last Line Drawn"/>
                                                     </button>
                                                 </div>
@@ -254,13 +249,6 @@ class XyChartModal extends PureComponent {
                                                     customTextOn="DRAG"
                                                     customTextOff="DRAW"
                                                 />
-                                                {/*<h4>Alert Bands</h4>*/}
-                                                {/*<button className="related__modal-button" style={{marginRight: '2rem'}} onClick={() => this.handleCustomAlertBands()}>*/}
-                                                {/*    Add New Alert Band*/}
-                                                {/*</button>*/}
-                                                {/*<button className="related__modal-button" style={{marginRight: '2rem'}} onClick={() => this.handleCustomAlertBands()}>*/}
-                                                {/*    Remove Last Alert Band*/}
-                                                {/*</button>*/}
                                             </div>
                                         </div>
                                     </div>
