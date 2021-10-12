@@ -181,13 +181,13 @@
   }
 
   & .textbox {
-    position: absolute;
+    position: absolute!important;
     border: 2px solid $color-blue-border;
     background-color: rgba(255, 255, 255, 0.3);
     z-index: 15;
     padding: 0.5rem;
     border-radius: 0.4rem;
-    width: 28rem!important;
+    //width: 28rem;
     max-width: 42rem;
     min-height: 3.3rem;
     //max-height: 6rem;

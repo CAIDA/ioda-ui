@@ -70,6 +70,7 @@
         "leaflet": "^0.7.3",
         "lodash": "^4.17.15",
         "prop-types": "^15.6.2",
+        "re-resizable": "^6.9.1",
         "react": "^16.14.0",
         "react-app-polyfill": "^2.0.0",
         "react-bootstrap": "^0.32.4",

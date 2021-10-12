@@ -18,15 +18,8 @@ import iconRefresh from 'images/icons/icon-refresh.png';
 import iconTrash from 'images/icons/icon-trash.png';
 import iconUndo from 'images/icons/icon-undo.png';
 import Tooltip from "../tooltip/Tooltip";
+import DragResizeContainer from 'react-drag-resize';
 
-
-const TextBox = ({order, textBoxComponentsStyles, onStart, onStop, handleTextAreaUpdate}) => <Draggable onStart={onStart} onStop={onStop}>
-    <textarea className={`textbox textbox--${order}`} style={{height: textBoxComponentsStyles && textBoxComponentsStyles[order] ? `${textBoxComponentsStyles[order]}rem` : 'auto'}} onChange={(e) => handleTextAreaUpdate(e)} placeholder="wrong one">
-</textarea></Draggable>;
-
-const AlertBand = ({order, textBoxComponentsStyles, onStart, onStop, handleTextAreaUpdate}) => <Draggable onStart={onStart} onStop={onStop}>
-    <div className={`alertBand alertBand--${order}`} style={{height: textBoxComponentsStyles && textBoxComponentsStyles[order] ? `${textBoxComponentsStyles[order]}rem` : 'auto'}} onChange={(e) => handleTextAreaUpdate(e)} placeholder="wrong one">
-</div></Draggable>;
 
 class XyChartModal extends PureComponent {
     constructor(props) {
@@ -37,11 +30,13 @@ class XyChartModal extends PureComponent {
             brushRadius: 5,
             lazyRadius: 0,
             renderCanvas: false,
-            drawingEnabled: false,
+            drawingEnabled: true,
             // drag and drop text box
             activeDrags: 0,
             textBoxComponents: [],
             textBoxComponentsStyles: [],
+            dragMode: true,
+            resizeMode: false,
             // for updating the image snapshot
             imageFile: null,
             initialSnapshotLoaded: false,
@@ -109,8 +104,8 @@ class XyChartModal extends PureComponent {
         })
     };
 
-    handleRenderTextBox = () => {
-        const newComponents = [...this.state.textBoxComponents, TextBox];
+    handleRenderTextBox = (i) => {
+        const newComponents = [...this.state.textBoxComponents, i];
         this.setState({
             textBoxComponents: newComponents
         });
@@ -140,6 +135,13 @@ class XyChartModal extends PureComponent {
                     );
                 })
             })
+    }
+
+    handleDragResizeToggle() {
+        this.setState({
+            dragMode: !this.state.dragMode,
+            resizeMode: !this.state.resizeMode
+        });
     }
 
     genXyChart() {
@@ -243,11 +245,14 @@ class XyChartModal extends PureComponent {
                                             </div>
                                             <div className="chartShare__modal__control-panel-col chartShare__modal__control-panel-col--toggle">
                                                 <ToggleButton
-                                                    selected={this.state.drawingEnabled}
+                                                    selected={this.state.dragMode}
+                                                    toggleSelected={() => this.handleDragResizeToggle()}
+                                                    label={"Toggle Drag Mode"}
+                                                />
+                                                <ToggleButton
+                                                    selected={!this.state.drawingEnabled}
                                                     toggleSelected={() => this.handleLockDrawing()}
-                                                    label={"Toggle Drag/Draw"}
-                                                    customTextOn="DRAG"
-                                                    customTextOff="DRAW"
+                                                    label={"Toggle Draw Mode"}
                                                 />
                                             </div>
                                         </div>
@@ -255,7 +260,13 @@ class XyChartModal extends PureComponent {
                                     {
                                         this.state.renderCanvas && <div id="annotation" className="annotation modal__row">
                                             {textBoxComponents.length !== 0 &&
-                                            textBoxComponents.map((TextBox, i) => <DragAndDropTextBox key={i} order={i} onStart={this.onStart.bind(this)} onStop={this.onStop.bind(this)}/>)}
+                                            textBoxComponents.map((i, index) => <DragAndDropTextBox
+                                                key={index} order={index}
+                                                onStart={this.onStart.bind(this)}
+                                                onStop={this.onStop.bind(this)}
+                                                resizeMode={this.state.resizeMode}
+                                                dragMode={this.state.dragMode}
+                                            />)}
                                             <div className={this.state.drawingEnabled ? "annotation__drawingLocked" : null}>
                                                 <CanvasDraw
                                                     key={this.state.imageFile}
