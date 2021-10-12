@@ -200,6 +200,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &__textarea {
+      height: inherit;
+      width: 100%;
+      border: none;
+      font-family: $font-lato-regular;
+      font-size: 1.3rem;
+      resize: none;
+      background: rgba(255,255,255,0.35);
+      color: $color-primary;
+
+      &:focus-visible {
+        outline: none;
+      }
+    }
   }
 
   & .annotation {

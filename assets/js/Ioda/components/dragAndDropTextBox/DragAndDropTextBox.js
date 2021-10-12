@@ -29,7 +29,6 @@ class DragAndDropTextBox extends Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.dragMode !== prevProps.dragMode) {
-            console.log(this.props.dragMode);
             this.setState({
                 resizeEnabled: !this.state.resizeEnabled
             })
@@ -37,13 +36,14 @@ class DragAndDropTextBox extends Component {
     }
 
     render() {
+        console.log(this.state.resizeEnabled);
         return(
             <Draggable key={this.props.order} disabled={!this.props.dragMode} onStart={this.props.onStart} onStop={this.props.onStop}>
                 <Resizable
                     className={`textbox textbox--${this.props.order}`}
                     size={{ width: this.state.width, height: this.state.height }}
                     style={{resize: this.state.resizeEnabled ? 'auto' : 'none!important'}}
-                    // enable={this.state.resizeEnabled}
+                    enable={{ top:false, right:false, bottom:false, left:false, topRight:false, bottomRight:true, bottomLeft:false, topLeft:false }}
                     onResizeStop={(e, direction, ref, d) => {
                         this.setState({
                             width: this.state.width + d.width,
@@ -52,6 +52,7 @@ class DragAndDropTextBox extends Component {
                     }}
                 >
                     <textarea
+                        className="textbox__textarea"
                         style={{height: 'inherit', width: '100%'}}
                         // onChange={(e) => this.handleTextChange(e)}
                         placeholder="annotation..."

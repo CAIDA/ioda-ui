@@ -2314,6 +2314,17 @@ body {
   display: flex;
   justify-content: center;
   align-items: center; }
+  .chartShare__modal .textbox__textarea {
+    height: inherit;
+    width: 100%;
+    border: none;
+    font-family: "Lato-Regular", "Helvetica", "arial", sans-serif;
+    font-size: 1.3rem;
+    resize: none;
+    background: rgba(255, 255, 255, 0.35);
+    color: #2c3e50; }
+    .chartShare__modal .textbox__textarea:focus-visible {
+      outline: none; }
 
 .chartShare__modal .annotation {
   border: 2px solid #DCE4EA;
