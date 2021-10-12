@@ -9,13 +9,22 @@ class DragAndDropArrow extends Component {
         this.state = {
             height: 40,
             width: 300,
-            resizeEnabled: false
+            resizeEnabled: false,
+            deg: 0
         };
     }
 
-    handleTextChange(e) {
-        let newHeight = `${(Math.ceil(e.target.value.length / 44) * 2) + 1.33}rem`;
-        this.setState({height: newHeight})
+    rotateArrow() {
+        if (this.state.deg !== 330) {
+            this.setState({
+                deg: this.state.deg + 30
+            });
+        } else {
+            this.setState({
+                deg: 0
+            });
+        }
+
     }
 
     componentDidUpdate(prevProps) {
@@ -42,7 +51,8 @@ class DragAndDropArrow extends Component {
                         });
                     }}
                 >
-                   <img className="arrow__image" src="https://pngimg.com/uploads/red_arrow/red_arrow_PNG1.png" alt="arrow"/>
+                   <img style={{transform: `rotate(${this.state.deg}deg)`}} className="arrow__image" src="https://pngimg.com/uploads/red_arrow/red_arrow_PNG1.png" alt="arrow"/>
+                    <button className="arrow__rotate" onClick={() => this.rotateArrow()}>Rotate</button>
                 </Resizable>
             </Draggable>
         );

@@ -2334,13 +2334,21 @@ body {
   max-width: 42rem;
   min-height: 3.3rem;
   resize: none;
-  overflow: hidden;
   display: flex;
   justify-content: center;
-  align-items: center; }
+  align-items: center;
+  background: linear-gradient(to left, #3975BB 0.25rem, transparent 0.25rem) 100% 100%, linear-gradient(to top, #3975BB 0.25rem, transparent 0.25rem) 100% 100%;
+  background-repeat: no-repeat;
+  background-size: 1rem 1rem; }
   .chartShare__modal .arrow__image {
     height: inherit;
     width: 100%; }
+  .chartShare__modal .arrow__rotate {
+    width: 4rem;
+    height: 1.5rem;
+    position: absolute;
+    top: 0;
+    right: 0; }
 
 .chartShare__modal .annotation {
   border: 2px solid #DCE4EA;
