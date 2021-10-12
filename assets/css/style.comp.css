@@ -2326,6 +2326,22 @@ body {
     .chartShare__modal .textbox__textarea:focus-visible {
       outline: none; }
 
+.chartShare__modal .arrow {
+  position: absolute !important;
+  background-color: transparent;
+  z-index: 15;
+  padding: 0.5rem;
+  max-width: 42rem;
+  min-height: 3.3rem;
+  resize: none;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .chartShare__modal .arrow__image {
+    height: inherit;
+    width: 100%; }
+
 .chartShare__modal .annotation {
   border: 2px solid #DCE4EA;
   border-radius: 0.3rem; }

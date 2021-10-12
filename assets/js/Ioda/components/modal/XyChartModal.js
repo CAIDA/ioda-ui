@@ -19,6 +19,7 @@ import iconTrash from 'images/icons/icon-trash.png';
 import iconUndo from 'images/icons/icon-undo.png';
 import Tooltip from "../tooltip/Tooltip";
 import DragResizeContainer from 'react-drag-resize';
+import DragAndDropArrow from "../dragAndDropTextBox/DragAndDropArrow";
 
 
 class XyChartModal extends PureComponent {
@@ -37,6 +38,8 @@ class XyChartModal extends PureComponent {
             textBoxComponentsStyles: [],
             dragMode: true,
             resizeMode: false,
+            arrowComponents: [],
+            arrowComponentsStyles: [],
             // for updating the image snapshot
             imageFile: null,
             initialSnapshotLoaded: false,
@@ -117,6 +120,19 @@ class XyChartModal extends PureComponent {
         });
     };
 
+    handleRenderArrow = (i) => {
+        const newComponents = [...this.state.arrowComponents, i];
+        this.setState({
+            arrowComponents: newComponents
+        });
+    };
+    handleDeleteArrow = () => {
+        const newComponents = [...this.state.arrowComponents];
+        this.setState({
+            arrowComponents: newComponents.slice(0,-1),
+        });
+    };
+
     handleUpdateSnapshot() {
         // save current drawings
         localStorage.setItem(
@@ -155,7 +171,7 @@ class XyChartModal extends PureComponent {
     }
 
     render() {
-        const { textBoxComponents } = this.state;
+        const { textBoxComponents, arrowComponents } = this.state;
         const xyChartAlertToggleLabel = T.translate("entity.xyChartAlertToggleLabel");
         const xyChartNormalizedToggleLabel = T.translate("entity.xyChartNormalizedToggleLabel");
 
@@ -243,6 +259,17 @@ class XyChartModal extends PureComponent {
                                                     </button>
                                                 </div>
                                             </div>
+                                            <div className="chartShare__modal__control-panel-col">
+                                                <h4 className="chartShare__modal__control-panel-col-title">Arrow</h4>
+                                                <div className="chartShare__button-blob">
+                                                    <button className="chartShare__button" onClick={() => this.handleRenderArrow()}>
+                                                        <img className="related__modal-button-img" src={iconAddTextbox} title="Add New Arrow" alt="Add New Arrow"/>
+                                                    </button>
+                                                    <button className="chartShare__button" onClick={() => this.handleDeleteArrow()}>
+                                                        <img className="related__modal-button-img" src={iconRemoveTextbox} title="Remove Last Arrow" alt="Remove Last Arrow"/>
+                                                    </button>
+                                                </div>
+                                            </div>
                                             <div className="chartShare__modal__control-panel-col chartShare__modal__control-panel-col--toggle">
                                                 <ToggleButton
                                                     selected={this.state.dragMode}
@@ -261,6 +288,14 @@ class XyChartModal extends PureComponent {
                                         this.state.renderCanvas && <div id="annotation" className="annotation modal__row">
                                             {textBoxComponents.length !== 0 &&
                                             textBoxComponents.map((i, index) => <DragAndDropTextBox
+                                                key={index} order={index}
+                                                onStart={this.onStart.bind(this)}
+                                                onStop={this.onStop.bind(this)}
+                                                resizeMode={this.state.resizeMode}
+                                                dragMode={this.state.dragMode}
+                                            />)}
+                                            {arrowComponents.length !== 0 &&
+                                            arrowComponents.map((i, index) => <DragAndDropArrow
                                                 key={index} order={index}
                                                 onStart={this.onStart.bind(this)}
                                                 onStop={this.onStop.bind(this)}

@@ -215,6 +215,27 @@
         outline: none;
       }
     }
+
+
+  }
+
+  & .arrow {
+    position: absolute!important;
+    background-color: transparent;
+    z-index: 15;
+    padding: 0.5rem;
+    max-width: 42rem;
+    min-height: 3.3rem;
+    resize: none;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__image {
+      height: inherit;
+      width: 100%;
+    }
   }
 
   & .annotation {
