@@ -9,8 +9,8 @@ class DragAndDropArrow extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            height: 40,
-            width: 300,
+            height: 60,
+            width: 200,
             resizeEnabled: false,
             deg: 0
         };

@@ -276,7 +276,9 @@ class XyChartModal extends PureComponent {
                                                 <ToggleButton
                                                     selected={this.state.dragMode}
                                                     toggleSelected={() => this.handleDragResizeToggle()}
-                                                    label={"Toggle Drag Mode"}
+                                                    label={"Toggle Drag/Resize"}
+                                                    customTextOn={"DRAG"}
+                                                    customTextOff={"RESIZE"}
                                                 />
                                                 <ToggleButton
                                                     selected={!this.state.drawingEnabled}
@@ -288,6 +290,7 @@ class XyChartModal extends PureComponent {
                                     </div>
                                     {
                                         this.state.renderCanvas && <div id="annotation" className="annotation modal__row">
+                                            <div>
                                             {textBoxComponents.length !== 0 &&
                                             textBoxComponents.map((i, index) => <DragAndDropTextBox
                                                 key={index} order={index}
@@ -296,6 +299,8 @@ class XyChartModal extends PureComponent {
                                                 resizeMode={this.state.resizeMode}
                                                 dragMode={this.state.dragMode}
                                             />)}
+                                            </div>
+                                            <div>
                                             {arrowComponents.length !== 0 &&
                                             arrowComponents.map((i, index) => <DragAndDropArrow
                                                 key={index} order={index}
@@ -304,6 +309,7 @@ class XyChartModal extends PureComponent {
                                                 resizeMode={this.state.resizeMode}
                                                 dragMode={this.state.dragMode}
                                             />)}
+                                            </div>
                                             <div className={this.state.drawingEnabled ? "annotation__drawingLocked" : null}>
                                                 <CanvasDraw
                                                     key={this.state.imageFile}
