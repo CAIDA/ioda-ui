@@ -23,8 +23,7 @@ class DragAndDropTextBox extends Component {
     }
 
     handleTextChange(e) {
-        let newHeight = `${(Math.ceil(e.target.value.length / 44) * 2) + 1.33}rem`;
-        this.setState({height: newHeight})
+        this.setState({value: e.target.value})
     }
 
     componentDidUpdate(prevProps) {
@@ -54,8 +53,9 @@ class DragAndDropTextBox extends Component {
                         className="textbox__textarea"
                         style={{height: 'inherit', width: '100%', cursor: this.props.dragMode ? 'move' : 'initial'}}
                         placeholder="annotation..."
-                    >
-                    </textarea>
+                        value={this.state.value}
+                        onChange={(e) => this.handleTextChange(e)}
+                    />
                 </Resizable>
 
                 {/*<textarea*/}

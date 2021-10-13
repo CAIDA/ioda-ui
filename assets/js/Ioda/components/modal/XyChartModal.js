@@ -45,7 +45,9 @@ class XyChartModal extends PureComponent {
             // for updating the image snapshot
             imageFile: null,
             initialSnapshotLoaded: false,
-            loading: true
+            loading: true,
+            // for hiding buttons like rotate arrow when a snapshot is taken
+            hideButtons: false
         };
         this.headingRef = React.createRef();
         this.canvasRef = React.createRef();
@@ -75,7 +77,6 @@ class XyChartModal extends PureComponent {
         const fromObj = convertSecondsToDateValues(this.props.tsDataLegendRangeFrom);
         const untilObj = convertSecondsToDateValues(this.props.tsDataLegendRangeUntil);
         const timestamp = `${fromObj.day}${fromObj.month.substr(0,3)}${fromObj.year}_${fromObj.hours}${fromObj.minutes}${fromObj.meridian.substr(0,1)}_${untilObj.day}${untilObj.month.substr(0,3)}${untilObj.year}_${untilObj.hours}${untilObj.minutes}${untilObj.meridian.substr(0,1)}`;
-
         html2canvas(input)
             .then((canvas) => {
                 this.saveAs(canvas.toDataURL(), `${this.props.entityName} Chart-${timestamp}.png`);
@@ -95,6 +96,7 @@ class XyChartModal extends PureComponent {
         } else {
             window.open(uri);
         }
+        this.setState({ hideButtons: false });
     }
 
     onStart = () => {
@@ -308,6 +310,7 @@ class XyChartModal extends PureComponent {
                                                 onStop={this.onStop.bind(this)}
                                                 resizeMode={this.state.resizeMode}
                                                 dragMode={this.state.dragMode}
+                                                // hideButtons={this.state.hideButtons}
                                             />)}
                                             </div>
                                             <div className={this.state.drawingEnabled ? "annotation__drawingLocked" : null}>
@@ -320,7 +323,6 @@ class XyChartModal extends PureComponent {
                                                     imgSrc={this.state.imageFile}
                                                     canvasWidth={this.chartRef && this.chartRef.current ? this.chartRef.current.clientWidth : null}
                                                     canvasHeight={this.chartRef && this.chartRef.current ? this.chartRef.current.clientHeight - 7 : null}
-                                                    // canvasHeight={this.chartRef && this.chartRef.current ? (this.chartRef.current.clientHeight * this.headingRef.current.clientWidth) / this.chartRef.current.clientWidth : null}
                                                 />
                                             </div>
                                         </div>

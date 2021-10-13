@@ -37,13 +37,17 @@ class DragAndDropArrow extends Component {
     }
 
     render() {
-        const activeCSS = `background: linear-gradient(to left, ${secondaryColor} 0.25rem, transparent 0.25rem) 100% 100%, linear-gradient(to top, ${secondaryColor} 0.25rem, transparent 0.25rem) 100% 100%;`;
-        const inactiveCSS = `background: none; cursor: move;`;
+        const rotateCSS = `background: linear-gradient(to left, ${secondaryColor} 0.25rem, transparent 0.25rem) 100% 100%, linear-gradient(to top, ${secondaryColor} 0.25rem, transparent 0.25rem) 100% 100%;`;
+        const dragCSS = `background: none; cursor: move;`;
+        const hideButtonsCSS = `display: none;`;
+        const showButtonsCSS = `display: flex;`;
         return(<React.Fragment>
                 <Style>{`
                     .arrow {
-                        ${!this.props.dragMode ? activeCSS : inactiveCSS}
-                        
+                        ${!this.props.dragMode ? rotateCSS : dragCSS}
+                    }
+                    .arrow__rotate {
+                        ${this.props.hideButtons ? hideButtonsCSS : showButtonsCSS}
                     }
                 `}</Style>
                 <Draggable key={this.props.order} disabled={!this.props.dragMode} onStart={this.props.onStart} onStop={this.props.onStop}>
