@@ -13,6 +13,8 @@ import TimeStamp from "../timeStamp/TimeStamp";
 
 import iconAddTextbox from 'images/icons/icon-addTextbox.png';
 import iconRemoveTextbox from 'images/icons/icon-removeTextbox.png';
+import iconAddArrow from 'images/icons/icon-addArrow.png';
+import iconRemoveArrow from 'images/icons/icon-removeArrow.png';
 import iconDownload from 'images/icons/icon-download.png';
 import iconRefresh from 'images/icons/icon-refresh.png';
 import iconTrash from 'images/icons/icon-trash.png';
@@ -263,10 +265,10 @@ class XyChartModal extends PureComponent {
                                                 <h4 className="chartShare__modal__control-panel-col-title">Arrow</h4>
                                                 <div className="chartShare__button-blob">
                                                     <button className="chartShare__button" onClick={() => this.handleRenderArrow()}>
-                                                        <img className="related__modal-button-img" src={iconAddTextbox} title="Add New Arrow" alt="Add New Arrow"/>
+                                                        <img className="related__modal-button-img" src={iconAddArrow} title="Add New Arrow" alt="Add New Arrow"/>
                                                     </button>
                                                     <button className="chartShare__button" onClick={() => this.handleDeleteArrow()}>
-                                                        <img className="related__modal-button-img" src={iconRemoveTextbox} title="Remove Last Arrow" alt="Remove Last Arrow"/>
+                                                        <img className="related__modal-button-img" src={iconRemoveArrow} title="Remove Last Arrow" alt="Remove Last Arrow"/>
                                                     </button>
                                                 </div>
                                             </div>
