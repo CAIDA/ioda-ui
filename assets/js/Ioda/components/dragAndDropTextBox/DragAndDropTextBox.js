@@ -36,7 +36,6 @@ class DragAndDropTextBox extends Component {
     }
 
     render() {
-        console.log(this.state.resizeEnabled);
         return(
             <Draggable key={this.props.order} disabled={!this.props.dragMode} onStart={this.props.onStart} onStop={this.props.onStop}>
                 <Resizable
@@ -53,12 +52,10 @@ class DragAndDropTextBox extends Component {
                 >
                     <textarea
                         className="textbox__textarea"
-                        style={{height: 'inherit', width: '100%'}}
-                        // onChange={(e) => this.handleTextChange(e)}
+                        style={{height: 'inherit', width: '100%', cursor: this.props.dragMode ? 'move' : 'initial'}}
                         placeholder="annotation..."
                     >
                     </textarea>
-                    {/*<div>text text text</div>*/}
                 </Resizable>
 
                 {/*<textarea*/}
