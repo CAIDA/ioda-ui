@@ -177,7 +177,7 @@ class Entity extends Component {
         this.maxHtsLimit = 150;
     }
     componentDidMount() {
-        console.log("update13");
+        console.log("update4");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
 

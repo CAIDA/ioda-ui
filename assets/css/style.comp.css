@@ -2337,7 +2337,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to left, #3975BB 0.25rem, transparent 0.25rem) 100% 100%, linear-gradient(to top, #3975BB 0.25rem, transparent 0.25rem) 100% 100%;
   background-repeat: no-repeat;
   background-size: 1rem 1rem; }
   .chartShare__modal .arrow__image {
@@ -2887,7 +2886,8 @@ body {
 
 .chartShare__modal .overview__buttons {
   display: flex;
-  justify-content: space-between; }
+  justify-content: space-between;
+  margin-bottom: 2rem; }
 
 .chartShare__modal .textbox {
   position: absolute;
