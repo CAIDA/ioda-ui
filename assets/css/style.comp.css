@@ -2341,10 +2341,14 @@ body {
   background-repeat: no-repeat;
   background-size: 1rem 1rem;
   top: 50%; }
+  .chartShare__modal .arrow:hover .arrow__rotate {
+    display: flex; }
   .chartShare__modal .arrow__image {
     height: inherit;
     width: 100%;
     pointer-events: none; }
+    .chartShare__modal .arrow__image:hover + .arrow__rotate {
+      display: flex; }
   .chartShare__modal .arrow__rotate {
     background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
     height: 3.5rem;
@@ -2370,7 +2374,8 @@ body {
     margin: 0;
     display: flex;
     justify-content: center;
-    align-items: center; }
+    align-items: center;
+    display: none; }
     .chartShare__modal .arrow__rotate:before {
       content: '';
       display: inline-block;

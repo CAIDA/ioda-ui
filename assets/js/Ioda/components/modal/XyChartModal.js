@@ -2,13 +2,16 @@ import React, {PureComponent} from 'react';
 import PropTypes from "prop-types";
 import CanvasDraw from "react-canvas-draw";
 import {convertSecondsToDateValues, secondaryColor} from "../../utils";
-import html2canvas from "html2canvas";
 import DragAndDropTextBox from "../../components/dragAndDropTextBox/DragAndDropTextBox";
+import DragAndDropArrow from "../dragAndDropTextBox/DragAndDropArrow";
+import domtoimage from 'dom-to-image';
+import html2canvas from "html2canvas";
 import Loading from "../../components/loading/Loading";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
 import ToggleButton from "../toggleButton/ToggleButton";
 import T from "i18n-react";
 import TimeStamp from "../timeStamp/TimeStamp";
+
 
 import iconAddTextbox from 'images/icons/icon-addTextbox.png';
 import iconRemoveTextbox from 'images/icons/icon-removeTextbox.png';
@@ -18,9 +21,7 @@ import iconDownload from 'images/icons/icon-download.png';
 import iconRefresh from 'images/icons/icon-refresh.png';
 import iconTrash from 'images/icons/icon-trash.png';
 import iconUndo from 'images/icons/icon-undo.png';
-import Tooltip from "../tooltip/Tooltip";
-import DragAndDropArrow from "../dragAndDropTextBox/DragAndDropArrow";
-import domtoimage from 'dom-to-image';
+
 
 
 class XyChartModal extends PureComponent {
@@ -72,21 +73,10 @@ class XyChartModal extends PureComponent {
     }
 
     downloadFile(entityName) {
-        console.log(entityName);
         const input = document.getElementById('annotation');
         const fromObj = convertSecondsToDateValues(this.props.tsDataLegendRangeFrom);
         const untilObj = convertSecondsToDateValues(this.props.tsDataLegendRangeUntil);
         const timestamp = `${fromObj.day}${fromObj.month.substr(0,3)}${fromObj.year}_${fromObj.hours}${fromObj.minutes}${fromObj.meridian.substr(0,1)}_${untilObj.day}${untilObj.month.substr(0,3)}${untilObj.year}_${untilObj.hours}${untilObj.minutes}${untilObj.meridian.substr(0,1)}`;
-
-        // domtoimage.toPng(input)
-        //     .then(function (dataUrl) {
-        //         let img = new Image();
-        //         img.src = dataUrl;
-        //         document.body.appendChild(img);
-        //     })
-        //     .catch(function (error) {
-        //         console.error('oops, something went wrong!', error);
-        //     });
 
         domtoimage.toJpeg(input, { quality: 0.85 })
             .then(function (dataUrl) {
