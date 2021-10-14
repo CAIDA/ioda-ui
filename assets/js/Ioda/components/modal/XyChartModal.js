@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import CanvasDraw from "react-canvas-draw";
 import {convertSecondsToDateValues, secondaryColor} from "../../utils";
 import html2canvas from "html2canvas";
-import Draggable from 'react-draggable';
 import DragAndDropTextBox from "../../components/dragAndDropTextBox/DragAndDropTextBox";
 import Loading from "../../components/loading/Loading";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
@@ -20,8 +19,8 @@ import iconRefresh from 'images/icons/icon-refresh.png';
 import iconTrash from 'images/icons/icon-trash.png';
 import iconUndo from 'images/icons/icon-undo.png';
 import Tooltip from "../tooltip/Tooltip";
-import DragResizeContainer from 'react-drag-resize';
 import DragAndDropArrow from "../dragAndDropTextBox/DragAndDropArrow";
+import domtoimage from 'dom-to-image';
 
 
 class XyChartModal extends PureComponent {
@@ -72,31 +71,32 @@ class XyChartModal extends PureComponent {
         }
     }
 
-    downloadFile() {
+    downloadFile(entityName) {
+        console.log(entityName);
         const input = document.getElementById('annotation');
         const fromObj = convertSecondsToDateValues(this.props.tsDataLegendRangeFrom);
         const untilObj = convertSecondsToDateValues(this.props.tsDataLegendRangeUntil);
         const timestamp = `${fromObj.day}${fromObj.month.substr(0,3)}${fromObj.year}_${fromObj.hours}${fromObj.minutes}${fromObj.meridian.substr(0,1)}_${untilObj.day}${untilObj.month.substr(0,3)}${untilObj.year}_${untilObj.hours}${untilObj.minutes}${untilObj.meridian.substr(0,1)}`;
-        html2canvas(input)
-            .then((canvas) => {
-                this.saveAs(canvas.toDataURL(), `${this.props.entityName} Chart-${timestamp}.png`);
-            })
-    }
-    saveAs(uri, filename) {
-        let link = document.createElement('a');
-        if (typeof link.download === 'string') {
-            link.href = uri;
-            link.download = filename;
-            //Firefox requires the link to be in the body
-            document.body.appendChild(link);
-            //simulate click
-            link.click();
-            //remove the link when done
-            document.body.removeChild(link);
-        } else {
-            window.open(uri);
-        }
-        this.setState({ hideButtons: false });
+
+        // domtoimage.toPng(input)
+        //     .then(function (dataUrl) {
+        //         let img = new Image();
+        //         img.src = dataUrl;
+        //         document.body.appendChild(img);
+        //     })
+        //     .catch(function (error) {
+        //         console.error('oops, something went wrong!', error);
+        //     });
+
+        domtoimage.toJpeg(input, { quality: 0.85 })
+            .then(function (dataUrl) {
+                var link = document.createElement('a');
+                link.download = `${entityName} Chart-${timestamp}.jpeg`;
+                link.href = dataUrl;
+                link.click();
+            });
+
+
     }
 
     onStart = () => {
@@ -178,6 +178,7 @@ class XyChartModal extends PureComponent {
         const { textBoxComponents, arrowComponents } = this.state;
         const xyChartAlertToggleLabel = T.translate("entity.xyChartAlertToggleLabel");
         const xyChartNormalizedToggleLabel = T.translate("entity.xyChartNormalizedToggleLabel");
+        const entityName  = this.props.entityName;
 
         if (this.props.modalStatus === false) {
             return null;
@@ -292,7 +293,6 @@ class XyChartModal extends PureComponent {
                                     </div>
                                     {
                                         this.state.renderCanvas && <div id="annotation" className="annotation modal__row">
-                                            <div>
                                             {textBoxComponents.length !== 0 &&
                                             textBoxComponents.map((i, index) => <DragAndDropTextBox
                                                 key={index} order={index}
@@ -300,19 +300,10 @@ class XyChartModal extends PureComponent {
                                                 onStop={this.onStop.bind(this)}
                                                 resizeMode={this.state.resizeMode}
                                                 dragMode={this.state.dragMode}
+                                                hideButtons={this.state.hideButtons}
                                             />)}
-                                            </div>
-                                            <div>
-                                            {arrowComponents.length !== 0 &&
-                                            arrowComponents.map((i, index) => <DragAndDropArrow
-                                                key={index} order={index}
-                                                onStart={this.onStart.bind(this)}
-                                                onStop={this.onStop.bind(this)}
-                                                resizeMode={this.state.resizeMode}
-                                                dragMode={this.state.dragMode}
-                                                // hideButtons={this.state.hideButtons}
-                                            />)}
-                                            </div>
+
+
                                             <div className={this.state.drawingEnabled ? "annotation__drawingLocked" : null}>
                                                 <CanvasDraw
                                                     key={this.state.imageFile}
@@ -325,13 +316,22 @@ class XyChartModal extends PureComponent {
                                                     canvasHeight={this.chartRef && this.chartRef.current ? this.chartRef.current.clientHeight - 7 : null}
                                                 />
                                             </div>
+                                            {arrowComponents.length !== 0 &&
+                                            arrowComponents.map((i, index) => <DragAndDropArrow
+                                                key={index} order={index}
+                                                onStart={this.onStart.bind(this)}
+                                                onStop={this.onStop.bind(this)}
+                                                resizeMode={this.state.resizeMode}
+                                                dragMode={this.state.dragMode}
+                                                hideButtons={this.state.hideButtons}
+                                            />)}
                                         </div>
                                     }
                                     {
                                         this.state.renderCanvas
                                             ? null : <div className="annotation modal__row"><Loading/></div>
                                     }
-                                    <button className="chartShare__button--download" onClick={() => this.downloadFile()}>
+                                    <button className="chartShare__button--download" onClick={() => this.downloadFile(entityName)}>
                                         <img className="chartShare__button--download-img" src={iconDownload} title="Download Image" alt="Download Image"/>
                                         Download
                                     </button>

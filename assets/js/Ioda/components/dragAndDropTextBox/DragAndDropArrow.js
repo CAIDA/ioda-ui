@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Draggable from "react-draggable";
 import {Resizable} from "re-resizable";
+import iconArrow from 'images/icons/icon-arrow.png';
 import iconRotate from 'images/icons/icon-rotate.png';
 import Style from "react-style-tag/lib/Style";
 import {secondaryColor} from "../../utils";
@@ -65,7 +66,7 @@ class DragAndDropArrow extends Component {
                             });
                         }}
                     >
-                        <img style={{transform: `rotate(${this.state.deg}deg)`}} className="arrow__image" src="https://pngimg.com/uploads/red_arrow/red_arrow_PNG1.png" alt="arrow"/>
+                        <img style={{transform: `rotate(${this.state.deg}deg)`}} className="arrow__image" src={iconArrow} alt="arrow"/>
                         <button className="arrow__rotate" onClick={() => this.rotateArrow()}><img className="arrow__rotate-icon" src={iconRotate} alt="Rotate Arrow"/></button>
                     </Resizable>
                 </Draggable>

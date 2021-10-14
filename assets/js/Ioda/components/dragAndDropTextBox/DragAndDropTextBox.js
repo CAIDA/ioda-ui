@@ -3,15 +3,6 @@ import Draggable from "react-draggable";
 import {Resizable} from "re-resizable";
 
 
-// const oldJSXBetweenReturn = <Draggable onStart={this.props.onStart} onStop={this.props.onStop}>
-//                 <textarea
-//                     className={`textbox textbox--${this.props.order}`}
-//                     style={{height: this.state.height}}
-//                     onChange={(e) => this.handleTextChange(e)}
-//                     placeholder="annotation..."
-//                 >
-//             </textarea></Draggable>;
-
 class DragAndDropTextBox extends Component {
     constructor(props) {
         super(props);
@@ -49,22 +40,20 @@ class DragAndDropTextBox extends Component {
                         });
                     }}
                 >
-                    <textarea
-                        className="textbox__textarea"
-                        style={{height: 'inherit', width: '100%', cursor: this.props.dragMode ? 'move' : 'initial'}}
-                        placeholder="annotation..."
-                        value={this.state.value}
-                        onChange={(e) => this.handleTextChange(e)}
-                    />
+                    {
+                        this.props.hideButtons
+                            ? <div className="textbox__textarea" style={{textAlign: 'left', zIndex: '100', position: 'absolute'}}>
+                                {this.state.value}
+                            </div>
+                            : <textarea
+                                className="textbox__textarea"
+                                style={{position: 'absolute', boxSizing: 'border-box', cursor: this.props.dragMode ? 'move' : 'initial'}}
+                                placeholder="annotation..."
+                                value={this.state.value}
+                                onChange={(e) => this.handleTextChange(e)}
+                            />
+                    }
                 </Resizable>
-
-                {/*<textarea*/}
-                {/*    className={`textbox textbox--${this.props.order}`}*/}
-                {/*    style={{height: this.state.height}}*/}
-                {/*    onChange={(e) => this.handleTextChange(e)}*/}
-                {/*    placeholder="annotation..."*/}
-                {/*>*/}
-            {/*</textarea>*/}
             </Draggable>
         );
     }

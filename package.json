@@ -59,6 +59,7 @@
         "d3": "3",
         "d3-shape": "^2.1.0",
         "date-fns": "^2.16.1",
+        "dom-to-image": "^2.6.0",
         "dotenv-webpack": "^1.7.0",
         "ga-4-react": "^0.1.281",
         "horizon-timeseries-chart": "^1.6.4",
