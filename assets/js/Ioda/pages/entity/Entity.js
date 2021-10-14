@@ -177,7 +177,6 @@ class Entity extends Component {
         this.maxHtsLimit = 150;
     }
     componentDidMount() {
-        console.log("update17");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
 
@@ -1024,7 +1023,8 @@ class Entity extends Component {
     // display modal used for annotation/download
     toggleXyChartModal() {
         this.setState({
-            showXyChartModal: !this.state.showXyChartModal
+            showXyChartModal: !this.state.showXyChartModal,
+            tsDataDisplayOutageBands: false
         })
     }
 
