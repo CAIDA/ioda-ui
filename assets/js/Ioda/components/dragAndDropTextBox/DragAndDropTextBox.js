@@ -40,19 +40,13 @@ class DragAndDropTextBox extends Component {
                         });
                     }}
                 >
-                    {
-                        this.props.hideButtons
-                            ? <div className="textbox__textarea" style={{textAlign: 'left', zIndex: '100', position: 'absolute'}}>
-                                {this.state.value}
-                            </div>
-                            : <textarea
-                                className="textbox__textarea"
-                                style={{position: 'absolute', boxSizing: 'border-box', cursor: this.props.dragMode ? 'move' : 'initial'}}
-                                placeholder="annotation..."
-                                value={this.state.value}
-                                onChange={(e) => this.handleTextChange(e)}
-                            />
-                    }
+                    <textarea
+                        className="textbox__textarea"
+                        style={{position: 'absolute', boxSizing: 'border-box', cursor: this.props.dragMode ? 'move' : 'initial'}}
+                        placeholder="annotation..."
+                        value={this.state.value}
+                        onChange={(e) => this.handleTextChange(e)}
+                    />
                 </Resizable>
             </Draggable>
         );
