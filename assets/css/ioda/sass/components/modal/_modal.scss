@@ -173,3 +173,222 @@
     align-items: flex-end;
   }
 }}
+
+.chartShare__modal {
+  &--disabled {
+    display: none;
+  }
+
+  &__control-panel-row {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+  }
+
+  &__control-panel-col {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+
+    &:not(:first-child) {
+      margin-left: 2rem;
+    }
+
+    &--toggle {
+      justify-content: flex-end;
+    }
+
+    & .toggle {
+      margin-left: 2rem;
+
+      &__container {
+        width: 5.2rem;
+
+        &--disabled .dialog-button {
+          left: 0 !important;
+        }
+
+        & .dialog-button {
+          left: 3.5rem;
+        }
+      }
+    }
+  }
+
+  & .overview__buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  & .annotation {
+    border: 2px solid $color-blue-border;
+    border-radius: 0.3rem;
+    position: relative;
+
+    &__drawingLocked {
+      pointer-events: none;
+    }
+  }
+
+  .related__modal-button-img {
+    height: 2.4rem;
+    width: 2.4rem;
+  }
+
+  &__button-blob {
+    display: flex;
+
+    & button {
+      background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
+      color: $color-white;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      border: none;
+      background-size: 100% 300%;
+      transition: all .4s ease-in-out;
+      position: relative;
+      z-index: 10;
+      box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, .2), inset 0 0 0 0.1rem rgba(0, 0, 0, .15), 0 0.1rem 0 rgba(255, 255, 255, .15);
+      height: 3rem;
+      font-size: 1rem;
+      margin: 0;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:not(:first-child) {
+        border-left: 0.2rem solid $color-primary-light;
+      }
+
+      &:first-child {
+        border-radius: 0.5rem 0 0 0.5rem;
+      }
+
+      &:last-child {
+        border-radius: 0 0.5rem 0.5rem 0;
+      }
+    }
+  }
+
+  & .textbox {
+    border: 2px solid $color-blue-border;
+    background-color: rgba(255, 255, 255, 0.3);
+    z-index: 15;
+    padding: 0;
+    border-radius: 0.4rem;
+    max-width: 42rem;
+    min-height: 3.3rem;
+    font-size: 1.3rem;
+    color: $color-primary;
+    text-align: center;
+    font-family: $font-lato-regular;
+    resize: none;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 50%;
+    position: absolute;
+
+    &__textarea {
+      height: inherit;
+      width: 100%;
+      border: none;
+      font-family: $font-lato-regular;
+      font-size: 1.3rem;
+      resize: none;
+      background: rgba(255,255,255,0.35);
+      color: $color-primary;
+      padding: 0.5rem;
+
+      &:focus-visible {
+        outline: none;
+      }
+    }
+  }
+
+  & .arrow {
+    position: absolute!important;
+    background-color: transparent;
+    z-index: 15;
+    padding: 0.5rem;
+    max-width: 42rem;
+    min-height: 3.3rem;
+    resize: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    //background: linear-gradient(to left, $color-secondary 0.25rem, transparent 0.25rem) 100% 100%,
+    //        linear-gradient(to top, $color-secondary 0.25rem, transparent 0.25rem) 100% 100%;
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+    top: 50%;
+
+    &:hover .arrow__rotate {
+      display: flex;
+    }
+
+    &__image {
+      height: inherit;
+      width: 100%;
+      pointer-events: none;
+
+      &:hover + .arrow__rotate {
+        display: flex;
+      }
+    }
+
+    &__rotate {
+      @include button;
+      width: 2.4rem;
+      height: 2.4rem;
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 0;
+      justify-content: center;
+      align-items: center;
+      display: none;
+
+      &-icon {
+        height: 2.1rem;
+        width: 2.1rem;
+      }
+    }
+  }
+
+  &__button--download {
+    width: 100%;
+    min-width: 26rem;
+    max-width:52rem;
+    height: 5rem;
+    margin: 3rem auto;
+    border-radius: 0.5rem;
+    background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
+    color: $color-white;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    border: none;
+    background-size: 100% 300%;
+    transition: all .4s ease-in-out;
+    position: relative;
+    z-index: 10;
+    box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, .2), inset 0 0 0 0.1rem rgba(0, 0, 0, .15), 0 0.1rem 0 rgba(255, 255, 255, .15);
+    font-size: 2.4rem;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-img {
+      height: 4rem;
+      width: 4rem;
+      margin-right: 1rem;
+    }
+  }
+}

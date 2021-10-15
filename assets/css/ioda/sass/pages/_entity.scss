@@ -35,6 +35,14 @@
       }
     }
 
+    &__buttons {
+      display: flex;
+
+      &-col:not(:first-child) {
+        margin-left: 2rem;
+      }
+    }
+
     &__time-range-error {
       min-height: 6rem;
       margin-bottom: $gutter-vertical;

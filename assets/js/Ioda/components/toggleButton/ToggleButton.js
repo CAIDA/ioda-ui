@@ -17,7 +17,7 @@ class ToggleButton extends Component {
             <div className="toggle" onClick={toggleSelected}>
                 <span className="toggle__label">{this.props.label}</span>
                 <div className={`toggle__container ${selected ? "" : "toggle__container--disabled"}`}>
-                    <span className="toggle__text">{selected ? toggleOn : toggleOff}</span>
+                    <span className="toggle__text">{selected ? this.props.customTextOn ? this.props.customTextOn : toggleOn : this.props.customTextOff ? this.props.customTextOff : toggleOff}</span>
                     <div className={`dialog-button ${selected ? "" : "disabled"}`}>&nbsp;</div>
                 </div>
             </div>
@@ -29,5 +29,7 @@ export default ToggleButton;
 
 ToggleButton.propTypes = {
     selected: PropTypes.bool.isRequired,
-    toggleSelected: PropTypes.func.isRequired
+    toggleSelected: PropTypes.func.isRequired,
+    customTextOn: PropTypes.string,
+    customTextOff: PropTypes.string
 };

@@ -50,12 +50,12 @@ import {
     bgpColor,
     activeProbingColor,
     ucsdNtColor,
-    convertTimeToSecondsForURL, horizonChartSeriesColor
+    convertTimeToSecondsForURL
 } from "../../utils";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
 import Error from "../../components/error/Error";
-import DashboardTab from "../dashboard/DashboardTab";
 import {Helmet} from "react-helmet";
+import XyChartModal from "../../components/modal/XyChartModal";
 
 
 class Entity extends Component {
@@ -97,6 +97,8 @@ class Entity extends Component {
             // Used for responsively styling the xy chart
             tsDataScreenBelow970: window.innerWidth <= 970,
             tsDataScreenBelow640: window.innerWidth <= 640,
+            // display export modal
+            showXyChartModal: false,
             // Used to track which series have visibility, needed for when switching between normalized/absolute values to maintain state
             tsDataSeriesVisiblePingSlash24: true,
             tsDataSeriesVisibleBgp: true,
@@ -167,11 +169,13 @@ class Entity extends Component {
         this.handleEntityShapeClick = this.handleEntityShapeClick.bind(this);
         this.handleEntityClick = this.handleEntityClick.bind(this);
         this.handleCheckboxEventLoading = this.handleCheckboxEventLoading.bind(this);
+        this.toggleXyChartModal = this.toggleXyChartModal.bind(this);
+        this.changeXyChartNormalization = this.changeXyChartNormalization.bind(this);
+        this.handleDisplayAlertBands = this.handleDisplayAlertBands.bind(this);
         this.initialTableLimit = 300;
         this.initialHtsLimit = 100;
         this.maxHtsLimit = 150;
     }
-
     componentDidMount() {
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
@@ -214,8 +218,6 @@ class Entity extends Component {
                 mounted: true,
             },() => {
                 if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
-                    // Get all datasources
-                    // this.props.getDatasourcesAction();
                     // Overview Panel
                     this.props.searchEventsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
                     this.props.searchAlertsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], null, null, null);
@@ -226,14 +228,12 @@ class Entity extends Component {
             });
         }
     }
-
     componentWillUnmount() {
         window.removeEventListener("resize", this.resize.bind(this));
         this.setState({
             mounted: false
         })
     }
-
     componentDidUpdate(prevProps, prevState) {
         // After API call for available data sources completes, update dataSources state with fresh data
         if (this.props.datasources !== prevProps.datasources) {
@@ -695,7 +695,7 @@ class Entity extends Component {
 
 // 1st Row
 // XY Chart Functions
-    // XY Plot Graph Functions
+    // format data used to draw the lines in the chart
     createXyVizDataObject(networkTelescopeValues, bgpValues, activeProbingValues) {
         let networkTelescope, bgp, activeProbing;
         const activeProbingLegendText = T.translate("entity.activeProbingLegendText");
@@ -761,7 +761,7 @@ class Entity extends Component {
 
         return [activeProbing, bgp, networkTelescope]
     }
-    // function for when zoom/pan
+    // function for when zoom/pan is used
     xyPlotRangeChanged(e) {
         // let beginningRangeDate = Math.floor(e.axisX[0].viewportMinimum / 1000);
         // let endRangeDate = Math.floor(e.axisX[0].viewportMaximum / 1000);
@@ -783,6 +783,7 @@ class Entity extends Component {
             });
         }
     }
+    // format data from api to be compatible with chart visual
     convertValuesForXyViz() {
         let networkTelescopeValues = [];
         let bgpValues = [];
@@ -892,7 +893,7 @@ class Entity extends Component {
             xyDataOptions: {
                 theme: "light2",
                 height: this.state.tsDataScreenBelow640 ? 360 : 514,
-                animationEnabled: true,
+                animationEnabled: false,
                 zoomEnabled: true,
                 rangeChanged: (e) => this.xyPlotRangeChanged(e),
                 axisX: {
@@ -977,6 +978,7 @@ class Entity extends Component {
             this.genXyChart();
         });
     }
+    // populate xy chart UI
     genXyChart() {
         return (
             this.state.xyDataOptions && <div className="overview__xy-wrapper">
@@ -987,11 +989,13 @@ class Entity extends Component {
             </div>
         );
     }
+    // toggle normalized values and absolute values
     changeXyChartNormalization() {
         this.setState({
             tsDataNormalized: !this.state.tsDataNormalized
         }, () => this.convertValuesForXyViz())
     }
+    // toggle any populated alert bands to be displayed in chart
     handleDisplayAlertBands() {
         this.setState({
             tsDataDisplayOutageBands: !this.state.tsDataDisplayOutageBands
@@ -1015,6 +1019,13 @@ class Entity extends Component {
                 }
             });
         }
+    }
+    // display modal used for annotation/download
+    toggleXyChartModal() {
+        this.setState({
+            showXyChartModal: !this.state.showXyChartModal,
+            tsDataDisplayOutageBands: false
+        })
     }
 
 // Event Table
@@ -1856,16 +1867,39 @@ class Entity extends Component {
                                                 />
                                             </div>
                                             <div className="overview__buttons">
-                                                <ToggleButton
-                                                    selected={this.state.tsDataDisplayOutageBands}
-                                                    toggleSelected={() => this.handleDisplayAlertBands()}
-                                                    label={xyChartAlertToggleLabel}
-                                                />
-                                                <ToggleButton
-                                                    selected={this.state.tsDataNormalized}
-                                                    toggleSelected={() => this.changeXyChartNormalization()}
-                                                    label={xyChartNormalizedToggleLabel}
-                                                />
+                                                <div className="overview__buttons-col">
+                                                    <ToggleButton
+                                                        selected={this.state.tsDataDisplayOutageBands}
+                                                        toggleSelected={() => this.handleDisplayAlertBands()}
+                                                        label={xyChartAlertToggleLabel}
+                                                    />
+                                                    <ToggleButton
+                                                        selected={this.state.tsDataNormalized}
+                                                        toggleSelected={() => this.changeXyChartNormalization()}
+                                                        label={xyChartNormalizedToggleLabel}
+                                                    />
+                                                </div>
+                                                <div className="overview__buttons-col">
+                                                    <button className="related__modal-button" onClick={this.toggleXyChartModal}>
+                                                        Export Chart
+                                                    </button>
+                                                    {
+                                                        this.state.showXyChartModal && <XyChartModal
+                                                            entityName={this.state.entityName}
+                                                            toggleModal={this.toggleXyChartModal}
+                                                            xyDataOptions={this.state.xyDataOptions}
+                                                            modalStatus={this.state.showXyChartModal}
+                                                            // for toggles in chart, data and onToggle functions
+                                                            handleDisplayAlertBands={this.handleDisplayAlertBands}
+                                                            changeXyChartNormalization={this.changeXyChartNormalization}
+                                                            tsDataDisplayOutageBands={this.state.tsDataDisplayOutageBands}
+                                                            tsDataNormalized={this.state.tsDataNormalized}
+                                                            // for datestamp below chart
+                                                            tsDataLegendRangeFrom={this.state.tsDataLegendRangeFrom}
+                                                            tsDataLegendRangeUntil={this.state.tsDataLegendRangeUntil}
+                                                        />
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
                                         {

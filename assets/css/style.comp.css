@@ -2292,6 +2292,217 @@ body {
     .modal__button {
       align-items: flex-end; } } }
 
+.chartShare__modal--disabled {
+  display: none; }
+
+.chartShare__modal__control-panel-row {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 1rem; }
+
+.chartShare__modal__control-panel-col {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column; }
+  .chartShare__modal__control-panel-col:not(:first-child) {
+    margin-left: 2rem; }
+  .chartShare__modal__control-panel-col--toggle {
+    justify-content: flex-end; }
+  .chartShare__modal__control-panel-col .toggle {
+    margin-left: 2rem; }
+    .chartShare__modal__control-panel-col .toggle__container {
+      width: 5.2rem; }
+      .chartShare__modal__control-panel-col .toggle__container--disabled .dialog-button {
+        left: 0 !important; }
+      .chartShare__modal__control-panel-col .toggle__container .dialog-button {
+        left: 3.5rem; }
+
+.chartShare__modal .overview__buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem; }
+
+.chartShare__modal .annotation {
+  border: 2px solid #DCE4EA;
+  border-radius: 0.3rem;
+  position: relative; }
+  .chartShare__modal .annotation__drawingLocked {
+    pointer-events: none; }
+
+.chartShare__modal .related__modal-button-img {
+  height: 2.4rem;
+  width: 2.4rem; }
+
+.chartShare__modal__button-blob {
+  display: flex; }
+  .chartShare__modal__button-blob button {
+    background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    border: none;
+    background-size: 100% 300%;
+    transition: all .4s ease-in-out;
+    position: relative;
+    z-index: 10;
+    box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
+    height: 3rem;
+    font-size: 1rem;
+    margin: 0;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+    .chartShare__modal__button-blob button:not(:first-child) {
+      border-left: 0.2rem solid #617486; }
+    .chartShare__modal__button-blob button:first-child {
+      border-radius: 0.5rem 0 0 0.5rem; }
+    .chartShare__modal__button-blob button:last-child {
+      border-radius: 0 0.5rem 0.5rem 0; }
+
+.chartShare__modal .textbox {
+  border: 2px solid #DCE4EA;
+  background-color: rgba(255, 255, 255, 0.3);
+  z-index: 15;
+  padding: 0;
+  border-radius: 0.4rem;
+  max-width: 42rem;
+  min-height: 3.3rem;
+  font-size: 1.3rem;
+  color: #2c3e50;
+  text-align: center;
+  font-family: "Lato-Regular", "Helvetica", "arial", sans-serif;
+  resize: none;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 50%;
+  position: absolute; }
+  .chartShare__modal .textbox__textarea {
+    height: inherit;
+    width: 100%;
+    border: none;
+    font-family: "Lato-Regular", "Helvetica", "arial", sans-serif;
+    font-size: 1.3rem;
+    resize: none;
+    background: rgba(255, 255, 255, 0.35);
+    color: #2c3e50;
+    padding: 0.5rem; }
+    .chartShare__modal .textbox__textarea:focus-visible {
+      outline: none; }
+
+.chartShare__modal .arrow {
+  position: absolute !important;
+  background-color: transparent;
+  z-index: 15;
+  padding: 0.5rem;
+  max-width: 42rem;
+  min-height: 3.3rem;
+  resize: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-repeat: no-repeat;
+  background-size: 1rem 1rem;
+  top: 50%; }
+  .chartShare__modal .arrow:hover .arrow__rotate {
+    display: flex; }
+  .chartShare__modal .arrow__image {
+    height: inherit;
+    width: 100%;
+    pointer-events: none; }
+    .chartShare__modal .arrow__image:hover + .arrow__rotate {
+      display: flex; }
+  .chartShare__modal .arrow__rotate {
+    background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
+    height: 3.5rem;
+    border-radius: 0.5rem;
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 2rem;
+    text-align: center;
+    border: none;
+    background-size: 100% 300%;
+    transition: all .4s ease-in-out;
+    position: relative;
+    z-index: 10;
+    padding: 0 0.5rem;
+    box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
+    width: 2.4rem;
+    height: 2.4rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    display: none; }
+    .chartShare__modal .arrow__rotate:before {
+      content: '';
+      display: inline-block;
+      height: 40px;
+      position: absolute;
+      bottom: -5px;
+      left: 30px;
+      right: 30px;
+      z-index: -1;
+      border-radius: 30em;
+      filter: blur(20px) brightness(0.95);
+      transform-style: preserve-3d;
+      transition: all 0.3s ease-out; }
+      .chartShare__modal .arrow__rotate:before:hover {
+        bottom: -7px;
+        opacity: 1;
+        filter: blur(20px);
+        background: linear-gradient(2deg, #C12F2E, #f9ad40, #C12F2E, #f9ad40); }
+    .chartShare__modal .arrow__rotate:hover, .chartShare__modal .arrow__rotate:active {
+      border-radius: 0.5rem;
+      transition: all .4s ease-in-out;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+      filter: brightness(1.05) contrast(1.05);
+      transform: scale(1.03); }
+      .chartShare__modal .arrow__rotate:hover:before, .chartShare__modal .arrow__rotate:active:before {
+        bottom: -7px;
+        filter: blur(10px) brightness(0.95); }
+    .chartShare__modal .arrow__rotate:focus {
+      outline: none; }
+    .chartShare__modal .arrow__rotate-icon {
+      height: 2.1rem;
+      width: 2.1rem; }
+
+.chartShare__modal__button--download {
+  width: 100%;
+  min-width: 26rem;
+  max-width: 52rem;
+  height: 5rem;
+  margin: 3rem auto;
+  border-radius: 0.5rem;
+  background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  border: none;
+  background-size: 100% 300%;
+  transition: all .4s ease-in-out;
+  position: relative;
+  z-index: 10;
+  box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
+  font-size: 2.4rem;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .chartShare__modal__button--download-img {
+    height: 4rem;
+    width: 4rem;
+    margin-right: 1rem; }
+
 .timestamp {
   display: flex;
   justify-content: flex-end;
@@ -2741,32 +2952,6 @@ body {
       max-height: 15rem;
       width: 100%;
       box-shadow: none; }
-
-.chartShare .textbox {
-  position: absolute;
-  border: 2px solid #DCE4EA;
-  background-color: rgba(255, 255, 255, 0.3);
-  z-index: 15;
-  padding: 0.5rem;
-  border-radius: 0.4rem;
-  width: 28rem !important;
-  max-width: 42rem;
-  min-height: 3.3rem;
-  font-size: 1.3rem;
-  color: #2c3e50;
-  text-align: center;
-  font-family: "Lato-Regular", "Helvetica", "arial", sans-serif;
-  resize: none;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center; }
-
-.chartShare .annotation {
-  border: 2px solid #DCE4EA;
-  border-radius: 0.3rem; }
-  .chartShare .annotation__drawingLocked {
-    pointer-events: none; }
 
 .helpPage {
   padding-top: 5rem;
@@ -3466,6 +3651,10 @@ button[class*="searchButton"] {
   @media only screen and (max-width: 64em) {
     .entity .overview .col-3-of-5 {
       margin-bottom: 2.5rem !important; } }
+  .entity .overview__buttons {
+    display: flex; }
+    .entity .overview__buttons-col:not(:first-child) {
+      margin-left: 2rem; }
   .entity .overview__time-range-error {
     min-height: 6rem;
     margin-bottom: 1.5rem;
