@@ -1,5 +1,4 @@
 import React, {PureComponent} from 'react';
-import PropTypes from "prop-types";
 import CanvasDraw from "react-canvas-draw";
 import {convertSecondsToDateValues, secondaryColor} from "../../utils";
 import DragAndDropTextBox from "../../components/dragAndDropTextBox/DragAndDropTextBox";
@@ -334,9 +333,5 @@ class XyChartModal extends PureComponent {
         }
     }
 }
-
-XyChartModal.propTypes = {
-
-};
 
 export default XyChartModal;
