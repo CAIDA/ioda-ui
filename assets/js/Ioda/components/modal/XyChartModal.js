@@ -284,46 +284,6 @@ class XyChartModal extends PureComponent {
                                             </div>
                                         </div>
                                     </div>
-                                    {/*{*/}
-                                    {/*    this.state.renderCanvas && <div id="annotation" className="annotation modal__row">*/}
-                                    {/*        {textBoxComponents.length !== 0 &&*/}
-                                    {/*        textBoxComponents.map((i, index) => <DragAndDropTextBox*/}
-                                    {/*            key={index} order={index}*/}
-                                    {/*            onStart={this.onStart.bind(this)}*/}
-                                    {/*            onStop={this.onStop.bind(this)}*/}
-                                    {/*            resizeMode={this.state.resizeMode}*/}
-                                    {/*            dragMode={this.state.dragMode}*/}
-                                    {/*            hideButtons={this.state.hideButtons}*/}
-                                    {/*        />)}*/}
-
-
-                                    {/*        <div className={this.state.drawingEnabled ? "annotation__drawingLocked" : null}>*/}
-                                    {/*            <CanvasDraw*/}
-                                    {/*                key={this.state.imageFile}*/}
-                                    {/*                ref={canvasDraw => (this.canvasRef = canvasDraw)}*/}
-                                    {/*                brushColor={this.state.color}*/}
-                                    {/*                brushRadius={this.state.brushRadius}*/}
-                                    {/*                lazyRadius={this.state.lazyRadius}*/}
-                                    {/*                imgSrc={this.state.imageFile}*/}
-                                    {/*                canvasWidth={this.chartRef && this.chartRef.current ? this.chartRef.current.clientWidth : null}*/}
-                                    {/*                canvasHeight={this.chartRef && this.chartRef.current ? this.chartRef.current.clientHeight - 7 : null}*/}
-                                    {/*            />*/}
-                                    {/*        </div>*/}
-                                    {/*        {arrowComponents.length !== 0 &&*/}
-                                    {/*        arrowComponents.map((i, index) => <DragAndDropArrow*/}
-                                    {/*            key={index} order={index}*/}
-                                    {/*            onStart={this.onStart.bind(this)}*/}
-                                    {/*            onStop={this.onStop.bind(this)}*/}
-                                    {/*            resizeMode={this.state.resizeMode}*/}
-                                    {/*            dragMode={this.state.dragMode}*/}
-                                    {/*            hideButtons={this.state.hideButtons}*/}
-                                    {/*        />)}*/}
-                                    {/*    </div>*/}
-                                    {/*}*/}
-                                    {/*{*/}
-                                    {/*    this.state.renderCanvas*/}
-                                    {/*        ? null : <div className="annotation modal__row"><Loading/></div>*/}
-                                    {/*}*/}
                                     <button className="chartShare__button--download" onClick={() => this.downloadFile(entityName)}>
                                         <img className="chartShare__button--download-img" src={iconDownload} title="Download Image" alt="Download Image"/>
                                         Download
