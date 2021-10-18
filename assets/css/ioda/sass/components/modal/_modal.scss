@@ -216,16 +216,30 @@
     }
   }
 
-  & .overview__buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 2rem;
+  & #annotation {
+    background: $color-white;
+  }
+
+  & .overview {
+    &__buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      z-index: 15;
+      position: relative;
+    }
+
+    &__timestamp {
+      position: relative;
+      z-index: 15;
+    }
   }
 
   & .annotation {
-    border: 2px solid $color-blue-border;
-    border-radius: 0.3rem;
-    position: relative;
+    //border: 2px solid $color-blue-border;
+    //border-radius: 0.3rem;
+    //position: relative;
+    position: absolute;
 
     &__drawingLocked {
       pointer-events: none;
@@ -291,8 +305,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: absolute!important;
     top: 50%;
-    position: absolute;
 
     &__textarea {
       height: inherit;

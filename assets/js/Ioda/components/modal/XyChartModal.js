@@ -29,9 +29,9 @@ class XyChartModal extends PureComponent {
         this.state = {
             // free-hand drawing
             color: secondaryColor,
-            brushRadius: 5,
+            brushRadius: 4,
             lazyRadius: 0,
-            renderCanvas: false,
+            // renderCanvas: false,
             drawingEnabled: true,
             // drag and drop text box
             activeDrags: 0,
@@ -43,7 +43,7 @@ class XyChartModal extends PureComponent {
             arrowComponentsStyles: [],
             // for updating the image snapshot
             imageFile: null,
-            initialSnapshotLoaded: false,
+            // initialSnapshotLoaded: false,
             loading: true,
             // for hiding buttons like rotate arrow when a snapshot is taken
             hideButtons: false
@@ -56,20 +56,20 @@ class XyChartModal extends PureComponent {
         this.onStart = this.onStart.bind(this);
     }
 
-    componentDidMount() {
-        setTimeout(() => {
-            this.setState({ renderCanvas: true })
-        }, 300);
-    }
+    // componentDidMount() {
+    //     setTimeout(() => {
+    //         this.setState({ renderCanvas: true })
+    //     }, 300);
+    // }
 
-    componentDidUpdate(prevState) {
-        if (this.colRef && this.colRef.current && !this.state.initialSnapshotLoaded) {
-            this.setState({
-                initialSnapshotLoaded: true
-            });
-            this.handleUpdateSnapshot();
-        }
-    }
+    // componentDidUpdate(prevState) {
+    //     if (this.colRef && this.colRef.current && !this.state.initialSnapshotLoaded) {
+    //         this.setState({
+    //             initialSnapshotLoaded: true
+    //         });
+    //         this.handleUpdateSnapshot();
+    //     }
+    // }
 
     downloadFile(entityName) {
         const input = document.getElementById('annotation');
@@ -84,8 +84,6 @@ class XyChartModal extends PureComponent {
                 link.href = dataUrl;
                 link.click();
             });
-
-
     }
 
     onStart = () => {
@@ -126,25 +124,25 @@ class XyChartModal extends PureComponent {
         });
     };
 
-    handleUpdateSnapshot() {
-        // save current drawings
-        localStorage.setItem(
-            "drawing",
-            this.canvasRef.getSaveData()
-        );
-        // take new snapshot and update
-        const input = document.getElementById('chart');
-        html2canvas(input)
-            .then((canvas) => {
-                this.setState({
-                    imageFile: canvas.toDataURL('img/png'),
-                }, () => {
-                    this.canvasRef.loadSaveData(
-                        localStorage.getItem("drawing")
-                    );
-                })
-            })
-    }
+    // handleUpdateSnapshot() {
+    //     // save current drawings
+    //     localStorage.setItem(
+    //         "drawing",
+    //         this.canvasRef.getSaveData()
+    //     );
+    //     // take new snapshot and update
+    //     const input = document.getElementById('chart');
+    //     html2canvas(input)
+    //         .then((canvas) => {
+    //             this.setState({
+    //                 imageFile: canvas.toDataURL('img/png'),
+    //             }, () => {
+    //                 this.canvasRef.loadSaveData(
+    //                     localStorage.getItem("drawing")
+    //                 );
+    //             })
+    //         })
+    // }
 
     handleDragResizeToggle() {
         this.setState({
@@ -189,7 +187,37 @@ class XyChartModal extends PureComponent {
                         <div className="modal__content">
                             <div className="row">
                                 <div className="col-1-of-1" ref={this.colRef}>
-                                    <div className="modal__row">
+                                    <div className="modal__row" id="annotation">
+                                        {textBoxComponents.length !== 0 &&
+                                        textBoxComponents.map((i, index) => <DragAndDropTextBox
+                                            key={index} order={index}
+                                            onStart={this.onStart.bind(this)}
+                                            onStop={this.onStop.bind(this)}
+                                            resizeMode={this.state.resizeMode}
+                                            dragMode={this.state.dragMode}
+                                            hideButtons={this.state.hideButtons}
+                                        />)}
+                                        <div className={this.state.drawingEnabled ? "annotation annotation__drawingLocked" : "annotation"}>
+                                            <CanvasDraw
+                                                key={this.state.imageFile}
+                                                ref={canvasDraw => (this.canvasRef = canvasDraw)}
+                                                brushColor={this.state.color}
+                                                brushRadius={this.state.brushRadius}
+                                                lazyRadius={this.state.lazyRadius}
+                                                canvasWidth={this.chartRef && this.chartRef.current ? this.chartRef.current.clientWidth : null}
+                                                canvasHeight={this.chartRef && this.chartRef.current ? this.chartRef.current.clientHeight - 7 : null}
+                                                hideGrid
+                                            />
+                                        </div>
+                                        {arrowComponents.length !== 0 &&
+                                        arrowComponents.map((i, index) => <DragAndDropArrow
+                                            key={index} order={index}
+                                            onStart={this.onStart.bind(this)}
+                                            onStop={this.onStop.bind(this)}
+                                            resizeMode={this.state.resizeMode}
+                                            dragMode={this.state.dragMode}
+                                            hideButtons={this.state.hideButtons}
+                                        />)}
                                         <div id="chart" ref={this.chartRef}>
                                             <div className="overview__buttons">
                                                 <h3 className="section-header">Raw IODA Signals for {this.props.entityName}</h3>
@@ -217,7 +245,6 @@ class XyChartModal extends PureComponent {
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                             <div className="row">
@@ -225,12 +252,12 @@ class XyChartModal extends PureComponent {
                                     <h3 className="section-header">Annotator</h3>
                                     <div className="chartShare__modal__control-panel">
                                         <div className="chartShare__modal__control-panel-row">
-                                            <div className="chartShare__modal__control-panel-col">
-                                                <h4 className="chartShare__modal__control-panel-col-title">Chart Image</h4>
-                                                <button className="related__modal-button" onClick={() => this.handleUpdateSnapshot()}>
-                                                    <img className="related__modal-button-img" src={iconRefresh} title="Update Snapshot" alt="Update Snapshot"/>
-                                                </button>
-                                            </div>
+                                            {/*<div className="chartShare__modal__control-panel-col">*/}
+                                            {/*    <h4 className="chartShare__modal__control-panel-col-title">Chart Image</h4>*/}
+                                            {/*    <button className="related__modal-button" onClick={() => this.handleUpdateSnapshot()}>*/}
+                                            {/*        <img className="related__modal-button-img" src={iconRefresh} title="Update Snapshot" alt="Update Snapshot"/>*/}
+                                            {/*    </button>*/}
+                                            {/*</div>*/}
                                             <div className="chartShare__modal__control-panel-col">
                                                 <h4 className="chartShare__modal__control-panel-col-title">Drawing</h4>
                                                 <div className="chartShare__button-blob">
@@ -280,46 +307,46 @@ class XyChartModal extends PureComponent {
                                             </div>
                                         </div>
                                     </div>
-                                    {
-                                        this.state.renderCanvas && <div id="annotation" className="annotation modal__row">
-                                            {textBoxComponents.length !== 0 &&
-                                            textBoxComponents.map((i, index) => <DragAndDropTextBox
-                                                key={index} order={index}
-                                                onStart={this.onStart.bind(this)}
-                                                onStop={this.onStop.bind(this)}
-                                                resizeMode={this.state.resizeMode}
-                                                dragMode={this.state.dragMode}
-                                                hideButtons={this.state.hideButtons}
-                                            />)}
+                                    {/*{*/}
+                                    {/*    this.state.renderCanvas && <div id="annotation" className="annotation modal__row">*/}
+                                    {/*        {textBoxComponents.length !== 0 &&*/}
+                                    {/*        textBoxComponents.map((i, index) => <DragAndDropTextBox*/}
+                                    {/*            key={index} order={index}*/}
+                                    {/*            onStart={this.onStart.bind(this)}*/}
+                                    {/*            onStop={this.onStop.bind(this)}*/}
+                                    {/*            resizeMode={this.state.resizeMode}*/}
+                                    {/*            dragMode={this.state.dragMode}*/}
+                                    {/*            hideButtons={this.state.hideButtons}*/}
+                                    {/*        />)}*/}
 
 
-                                            <div className={this.state.drawingEnabled ? "annotation__drawingLocked" : null}>
-                                                <CanvasDraw
-                                                    key={this.state.imageFile}
-                                                    ref={canvasDraw => (this.canvasRef = canvasDraw)}
-                                                    brushColor={this.state.color}
-                                                    brushRadius={this.state.brushRadius}
-                                                    lazyRadius={this.state.lazyRadius}
-                                                    imgSrc={this.state.imageFile}
-                                                    canvasWidth={this.chartRef && this.chartRef.current ? this.chartRef.current.clientWidth : null}
-                                                    canvasHeight={this.chartRef && this.chartRef.current ? this.chartRef.current.clientHeight - 7 : null}
-                                                />
-                                            </div>
-                                            {arrowComponents.length !== 0 &&
-                                            arrowComponents.map((i, index) => <DragAndDropArrow
-                                                key={index} order={index}
-                                                onStart={this.onStart.bind(this)}
-                                                onStop={this.onStop.bind(this)}
-                                                resizeMode={this.state.resizeMode}
-                                                dragMode={this.state.dragMode}
-                                                hideButtons={this.state.hideButtons}
-                                            />)}
-                                        </div>
-                                    }
-                                    {
-                                        this.state.renderCanvas
-                                            ? null : <div className="annotation modal__row"><Loading/></div>
-                                    }
+                                    {/*        <div className={this.state.drawingEnabled ? "annotation__drawingLocked" : null}>*/}
+                                    {/*            <CanvasDraw*/}
+                                    {/*                key={this.state.imageFile}*/}
+                                    {/*                ref={canvasDraw => (this.canvasRef = canvasDraw)}*/}
+                                    {/*                brushColor={this.state.color}*/}
+                                    {/*                brushRadius={this.state.brushRadius}*/}
+                                    {/*                lazyRadius={this.state.lazyRadius}*/}
+                                    {/*                imgSrc={this.state.imageFile}*/}
+                                    {/*                canvasWidth={this.chartRef && this.chartRef.current ? this.chartRef.current.clientWidth : null}*/}
+                                    {/*                canvasHeight={this.chartRef && this.chartRef.current ? this.chartRef.current.clientHeight - 7 : null}*/}
+                                    {/*            />*/}
+                                    {/*        </div>*/}
+                                    {/*        {arrowComponents.length !== 0 &&*/}
+                                    {/*        arrowComponents.map((i, index) => <DragAndDropArrow*/}
+                                    {/*            key={index} order={index}*/}
+                                    {/*            onStart={this.onStart.bind(this)}*/}
+                                    {/*            onStop={this.onStop.bind(this)}*/}
+                                    {/*            resizeMode={this.state.resizeMode}*/}
+                                    {/*            dragMode={this.state.dragMode}*/}
+                                    {/*            hideButtons={this.state.hideButtons}*/}
+                                    {/*        />)}*/}
+                                    {/*    </div>*/}
+                                    {/*}*/}
+                                    {/*{*/}
+                                    {/*    this.state.renderCanvas*/}
+                                    {/*        ? null : <div className="annotation modal__row"><Loading/></div>*/}
+                                    {/*}*/}
                                     <button className="chartShare__button--download" onClick={() => this.downloadFile(entityName)}>
                                         <img className="chartShare__button--download-img" src={iconDownload} title="Download Image" alt="Download Image"/>
                                         Download

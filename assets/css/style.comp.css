@@ -2318,15 +2318,22 @@ body {
       .chartShare__modal__control-panel-col .toggle__container .dialog-button {
         left: 3.5rem; }
 
+.chartShare__modal #annotation {
+  background: #fff; }
+
 .chartShare__modal .overview__buttons {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 2rem; }
+  margin-bottom: 2rem;
+  z-index: 15;
+  position: relative; }
+
+.chartShare__modal .overview__timestamp {
+  position: relative;
+  z-index: 15; }
 
 .chartShare__modal .annotation {
-  border: 2px solid #DCE4EA;
-  border-radius: 0.3rem;
-  position: relative; }
+  position: absolute; }
   .chartShare__modal .annotation__drawingLocked {
     pointer-events: none; }
 
@@ -2379,8 +2386,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  top: 50%;
-  position: absolute; }
+  position: absolute !important;
+  top: 50%; }
   .chartShare__modal .textbox__textarea {
     height: inherit;
     width: 100%;
