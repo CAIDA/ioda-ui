@@ -31,7 +31,6 @@ class XyChartModal extends PureComponent {
             color: secondaryColor,
             brushRadius: 4,
             lazyRadius: 0,
-            // renderCanvas: false,
             drawingEnabled: true,
             // drag and drop text box
             activeDrags: 0,
@@ -43,7 +42,6 @@ class XyChartModal extends PureComponent {
             arrowComponentsStyles: [],
             // for updating the image snapshot
             imageFile: null,
-            // initialSnapshotLoaded: false,
             loading: true,
             // for hiding buttons like rotate arrow when a snapshot is taken
             hideButtons: false
@@ -55,21 +53,6 @@ class XyChartModal extends PureComponent {
         this.onStop = this.onStop.bind(this);
         this.onStart = this.onStart.bind(this);
     }
-
-    // componentDidMount() {
-    //     setTimeout(() => {
-    //         this.setState({ renderCanvas: true })
-    //     }, 300);
-    // }
-
-    // componentDidUpdate(prevState) {
-    //     if (this.colRef && this.colRef.current && !this.state.initialSnapshotLoaded) {
-    //         this.setState({
-    //             initialSnapshotLoaded: true
-    //         });
-    //         this.handleUpdateSnapshot();
-    //     }
-    // }
 
     downloadFile(entityName) {
         const input = document.getElementById('annotation');
@@ -124,25 +107,18 @@ class XyChartModal extends PureComponent {
         });
     };
 
-    // handleUpdateSnapshot() {
-    //     // save current drawings
-    //     localStorage.setItem(
-    //         "drawing",
-    //         this.canvasRef.getSaveData()
-    //     );
-    //     // take new snapshot and update
-    //     const input = document.getElementById('chart');
-    //     html2canvas(input)
-    //         .then((canvas) => {
-    //             this.setState({
-    //                 imageFile: canvas.toDataURL('img/png'),
-    //             }, () => {
-    //                 this.canvasRef.loadSaveData(
-    //                     localStorage.getItem("drawing")
-    //                 );
-    //             })
-    //         })
-    // }
+    handleClearAllAnnotations = () => {
+        // Remove all drawings
+        this.canvasRef.clear();
+        // Remove all arrows and text boxes
+        this.setState({
+            textBoxComponents: [],
+            textBoxComponentsStyles: [],
+            arrowComponents: [],
+            arrowComponentsStyles: [],
+            activeDrags: 0,
+        });
+    }
 
     handleDragResizeToggle() {
         this.setState({
@@ -217,6 +193,7 @@ class XyChartModal extends PureComponent {
                                             resizeMode={this.state.resizeMode}
                                             dragMode={this.state.dragMode}
                                             hideButtons={this.state.hideButtons}
+                                            drawingEnabled={this.state.drawingEnabled}
                                         />)}
                                         <div id="chart" ref={this.chartRef}>
                                             <div className="overview__buttons">
@@ -252,12 +229,12 @@ class XyChartModal extends PureComponent {
                                     <h3 className="section-header">Annotator</h3>
                                     <div className="chartShare__modal__control-panel">
                                         <div className="chartShare__modal__control-panel-row">
-                                            {/*<div className="chartShare__modal__control-panel-col">*/}
-                                            {/*    <h4 className="chartShare__modal__control-panel-col-title">Chart Image</h4>*/}
-                                            {/*    <button className="related__modal-button" onClick={() => this.handleUpdateSnapshot()}>*/}
-                                            {/*        <img className="related__modal-button-img" src={iconRefresh} title="Update Snapshot" alt="Update Snapshot"/>*/}
-                                            {/*    </button>*/}
-                                            {/*</div>*/}
+                                            <div className="chartShare__modal__control-panel-col">
+                                                <h4 className="chartShare__modal__control-panel-col-title">Chart Image</h4>
+                                                <button className="related__modal-button" onClick={() => this.handleClearAllAnnotations()}>
+                                                    Clear All Annotations
+                                                </button>
+                                            </div>
                                             <div className="chartShare__modal__control-panel-col">
                                                 <h4 className="chartShare__modal__control-panel-col-title">Drawing</h4>
                                                 <div className="chartShare__button-blob">

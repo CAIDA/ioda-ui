@@ -177,7 +177,6 @@ class Entity extends Component {
         this.maxHtsLimit = 150;
     }
     componentDidMount() {
-        console.log("update19");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
 
@@ -1023,9 +1022,7 @@ class Entity extends Component {
     toggleXyChartModal() {
         // force alert bands off
         this.handleDisplayAlertBands("off");
-        // reset time range at the bottom of the chart
-
-        // open modal
+        // open modal and reset time range at the bottom of the chart
         this.setState({
             showXyChartModal: !this.state.showXyChartModal,
             tsDataLegendRangeFrom: window.location.search.split("?")[1]
