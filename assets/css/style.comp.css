@@ -2475,7 +2475,7 @@ body {
       height: 2.1rem;
       width: 2.1rem; }
 
-.chartShare__modal__button--download {
+.chartShare__modal .chartShare__button--download {
   width: 100%;
   min-width: 26rem;
   max-width: 52rem;
@@ -2498,7 +2498,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center; }
-  .chartShare__modal__button--download-img {
+  .chartShare__modal .chartShare__button--download-img {
     height: 4rem;
     width: 4rem;
     margin-right: 1rem; }
