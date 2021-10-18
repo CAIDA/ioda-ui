@@ -177,6 +177,7 @@ class Entity extends Component {
         this.maxHtsLimit = 150;
     }
     componentDidMount() {
+        console.log("update4");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
 
@@ -198,8 +199,6 @@ class Entity extends Component {
                     mounted: true
                 },() => {
                     if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
-                        // Get all datasources
-                        // this.props.getDatasourcesAction();
                         // Overview Panel
                         this.props.searchEventsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
                         this.props.searchAlertsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], null, null, null);
