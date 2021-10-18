@@ -2318,15 +2318,22 @@ body {
       .chartShare__modal__control-panel-col .toggle__container .dialog-button {
         left: 3.5rem; }
 
+.chartShare__modal #annotation {
+  background: #fff; }
+
 .chartShare__modal .overview__buttons {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 2rem; }
+  margin-bottom: 2rem;
+  z-index: 15;
+  position: relative; }
+
+.chartShare__modal .overview__timestamp {
+  position: relative;
+  z-index: 15; }
 
 .chartShare__modal .annotation {
-  border: 2px solid #DCE4EA;
-  border-radius: 0.3rem;
-  position: relative; }
+  position: absolute; }
   .chartShare__modal .annotation__drawingLocked {
     pointer-events: none; }
 
@@ -2334,33 +2341,33 @@ body {
   height: 2.4rem;
   width: 2.4rem; }
 
-.chartShare__modal__button-blob {
-  display: flex; }
-  .chartShare__modal__button-blob button {
-    background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
-    color: #fff;
-    font-weight: 700;
-    cursor: pointer;
-    text-align: center;
-    border: none;
-    background-size: 100% 300%;
-    transition: all .4s ease-in-out;
-    position: relative;
-    z-index: 10;
-    box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
-    height: 3rem;
-    font-size: 1rem;
-    margin: 0;
-    padding: 0 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center; }
-    .chartShare__modal__button-blob button:not(:first-child) {
-      border-left: 0.2rem solid #617486; }
-    .chartShare__modal__button-blob button:first-child {
-      border-radius: 0.5rem 0 0 0.5rem; }
-    .chartShare__modal__button-blob button:last-child {
-      border-radius: 0 0.5rem 0.5rem 0; }
+.chartShare__modal .chartShare__button {
+  background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  border: none;
+  background-size: 100% 300%;
+  transition: all .4s ease-in-out;
+  position: relative;
+  z-index: 10;
+  box-shadow: inset 0 0.2rem 0.1rem rgba(255, 255, 255, 0.2), inset 0 0 0 0.1rem rgba(0, 0, 0, 0.15), 0 0.1rem 0 rgba(255, 255, 255, 0.15);
+  height: 3rem;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .chartShare__modal .chartShare__button-blob {
+    display: flex; }
+  .chartShare__modal .chartShare__button:not(:first-child) {
+    border-left: 0.2rem solid #617486; }
+  .chartShare__modal .chartShare__button:first-child {
+    border-radius: 0.5rem 0 0 0.5rem; }
+  .chartShare__modal .chartShare__button:last-child {
+    border-radius: 0 0.5rem 0.5rem 0; }
 
 .chartShare__modal .textbox {
   border: 2px solid #DCE4EA;
@@ -2379,8 +2386,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  top: 50%;
-  position: absolute; }
+  position: absolute !important;
+  top: 50%; }
   .chartShare__modal .textbox__textarea {
     height: inherit;
     width: 100%;
@@ -2475,7 +2482,7 @@ body {
       height: 2.1rem;
       width: 2.1rem; }
 
-.chartShare__modal__button--download {
+.chartShare__modal .chartShare__button--download {
   width: 100%;
   min-width: 26rem;
   max-width: 52rem;
@@ -2498,7 +2505,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center; }
-  .chartShare__modal__button--download-img {
+  .chartShare__modal .chartShare__button--download-img {
     height: 4rem;
     width: 4rem;
     margin-right: 1rem; }

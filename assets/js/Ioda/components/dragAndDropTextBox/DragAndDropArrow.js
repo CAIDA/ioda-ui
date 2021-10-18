@@ -42,10 +42,13 @@ class DragAndDropArrow extends Component {
         const dragCSS = `background: none; cursor: move;`;
         const hideButtonsCSS = `display: none;`;
         const showButtonsCSS = `display: flex;`;
+        const drawingEnabledCSS = 'pointer-events: none';
+        const drawingDisabledCSS = 'pointer-events: auto';
         return(<React.Fragment>
                 <Style>{`
                     .arrow {
                         ${!this.props.dragMode ? rotateCSS : dragCSS}
+                        ${!this.props.drawingEnabled ? drawingEnabledCSS : drawingDisabledCSS}
                     }
                     .arrow__rotate {
                         ${this.props.hideButtons ? hideButtonsCSS : showButtonsCSS}

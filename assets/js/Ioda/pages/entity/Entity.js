@@ -198,8 +198,6 @@ class Entity extends Component {
                     mounted: true
                 },() => {
                     if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
-                        // Get all datasources
-                        // this.props.getDatasourcesAction();
                         // Overview Panel
                         this.props.searchEventsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2]);
                         this.props.searchAlertsAction(this.state.from, this.state.until, window.location.pathname.split("/")[1], window.location.pathname.split("/")[2], null, null, null);
@@ -996,9 +994,9 @@ class Entity extends Component {
         }, () => this.convertValuesForXyViz())
     }
     // toggle any populated alert bands to be displayed in chart
-    handleDisplayAlertBands() {
+    handleDisplayAlertBands(status) {
         this.setState({
-            tsDataDisplayOutageBands: !this.state.tsDataDisplayOutageBands
+            tsDataDisplayOutageBands: status === "off" ? false : !this.state.tsDataDisplayOutageBands
         }, () => this.convertValuesForXyViz())
     }
     // Track screen width to shift around legend, adjust height of xy chart
@@ -1022,9 +1020,17 @@ class Entity extends Component {
     }
     // display modal used for annotation/download
     toggleXyChartModal() {
+        // force alert bands off
+        this.handleDisplayAlertBands("off");
+        // open modal and reset time range at the bottom of the chart
         this.setState({
             showXyChartModal: !this.state.showXyChartModal,
-            tsDataDisplayOutageBands: false
+            tsDataLegendRangeFrom: window.location.search.split("?")[1]
+                ? convertTimeToSecondsForURL(window.location.search.split("?")[1].split("&")[0].split("=")[1])
+                : Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000),
+            tsDataLegendRangeUntil: window.location.search.split("?")[1]
+                ? convertTimeToSecondsForURL(window.location.search.split("?")[1].split("&")[1].split("=")[1])
+                : Math.round(new Date().getTime() / 1000),
         })
     }
 
