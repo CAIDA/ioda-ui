@@ -465,7 +465,7 @@ class Dashboard extends Component {
         this.setState({
             searchTerm: query
         });
-    }
+    };
     // Function that returns search bar passed into control panel
     populateSearchBar() {
         return <Searchbar placeholder={T.translate("controlPanel.searchBarPlaceholder")}

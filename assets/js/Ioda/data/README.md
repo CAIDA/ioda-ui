@@ -10,8 +10,8 @@
 - `datasources`: available data sources used in IODA
 - `signals`: for timeseries graphs
 - `alerts`: for building alerts tables
-- `events`: not sure where it fits
-- `summary`: for building events tables on the right of the map
+- `events`: for building events tables
+- `summary`: for building event scores on the right of the map
 
 ### Actions
 
@@ -62,7 +62,7 @@ const mapDispatchToProps = (dispatch) => {
 
 Then in the rest of the PHP code, you can use the defined field
 `suggestedSearchResults` and `searchEntitiesActions` in props to access the data
-and function calls according.
+and function calls accordingly.
 
 Accessing data:
 ``` javascript

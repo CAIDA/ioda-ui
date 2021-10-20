@@ -48,7 +48,6 @@ class XyChartModal extends PureComponent {
         };
         this.headingRef = React.createRef();
         this.canvasRef = React.createRef();
-        this.colRef = React.createRef();
         this.chartRef = React.createRef();
         this.onStop = this.onStop.bind(this);
         this.onStart = this.onStart.bind(this);
@@ -162,132 +161,129 @@ class XyChartModal extends PureComponent {
                         </div>
                         <div className="modal__content">
                             <div className="row">
-                                <div className="col-1-of-1" ref={this.colRef}>
-                                    <div className="modal__row" id="annotation">
-                                        {textBoxComponents.length !== 0 &&
-                                        textBoxComponents.map((i, index) => <DragAndDropTextBox
-                                            key={index} order={index}
-                                            onStart={this.onStart.bind(this)}
-                                            onStop={this.onStop.bind(this)}
-                                            resizeMode={this.state.resizeMode}
-                                            dragMode={this.state.dragMode}
-                                            hideButtons={this.state.hideButtons}
-                                        />)}
-                                        <div className={this.state.drawingEnabled ? "annotation annotation__drawingLocked" : "annotation"}>
-                                            <CanvasDraw
-                                                key={this.state.imageFile}
-                                                ref={canvasDraw => (this.canvasRef = canvasDraw)}
-                                                brushColor={this.state.color}
-                                                brushRadius={this.state.brushRadius}
-                                                lazyRadius={this.state.lazyRadius}
-                                                canvasWidth={this.chartRef && this.chartRef.current ? this.chartRef.current.clientWidth : null}
-                                                canvasHeight={this.chartRef && this.chartRef.current ? this.chartRef.current.clientHeight - 7 : null}
-                                                hideGrid
-                                            />
-                                        </div>
-                                        {arrowComponents.length !== 0 &&
-                                        arrowComponents.map((i, index) => <DragAndDropArrow
-                                            key={index} order={index}
-                                            onStart={this.onStart.bind(this)}
-                                            onStop={this.onStop.bind(this)}
-                                            resizeMode={this.state.resizeMode}
-                                            dragMode={this.state.dragMode}
-                                            hideButtons={this.state.hideButtons}
-                                            drawingEnabled={this.state.drawingEnabled}
-                                        />)}
-                                        <div id="chart" ref={this.chartRef}>
-                                            <div className="overview__buttons">
-                                                <h3 className="section-header">Raw IODA Signals for {this.props.entityName}</h3>
-                                                <div className="overview__buttons-col">
-                                                    <ToggleButton
-                                                        selected={this.props.tsDataDisplayOutageBands}
-                                                        toggleSelected={() => this.props.handleDisplayAlertBands()}
-                                                        label={xyChartAlertToggleLabel}
-                                                    />
-                                                    <ToggleButton
-                                                        selected={this.props.tsDataNormalized}
-                                                        toggleSelected={() => this.props.changeXyChartNormalization()}
-                                                        label={xyChartNormalizedToggleLabel}
-                                                    />
-                                                </div>
-                                            </div>
-                                            {
-                                                this.props.xyDataOptions
-                                                    ? this.genXyChart()
-                                                    : <Loading/>
-                                            }
-                                            <div className="overview__timestamp">
-                                                <TimeStamp from={convertSecondsToDateValues(this.props.tsDataLegendRangeFrom)}
-                                                           until={convertSecondsToDateValues(this.props.tsDataLegendRangeUntil)} />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="row">
                                 <div className="col-1-of-1">
-                                    <h3 className="section-header">Annotator</h3>
-                                    <div className="chartShare__modal__control-panel">
-                                        <div className="chartShare__modal__control-panel-row">
-                                            <div className="chartShare__modal__control-panel-col">
-                                                <h4 className="chartShare__modal__control-panel-col-title">Chart Image</h4>
-                                                <button className="related__modal-button" onClick={() => this.handleClearAllAnnotations()}>
-                                                    Clear All Annotations
-                                                </button>
-                                            </div>
-                                            <div className="chartShare__modal__control-panel-col">
-                                                <h4 className="chartShare__modal__control-panel-col-title">Drawing</h4>
-                                                <div className="chartShare__button-blob">
-                                                    <button className="chartShare__button" onClick={() => this.canvasRef.clear()}>
-                                                        <img className="related__modal-button-img" src={iconTrash} title="Remove All Drawn Lines" alt="Remove all Drawn Lines"/>
-                                                    </button>
-                                                    <button className="chartShare__button" onClick={() => this.canvasRef.undo()}>
-                                                        <img className="related__modal-button-img" src={iconUndo} title="Undo Last Line Drawn" alt="Undo Last Line Drawn"/>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div className="chartShare__modal__control-panel-col">
-                                                <h4 className="chartShare__modal__control-panel-col-title">Textbox</h4>
-                                                <div className="chartShare__button-blob">
-                                                    <button className="chartShare__button" onClick={() => this.handleRenderTextBox()}>
-                                                        <img className="related__modal-button-img" src={iconAddTextbox} title="Add New Text Box" alt="Add New Text Box"/>
-                                                    </button>
-                                                    <button className="chartShare__button" onClick={() => this.handleDeleteTextBox()}>
-                                                        <img className="related__modal-button-img" src={iconRemoveTextbox} title="Remove Last Text Box" alt="Remove Last Text Box"/>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div className="chartShare__modal__control-panel-col">
-                                                <h4 className="chartShare__modal__control-panel-col-title">Arrow</h4>
-                                                <div className="chartShare__button-blob">
-                                                    <button className="chartShare__button" onClick={() => this.handleRenderArrow()}>
-                                                        <img className="related__modal-button-img" src={iconAddArrow} title="Add New Arrow" alt="Add New Arrow"/>
-                                                    </button>
-                                                    <button className="chartShare__button" onClick={() => this.handleDeleteArrow()}>
-                                                        <img className="related__modal-button-img" src={iconRemoveArrow} title="Remove Last Arrow" alt="Remove Last Arrow"/>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div className="chartShare__modal__control-panel-col chartShare__modal__control-panel-col--toggle">
-                                                <ToggleButton
-                                                    selected={this.state.dragMode}
-                                                    toggleSelected={() => this.handleDragResizeToggle()}
-                                                    label={"Toggle Drag/Resize"}
-                                                    customTextOn={"DRAG"}
-                                                    customTextOff={"RESIZE"}
+                                    <div className="modal__row modal__row--annotation">
+                                        <div className="annotation" id="annotation">
+                                            {textBoxComponents.length !== 0 &&
+                                            textBoxComponents.map((i, index) => <DragAndDropTextBox
+                                                key={index} order={index}
+                                                onStart={this.onStart.bind(this)}
+                                                onStop={this.onStop.bind(this)}
+                                                resizeMode={this.state.resizeMode}
+                                                dragMode={this.state.dragMode}
+                                                hideButtons={this.state.hideButtons}
+                                            />)}
+                                            <div className={this.state.drawingEnabled ? "annotation__canvas annotation__canvas--drawingLocked" : "annotation__canvas"}>
+                                                <CanvasDraw
+                                                    key={this.state.imageFile}
+                                                    ref={canvasDraw => (this.canvasRef = canvasDraw)}
+                                                    brushColor={this.state.color}
+                                                    brushRadius={this.state.brushRadius}
+                                                    lazyRadius={this.state.lazyRadius}
+                                                    canvasWidth={this.chartRef && this.chartRef.current ? this.chartRef.current.clientWidth : null}
+                                                    canvasHeight={this.chartRef && this.chartRef.current ? this.chartRef.current.clientHeight - 7 : null}
+                                                    hideGrid
                                                 />
-                                                <ToggleButton
-                                                    selected={!this.state.drawingEnabled}
-                                                    toggleSelected={() => this.handleLockDrawing()}
-                                                    label={"Toggle Draw Mode"}
-                                                />
+                                            </div>
+                                            {arrowComponents.length !== 0 &&
+                                            arrowComponents.map((i, index) => <DragAndDropArrow
+                                                key={index} order={index}
+                                                onStart={this.onStart.bind(this)}
+                                                onStop={this.onStop.bind(this)}
+                                                resizeMode={this.state.resizeMode}
+                                                dragMode={this.state.dragMode}
+                                                hideButtons={this.state.hideButtons}
+                                                drawingEnabled={this.state.drawingEnabled}
+                                            />)}
+                                            <div id="chart" ref={this.chartRef}>
+                                                <div className="overview__buttons">
+                                                    <h3 className="section-header">Raw IODA Signals for {this.props.entityName}</h3>
+                                                    <div className="overview__buttons-col">
+                                                        <ToggleButton
+                                                            selected={this.props.tsDataDisplayOutageBands}
+                                                            toggleSelected={() => this.props.handleDisplayAlertBands()}
+                                                            label={xyChartAlertToggleLabel}
+                                                        />
+                                                        <ToggleButton
+                                                            selected={this.props.tsDataNormalized}
+                                                            toggleSelected={() => this.props.changeXyChartNormalization()}
+                                                            label={xyChartNormalizedToggleLabel}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                {
+                                                    this.props.xyDataOptions
+                                                        ? this.genXyChart()
+                                                        : <Loading/>
+                                                }
+                                                <div className="overview__timestamp">
+                                                    <TimeStamp from={convertSecondsToDateValues(this.props.tsDataLegendRangeFrom)}
+                                                               until={convertSecondsToDateValues(this.props.tsDataLegendRangeUntil)} />
+                                                </div>
                                             </div>
                                         </div>
+                                        <div className="chartShare__modal__control-panel">
+                                            <div className="chartShare__modal__control-panel-row">
+                                                <div className="chartShare__modal__control-panel-col">
+                                                    <h4 className="chartShare__modal__control-panel-col-title">Chart Image</h4>
+                                                    <button className="related__modal-button" onClick={() => this.handleClearAllAnnotations()}>
+                                                        Clear All Annotations
+                                                    </button>
+                                                </div>
+                                                <div className="chartShare__modal__control-panel-col">
+                                                    <h4 className="chartShare__modal__control-panel-col-title">Drawing</h4>
+                                                    <div className="chartShare__button-blob">
+                                                        <button className="chartShare__button" onClick={() => this.canvasRef.clear()}>
+                                                            <img className="related__modal-button-img" src={iconTrash} title="Remove All Drawn Lines" alt="Remove all Drawn Lines"/>
+                                                        </button>
+                                                        <button className="chartShare__button" onClick={() => this.canvasRef.undo()}>
+                                                            <img className="related__modal-button-img" src={iconUndo} title="Undo Last Line Drawn" alt="Undo Last Line Drawn"/>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div className="chartShare__modal__control-panel-col">
+                                                    <h4 className="chartShare__modal__control-panel-col-title">Textbox</h4>
+                                                    <div className="chartShare__button-blob">
+                                                        <button className="chartShare__button" onClick={() => this.handleRenderTextBox()}>
+                                                            <img className="related__modal-button-img" src={iconAddTextbox} title="Add New Text Box" alt="Add New Text Box"/>
+                                                        </button>
+                                                        <button className="chartShare__button" onClick={() => this.handleDeleteTextBox()}>
+                                                            <img className="related__modal-button-img" src={iconRemoveTextbox} title="Remove Last Text Box" alt="Remove Last Text Box"/>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div className="chartShare__modal__control-panel-col">
+                                                    <h4 className="chartShare__modal__control-panel-col-title">Arrow</h4>
+                                                    <div className="chartShare__button-blob">
+                                                        <button className="chartShare__button" onClick={() => this.handleRenderArrow()}>
+                                                            <img className="related__modal-button-img" src={iconAddArrow} title="Add New Arrow" alt="Add New Arrow"/>
+                                                        </button>
+                                                        <button className="chartShare__button" onClick={() => this.handleDeleteArrow()}>
+                                                            <img className="related__modal-button-img" src={iconRemoveArrow} title="Remove Last Arrow" alt="Remove Last Arrow"/>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div className="chartShare__modal__control-panel-col chartShare__modal__control-panel-col--toggle">
+                                                    <ToggleButton
+                                                        selected={this.state.dragMode}
+                                                        toggleSelected={() => this.handleDragResizeToggle()}
+                                                        label={"Toggle Drag/Resize"}
+                                                        customTextOn={"DRAG"}
+                                                        customTextOff={"RESIZE"}
+                                                    />
+                                                    <ToggleButton
+                                                        selected={!this.state.drawingEnabled}
+                                                        toggleSelected={() => this.handleLockDrawing()}
+                                                        label={"Toggle Draw Mode"}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button className="chartShare__button--download" onClick={() => this.downloadFile(entityName)}>
+                                            <img className="chartShare__button--download-img" src={iconDownload} title="Download Image" alt="Download Image"/>
+                                            Download
+                                        </button>
                                     </div>
-                                    <button className="chartShare__button--download" onClick={() => this.downloadFile(entityName)}>
-                                        <img className="chartShare__button--download-img" src={iconDownload} title="Download Image" alt="Download Image"/>
-                                        Download
-                                    </button>
                                 </div>
                             </div>
                         </div>
