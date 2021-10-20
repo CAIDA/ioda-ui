@@ -22,7 +22,6 @@ import iconTrash from 'images/icons/icon-trash.png';
 import iconUndo from 'images/icons/icon-undo.png';
 
 
-
 class XyChartModal extends PureComponent {
     constructor(props) {
         super(props);
