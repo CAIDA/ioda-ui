@@ -1,8 +1,8 @@
 import React, {PureComponent} from 'react';
 import CanvasDraw from "react-canvas-draw";
 import {convertSecondsToDateValues, secondaryColor} from "../../utils";
-import DragAndDropTextBox from "../../components/dragAndDropTextBox/DragAndDropTextBox";
-import DragAndDropArrow from "../dragAndDropTextBox/DragAndDropArrow";
+import DragAndDropTextBox from "../dragAndDropBox/DragAndDropTextBox";
+import DragAndDropArrow from "../dragAndDropBox/DragAndDropArrow";
 import domtoimage from 'dom-to-image';
 import html2canvas from "html2canvas";
 import Loading from "../../components/loading/Loading";

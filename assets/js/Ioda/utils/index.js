@@ -101,11 +101,7 @@ export function convertDateValuesToSeconds(d) {
     let min = d.split(" ")[3].split(":")[1].match(/[a-z]+|[^a-z]+/gi)[0];
     let meridian = d.split(" ")[3].split(":")[1].match(/[a-z]+|[^a-z]+/gi)[1];
     // config and return utc date time since epoch
-    // const newDate = new Date(`${mon} ${day}, ${yr} ${meridian === "pm" ? parseInt(hr) + 12 : hr}:${min}:00 `);
-    // console.log(yr, monthStrings.findIndex(item => item === mon), day, meridian === "pm" ? parseInt(hr) + 12 : hr, min);
     const newDate = new Date(Date.UTC(parseInt(yr), monthStrings.findIndex(item => item === mon), parseInt(day), meridian === "pm" ? parseInt(hr) + 12 : hr, parseInt(min)));
-    // console.log(newDate);
-    // return Math.floor(newDate.getTime() - (newDate.getTimezoneOffset() * 60000) / 1000);
     return Math.floor(newDate.getTime());
 }
 

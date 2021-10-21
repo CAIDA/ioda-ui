@@ -43,15 +43,15 @@ import './constants/strings';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import GA4React, { useGA4React } from "ga-4-react";
+import GA4React from "ga-4-react";
 // Redux
 import { Provider } from 'react-redux';
 import {createStore, applyMiddleware, combineReducers} from "redux";
 import thunk from 'redux-thunk';
 import {iodaApiReducer} from "./data/DataReducer";
-// Template Components
-import Nav from "./templates/Nav";
-import Footer from "./templates/Footer";
+// Global Components
+import Header from "./components/header/Header";
+import Footer from "./components/footer/Footer";
 // Routes
 import Home from './pages/home/Home';
 import Dashboard from './pages/dashboard/Dashboard';
@@ -59,16 +59,16 @@ import Entity from './pages/entity/Entity';
 import Reports from './pages/reports/Reports';
 import Help from './pages/help/Help';
 import IranReport2020 from './pages/reports/IranReport2020';
-import TestAPI from "./pages/tests/TestAPI";
 import ChartShare from "./pages/tests/ChartShare";
 import Acknowledgements from "./pages/acknowledgements/Acknowledgements";
+import TestAPI from "./pages/tests/TestAPI";
 
 
 
 const ga4react = new GA4React('G-XD5MWMBCF9');
 ga4react.initialize().then((ga4) => {
     ga4.pageview('path');
-    ga4.gtag('event','pageview','path'); // or your custom gtag event
+    ga4.gtag('event','pageview','path');
 },(err) => {
     console.error(err)
 });
@@ -76,7 +76,7 @@ ga4react.initialize().then((ga4) => {
 class App extends Component {
     render() {
         return <div className="app">
-            <Nav/>
+            <Header/>
             <Switch>
                 {/*<Route path='/test' component={TestAPI}/>*/}
                 <Route path='/chart/:entityType/:entityCode' component={ChartShare}/>
