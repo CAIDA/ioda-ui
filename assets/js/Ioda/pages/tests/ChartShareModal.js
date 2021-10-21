@@ -12,7 +12,7 @@ import html2canvas from "html2canvas";
 import Helmet from "react-helmet";
 import Draggable from 'react-draggable';
 import { Style } from "react-style-tag";
-import DragAndDropTextBox from "../../components/dragAndDropTextBox/DragAndDropTextBox";
+import DragAndDropTextBox from "../../components/dragAndDropBox/DragAndDropTextBox";
 import Loading from "../../components/loading/Loading";
 import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.react";
 

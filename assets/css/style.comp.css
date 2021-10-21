@@ -2072,6 +2072,8 @@ body {
   box-shadow: 0 1px 2px #9F9D9D;
   padding: 2rem;
   margin-bottom: 2rem; }
+  .modal__row--annotation {
+    padding: 0 0 2rem; }
 
 .modal__content .col-2-of-3 {
   background-color: #fff;
@@ -2297,7 +2299,7 @@ body {
 
 .chartShare__modal__control-panel-row {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   margin-bottom: 1rem; }
 
 .chartShare__modal__control-panel-col {
@@ -2333,9 +2335,12 @@ body {
   z-index: 15; }
 
 .chartShare__modal .annotation {
-  position: absolute; }
-  .chartShare__modal .annotation__drawingLocked {
-    pointer-events: none; }
+  position: relative;
+  padding: 2rem; }
+  .chartShare__modal .annotation__canvas {
+    position: absolute; }
+    .chartShare__modal .annotation__canvas--drawingLocked {
+      pointer-events: none; }
 
 .chartShare__modal .related__modal-button-img {
   height: 2.4rem;
@@ -2487,7 +2492,7 @@ body {
   min-width: 26rem;
   max-width: 52rem;
   height: 5rem;
-  margin: 3rem auto;
+  margin: 3rem auto 0;
   border-radius: 0.5rem;
   background: linear-gradient(2deg, #1A5DAE, #598DCC, #1A5DAE, #598DCC);
   color: #fff;

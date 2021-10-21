@@ -58,7 +58,6 @@ import {
     GET_ADDITIONAL_RAW_SIGNAL
 } from './ActionCommons';
 
-// TODO: make sure the state won't overwrite each other when multiple calls are executed
 const initialState = {
     entities: null,
     relatedToMapSummary: null,
