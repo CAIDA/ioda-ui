@@ -55,9 +55,6 @@ class XyChartModal extends PureComponent {
         const untilObj = convertSecondsToDateValues(this.props.tsDataLegendRangeUntil);
         const timestamp = `${fromObj.day}${fromObj.month.substr(0,3)}${fromObj.year}_${fromObj.hours}${fromObj.minutes}${fromObj.meridian.substr(0,1)}_${untilObj.day}${untilObj.month.substr(0,3)}${untilObj.year}_${untilObj.hours}${untilObj.minutes}${untilObj.meridian.substr(0,1)}`;
 
-        // clone image and set to twitter-friendly dimensions
-
-
         // download image
         domtoimage.toJpeg(input, { quality: 0.85, width: 1200})
             .then(function (dataUrl) {
