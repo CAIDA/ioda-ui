@@ -219,7 +219,6 @@ class XyChartModal extends PureComponent {
                                                     <button className="related__modal-button" onClick={() => this.handleClearAllAnnotations()}>
                                                         Clear All Annotations
                                                     </button>
-                                                    <h4 className="chartShare__modal__control-panel-col-title">Clear All</h4>
                                                 </div>
                                                 <div className="chartShare__modal__control-panel-col">
                                                     <div className="chartShare__button-blob">
