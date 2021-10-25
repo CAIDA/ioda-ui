@@ -177,7 +177,7 @@ class Entity extends Component {
         this.maxHtsLimit = 150;
     }
     componentDidMount() {
-        console.log("update12");
+        console.log("update16");
         // Monitor screen width
         window.addEventListener("resize", this.resize.bind(this));
 
@@ -1887,9 +1887,11 @@ class Entity extends Component {
                                                     />
                                                 </div>
                                                 <div className="overview__buttons-col">
-                                                    <button className="related__modal-button" onClick={this.toggleXyChartModal}>
-                                                        Export Chart
-                                                    </button>
+                                                    {
+                                                        this.state.xyDataOptions ? <button className="related__modal-button" onClick={this.toggleXyChartModal}>
+                                                            Export Chart
+                                                        </button> : null
+                                                    }
                                                     {
                                                         this.state.showXyChartModal && <XyChartModal
                                                             entityName={this.state.entityName}
