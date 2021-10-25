@@ -200,7 +200,7 @@
     }
 
     &--toggle {
-      justify-content: flex-end;
+      justify-content: flex-start;
     }
 
     & .toggle {
@@ -342,8 +342,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    //background: linear-gradient(to left, $color-secondary 0.25rem, transparent 0.25rem) 100% 100%,
-    //        linear-gradient(to top, $color-secondary 0.25rem, transparent 0.25rem) 100% 100%;
     background-repeat: no-repeat;
     background-size: 1rem 1rem;
     top: 50%;

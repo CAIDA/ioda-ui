@@ -2310,7 +2310,7 @@ body {
   .chartShare__modal__control-panel-col:not(:first-child) {
     margin-left: 2rem; }
   .chartShare__modal__control-panel-col--toggle {
-    justify-content: flex-end; }
+    justify-content: flex-start; }
   .chartShare__modal__control-panel-col .toggle {
     margin-left: 2rem; }
     .chartShare__modal__control-panel-col .toggle__container {
