@@ -98,16 +98,20 @@ class XyChartModal extends PureComponent {
     };
 
     handleClearAllAnnotations = () => {
-        // Remove all drawings
-        this.canvasRef.clear();
-        // Remove all arrows and text boxes
-        this.setState({
-            textBoxComponents: [],
-            textBoxComponentsStyles: [],
-            arrowComponents: [],
-            arrowComponentsStyles: [],
-            activeDrags: 0,
-        });
+        // verify with user
+        const confirm = window.confirm("Are you sure you want to clear all annotations?");
+        if (confirm) {
+            // Remove all drawings
+            this.canvasRef.clear();
+            // Remove all arrows and text boxes
+            this.setState({
+                textBoxComponents: [],
+                textBoxComponentsStyles: [],
+                arrowComponents: [],
+                arrowComponentsStyles: [],
+                activeDrags: 0,
+            });
+        }
     };
 
     handleDragResizeToggle() {
