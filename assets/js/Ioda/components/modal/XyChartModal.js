@@ -32,7 +32,6 @@ class XyChartModal extends PureComponent {
             lazyRadius: 0,
             drawingEnabled: true,
             // drag and drop text box
-            activeDrags: 0,
             textBoxComponents: [],
             textBoxComponentsStyles: [],
             dragMode: true,
@@ -48,8 +47,6 @@ class XyChartModal extends PureComponent {
         this.headingRef = React.createRef();
         this.canvasRef = React.createRef();
         this.chartRef = React.createRef();
-        this.onStop = this.onStop.bind(this);
-        this.onStart = this.onStart.bind(this);
     }
 
     downloadFile(entityName) {
@@ -58,7 +55,8 @@ class XyChartModal extends PureComponent {
         const untilObj = convertSecondsToDateValues(this.props.tsDataLegendRangeUntil);
         const timestamp = `${fromObj.day}${fromObj.month.substr(0,3)}${fromObj.year}_${fromObj.hours}${fromObj.minutes}${fromObj.meridian.substr(0,1)}_${untilObj.day}${untilObj.month.substr(0,3)}${untilObj.year}_${untilObj.hours}${untilObj.minutes}${untilObj.meridian.substr(0,1)}`;
 
-        domtoimage.toJpeg(input, { quality: 0.85 })
+        // download image
+        domtoimage.toJpeg(input, { quality: 0.85, width: 1200})
             .then(function (dataUrl) {
                 var link = document.createElement('a');
                 link.download = `${entityName} Chart-${timestamp}.jpeg`;
@@ -67,12 +65,6 @@ class XyChartModal extends PureComponent {
             });
     }
 
-    onStart = () => {
-        this.setState({activeDrags: ++this.state.activeDrags});
-    };
-    onStop = () => {
-        this.setState({activeDrags: --this.state.activeDrags});
-    };
     handleLockDrawing = () => {
         this.setState({
             drawingEnabled: !this.state.drawingEnabled
@@ -106,19 +98,27 @@ class XyChartModal extends PureComponent {
     };
 
     handleClearAllAnnotations = () => {
-        // Remove all drawings
-        this.canvasRef.clear();
-        // Remove all arrows and text boxes
-        this.setState({
-            textBoxComponents: [],
-            textBoxComponentsStyles: [],
-            arrowComponents: [],
-            arrowComponentsStyles: [],
-            activeDrags: 0,
-        });
-    }
+        // verify with user
+        const confirm = window.confirm("Are you sure you want to clear all annotations?");
+        if (confirm) {
+            // Remove all drawings
+            this.canvasRef.clear();
+            // Remove all arrows and text boxes
+            this.setState({
+                textBoxComponents: [],
+                textBoxComponentsStyles: [],
+                arrowComponents: [],
+                arrowComponentsStyles: [],
+                activeDrags: 0,
+            });
+        }
+    };
 
     handleDragResizeToggle() {
+        // disable drawing if enabled
+        if (!this.state.drawingEnabled) {
+            this.handleLockDrawing();
+        }
         this.setState({
             dragMode: !this.state.dragMode,
             resizeMode: !this.state.resizeMode
@@ -166,8 +166,6 @@ class XyChartModal extends PureComponent {
                                             {textBoxComponents.length !== 0 &&
                                             textBoxComponents.map((i, index) => <DragAndDropTextBox
                                                 key={index} order={index}
-                                                onStart={this.onStart.bind(this)}
-                                                onStop={this.onStop.bind(this)}
                                                 resizeMode={this.state.resizeMode}
                                                 dragMode={this.state.dragMode}
                                                 hideButtons={this.state.hideButtons}
@@ -187,8 +185,6 @@ class XyChartModal extends PureComponent {
                                             {arrowComponents.length !== 0 &&
                                             arrowComponents.map((i, index) => <DragAndDropArrow
                                                 key={index} order={index}
-                                                onStart={this.onStart.bind(this)}
-                                                onStop={this.onStop.bind(this)}
                                                 resizeMode={this.state.resizeMode}
                                                 dragMode={this.state.dragMode}
                                                 hideButtons={this.state.hideButtons}
@@ -224,13 +220,11 @@ class XyChartModal extends PureComponent {
                                         <div className="chartShare__modal__control-panel">
                                             <div className="chartShare__modal__control-panel-row">
                                                 <div className="chartShare__modal__control-panel-col">
-                                                    <h4 className="chartShare__modal__control-panel-col-title">Chart Image</h4>
                                                     <button className="related__modal-button" onClick={() => this.handleClearAllAnnotations()}>
                                                         Clear All Annotations
                                                     </button>
                                                 </div>
                                                 <div className="chartShare__modal__control-panel-col">
-                                                    <h4 className="chartShare__modal__control-panel-col-title">Drawing</h4>
                                                     <div className="chartShare__button-blob">
                                                         <button className="chartShare__button" onClick={() => this.canvasRef.clear()}>
                                                             <img className="related__modal-button-img" src={iconTrash} title="Remove All Drawn Lines" alt="Remove all Drawn Lines"/>
@@ -239,9 +233,9 @@ class XyChartModal extends PureComponent {
                                                             <img className="related__modal-button-img" src={iconUndo} title="Undo Last Line Drawn" alt="Undo Last Line Drawn"/>
                                                         </button>
                                                     </div>
+                                                    <h4 className="chartShare__modal__control-panel-col-title">Drawing</h4>
                                                 </div>
                                                 <div className="chartShare__modal__control-panel-col">
-                                                    <h4 className="chartShare__modal__control-panel-col-title">Textbox</h4>
                                                     <div className="chartShare__button-blob">
                                                         <button className="chartShare__button" onClick={() => this.handleRenderTextBox()}>
                                                             <img className="related__modal-button-img" src={iconAddTextbox} title="Add New Text Box" alt="Add New Text Box"/>
@@ -250,9 +244,9 @@ class XyChartModal extends PureComponent {
                                                             <img className="related__modal-button-img" src={iconRemoveTextbox} title="Remove Last Text Box" alt="Remove Last Text Box"/>
                                                         </button>
                                                     </div>
+                                                    <h4 className="chartShare__modal__control-panel-col-title">Textbox</h4>
                                                 </div>
                                                 <div className="chartShare__modal__control-panel-col">
-                                                    <h4 className="chartShare__modal__control-panel-col-title">Arrow</h4>
                                                     <div className="chartShare__button-blob">
                                                         <button className="chartShare__button" onClick={() => this.handleRenderArrow()}>
                                                             <img className="related__modal-button-img" src={iconAddArrow} title="Add New Arrow" alt="Add New Arrow"/>
@@ -261,6 +255,7 @@ class XyChartModal extends PureComponent {
                                                             <img className="related__modal-button-img" src={iconRemoveArrow} title="Remove Last Arrow" alt="Remove Last Arrow"/>
                                                         </button>
                                                     </div>
+                                                    <h4 className="chartShare__modal__control-panel-col-title">Arrow</h4>
                                                 </div>
                                                 <div className="chartShare__modal__control-panel-col chartShare__modal__control-panel-col--toggle">
                                                     <ToggleButton

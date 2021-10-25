@@ -2310,7 +2310,7 @@ body {
   .chartShare__modal__control-panel-col:not(:first-child) {
     margin-left: 2rem; }
   .chartShare__modal__control-panel-col--toggle {
-    justify-content: flex-end; }
+    justify-content: flex-start; }
   .chartShare__modal__control-panel-col .toggle {
     margin-left: 2rem; }
     .chartShare__modal__control-panel-col .toggle__container {
@@ -2411,8 +2411,8 @@ body {
   background-color: transparent;
   z-index: 15;
   padding: 0.5rem;
-  max-width: 42rem;
-  min-height: 3.3rem;
+  max-width: 26rem;
+  max-height: 18rem;
   resize: none;
   display: flex;
   justify-content: center;
