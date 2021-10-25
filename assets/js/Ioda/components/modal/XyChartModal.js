@@ -114,6 +114,10 @@ class XyChartModal extends PureComponent {
     };
 
     handleDragResizeToggle() {
+        // disable drawing if enabled
+        if (!this.state.drawingEnabled) {
+            this.handleLockDrawing();
+        }
         this.setState({
             dragMode: !this.state.dragMode,
             resizeMode: !this.state.resizeMode
