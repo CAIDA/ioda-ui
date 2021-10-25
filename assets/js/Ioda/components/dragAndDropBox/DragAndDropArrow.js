@@ -58,6 +58,8 @@ class DragAndDropArrow extends Component {
                     <Resizable
                         className={`arrow arrow--${this.props.order}`}
                         size={{ width: this.state.width, height: this.state.height }}
+                        maxHeight={180}
+                        maxWidth={260}
                         style={{
                             resize: this.state.resizeEnabled ? 'auto' : 'none!important'
                         }}
