@@ -149,7 +149,7 @@ class Table extends Component {
             });
         }
 
-        // Check for getting Map Modal Signal Table data on Entity Page to populate
+        // Check for getting Map RawSignalsModal Signal Table data on Entity Page to populate
         if (this.props.type === "signal" && this.state.signalData !== this.props.data) {
             // Signal Table default sort
             this.setState({

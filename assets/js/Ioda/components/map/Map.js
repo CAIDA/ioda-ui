@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Map, TileLayer, GeoJSON } from 'react-leaflet';
 import { humanizeNumber, shadeColor, interpolateColor } from "../../utils";
-import d3 from "d3";
 
 const mapAccessToken = "pk.eyJ1Ijoid2ViZXIwMjUiLCJhIjoiY2tmNXp5bG0wMDAzaTMxbWQzcXQ1Y3k2eCJ9.NMu5bfrybATuYQ7HdYvq-g";
 

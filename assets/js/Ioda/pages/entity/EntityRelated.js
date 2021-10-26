@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Modal from '../../components/modal/Modal';
+import RawSignalsModal from '../../components/modal/RawSignalsModal';
 import T from "i18n-react";
 import Loading from "../../components/loading/Loading";
 import Tooltip from "../../components/tooltip/Tooltip";
@@ -51,7 +51,7 @@ class EntityRelated extends Component {
                             <button className="related__modal-button" onClick={() => this.props.toggleModal("map")}>
                                 {regionalModalButtonText}
                             </button>
-                            <Modal
+                            <RawSignalsModal
                                 modalLocation={"map"}
                                 // entity name needed to populate text in headings
                                 entityName={this.props.entityName}
@@ -155,7 +155,7 @@ class EntityRelated extends Component {
                             <button className="related__modal-button" onClick={() => this.props.toggleModal("table")}>
                                 {asnModalButtonText}
                             </button>
-                            <Modal
+                            <RawSignalsModal
                                 modalLocation={"table"}
                                 // tracking when the modal should be visible
                                 showModal={this.props.showTableModal}

@@ -120,15 +120,15 @@ class Entity extends Component {
             relatedToTableSummary: null,
             relatedToTableSummaryProcessed: null,
             relatedToTablePageNumber: 0,
-            // Modal window display status
+            // RawSignalsModal window display status
             showMapModal: false,
             showTableModal: false,
-            // Signals Modal Table on Map Panel
+            // Signals RawSignalsModal Table on Map Panel
             regionalSignalsTableSummaryData: [],
             regionalSignalsTableSummaryDataProcessed: [],
             regionalSignalsTableTotalCount: 0,
             regionalSignalsTableEntitiesChecked: 0,
-            // Signals Modal Table on Table Panel
+            // Signals RawSignalsModal Table on Table Panel
             asnSignalsTableSummaryData: [],
             asnSignalsTableSummaryDataProcessed: [],
             asnSignalsTableTotalCount: 0,
@@ -519,15 +519,15 @@ class Entity extends Component {
                     relatedToTableSummary: null,
                     relatedToTableSummaryProcessed: null,
                     relatedToTablePageNumber: 0,
-                    // Modal window display status
+                    // RawSignalsModal window display status
                     showMapModal: false,
                     showTableModal: false,
-                    // Signals Modal Table on Map Panel
+                    // Signals RawSignalsModal Table on Map Panel
                     regionalSignalsTableSummaryData: [],
                     regionalSignalsTableSummaryDataProcessed: [],
                     regionalSignalsTableTotalCount: 0,
                     regionalSignalsTableEntitiesChecked: 0,
-                    // Signals Modal Table on Table Panel
+                    // Signals RawSignalsModal Table on Table Panel
                     asnSignalsTableSummaryData: [],
                     asnSignalsTableSummaryDataProcessed: [],
                     asnSignalsTableTotalCount: 0,
@@ -592,15 +592,15 @@ class Entity extends Component {
                     relatedToTableSummary: null,
                     relatedToTableSummaryProcessed: null,
                     relatedToTablePageNumber: 0,
-                    // Modal window display status
+                    // RawSignalsModal window display status
                     showMapModal: false,
                     showTableModal: false,
-                    // Signals Modal Table on Map Panel
+                    // Signals RawSignalsModal Table on Map Panel
                     regionalSignalsTableSummaryData: [],
                     regionalSignalsTableSummaryDataProcessed: [],
                     regionalSignalsTableTotalCount: 0,
                     regionalSignalsTableEntitiesChecked: 0,
-                    // Signals Modal Table on Table Panel
+                    // Signals RawSignalsModal Table on Table Panel
                     asnSignalsTableSummaryData: [],
                     asnSignalsTableSummaryDataProcessed: [],
                     asnSignalsTableTotalCount: 0,
@@ -1277,7 +1277,7 @@ class Entity extends Component {
     }
 
 
-// Modal Windows
+// RawSignalsModal Windows
     // Make API call that gets raw signals for a group of entities
     getSignalsHtsDataEvents(entityType, dataSource) {
         let until = this.state.until;

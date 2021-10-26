@@ -49,7 +49,7 @@ const buildSearchConfig = (searchQueryText, limit) => {
 };
 
 export const searchEntities = (dispatch, searchQuery, limit=15) => {
-    let searchConfig = buildSearchConfig(searchQuery, limit)
+    let searchConfig = buildSearchConfig(searchQuery, limit);
     fetchData(searchConfig).then(data => {
         dispatch({
             type: ENTITIES_SEARCH,
