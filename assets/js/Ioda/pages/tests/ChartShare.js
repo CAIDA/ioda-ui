@@ -51,7 +51,7 @@ import CanvasJSChart from "../../libs/canvasjs-non-commercial-3.2.5/canvasjs.rea
 import Error from "../../components/error/Error";
 import DashboardTab from "../dashboard/DashboardTab";
 import {Helmet} from "react-helmet";
-import Modal from "../../components/modal/Modal";
+import RawSignalsModal from "../../components/modal/RawSignalsModal";
 import ChartShareModal from "./ChartShareModal";
 
 

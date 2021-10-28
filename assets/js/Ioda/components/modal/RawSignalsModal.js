@@ -17,7 +17,7 @@ import {
 import HorizonTSChart from "horizon-timeseries-chart";
 import Style from "react-style-tag/lib/Style";
 
-class Modal extends PureComponent {
+class RawSignalsModal extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -518,10 +518,10 @@ class Modal extends PureComponent {
     }
 }
 
-Modal.propTypes = {
+RawSignalsModal.propTypes = {
     modalLocation: PropTypes.string.isRequired,
     toggleModal: PropTypes.func.isRequired,
     showModal: PropTypes.bool.isRequired
 };
 
-export default Modal;
+export default RawSignalsModal;

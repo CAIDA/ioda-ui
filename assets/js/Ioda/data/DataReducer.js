@@ -72,12 +72,12 @@ const initialState = {
     summaryTotalCount: null,
     topo: null,
     datasources: null,
-    // Map Modal
+    // Map RawSignalsModal
     regionalSignalsTableSummaryData: null,
     rawRegionalSignalsPingSlash24: null,
     rawRegionalSignalsBgp: null,
     rawRegionalSignalsUcsdNt: null,
-    // Table Modal
+    // Table RawSignalsModal
     asnSignalsTableSummaryData: null,
     rawAsnSignalsPingSlash24: null,
     rawAsnSignalsBgp: null,

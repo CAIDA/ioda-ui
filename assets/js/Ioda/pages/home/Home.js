@@ -105,50 +105,7 @@ class Home extends Component {
         }
     }
 
-    // Make API call to retrieve summary data to populate on map
-    getDataOutageSummary() {
-        if (this.state.mounted) {
-            let until = Math.round(new Date().getTime() / 1000);
-            let from = Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000);
-            const entityType = "country";
-            this.props.searchSummaryAction(from, until, entityType);
-        }
-    }
-
-    // Compile Scores to be used within the map
-    getMapScores() {
-        if (this.state.topoData && this.state.outageSummaryData) {
-            let topoData = this.state.topoData;
-            let scores = [];
-
-            // get Topographic info for a country if it has outages
-            this.state.outageSummaryData.map(outage => {
-                let topoItemIndex = this.state.topoData.features.findIndex(topoItem => topoItem.properties.usercode === outage.entity.code);
-
-                if (topoItemIndex > 0) {
-                    let item = topoData.features[topoItemIndex];
-                    item.properties.score = outage.scores.overall;
-                    topoData.features[topoItemIndex] = item;
-
-                    // Used to determine coloring on map objects
-                    scores.push(outage.scores.overall);
-                    scores.sort((a, b) => {
-                        return a - b;
-                    });
-                }
-            });
-            this.setState({topoScores: scores});
-        }
-    }
-
-    // Make API call to retrieve topographic data
-    getDataTopo() {
-        if (this.state.mounted) {
-            let entityType = "country";
-            this.props.getTopoAction(entityType);
-        }
-    }
-
+// Search bar
     // get data for search results that populate in suggested search list
     getDataSuggestedSearchResults(searchTerm) {
         if (this.state.mounted) {
@@ -178,6 +135,56 @@ class Home extends Component {
         entity = entity[0];
         history.push(`/${entity.type}/${entity.code}`);
     };
+    // Reset searchbar with searchterm value when a selection is made, no customizations needed here.
+    handleQueryUpdate = (query) => {
+        this.forceUpdate();
+        this.setState({
+            searchTerm: query
+        });
+    };
+
+// Map
+    // Make API call to retrieve summary data to populate on map
+    getDataOutageSummary() {
+        if (this.state.mounted) {
+            let until = Math.round(new Date().getTime() / 1000);
+            let from = Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000);
+            const entityType = "country";
+            this.props.searchSummaryAction(from, until, entityType);
+        }
+    }
+    // Make API call to retrieve topographic data
+    getDataTopo() {
+        if (this.state.mounted) {
+            let entityType = "country";
+            this.props.getTopoAction(entityType);
+        }
+    }
+    // Compile Scores to be used within the map
+    getMapScores() {
+        if (this.state.topoData && this.state.outageSummaryData) {
+            let topoData = this.state.topoData;
+            let scores = [];
+
+            // get Topographic info for a country if it has outages
+            this.state.outageSummaryData.map(outage => {
+                let topoItemIndex = this.state.topoData.features.findIndex(topoItem => topoItem.properties.usercode === outage.entity.code);
+
+                if (topoItemIndex > 0) {
+                    let item = topoData.features[topoItemIndex];
+                    item.properties.score = outage.scores.overall;
+                    topoData.features[topoItemIndex] = item;
+
+                    // Used to determine coloring on map objects
+                    scores.push(outage.scores.overall);
+                    scores.sort((a, b) => {
+                        return a - b;
+                    });
+                }
+            });
+            this.setState({topoScores: scores});
+        }
+    }
     // function to manage when a user clicks a country in the map
     handleEntityShapeClick(entity) {
         const { history } = this.props;
@@ -186,13 +193,6 @@ class Home extends Component {
                 ? `/country/${entity.properties.usercode}?from=${window.location.search.split("?")[1].split("&")[0].split("=")[1]}&until=${window.location.search.split("?")[1].split("&")[1].split("=")[1]}`
                 : `/country/${entity.properties.usercode}`
         );
-    }
-    // Reset searchbar with searchterm value when a selection is made, no customizations needed here.
-    handleQueryUpdate = (query) => {
-        this.forceUpdate();
-        this.setState({
-            searchTerm: query
-        });
     }
 
     render() {

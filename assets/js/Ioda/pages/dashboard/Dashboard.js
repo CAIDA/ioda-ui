@@ -19,11 +19,10 @@ import {connect} from "react-redux";
 // Helper Functions
 import {
     convertValuesForSummaryTable,
-    humanizeNumber,
     convertTsDataForHtsViz,
     dateRangeToSeconds,
     controlPanelTimeRangeLimit,
-    convertTimeToSecondsForURL, horizonChartSeriesColor
+    convertTimeToSecondsForURL
 } from "../../utils";
 import Loading from "../../components/loading/Loading";
 import Error from "../../components/error/Error";
@@ -89,9 +88,10 @@ class Dashboard extends Component {
     componentDidMount() {
         // Check if time parameters are provided
         if (window.location.search) {
+            // initialize
             let providedFrom = window.location.search.split("&")[0].split("=")[1];
             let providedUntil = window.location.search.split("&")[1].split("=")[1];
-
+            // call function to convert values like -2w or -1m to seconds timestamp.
             let newFrom = convertTimeToSecondsForURL(providedFrom);
             let newUntil = convertTimeToSecondsForURL(providedUntil);
 
@@ -139,7 +139,6 @@ class Dashboard extends Component {
             },() => {
                 if (this.state.until - this.state.from < controlPanelTimeRangeLimit) {
                     // Set initial tab to load
-
                     this.handleSelectTab(this.tabs[
                         this.props.history.location.pathname.split("/")[2] && this.props.history.location.pathname.split("/")[2].split("?")[0] === 'region'
                             ? this.props.history.location.pathname.split("/")[2]
@@ -283,11 +282,10 @@ class Dashboard extends Component {
     }
 
 // Tabbing
-
     // Function to map active tab to state and manage url
     handleSelectTab = selectedKey => {
         const { history } = this.props;
-
+        // use tab property to determine active tab by index
         let tabValue, activeTabType, url;
         if (selectedKey === asn.tab) {
             tabValue = this.asnTab;
@@ -304,6 +302,7 @@ class Dashboard extends Component {
             activeTabType = country.type;
             url = country.url;
         }
+        // set new tab
         this.setState({
             activeTab: selectedKey ? selectedKey : country.tab,
             tab: tabValue,
@@ -326,7 +325,6 @@ class Dashboard extends Component {
             history.push(url);
         }
     };
-
     handleTabChangeViewButton() {
         if (this.state.tabCurrentView === 'map') {
             this.setState({tabCurrentView: 'timeSeries'}, () => {
