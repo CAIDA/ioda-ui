@@ -1499,6 +1499,7 @@ class Entity extends Component {
                 break;
         }
 
+        // find the entity that was clicked
         signalsTableSummaryDataProcessed.filter((obj, index) => {
             if (obj.entityCode === entity.entityCode) {
                 indexValue = index;
@@ -1801,7 +1802,7 @@ class Entity extends Component {
                     }, () => {
                         setTimeout(() => {
                             this.toggleEntityVisibilityInHtsViz(item, item["entityType"]);
-                        }, 700)
+                        }, 500)
                     });
                     break;
                 case "asn":
@@ -1813,7 +1814,7 @@ class Entity extends Component {
                     }, () => {
                         setTimeout(() => {
                             this.toggleEntityVisibilityInHtsViz(item, item["entityType"]);
-                        }, 700)
+                        }, 500)
                     });
                     break;
             }
