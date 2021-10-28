@@ -19,11 +19,10 @@ import {connect} from "react-redux";
 // Helper Functions
 import {
     convertValuesForSummaryTable,
-    humanizeNumber,
     convertTsDataForHtsViz,
     dateRangeToSeconds,
     controlPanelTimeRangeLimit,
-    convertTimeToSecondsForURL, horizonChartSeriesColor
+    convertTimeToSecondsForURL
 } from "../../utils";
 import Loading from "../../components/loading/Loading";
 import Error from "../../components/error/Error";

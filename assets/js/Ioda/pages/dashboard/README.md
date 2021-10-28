@@ -25,8 +25,8 @@
      - Each tab receives this data in a sibling file `DashboardTab.js`. This file renders the UI within a tab once all data is available.
 
 Within the `DashboardTab.js` file
-  The dashboardTab file was used as a way to seperate out the page functions from the page UI for organization's sake.
-   - DashboardTab Props
+  The dashboardTab file was used as a way to seperate out the page functions from the page UI to help reduce file lengths.
+   - Props
      - `type` - A string of the activeTabType, initially derived from the url. Values can be `country`, `region`, or `asn`
      - `handleTabChangeViewButton()` - A function that is called when the user switches between map view and chart view on the country or region tab.
      - `tabCurrentView` - A string that depicts if the chart should display or the map. Accepts `timeSeries` or `map`.
@@ -38,7 +38,7 @@ Within the `DashboardTab.js` file
      - `genSummaryTableDataProcessed` - an array of objects of outage data formatted to populate in the table component.
      - `eventDataProcessed` - an array of formatted objects used to populate the chart view.
      
-     Country and Region only (map related)
+        Country and Region only (map related)
      - `topoData` - an array of topo objects used to draw the map returned from the api.
      - `topoScores` - a formatted list of objects created from the summary data generated from `getMapScores()` that is ready to populate map outages knowing the shape, entity name, and color to shade and ordered by score.
      - `handleEntityShapeClick()` - a function that triggers a route change if an entity shape is clicked from the map.
@@ -47,6 +47,3 @@ Within the `DashboardTab.js` file
      - `genMap()` and `genChart()` are functions that render their UI components. 
      - `genMap()` is set as such to allow for easier conditional rendering. It renders the map component from `components/map/Map.js` passing topographical data, scores, and an onClick function. More on the map can be found in it's README file.
      - `genChart()` is required to be written as a function to render in as it does not have an ES6 equivalent. Width is determined by current tab pixel width. 
-     
-        
-

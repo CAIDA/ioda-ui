@@ -693,94 +693,6 @@ class Entity extends Component {
 
 // 1st Row
 // XY Chart Functions
-    // format data used to draw the lines in the chart
-    createXyVizDataObject(networkTelescopeValues, bgpValues, activeProbingValues) {
-        let networkTelescope, bgp, activeProbing;
-        const activeProbingLegendText = T.translate("entity.activeProbingLegendText");
-        const bgpLegendText = T.translate("entity.bgpLegendText");
-        const darknetLegendText = T.translate("entity.darknetLegendText");
-
-        if (activeProbingValues) {
-            activeProbing = {
-                type: "line",
-                lineThickness: 1,
-                color: activeProbingColor,
-                lineColor: activeProbingColor,
-                markerType: "circle",
-                markerSize: 2,
-                name: activeProbingLegendText,
-                visible: this.state.tsDataSeriesVisiblePingSlash24,
-                showInLegend: true,
-                xValueFormatString: "DDD, MMM DD - HH:mm",
-                yValueFormatString: "0",
-                dataPoints: activeProbingValues,
-                legendMarkerColor: activeProbingColor,
-                toolTipContent: this.state.tsDataNormalized ? "{x} <br/> {name}: {y}%" : "{x} <br/> {name}: {y}"
-
-            }
-        }
-        if (bgpValues) {
-            bgp = {
-                type: "line",
-                lineThickness: 1,
-                color: bgpColor,
-                lineColor: bgpColor,
-                markerType: "circle",
-                markerSize: 2,
-                name: bgpLegendText,
-                visible: this.state.tsDataSeriesVisibleBgp,
-                showInLegend: true,
-                xValueFormatString: "DDD, MMM DD - HH:mm",
-                yValueFormatString: "0",
-                dataPoints: bgpValues,
-                legendMarkerColor: bgpColor,
-                toolTipContent: this.state.tsDataNormalized ? "{x} <br/> {name}: {y}%" : "{x} <br/> {name}: {y}"
-            }
-        }
-        if (networkTelescopeValues) {
-            networkTelescope = {
-                type: "line",
-                lineThickness: 1,
-                color: ucsdNtColor,
-                lineColor: ucsdNtColor,
-                markerType: "circle",
-                markerSize: 2,
-                name: darknetLegendText,
-                visible: this.state.tsDataSeriesVisibleUcsdNt,
-                axisYType: this.state.tsDataNormalized ? 'primary' : "secondary",
-                showInLegend: true,
-                xValueFormatString: "DDD, MMM DD - HH:mm",
-                yValueFormatString: "0",
-                dataPoints: networkTelescopeValues,
-                legendMarkerColor: ucsdNtColor,
-                toolTipContent: this.state.tsDataNormalized ? "{x} <br/> {name}: {y}%" : "{x} <br/> {name}: {y}"
-            }
-        }
-
-        return [activeProbing, bgp, networkTelescope]
-    }
-    // function for when zoom/pan is used
-    xyPlotRangeChanged(e) {
-        // let beginningRangeDate = Math.floor(e.axisX[0].viewportMinimum / 1000);
-        // let endRangeDate = Math.floor(e.axisX[0].viewportMaximum / 1000);
-
-        if (Math.floor(e.axisX[0].viewportMinimum / 1000) !== 0 || Math.floor(e.axisX[0].viewportMaximum / 1000) !== 0) {
-            this.setState({
-                tsDataLegendRangeFrom: Math.floor(e.axisX[0].viewportMinimum / 1000),
-                tsDataLegendRangeUntil: Math.floor(e.axisX[0].viewportMaximum / 1000)
-            });
-        } else {
-            // case when hitting reset zoom, both values return 0 from event.
-            this.setState({
-                tsDataLegendRangeFrom: window.location.search.split("?")[1]
-                    ? window.location.search.split("?")[1].split("&")[0].split("=")[1]
-                    : Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000),
-                tsDataLegendRangeUntil: window.location.search.split("?")[1]
-                    ? window.location.search.split("?")[1].split("&")[1].split("=")[1]
-                    : Math.round(new Date().getTime() / 1000)
-            });
-        }
-    }
     // format data from api to be compatible with chart visual
     convertValuesForXyViz() {
         let networkTelescopeValues = [];
@@ -870,7 +782,7 @@ class Entity extends Component {
                         : window.location.search.split("?")[1]
                             ? new Date(window.location.search.split("?")[1].split("&")[1].split("=")[1])
                             : new Date(Math.round(new Date().getTime() / 1000));
-        // Add 1% padding to the right edge of the Chart
+        // Add 1% padding to the right edge of the Chart to make it easier to zoom on most recent data
         const extraPadding = (timeEnd - timeBegin) * 0.01;
         const viewportMaximum = new Date(timeEnd.getTime() + extraPadding);
 
@@ -976,6 +888,95 @@ class Entity extends Component {
             this.genXyChart();
         });
     }
+    // format data used to draw the lines in the chart, called from convertValuesForXyViz()
+    createXyVizDataObject(networkTelescopeValues, bgpValues, activeProbingValues) {
+        let networkTelescope, bgp, activeProbing;
+        const activeProbingLegendText = T.translate("entity.activeProbingLegendText");
+        const bgpLegendText = T.translate("entity.bgpLegendText");
+        const darknetLegendText = T.translate("entity.darknetLegendText");
+
+        if (activeProbingValues) {
+            activeProbing = {
+                type: "line",
+                lineThickness: 1,
+                color: activeProbingColor,
+                lineColor: activeProbingColor,
+                markerType: "circle",
+                markerSize: 2,
+                name: activeProbingLegendText,
+                visible: this.state.tsDataSeriesVisiblePingSlash24,
+                showInLegend: true,
+                xValueFormatString: "DDD, MMM DD - HH:mm",
+                yValueFormatString: "0",
+                dataPoints: activeProbingValues,
+                legendMarkerColor: activeProbingColor,
+                toolTipContent: this.state.tsDataNormalized ? "{x} <br/> {name}: {y}%" : "{x} <br/> {name}: {y}"
+
+            }
+        }
+        if (bgpValues) {
+            bgp = {
+                type: "line",
+                lineThickness: 1,
+                color: bgpColor,
+                lineColor: bgpColor,
+                markerType: "circle",
+                markerSize: 2,
+                name: bgpLegendText,
+                visible: this.state.tsDataSeriesVisibleBgp,
+                showInLegend: true,
+                xValueFormatString: "DDD, MMM DD - HH:mm",
+                yValueFormatString: "0",
+                dataPoints: bgpValues,
+                legendMarkerColor: bgpColor,
+                toolTipContent: this.state.tsDataNormalized ? "{x} <br/> {name}: {y}%" : "{x} <br/> {name}: {y}"
+            }
+        }
+        if (networkTelescopeValues) {
+            networkTelescope = {
+                type: "line",
+                lineThickness: 1,
+                color: ucsdNtColor,
+                lineColor: ucsdNtColor,
+                markerType: "circle",
+                markerSize: 2,
+                name: darknetLegendText,
+                visible: this.state.tsDataSeriesVisibleUcsdNt,
+                axisYType: this.state.tsDataNormalized ? 'primary' : "secondary",
+                showInLegend: true,
+                xValueFormatString: "DDD, MMM DD - HH:mm",
+                yValueFormatString: "0",
+                dataPoints: networkTelescopeValues,
+                legendMarkerColor: ucsdNtColor,
+                toolTipContent: this.state.tsDataNormalized ? "{x} <br/> {name}: {y}%" : "{x} <br/> {name}: {y}"
+            }
+        }
+
+        return [activeProbing, bgp, networkTelescope]
+    }
+    // function for when zoom/pan is used
+    xyPlotRangeChanged(e) {
+        // let beginningRangeDate = Math.floor(e.axisX[0].viewportMinimum / 1000);
+        // let endRangeDate = Math.floor(e.axisX[0].viewportMaximum / 1000);
+
+        if (Math.floor(e.axisX[0].viewportMinimum / 1000) !== 0 || Math.floor(e.axisX[0].viewportMaximum / 1000) !== 0) {
+            this.setState({
+                tsDataLegendRangeFrom: Math.floor(e.axisX[0].viewportMinimum / 1000),
+                tsDataLegendRangeUntil: Math.floor(e.axisX[0].viewportMaximum / 1000)
+            });
+        } else {
+            // case when hitting reset zoom, both values return 0 from event.
+            this.setState({
+                tsDataLegendRangeFrom: window.location.search.split("?")[1]
+                    ? window.location.search.split("?")[1].split("&")[0].split("=")[1]
+                    : Math.round((new Date().getTime()  - (24 * 60 * 60 * 1000)) / 1000),
+                tsDataLegendRangeUntil: window.location.search.split("?")[1]
+                    ? window.location.search.split("?")[1].split("&")[1].split("=")[1]
+                    : Math.round(new Date().getTime() / 1000)
+            });
+        }
+    }
+    
     // populate xy chart UI
     genXyChart() {
         return (
@@ -1147,6 +1148,7 @@ class Entity extends Component {
             }
 
             this.setState({topoScores: scores, bounds: outageCoords});
+            console.log(outageCoords);
         }
     }
     // Make API call to retrieve summary data to populate on map

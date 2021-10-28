@@ -15,7 +15,6 @@ import Table from "../../components/table/Table";
 import HorizonTSChart from "horizon-timeseries-chart";
 import * as d3 from "d3-shape";
 import TopoMap from "../../components/map/Map";
-import PreloadImage from "react-preload-image";
 
 
 class DashboardTab extends Component {
