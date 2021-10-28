@@ -43,6 +43,7 @@ Within the `DashboardTab.js` file
      - `topoScores` - a formatted list of objects created from the summary data generated from `getMapScores()` that is ready to populate map outages knowing the shape, entity name, and color to shade and ordered by score.
      - `handleEntityShapeClick()` - a function that triggers a route change if an entity shape is clicked from the map.
      - `summaryDataRaw` - an aid to help display the most relevant loading message, between loading or rendering.
+   
    - Summary
      - `genMap()` and `genChart()` are functions that render their UI components. 
      - `genMap()` is set as such to allow for easier conditional rendering. It renders the map component from `components/map/Map.js` passing topographical data, scores, and an onClick function. More on the map can be found in it's README file.
